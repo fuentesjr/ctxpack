@@ -1,0 +1,91 @@
+name: Mini Epic
+description: Track a focused outcome that spans a small batch of tasks.
+title: "[Mini-epic] "
+labels: ["type: mini-epic"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use a mini-epic for work that is bigger than one task but still small enough to finish as one coherent slice.
+
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Outcome
+      description: What should be true when this epic is complete?
+      placeholder: |
+        Example: ctxpack can generate a deterministic Minitest-aware context packet for accounts#upgrade in the fixture app.
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Why does this matter now? Link related docs, discussions, issues, or decisions.
+      placeholder: |
+        - Design: ...
+        - Related issue: ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: In scope
+      description: What work belongs in this epic?
+      placeholder: |
+        - Parse controller#action anchors
+        - Resolve controller file by Rails path convention
+        - Render Markdown packet
+    validations:
+      required: true
+
+  - type: textarea
+    id: non_goals
+    attributes:
+      label: Out of scope
+      description: What should this epic explicitly avoid?
+      placeholder: |
+        - RSpec support
+        - Rails engine support
+        - Rubydex-backed indexing
+    validations:
+      required: true
+
+  - type: textarea
+    id: task_breakdown
+    attributes:
+      label: Task breakdown
+      description: List likely child tasks. Convert these into separate issues as needed.
+      placeholder: |
+        - [ ] Scaffold Ruby gem/CLI
+        - [ ] Add fixture app
+        - [ ] Implement anchor resolver
+        - [ ] Add deterministic packet rendering
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Concrete checks that prove the epic is done.
+      placeholder: |
+        - [ ] CLI writes a packet for accounts#upgrade
+        - [ ] Packet includes controller, constants, Minitest candidates, and tests to run
+        - [ ] Running with fixed output is deterministic
+        - [ ] Tests pass
+    validations:
+      required: true
+
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks / unknowns
+      description: What might block, change scope, or require a decision?
+      placeholder: |
+        - Prism node handling may be more complex than expected.
+        - Constant resolution may need stricter limits.
+    validations:
+      required: false

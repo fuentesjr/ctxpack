@@ -1,0 +1,76 @@
+name: Task
+description: Track one concrete implementation, documentation, or review task.
+title: "[Task] "
+labels: ["type: task"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use a task for one focused unit of work with clear acceptance criteria. If the work starts expanding, split it or promote the parent scope into a mini-epic.
+
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What should this task accomplish?
+      placeholder: |
+        Example: Implement controller#action anchor parsing for accounts#upgrade.
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Link the parent mini-epic, design section, discussion, or related issue.
+      placeholder: |
+        - Parent: #...
+        - Design: design.md#settled-v0-direction
+    validations:
+      required: false
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What is included in this task?
+      placeholder: |
+        - Parse anchors shaped like accounts#upgrade
+        - Return controller path, controller class, and action name
+    validations:
+      required: true
+
+  - type: textarea
+    id: out_of_scope
+    attributes:
+      label: Out of scope
+      description: What should this task avoid?
+      placeholder: |
+        - Route helper support
+        - Rails engine support
+        - Metaprogrammed action discovery
+    validations:
+      required: false
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Concrete checks that prove this task is done.
+      placeholder: |
+        - [ ] accounts#upgrade resolves to app/controllers/accounts_controller.rb and upgrade
+        - [ ] admin/accounts#upgrade resolves to app/controllers/admin/accounts_controller.rb and upgrade
+        - [ ] invalid anchors fail with a clear error
+        - [ ] Tests pass
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes / risks
+      description: Optional implementation notes, tradeoffs, or risks.
+      placeholder: |
+        - Keep this deterministic and convention-based.
+    validations:
+      required: false
