@@ -6,12 +6,12 @@ body:
   - type: markdown
     attributes:
       value: |
-        Use a task for one focused unit of work with clear acceptance criteria. If the work starts expanding, split it or promote the parent scope into a mini-epic.
+        ✨ Use a task for one focused unit of work with clear acceptance criteria. If the work starts expanding, split it or promote the parent scope into a mini-epic.
 
   - type: textarea
     id: goal
     attributes:
-      label: Goal
+      label: 🎯 Goal
       description: What should this task accomplish?
       placeholder: |
         Example: Implement controller#action anchor parsing for accounts#upgrade.
@@ -21,7 +21,7 @@ body:
   - type: textarea
     id: context
     attributes:
-      label: Context
+      label: 🧭 Context
       description: Link the parent mini-epic, design section, discussion, or related issue.
       placeholder: |
         - Parent: #...
@@ -32,7 +32,7 @@ body:
   - type: textarea
     id: scope
     attributes:
-      label: Scope
+      label: ✅ Scope
       description: What is included in this task?
       placeholder: |
         - Parse anchors shaped like accounts#upgrade
@@ -43,7 +43,7 @@ body:
   - type: textarea
     id: out_of_scope
     attributes:
-      label: Out of scope
+      label: 🚫 Out of scope
       description: What should this task avoid?
       placeholder: |
         - Route helper support
@@ -55,7 +55,7 @@ body:
   - type: textarea
     id: acceptance
     attributes:
-      label: Acceptance criteria
+      label: 🏁 Acceptance criteria
       description: Concrete checks that prove this task is done.
       placeholder: |
         - [ ] accounts#upgrade resolves to app/controllers/accounts_controller.rb and upgrade
@@ -68,7 +68,7 @@ body:
   - type: textarea
     id: notes
     attributes:
-      label: Notes / risks
+      label: 📝 Notes / risks
       description: Optional implementation notes, tradeoffs, or risks.
       placeholder: |
         - Keep this deterministic and convention-based.
