@@ -56,7 +56,7 @@ The output is not an answer and not an autonomous agent. It is a prepared contex
 The first version should be intentionally small and deterministic:
 
 ```text
-controller#action → controller action snippet → referenced constants → nearby Minitest candidate → compact markdown packet
+controller#action → action snippet + applicable before_action callbacks → referenced constants → nearby Minitest candidate → compact markdown packet
 ```
 
 v0 should be built as a small Ruby CLI/gem. Ruby is the default implementation choice because `ctxpack` is Rails-native: it can lean on Ruby parsing, Rails naming conventions, and familiar gem/bundle workflows without reimplementing Ruby semantics in another language. Go's single-binary distribution may be valuable later, but it should wait until the packet algorithm proves useful.
@@ -100,7 +100,7 @@ ctxpack packet accounts#upgrade \
 By default, the command should save a migration-style context artifact and print its path:
 
 ```text
-docs/ctxpack/20260527143015_billing_upgrade_accounts_upgrade.md
+.ctxpack/20260527143015_billing_upgrade_accounts_upgrade.md
 ```
 
 The anchor is an exact Rails controller action, using the same shape shown by `bin/rails routes`.
@@ -132,7 +132,7 @@ ctxpack packet accounts#upgrade \
   --task "Implement billing upgrade"
 ```
 
-This writes a durable point-in-time context artifact under `docs/ctxpack/` and prints the saved path.
+This writes a durable point-in-time context artifact under `.ctxpack/` and prints the saved path.
 
 This keeps the responsibility split clear:
 
@@ -180,6 +180,8 @@ That means:
 
 The default artifact filename is the exception: it should use a Rails-migration-style timestamp for chronological ordering and collision resistance. The path is a storage concern, not part of the packet's semantic content. Evals can use `--out` or normalize the output path when checking determinism.
 
+One repo-state stamp is allowed inside packet content: the git commit SHA at generation time, with a `dirty` marker when the working tree has uncommitted changes. Unlike a timestamp, the SHA is a function of repo state, so it preserves `same repo state + same inputs = same content` — and it makes staleness mechanically detectable whenever an old packet is read later. The dirty marker is honest rather than precise: the SHA cannot capture uncommitted changes, so a packet built from a dirty tree must say so.
+
 Skills or sub-agents may consume the packet later, but they should not be responsible for constructing the canonical packet.
 
 ## Why Rails is a good target
@@ -203,9 +205,12 @@ Use Prism for v0 parsing.
 v0 only needs to:
 
 - find the direct controller action method
-- extract a stable method snippet
-- collect obvious constants referenced inside the action body
+- collect `before_action` declarations in the same controller class and keep the ones that apply to the action (literal `only:`/`except:` arrays only; dynamic filter arguments become an uncertainty note instead of a guess)
+- extract stable snippets for the action and for applicable callback methods defined in the same file
+- collect obvious constants referenced inside the action body and the applicable callback bodies
 - map those constants to likely files using Rails/Zeitwerk naming conventions
+
+Callbacks matter because in real controllers most of an action's preconditions — auth, scoping, record loading — live in `before_action`, not the action body. A packet that shows `def upgrade` using `@account` without showing `set_account` omits the actual entry behavior. Callbacks declared in superclasses or concerns are out of v0 scope (consistent with anchor resolution): the packet lists their names as unresolved rather than pretending they don't exist.
 
 Rubydex is promising, but it should not be a required v0 dependency. It is a semantic indexer/graph and earns its keep later if deterministic evals show that convention-based constant resolution misses important context.
 
@@ -223,15 +228,32 @@ A v0 packet should include:
 
 - the requested task
 - the exact `controller#action` anchor
+- the git commit SHA the packet was generated from, with a dirty marker when the working tree has uncommitted changes
 - the controller/action file and snippet
-- obvious constants referenced by the action body
+- `before_action` callbacks that apply to the action, with snippets when defined in the same file
+- obvious constants referenced by the action body and applicable callbacks
 - files resolved from those constants when Zeitwerk naming makes that cheap and exact
 - likely Minitest test candidates
 - tests to run
 - uncertainty notes
 - follow-up retrieval suggestions only when more context is needed
 
+Callback snippets are additional snippet ranges on the controller file, so they share the existing per-file snippet limit rather than needing a new one.
+
 The packet should be Markdown because humans and agents are the primary readers.
+
+## Test candidate rules
+
+"Likely Minitest candidates" must be as rule-bound as controller resolution, or the determinism claim is hollow for exactly the fuzziest part of the packet. The controller test path is a real Rails convention; integration test names are not — they are guesses, and the rules for guessing must be explicit.
+
+v0 discovery rules, in order:
+
+1. Conventional controller test: `test/controllers/<controller_path>_controller_test.rb`, included only if the file exists.
+2. Integration matches: files matching `test/integration/*_test.rb` whose basename contains both the controller token (final path segment, e.g. `accounts`) and the action name as underscore-delimited tokens. Multiple matches are sorted lexicographically.
+
+The combined list is truncated at the max-test-files limit, with truncation reported in the omitted-candidates note. Both rules use the `minitest_candidate` reason code; the packet's "Why" line states which rule matched, and rule 2 matches always carry the `test_inferred_by_path` uncertainty note.
+
+No content matching in v0 — path rules only, no grepping test bodies for routes or controller names. If neither rule matches anything, the packet says so rather than guessing.
 
 ## v0 packet limits
 
@@ -264,15 +286,21 @@ The point of the limits is not to claim completeness. It is to prevent context d
 
 Context packets should be saved as named artifacts instead of written to a generic `context.md` file.
 
-They are not disposable scratch files, but they are also not evergreen documentation that should be manually maintained forever. Treat them as durable point-in-time task records: reviewable, linkable from PRs/issues, and superseded by newer packets when the code or task context changes.
+They are not disposable scratch files, but they are also not evergreen documentation that should be manually maintained forever. Treat them as durable point-in-time task records: reviewable, linkable from PRs/issues when deliberately committed, and superseded by newer packets when the code or task context changes.
 
 Default output directory:
 
 ```text
-docs/ctxpack/
+.ctxpack/
 ```
 
-This makes the artifact intentionally durable and keeps it near other project documentation. Projects that do not want to commit generated context packets can ignore this directory or use `--dir`/`--out` for a different location.
+The default is a hidden directory that projects should gitignore, not `docs/`:
+
+- Committed packets rot the moment the code changes, and stale snippets presented as authoritative context are exactly the failure mode ctxpack exists to prevent. A future agent grepping the repo would find an old packet and trust its outdated snippets.
+- Search tools like `rg` skip hidden directories by default, so even local packets stay out of routine code searches.
+- Committing a packet should be a deliberate act, not a side effect. When a packet is worth committing — to link from a PR or issue — `docs/ctxpack/` is the default committed location: `--dir docs/ctxpack`. Arbitrary locations via `--dir`/`--out` remain possible, but one canonical committed path keeps shared packets discoverable and easy to sweep for staleness against their embedded commit SHA.
+
+When ctxpack creates `.ctxpack/` for the first time, it should print a one-line reminder to add the directory to `.gitignore`. No interactive prompt, no automatic `.gitignore` edits.
 
 Default filename shape:
 
@@ -293,7 +321,7 @@ ctxpack packet accounts#upgrade \
 writes:
 
 ```text
-docs/ctxpack/20260527143015_billing_upgrade_accounts_upgrade.md
+.ctxpack/20260527143015_billing_upgrade_accounts_upgrade.md
 ```
 
 If `--name` is omitted, derive a snake_case name from the task and anchor:
@@ -305,7 +333,7 @@ ctxpack packet accounts#upgrade --task "Implement billing upgrade"
 writes something like:
 
 ```text
-docs/ctxpack/20260527143015_implement_billing_upgrade_accounts_upgrade.md
+.ctxpack/20260527143015_implement_billing_upgrade_accounts_upgrade.md
 ```
 
 Rules:
@@ -317,6 +345,7 @@ Rules:
 - do not include generated timestamps inside packet content
 - do not silently overwrite an existing artifact; require `--force` or an explicit `--out`
 - allow `--dir` or `--out` for callers that want a different location
+- treat committing a packet as opt-in, never the default; when opting in, `docs/ctxpack/` is the standard committed location (`--dir docs/ctxpack`)
 
 ## Machine-readable manifest
 
@@ -334,8 +363,8 @@ ctxpack packet accounts#upgrade \
 writes:
 
 ```text
-docs/ctxpack/20260527143015_billing_upgrade_accounts_upgrade.md
-docs/ctxpack/20260527143015_billing_upgrade_accounts_upgrade.json
+.ctxpack/20260527143015_billing_upgrade_accounts_upgrade.md
+.ctxpack/20260527143015_billing_upgrade_accounts_upgrade.json
 ```
 
 The manifest is not a second product surface in v0. It exists so evals can assert stable fields without parsing Markdown prose.
@@ -346,6 +375,10 @@ Example manifest fields:
 {
   "version": 1,
   "anchor": "accounts#upgrade",
+  "repo": {
+    "commit": "0f4b21c9e8d3a17650b2c44aa91d7e5f8c03d6ab",
+    "dirty": false
+  },
   "entrypoint": {
     "file": "app/controllers/accounts_controller.rb",
     "controller": "AccountsController",
@@ -494,6 +527,7 @@ Implement billing upgrade.
 - Action: `accounts#upgrade`
 - Controller: `AccountsController#upgrade`
 - File: `app/controllers/accounts_controller.rb`
+- Generated from: `0f4b21c` (clean)
 
 ## Files to inspect first
 
@@ -513,6 +547,15 @@ def upgrade
 end
 ```
 
+Why: `before_action :set_account` applies to `upgrade` and loads `@account`.
+Reason code: `before_action_callback`
+
+```ruby
+def set_account
+  @account = current_user.accounts.find(params[:id])
+end
+```
+
 ### `test/integration/accounts_upgrade_test.rb`
 Why: likely Minitest integration test for `accounts#upgrade`.
 Reason code: `minitest_candidate`
@@ -522,6 +565,7 @@ Reason code: `minitest_candidate`
 
 ## Uncertainty
 - The Minitest file was inferred by path and should be verified.
+- Callbacks declared outside this controller file (superclass or concerns) were not resolved.
 - Route discovery is delegated to Rails; run `bin/rails routes -g upgrade` if the exact endpoint matters.
 - Billing package boundaries were not inspected in v0.
 

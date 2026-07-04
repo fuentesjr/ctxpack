@@ -18,7 +18,7 @@ ctxpack packet accounts#upgrade \
 Planned output:
 
 ```text
-docs/ctxpack/20260527143015_billing_upgrade_accounts_upgrade.md
+.ctxpack/20260527143015_billing_upgrade_accounts_upgrade.md
 ```
 
 ## ✨ Status
@@ -49,7 +49,7 @@ The first version should stay intentionally small:
 
 ```text
 controller#action
-→ controller action snippet
+→ action snippet + applicable before_action callbacks
 → obvious referenced constants
 → likely Minitest candidates
 → compact Markdown packet
@@ -70,6 +70,7 @@ A context packet is a small, point-in-time artifact for a specific coding task. 
 
 - the requested task
 - the exact Rails anchor
+- the git commit it was generated from, so staleness is detectable
 - the likely entry point
 - files to inspect first
 - short snippets from those files
@@ -90,8 +91,10 @@ ctxpack packet accounts#upgrade \
 By default, `ctxpack` should write a durable Markdown artifact under:
 
 ```text
-docs/ctxpack/
+.ctxpack/
 ```
+
+The directory is meant to be gitignored — committed packets go stale and become misleading context for future agents. Committing a specific packet (e.g. to link from a PR) is opt-in, with `docs/ctxpack/` as the standard committed location: `--dir docs/ctxpack`.
 
 Use Rails for route discovery:
 
