@@ -378,6 +378,8 @@ If evals can use the internal packet object directly, the public `--manifest` fl
 
 Evals should be part of v0, but they should stay boring and deterministic.
 
+These fixture evals are Tier 1 of [`eval-plan.md`](eval-plan.md): regression checks that the tool agrees with itself. They are circular by design — the fixtures are authored to match ctxpack's own assumptions — so they are never evidence that packets are useful. Usefulness is tested separately by the Tier 0 anchor viability spike and the Tier 2 agent A/B in the eval plan.
+
 Use static Rails-shaped fixture trees for v0 rather than generated Rails apps. The first fixture can be intentionally small:
 
 ```text
@@ -543,13 +545,15 @@ But the skill or sub-agent should not be the canonical packet builder. Keeping p
 - Is `controller#action` enough for v0, or is exact route-helper support needed early?
 - What is the smallest packet that still changes agent behavior?
 - Should v0 include snippets only, or also deterministic file-level metadata?
-- How often do Rails conventions fail because of custom routing, metaprogramming, or unconventional service layout?
+- How often do Rails conventions fail because of custom routing, metaprogramming, or unconventional service layout? (Measured directly by the Tier 0 spike in [`eval-plan.md`](eval-plan.md), with a failure taxonomy that says which non-goal to promote first.)
 - Do the initial limits — 8 total files, 4 constant files, 2 test files, and 80 snippet lines per file — keep packets small without hiding essential context?
 - When, if ever, do fixture evals justify adding a Rubydex-backed resolver?
 
-## Possible next experiment
+## Next experiments
 
-Build the smallest possible `ctxpack packet <controller#action>` prototype against one static Rails-shaped fixture tree.
+First, before any packet rendering exists, run the Tier 0 anchor viability spike from [`eval-plan.md`](eval-plan.md): attempt v0 anchor resolution against the route tables of 2–3 real open-source Rails apps and classify every failure. The strictest v0 constraint — a literal `def <action>` in the conventionally-named controller file — is also the most likely to fail on real apps, and it is cheaper to learn that in an afternoon of Prism scripting than after building the renderer.
+
+If the Tier 0 gate passes, build the smallest possible `ctxpack packet <controller#action>` prototype against one static Rails-shaped fixture tree.
 
 Success would mean the Rails-aware packet:
 
@@ -559,3 +563,5 @@ Success would mean the Rails-aware packet:
 - reduces unnecessary exploration
 - makes uncertainty clearer to the human operator
 - produces stable output that can be regression-tested with simple eval cases
+
+Whether the first four hold is judged against a real coding agent's own exploration — not keyword search — via the Tier 2 A/B in the eval plan.

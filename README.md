@@ -28,7 +28,7 @@ docs/ctxpack/20260527143015_billing_upgrade_accounts_upgrade.md
 The repo contains:
 
 - [`design.md`](design.md) — the v0 product and implementation design
-- [`eval-plan.md`](eval-plan.md) — the lightweight evaluation plan
+- [`eval-plan.md`](eval-plan.md) — the three-tier evaluation plan: anchor viability, determinism regression, agent A/B
 - [GitHub issues](https://github.com/fuentesjr/ctxpack/issues) — mini-epics and tasks for the first implementation slice
 
 ## 🧭 Why Rails?
@@ -104,16 +104,22 @@ Use `ctxpack` after choosing the exact Rails anchor.
 
 ## 🧪 Evaluation philosophy
 
-v0 evals should be boring and deterministic:
+Evaluation is split into two kinds of checks — see [`eval-plan.md`](eval-plan.md).
+
+**CI regression evals** (Tier 1) stay boring and deterministic:
 
 - static Rails-shaped fixtures
 - no generated Rails app
 - no Rails boot required
 - no LLM judge
-- no external corpus
 - every packet bug becomes a small regression case
 
-Success means `ctxpack` helps agents start with fewer irrelevant files, clearer tests, and less exploratory wandering.
+**Offline hypothesis experiments** (Tiers 0 and 2) test whether packets are actually worth building, with pass/kill thresholds registered before any data is collected:
+
+- Tier 0 measures how often v0 anchor rules resolve on real open-source Rails apps — run *before* building the packet renderer
+- Tier 2 A/Bs the same coding agent on the same task with and without a packet
+
+The honest competitor is not keyword search — modern coding agents already follow Rails conventions on their own. Success means the packet beats the agent's own first two minutes of exploration: fewer irrelevant reads, clearer tests, less wandering.
 
 ## 🚫 Non-goals for v0
 
@@ -150,12 +156,12 @@ See the issue templates in [`.github/ISSUE_TEMPLATE`](.github/ISSUE_TEMPLATE).
 
 ## 🐣 Current next step
 
-Build the smallest vertical slice:
-
-1. scaffold the Ruby gem/CLI
-2. add the static Rails-shaped fixture
-3. implement `ctxpack packet accounts#upgrade`
-4. prove deterministic output with fixture evals
+1. Run the Tier 0 anchor viability spike from [`eval-plan.md`](eval-plan.md): measure how often v0 anchor resolution succeeds on 2–3 real Rails apps, before writing any renderer code.
+2. If the Tier 0 gate passes, build the smallest vertical slice:
+   - scaffold the Ruby gem/CLI
+   - add the static Rails-shaped fixture
+   - implement `ctxpack packet accounts#upgrade`
+   - prove deterministic output with fixture evals
 
 See:
 
