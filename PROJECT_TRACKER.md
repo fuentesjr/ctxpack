@@ -33,7 +33,15 @@ via the plugin's companion script at
 `~/.claude/plugins/cache/openai-codex/codex/<version>/scripts/codex-companion.mjs`
 (newest version directory): `status <task-id>` / `result <task-id>`,
 backgrounding a polling loop for long runs. Follow-up fix rounds resume the
-same Codex session by forwarding a `--resume` request. Verification is
+same Codex session by forwarding a `--resume` request. Always instruct the
+forwarder to launch via the companion's own `--background` flag: if it
+instead runs the companion in foreground inside a harness background shell,
+the shell reap at subagent exit kills the companion mid-turn and the job
+wedges at "running" forever (upstream codex-plugin-cc#432, root cause #222;
+hit twice on 2026-07-05). Fingerprint of a wedged foreground run: the job
+JSON under the plugin's `state/<ws>/jobs/` has no `request` key. The Codex
+turn usually completes server-side anyway — verify the working tree, then
+`cancel` the stale record. Verification is
 always session-side, never trusted from Codex's own summary: run
 `bundle exec rake test`, check git state, and review the diff
 requirement-by-requirement against the pass's spec codes; route confirmed
