@@ -76,7 +76,7 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 | Experiment | Status | Notes |
 |---|---|---|
-| Tier 0 anchor viability spike | **Done** (2026-07-05) | **91.0% engine-excluded average across Mastodon/Discourse/Zammad → ≥ 70% gate passes; proceed as designed.** Full method, taxonomy, and raw data in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md). Zero compiler crashes across 1,967 real-app pairs. |
+| Tier 0 anchor viability spike | **Done** (2026-07-05) | **91.0% engine-excluded average across Mastodon/Discourse/Zammad → ≥ 70% gate passes; proceed as designed.** Post-ANCH-amendment re-run: **93.9%**, zero regressions (addendum in RESULTS.md). Full method, taxonomy, and raw data in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md). Zero compiler crashes across 1,967 real-app pairs. |
 | Tier 2 agent A/B | Not started | Tier 0 gate cleared; still gated on a working end-to-end CLI. |
 
 ## Next steps
@@ -89,6 +89,15 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Decision log
 
+- **2026-07-05** — metz-scan adopted as an advisory dev linter on ctxpack's
+  own `lib/` (dogfooding; mechanics in "Working process" above): pinned
+  0.4.0, `rake metz`, Metz-only via committed `.rubocop.yml`, never gating.
+  Explicitly *not* a packet-content integration — that idea is deferred
+  post-v0, gated on Tier 2 evidence. Day-one dogfooding filed
+  [metz-scan#31](https://github.com/fuentesjr/metz-scan/issues/31)
+  (full-suite default noise) and
+  [metz-scan#32](https://github.com/fuentesjr/metz-scan/issues/32)
+  (Metz/Metrics duplication); log in `metz-scan-feedback.md`.
 - **2026-07-05** — ANCH amendment mini-pass landed (in-session TDD, per the
   prior decision): ANCH-1 action grammar tolerates trailing `?`/`!` and
   leading `_`; ANCH-2/3 switched to class-by-file matching (first class in
