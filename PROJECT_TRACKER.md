@@ -41,14 +41,15 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Next steps
 
-1. **Decide on the two cheap ANCH amendments surfaced by Tier 0** before
-   pass 2 freezes FMT wording (see `eval/tier0/RESULTS.md` "Implications"):
-   (a) match the controller class by resolved file rather than exact
-   camelized name — 51 of 169 failures were acronym-inflection class-name
-   mismatches (`ActivityPub`, `AITextTools`, `SMIME`, …) where the literal
-   `def <action>` was present; (b) ANCH-1 grammar for `?`/`!`-suffixed and
-   `_`-prefixed actions. Both are spec amendments + `design.md`
-   reconciliation, not reworks — the 70% gate passed without them.
+1. **ANCH amendment mini-pass** (decided 2026-07-05, see decision log):
+   amend `packet-compilation.md` for (a) class-by-file matching —
+   underscore-insensitive acceptance of the class defined in the resolved
+   controller file, replacing the exact camelized-name lookup — and
+   (b) ANCH-1 action grammar tolerating trailing `?`/`!` and leading `_`.
+   Reconcile `design.md`, TDD the lib change in-session (deliberate
+   deviation from the Codex delegation loop: amendment to existing pass 1
+   code, too small for the delegate → review overhead). Optionally re-run
+   the Tier 0 classifier afterward to confirm the predicted ~94% average.
 2. **Pass 2: implement `packet-format.md`** — renderer + manifest over the
    existing packet object; same delegate → review → fix loop.
 3. **Pass 3: `cli.md`** — decide OptionParser vs Thor at pass start.
@@ -57,6 +58,15 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Decision log
 
+- **2026-07-05** — Both Tier 0-surfaced ANCH amendments adopted: (a)
+  class-by-file matching (51/169 spike failures were acronym-inflection
+  class-name mismatches with the literal `def <action>` present — the
+  acronyms live in per-app `inflections.rb` initializers, unreachable
+  without booting, so the fix is to trust the resolved file's class rather
+  than guess its name); (b) ANCH-1 grammar admits `?`/`!`-suffixed and
+  `_`-prefixed actions (2 real routed actions rejected). To be implemented
+  in-session as a mini-pass before pass 2 — a deliberate deviation from the
+  Codex delegation loop, which is reserved for full spec passes.
 - **2026-07-05** — Tier 0 spike executed per the pre-registered plan:
   91.0% engine-excluded average (Mastodon 92.2 / Discourse 96.3 /
   Zammad 84.4) → gate passed, vertical slice proceeds unchanged. Route
