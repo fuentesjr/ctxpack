@@ -1,0 +1,126 @@
+# Tier 0 anchor viability spike — results
+
+Executed 2026-07-05 against the pre-registered definition in
+[`eval-plan.md`](../../eval-plan.md) ("Tier 0 — anchor viability spike").
+Gates and taxonomy were fixed before any data was collected and were not
+adjusted.
+
+## Verdict
+
+**Average engine-excluded resolution rate: 91.0% → ≥ 70% gate passes.**
+Per the pre-registered decision rule: build the vertical slice as designed;
+stand up Tier 1 in CI. No anchor-rule rework is required before pass 2.
+
+| App | SHA | Pairs | Resolved | Rate |
+|---|---|---|---|---|
+| Mastodon | `163f96cee4dea23365bff9b433871e68d20d9ee7` | 616 | 568 | 92.2% |
+| Discourse | `28b003a38d82c354ffc49bac23b655de9664e478` | 755 | 727 | 96.3% |
+| Zammad | `50384f4c390e8abed07694897956c2f8e176208d` | 596 | 503 | 84.4% |
+| **Average (pre-registered metric)** | | | | **91.0%** |
+| Pooled (all 1,967 pairs) | | 1,967 | 1,798 | 91.4% |
+
+Success = `Ctxpack.compile` returned a packet. **Zero post-anchor compiler
+crashes across all 1,967 real-app pairs** — incidental but strong stress-test
+signal for the pass 1 compiler.
+
+## Method
+
+- Apps: the eval plan's example trio (Mastodon, Discourse, Zammad); all three
+  extracted cleanly, no swaps needed.
+- Route tables were extracted via the plan's documented fallback, since
+  booting three large apps was impractical: each app's `config/routes.rb`
+  (plus split route files) was evaluated against a real
+  `ActionDispatch::Routing::RouteSet` from the app's own pinned actionpack
+  version (Mastodon 8.1.3; Discourse and Zammad 8.0.5), with a fake `Rails`
+  module and a permissive constant stub standing in for app constants,
+  constraints, and mounted engines (`extract_routes.rb`). Real Rails code
+  performs all `resources`/`namespace`/`scope`/`concern` expansion.
+- Every unique `controller#action` pair was fed to the real
+  `Ctxpack.compile`; failures were classified per the pre-registered taxonomy
+  (`classify_anchors.rb`). `inherited_action` vs `concern_action` was decided
+  by a driver-side static chase (superclass chain and `include`d concerns via
+  conventional paths, depth ≤ 5) that is deliberately *more* lenient than
+  ctxpack itself.
+- Raw inputs and per-anchor outputs are committed under
+  [`routes/`](routes/) and [`results/`](results/).
+
+### Extraction limitations (documented per plan)
+
+- Mounted engines are stubbed: their internal routes never enter the
+  denominator. Mount calls recorded: Mastodon 2 (`/sidekiq`, `/pghero`),
+  Discourse 2, Zammad 0. Consequently the raw rate *equals* the
+  engine-excluded rate by construction — `engine_route` is structurally zero
+  rather than measured, which slightly flatters nothing: engines are an
+  explicit v0 non-goal and the plan's headline metric already excludes them.
+- Gem route-generating DSL calls could not be expanded without the gems and
+  were skipped after recording: `devise_for users` + `use_doorkeeper`
+  (Mastodon), `use_doorkeeper` (Zammad). Mastodon's Devise-generated routes
+  point at app-overridden `auth/*` controllers, so a real `bin/rails routes`
+  table would add roughly a dozen pairs not measured here.
+- Routes were drawn as `Rails.env.production?`; dev-only routes (e.g.
+  letter_opener) are excluded.
+- Redirect/inline-rack routes carry no `controller#action` and were excluded
+  from the denominator (Mastodon 16, Discourse 6).
+
+## Failure taxonomy (169 failures total)
+
+| Class | Mastodon | Discourse | Zammad | Total |
+|---|---|---|---|---|
+| `inherited_action` | 26 | 3 | 17 | 46 |
+| `concern_action` | 0 | 0 | 24 | 24 |
+| `file_not_found` | 0 | 1 | 0 | 1 |
+| `engine_route` | 0 | 0 | 0 | 0 (structural, see above) |
+| `other` | 22 | 24 | 52 | 98 |
+
+`other` decomposes into three sharp sub-categories:
+
+1. **Class-name inflection mismatches — 59** (Mastodon 15, Zammad 44). The
+   conventional file exists, but ctxpack's `camelize` derives the wrong class
+   name for acronym-styled classes: Mastodon's `ActivityPub::*` (custom
+   inflection, expected `Activitypub::*`) and Zammad's `AITextTools`,
+   `SMIME`, `PGP`, `SSL`, `GitHub`, etc. **51 of the 59 have a literal
+   `def <action>` sitting in the correctly-resolved file** — the strict
+   `def` constraint holds; only the class-name match fails.
+2. **Metaprogrammed/chase-exhausted — 37** (Discourse 23, e.g.
+   `ListController`'s `Discourse.filters`-generated actions and
+   `admin/backups` multipart actions from an included external-upload
+   concern's `define_method`; Mastodon 6; Zammad 8).
+3. **Anchor grammar rejections — 2**: real routed actions ctxpack's ANCH-1
+   grammar cannot express — `api/v1/notifications/requests#merged?`
+   (predicate method) and `uploads#_show_secure_deprecated` (leading
+   underscore).
+
+The single `file_not_found` (`message_bus#poll`) is a gem-provided controller
+(message_bus), i.e. morally an engine route.
+
+## Implications (recommendations, not gate actions)
+
+The gate passed, so nothing below blocks pass 2. But the taxonomy says
+exactly what to promote first, in order of value:
+
+1. **Class matching, not name guessing (+~3 points, trivially cheap).** The
+   top failure cause overall is not the strict-`def` bet but ANCH's exact
+   camelized class-name lookup. Matching the class whose *file* was resolved
+   (e.g. any class in the file whose name underscores back to the anchor
+   path, or simply the def-search within the single Zeitwerk class per file)
+   would convert 51 failures into resolutions and lift the average to ~94%.
+   Worth a spec amendment discussion before pass 2 freezes FMT wording.
+2. **ANCH-1 grammar**: allow trailing `?`/`!` and leading `_` in action
+   tokens — they occur in real route tables.
+3. **One-level superclass lookup** would address 46 `inherited_action`
+   failures (the eval plan's own example rework), but at 2.3% of pairs it is
+   not worth v0 complexity given the gate margin.
+
+Per-app character matched expectations: Discourse is conventional at the
+anchor layer (96.3%) with failures concentrated in deliberate
+metaprogramming; Zammad is the stress case (84.4%) due to acronym
+inflections and concern-defined CRUD; Mastodon sits between, with an
+admin-settings inheritance family and the ActivityPub inflection.
+
+## Reproduction
+
+```sh
+git clone --depth 1 <app> && git -C <app> rev-parse HEAD   # SHAs above
+GEM_HOME=<isolated> ruby eval/tier0/extract_routes.rb <app_root> <actionpack_version> routes/<app>.json
+ruby eval/tier0/classify_anchors.rb <app_root> routes/<app>.json results/<app>.json
+```

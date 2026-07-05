@@ -1,0 +1,2584 @@
+{
+  "app": "zammad",
+  "total_pairs": 596,
+  "summary": {
+    "resolved": 503,
+    "other": 52,
+    "inherited_action": 17,
+    "concern_action": 24
+  },
+  "resolution_rate": 0.844,
+  "compile_crashes": 0,
+  "results": [
+    {
+      "anchor": "activity_stream#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ai/analytics/downloads#download",
+      "error": "action was not directly defined in Ai::Analytics::DownloadsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Ai::Analytics::DownloadsController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "ai/analytics/usages#update",
+      "error": "action was not directly defined in Ai::Analytics::UsagesController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Ai::Analytics::UsagesController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "ai_agents#create",
+      "error": "action was not directly defined in AiAgentsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class AiAgentsController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "ai_agents#destroy",
+      "error": "action was not directly defined in AiAgentsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class AiAgentsController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "ai_agents#index",
+      "error": "action was not directly defined in AiAgentsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class AiAgentsController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "ai_agents#search",
+      "error": "action was not directly defined in AiAgentsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class AiAgentsController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "ai_agents#show",
+      "error": "action was not directly defined in AiAgentsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class AiAgentsController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "ai_agents#types",
+      "error": "action was not directly defined in AiAgentsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class AiAgentsController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "ai_agents#update",
+      "error": "action was not directly defined in AiAgentsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class AiAgentsController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "ai_assistance#text_tools",
+      "error": "action was not directly defined in AiAssistanceController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class AiAssistanceController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "ai_text_tools#create",
+      "error": "action was not directly defined in AiTextToolsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class AiTextToolsController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "ai_text_tools#destroy",
+      "error": "action was not directly defined in AiTextToolsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class AiTextToolsController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "ai_text_tools#index",
+      "error": "action was not directly defined in AiTextToolsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class AiTextToolsController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "ai_text_tools#new",
+      "error": "action was not directly defined in AiTextToolsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class AiTextToolsController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "ai_text_tools#reset_analytics",
+      "error": "action was not directly defined in AiTextToolsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class AiTextToolsController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "ai_text_tools#search",
+      "error": "action was not directly defined in AiTextToolsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class AiTextToolsController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "ai_text_tools#show",
+      "error": "action was not directly defined in AiTextToolsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class AiTextToolsController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "ai_text_tools#types",
+      "error": "action was not directly defined in AiTextToolsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class AiTextToolsController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "ai_text_tools#update",
+      "error": "action was not directly defined in AiTextToolsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class AiTextToolsController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "applications#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "applications#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "applications#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "applications#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "applications#token",
+      "result": "resolved"
+    },
+    {
+      "anchor": "applications#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "attachments#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "attachments#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "attachments#destroy_form",
+      "result": "resolved"
+    },
+    {
+      "anchor": "attachments#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "calendar_subscriptions#all",
+      "result": "resolved"
+    },
+    {
+      "anchor": "calendar_subscriptions#object",
+      "result": "resolved"
+    },
+    {
+      "anchor": "calendars#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "calendars#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "calendars#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "calendars#init",
+      "result": "resolved"
+    },
+    {
+      "anchor": "calendars#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "calendars#timezones",
+      "result": "resolved"
+    },
+    {
+      "anchor": "calendars#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_admin/microsoft_graph#destroy",
+      "error": "action destroy was not directly defined in app/controllers/channels_admin/microsoft_graph_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def destroy found in app/controllers/channels_admin/base_controller.rb (ChannelsAdmin::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "channels_admin/microsoft_graph#disable",
+      "error": "action disable was not directly defined in app/controllers/channels_admin/microsoft_graph_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def disable found in app/controllers/channels_admin/base_controller.rb (ChannelsAdmin::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "channels_admin/microsoft_graph#enable",
+      "error": "action enable was not directly defined in app/controllers/channels_admin/microsoft_graph_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def enable found in app/controllers/channels_admin/base_controller.rb (ChannelsAdmin::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "channels_admin/microsoft_graph#folders",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_admin/microsoft_graph#group",
+      "error": "action group was not directly defined in app/controllers/channels_admin/microsoft_graph_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def group found in app/controllers/concerns/can_xoauth2_email_channel.rb (CanXoauth2EmailChannel)",
+      "result": "concern_action"
+    },
+    {
+      "anchor": "channels_admin/microsoft_graph#inbound",
+      "error": "action inbound was not directly defined in app/controllers/channels_admin/microsoft_graph_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def inbound found in app/controllers/concerns/can_xoauth2_email_channel.rb (CanXoauth2EmailChannel)",
+      "result": "concern_action"
+    },
+    {
+      "anchor": "channels_admin/microsoft_graph#index",
+      "error": "action index was not directly defined in app/controllers/channels_admin/microsoft_graph_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def index found in app/controllers/concerns/can_xoauth2_email_channel.rb (CanXoauth2EmailChannel)",
+      "result": "concern_action"
+    },
+    {
+      "anchor": "channels_admin/microsoft_graph#verify",
+      "error": "action verify was not directly defined in app/controllers/channels_admin/microsoft_graph_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def verify found in app/controllers/concerns/can_xoauth2_email_channel.rb (CanXoauth2EmailChannel)",
+      "result": "concern_action"
+    },
+    {
+      "anchor": "channels_admin/whatsapp#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_admin/whatsapp#destroy",
+      "error": "action destroy was not directly defined in app/controllers/channels_admin/whatsapp_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def destroy found in app/controllers/channels_admin/base_controller.rb (ChannelsAdmin::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "channels_admin/whatsapp#disable",
+      "error": "action disable was not directly defined in app/controllers/channels_admin/whatsapp_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def disable found in app/controllers/channels_admin/base_controller.rb (ChannelsAdmin::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "channels_admin/whatsapp#enable",
+      "error": "action enable was not directly defined in app/controllers/channels_admin/whatsapp_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def enable found in app/controllers/channels_admin/base_controller.rb (ChannelsAdmin::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "channels_admin/whatsapp#index",
+      "error": "action index was not directly defined in app/controllers/channels_admin/whatsapp_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def index found in app/controllers/channels_admin/base_controller.rb (ChannelsAdmin::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "channels_admin/whatsapp#preload",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_admin/whatsapp#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_email#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_email#disable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_email#enable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_email#group",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_email#inbound",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_email#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_email#notification",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_email#outbound",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_email#probe",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_email#verify",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_facebook#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_facebook#disable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_facebook#enable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_facebook#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_facebook#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_google#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_google#disable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_google#enable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_google#group",
+      "error": "action group was not directly defined in app/controllers/channels_google_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def group found in app/controllers/concerns/can_xoauth2_email_channel.rb (CanXoauth2EmailChannel)",
+      "result": "concern_action"
+    },
+    {
+      "anchor": "channels_google#inbound",
+      "error": "action inbound was not directly defined in app/controllers/channels_google_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def inbound found in app/controllers/concerns/can_xoauth2_email_channel.rb (CanXoauth2EmailChannel)",
+      "result": "concern_action"
+    },
+    {
+      "anchor": "channels_google#index",
+      "error": "action index was not directly defined in app/controllers/channels_google_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def index found in app/controllers/concerns/can_xoauth2_email_channel.rb (CanXoauth2EmailChannel)",
+      "result": "concern_action"
+    },
+    {
+      "anchor": "channels_google#rollback_migration",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_google#verify",
+      "error": "action verify was not directly defined in app/controllers/channels_google_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def verify found in app/controllers/concerns/can_xoauth2_email_channel.rb (CanXoauth2EmailChannel)",
+      "result": "concern_action"
+    },
+    {
+      "anchor": "channels_microsoft365#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_microsoft365#disable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_microsoft365#enable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_microsoft365#group",
+      "error": "action group was not directly defined in app/controllers/channels_microsoft365_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def group found in app/controllers/concerns/can_xoauth2_email_channel.rb (CanXoauth2EmailChannel)",
+      "result": "concern_action"
+    },
+    {
+      "anchor": "channels_microsoft365#inbound",
+      "error": "action inbound was not directly defined in app/controllers/channels_microsoft365_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def inbound found in app/controllers/concerns/can_xoauth2_email_channel.rb (CanXoauth2EmailChannel)",
+      "result": "concern_action"
+    },
+    {
+      "anchor": "channels_microsoft365#index",
+      "error": "action index was not directly defined in app/controllers/channels_microsoft365_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def index found in app/controllers/concerns/can_xoauth2_email_channel.rb (CanXoauth2EmailChannel)",
+      "result": "concern_action"
+    },
+    {
+      "anchor": "channels_microsoft365#rollback_migration",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_microsoft365#verify",
+      "error": "action verify was not directly defined in app/controllers/channels_microsoft365_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def verify found in app/controllers/concerns/can_xoauth2_email_channel.rb (CanXoauth2EmailChannel)",
+      "result": "concern_action"
+    },
+    {
+      "anchor": "channels_sms#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_sms#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_sms#disable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_sms#enable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_sms#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_sms#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_sms#test",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_sms#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_sms#webhook",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_telegram#add",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_telegram#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_telegram#disable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_telegram#enable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_telegram#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_telegram#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_telegram#webhook",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_whatsapp#perform_webhook",
+      "result": "resolved"
+    },
+    {
+      "anchor": "channels_whatsapp#verify_webhook",
+      "result": "resolved"
+    },
+    {
+      "anchor": "chat_sessions#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "chats#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "chats#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "chats#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "chats#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "chats#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "checklist_items#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "checklist_items#create_bulk",
+      "result": "resolved"
+    },
+    {
+      "anchor": "checklist_items#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "checklist_items#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "checklist_items#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "checklist_templates#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "checklist_templates#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "checklist_templates#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "checklist_templates#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "checklist_templates#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "checklists#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "checklists#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "checklists#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "checklists#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "core_workflows#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "core_workflows#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "core_workflows#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "core_workflows#perform",
+      "result": "resolved"
+    },
+    {
+      "anchor": "core_workflows#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "core_workflows#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "core_workflows#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "cti#done",
+      "result": "resolved"
+    },
+    {
+      "anchor": "cti#done_bulk",
+      "result": "resolved"
+    },
+    {
+      "anchor": "cti#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "data_privacy_tasks#by_state",
+      "result": "resolved"
+    },
+    {
+      "anchor": "data_privacy_tasks#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "data_privacy_tasks#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "data_privacy_tasks#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "data_privacy_tasks#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "data_privacy_tasks#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "desktop#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "email_addresses#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "email_addresses#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "email_addresses#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "email_addresses#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "email_addresses#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "errors#routing",
+      "result": "resolved"
+    },
+    {
+      "anchor": "external_credentials#app_verify",
+      "result": "resolved"
+    },
+    {
+      "anchor": "external_credentials#callback",
+      "result": "resolved"
+    },
+    {
+      "anchor": "external_credentials#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "external_credentials#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "external_credentials#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "external_credentials#link_account",
+      "result": "resolved"
+    },
+    {
+      "anchor": "external_credentials#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "external_credentials#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "external_data_source#fetch",
+      "result": "resolved"
+    },
+    {
+      "anchor": "external_data_source#preview",
+      "result": "resolved"
+    },
+    {
+      "anchor": "first_steps#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "first_steps#test_ticket",
+      "result": "resolved"
+    },
+    {
+      "anchor": "form#captcha_challenge",
+      "result": "resolved"
+    },
+    {
+      "anchor": "form#configuration",
+      "result": "resolved"
+    },
+    {
+      "anchor": "form#submit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "getting_started#auto_wizard_admin",
+      "result": "resolved"
+    },
+    {
+      "anchor": "getting_started#base",
+      "result": "resolved"
+    },
+    {
+      "anchor": "getting_started#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "graphql#execute",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "http_logs#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "http_logs#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "import_freshdesk#credentials_check",
+      "result": "resolved"
+    },
+    {
+      "anchor": "import_freshdesk#import_start",
+      "result": "resolved"
+    },
+    {
+      "anchor": "import_freshdesk#import_status",
+      "result": "resolved"
+    },
+    {
+      "anchor": "import_freshdesk#url_check",
+      "result": "resolved"
+    },
+    {
+      "anchor": "import_kayako#credentials_check",
+      "result": "resolved"
+    },
+    {
+      "anchor": "import_kayako#import_start",
+      "result": "resolved"
+    },
+    {
+      "anchor": "import_kayako#import_status",
+      "result": "resolved"
+    },
+    {
+      "anchor": "import_kayako#url_check",
+      "result": "resolved"
+    },
+    {
+      "anchor": "import_otrs#import_check",
+      "result": "resolved"
+    },
+    {
+      "anchor": "import_otrs#import_start",
+      "result": "resolved"
+    },
+    {
+      "anchor": "import_otrs#import_status",
+      "result": "resolved"
+    },
+    {
+      "anchor": "import_otrs#url_check",
+      "result": "resolved"
+    },
+    {
+      "anchor": "import_zendesk#credentials_check",
+      "result": "resolved"
+    },
+    {
+      "anchor": "import_zendesk#import_start",
+      "result": "resolved"
+    },
+    {
+      "anchor": "import_zendesk#import_status",
+      "result": "resolved"
+    },
+    {
+      "anchor": "import_zendesk#url_check",
+      "result": "resolved"
+    },
+    {
+      "anchor": "init#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "integration/check_mk#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "integration/cti#event",
+      "result": "resolved"
+    },
+    {
+      "anchor": "integration/exchange#autodiscover",
+      "result": "resolved"
+    },
+    {
+      "anchor": "integration/exchange#destroy_oauth",
+      "result": "resolved"
+    },
+    {
+      "anchor": "integration/exchange#folders",
+      "result": "resolved"
+    },
+    {
+      "anchor": "integration/exchange#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "integration/exchange#job_start_create",
+      "error": "action job_start_create was not directly defined in app/controllers/integration/exchange_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def job_start_create found in app/controllers/concerns/integration/import_job_base.rb (Integration::ImportJobBase)",
+      "result": "concern_action"
+    },
+    {
+      "anchor": "integration/exchange#job_start_index",
+      "error": "action job_start_index was not directly defined in app/controllers/integration/exchange_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def job_start_index found in app/controllers/concerns/integration/import_job_base.rb (Integration::ImportJobBase)",
+      "result": "concern_action"
+    },
+    {
+      "anchor": "integration/exchange#job_try_create",
+      "error": "action job_try_create was not directly defined in app/controllers/integration/exchange_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def job_try_create found in app/controllers/concerns/integration/import_job_base.rb (Integration::ImportJobBase)",
+      "result": "concern_action"
+    },
+    {
+      "anchor": "integration/exchange#job_try_index",
+      "error": "action job_try_index was not directly defined in app/controllers/integration/exchange_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def job_try_index found in app/controllers/concerns/integration/import_job_base.rb (Integration::ImportJobBase)",
+      "result": "concern_action"
+    },
+    {
+      "anchor": "integration/exchange#mapping",
+      "result": "resolved"
+    },
+    {
+      "anchor": "integration/github#query",
+      "error": "action was not directly defined in Integration::GithubController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Integration::GithubController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "integration/github#update",
+      "error": "action was not directly defined in Integration::GithubController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Integration::GithubController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "integration/github#verify",
+      "error": "action was not directly defined in Integration::GithubController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Integration::GithubController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "integration/gitlab#query",
+      "error": "action was not directly defined in Integration::GitlabController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Integration::GitlabController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "integration/gitlab#update",
+      "error": "action was not directly defined in Integration::GitlabController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Integration::GitlabController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "integration/gitlab#verify",
+      "error": "action was not directly defined in Integration::GitlabController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Integration::GitlabController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "integration/idoit#query",
+      "result": "resolved"
+    },
+    {
+      "anchor": "integration/idoit#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "integration/idoit#verify",
+      "result": "resolved"
+    },
+    {
+      "anchor": "integration/ldap#bind",
+      "result": "resolved"
+    },
+    {
+      "anchor": "integration/ldap#discover",
+      "result": "resolved"
+    },
+    {
+      "anchor": "integration/ldap#job_start_create",
+      "error": "action job_start_create was not directly defined in app/controllers/integration/ldap_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def job_start_create found in app/controllers/concerns/integration/import_job_base.rb (Integration::ImportJobBase)",
+      "result": "concern_action"
+    },
+    {
+      "anchor": "integration/ldap#job_start_index",
+      "error": "action job_start_index was not directly defined in app/controllers/integration/ldap_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def job_start_index found in app/controllers/concerns/integration/import_job_base.rb (Integration::ImportJobBase)",
+      "result": "concern_action"
+    },
+    {
+      "anchor": "integration/ldap#job_try_create",
+      "error": "action job_try_create was not directly defined in app/controllers/integration/ldap_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def job_try_create found in app/controllers/concerns/integration/import_job_base.rb (Integration::ImportJobBase)",
+      "result": "concern_action"
+    },
+    {
+      "anchor": "integration/ldap#job_try_index",
+      "error": "action job_try_index was not directly defined in app/controllers/integration/ldap_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def job_try_index found in app/controllers/concerns/integration/import_job_base.rb (Integration::ImportJobBase)",
+      "result": "concern_action"
+    },
+    {
+      "anchor": "integration/pgp#key_add",
+      "error": "action was not directly defined in Integration::PgpController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Integration::PgpController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "integration/pgp#key_delete",
+      "error": "action was not directly defined in Integration::PgpController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Integration::PgpController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "integration/pgp#key_download",
+      "error": "action was not directly defined in Integration::PgpController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Integration::PgpController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "integration/pgp#key_list",
+      "error": "action was not directly defined in Integration::PgpController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Integration::PgpController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "integration/pgp#key_show",
+      "error": "action was not directly defined in Integration::PgpController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Integration::PgpController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "integration/pgp#search",
+      "error": "action was not directly defined in Integration::PgpController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Integration::PgpController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "integration/pgp#status",
+      "error": "action was not directly defined in Integration::PgpController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Integration::PgpController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "integration/placetel#event",
+      "result": "resolved"
+    },
+    {
+      "anchor": "integration/sipgate#event",
+      "result": "resolved"
+    },
+    {
+      "anchor": "integration/smime#certificate_add",
+      "error": "action was not directly defined in Integration::SmimeController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Integration::SmimeController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "integration/smime#certificate_delete",
+      "error": "action was not directly defined in Integration::SmimeController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Integration::SmimeController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "integration/smime#certificate_download",
+      "error": "action was not directly defined in Integration::SmimeController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Integration::SmimeController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "integration/smime#certificate_list",
+      "error": "action was not directly defined in Integration::SmimeController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Integration::SmimeController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "integration/smime#private_key_add",
+      "error": "action was not directly defined in Integration::SmimeController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Integration::SmimeController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "integration/smime#private_key_delete",
+      "error": "action was not directly defined in Integration::SmimeController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Integration::SmimeController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "integration/smime#private_key_download",
+      "error": "action was not directly defined in Integration::SmimeController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Integration::SmimeController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "integration/smime#search",
+      "error": "action was not directly defined in Integration::SmimeController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Integration::SmimeController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "jobs#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "jobs#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "jobs#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "jobs#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "jobs#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "jobs#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/answer/attachments#clone_to_form",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/answer/attachments#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/answer/attachments#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/answers#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/answers#destroy",
+      "error": "action destroy was not directly defined in app/controllers/knowledge_base/answers_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def destroy found in app/controllers/knowledge_base/base_controller.rb (KnowledgeBase::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "knowledge_base/answers#has_publishing_update",
+      "error": "action has_publishing_update was not directly defined in app/controllers/knowledge_base/answers_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def has_publishing_update found in app/controllers/concerns/has_publishing.rb (HasPublishing)",
+      "result": "concern_action"
+    },
+    {
+      "anchor": "knowledge_base/answers#recent_answers",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/answers#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/answers#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/categories#create",
+      "error": "action create was not directly defined in app/controllers/knowledge_base/categories_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def create found in app/controllers/knowledge_base/base_controller.rb (KnowledgeBase::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "knowledge_base/categories#destroy",
+      "error": "action destroy was not directly defined in app/controllers/knowledge_base/categories_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def destroy found in app/controllers/knowledge_base/base_controller.rb (KnowledgeBase::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "knowledge_base/categories#index",
+      "error": "action index was not directly defined in app/controllers/knowledge_base/categories_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def index found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "knowledge_base/categories#reorder_answers",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/categories#reorder_categories",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/categories#reorder_root_categories",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/categories#show",
+      "error": "action show was not directly defined in app/controllers/knowledge_base/categories_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def show found in app/controllers/knowledge_base/base_controller.rb (KnowledgeBase::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "knowledge_base/categories#update",
+      "error": "action update was not directly defined in app/controllers/knowledge_base/categories_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def update found in app/controllers/knowledge_base/base_controller.rb (KnowledgeBase::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "knowledge_base/feed_tokens#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/feed_tokens#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/feeds#category",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/feeds#root",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/manage#activate",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/manage#create",
+      "error": "action create was not directly defined in app/controllers/knowledge_base/manage_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def create found in app/controllers/knowledge_base/base_controller.rb (KnowledgeBase::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "knowledge_base/manage#deactivate",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/manage#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/manage#edit",
+      "error": "action edit was not directly defined in app/controllers/knowledge_base/manage_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def edit found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "knowledge_base/manage#index",
+      "error": "action index was not directly defined in app/controllers/knowledge_base/manage_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def index found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "knowledge_base/manage#init",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/manage#new",
+      "error": "action new was not directly defined in app/controllers/knowledge_base/manage_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def new found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "knowledge_base/manage#server_snippets",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/manage#show",
+      "error": "action show was not directly defined in app/controllers/knowledge_base/manage_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def show found in app/controllers/knowledge_base/base_controller.rb (KnowledgeBase::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "knowledge_base/manage#update",
+      "error": "action update was not directly defined in app/controllers/knowledge_base/manage_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def update found in app/controllers/knowledge_base/base_controller.rb (KnowledgeBase::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "knowledge_base/manage#update_menu_items",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/permissions#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/permissions#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/public/answers#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/public/categories#forward_root",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/public/categories#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/public/categories#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/public/feeds#category",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/public/feeds#root",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/public/tags#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_base/search#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_bases#init",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_bases#preview",
+      "result": "resolved"
+    },
+    {
+      "anchor": "knowledge_bases#show",
+      "error": "action show was not directly defined in app/controllers/knowledge_bases_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def show found in app/controllers/knowledge_base/base_controller.rb (KnowledgeBase::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "knowledge_bases#update",
+      "error": "action update was not directly defined in app/controllers/knowledge_bases_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def update found in app/controllers/knowledge_base/base_controller.rb (KnowledgeBase::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "knowledge_bases#visible_ids",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ldap_sources#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ldap_sources#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ldap_sources#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ldap_sources#prio",
+      "error": "action prio was not directly defined in app/controllers/ldap_sources_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def prio found in app/controllers/concerns/can_prioritize.rb (CanPrioritize)",
+      "result": "concern_action"
+    },
+    {
+      "anchor": "ldap_sources#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ldap_sources#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "links#add",
+      "result": "resolved"
+    },
+    {
+      "anchor": "links#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "links#remove",
+      "result": "resolved"
+    },
+    {
+      "anchor": "long_polling#message_receive",
+      "result": "resolved"
+    },
+    {
+      "anchor": "long_polling#message_send",
+      "result": "resolved"
+    },
+    {
+      "anchor": "macros#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "macros#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "macros#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "macros#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "macros#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "macros#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mentions#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mentions#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mentions#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mobile#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mobile#manifest",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mobile#service_worker",
+      "result": "resolved"
+    },
+    {
+      "anchor": "monitoring#amount_check",
+      "result": "resolved"
+    },
+    {
+      "anchor": "monitoring#health_check",
+      "result": "resolved"
+    },
+    {
+      "anchor": "monitoring#restart_failed_jobs",
+      "result": "resolved"
+    },
+    {
+      "anchor": "monitoring#status",
+      "result": "resolved"
+    },
+    {
+      "anchor": "monitoring#token",
+      "result": "resolved"
+    },
+    {
+      "anchor": "object_manager_attributes#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "object_manager_attributes#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "object_manager_attributes#discard_changes",
+      "result": "resolved"
+    },
+    {
+      "anchor": "object_manager_attributes#execute_migrations",
+      "result": "resolved"
+    },
+    {
+      "anchor": "object_manager_attributes#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "object_manager_attributes#list",
+      "result": "resolved"
+    },
+    {
+      "anchor": "object_manager_attributes#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "object_manager_attributes#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "online_notifications#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "online_notifications#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "online_notifications#mark_all_as_read",
+      "result": "resolved"
+    },
+    {
+      "anchor": "online_notifications#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "online_notifications#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "organizations#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "organizations#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "organizations#history",
+      "result": "resolved"
+    },
+    {
+      "anchor": "organizations#import_example",
+      "result": "resolved"
+    },
+    {
+      "anchor": "organizations#import_start",
+      "result": "resolved"
+    },
+    {
+      "anchor": "organizations#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "organizations#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "organizations#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "organizations#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "overviews#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "overviews#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "overviews#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "overviews#prio",
+      "error": "action prio was not directly defined in app/controllers/overviews_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def prio found in app/controllers/concerns/can_prioritize.rb (CanPrioritize)",
+      "result": "concern_action"
+    },
+    {
+      "anchor": "overviews#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "overviews#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "overviews#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "packages#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "packages#install",
+      "result": "resolved"
+    },
+    {
+      "anchor": "packages#uninstall",
+      "result": "resolved"
+    },
+    {
+      "anchor": "postmaster_filters#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "postmaster_filters#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "postmaster_filters#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "postmaster_filters#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "postmaster_filters#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "proxy#test",
+      "result": "resolved"
+    },
+    {
+      "anchor": "public_links#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "public_links#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "public_links#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "public_links#prio",
+      "error": "action prio was not directly defined in app/controllers/public_links_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def prio found in app/controllers/concerns/can_prioritize.rb (CanPrioritize)",
+      "result": "concern_action"
+    },
+    {
+      "anchor": "public_links#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "public_links#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "public_links#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "recent_view#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "recent_view#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "report_profiles#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "report_profiles#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "report_profiles#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "report_profiles#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "report_profiles#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "report_profiles#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "reports#generate",
+      "result": "resolved"
+    },
+    {
+      "anchor": "reports#reporting_config",
+      "result": "resolved"
+    },
+    {
+      "anchor": "reports#sets",
+      "result": "resolved"
+    },
+    {
+      "anchor": "robots_txt#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "roles#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "roles#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "roles#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "roles#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "roles#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "search#search_generic",
+      "result": "resolved"
+    },
+    {
+      "anchor": "selectors#preview",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sessions#available",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sessions#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sessions#create_omniauth",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sessions#create_sso",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sessions#delete",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sessions#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sessions#failure_omniauth",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sessions#list",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sessions#oidc_bc_logout",
+      "error": "action oidc_bc_logout was not directly defined in app/controllers/sessions_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def oidc_bc_logout found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "sessions#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sessions#switch_back_to_user",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sessions#switch_to_user",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sessions#two_factor_authentication_method_initiate_authentication",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#reset",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#update_image",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/ticket_agent_default_notifications#apply_to_all",
+      "result": "resolved"
+    },
+    {
+      "anchor": "signatures#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "signatures#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "signatures#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "signatures#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "signatures#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "slas#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "slas#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "slas#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "slas#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "slas#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ssl_certificates#create",
+      "error": "action was not directly defined in SslCertificatesController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class SslCertificatesController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "ssl_certificates#destroy",
+      "error": "action was not directly defined in SslCertificatesController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class SslCertificatesController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "ssl_certificates#download",
+      "error": "action was not directly defined in SslCertificatesController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class SslCertificatesController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "ssl_certificates#index",
+      "error": "action was not directly defined in SslCertificatesController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class SslCertificatesController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "system_assets#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "system_report#download",
+      "result": "resolved"
+    },
+    {
+      "anchor": "system_report#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "system_report#plugins",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#add",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#admin_create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#admin_delete",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#admin_list",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#admin_rename",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#list",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#remove",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "taskbar#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "taskbar#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "taskbar#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "taskbar#init",
+      "result": "resolved"
+    },
+    {
+      "anchor": "taskbar#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "taskbar#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "templates#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "templates#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "templates#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "templates#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "templates#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "templates#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "text_modules#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "text_modules#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "text_modules#import_example",
+      "result": "resolved"
+    },
+    {
+      "anchor": "text_modules#import_start",
+      "result": "resolved"
+    },
+    {
+      "anchor": "text_modules#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "text_modules#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "text_modules#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "text_modules#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket/knowledge_base_answers#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket/related_knowledge_base_answers#fetch",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket/summarize#summarize",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_articles#article_plain",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_articles#attachment",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_articles#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_articles#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_articles#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_articles#index_by_ticket",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_articles#retry_security_process",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_articles#retry_whatsapp_attachment_download",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_articles#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_articles#ticket_attachment_upload_clone_by_article",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_articles#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_overviews#data",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_overviews#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_priorities#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_priorities#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_priorities#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_priorities#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_priorities#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_shared_draft_zoom#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_shared_draft_zoom#import_attachments",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_shared_draft_zoom#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_shared_draft_zoom#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_states#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_states#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_states#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_states#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "ticket_states#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tickets#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tickets#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tickets#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tickets#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tickets#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tickets#stats",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tickets#ticket_create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tickets#ticket_customer",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tickets#ticket_history",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tickets#ticket_merge",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tickets#ticket_recent",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tickets#ticket_related",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tickets#ticket_split",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tickets#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tickets#update_customer",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tickets#update_title",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tickets_mass#macro",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tickets_mass#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tickets_shared_draft_starts#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tickets_shared_draft_starts#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tickets_shared_draft_starts#import_attachments",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tickets_shared_draft_starts#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tickets_shared_draft_starts#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tickets_shared_draft_starts#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "time_accounting/types#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "time_accounting/types#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "time_accounting/types#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "time_accountings#by_activity",
+      "result": "resolved"
+    },
+    {
+      "anchor": "time_accountings#by_customer",
+      "result": "resolved"
+    },
+    {
+      "anchor": "time_accountings#by_organization",
+      "result": "resolved"
+    },
+    {
+      "anchor": "time_accountings#by_ticket",
+      "result": "resolved"
+    },
+    {
+      "anchor": "time_accountings#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "time_accountings#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "time_accountings#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "time_accountings#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "time_accountings#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "translations#create",
+      "error": "action create was not directly defined in app/controllers/translations_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def create found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "translations#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "translations#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "translations#index_customized",
+      "result": "resolved"
+    },
+    {
+      "anchor": "translations#lang",
+      "result": "resolved"
+    },
+    {
+      "anchor": "translations#push",
+      "error": "action push was not directly defined in app/controllers/translations_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def push found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "translations#reset",
+      "result": "resolved"
+    },
+    {
+      "anchor": "translations#reset_item",
+      "result": "resolved"
+    },
+    {
+      "anchor": "translations#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "translations#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "translations#sync",
+      "error": "action sync was not directly defined in app/controllers/translations_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def sync found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "translations#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "translations#upsert",
+      "result": "resolved"
+    },
+    {
+      "anchor": "triggers#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "triggers#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "triggers#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "triggers#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "triggers#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "triggers#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "upload_caches#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "upload_caches#remove_item",
+      "result": "resolved"
+    },
+    {
+      "anchor": "upload_caches#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user/admin_two_factors#enabled_authentication_methods",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user/admin_two_factors#remove_all_authentication_methods",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user/admin_two_factors#remove_authentication_method",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user/after_auth#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user/overview_sortings#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user/overview_sortings#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user/overview_sortings#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user/overview_sortings#prio",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user/overview_sortings#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user/overview_sortings#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user/two_factors#authentication_method_configuration",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user/two_factors#authentication_method_initiate_configuration",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user/two_factors#authentication_remove_credentials",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user/two_factors#default_authentication_method",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user/two_factors#enabled_authentication_methods",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user/two_factors#personal_configuration",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user/two_factors#recovery_codes_generate",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user/two_factors#remove_authentication_method",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user/two_factors#verify_configuration",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_access_token#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_access_token#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_access_token#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_devices#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_devices#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#account_remove",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#admin_password_auth_send",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#admin_password_auth_verify",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#avatar_destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#avatar_list",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#avatar_new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#avatar_set_default",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#email_verify",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#email_verify_send",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#history",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#image",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#import_example",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#import_start",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#me",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#out_of_office",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#password_change",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#password_check",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#password_reset_send",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#password_reset_verify",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#preferences",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#preferences_notifications_reset",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#unlock",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "version#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "webhooks#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "webhooks#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "webhooks#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "webhooks#pre_defined_webhooks",
+      "result": "resolved"
+    },
+    {
+      "anchor": "webhooks#preview",
+      "result": "resolved"
+    },
+    {
+      "anchor": "webhooks#replacements",
+      "result": "resolved"
+    },
+    {
+      "anchor": "webhooks#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "webhooks#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "webhooks#update",
+      "result": "resolved"
+    }
+  ]
+}

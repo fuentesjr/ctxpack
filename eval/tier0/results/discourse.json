@@ -1,0 +1,3089 @@
+{
+  "app": "discourse",
+  "total_pairs": 755,
+  "summary": {
+    "resolved": 727,
+    "other": 24,
+    "inherited_action": 3,
+    "file_not_found": 1
+  },
+  "resolution_rate": 0.9629,
+  "compile_crashes": 0,
+  "results": [
+    {
+      "anchor": "about#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "about#live_post_counts",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/admin#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/admin_notices#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/api#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/api#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/api#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/api#revoke_key",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/api#scopes",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/api#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/api#undo_revoke_key",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/api#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/backups#abort_multipart",
+      "error": "action abort_multipart was not directly defined in app/controllers/admin/backups_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def abort_multipart found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "admin/backups#batch_presign_multipart_parts",
+      "error": "action batch_presign_multipart_parts was not directly defined in app/controllers/admin/backups_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def batch_presign_multipart_parts found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "admin/backups#cancel",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/backups#check_backup_chunk",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/backups#complete_multipart",
+      "error": "action complete_multipart was not directly defined in app/controllers/admin/backups_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def complete_multipart found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "admin/backups#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/backups#create_multipart",
+      "error": "action create_multipart was not directly defined in app/controllers/admin/backups_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def create_multipart found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "admin/backups#create_upload_url",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/backups#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/backups#email",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/backups#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/backups#logs",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/backups#readonly",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/backups#restore",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/backups#rollback",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/backups#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/backups#status",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/backups#upload_backup_chunk",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/badges#award",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/badges#badge_types",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/badges#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/badges#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/badges#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/badges#mass_award",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/badges#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/badges#preview",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/badges#save_badge_groupings",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/badges#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/badges#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/color_schemes#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/color_schemes#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/color_schemes#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/color_schemes#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/about#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/about#localizations",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/about#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/about#update_localizations",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/color_palettes#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/color_palettes#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/customize#components",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/customize#index",
+      "error": "action index was not directly defined in app/controllers/admin/config/customize_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def index found in app/controllers/admin/admin_controller.rb (Admin::AdminController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "admin/config/customize#theme_site_settings",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/customize#themes",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/discourse_id#regenerate_credentials",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/discourse_id#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/discourse_id#update_settings",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/flags#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/flags#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/flags#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/flags#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/flags#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/flags#reorder",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/flags#toggle",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/flags#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/fonts#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/fonts#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/logo#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/logo#og_image_preview",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/logo#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/site_settings#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/upcoming_changes#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/upcoming_changes#toggle_change",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/upcoming_changes#update_groups",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/welcome_banner#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/config/welcome_banner#themes_with_setting",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/dashboard#available_reports",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/dashboard#bulk_reports",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/dashboard#general",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/dashboard#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/dashboard#moderation",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/dashboard#new_features",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/dashboard#problems",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/dashboard#reports",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/dashboard#security",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/dashboard#toggle_feature",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/dashboard#update_configuration",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/dashboard#update_reports_section",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email#advanced_test",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email#handle_mail",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email#preview_digest",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email#send_digest",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email#server_settings",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email#smtp_should_reject",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email#test",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_logs#bounced",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_logs#incoming",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_logs#incoming_from_bounced",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_logs#index",
+      "error": "action index was not directly defined in app/controllers/admin/email_logs_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def index found in app/controllers/admin/admin_controller.rb (Admin::AdminController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "admin/email_logs#received",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_logs#rejected",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_logs#sent",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_logs#skipped",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_styles#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_styles#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_templates#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_templates#revert",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_templates#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_templates#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/embeddable_hosts#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/embeddable_hosts#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/embeddable_hosts#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/embedding#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/embedding#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/embedding#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/emoji#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/emoji#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/emoji#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/form_templates#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/form_templates#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/form_templates#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/form_templates#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/form_templates#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/form_templates#preview",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/form_templates#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/form_templates#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/groups#automatic_membership_count",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/groups#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/groups#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/groups#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/groups#remove_owner",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/groups#set_primary",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/impersonate#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/impersonate#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/impersonate#index",
+      "error": "action index was not directly defined in app/controllers/admin/impersonate_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def index found in app/controllers/admin/admin_controller.rb (Admin::AdminController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "admin/permalinks#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/permalinks#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/permalinks#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/permalinks#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/permalinks#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/permalinks#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/plugins#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/plugins#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/problem_checks#ignore",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/problem_checks#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/problem_checks#watch",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/reports#bulk",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/reports#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/reports#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/robots_txt#reset",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/robots_txt#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/robots_txt#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/screened_emails#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/screened_emails#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/screened_ip_addresses#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/screened_ip_addresses#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/screened_ip_addresses#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/screened_ip_addresses#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/screened_urls#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/search#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/search_logs#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/search_logs#term",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/section#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/site_settings#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/site_settings#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/site_settings#user_count",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/site_texts#dismiss_outdated",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/site_texts#get_reseed_options",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/site_texts#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/site_texts#reseed",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/site_texts#revert",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/site_texts#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/site_texts#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/staff_action_logs#diff",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/staff_action_logs#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/themes#bulk_destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/themes#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/themes#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/themes#export",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/themes#generate_key_pair",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/themes#get_translations",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/themes#import",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/themes#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/themes#objects_setting_metadata",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/themes#preview",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/themes#schema",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/themes#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/themes#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/themes#update_single_setting",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/themes#update_source",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/themes#update_theme_site_setting",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/themes#upload_asset",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/unknown_reviewables#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/user_fields#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/user_fields#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/user_fields#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/user_fields#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/user_fields#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/user_fields#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#activate",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#add_group",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#anonymize",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#approve",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#approve_bulk",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#badges",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#deactivate",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#delete_associated_accounts",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#delete_other_accounts_with_same_ip",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#delete_posts_batch",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#delete_posts_decider",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#destroy_bulk",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#disable_second_factor",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#grant_admin",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#grant_moderation",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#ip_info",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#log_out",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#merge",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#penalty_history",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#primary_group",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#remove_group",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#reset_bounce_score",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#revoke_admin",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#revoke_moderation",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#silence",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#similar_users",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#sso_record",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#suspend",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#suspend_bulk",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#sync_sso",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#tl3_requirements",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#total_other_accounts_with_same_ip",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#trust_level",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#trust_level_lock",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#unsilence",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#unsuspend",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/versions#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/watched_words#clear_all",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/watched_words#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/watched_words#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/watched_words#download",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/watched_words#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/watched_words#upload",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/web_hooks#bulk_events",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/web_hooks#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/web_hooks#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/web_hooks#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/web_hooks#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/web_hooks#list_events",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/web_hooks#ping",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/web_hooks#redeliver_event",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/web_hooks#redeliver_failed_events",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/web_hooks#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/web_hooks#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "anonymous_actions#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "associated_groups#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "badges#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "badges#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "bookmarks#bulk",
+      "result": "resolved"
+    },
+    {
+      "anchor": "bookmarks#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "bookmarks#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "bookmarks#toggle_pin",
+      "result": "resolved"
+    },
+    {
+      "anchor": "bookmarks#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "calendar_subscriptions#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "calendar_subscriptions#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "calendar_subscriptions#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "categories#categories_and_hot",
+      "result": "resolved"
+    },
+    {
+      "anchor": "categories#categories_and_latest",
+      "result": "resolved"
+    },
+    {
+      "anchor": "categories#categories_and_top",
+      "result": "resolved"
+    },
+    {
+      "anchor": "categories#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "categories#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "categories#find",
+      "result": "resolved"
+    },
+    {
+      "anchor": "categories#find_by_slug",
+      "result": "resolved"
+    },
+    {
+      "anchor": "categories#hierarchical_search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "categories#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "categories#move",
+      "result": "resolved"
+    },
+    {
+      "anchor": "categories#redirect",
+      "result": "resolved"
+    },
+    {
+      "anchor": "categories#reorder",
+      "result": "resolved"
+    },
+    {
+      "anchor": "categories#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "categories#set_notifications",
+      "result": "resolved"
+    },
+    {
+      "anchor": "categories#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "categories#types",
+      "result": "resolved"
+    },
+    {
+      "anchor": "categories#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "categories#update_slug",
+      "result": "resolved"
+    },
+    {
+      "anchor": "categories#visible_groups",
+      "result": "resolved"
+    },
+    {
+      "anchor": "clicks#track",
+      "result": "resolved"
+    },
+    {
+      "anchor": "composer#mentions",
+      "result": "resolved"
+    },
+    {
+      "anchor": "composer_messages#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "composer_messages#user_not_seen_in_a_while",
+      "result": "resolved"
+    },
+    {
+      "anchor": "dev_mode#enter",
+      "result": "resolved"
+    },
+    {
+      "anchor": "dev_mode#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "directory_columns#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "directory_items#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "do_not_disturb#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "do_not_disturb#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "drafts#bulk_destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "drafts#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "drafts#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "drafts#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "drafts#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "edit_directory_columns#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "edit_directory_columns#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "email#perform_unsubscribe",
+      "result": "resolved"
+    },
+    {
+      "anchor": "email#unsubscribe",
+      "result": "resolved"
+    },
+    {
+      "anchor": "email#unsubscribed",
+      "result": "resolved"
+    },
+    {
+      "anchor": "embed#comments",
+      "result": "resolved"
+    },
+    {
+      "anchor": "embed#count",
+      "result": "resolved"
+    },
+    {
+      "anchor": "embed#info",
+      "result": "resolved"
+    },
+    {
+      "anchor": "embed#topics",
+      "result": "resolved"
+    },
+    {
+      "anchor": "emojis#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "emojis#search_aliases",
+      "result": "resolved"
+    },
+    {
+      "anchor": "exceptions#not_found",
+      "result": "resolved"
+    },
+    {
+      "anchor": "exceptions#not_found_body",
+      "result": "resolved"
+    },
+    {
+      "anchor": "export_csv#export_entity",
+      "result": "resolved"
+    },
+    {
+      "anchor": "export_csv#latest_user_archive",
+      "result": "resolved"
+    },
+    {
+      "anchor": "extra_locales#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "finish_installation#confirm_email",
+      "result": "resolved"
+    },
+    {
+      "anchor": "finish_installation#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "finish_installation#redirect_discourse_id",
+      "result": "resolved"
+    },
+    {
+      "anchor": "finish_installation#register",
+      "result": "resolved"
+    },
+    {
+      "anchor": "finish_installation#resend_email",
+      "result": "resolved"
+    },
+    {
+      "anchor": "form_templates#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "form_templates#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "forums#status",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#add_members",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#add_owners",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#check_name",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#handle_membership_request",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#histories",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#join",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#leave",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#members",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#mentionable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#mentions",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#mentions_feed",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#messageable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#permissions",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#posts",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#posts_feed",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#remove_member",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#request_membership",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#set_notifications",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#test_email_settings",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "hashtags#by_ids",
+      "result": "resolved"
+    },
+    {
+      "anchor": "hashtags#lookup",
+      "result": "resolved"
+    },
+    {
+      "anchor": "hashtags#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "highlight_js#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "home_page#blank",
+      "result": "resolved"
+    },
+    {
+      "anchor": "home_page#custom",
+      "result": "resolved"
+    },
+    {
+      "anchor": "inline_onebox#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "invites#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "invites#create_multiple",
+      "result": "resolved"
+    },
+    {
+      "anchor": "invites#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "invites#destroy_all_expired",
+      "result": "resolved"
+    },
+    {
+      "anchor": "invites#perform_accept_invitation",
+      "result": "resolved"
+    },
+    {
+      "anchor": "invites#resend_all_invites",
+      "result": "resolved"
+    },
+    {
+      "anchor": "invites#resend_invite",
+      "result": "resolved"
+    },
+    {
+      "anchor": "invites#retrieve",
+      "result": "resolved"
+    },
+    {
+      "anchor": "invites#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "invites#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "invites#upload_csv",
+      "result": "resolved"
+    },
+    {
+      "anchor": "list#category_default",
+      "result": "resolved"
+    },
+    {
+      "anchor": "list#category_feed",
+      "result": "resolved"
+    },
+    {
+      "anchor": "list#category_none_latest",
+      "error": "action category_none_latest was not directly defined in app/controllers/list_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def category_none_latest found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "list#filter",
+      "result": "resolved"
+    },
+    {
+      "anchor": "list#group_topics",
+      "result": "resolved"
+    },
+    {
+      "anchor": "list#hot_feed",
+      "result": "resolved"
+    },
+    {
+      "anchor": "list#latest",
+      "error": "action latest was not directly defined in app/controllers/list_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def latest found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "list#latest_feed",
+      "result": "resolved"
+    },
+    {
+      "anchor": "list#private_messages",
+      "error": "action private_messages was not directly defined in app/controllers/list_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def private_messages found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "list#private_messages_archive",
+      "error": "action private_messages_archive was not directly defined in app/controllers/list_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def private_messages_archive found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "list#private_messages_group",
+      "error": "action private_messages_group was not directly defined in app/controllers/list_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def private_messages_group found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "list#private_messages_group_archive",
+      "error": "action private_messages_group_archive was not directly defined in app/controllers/list_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def private_messages_group_archive found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "list#private_messages_group_new",
+      "error": "action private_messages_group_new was not directly defined in app/controllers/list_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def private_messages_group_new found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "list#private_messages_group_unread",
+      "error": "action private_messages_group_unread was not directly defined in app/controllers/list_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def private_messages_group_unread found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "list#private_messages_new",
+      "error": "action private_messages_new was not directly defined in app/controllers/list_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def private_messages_new found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "list#private_messages_sent",
+      "error": "action private_messages_sent was not directly defined in app/controllers/list_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def private_messages_sent found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "list#private_messages_tag",
+      "error": "action private_messages_tag was not directly defined in app/controllers/list_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def private_messages_tag found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "list#private_messages_unread",
+      "error": "action private_messages_unread was not directly defined in app/controllers/list_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def private_messages_unread found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "list#private_messages_warnings",
+      "error": "action private_messages_warnings was not directly defined in app/controllers/list_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def private_messages_warnings found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "list#top_feed",
+      "result": "resolved"
+    },
+    {
+      "anchor": "list#topics_by",
+      "result": "resolved"
+    },
+    {
+      "anchor": "list#user_topics_feed",
+      "result": "resolved"
+    },
+    {
+      "anchor": "message_bus#poll",
+      "error": "expected controller file does not exist: app/controllers/message_bus_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "metadata#app_association_android",
+      "result": "resolved"
+    },
+    {
+      "anchor": "metadata#app_association_ios",
+      "result": "resolved"
+    },
+    {
+      "anchor": "metadata#discourse_id_challenge",
+      "result": "resolved"
+    },
+    {
+      "anchor": "metadata#manifest",
+      "result": "resolved"
+    },
+    {
+      "anchor": "metadata#opensearch",
+      "result": "resolved"
+    },
+    {
+      "anchor": "nested_topics#activity",
+      "result": "resolved"
+    },
+    {
+      "anchor": "nested_topics#children",
+      "result": "resolved"
+    },
+    {
+      "anchor": "nested_topics#context",
+      "result": "resolved"
+    },
+    {
+      "anchor": "nested_topics#pin",
+      "result": "resolved"
+    },
+    {
+      "anchor": "nested_topics#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "nested_topics#toggle",
+      "result": "resolved"
+    },
+    {
+      "anchor": "new_invite#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "new_topic#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "notifications#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "notifications#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "notifications#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "notifications#mark_read",
+      "result": "resolved"
+    },
+    {
+      "anchor": "notifications#totals",
+      "result": "resolved"
+    },
+    {
+      "anchor": "notifications#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "offline#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "onebox#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "permalinks#check",
+      "result": "resolved"
+    },
+    {
+      "anchor": "permalinks#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "post_action_users#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "post_actions#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "post_actions#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "post_localizations#create_or_update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "post_localizations#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "post_localizations#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "post_readers#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#by_date",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#by_number",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#cooked",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#deleted_posts",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#destroy_bookmark",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#destroy_many",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#expand_embed",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#hide_revision",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#latest",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#latest_revision",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#locked",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#markdown_id",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#markdown_num",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#merge_posts",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#notice",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#pending",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#permanently_delete_check",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#permanently_delete_revisions",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#post_type",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#raw_email",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#rebake",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#recover",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#replies",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#reply_history",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#reply_ids",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#revert",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#revisions",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#short_link",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#show_revision",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#unhide",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#user_posts_feed",
+      "result": "resolved"
+    },
+    {
+      "anchor": "posts#wiki",
+      "result": "resolved"
+    },
+    {
+      "anchor": "presence#get",
+      "result": "resolved"
+    },
+    {
+      "anchor": "presence#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "published_pages#check_slug",
+      "result": "resolved"
+    },
+    {
+      "anchor": "published_pages#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "published_pages#details",
+      "result": "resolved"
+    },
+    {
+      "anchor": "published_pages#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "published_pages#upsert",
+      "result": "resolved"
+    },
+    {
+      "anchor": "push_notification#subscribe",
+      "result": "resolved"
+    },
+    {
+      "anchor": "push_notification#unsubscribe",
+      "result": "resolved"
+    },
+    {
+      "anchor": "qunit#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "qunit#theme",
+      "result": "resolved"
+    },
+    {
+      "anchor": "reviewable_claimed_topics#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "reviewable_claimed_topics#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "reviewable_notes#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "reviewable_notes#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "reviewables#count",
+      "result": "resolved"
+    },
+    {
+      "anchor": "reviewables#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "reviewables#explain",
+      "result": "resolved"
+    },
+    {
+      "anchor": "reviewables#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "reviewables#perform",
+      "result": "resolved"
+    },
+    {
+      "anchor": "reviewables#scrub",
+      "result": "resolved"
+    },
+    {
+      "anchor": "reviewables#settings",
+      "result": "resolved"
+    },
+    {
+      "anchor": "reviewables#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "reviewables#topics",
+      "result": "resolved"
+    },
+    {
+      "anchor": "reviewables#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "reviewables#user_menu_list",
+      "result": "resolved"
+    },
+    {
+      "anchor": "robots_txt#builder",
+      "result": "resolved"
+    },
+    {
+      "anchor": "robots_txt#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "safe_mode#enter",
+      "result": "resolved"
+    },
+    {
+      "anchor": "safe_mode#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "search#click",
+      "result": "resolved"
+    },
+    {
+      "anchor": "search#query",
+      "result": "resolved"
+    },
+    {
+      "anchor": "search#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "session#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "session#create_login_code",
+      "result": "resolved"
+    },
+    {
+      "anchor": "session#csrf",
+      "result": "resolved"
+    },
+    {
+      "anchor": "session#current",
+      "result": "resolved"
+    },
+    {
+      "anchor": "session#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "session#email_login",
+      "result": "resolved"
+    },
+    {
+      "anchor": "session#email_login_info",
+      "result": "resolved"
+    },
+    {
+      "anchor": "session#forgot_password",
+      "result": "resolved"
+    },
+    {
+      "anchor": "session#get_honeypot_value",
+      "result": "resolved"
+    },
+    {
+      "anchor": "session#one_time_password",
+      "result": "resolved"
+    },
+    {
+      "anchor": "session#passkey_challenge",
+      "result": "resolved"
+    },
+    {
+      "anchor": "session#passkey_login",
+      "result": "resolved"
+    },
+    {
+      "anchor": "session#scopes",
+      "result": "resolved"
+    },
+    {
+      "anchor": "session#second_factor_auth_perform",
+      "result": "resolved"
+    },
+    {
+      "anchor": "session#second_factor_auth_show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "session#sso",
+      "result": "resolved"
+    },
+    {
+      "anchor": "session#sso_login",
+      "result": "resolved"
+    },
+    {
+      "anchor": "session#sso_provider",
+      "result": "resolved"
+    },
+    {
+      "anchor": "session#verify_login_code",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sidebar_sections#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sidebar_sections#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sidebar_sections#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sidebar_sections#reset",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sidebar_sections#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "similar_topics#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "site#banner",
+      "result": "resolved"
+    },
+    {
+      "anchor": "site#basic_info",
+      "result": "resolved"
+    },
+    {
+      "anchor": "site#custom_html",
+      "result": "resolved"
+    },
+    {
+      "anchor": "site#emoji",
+      "result": "resolved"
+    },
+    {
+      "anchor": "site#settings",
+      "result": "resolved"
+    },
+    {
+      "anchor": "site#site",
+      "result": "resolved"
+    },
+    {
+      "anchor": "site#statistics",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sitemap#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sitemap#news",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sitemap#page",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sitemap#recent",
+      "result": "resolved"
+    },
+    {
+      "anchor": "slugs#generate",
+      "result": "resolved"
+    },
+    {
+      "anchor": "static#cdn_asset",
+      "result": "resolved"
+    },
+    {
+      "anchor": "static#enter",
+      "result": "resolved"
+    },
+    {
+      "anchor": "static#favicon",
+      "result": "resolved"
+    },
+    {
+      "anchor": "static#llms_txt",
+      "result": "resolved"
+    },
+    {
+      "anchor": "static#service_worker_asset",
+      "result": "resolved"
+    },
+    {
+      "anchor": "static#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "steps#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "stylesheets#color_scheme",
+      "result": "resolved"
+    },
+    {
+      "anchor": "stylesheets#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "stylesheets#show_source_map",
+      "result": "resolved"
+    },
+    {
+      "anchor": "svg_sprite#icon_picker_search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "svg_sprite#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "svg_sprite#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "svg_sprite#svg_icon",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tag_groups#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tag_groups#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tag_groups#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tag_groups#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tag_groups#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tag_groups#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tag_groups#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tag_localizations#create_or_update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tag_localizations#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tag_localizations#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#bulk_create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#create_synonyms",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#destroy_synonym",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#destroy_unused",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#info",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#list",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#list_unused",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#notifications",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#personal_messages",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#settings",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#tag_feed",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#update_notifications",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#update_settings",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#upload",
+      "result": "resolved"
+    },
+    {
+      "anchor": "theme_javascripts#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "theme_javascripts#show_map",
+      "result": "resolved"
+    },
+    {
+      "anchor": "theme_javascripts#show_tests",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topic_localizations#create_or_update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topic_localizations#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topic_localizations#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topic_view_stats#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#archive_message",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#bookmark",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#bulk",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#change_post_owners",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#change_timestamps",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#clear_pin",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#convert_topic",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#destroy_timings",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#excerpts",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#feature_stats",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#feed",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#id_for_slug",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#invite",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#invite_group",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#make_banner",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#merge_topic",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#move_posts",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#move_to_inbox",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#mute",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#post_ids",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#posts",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#private_message_reset_new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#publish",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#re_pin",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#recover",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#remove_allowed_group",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#remove_allowed_user",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#remove_banner",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#remove_bookmarks",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#reset_bump_date",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#reset_new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#set_notifications",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#set_slow_mode",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#show_by_external_id",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#status",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#timer",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#timings",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#unmute",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#update_shared_draft",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#update_tags",
+      "result": "resolved"
+    },
+    {
+      "anchor": "topics#wordpress",
+      "result": "resolved"
+    },
+    {
+      "anchor": "uploads#_show_secure_deprecated",
+      "error": "invalid anchor \"uploads#_show_secure_deprecated\"; expected controller#action with snake_case tokens",
+      "detail": "anchor failed ctxpack's snake_case grammar",
+      "result": "other"
+    },
+    {
+      "anchor": "uploads#abort_multipart",
+      "error": "action abort_multipart was not directly defined in app/controllers/uploads_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def abort_multipart found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "uploads#batch_presign_multipart_parts",
+      "error": "action batch_presign_multipart_parts was not directly defined in app/controllers/uploads_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def batch_presign_multipart_parts found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "uploads#complete_external_upload",
+      "error": "action complete_external_upload was not directly defined in app/controllers/uploads_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def complete_external_upload found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "uploads#complete_multipart",
+      "error": "action complete_multipart was not directly defined in app/controllers/uploads_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def complete_multipart found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "uploads#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "uploads#create_multipart",
+      "error": "action create_multipart was not directly defined in app/controllers/uploads_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def create_multipart found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "uploads#generate_presigned_put",
+      "error": "action generate_presigned_put was not directly defined in app/controllers/uploads_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def generate_presigned_put found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "uploads#lookup_urls",
+      "result": "resolved"
+    },
+    {
+      "anchor": "uploads#metadata",
+      "result": "resolved"
+    },
+    {
+      "anchor": "uploads#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "uploads#show_secure",
+      "result": "resolved"
+    },
+    {
+      "anchor": "uploads#show_short",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_actions#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_actions#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_api_key_clients#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_api_key_clients#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_api_keys#activate",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_api_keys#authorize_device_request",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_api_keys#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_api_keys#create_device_request",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_api_keys#create_otp",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_api_keys#deny_device_request",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_api_keys#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_api_keys#otp",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_api_keys#poll_device_request",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_api_keys#revoke",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_api_keys#undo_revoke",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_avatars#refresh_gravatar",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_avatars#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_avatars#show_letter",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_avatars#show_proxy_letter",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_badges#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_badges#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_badges#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_badges#toggle_favorite",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_badges#username",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_status#clear",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_status#get",
+      "result": "resolved"
+    },
+    {
+      "anchor": "user_status#set",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#account_created",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#activate_account",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#admin_login",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#badge_title",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#badges",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#bookmarks",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#cards",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#check_email",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#check_emails",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#check_sso_email",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#check_sso_payload",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#check_username",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#clear_featured_topic",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#confirm_admin",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#confirm_email_token",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#confirm_session",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#create_passkey",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#create_second_factor_backup",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#create_second_factor_security_key",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#create_second_factor_totp",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#delete_passkey",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#destroy_email",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#destroy_user_image",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#disable_second_factor",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#email_login",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#enable_second_factor_totp",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#feature_topic",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#invited",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#list_second_factors",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#my_redirect",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#notification_level",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#password_reset_show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#password_reset_update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#perform_account_activation",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#pick_avatar",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#preferences",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#private_message_topic_tracking_state",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#profile_hidden",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#read_faq",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#recent_searches",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#register_passkey",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#register_second_factor_security_key",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#remove_password",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#rename_passkey",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#reset_recent_searches",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#revoke_account",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#revoke_auth_token",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#search_users",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#select_avatar",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#send_activation_email",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#show_card",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#staff_info",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#summary",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#toggle_anon",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#topic_tracking_state",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#trusted_session",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#update_activation_email",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#update_primary_email",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#update_second_factor",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#update_security_key",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#user_menu_bookmarks",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#user_menu_messages",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#username",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users/associate_accounts#connect",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users/associate_accounts#connect_info",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users/discourse_id#revoke",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users/omniauth_callbacks#complete",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users/omniauth_callbacks#confirm_request",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users/omniauth_callbacks#failure",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users_email#confirm_new_email",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users_email#confirm_old_email",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users_email#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users_email#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users_email#show_confirm_new_email",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users_email#show_confirm_old_email",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users_email#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "webhooks#aws",
+      "result": "resolved"
+    },
+    {
+      "anchor": "webhooks#mailgun",
+      "result": "resolved"
+    },
+    {
+      "anchor": "webhooks#mailjet",
+      "result": "resolved"
+    },
+    {
+      "anchor": "webhooks#mailpace",
+      "result": "resolved"
+    },
+    {
+      "anchor": "webhooks#mandrill",
+      "result": "resolved"
+    },
+    {
+      "anchor": "webhooks#mandrill_head",
+      "result": "resolved"
+    },
+    {
+      "anchor": "webhooks#postmark",
+      "result": "resolved"
+    },
+    {
+      "anchor": "webhooks#sendgrid",
+      "result": "resolved"
+    },
+    {
+      "anchor": "webhooks#sparkpost",
+      "result": "resolved"
+    },
+    {
+      "anchor": "wizard#index",
+      "result": "resolved"
+    }
+  ]
+}

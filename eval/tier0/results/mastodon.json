@@ -1,0 +1,2573 @@
+{
+  "app": "mastodon",
+  "total_pairs": 616,
+  "summary": {
+    "resolved": 568,
+    "other": 22,
+    "inherited_action": 26
+  },
+  "resolution_rate": 0.9221,
+  "compile_crashes": 0,
+  "results": [
+    {
+      "anchor": "about#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "accounts#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "activitypub/collections#show",
+      "error": "action was not directly defined in Activitypub::CollectionsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Activitypub::CollectionsController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "activitypub/contexts#items",
+      "error": "action was not directly defined in Activitypub::ContextsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Activitypub::ContextsController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "activitypub/contexts#show",
+      "error": "action was not directly defined in Activitypub::ContextsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Activitypub::ContextsController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "activitypub/feature_authorizations#show",
+      "error": "action was not directly defined in Activitypub::FeatureAuthorizationsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Activitypub::FeatureAuthorizationsController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "activitypub/featured_collections#index",
+      "error": "action was not directly defined in Activitypub::FeaturedCollectionsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Activitypub::FeaturedCollectionsController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "activitypub/followers_synchronizations#show",
+      "error": "action was not directly defined in Activitypub::FollowersSynchronizationsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Activitypub::FollowersSynchronizationsController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "activitypub/inboxes#create",
+      "error": "action was not directly defined in Activitypub::InboxesController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Activitypub::InboxesController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "activitypub/likes#index",
+      "error": "action was not directly defined in Activitypub::LikesController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Activitypub::LikesController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "activitypub/outboxes#show",
+      "error": "action was not directly defined in Activitypub::OutboxesController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Activitypub::OutboxesController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "activitypub/quote_authorizations#show",
+      "error": "action was not directly defined in Activitypub::QuoteAuthorizationsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Activitypub::QuoteAuthorizationsController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "activitypub/replies#index",
+      "error": "action was not directly defined in Activitypub::RepliesController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Activitypub::RepliesController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "activitypub/shares#index",
+      "error": "action was not directly defined in Activitypub::SharesController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Activitypub::SharesController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "admin/account_actions#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/account_actions#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/account_moderation_notes#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/account_moderation_notes#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/accounts#approve",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/accounts#batch",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/accounts#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/accounts#enable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/accounts#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/accounts#memorialize",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/accounts#redownload",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/accounts#reject",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/accounts#remove_avatar",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/accounts#remove_header",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/accounts#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/accounts#unblock_email",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/accounts#unsensitive",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/accounts#unsilence",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/accounts#unsuspend",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/action_logs#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/announcements#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/announcements#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/announcements#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/announcements#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/announcements#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/announcements#publish",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/announcements#unpublish",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/announcements#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/announcements/distributions#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/announcements/previews#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/announcements/tests#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/change_emails#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/change_emails#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/collections#batch",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/collections#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/collections#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/confirmations#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/confirmations#resend",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/custom_emojis#batch",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/custom_emojis#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/custom_emojis#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/custom_emojis#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/dashboard#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/disputes/appeals#approve",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/disputes/appeals#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/disputes/appeals#reject",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/disputes/strikes#index",
+      "error": "action index was not directly defined in app/controllers/admin/disputes/strikes_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def index found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "admin/disputes/strikes#show",
+      "error": "action show was not directly defined in app/controllers/admin/disputes/strikes_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def show found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "admin/domain_allows#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/domain_allows#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/domain_allows#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/domain_blocks#batch",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/domain_blocks#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/domain_blocks#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/domain_blocks#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/domain_blocks#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/domain_blocks#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_domain_blocks#batch",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_domain_blocks#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_domain_blocks#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_domain_blocks#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_subscriptions#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_subscriptions#disable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_subscriptions#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_subscriptions#purge",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_subscriptions/accounts#disable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_subscriptions/accounts#enable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_subscriptions/accounts#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_subscriptions/additional_footer_texts#show",
+      "error": "action show was not directly defined in app/controllers/admin/email_subscriptions/additional_footer_texts_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def show found in app/controllers/admin/settings_controller.rb (Admin::SettingsController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "admin/email_subscriptions/additional_footer_texts#update",
+      "error": "action update was not directly defined in app/controllers/admin/email_subscriptions/additional_footer_texts_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def update found in app/controllers/admin/settings_controller.rb (Admin::SettingsController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "admin/email_subscriptions/setups#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/email_subscriptions/setups#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/export_domain_allows#export",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/export_domain_allows#import",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/export_domain_allows#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/export_domain_blocks#export",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/export_domain_blocks#import",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/export_domain_blocks#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/fasp/debug/callbacks#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/fasp/debug/callbacks#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/fasp/debug_calls#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/fasp/providers#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/fasp/providers#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/fasp/providers#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/fasp/providers#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/fasp/providers#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/fasp/registrations#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/fasp/registrations#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/follow_recommendations#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/follow_recommendations#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/instances#clear_delivery_errors",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/instances#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/instances#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/instances#restart_delivery",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/instances#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/instances#stop_delivery",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/instances/moderation_notes#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/instances/moderation_notes#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/invites#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/invites#deactivate_all",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/invites#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/invites#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/ip_blocks#batch",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/ip_blocks#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/ip_blocks#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/ip_blocks#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/relationships#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/relays#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/relays#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/relays#disable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/relays#enable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/relays#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/relays#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/report_notes#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/report_notes#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/reports#assign_to_self",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/reports#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/reports#reopen",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/reports#resolve",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/reports#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/reports#unassign",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/reports/actions#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/reports/actions#preview",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/resets#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/roles#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/roles#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/roles#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/roles#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/roles#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/roles#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/rules#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/rules#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/rules#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/rules#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/rules#move_down",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/rules#move_up",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/rules#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/rules#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/settings/about#show",
+      "error": "action show was not directly defined in app/controllers/admin/settings/about_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def show found in app/controllers/admin/settings_controller.rb (Admin::SettingsController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "admin/settings/about#update",
+      "error": "action update was not directly defined in app/controllers/admin/settings/about_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def update found in app/controllers/admin/settings_controller.rb (Admin::SettingsController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "admin/settings/appearance#show",
+      "error": "action show was not directly defined in app/controllers/admin/settings/appearance_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def show found in app/controllers/admin/settings_controller.rb (Admin::SettingsController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "admin/settings/appearance#update",
+      "error": "action update was not directly defined in app/controllers/admin/settings/appearance_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def update found in app/controllers/admin/settings_controller.rb (Admin::SettingsController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "admin/settings/branding#show",
+      "error": "action show was not directly defined in app/controllers/admin/settings/branding_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def show found in app/controllers/admin/settings_controller.rb (Admin::SettingsController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "admin/settings/branding#update",
+      "error": "action update was not directly defined in app/controllers/admin/settings/branding_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def update found in app/controllers/admin/settings_controller.rb (Admin::SettingsController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "admin/settings/content_retention#show",
+      "error": "action show was not directly defined in app/controllers/admin/settings/content_retention_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def show found in app/controllers/admin/settings_controller.rb (Admin::SettingsController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "admin/settings/content_retention#update",
+      "error": "action update was not directly defined in app/controllers/admin/settings/content_retention_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def update found in app/controllers/admin/settings_controller.rb (Admin::SettingsController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "admin/settings/discovery#show",
+      "error": "action show was not directly defined in app/controllers/admin/settings/discovery_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def show found in app/controllers/admin/settings_controller.rb (Admin::SettingsController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "admin/settings/discovery#update",
+      "error": "action update was not directly defined in app/controllers/admin/settings/discovery_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def update found in app/controllers/admin/settings_controller.rb (Admin::SettingsController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "admin/settings/registrations#show",
+      "error": "action show was not directly defined in app/controllers/admin/settings/registrations_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def show found in app/controllers/admin/settings_controller.rb (Admin::SettingsController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "admin/settings/registrations#update",
+      "error": "action update was not directly defined in app/controllers/admin/settings/registrations_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def update found in app/controllers/admin/settings_controller.rb (Admin::SettingsController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "admin/site_uploads#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/software_updates#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/statuses#batch",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/statuses#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/statuses#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/tags#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/tags#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/tags#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/terms_of_service#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/terms_of_service/distributions#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/terms_of_service/drafts#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/terms_of_service/drafts#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/terms_of_service/generates#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/terms_of_service/generates#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/terms_of_service/histories#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/terms_of_service/previews#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/terms_of_service/tests#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/trends/links#batch",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/trends/links#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/trends/links/preview_card_providers#batch",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/trends/links/preview_card_providers#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/trends/statuses#batch",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/trends/statuses#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/trends/tags#batch",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/trends/tags#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/username_blocks#batch",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/username_blocks#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/username_blocks#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/username_blocks#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/username_blocks#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/username_blocks#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users/roles#show",
+      "error": "action was not directly defined in Admin::Users::RolesController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def show found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "admin/users/roles#update",
+      "error": "action was not directly defined in Admin::Users::RolesController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def update found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "admin/users/two_factor_authentications#destroy",
+      "error": "action was not directly defined in Admin::Users::TwoFactorAuthenticationsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def destroy found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "admin/warning_presets#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/warning_presets#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/warning_presets#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/warning_presets#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/warning_presets#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/webhooks#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/webhooks#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/webhooks#disable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/webhooks#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/webhooks#enable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/webhooks#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/webhooks#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/webhooks#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/webhooks#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/webhooks/secrets#rotate",
+      "error": "action was not directly defined in Admin::Webhooks::SecretsController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def rotate found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "api/fasp/data_sharing/v0/backfill_requests#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/fasp/data_sharing/v0/continuations#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/fasp/data_sharing/v0/event_subscriptions#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/fasp/data_sharing/v0/event_subscriptions#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/fasp/debug/v0/callback/responses#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/fasp/registrations#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/oembed#show",
+      "error": "action was not directly defined in Api::OembedController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Api::OembedController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "api/v1/accounts#block",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts#follow",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts#mute",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts#remove_from_followers",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts#unblock",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts#unfollow",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts#unmute",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts/credentials#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts/credentials#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts/email_subscriptions#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts/endorsements#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts/endorsements#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts/endorsements#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts/familiar_followers#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts/featured_tags#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts/follower_accounts#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts/following_accounts#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts/identity_proofs#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts/lists#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts/lookup#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts/notes#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts/relationships#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts/search#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/accounts/statuses#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/account_actions#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/accounts#approve",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/accounts#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/accounts#enable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/accounts#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/accounts#reject",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/accounts#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/accounts#unsensitive",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/accounts#unsilence",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/accounts#unsuspend",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/canonical_email_blocks#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/canonical_email_blocks#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/canonical_email_blocks#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/canonical_email_blocks#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/canonical_email_blocks#test",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/dimensions#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/domain_allows#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/domain_allows#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/domain_allows#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/domain_allows#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/domain_blocks#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/domain_blocks#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/domain_blocks#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/domain_blocks#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/domain_blocks#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/email_domain_blocks#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/email_domain_blocks#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/email_domain_blocks#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/email_domain_blocks#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/ip_blocks#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/ip_blocks#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/ip_blocks#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/ip_blocks#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/ip_blocks#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/measures#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/reports#assign_to_self",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/reports#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/reports#reopen",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/reports#resolve",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/reports#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/reports#unassign",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/reports#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/retention#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/tags#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/tags#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/tags#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/trends/links#approve",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/trends/links#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/trends/links#reject",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/trends/links/preview_card_providers#approve",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/trends/links/preview_card_providers#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/trends/links/preview_card_providers#reject",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/trends/statuses#approve",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/trends/statuses#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/trends/statuses#reject",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/trends/tags#approve",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/trends/tags#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/admin/trends/tags#reject",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/announcements#dismiss",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/announcements#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/announcements/reactions#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/announcements/reactions#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/annual_reports#generate",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/annual_reports#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/annual_reports#read",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/annual_reports#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/annual_reports#state",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/apps#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/apps/credentials#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/blocks#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/bookmarks#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/collection_items#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/collection_items#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/collection_items#revoke",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/collections#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/collections#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/collections#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/collections#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/collections#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/conversations#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/conversations#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/conversations#read",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/conversations#unread",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/custom_emojis#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/directories#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/domain_blocks#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/domain_blocks#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/domain_blocks#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/domain_blocks/previews#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/donation_campaigns#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/emails/confirmations#check",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/emails/confirmations#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/endorsements#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/favourites#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/featured_tags#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/featured_tags#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/featured_tags#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/featured_tags/suggestions#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/filters#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/filters#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/filters#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/filters#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/filters#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/follow_requests#authorize",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/follow_requests#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/follow_requests#reject",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/followed_tags#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/in_collections#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/instances#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/instances/activity#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/instances/domain_blocks#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/instances/extended_descriptions#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/instances/languages#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/instances/peers#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/instances/privacy_policies#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/instances/rules#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/instances/terms_of_service#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/instances/terms_of_service#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/instances/translation_languages#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/invites#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/lists#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/lists#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/lists#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/lists#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/lists#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/lists/accounts#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/lists/accounts#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/lists/accounts#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/markers#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/markers#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/media#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/media#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/media#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/media#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/mutes#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/notifications#clear",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/notifications#dismiss",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/notifications#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/notifications#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/notifications#unread_count",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/notifications/policies#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/notifications/policies#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/notifications/requests#accept",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/notifications/requests#accept_bulk",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/notifications/requests#dismiss",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/notifications/requests#dismiss_bulk",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/notifications/requests#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/notifications/requests#merged?",
+      "error": "invalid anchor \"api/v1/notifications/requests#merged?\"; expected controller#action with snake_case tokens",
+      "detail": "anchor failed ctxpack's snake_case grammar",
+      "result": "other"
+    },
+    {
+      "anchor": "api/v1/notifications/requests#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/peers/search#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/polls#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/polls/votes#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/preferences#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/profile/avatars#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/profile/headers#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/profiles#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/profiles#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/push/subscriptions#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/push/subscriptions#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/push/subscriptions#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/push/subscriptions#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/reports#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/scheduled_statuses#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/scheduled_statuses#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/scheduled_statuses#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/scheduled_statuses#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/statuses#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/statuses#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/statuses#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/statuses#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/statuses#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/statuses/bookmarks#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/statuses/bookmarks#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/statuses/contexts#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/statuses/favourited_by_accounts#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/statuses/favourites#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/statuses/favourites#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/statuses/histories#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/statuses/interaction_policies#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/statuses/mutes#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/statuses/mutes#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/statuses/pins#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/statuses/pins#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/statuses/quotes#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/statuses/quotes#revoke",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/statuses/reblogged_by_accounts#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/statuses/reblogs#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/statuses/reblogs#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/statuses/sources#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/statuses/translations#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/streaming#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/suggestions#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/suggestions#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/tags#feature",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/tags#follow",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/tags#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/tags#unfeature",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/tags#unfollow",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/timelines/home#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/timelines/link#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/timelines/list#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/timelines/public#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/timelines/tag#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/trends/links#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/trends/statuses#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1/trends/tags#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v1_alpha/async_refreshes#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/admin/accounts#index",
+      "error": "action index was not directly defined in app/controllers/api/v2/admin/accounts_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def index found in app/controllers/api/v1/admin/accounts_controller.rb (Api::V1::Admin::AccountsController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "api/v2/filters#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/filters#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/filters#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/filters#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/filters#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/filters/keywords#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/filters/keywords#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/filters/keywords#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/filters/keywords#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/filters/keywords#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/filters/statuses#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/filters/statuses#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/filters/statuses#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/filters/statuses#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/instances#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/media#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/notifications#clear",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/notifications#dismiss",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/notifications#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/notifications#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/notifications#unread_count",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/notifications/accounts#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/notifications/policies#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/notifications/policies#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/search#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/v2/suggestions#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/web/embeds#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/web/push_subscriptions#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/web/push_subscriptions#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/web/push_subscriptions#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "api/web/settings#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "application#raise_not_found",
+      "result": "resolved"
+    },
+    {
+      "anchor": "auth/acceptances#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "auth/challenges#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "auth/confirmations#confirm_captcha",
+      "result": "resolved"
+    },
+    {
+      "anchor": "auth/registrations#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "auth/sessions/security_key_options#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "auth/setup#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "auth/setup#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "authorize_interactions#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "backups#download",
+      "result": "resolved"
+    },
+    {
+      "anchor": "collection_items#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "collections#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "custom_css#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "disputes/appeals#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "disputes/strikes#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "disputes/strikes#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "email_subscriptions/confirmations#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "emojis#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "filters#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "filters#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "filters#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "filters#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "filters#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "filters#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "filters/statuses#batch",
+      "result": "resolved"
+    },
+    {
+      "anchor": "filters/statuses#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "follower_accounts#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "following_accounts#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "health#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "home#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "instance_actors#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "intents#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "invites#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "invites#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "invites#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "manifests#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "media#player",
+      "result": "resolved"
+    },
+    {
+      "anchor": "media#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "media_proxy#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "oauth/userinfo#show",
+      "error": "action was not directly defined in Oauth::UserinfoController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class Oauth::UserinfoController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "privacy#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "redirect/accounts#show",
+      "error": "action show was not directly defined in app/controllers/redirect/accounts_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def show found in app/controllers/redirect/base_controller.rb (Redirect::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "redirect/collections#show",
+      "error": "action show was not directly defined in app/controllers/redirect/collections_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def show found in app/controllers/redirect/base_controller.rb (Redirect::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "redirect/statuses#show",
+      "error": "action show was not directly defined in app/controllers/redirect/statuses_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def show found in app/controllers/redirect/base_controller.rb (Redirect::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "relationships#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "relationships#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "remote_interaction_helper#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/aliases#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/aliases#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/aliases#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/applications#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/applications#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/applications#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/applications#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/applications#regenerate",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/applications#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/applications#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/deletes#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/deletes#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/exports#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/exports#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/exports/blocked_accounts#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/exports/blocked_domains#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/exports/bookmarks#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/exports/custom_filters#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/exports/following_accounts#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/exports/lists#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/exports/muted_accounts#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/featured_tags#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/featured_tags#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/featured_tags#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/imports#confirm",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/imports#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/imports#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/imports#failures",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/imports#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/imports#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/login_activities#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/migration/redirects#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/migration/redirects#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/migration/redirects#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/migrations#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/migrations#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/pictures#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/preferences/appearance#show",
+      "error": "action show was not directly defined in app/controllers/settings/preferences/appearance_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def show found in app/controllers/settings/preferences/base_controller.rb (Settings::Preferences::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "settings/preferences/appearance#update",
+      "error": "action update was not directly defined in app/controllers/settings/preferences/appearance_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def update found in app/controllers/settings/preferences/base_controller.rb (Settings::Preferences::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "settings/preferences/notifications#show",
+      "error": "action show was not directly defined in app/controllers/settings/preferences/notifications_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def show found in app/controllers/settings/preferences/base_controller.rb (Settings::Preferences::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "settings/preferences/notifications#update",
+      "error": "action update was not directly defined in app/controllers/settings/preferences/notifications_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def update found in app/controllers/settings/preferences/base_controller.rb (Settings::Preferences::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "settings/preferences/other#show",
+      "error": "action show was not directly defined in app/controllers/settings/preferences/other_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def show found in app/controllers/settings/preferences/base_controller.rb (Settings::Preferences::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "settings/preferences/other#update",
+      "error": "action update was not directly defined in app/controllers/settings/preferences/other_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def update found in app/controllers/settings/preferences/base_controller.rb (Settings::Preferences::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "settings/preferences/posting_defaults#show",
+      "error": "action show was not directly defined in app/controllers/settings/preferences/posting_defaults_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def show found in app/controllers/settings/preferences/base_controller.rb (Settings::Preferences::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "settings/preferences/posting_defaults#update",
+      "error": "action update was not directly defined in app/controllers/settings/preferences/posting_defaults_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def update found in app/controllers/settings/preferences/base_controller.rb (Settings::Preferences::BaseController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "settings/privacy#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/privacy#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/profiles#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/profiles#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/sessions#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/two_factor_authentication/confirmations#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/two_factor_authentication/confirmations#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/two_factor_authentication/otp_authentication#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/two_factor_authentication/otp_authentication#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/two_factor_authentication/recovery_codes#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/two_factor_authentication/webauthn_credentials#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/two_factor_authentication/webauthn_credentials#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/two_factor_authentication/webauthn_credentials#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/two_factor_authentication/webauthn_credentials#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/two_factor_authentication/webauthn_credentials#options",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/two_factor_authentication_methods#disable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/two_factor_authentication_methods#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/verifications#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings/verifications#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "severed_relationships#followers",
+      "result": "resolved"
+    },
+    {
+      "anchor": "severed_relationships#following",
+      "result": "resolved"
+    },
+    {
+      "anchor": "severed_relationships#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "shares#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "statuses#activity",
+      "result": "resolved"
+    },
+    {
+      "anchor": "statuses#embed",
+      "result": "resolved"
+    },
+    {
+      "anchor": "statuses#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "statuses_cleanup#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "statuses_cleanup#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "terms_of_service#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "unsubscriptions#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "unsubscriptions#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "well_known/host_meta#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "well_known/node_info#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "well_known/node_info#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "well_known/oauth_metadata#show",
+      "error": "action was not directly defined in WellKnown::OauthMetadataController; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "controller file exists but expected class WellKnown::OauthMetadataController not found (custom inflection, metaprogrammed class, or unconventional nesting)",
+      "result": "other"
+    },
+    {
+      "anchor": "well_known/webfinger#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "wrapstodon#show",
+      "result": "resolved"
+    }
+  ]
+}

@@ -30,6 +30,10 @@ Tier 1 is the only tier that runs in CI. Tiers 0 and 2 are offline experiments a
 
 ## Tier 0 — anchor viability spike
 
+> **Executed 2026-07-05.** 91.0% engine-excluded average across
+> Mastodon/Discourse/Zammad → the ≥ 70% gate passed; proceed as designed.
+> Method, failure taxonomy, and raw data: [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md).
+
 The strictest v0 constraint — the action must be a literal `def <action>` in the conventionally-named controller file — is also the most likely to fail on real apps (concerns, inherited CRUD, engines). This is answerable in an afternoon and should be answered before any packet rendering exists.
 
 Method:

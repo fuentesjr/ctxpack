@@ -36,16 +36,19 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 | Experiment | Status | Notes |
 |---|---|---|
-| Tier 0 anchor viability spike | Next up (before pass 2) | design.md recommends running this before the renderer exists; the ANCH rules are now implemented, so the spike only needs a driver script and 2–3 real Rails apps. |
-| Tier 2 agent A/B | Not started | Gated on Tier 0 and a working end-to-end CLI. |
+| Tier 0 anchor viability spike | **Done** (2026-07-05) | **91.0% engine-excluded average across Mastodon/Discourse/Zammad → ≥ 70% gate passes; proceed as designed.** Full method, taxonomy, and raw data in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md). Zero compiler crashes across 1,967 real-app pairs. |
+| Tier 2 agent A/B | Not started | Tier 0 gate cleared; still gated on a working end-to-end CLI. |
 
 ## Next steps
 
-1. **Tier 0 anchor viability spike** (before pass 2, per `design.md`) —
-   anchor resolution is implemented, so the spike is a driver script over the
-   route tables of 2–3 real Rails apps, classifying every resolution failure.
-   Cheapest way to learn whether the strict `def <action>` constraint
-   survives real apps before building the renderer on top of it.
+1. **Decide on the two cheap ANCH amendments surfaced by Tier 0** before
+   pass 2 freezes FMT wording (see `eval/tier0/RESULTS.md` "Implications"):
+   (a) match the controller class by resolved file rather than exact
+   camelized name — 51 of 169 failures were acronym-inflection class-name
+   mismatches (`ActivityPub`, `AITextTools`, `SMIME`, …) where the literal
+   `def <action>` was present; (b) ANCH-1 grammar for `?`/`!`-suffixed and
+   `_`-prefixed actions. Both are spec amendments + `design.md`
+   reconciliation, not reworks — the 70% gate passed without them.
 2. **Pass 2: implement `packet-format.md`** — renderer + manifest over the
    existing packet object; same delegate → review → fix loop.
 3. **Pass 3: `cli.md`** — decide OptionParser vs Thor at pass start.
@@ -54,6 +57,14 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Decision log
 
+- **2026-07-05** — Tier 0 spike executed per the pre-registered plan:
+  91.0% engine-excluded average (Mastodon 92.2 / Discourse 96.3 /
+  Zammad 84.4) → gate passed, vertical slice proceeds unchanged. Route
+  tables came via the plan's documented fallback (stubbed `routes.rb` eval
+  against real actionpack, no app boot); limitations recorded in
+  `eval/tier0/RESULTS.md`. Failure taxonomy promoted two candidate spec
+  amendments (class-by-file matching, ANCH-1 action grammar) into next
+  steps — recommendations only, not gate-forced rework.
 - **2026-07-05** — Specs README reordered to dependency/build order
   (compilation → format → CLI → evals) and a "Cross-spec contracts" section
   added (packet object schema, code registries, repo stamp timing, root/task
