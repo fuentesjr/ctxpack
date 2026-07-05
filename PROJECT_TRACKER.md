@@ -6,6 +6,17 @@ changes scope. Per-pass technical decisions live in
 [`implementation-notes.md`](implementation-notes.md); rationale lives in
 [`design.md`](design.md).
 
+## Resuming a session
+
+The only prompt a fresh session needs is: **"Continue from
+PROJECT_TRACKER.md."** Concretely, that session reads this file, treats
+"Next step: execution plan" as its work order (if it disagrees with
+"Next steps", Next steps wins), runs the pass per "Working process"
+below, and closes with the end-of-session ritual. Each of those sections
+owns its own altitude: this one is only the bootstrap, "Working process"
+owns the loop mechanics, and the execution plan carries only
+pass-specific content.
+
 ## Working process
 
 Each spec is implemented in its own pass, in the dependency order from
@@ -17,11 +28,18 @@ amended in the spec *and* reconciled with `design.md` in the same change.
 
 Codex plugin mechanics (learned in pass 1): the `codex:codex-rescue` agent is
 a one-shot forwarder — it hands the brief to Codex and returns a task ID
-without waiting. Polling and result retrieval happen from the main session via
-the plugin's companion script (`codex-companion.mjs status|result <task-id>`);
-follow-up fix rounds resume the same Codex session by forwarding a `--resume`
-request. Independent verification (running the suite, checking git state) is
-always done session-side, never trusted from Codex's own summary.
+without waiting. Polling and result retrieval happen from the main session
+via the plugin's companion script at
+`~/.claude/plugins/cache/openai-codex/codex/<version>/scripts/codex-companion.mjs`
+(newest version directory): `status <task-id>` / `result <task-id>`,
+backgrounding a polling loop for long runs. Follow-up fix rounds resume the
+same Codex session by forwarding a `--resume` request. Verification is
+always session-side, never trusted from Codex's own summary: run
+`bundle exec rake test`, check git state, and review the diff
+requirement-by-requirement against the pass's spec codes; route confirmed
+defects back via `--resume` and re-verify before acceptance. Codex owns the
+pass notes in `implementation-notes.md` — confirm they are current before
+accepting the pass.
 
 Dogfooding metz-scan (decided 2026-07-05): `rake metz` runs an advisory
 [metz-scan](https://github.com/fuentesjr/metz-scan) design-pressure scan
@@ -38,8 +56,8 @@ any session that completes the plan's work — rewrites the "Next step:
 execution plan" section below before its final commit — one plan, covering
 only the immediate next step, pointing into this file rather than
 duplicating it. To make that self-enforcing, every execution plan's final
-step is: rewrite this section for the work that follows. Sessions open
-with: read this tracker, then execute that plan.
+step is: rewrite this section for the work that follows. (How a fresh
+session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
@@ -54,19 +72,12 @@ Written 2026-07-05 for Next steps item 1 (Pass 3: implement
 2. Decide OptionParser vs Thor at pass start (tracker leans OptionParser;
    prefer stdlib unless `cli.md` demands otherwise) and record the decision
    in the Decision log.
-3. Delegate to Codex per the plugin mechanics in "Working process" above:
-   brief = root discovery, flags, artifact naming/paths, exit codes over
-   the existing compile+render APIs, TDD, no changes to compilation or
-   rendering behavior.
-4. Poll/fetch via the companion script; verify session-side:
-   `bundle exec rake test` and a requirement-by-requirement review of the
-   diff against the CLI-* codes.
-5. Route confirmed defects back to the same Codex session (`--resume`);
-   re-verify before acceptance.
-6. Confirm Codex kept `implementation-notes.md` current (it owns the pass
-   notes); update the Status/Next steps/Decision log sections here.
-7. Ask before committing; rewrite this section for pass 4 first (per the
-   end-of-session ritual).
+3. Run the standard loop per "Working process". Brief = root discovery,
+   flags, artifact naming/paths, exit codes over the existing
+   compile+render APIs, TDD, no changes to compilation or rendering
+   behavior. Spec codes for the review: CLI-*.
+4. Close with the end-of-session ritual: update Status/Next steps/Decision
+   log here, rewrite this section for pass 4, ask before committing.
 
 ## Status
 
