@@ -3,7 +3,9 @@ Gem::Specification.new do |spec|
   spec.version = "0.1.0"
   spec.summary = "Deterministic Rails context packet compiler"
   spec.authors = ["ctxpack contributors"]
-  spec.files = Dir["lib/**/*.rb"]
+  spec.files = Dir["lib/**/*.rb"] + Dir["exe/*"]
+  spec.bindir = "exe"
+  spec.executables = ["ctxpack"]
   spec.require_paths = ["lib"]
   spec.required_ruby_version = ">= 3.2"
 

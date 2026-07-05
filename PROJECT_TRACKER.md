@@ -51,6 +51,17 @@ with enough detail to file upstream GitHub issues — we are dogfooding the
 tool, not just consuming it. When pass 4 stands up CI, add a non-blocking
 metz step with the pinned version.
 
+Corpus re-scan at pass boundaries (decided 2026-07-05): any pass that
+changes compiler behavior re-runs the Tier 0 classifier at the spike SHAs
+(Mastodon/Discourse/Zammad; method in
+[`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md)) and diffs per-anchor
+resolution against the last recorded run before acceptance. Unlike
+`rake metz` this is not purely advisory: every per-anchor regression must
+be either predicted by the change (as in the ANCH-amendment re-run, which
+flipped exactly the 53 taxonomy-predicted pairs) or routed back as a
+defect. Passes that don't touch compiler behavior (e.g. the CLI pass)
+skip it.
+
 End-of-session ritual: any session that changes the plan — and, always,
 any session that completes the plan's work — rewrites the "Next step:
 execution plan" section below before its final commit — one plan, covering
@@ -61,23 +72,26 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Written 2026-07-05 for Next steps item 1 (Pass 3: implement
-[`specs/cli.md`](specs/cli.md)). If this section disagrees with
-"Next steps", Next steps wins.
+Written 2026-07-05 for Next steps item 1 (Pass 4: implement
+[`specs/fixture-evals.md`](specs/fixture-evals.md)). If this section
+disagrees with "Next steps", Next steps wins.
 
-1. Read `specs/cli.md` plus the "Cross-spec contracts" section of
-   `specs/README.md`. The building blocks already exist: `Ctxpack.compile`
-   (pass 1) and `Ctxpack.render_markdown` / `Ctxpack.render_manifest`
-   (pass 2); the CLI wires them behind a command.
-2. Decide OptionParser vs Thor at pass start (tracker leans OptionParser;
-   prefer stdlib unless `cli.md` demands otherwise) and record the decision
-   in the Decision log.
-3. Run the standard loop per "Working process". Brief = root discovery,
-   flags, artifact naming/paths, exit codes over the existing
-   compile+render APIs, TDD, no changes to compilation or rendering
-   behavior. Spec codes for the review: CLI-*.
+1. Read `specs/fixture-evals.md` plus the "Cross-spec contracts" section of
+   `specs/README.md`. The building blocks already exist: the end-to-end CLI
+   (pass 3), the `minitest_basic` fixture at its EVAL-2 path (pass 1), and
+   the JSON manifest for EVAL-5 assertions (pass 2).
+2. Run the standard loop per "Working process". Brief = YAML case loader
+   and runner (EVAL-4..EVAL-9), determinism double-run check (EVAL-7),
+   re-runnability as a hard constraint (EVAL-11), and the CI job — Tier 1
+   only (EVAL-10) plus the non-blocking pinned metz step. Spec codes for
+   the review: EVAL-*.
+3. At review time, weigh the metz-scan pass-boundary findings (compiler
+   504 lines, renderer 216, CLI 145 — see Known debt) — decide whether a
+   split refactor rides along or stays deferred; don't let it creep into
+   the pass itself.
 4. Close with the end-of-session ritual: update Status/Next steps/Decision
-   log here, rewrite this section for pass 4, ask before committing.
+   log here, rewrite this section for what follows (likely the Tier 2
+   A/B), ask before committing.
 
 ## Status
 
@@ -85,7 +99,7 @@ Written 2026-07-05 for Next steps item 1 (Pass 3: implement
 |---|---|---|---|
 | 1 | [`packet-compilation.md`](specs/packet-compilation.md) | **Done** (2026-07-05) | `Ctxpack.compile(app_root:, anchor:, task:)` → internal packet object. ANCH amendment mini-pass landed same day (class-by-file matching, tolerant action grammar). 25 tests / 101 assertions green. |
 | 2 | [`packet-format.md`](specs/packet-format.md) | **Done** (2026-07-05) | `Ctxpack.render_markdown` / `Ctxpack.render_manifest` over the pass 1 packet object. One review fix round (FMT-5 marker drift, Anchor labels). 34 tests / 193 assertions green. |
-| 3 | [`cli.md`](specs/cli.md) | Not started | Root discovery, flags, artifact naming/paths, exit codes. OptionParser vs Thor undecided (lean OptionParser). |
+| 3 | [`cli.md`](specs/cli.md) | **Done** (2026-07-05) | `Ctxpack::CLI` + `exe/ctxpack` over OptionParser, wiring the pass 1/2 APIs. One review fix round (CLI-14 reminder on implicit `.ctxpack/` creation, CLI-8 anchor-only derivation test). 47 tests / 274 assertions green. |
 | 4 | [`fixture-evals.md`](specs/fixture-evals.md) | Not started | YAML case runner + CI wiring. `minitest_basic` fixture tree already authored in pass 1 at its EVAL-2 path. |
 
 Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
@@ -93,18 +107,64 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 | Experiment | Status | Notes |
 |---|---|---|
 | Tier 0 anchor viability spike | **Done** (2026-07-05) | **91.0% engine-excluded average across Mastodon/Discourse/Zammad → ≥ 70% gate passes; proceed as designed.** Post-ANCH-amendment re-run: **93.9%**, zero regressions (addendum in RESULTS.md). Full method, taxonomy, and raw data in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md). Zero compiler crashes across 1,967 real-app pairs. |
-| Tier 2 agent A/B | Not started | Tier 0 gate cleared; still gated on a working end-to-end CLI. |
+| Tier 2 agent A/B | Not started | Tier 0 gate cleared; CLI gate cleared by pass 3. Sequenced after pass 4. Harness contract: re-runnable, one JSONL run record per session (`eval-plan.md`, Tier 2 setup). |
 
 ## Next steps
 
-1. **Pass 3: `cli.md`** — decide OptionParser vs Thor at pass start; same
-   delegate → review → fix loop over the existing compile+render APIs.
-2. **Pass 4: `fixture-evals.md`** — YAML runner, CI job (Tier 1 only, per
-   EVAL-10). Unblocks the Tier 2 agent A/B (needs the end-to-end CLI from
-   pass 3).
+1. **Pass 4: `fixture-evals.md`** — YAML runner, CI job (Tier 1 only, per
+   EVAL-10; add the non-blocking metz step with the pinned version, per the
+   metz-scan decision). Design constraint (EVAL-11, decision log
+   2026-07-05): the runner must be re-runnable at any SHA, not wired to a
+   one-shot setup — the Tier 2 harness follows the same principle.
+2. **Tier 2 agent A/B** (offline, `eval-plan.md`) — both gates cleared
+   (Tier 0, end-to-end CLI); run after pass 4. Harness emits one JSONL run
+   record per session.
 
 ## Decision log
 
+- **2026-07-05** — Pass 3 landed via the Codex delegation loop. OptionParser
+  chosen over Thor at pass start (spec doesn't demand Thor; keeps prism the
+  only runtime dependency). `Ctxpack::CLI#run(argv)` behind a thin
+  `exe/ctxpack`, with injectable stdout/stderr/cwd/clock for in-process
+  tests; gemspec ships the executable. Session-side review verified all 19
+  CLI requirements and confirmed one defect, fixed in one `--resume` round:
+  the CLI-14 gitignore reminder was skipped when `.ctxpack/` was created
+  implicitly as a parent (e.g. `--dir .ctxpack/sub`) — directory creation
+  now compares `.ctxpack/` existence before/after instead of matching
+  created dirnames. The same round added the missing CLI-8 anchor-only
+  derivation test. Corpus re-scan skipped per its own rule (no compiler
+  behavior touched). Suite: 47 tests / 274 assertions green.
+- **2026-07-05** — Eval platforms (promptfoo, Langfuse, Braintrust) evaluated
+  and deferred. Rationale: Tiers 0/1 have no LLM output to score — their value
+  is being boring, deterministic, and CI-native (EVAL-8) — and Tier 2's
+  metrics are custom mechanical scorers over transcripts and diffs that no
+  platform provides; what a platform would add (run storage, comparison UI)
+  doesn't pay for itself at 18–30 pre-registered sessions, and
+  prompt-iteration-oriented tooling pressures against the pre-registered
+  discipline. Revisit trigger: the eval-plan decision rule "Tier 2 support →
+  expand to more tasks and a second app," when bookkeeping pain is real and
+  specific. If adopted then, Braintrust is the closest fit (experiment/dataset
+  model, custom scorers); promptfoo is the weakest (prompt-matrix testing;
+  the wrapper prompt is fixed across arms by design). Hedge adopted now
+  instead: the Tier 2 harness emits a stable JSONL run record per session
+  (recorded in `eval-plan.md`, Tier 2 setup), so any later platform adoption
+  is an import problem, not a redesign.
+- **2026-07-05** — Three feedback-loop decisions adopted (in-session
+  discussion): (a) the corpus re-scan is now a standing pass-boundary step
+  for compiler-behavior changes (mechanics in "Working process" above) —
+  it had already run twice as habit and paid off both times; (b) pass 4's
+  eval runner must be designed re-runnable at any SHA, and the Tier 2
+  harness follows the same principle, so Tier 2 becomes a repeatable
+  usefulness-regression check at release boundaries rather than a one-shot
+  gate; (c) packet-vs-diff coverage — files the completed task actually
+  touched vs. files in the packet, read as recall/precision — is the
+  post-v0 north-star metric and the designated evidence source for
+  validating the LIM-1 limits. No telemetry or `ctxpack feedback` command
+  gets built until real usage exists to measure. Reconciled into the durable
+  docs in the same change: EVAL-11 (re-runnable runner) added to
+  `specs/fixture-evals.md`; `design.md` ("Simple v0 evals", "v0 packet
+  limits") and `eval-plan.md` (Tier 0 classifier reuse, Tier 2 re-runnable
+  harness) updated to match.
 - **2026-07-05** — Pass 2 landed via the Codex delegation loop.
   `Ctxpack.render_markdown` / `Ctxpack.render_manifest` render the pass 1
   packet object; snippets are read at render time from `packet.app_root`
@@ -172,14 +232,17 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 ## Known debt / open questions
 
 - LIM-1 values (8/4/2/120) are unvalidated guesses until Tier 0/Tier 2 produce
-  evidence (tracked in `design.md`).
+  evidence (tracked in `design.md`). Long-term, packet-vs-diff coverage is the
+  designated evidence source (decision log 2026-07-05).
 - The `max_total_files` guard is untested because it is unreachable by v0
   construction (see `implementation-notes.md`).
 - Generic validators that auto-load every `*_test.rb` will trip over the
   static fixture tests under `test/fixtures/apps/`; the Rake task excludes
   them deliberately (TEST-4: content is never read).
-- metz-scan baseline (2026-07-05, advisory): `Ctxpack::Compiler` is flagged
-  `ClassesTooLong` [503/100] plus 24 long methods. Splitting the compiler
-  (e.g. callbacks / constants / test-candidates collaborators) is a
+- metz-scan baseline (2026-07-05, advisory; re-scanned at the pass 3
+  boundary): `Ctxpack::Compiler` is flagged `ClassesTooLong` [504/100],
+  `MarkdownRenderer` [216/100], and now `Ctxpack::CLI` [145/100], plus long
+  methods across all three. Splitting the compiler (e.g. callbacks /
+  constants / test-candidates collaborators) remains the highest-pressure
   candidate refactor to weigh at a pass boundary, not mid-pass; the class
   will grow again when future reason codes land.

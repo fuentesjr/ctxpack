@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require "ctxpack/cli"
+
+exit Ctxpack::CLI.new.run(ARGV)

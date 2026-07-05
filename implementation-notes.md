@@ -185,3 +185,98 @@ paths, root discovery, flags, or dependencies were added.
 - Key extraction decisions: stubbed `routes.rb` eval with the app's own pinned actionpack (no app boot, per eval-plan's documented fallback); routes drawn as production env; unique-per-call stub stringification plus an `add_route` name-sanitizing shim, because stub-derived route names otherwise collide or fail validation; `SpikeStub#+` must return a real String — `Mapper#map_match` silently drops paths that are neither String nor Symbol (cost one debugging round on Zammad, 147→596 pairs).
 - Verification: 45 randomly sampled "resolved" anchors independently re-checked by grep (0 false positives); every inherited/concern label carries the file that satisfied the chase; `rake test` still 20 runs / 0 failures.
 - Scope boundary: spike classifies anchors only; no lib/ changes. The two candidate ANCH amendments it surfaced are tracked in PROJECT_TRACKER next steps, not implemented.
+
+## Pass 3: CLI and artifacts
+
+Implemented only the v0 `ctxpack packet` command and artifact writing layer.
+No compilation, packet object, Markdown rendering, or manifest rendering behavior
+was changed in this pass.
+
+### Decisions
+
+- Public CLI seam is `Ctxpack::CLI#run(argv)`, returning an integer exit
+  status and accepting injectable `stdout`, `stderr`, `cwd`, and `clock` for
+  in-process tests.
+- `exe/ctxpack` is intentionally thin: it requires `ctxpack/cli`, delegates to
+  `Ctxpack::CLI`, and exits with the returned status.
+- Root discovery walks upward from `cwd` to the nearest ancestor containing
+  `config/application.rb`. Relative `--dir` and `--out` values are resolved
+  against that root, and printed success paths are root-relative when the output
+  lives under the root.
+- Default artifact names use the spec's storage-only UTC timestamp plus a
+  deterministic derived name. Explicit names are validated with
+  `^[A-Za-z0-9_]+$` and normalized with a local Rails-style `underscore`
+  implementation instead of adding ActiveSupport.
+- Overwrite checks run before compilation. Computed Markdown and manifest paths
+  fail if either target already exists unless `--force` is passed. Explicit
+  `--out` permits overwrite without `--force`, per CLI-7/CLI-11.
+- `.ctxpack/` creation prints a one-line gitignore reminder only when this CLI
+  invocation creates that root-level directory. The CLI never prompts and never
+  edits `.gitignore`.
+- `Ctxpack::Error` is rescued at the CLI boundary, preserving the compiler's
+  specific failure message and adding Rails-native `bin/rails routes -g` /
+  `-c` guidance.
+
+### Scope Boundaries
+
+- No `ctxpack routes` command, route helper mode, route-string parsing,
+  interactive picker, or internal limit flags were added.
+- CLI tests build temporary Rails-shaped app roots by copying
+  `test/fixtures/apps/minitest_basic/` and adding `config/application.rb` in
+  the tempdir; the shared fixture tree itself remains unchanged.
+- The gemspec now ships `exe/ctxpack` via `spec.bindir = "exe"` and
+  `spec.executables = ["ctxpack"]`.
+
+### Requirement Coverage
+
+- CLI-1/CLI-2/CLI-18/CLI-19:
+  `CLITest#test_packet_rejects_route_helper_input_and_routes_command`.
+- CLI-3/CLI-12/DET-5:
+  `CLITest#test_packet_discovers_root_from_nested_cwd_and_writes_default_artifact`.
+- CLI-4/CLI-8/CLI-8a:
+  `CLITest#test_packet_discovers_root_from_nested_cwd_and_writes_default_artifact`,
+  `#test_packet_derives_name_from_namespaced_anchor_when_task_is_omitted`,
+  `#test_packet_caps_derived_name_at_80_characters`.
+- CLI-5/CLI-8b:
+  `CLITest#test_packet_normalizes_explicit_camel_case_name`,
+  `#test_packet_rejects_invalid_explicit_name`.
+- CLI-6/CLI-10/CLI-15/MAN-1:
+  `CLITest#test_packet_writes_manifest_next_to_markdown_and_prints_both_paths`.
+- CLI-7/CLI-9/CLI-11:
+  `CLITest#test_packet_refuses_to_overwrite_default_artifact_unless_forced`,
+  `#test_packet_out_path_overwrites_without_force_and_takes_precedence_over_dir`.
+- CLI-13/CLI-14:
+  `CLITest#test_packet_prints_gitignore_reminder_only_when_creating_default_ctxpack_dir`,
+  `#test_packet_prints_gitignore_reminder_when_ctxpack_dir_is_created_as_parent`.
+- CLI-16/CLI-17:
+  `CLITest#test_packet_maps_compilation_errors_to_nonzero_status_and_routes_hint`.
+
+### Verification
+
+- Red/green proof: first CLI test failed with
+  `LoadError: cannot load such file -- ctxpack/cli`; after adding
+  `Ctxpack::CLI`, the test passed.
+- Pass 3 review red/green proof:
+  `CLITest#test_packet_prints_gitignore_reminder_when_ctxpack_dir_is_created_as_parent`
+  first failed because stdout omitted the `.ctxpack/` gitignore reminder; after
+  changing directory creation to compare `.ctxpack/` existence before and after
+  `mkdir_p`, it passed.
+- Focused CLI suite: `bundle exec ruby -Itest test/ctxpack/cli_test.rb` passes:
+  13 runs, 81 assertions, 0 failures, 0 errors, 0 skips.
+- Full suite: `bundle exec rake test` passes: 47 runs, 274 assertions, 0
+  failures, 0 errors, 0 skips.
+- Strategic Software Design validator:
+  `ruby /Users/sal/Projects/strategic-software-design/scripts/validate.rb --type feature --task-file /private/tmp/ctxpack_pass3_task_statement.txt`
+  passed `slice_tests`, `red_green`, and `todo`; `lint` was skipped.
+  Warnings:
+  - `rubocop run errored - Lint/Security gate skipped: Error: unrecognized cop or department Metz found in .rubocop.yml`
+  - `head metrics unavailable (rubocop run failed); deltas omitted`
+- Pass 3 review validator rerun: the repository `.git` directory is read-only
+  in this sandbox, so the validator was run against a `/private/tmp` copy of
+  the working tree with `--type bugfix`; it passed `slice_tests`,
+  `red_green`, and `todo`, with the same RuboCop/metrics warnings above.
+- The validator marked design review as required because 5 files changed, the
+  diff exceeded 50 changed lines, and `lib/ctxpack/cli.rb` adds a public
+  interface. The available sub-agent tool policy in this session forbids
+  spawning agents unless the user explicitly asks for delegation, so the
+  clean-context design review was not run.
