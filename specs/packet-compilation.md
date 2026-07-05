@@ -22,7 +22,12 @@ accounts#upgrade
 admin/accounts#upgrade
 ```
 
-Tokens are snake_case, matching the shape shown by `bin/rails routes`.
+Tokens are snake_case, matching the shape shown by `bin/rails routes`. The
+action token additionally tolerates a trailing `?` or `!` and a leading `_`
+(`tickets#merged?`, `pages#_show_secure_deprecated`) — Ruby method-name
+shapes that occur in real route tables. **[amended: originally strict
+snake_case for both tokens; the Tier 0 spike found real routed actions
+rejected only by the grammar]**
 
 **ANCH-2.** The anchor maps to a controller file purely by convention:
 
@@ -31,10 +36,24 @@ accounts#upgrade       → app/controllers/accounts_controller.rb
 admin/accounts#upgrade → app/controllers/admin/accounts_controller.rb
 ```
 
-No route table is consulted; Rails is never booted.
+No route table is consulted; Rails is never booted. Within the resolved
+file, the controller class is the first class (in source order) whose
+fully-qualified name matches the anchor's controller path
+segment-by-segment — case- and underscore-insensitively, after dropping the
+final segment's `Controller` suffix — so `ai_text_tools#index` accepts
+`AITextToolsController`. If no class in the file matches, resolution fails
+with a message naming the file. **[amended: originally the class was looked
+up by exact camelization of the anchor (`ai_text_tools` →
+`AiTextToolsController`), which fails for acronym-styled classes — their
+inflections live in per-app initializers v0 never loads. The file was
+already resolved by convention, so the class it defines is trusted
+instead.]**
 
 **ANCH-3.** The action MUST be directly defined as `def <action>` in the
-resolved controller file. Inherited actions, concern-defined actions, and
+resolved controller class (ANCH-2) in the resolved controller file.
+**[amended: "file" narrowed to "class" when ANCH-2 gained class-by-file
+matching; unchanged in effect for conventionally named classes]**
+Inherited actions, concern-defined actions, and
 metaprogrammed actions are unresolvable in v0. Method visibility is ignored:
 any direct `def <action>` matches, whether or not it follows a `private` or
 `protected` marker. (The anchor comes from `bin/rails routes`, so a routable
@@ -190,6 +209,10 @@ of the packet.
    controller token must be present, and the action's tokens must appear as a
    contiguous in-order subsequence (`bulk_update` matches
    `accounts_bulk_update_flow_test.rb`, not `bulk_accounts_update_test.rb`).
+   Action tokens are taken with any trailing `?`/`!` stripped and the empty
+   token from a leading `_` dropped (`merged?` matches
+   `oddities_merged_test.rb`). **[amended: consequence of the ANCH-1
+   action-grammar amendment — filenames cannot carry `?`/`!`]**
    Multiple matches are sorted lexicographically.
 
 **TEST-2.** The combined list is truncated at the max-test-files limit

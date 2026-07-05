@@ -124,3 +124,27 @@ git clone --depth 1 <app> && git -C <app> rev-parse HEAD   # SHAs above
 GEM_HOME=<isolated> ruby eval/tier0/extract_routes.rb <app_root> <actionpack_version> routes/<app>.json
 ruby eval/tier0/classify_anchors.rb <app_root> routes/<app>.json results/<app>.json
 ```
+
+## Post-amendment addendum (2026-07-05)
+
+The two promoted amendments (class-by-file matching, ANCH-1 grammar
+tolerance — see PROJECT_TRACKER decision log) were implemented the same day
+and the classifier re-run against the same three apps at the same SHAs,
+using the committed route tables (no re-extraction; apps shallow-fetched at
+the recorded commits).
+
+| App | Pairs | Resolved | Rate | Δ resolved |
+|---|---|---|---|---|
+| Mastodon | 616 | 584 | 94.8% | +16 |
+| Discourse | 755 | 728 | 96.4% | +1 |
+| Zammad | 596 | 539 | 90.4% | +36 |
+| **Average** | | | **93.9%** | |
+
+Exactly 53 pairs flipped to resolved — the 51 class-name inflection
+mismatches plus the 2 grammar-rejected actions from the failure taxonomy
+above. A per-anchor diff against the original results confirmed zero
+regressions (no previously resolved pair now fails), and compiler crashes
+remain zero. This matches the ~94% prediction in "Implications" item 1.
+The remaining failures are the inherited/concern/metaprogrammed families
+that the amendments deliberately did not touch. Per-anchor data:
+[`results/post_amendment/`](results/post_amendment/).

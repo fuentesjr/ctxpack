@@ -56,4 +56,44 @@ class AnchorResolutionTest < Minitest::Test
 
     assert_includes error.message, "invalid anchor"
   end
+
+  def test_anch_1_accepts_action_with_trailing_question_mark
+    packet = Ctxpack.compile(
+      app_root: fixture_app("minitest_basic"),
+      anchor: "oddities#merged?"
+    )
+
+    assert_equal "app/controllers/oddities_controller.rb", packet.entrypoint.file
+    assert_equal "merged?", packet.entrypoint.action
+  end
+
+  def test_anch_1_accepts_action_with_leading_underscore
+    packet = Ctxpack.compile(
+      app_root: fixture_app("minitest_basic"),
+      anchor: "oddities#_show_secure_deprecated"
+    )
+
+    assert_equal "app/controllers/oddities_controller.rb", packet.entrypoint.file
+    assert_equal "_show_secure_deprecated", packet.entrypoint.action
+  end
+
+  def test_anch_2_matches_acronym_class_defined_in_resolved_file
+    packet = Ctxpack.compile(
+      app_root: fixture_app("minitest_basic"),
+      anchor: "ai_text_tools#index"
+    )
+
+    assert_equal "app/controllers/ai_text_tools_controller.rb", packet.entrypoint.file
+    assert_equal "AITextToolsController", packet.entrypoint.controller
+    assert_equal "index", packet.entrypoint.action
+  end
+
+  def test_anch_2_4_file_without_matching_controller_class_fails_exactly
+    error = assert_raises(Ctxpack::Error) do
+      Ctxpack.compile(app_root: fixture_app("minitest_basic"), anchor: "mismatched#show")
+    end
+
+    assert_includes error.message, "app/controllers/mismatched_controller.rb"
+    assert_includes error.message, "no controller class matching mismatched"
+  end
 end

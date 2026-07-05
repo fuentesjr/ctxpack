@@ -37,8 +37,9 @@ module Ctxpack
 
       source = File.read(controller_absolute_path)
       program = parse_ruby(source, controller_relative_path)
-      controller_name = controller_class_name(parsed_anchor.controller_path)
-      controller_class = find_class(program, controller_name)
+      controller_class_info = find_controller_class(program, parsed_anchor.controller_path, controller_relative_path)
+      controller_name = controller_class_info.fetch(:name)
+      controller_class = controller_class_info.fetch(:node)
       methods = direct_methods(controller_class)
       action_node = methods[parsed_anchor.action]
 
@@ -69,7 +70,7 @@ module Ctxpack
     private
 
     def parse_anchor(anchor)
-      unless anchor.match?(/\A[a-z][a-z0-9_]*(?:\/[a-z][a-z0-9_]*)*#[a-z][a-z0-9_]*\z/)
+      unless anchor.match?(/\A[a-z][a-z0-9_]*(?:\/[a-z][a-z0-9_]*)*#_?[a-z][a-z0-9_]*[?!]?\z/)
         raise Error, "invalid anchor #{anchor.inspect}; expected controller#action with snake_case tokens"
       end
 
@@ -81,17 +82,6 @@ module Ctxpack
       File.join("app", "controllers", "#{controller_path}_controller.rb").tr(File::SEPARATOR, "/")
     end
 
-    def controller_class_name(controller_path)
-      segments = controller_path.split("/")
-      class_segments = segments[0...-1].map { |segment| camelize(segment) }
-      class_segments << "#{camelize(segments.last)}Controller"
-      class_segments.join("::")
-    end
-
-    def camelize(value)
-      value.split("_").map { |part| part[0].upcase + part[1..] }.join
-    end
-
     def parse_ruby(source, path)
       result = Prism.parse(source)
       if result.failure?
@@ -101,9 +91,19 @@ module Ctxpack
       result.value
     end
 
-    def find_class(program, expected_name)
-      find_classes(program).find { |class_info| class_info.fetch(:name) == expected_name }&.fetch(:node) ||
-        raise(Error, "action was not directly defined in #{expected_name}; inherited, concern-defined, and metaprogrammed actions are unsupported in v0")
+    def find_controller_class(program, controller_path, relative_path)
+      expected_segments = controller_path.split("/").map { |segment| segment.delete("_") }
+      find_classes(program).find { |class_info| controller_class_match?(class_info.fetch(:name), expected_segments) } ||
+        raise(Error, "no controller class matching #{controller_path} was defined in #{relative_path}")
+    end
+
+    def controller_class_match?(class_name, expected_segments)
+      segments = class_name.delete_prefix("::").split("::")
+      return false unless segments.length == expected_segments.length
+      return false unless segments.last.end_with?("Controller")
+
+      normalized = segments[0...-1] + [segments.last.delete_suffix("Controller")]
+      normalized.map { |segment| segment.downcase.delete("_") } == expected_segments
     end
 
     def find_classes(node, namespace = [])
@@ -549,7 +549,7 @@ module Ctxpack
       return [] unless Dir.exist?(integration_dir)
 
       controller_token = controller_path.split("/").last
-      action_tokens = action.split("_")
+      action_tokens = action.sub(/[?!]\z/, "").split("_").reject(&:empty?)
 
       Dir.glob(File.join(integration_dir, "*_test.rb")).map do |absolute_path|
         relative_path = relative_path(absolute_path)

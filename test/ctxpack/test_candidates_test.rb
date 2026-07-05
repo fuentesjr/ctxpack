@@ -31,6 +31,20 @@ class TestCandidatesTest < Minitest::Test
     end)
   end
 
+  def test_test_1_rule_2_normalizes_action_tokens_from_extended_grammar
+    merged = Ctxpack.compile(
+      app_root: fixture_app("minitest_basic"),
+      anchor: "oddities#merged?"
+    )
+    deprecated = Ctxpack.compile(
+      app_root: fixture_app("minitest_basic"),
+      anchor: "oddities#_show_secure_deprecated"
+    )
+
+    assert_equal ["test/integration/oddities_merged_test.rb"], merged.tests.map(&:path)
+    assert_equal ["test/integration/oddities_show_secure_deprecated_test.rb"], deprecated.tests.map(&:path)
+  end
+
   def test_test_4_5_path_rules_only_and_explicit_no_candidates_state
     packet = Ctxpack.compile(
       app_root: fixture_app("minitest_basic"),

@@ -70,6 +70,43 @@ Cross-spec packet object coverage:
 - `bundle exec rake test` passes: 20 runs, 87 assertions, 0 failures, 0 errors, 0 skips.
 - The Rake task excludes `test/fixtures/` because those files are static fixture inputs, not ctxpack's own test suite. Generic validation tools that auto-load every changed `*_test.rb` need an equivalent fixture-directory exclusion; the strategic validator used here has no path-exclude option and reports those fixture files as load failures once the shims are removed, while its red-green, lint, and pending-comment gates pass with zero warnings.
 
+## ANCH amendment mini-pass (2026-07-05)
+
+Implemented in-session (deliberate deviation from the Codex delegation loop;
+see tracker decision log). Red-green: 5 new tests written first, all failing
+for the right reasons, then the smallest compiler change.
+
+- ANCH-1 grammar: anchor regex action part is now `_?[a-z][a-z0-9_]*[?!]?` —
+  one optional leading underscore, one optional trailing `?`/`!`, matching
+  the two shapes the Tier 0 spike found in real route tables.
+- Class-by-file matching (ANCH-2/3): `find_class` (exact camelized-name
+  lookup) replaced by `find_controller_class` — first class in source order
+  whose fully-qualified name matches the anchor path segment-by-segment,
+  case- and underscore-insensitively, with the final segment's `Controller`
+  suffix dropped. Root-qualified class names (`::Foo::BarController`) are
+  normalized before comparison. Segment-count equality is required, so a
+  flat class in a namespaced controller file does not match (preserves
+  ANCH-4 exactness). `camelize`/`controller_class_name` deleted;
+  `entrypoint.controller` and the constant resolver's lexical namespace now
+  come from the class actually found in the file.
+- New failure mode: file exists but no class matches → `Ctxpack::Error`
+  "no controller class matching <path> was defined in <file>". The Tier 0
+  classifier gained a case mapping this message to `other` with detail.
+- TEST-1 ripple: integration-match action tokens strip a trailing `?`/`!`
+  and drop the empty token from a leading `_`; otherwise the extended
+  grammar could never match rule 2 (filenames cannot carry `?`). Spec
+  amended with a one-sentence note.
+- New coverage: ANCH-1 — `#test_anch_1_accepts_action_with_trailing_question_mark`,
+  `#test_anch_1_accepts_action_with_leading_underscore`; ANCH-2 —
+  `#test_anch_2_matches_acronym_class_defined_in_resolved_file`; ANCH-2/4 —
+  `#test_anch_2_4_file_without_matching_controller_class_fails_exactly`;
+  TEST-1 — `TestCandidatesTest#test_test_1_rule_2_normalizes_action_tokens_from_extended_grammar`.
+  New fixtures: `ai_text_tools_controller.rb` (acronym class),
+  `oddities_controller.rb` (odd action names), `mismatched_controller.rb`
+  (non-matching class), two `oddities_*` integration test stubs.
+- Verification: `bundle exec rake test` — 25 runs, 101 assertions, 0
+  failures, 0 errors, 0 skips.
+
 ## Tier 0 spike (2026-07-05)
 
 - Driver lives in `eval/tier0/` (`extract_routes.rb`, `classify_anchors.rb`); results and rationale in `eval/tier0/RESULTS.md`. Not part of the gem or CI.

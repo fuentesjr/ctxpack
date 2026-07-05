@@ -81,7 +81,11 @@ accounts#upgrade       → app/controllers/accounts_controller.rb
 admin/accounts#upgrade → app/controllers/admin/accounts_controller.rb
 ```
 
-The action must be directly defined as `def upgrade` in the resolved controller file. If the controller file or direct action method cannot be found, v0 should fail clearly and explain the unsupported case instead of guessing.
+Anchor tokens are snake_case as printed by `bin/rails routes`, with one tolerance learned from the Tier 0 spike: real route tables contain actions like `merged?` and `_show_secure_deprecated`, so the action token admits a trailing `?`/`!` and a leading `_`.
+
+The controller class is identified *within* the conventionally resolved file, not by camelizing the anchor: the spike showed the dominant failure mode was acronym-styled class names (`AITextTools`, `ActivityPub`) whose inflections live in per-app initializers that v0 never loads. Since the file was already found by exact convention, ctxpack accepts the class defined there whose name matches the anchor path underscore-insensitively, instead of guessing the name and missing.
+
+The action must be directly defined as `def upgrade` in that controller class. If the controller file, a matching controller class, or the direct action method cannot be found, v0 should fail clearly and explain the unsupported case instead of guessing.
 
 Out of scope for v0 anchor resolution:
 

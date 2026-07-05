@@ -23,41 +23,41 @@ follow-up fix rounds resume the same Codex session by forwarding a `--resume`
 request. Independent verification (running the suite, checking git state) is
 always done session-side, never trusted from Codex's own summary.
 
-End-of-session ritual: any session that changes the plan rewrites the
-"Next step: execution plan" section below before its final commit — one
-plan, covering only the immediate next step, pointing into this file
-rather than duplicating it. Sessions open with: read this tracker, then
-execute that plan.
+End-of-session ritual: any session that changes the plan — and, always,
+any session that completes the plan's work — rewrites the "Next step:
+execution plan" section below before its final commit — one plan, covering
+only the immediate next step, pointing into this file rather than
+duplicating it. To make that self-enforcing, every execution plan's final
+step is: rewrite this section for the work that follows. Sessions open
+with: read this tracker, then execute that plan.
 
 ## Next step: execution plan
 
-Written 2026-07-05 for Next steps item 1 (ANCH amendment mini-pass —
-context in the 2026-07-05 decision-log entry and the "Implications"
-section of [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md)). If this
-section disagrees with "Next steps", Next steps wins.
+Written 2026-07-05 for Next steps item 1 (Pass 2: implement
+[`specs/packet-format.md`](specs/packet-format.md)). If this section
+disagrees with "Next steps", Next steps wins.
 
-1. Red first: failing tests for (a) a controller class with acronym naming
-   (e.g. `AITextToolsController` reached via anchor `ai_text_tools#index`)
-   and (b) actions named `merged?` and `_show_secure_deprecated`.
-2. Amend ANCH-1/ANCH-2/ANCH-3 in `specs/packet-compilation.md` using the
-   `[amended: ...]` annotation style CB-2 and CB-4 already use; reconcile
-   `design.md` in the same change.
-3. Make the smallest lib change that passes; `bundle exec rake test`.
-4. Update `implementation-notes.md`, the Status/Next steps/Decision log
-   sections here, and rewrite this section for pass 2.
-5. Ask before committing.
-6. Optional verification: re-clone the three spike apps at the SHAs in
-   `eval/tier0/RESULTS.md` (route tables are already committed under
-   `eval/tier0/routes/` — skip extraction), re-run
-   `ruby eval/tier0/classify_anchors.rb <app_root> eval/tier0/routes/<app>.json <out>`,
-   and expect ~94% average with the 51 inflection cases resolving; add a
-   post-amendment addendum to RESULTS.md if confirmed.
+1. Read `specs/packet-format.md` plus the "Cross-spec contracts" section of
+   `specs/README.md`. The input is the pass 1 packet object
+   (`lib/ctxpack/packet.rb`); repo stamp is already computed there.
+2. Delegate to Codex per the plugin mechanics in "Working process" above:
+   brief = implement the Markdown renderer and JSON manifest over the
+   existing packet object, TDD, no changes to compilation behavior.
+3. Poll/fetch via the companion script; verify session-side:
+   `bundle exec rake test` and a requirement-by-requirement review of the
+   diff against the FMT-*/MAN-* codes.
+4. Route confirmed defects back to the same Codex session (`--resume`);
+   re-verify before acceptance.
+5. Confirm Codex kept `implementation-notes.md` current (it owns the pass
+   notes); update the Status/Next steps/Decision log sections here.
+6. Ask before committing; rewrite this section for pass 3 first (per the
+   end-of-session ritual).
 
 ## Status
 
 | Pass | Spec | Status | Notes |
 |---|---|---|---|
-| 1 | [`packet-compilation.md`](specs/packet-compilation.md) | **Done** (2026-07-05) | `Ctxpack.compile(app_root:, anchor:, task:)` → internal packet object. 20 tests / 87 assertions green. |
+| 1 | [`packet-compilation.md`](specs/packet-compilation.md) | **Done** (2026-07-05) | `Ctxpack.compile(app_root:, anchor:, task:)` → internal packet object. ANCH amendment mini-pass landed same day (class-by-file matching, tolerant action grammar). 25 tests / 101 assertions green. |
 | 2 | [`packet-format.md`](specs/packet-format.md) | Not started | Markdown renderer + JSON manifest from the packet object. Repo stamp already computed in pass 1. |
 | 3 | [`cli.md`](specs/cli.md) | Not started | Root discovery, flags, artifact naming/paths, exit codes. OptionParser vs Thor undecided (lean OptionParser). |
 | 4 | [`fixture-evals.md`](specs/fixture-evals.md) | Not started | YAML case runner + CI wiring. `minitest_basic` fixture tree already authored in pass 1 at its EVAL-2 path. |
@@ -71,23 +71,25 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Next steps
 
-1. **ANCH amendment mini-pass** (decided 2026-07-05, see decision log):
-   amend `packet-compilation.md` for (a) class-by-file matching —
-   underscore-insensitive acceptance of the class defined in the resolved
-   controller file, replacing the exact camelized-name lookup — and
-   (b) ANCH-1 action grammar tolerating trailing `?`/`!` and leading `_`.
-   Reconcile `design.md`, TDD the lib change in-session (deliberate
-   deviation from the Codex delegation loop: amendment to existing pass 1
-   code, too small for the delegate → review overhead). Optionally re-run
-   the Tier 0 classifier afterward to confirm the predicted ~94% average.
-2. **Pass 2: implement `packet-format.md`** — renderer + manifest over the
+1. **Pass 2: implement `packet-format.md`** — renderer + manifest over the
    existing packet object; same delegate → review → fix loop.
-3. **Pass 3: `cli.md`** — decide OptionParser vs Thor at pass start.
-4. **Pass 4: `fixture-evals.md`** — YAML runner, CI job (Tier 1 only, per
+2. **Pass 3: `cli.md`** — decide OptionParser vs Thor at pass start.
+3. **Pass 4: `fixture-evals.md`** — YAML runner, CI job (Tier 1 only, per
    EVAL-10).
 
 ## Decision log
 
+- **2026-07-05** — ANCH amendment mini-pass landed (in-session TDD, per the
+  prior decision): ANCH-1 action grammar tolerates trailing `?`/`!` and
+  leading `_`; ANCH-2/3 switched to class-by-file matching (first class in
+  the resolved file matching the anchor path underscore-insensitively);
+  TEST-1 action tokens normalized as a grammar ripple. Specs, `design.md`,
+  and the Tier 0 classifier's error-message mapping reconciled in the same
+  change. Suite: 25 tests / 101 assertions green. Classifier re-run at the
+  spike SHAs confirmed the prediction: 93.9% average (Mastodon 94.8 /
+  Discourse 96.4 / Zammad 90.4), exactly the 53 taxonomy-predicted pairs
+  flipped, zero per-anchor regressions, zero crashes — addendum in
+  `eval/tier0/RESULTS.md`.
 - **2026-07-05** — Both Tier 0-surfaced ANCH amendments adopted: (a)
   class-by-file matching (51/169 spike failures were acronym-inflection
   class-name mismatches with the literal `def <action>` present — the

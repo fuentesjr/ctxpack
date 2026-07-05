@@ -195,6 +195,10 @@ routes.fetch("pairs").each_key do |anchor|
       when /\Ainvalid anchor/
         record["detail"] = "anchor failed ctxpack's snake_case grammar"
         "other"
+      when /\Ano controller class matching/
+        record["detail"] = "controller file exists but no class matches the anchor path " \
+                           "underscore-insensitively (metaprogrammed class or unconventional nesting)"
+        "other"
       when /was not directly defined/
         classify_missing_def(controller_path, action, record)
       else
