@@ -9,12 +9,44 @@ silently follow either.
 
 ## Documents
 
+Listed in dependency (and intended build) order: compilation is a standalone
+pipeline from anchor to internal packet object; format renders that object;
+the CLI wires both behind a command; fixture evals exercise the whole.
+
 | Spec | Covers | Requirement prefix |
 |---|---|---|
-| [`cli.md`](cli.md) | Command surface, flags, artifact naming and location | `CLI` |
 | [`packet-compilation.md`](packet-compilation.md) | Anchor resolution, parsing, callbacks, constants, test candidates, limits | `ANCH`, `PARSE`, `CB`, `CONST`, `TEST`, `LIM` |
 | [`packet-format.md`](packet-format.md) | Markdown packet structure, reason/uncertainty codes, repo stamp, determinism, JSON manifest | `FMT`, `DET`, `MAN` |
+| [`cli.md`](cli.md) | Command surface, flags, artifact naming and location | `CLI` |
 | [`fixture-evals.md`](fixture-evals.md) | Tier 1 deterministic regression evals (fixtures, YAML cases, runner) | `EVAL` |
+
+## Cross-spec contracts
+
+The build order above keeps behavior dependencies one-directional, but a few
+contracts cut across spec boundaries. They are recorded here so no
+implementation pass discovers them late:
+
+- **Internal packet object.** The central contract: compilation produces it,
+  format renders it, the manifest serializes it (MAN-1), fixture evals assert
+  on it (EVAL-5). The MAN-2 manifest shape is its de facto schema — everything
+  MAN-2 and FMT-2..FMT-9 need (entrypoint, snippet ranges, reason codes,
+  uncertainty codes, omitted candidates, repo stamp) must exist on the packet
+  object when compilation finishes, even though those requirements live in
+  `packet-format.md`.
+- **Reason and uncertainty codes.** Registered in FMT-6/FMT-7 but emitted by
+  compilation events (CB-1a, CB-2, CB-2a, CB-4, TEST-3, LIM-2). Compilation
+  depends on the registries as data; a compilation change that needs a new
+  code updates `packet-format.md` in the same change.
+- **Repo stamp.** FMT-10..FMT-12 specify it, but it is computed when the
+  packet object is built, not at render time — the manifest carries it
+  (MAN-2 `repo`), so it cannot be a format-layer concern.
+- **Application root and task text.** Inputs to compilation, passed as
+  parameters. Discovering the root (CLI-3) and validating/deriving artifact
+  names (CLI-4..CLI-8b) belong to the CLI layer only.
+- **`minitest_basic` fixture tree.** EVAL-2's first fixture doubles as
+  compilation's test scaffolding: author it at its final path
+  (`test/fixtures/apps/minitest_basic/`) in the compilation pass so Tier 1
+  evals reuse it rather than duplicate it.
 
 ## Conventions
 
