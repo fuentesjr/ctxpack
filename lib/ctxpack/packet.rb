@@ -38,6 +38,7 @@ module Ctxpack
 
   class Packet
     attr_reader :version,
+                :app_root,
                 :anchor,
                 :task,
                 :repo,
@@ -50,8 +51,9 @@ module Ctxpack
 
     attr_accessor :no_test_candidates
 
-    def initialize(anchor:, task:, repo:, entrypoint:)
+    def initialize(anchor:, task:, repo:, entrypoint:, app_root: nil)
       @version = 1
+      @app_root = app_root && File.expand_path(app_root)
       @anchor = anchor
       @task = task
       @repo = repo

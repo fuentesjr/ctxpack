@@ -1,5 +1,7 @@
 require "ctxpack/compiler"
 require "ctxpack/default_constant_resolver"
+require "ctxpack/manifest_renderer"
+require "ctxpack/markdown_renderer"
 require "ctxpack/packet"
 
 module Ctxpack
@@ -12,5 +14,13 @@ module Ctxpack
       task: task,
       constant_resolver: constant_resolver
     ).compile
+  end
+
+  def self.render_markdown(packet)
+    MarkdownRenderer.new(packet).render
+  end
+
+  def self.render_manifest(packet)
+    ManifestRenderer.new(packet).render
   end
 end

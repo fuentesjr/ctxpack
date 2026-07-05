@@ -107,6 +107,78 @@ for the right reasons, then the smallest compiler change.
 - Verification: `bundle exec rake test` — 25 runs, 101 assertions, 0
   failures, 0 errors, 0 skips.
 
+## Pass 2: packet-format
+
+Implemented packet-format rendering only: Markdown and JSON manifest strings over
+the internal packet object. No CLI code, file writing, artifact naming, output
+paths, root discovery, flags, or dependencies were added.
+
+### Decisions
+
+- Public API is `Ctxpack.render_markdown(packet)` and
+  `Ctxpack.render_manifest(packet)`.
+- `Ctxpack::MarkdownRenderer` renders the Markdown packet from packet metadata
+  and reads snippet text from `packet.app_root` plus each evidence item's
+  1-based inclusive `snippet_ranges`. `packet.app_root` is read-only packet
+  metadata, excluded from `Packet#to_h`.
+- `Ctxpack::ManifestRenderer` builds directly on `Packet#to_h` and uses Ruby
+  stdlib `JSON.pretty_generate`, preserving the insertion order already present
+  in the MAN-2 hash.
+- Markdown prose is centralized in renderer templates. Evidence items still
+  provide the reason code, subject, snippet ranges, and test-path match reason;
+  the renderer turns those fixed fields into FMT prose.
+- The retrieve-more section is generated only from uncertainty codes,
+  omission categories, and the explicit no-test-candidates state. Multiple
+  items with the same code/category collapse to one templated suggestion with
+  deterministic subject ordering.
+- Known coupling: `MarkdownRenderer#test_candidate_why` matches the compiler's
+  stored `why` strings exactly and falls back silently if they drift.
+- The design.md example shows the short SHA as inline code, while
+  `packet-format.md` and this pass's task fixed the stamp line as plain text.
+  This was treated as example formatting rather than a blocking
+  spec-vs-design conflict.
+
+### Requirement Coverage
+
+| Requirement | Coverage |
+|---|---|
+| FMT-1 | `PacketFormatTest#test_fmt_1_2_3_4_6_8_11_det_2_3_5_renders_markdown_packet_from_compiled_fixture` |
+| FMT-2 | `PacketFormatTest#test_fmt_1_2_3_4_6_8_11_det_2_3_5_renders_markdown_packet_from_compiled_fixture`, `#test_fmt_2_retrieve_more_uses_one_templated_suggestion_per_uncertainty_code`, `#test_fmt_2_11_test_5_renders_nil_task_unknown_repo_and_no_test_candidates`, `#test_fmt_2_retrieve_more_is_omitted_when_no_uncertainty_or_omission_codes_are_present` |
+| FMT-3 | `PacketFormatTest#test_fmt_1_2_3_4_6_8_11_det_2_3_5_renders_markdown_packet_from_compiled_fixture` |
+| FMT-4 | `PacketFormatTest#test_fmt_1_2_3_4_6_8_11_det_2_3_5_renders_markdown_packet_from_compiled_fixture` |
+| FMT-5 | `PacketFormatTest#test_fmt_5_truncated_snippet_marker_is_inside_the_ruby_fence`, `#test_fmt_5_truncated_snippet_marker_uses_current_compiler_limit` |
+| FMT-6 | `PacketFormatTest#test_fmt_1_2_3_4_6_8_11_det_2_3_5_renders_markdown_packet_from_compiled_fixture`; existing compile tests assert the registered reason-code strings. |
+| FMT-7 | `PacketFormatTest#test_fmt_2_retrieve_more_uses_one_templated_suggestion_per_uncertainty_code`; existing compile tests assert the registered uncertainty-code strings. |
+| FMT-8 | `PacketFormatTest#test_fmt_1_2_3_4_6_8_11_det_2_3_5_renders_markdown_packet_from_compiled_fixture`, `#test_fmt_2_retrieve_more_uses_one_templated_suggestion_per_uncertainty_code` |
+| FMT-9 | `PacketFormatTest#test_fmt_9_omitted_candidates_names_truncated_constants_and_tests`, `#test_fmt_5_truncated_snippet_marker_is_inside_the_ruby_fence` |
+| FMT-10 | Existing `RepoStampTest#test_fmt_10_11_12_repo_stamp_uses_git_discovery_and_dirty_status`; renderer consumes the packet stamp without recomputing it. |
+| FMT-11 | `PacketFormatTest#test_fmt_1_2_3_4_6_8_11_det_2_3_5_renders_markdown_packet_from_compiled_fixture`, `#test_fmt_2_11_test_5_renders_nil_task_unknown_repo_and_no_test_candidates`, existing `RepoStampTest#test_fmt_11_man_2_repo_stamp_is_nil_outside_git` |
+| FMT-12 | Existing `RepoStampTest#test_fmt_10_11_12_repo_stamp_uses_git_discovery_and_dirty_status`; renderer consumes the packet dirty flag without recomputing it. |
+| DET-1 | `PacketFormatTest#test_man_2_3_render_manifest_uses_packet_hash_with_stable_key_order`; Markdown determinism is covered by templated rendering tests and by preserving packet order. |
+| DET-2 | `PacketFormatTest#test_fmt_1_2_3_4_6_8_11_det_2_3_5_renders_markdown_packet_from_compiled_fixture` |
+| DET-3 | `PacketFormatTest#test_fmt_1_2_3_4_6_8_11_det_2_3_5_renders_markdown_packet_from_compiled_fixture`, `#test_fmt_2_retrieve_more_uses_one_templated_suggestion_per_uncertainty_code` |
+| DET-4 | Covered by construction: renderers are pure over the packet plus stored snippet ranges and do not invoke retrieval, agents, or models. |
+| DET-5 | `PacketFormatTest#test_fmt_1_2_3_4_6_8_11_det_2_3_5_renders_markdown_packet_from_compiled_fixture`; no renderer template includes timestamps. |
+| MAN-1 | `PacketFormatTest#test_man_2_3_render_manifest_uses_packet_hash_with_stable_key_order`; CLI `--manifest` and sibling file writing remain pass 3 scope. |
+| MAN-2 | `PacketFormatTest#test_man_2_3_render_manifest_uses_packet_hash_with_stable_key_order`, `#test_man_2_render_manifest_uses_null_commit_outside_git`; existing `PacketObjectTest#test_man_2_det_2_packet_object_exposes_manifest_shape_and_file_order` |
+| MAN-3 | `PacketFormatTest#test_man_2_3_render_manifest_uses_packet_hash_with_stable_key_order` |
+
+### Verification
+
+- Red/green proof: first packet-format test failed with
+  `NoMethodError: undefined method 'render_markdown'`; after adding the
+  renderer APIs it passed. The retrieve-more grouping test then failed with
+  four dynamic-callback suggestions and passed after grouping by code.
+- Review-defect red/green proof: anchor-label/task-sentence expectations and
+  the compiler-limit truncation-marker test failed against the reviewed code,
+  then passed after relabeling the anchor section and deriving the marker count
+  from `Ctxpack::Compiler::LIMITS[:max_snippet_lines_per_file]`.
+- `bundle exec rake test` passes: 34 runs, 193 assertions, 0 failures, 0
+  errors, 0 skips.
+- No new runtime or development dependencies were added; manifest rendering uses
+  stdlib `json`.
+- No spec-vs-design conflict blocked implementation.
+
 ## Tier 0 spike (2026-07-05)
 
 - Driver lives in `eval/tier0/` (`extract_routes.rb`, `classify_anchors.rb`); results and rationale in `eval/tier0/RESULTS.md`. Not part of the gem or CI.

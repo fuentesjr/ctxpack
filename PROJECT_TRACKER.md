@@ -43,24 +43,29 @@ with: read this tracker, then execute that plan.
 
 ## Next step: execution plan
 
-Written 2026-07-05 for Next steps item 1 (Pass 2: implement
-[`specs/packet-format.md`](specs/packet-format.md)). If this section
-disagrees with "Next steps", Next steps wins.
+Written 2026-07-05 for Next steps item 1 (Pass 3: implement
+[`specs/cli.md`](specs/cli.md)). If this section disagrees with
+"Next steps", Next steps wins.
 
-1. Read `specs/packet-format.md` plus the "Cross-spec contracts" section of
-   `specs/README.md`. The input is the pass 1 packet object
-   (`lib/ctxpack/packet.rb`); repo stamp is already computed there.
-2. Delegate to Codex per the plugin mechanics in "Working process" above:
-   brief = implement the Markdown renderer and JSON manifest over the
-   existing packet object, TDD, no changes to compilation behavior.
-3. Poll/fetch via the companion script; verify session-side:
+1. Read `specs/cli.md` plus the "Cross-spec contracts" section of
+   `specs/README.md`. The building blocks already exist: `Ctxpack.compile`
+   (pass 1) and `Ctxpack.render_markdown` / `Ctxpack.render_manifest`
+   (pass 2); the CLI wires them behind a command.
+2. Decide OptionParser vs Thor at pass start (tracker leans OptionParser;
+   prefer stdlib unless `cli.md` demands otherwise) and record the decision
+   in the Decision log.
+3. Delegate to Codex per the plugin mechanics in "Working process" above:
+   brief = root discovery, flags, artifact naming/paths, exit codes over
+   the existing compile+render APIs, TDD, no changes to compilation or
+   rendering behavior.
+4. Poll/fetch via the companion script; verify session-side:
    `bundle exec rake test` and a requirement-by-requirement review of the
-   diff against the FMT-*/MAN-* codes.
-4. Route confirmed defects back to the same Codex session (`--resume`);
+   diff against the CLI-* codes.
+5. Route confirmed defects back to the same Codex session (`--resume`);
    re-verify before acceptance.
-5. Confirm Codex kept `implementation-notes.md` current (it owns the pass
+6. Confirm Codex kept `implementation-notes.md` current (it owns the pass
    notes); update the Status/Next steps/Decision log sections here.
-6. Ask before committing; rewrite this section for pass 3 first (per the
+7. Ask before committing; rewrite this section for pass 4 first (per the
    end-of-session ritual).
 
 ## Status
@@ -68,7 +73,7 @@ disagrees with "Next steps", Next steps wins.
 | Pass | Spec | Status | Notes |
 |---|---|---|---|
 | 1 | [`packet-compilation.md`](specs/packet-compilation.md) | **Done** (2026-07-05) | `Ctxpack.compile(app_root:, anchor:, task:)` → internal packet object. ANCH amendment mini-pass landed same day (class-by-file matching, tolerant action grammar). 25 tests / 101 assertions green. |
-| 2 | [`packet-format.md`](specs/packet-format.md) | Not started | Markdown renderer + JSON manifest from the packet object. Repo stamp already computed in pass 1. |
+| 2 | [`packet-format.md`](specs/packet-format.md) | **Done** (2026-07-05) | `Ctxpack.render_markdown` / `Ctxpack.render_manifest` over the pass 1 packet object. One review fix round (FMT-5 marker drift, Anchor labels). 34 tests / 193 assertions green. |
 | 3 | [`cli.md`](specs/cli.md) | Not started | Root discovery, flags, artifact naming/paths, exit codes. OptionParser vs Thor undecided (lean OptionParser). |
 | 4 | [`fixture-evals.md`](specs/fixture-evals.md) | Not started | YAML case runner + CI wiring. `minitest_basic` fixture tree already authored in pass 1 at its EVAL-2 path. |
 
@@ -81,14 +86,27 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Next steps
 
-1. **Pass 2: implement `packet-format.md`** — renderer + manifest over the
-   existing packet object; same delegate → review → fix loop.
-2. **Pass 3: `cli.md`** — decide OptionParser vs Thor at pass start.
-3. **Pass 4: `fixture-evals.md`** — YAML runner, CI job (Tier 1 only, per
-   EVAL-10).
+1. **Pass 3: `cli.md`** — decide OptionParser vs Thor at pass start; same
+   delegate → review → fix loop over the existing compile+render APIs.
+2. **Pass 4: `fixture-evals.md`** — YAML runner, CI job (Tier 1 only, per
+   EVAL-10). Unblocks the Tier 2 agent A/B (needs the end-to-end CLI from
+   pass 3).
 
 ## Decision log
 
+- **2026-07-05** — Pass 2 landed via the Codex delegation loop.
+  `Ctxpack.render_markdown` / `Ctxpack.render_manifest` render the pass 1
+  packet object; snippets are read at render time from `packet.app_root`
+  (new read-only packet metadata, excluded from the manifest); the manifest
+  is `JSON.pretty_generate(packet.to_h)`. Session-side review confirmed two
+  defects, fixed in one `--resume` round: the FMT-5 truncation marker now
+  derives its line count from `Compiler::LIMITS[:max_snippet_lines_per_file]`
+  (LIM-1 values are provisional, a hardcoded "120" would drift), and the
+  Anchor section's mislabeled lines were split into correctly labeled
+  Anchor/Controller/Action lines. Known coupling recorded in
+  `implementation-notes.md`: the renderer's test-candidate Why templates
+  match the compiler's stored `why` strings exactly. Suite: 34 tests /
+  193 assertions green.
 - **2026-07-05** — metz-scan adopted as an advisory dev linter on ctxpack's
   own `lib/` (dogfooding; mechanics in "Working process" above): pinned
   0.4.0, `rake metz`, Metz-only via committed `.rubocop.yml`, never gating.

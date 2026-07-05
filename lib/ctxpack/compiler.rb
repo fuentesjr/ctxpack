@@ -51,6 +51,7 @@ module Ctxpack
         anchor: @anchor,
         task: @task,
         repo: repo_stamp,
+        app_root: @app_root,
         entrypoint: Entrypoint.new(
           file: controller_relative_path,
           controller: controller_name,
