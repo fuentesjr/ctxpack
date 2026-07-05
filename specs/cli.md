@@ -1,0 +1,111 @@
+# Spec: CLI and artifacts
+
+Status: Draft. Source: `design.md` — "Settled v0 direction", "Artifact location
+and naming", "Machine-readable manifest".
+
+## Command
+
+**CLI-1.** The primary (and, in v0, only) packet-producing command is:
+
+```bash
+ctxpack packet <anchor> [--task TASK] [--name NAME] [--dir DIR] [--out PATH] [--force] [--manifest]
+```
+
+**CLI-2.** `<anchor>` is a positional argument in exact `controller#action`
+form (see `packet-compilation.md`, ANCH-1). Route strings
+(`POST /accounts/:id/upgrade`) and route helpers (`upgrade_account`) MUST NOT
+be accepted in v0.
+
+**CLI-3.** ctxpack MUST be run from the Rails application root. v0 performs no
+upward directory search; if the expected `app/controllers/` layout is not
+present relative to the current directory, resolution fails per ANCH-6.
+
+## Flags
+
+**CLI-4.** `--task TASK` — free-text description of the task the packet is
+for. Optional. **[fixed by spec]** When omitted, the packet's Task section
+records that no task was provided (see FMT-2) and name derivation uses the
+anchor alone (CLI-8).
+
+**CLI-5.** `--name NAME` — snake_case artifact name. Recommended for clear
+feature/bug/context naming; names should carry enough context to avoid vague
+artifacts like `upgrade.md`.
+
+**CLI-6.** `--dir DIR` — output directory override. Default is `.ctxpack/`.
+`docs/ctxpack/` is the canonical location when a packet is deliberately
+committed (see CLI-13).
+
+**CLI-7.** `--out PATH` — full output path override. When given, it takes
+precedence over `--dir` and the default filename, and overwriting the target
+is permitted (CLI-11).
+
+**CLI-8.** When `--name` is omitted, ctxpack MUST derive a snake_case name
+deterministically from the task and anchor (e.g. task "Implement billing
+upgrade" + anchor `accounts#upgrade` →
+`implement_billing_upgrade_accounts_upgrade`). With no `--task`, the name
+derives from the anchor alone. **[derivation from anchor-only fixed by spec]**
+
+**CLI-8a.** Derivation rules **[fixed by spec]**: downcase; replace each run
+of non-`[a-z0-9]` characters with a single underscore; strip leading/trailing
+underscores; append the sanitized anchor (`admin/accounts#upgrade` →
+`admin_accounts_upgrade`); cap the whole derived name at 80 characters.
+
+**CLI-8b.** An explicit `--name` is validated, not rewritten: it MUST match
+`^[a-z0-9_]+$` or the command fails with a clear message. Silently
+sanitizing a name the user chose deliberately violates least surprise.
+**[fixed by spec]**
+
+**CLI-9.** `--force` — permit overwriting an existing artifact at the computed
+default path.
+
+**CLI-10.** `--manifest` — additionally write a JSON manifest next to the
+Markdown artifact, same basename with `.json` extension (see MAN-1).
+
+## Output behavior
+
+**CLI-11.** ctxpack MUST NOT silently overwrite an existing artifact. If the
+computed output path exists, the command fails with a clear message unless
+`--force` was passed or the path came from an explicit `--out`.
+
+**CLI-12.** Default output path:
+
+```text
+<dir>/<YYYYMMDDHHMMSS>_<name>.md
+```
+
+The timestamp is Rails-migration style in UTC (matching Rails migration
+generators) **[fixed by spec]**, exists for chronological ordering and
+collision resistance, and is a storage concern only — it MUST NOT appear
+inside packet content (DET-5).
+
+**CLI-13.** The default directory `.ctxpack/` is intended to be gitignored.
+Committing a packet is opt-in, never a side effect; `docs/ctxpack/` is the
+standard committed location, reached via `--dir docs/ctxpack`.
+
+**CLI-14.** When ctxpack creates `.ctxpack/` for the first time, it MUST print
+a one-line reminder to add the directory to `.gitignore`. It MUST NOT prompt
+interactively and MUST NOT edit `.gitignore` itself.
+
+**CLI-15.** On success, the command prints the saved artifact path (and the
+manifest path when `--manifest` was given).
+
+## Failure behavior
+
+**CLI-16.** When the anchor cannot be resolved under v0 rules, the command
+MUST fail with a nonzero exit status and a message that names the specific
+unsupported case (file not found, no direct `def <action>`, etc. — see
+ANCH-6/ANCH-7). It MUST NOT fall back to guessing, searching, or partial
+packets.
+
+**CLI-17.** Failure messages SHOULD point the user at Rails-native discovery
+(`bin/rails routes -g …`, `bin/rails routes -c …`) rather than offering any
+ctxpack-side route browsing, which is a v0 non-goal.
+
+## Explicit non-features
+
+**CLI-18.** v0 MUST NOT expose flags for the internal packet limits (max
+files, snippet lines, etc. — see LIM-1). Limits become flags only if fixture
+evals or real usage show the defaults are wrong.
+
+**CLI-19.** No `ctxpack routes` command, no interactive pickers, no
+`--helper` flag in v0. Route-helper input is a possible later extension only.

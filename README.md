@@ -29,6 +29,7 @@ The repo contains:
 
 - [`design.md`](design.md) — the v0 product and implementation design
 - [`eval-plan.md`](eval-plan.md) — the three-tier evaluation plan: anchor viability, determinism regression, agent A/B
+- [`specs/`](specs/README.md) — normative v0 specifications derived from the design: CLI, packet compilation, packet format/determinism, fixture evals
 - [GitHub issues](https://github.com/fuentesjr/ctxpack/issues) — mini-epics and tasks for the first implementation slice
 
 ## 🧭 Why Rails?

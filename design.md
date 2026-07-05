@@ -182,6 +182,8 @@ The default artifact filename is the exception: it should use a Rails-migration-
 
 One repo-state stamp is allowed inside packet content: the git commit SHA at generation time, with a `dirty` marker when the working tree has uncommitted changes. Unlike a timestamp, the SHA is a function of repo state, so it preserves `same repo state + same inputs = same content` — and it makes staleness mechanically detectable whenever an old packet is read later. The dirty marker is honest rather than precise: the SHA cannot capture uncommitted changes, so a packet built from a dirty tree must say so.
 
+Stamp resolution uses normal git discovery from the application root (`git -C <app_root> rev-parse HEAD`), so an app living in a monorepo subdirectory stamps the enclosing repository's SHA. When the application root is not inside any git work tree, the stamp is the fixed string `unknown (not a git repository)` — still deterministic. One consequence for Tier 1 evals: the fixture trees live inside ctxpack's own repository, so their packets stamp whatever ctxpack's current SHA happens to be. Double-run determinism checks are unaffected (same repo state, same stamp), but golden-content assertions must normalize the stamp line, exactly as they normalize output paths.
+
 Skills or sub-agents may consume the packet later, but they should not be responsible for constructing the canonical packet.
 
 ## Why Rails is a good target
@@ -265,7 +267,7 @@ Initial internal v0 limits:
 max total files: 8
 max constant files: 4
 max test files: 2
-max snippet lines per file: 80
+max snippet lines per file: 120
 ```
 
 These should start as internal constants, not public CLI flags. Expose flags later only if fixture evals or real usage show the defaults are wrong.
@@ -590,7 +592,7 @@ But the skill or sub-agent should not be the canonical packet builder. Keeping p
 - What is the smallest packet that still changes agent behavior?
 - Should v0 include snippets only, or also deterministic file-level metadata?
 - How often do Rails conventions fail because of custom routing, metaprogramming, or unconventional service layout? (Measured directly by the Tier 0 spike in [`eval-plan.md`](eval-plan.md), with a failure taxonomy that says which non-goal to promote first.)
-- Do the initial limits — 8 total files, 4 constant files, 2 test files, and 80 snippet lines per file — keep packets small without hiding essential context?
+- Do the initial limits — 8 total files, 4 constant files, 2 test files, and 120 snippet lines per file — keep packets small without hiding essential context?
 - When, if ever, do fixture evals justify adding a Rubydex-backed resolver?
 
 ## Next experiments
