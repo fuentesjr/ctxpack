@@ -23,6 +23,36 @@ follow-up fix rounds resume the same Codex session by forwarding a `--resume`
 request. Independent verification (running the suite, checking git state) is
 always done session-side, never trusted from Codex's own summary.
 
+End-of-session ritual: any session that changes the plan replaces the
+"Next session prompt" section below before its final commit — one prompt,
+covering only the immediate next step, pointing into this file rather than
+duplicating it.
+
+## Next session prompt
+
+Written 2026-07-05, for Next steps item 1. If this prompt disagrees with
+"Next steps", the tracker wins.
+
+> Read PROJECT_TRACKER.md and do step 1 of Next steps: the ANCH amendment
+> mini-pass (adopted — see the 2026-07-05 decision-log entry and the
+> "Implications" section of eval/tier0/RESULTS.md for the evidence). Work
+> in-session, red-green: first write failing tests for (a) a controller
+> file whose class uses acronym naming (e.g. `AITextToolsController`
+> reached via anchor `ai_text_tools#index`) and (b) actions named `merged?`
+> and `_show_secure_deprecated`. Then amend ANCH-1/ANCH-2/ANCH-3 in
+> specs/packet-compilation.md using the [amended] annotation style CB-2 and
+> CB-4 already use, reconcile design.md in the same change, and make the
+> smallest lib change that passes. Update implementation-notes.md and this
+> tracker (status, decision log, and rewrite this prompt for pass 2), run
+> `bundle exec rake test`, and ask before committing.
+>
+> Optional verification: re-clone the three spike apps at the SHAs in
+> eval/tier0/RESULTS.md (route tables are already committed under
+> eval/tier0/routes/ — skip extraction) and re-run
+> `ruby eval/tier0/classify_anchors.rb <app_root> eval/tier0/routes/<app>.json <out>`
+> to confirm the average rises to ~94% and the 51 inflection cases resolve;
+> add a post-amendment addendum to RESULTS.md if so.
+
 ## Status
 
 | Pass | Spec | Status | Notes |
