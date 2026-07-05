@@ -23,6 +23,16 @@ follow-up fix rounds resume the same Codex session by forwarding a `--resume`
 request. Independent verification (running the suite, checking git state) is
 always done session-side, never trusted from Codex's own summary.
 
+Dogfooding metz-scan (decided 2026-07-05): `rake metz` runs an advisory
+[metz-scan](https://github.com/fuentesjr/metz-scan) design-pressure scan
+over `lib/` (pinned 0.4.0, scoped to Metz cops via the committed
+`.rubocop.yml`). It never gates the build or the Codex loop; findings
+inform refactors at pass boundaries. Every metz-scan bug or friction
+encountered gets logged in [`metz-scan-feedback.md`](metz-scan-feedback.md)
+with enough detail to file upstream GitHub issues — we are dogfooding the
+tool, not just consuming it. When pass 4 stands up CI, add a non-blocking
+metz step with the pinned version.
+
 End-of-session ritual: any session that changes the plan — and, always,
 any session that completes the plan's work — rewrites the "Next step:
 execution plan" section below before its final commit — one plan, covering
@@ -130,3 +140,8 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 - Generic validators that auto-load every `*_test.rb` will trip over the
   static fixture tests under `test/fixtures/apps/`; the Rake task excludes
   them deliberately (TEST-4: content is never read).
+- metz-scan baseline (2026-07-05, advisory): `Ctxpack::Compiler` is flagged
+  `ClassesTooLong` [503/100] plus 24 long methods. Splitting the compiler
+  (e.g. callbacks / constants / test-candidates collaborators) is a
+  candidate refactor to weigh at a pass boundary, not mid-pass; the class
+  will grow again when future reason codes land.

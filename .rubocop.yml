@@ -1,0 +1,7 @@
+# Used by metz-scan (rake metz): restrict scanning to Metz design-pressure
+# cops. ctxpack has no general RuboCop style gate.
+AllCops:
+  DisabledByDefault: true
+
+Metz:
+  Enabled: true
