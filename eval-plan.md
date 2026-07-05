@@ -33,6 +33,10 @@ Tier 1 is the only tier that runs in CI. Tiers 0 and 2 are offline experiments a
 > **Executed 2026-07-05.** 91.0% engine-excluded average across
 > Mastodon/Discourse/Zammad → the ≥ 70% gate passed; proceed as designed.
 > Method, failure taxonomy, and raw data: [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md).
+> The classifier has since been adopted as a standing pass-boundary corpus
+> re-scan for compiler-behavior changes (mechanics in `PROJECT_TRACKER.md`,
+> "Working process"); its first re-run, after the ANCH amendments, is the
+> 93.9% addendum in RESULTS.md.
 
 The strictest v0 constraint — the action must be a literal `def <action>` in the conventionally-named controller file — is also the most likely to fail on real apps (concerns, inherited CRUD, engines). This is answerable in an afternoon and should be answered before any packet rendering exists.
 
@@ -70,6 +74,10 @@ Stated limitation, so it is never misread: **Tier 1 proves the tool agrees with 
 ## Tier 2 — agent-in-the-loop A/B
 
 The actual hypothesis test. Run only after Tier 0 passes and the vertical slice exists.
+
+The harness is built to re-run — pinned agent setup, scripted arms, recorded SHAs — not as one-shot scripts. A "support" result converts it from a gate into a usefulness-regression check re-run at release boundaries; the decision rules below already assume this ("judged by the same harness").
+
+Each session emits one JSONL run record as a stable artifact: task, arm, run index, app/ctxpack/packet SHAs, agent version and settings, the mechanical metrics below, and the transcript path. The record format is the harness's public contract — analysis scripts read it, and if experiment bookkeeping ever outgrows scripts (decision log: eval platforms deferred), adopting a platform becomes an import problem rather than a redesign.
 
 ### Setup
 

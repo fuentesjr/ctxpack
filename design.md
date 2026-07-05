@@ -280,6 +280,8 @@ max snippet lines per file: 120
 
 These should start as internal constants, not public CLI flags. Expose flags later only if fixture evals or real usage show the defaults are wrong.
 
+The designated real-usage evidence is packet-vs-diff coverage: compare the packet's file list against the diff of the completed task. Files the task touched but the packet omitted are recall misses; packet files the task never touched are precision misses. This is the post-v0 north-star metric for the limits (and for the reason-code heuristics generally); no telemetry gets built until real usage exists to measure.
+
 If a limit is hit, the packet should not silently omit context. It should include an explicit omitted-candidates or uncertainty note, for example:
 
 ```markdown
@@ -475,6 +477,8 @@ The eval runner should check:
 - running the same command twice with a fixed `--out`, or with output paths normalized, produces the same content hash
 
 Do not use an LLM judge in v0. Every packet bug should become a small deterministic eval case.
+
+The runner itself should be re-runnable at any commit with no one-shot setup — re-runnability is a design property that is hard to retrofit. The Tier 2 harness follows the same principle, so usefulness can be re-measured at release boundaries rather than tested once ([`eval-plan.md`](eval-plan.md)).
 
 ## Non-goals for v0
 

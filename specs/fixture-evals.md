@@ -96,3 +96,9 @@ its fix. Tier 1 is the regression net; it only grows.
 
 **EVAL-10.** Tier 1 is the only eval tier that runs in CI. Tiers 0 and 2 are
 offline experiments (`eval-plan.md`) and MUST NOT be wired into CI.
+
+**EVAL-11.** The runner MUST be re-runnable at any checkout: invoking it at
+any commit (clean or dirty) runs every case against the working tree as-is,
+with no one-shot setup, recorded state, or dependencies beyond the repository
+itself. Re-runnability is a design property that is hard to retrofit; the
+Tier 2 harness follows the same principle (`eval-plan.md`).
