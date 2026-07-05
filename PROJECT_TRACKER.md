@@ -28,16 +28,18 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 | Experiment | Status | Notes |
 |---|---|---|
-| Tier 0 anchor viability spike | Not started | design.md recommends running this before the renderer exists; the ANCH rules are now implemented, so the spike only needs a driver script and 2–3 real Rails apps. |
+| Tier 0 anchor viability spike | Next up (before pass 2) | design.md recommends running this before the renderer exists; the ANCH rules are now implemented, so the spike only needs a driver script and 2–3 real Rails apps. |
 | Tier 2 agent A/B | Not started | Gated on Tier 0 and a working end-to-end CLI. |
 
 ## Next steps
 
-1. **Pass 2: implement `packet-format.md`** — renderer + manifest over the
+1. **Tier 0 anchor viability spike** (before pass 2, per `design.md`) —
+   anchor resolution is implemented, so the spike is a driver script over the
+   route tables of 2–3 real Rails apps, classifying every resolution failure.
+   Cheapest way to learn whether the strict `def <action>` constraint
+   survives real apps before building the renderer on top of it.
+2. **Pass 2: implement `packet-format.md`** — renderer + manifest over the
    existing packet object; same delegate → review → fix loop.
-2. **Consider the Tier 0 spike before or alongside pass 2** — anchor
-   resolution is done, and Tier 0 is the cheapest way to learn whether the
-   strict `def <action>` constraint survives real apps.
 3. **Pass 3: `cli.md`** — decide OptionParser vs Thor at pass start.
 4. **Pass 4: `fixture-evals.md`** — YAML runner, CI job (Tier 1 only, per
    EVAL-10).
