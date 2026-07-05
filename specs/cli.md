@@ -11,14 +11,23 @@ and naming", "Machine-readable manifest".
 ctxpack packet <anchor> [--task TASK] [--name NAME] [--dir DIR] [--out PATH] [--force] [--manifest]
 ```
 
+Non-normative: inside a Rails app the executable is typically reached via
+`bundle exec ctxpack` or a binstub (`bundle binstubs ctxpack` → `bin/ctxpack`
+next to `bin/rails`). Examples write bare `ctxpack` for brevity.
+
 **CLI-2.** `<anchor>` is a positional argument in exact `controller#action`
 form (see `packet-compilation.md`, ANCH-1). Route strings
 (`POST /accounts/:id/upgrade`) and route helpers (`upgrade_account`) MUST NOT
 be accepted in v0.
 
-**CLI-3.** ctxpack MUST be run from the Rails application root. v0 performs no
-upward directory search; if the expected `app/controllers/` layout is not
-present relative to the current directory, resolution fails per ANCH-6.
+**CLI-3.** ctxpack discovers the application root the way Rails tooling does:
+starting from the current directory, it walks upward to the nearest ancestor
+containing `config/application.rb` and treats that directory as the
+application root. All resolution, output paths, and the repo stamp are
+relative to the discovered root. If no ancestor contains
+`config/application.rb`, the command fails with a message saying it searched
+upward for a Rails application root and found none. **[upward discovery
+fixed by spec; matches `bin/rails`/Rake run-from-subdirectory ergonomics]**
 
 ## Flags
 
@@ -27,9 +36,9 @@ for. Optional. **[fixed by spec]** When omitted, the packet's Task section
 records that no task was provided (see FMT-2) and name derivation uses the
 anchor alone (CLI-8).
 
-**CLI-5.** `--name NAME` — snake_case artifact name. Recommended for clear
-feature/bug/context naming; names should carry enough context to avoid vague
-artifacts like `upgrade.md`.
+**CLI-5.** `--name NAME` — artifact name, snake_case or CamelCase (normalized
+per CLI-8b). Recommended for clear feature/bug/context naming; names should
+carry enough context to avoid vague artifacts like `upgrade.md`.
 
 **CLI-6.** `--dir DIR` — output directory override. Default is `.ctxpack/`.
 `docs/ctxpack/` is the canonical location when a packet is deliberately
@@ -50,10 +59,12 @@ of non-`[a-z0-9]` characters with a single underscore; strip leading/trailing
 underscores; append the sanitized anchor (`admin/accounts#upgrade` →
 `admin_accounts_upgrade`); cap the whole derived name at 80 characters.
 
-**CLI-8b.** An explicit `--name` is validated, not rewritten: it MUST match
-`^[a-z0-9_]+$` or the command fails with a clear message. Silently
-sanitizing a name the user chose deliberately violates least surprise.
-**[fixed by spec]**
+**CLI-8b.** An explicit `--name` MUST match `^[A-Za-z0-9_]+$`; anything else
+(spaces, punctuation) fails with a clear message. CamelCase input is
+normalized with the standard Rails underscore transformation
+(`BillingUpgrade` → `billing_upgrade`) — that is the canonical Rails
+generator behavior (`rails g model BillingAccount` and `billing_account`
+produce the same file), not a surprising rewrite. **[fixed by spec]**
 
 **CLI-9.** `--force` — permit overwriting an existing artifact at the computed
 default path.

@@ -34,8 +34,9 @@ silently follow either.
 - **Context packet** (or **packet**) — the compact Markdown artifact ctxpack
   compiles from an anchor: task, anchor, entry point, files with snippets and
   reasons, test candidates, uncertainty notes.
-- **Application root** — the Rails application directory ctxpack is run from.
-  v0 assumes the current working directory is the application root.
+- **Application root** — the nearest ancestor of the current directory
+  containing `config/application.rb`, discovered by upward search (CLI-3),
+  matching `bin/rails`/Rake run-from-subdirectory ergonomics.
 - **Reason code** — a fixed machine-readable token explaining why a file is in
   the packet (see `packet-format.md`).
 - **Repo stamp** — the git commit SHA (plus dirty marker) embedded in packet

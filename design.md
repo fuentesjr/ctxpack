@@ -61,7 +61,11 @@ controller#action → action snippet + applicable before_action callbacks → re
 
 v0 should be built as a small Ruby CLI/gem. Ruby is the default implementation choice because `ctxpack` is Rails-native: it can lean on Ruby parsing, Rails naming conventions, and familiar gem/bundle workflows without reimplementing Ruby semantics in another language. Go's single-binary distribution may be valuable later, but it should wait until the packet algorithm proves useful.
 
-v0 assumes it is run from a Rails application root.
+v0 discovers the Rails application root the way Rails tooling does: it walks
+upward from the current directory to the nearest ancestor containing
+`config/application.rb`, so it works from anywhere inside the app — matching
+`bin/rails` and Rake ergonomics. If no ancestor is a Rails application root,
+it fails clearly.
 
 Accepted anchor format:
 

@@ -89,6 +89,11 @@ ctxpack packet accounts#upgrade \
   --task "Implement billing upgrade"
 ```
 
+Inside a Rails app, reach the executable the usual gem way — `bundle exec
+ctxpack`, or `bundle binstubs ctxpack` for a `bin/ctxpack` next to
+`bin/rails`. It works from any subdirectory of the app: like `bin/rails`, it
+walks upward to find the application root.
+
 By default, `ctxpack` should write a durable Markdown artifact under:
 
 ```text
