@@ -15,6 +15,14 @@ confirmed defects are routed back to the same Codex session, and the result is
 re-verified before acceptance. Spec bugs discovered during implementation are
 amended in the spec *and* reconciled with `design.md` in the same change.
 
+Codex plugin mechanics (learned in pass 1): the `codex:codex-rescue` agent is
+a one-shot forwarder — it hands the brief to Codex and returns a task ID
+without waiting. Polling and result retrieval happen from the main session via
+the plugin's companion script (`codex-companion.mjs status|result <task-id>`);
+follow-up fix rounds resume the same Codex session by forwarding a `--resume`
+request. Independent verification (running the suite, checking git state) is
+always done session-side, never trusted from Codex's own summary.
+
 ## Status
 
 | Pass | Spec | Status | Notes |
