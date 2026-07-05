@@ -72,7 +72,7 @@ New codes require a spec update; freeform reason codes are prohibited.
 |---|---|
 | `test_inferred_by_path` | A test candidate matched TEST-1 rule 2 (always — TEST-3) |
 | `dynamic_callback_args` | A `before_action` or `skip_before_action` had non-literal filter arguments (CB-2, CB-2a) **[name fixed by spec]** |
-| `unresolved_external_callbacks` | Applicable callbacks are declared outside the controller file (CB-4) **[name fixed by spec]** |
+| `unresolved_external_callbacks` | An applicable in-file callback declaration names a method with no direct definition in the controller file (CB-4) **[name fixed by spec]** |
 | `around_callback_present` | An `around_action` applies to the action; named, not snippeted (CB-1a) **[name fixed by spec]** |
 | `block_callback_present` | An applicable callback was declared with an inline block, so there is no method to snippet (CB-1a) **[name fixed by spec]** |
 

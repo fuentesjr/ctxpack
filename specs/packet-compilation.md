@@ -90,14 +90,21 @@ snippeted; their names are listed under Uncertainty. Inline block callbacks
 and no snippet. `after_action` is ignored (it cannot be a precondition).
 
 **CB-2.** Applicability is decided only from literal `only:` / `except:`
-arrays (or their absence). A `before_action` with dynamic filter arguments
-(computed symbols, `if:`/`unless:` procs deciding inclusion, splats, etc.)
-MUST NOT be guessed at; it becomes an uncertainty note instead.
+filters (or their absence). A literal filter is an array of symbol or string
+literals, or a single symbol or string literal — Rails treats `only: :upgrade`
+and `only: [:upgrade]` identically, and the single-literal form is the more
+common style in real controllers. A `before_action` with dynamic filter
+arguments (computed symbols, `if:`/`unless:` procs deciding inclusion, splats,
+etc.) MUST NOT be guessed at; it becomes an uncertainty note instead.
+**[amended: originally arrays only; single literals admitted after
+implementation review showed the array-only rule would push the dominant
+Rails style into uncertainty notes]**
 
 **CB-2a.** `skip_before_action` declarations in the same controller class are
 honored under the same literalness rule: a callback skipped for the action via
 a literal `skip_before_action` (unconditional, or with literal `only:` /
-`except:` arrays covering the action) is excluded from the packet. A
+`except:` filters — per CB-2, arrays or single literals — covering the
+action) is excluded from the packet. A
 `skip_before_action` with dynamic filter arguments MUST NOT be guessed at; the
 affected callback stays in the packet and the skip becomes an uncertainty
 note.
@@ -107,9 +114,17 @@ controller file, ctxpack extracts a snippet of the method (see FMT-5). These
 snippets are additional ranges on the controller file entry and share the
 per-file snippet-line limit (LIM-1); they do not get a separate budget.
 
-**CB-4.** Callbacks declared outside the controller file — in a superclass or
-an included concern — are NOT resolved in v0 (consistent with ANCH-5). The
-packet MUST list their names as unresolved rather than omitting them.
+**CB-4.** Callback methods not defined in the controller file are NOT
+resolved in v0 (consistent with ANCH-5): when an applicable in-file
+declaration names a method with no direct definition in the same file, the
+packet MUST list that name as unresolved rather than omitting it.
+Declarations living entirely outside the controller file (superclass or
+concern `before_action`s) are invisible to v0 and cannot be named; they are
+covered by the Uncertainty section's standing note that callbacks outside the
+controller file were not resolved (FMT-8). **[amended: originally said
+"callbacks declared outside the controller file must be listed by name",
+which is unimplementable — v0 never reads the superclass or concerns, so
+those names cannot be known]**
 
 ## Constants
 

@@ -211,12 +211,12 @@ Use Prism for v0 parsing.
 v0 only needs to:
 
 - find the direct controller action method
-- collect `before_action` declarations in the same controller class and keep the ones that apply to the action (literal `only:`/`except:` arrays only; dynamic filter arguments become an uncertainty note instead of a guess)
+- collect `before_action` declarations in the same controller class and keep the ones that apply to the action (literal `only:`/`except:` filters only — arrays or single symbol/string literals; dynamic filter arguments become an uncertainty note instead of a guess)
 - extract stable snippets for the action and for applicable callback methods defined in the same file
 - collect obvious constants referenced inside the action body and the applicable callback bodies
 - map those constants to likely files using Rails/Zeitwerk naming conventions
 
-Callbacks matter because in real controllers most of an action's preconditions — auth, scoping, record loading — live in `before_action`, not the action body. A packet that shows `def upgrade` using `@account` without showing `set_account` omits the actual entry behavior. Callbacks declared in superclasses or concerns are out of v0 scope (consistent with anchor resolution): the packet lists their names as unresolved rather than pretending they don't exist.
+Callbacks matter because in real controllers most of an action's preconditions — auth, scoping, record loading — live in `before_action`, not the action body. A packet that shows `def upgrade` using `@account` without showing `set_account` omits the actual entry behavior. Callback methods not defined in the controller file are out of v0 scope (consistent with anchor resolution): when an in-file declaration names such a method, the packet lists that name as unresolved rather than pretending it doesn't exist; declarations made entirely in superclasses or concerns are invisible to v0 and are covered by a standing uncertainty note.
 
 Rubydex is promising, but it should not be a required v0 dependency. It is a semantic indexer/graph and earns its keep later if deterministic evals show that convention-based constant resolution misses important context.
 
