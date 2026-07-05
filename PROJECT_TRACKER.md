@@ -48,8 +48,8 @@ over `lib/` (pinned 0.4.0, scoped to Metz cops via the committed
 inform refactors at pass boundaries. Every metz-scan bug or friction
 encountered gets logged in [`metz-scan-feedback.md`](metz-scan-feedback.md)
 with enough detail to file upstream GitHub issues — we are dogfooding the
-tool, not just consuming it. When pass 4 stands up CI, add a non-blocking
-metz step with the pinned version.
+tool, not just consuming it. CI (pass 4) runs metz as a non-blocking step
+with the pinned version.
 
 Corpus re-scan at pass boundaries (decided 2026-07-05): any pass that
 changes compiler behavior re-runs the Tier 0 classifier at the spike SHAs
@@ -72,26 +72,31 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Written 2026-07-05 for Next steps item 1 (Pass 4: implement
-[`specs/fixture-evals.md`](specs/fixture-evals.md)). If this section
-disagrees with "Next steps", Next steps wins.
+Written 2026-07-05 for Next steps item 1 (Tier 2 agent A/B). If this
+section disagrees with "Next steps", Next steps wins.
 
-1. Read `specs/fixture-evals.md` plus the "Cross-spec contracts" section of
-   `specs/README.md`. The building blocks already exist: the end-to-end CLI
-   (pass 3), the `minitest_basic` fixture at its EVAL-2 path (pass 1), and
-   the JSON manifest for EVAL-5 assertions (pass 2).
-2. Run the standard loop per "Working process". Brief = YAML case loader
-   and runner (EVAL-4..EVAL-9), determinism double-run check (EVAL-7),
-   re-runnability as a hard constraint (EVAL-11), and the CI job — Tier 1
-   only (EVAL-10) plus the non-blocking pinned metz step. Spec codes for
-   the review: EVAL-*.
-3. At review time, weigh the metz-scan pass-boundary findings (compiler
-   504 lines, renderer 216, CLI 145 — see Known debt) — decide whether a
-   split refactor rides along or stays deferred; don't let it creep into
-   the pass itself.
-4. Close with the end-of-session ritual: update Status/Next steps/Decision
-   log here, rewrite this section for what follows (likely the Tier 2
-   A/B), ask before committing.
+Tier 2 is an offline pre-registered experiment (`eval-plan.md`, "Tier 2 —
+agent-in-the-loop A/B"), not a spec pass — the Codex delegation loop and
+the corpus re-scan rule do not apply. It also has external side effects
+(real agent sessions cost money and time), so the pre-registration gets
+explicit user sign-off before any session runs.
+
+1. Read `eval-plan.md` Tier 2 end-to-end (setup, tasks, metrics, decision
+   rules) plus the Tier 0 method in `eval/tier0/RESULTS.md` for the app
+   corpus and SHA-pinning precedent.
+2. Draft the pre-registration under `eval/tier2/` (mirroring the Tier 0
+   layout): chosen app + pinned SHA, the three task instances, agent
+   version/settings, arm prompts, session count, and the JSONL run-record
+   schema (the harness's public contract, per the eval-platforms decision).
+   **Stop for user sign-off before running sessions.**
+3. Build the harness to the re-runnable contract (decision log 2026-07-05):
+   scripted arms, no one-shot setup, one JSONL record per session.
+4. Run the pre-registered sessions, analyze per the decision rules, write
+   `eval/tier2/RESULTS.md`.
+5. Close with the end-of-session ritual: update Status/Next steps/Decision
+   log here, rewrite this section for what follows (v0 wrap-up or the
+   compiler split refactor, depending on the Tier 2 verdict), ask before
+   committing.
 
 ## Status
 
@@ -100,28 +105,46 @@ disagrees with "Next steps", Next steps wins.
 | 1 | [`packet-compilation.md`](specs/packet-compilation.md) | **Done** (2026-07-05) | `Ctxpack.compile(app_root:, anchor:, task:)` → internal packet object. ANCH amendment mini-pass landed same day (class-by-file matching, tolerant action grammar). 25 tests / 101 assertions green. |
 | 2 | [`packet-format.md`](specs/packet-format.md) | **Done** (2026-07-05) | `Ctxpack.render_markdown` / `Ctxpack.render_manifest` over the pass 1 packet object. One review fix round (FMT-5 marker drift, Anchor labels). 34 tests / 193 assertions green. |
 | 3 | [`cli.md`](specs/cli.md) | **Done** (2026-07-05) | `Ctxpack::CLI` + `exe/ctxpack` over OptionParser, wiring the pass 1/2 APIs. One review fix round (CLI-14 reminder on implicit `.ctxpack/` creation, CLI-8 anchor-only derivation test). 47 tests / 274 assertions green. |
-| 4 | [`fixture-evals.md`](specs/fixture-evals.md) | Not started | YAML case runner + CI wiring. `minitest_basic` fixture tree already authored in pass 1 at its EVAL-2 path. |
+| 4 | [`fixture-evals.md`](specs/fixture-evals.md) | **Done** (2026-07-05) | `FixtureEvalsTest` generates packet-expectation + CLI-determinism tests from `test/fixtures/evals/*.yml`; CI (`.github/workflows/ci.yml`) runs the suite on Ruby 3.2 plus a non-blocking pinned metz step. One review fix round (empty-glob guard, manifest-inclusive determinism, CI Ruby floor). 49 tests / 311 assertions green. |
 
 Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 | Experiment | Status | Notes |
 |---|---|---|
 | Tier 0 anchor viability spike | **Done** (2026-07-05) | **91.0% engine-excluded average across Mastodon/Discourse/Zammad → ≥ 70% gate passes; proceed as designed.** Post-ANCH-amendment re-run: **93.9%**, zero regressions (addendum in RESULTS.md). Full method, taxonomy, and raw data in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md). Zero compiler crashes across 1,967 real-app pairs. |
-| Tier 2 agent A/B | Not started | Tier 0 gate cleared; CLI gate cleared by pass 3. Sequenced after pass 4. Harness contract: re-runnable, one JSONL run record per session (`eval-plan.md`, Tier 2 setup). |
+| Tier 2 agent A/B | **Next up** | All gates cleared (Tier 0, end-to-end CLI, pass 4 done). Harness contract: re-runnable, one JSONL run record per session (`eval-plan.md`, Tier 2 setup). |
 
 ## Next steps
 
-1. **Pass 4: `fixture-evals.md`** — YAML runner, CI job (Tier 1 only, per
-   EVAL-10; add the non-blocking metz step with the pinned version, per the
-   metz-scan decision). Design constraint (EVAL-11, decision log
-   2026-07-05): the runner must be re-runnable at any SHA, not wired to a
-   one-shot setup — the Tier 2 harness follows the same principle.
-2. **Tier 2 agent A/B** (offline, `eval-plan.md`) — both gates cleared
-   (Tier 0, end-to-end CLI); run after pass 4. Harness emits one JSONL run
-   record per session.
+1. **Tier 2 agent A/B** (offline, `eval-plan.md`) — all gates cleared; the
+   only remaining v0 work item. Pre-registered experiment, not a spec pass:
+   the Codex delegation loop does not apply. Harness contract: re-runnable
+   (pinned agent setup, scripted arms, recorded SHAs), one JSONL run record
+   per session.
 
 ## Decision log
 
+- **2026-07-05** — Pass 4 landed via the Codex delegation loop. Runner shape:
+  a Minitest test file (`test/ctxpack/fixture_evals_test.rb`) that globs
+  `test/fixtures/evals/*.yml` and defines two tests per case (packet
+  expectations against the internal packet object per EVAL-5; CLI
+  determinism per EVAL-7 via in-process `Ctxpack::CLI#run` with fixed
+  `--out --manifest`, SHA-256 over both artifacts), so `bundle exec rake
+  test` runs Tier 1 with zero extra wiring and EVAL-11 re-runnability holds
+  by construction. First CI workflow authored: push/PR, Ruby 3.2 (the
+  gemspec floor; local dev covers newer), `rake test`, plus the
+  non-blocking metz step pinned to 0.4.0. Session-side review confirmed one
+  defect, fixed in one `--resume` round: an empty case-file glob silently
+  defined zero tests — CI would stay green with the whole Tier 1 net gone
+  — now a load-time raise; the same round removed a redundant
+  `bundle install` CI step, made determinism manifest-inclusive, and moved
+  the CI Ruby pin to the floor. The fix round hit the known stale-"running"
+  failure mode (work complete, log dead ~29 min); record cancelled after
+  session-side verification per the playbook. Corpus re-scan skipped per
+  its own rule (no compiler behavior touched). Metz split refactor weighed
+  at the pass boundary per plan: stays deferred — pass 4 added zero lines
+  to `lib/`, so pressure is unchanged; re-weigh at the next pass that
+  touches the compiler. Suite: 49 tests / 311 assertions green.
 - **2026-07-05** — Pass 3 landed via the Codex delegation loop. OptionParser
   chosen over Thor at pass start (spec doesn't demand Thor; keeps prism the
   only runtime dependency). `Ctxpack::CLI#run(argv)` behind a thin
@@ -245,4 +268,6 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
   methods across all three. Splitting the compiler (e.g. callbacks /
   constants / test-candidates collaborators) remains the highest-pressure
   candidate refactor to weigh at a pass boundary, not mid-pass; the class
-  will grow again when future reason codes land.
+  will grow again when future reason codes land. Weighed at the pass 4
+  boundary: deferred (pass 4 added zero lines to `lib/`); re-weigh at the
+  next compiler-touching pass.

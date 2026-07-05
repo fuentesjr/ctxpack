@@ -1,0 +1,23 @@
+name: accounts_upgrade
+command:
+  anchor: accounts#upgrade
+  task: Implement billing upgrade
+
+expect:
+  entrypoint:
+    file: app/controllers/accounts_controller.rb
+    action: upgrade
+
+  include:
+    - path: app/controllers/accounts_controller.rb
+      reason_code: controller_action
+    - path: test/integration/accounts_upgrade_test.rb
+      reason_code: minitest_candidate
+
+  exclude:
+    - app/controllers/admin/accounts_controller.rb
+
+  tests:
+    - bin/rails test test/integration/accounts_upgrade_test.rb
+
+  max_files: 8

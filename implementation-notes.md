@@ -280,3 +280,50 @@ was changed in this pass.
   interface. The available sub-agent tool policy in this session forbids
   spawning agents unless the user explicitly asks for delegation, so the
   clean-context design review was not run.
+
+## Pass 4: Tier 1 fixture evals
+
+Implemented only fixture eval data, a Minitest runner, CI wiring, and these
+notes. No compiler, renderer, or CLI behavior was changed.
+
+### Decisions
+
+- Eval case files live in `test/fixtures/evals/*.yml`. This keeps case data
+  separate from Rails-shaped app inputs under `test/fixtures/apps/` while still
+  letting `test/ctxpack/**/*_test.rb` load the runner without loading fixture
+  app `*_test.rb` files.
+- The initial Tier 1 case is exactly the EVAL-4 `accounts_upgrade` YAML case.
+  No optional cases were added in this pass; the runner is ready to grow by
+  adding more YAML files.
+- `FixtureEvalsTest` globs case files and defines two tests per case: packet
+  expectation checks and CLI determinism. It raises during test loading if the
+  glob finds no YAML cases, so a path drift cannot silently remove Tier 1 from
+  CI. Case assertions target the internal packet object, not Markdown prose.
+- Packet checks cover the expected entrypoint file/action, required included
+  files and reason codes, excluded paths, expected test commands, per-case
+  `max_files`, and the LIM-1 file/test/snippet limits from
+  `Ctxpack::Compiler::LIMITS`.
+- The determinism check drives `Ctxpack::CLI#run` in-process twice with a fixed
+  `--out` path plus `--manifest`, then compares SHA-256 hashes of both the
+  written Markdown and sibling JSON manifest. Because the shared fixture tree
+  has no `config/application.rb` marker, the CLI check copies the fixture tree
+  into a temporary app root and adds only the marker required for CLI root
+  discovery. This is per-run setup, not recorded state; the packet expectation
+  checks still compile directly from the shared fixture tree in the working
+  tree.
+- CI lives in `.github/workflows/ci.yml`, runs on push and pull request, pins
+  Ruby 3.2 to exercise the gemspec's declared floor, and runs
+  `bundle exec rake test`. `ruby/setup-ruby`'s Bundler cache performs bundle
+  installation, so there is no separate `bundle install` step. Tier 1 is
+  covered through the existing Rake test pattern; no Tier 0 or Tier 2 workflow
+  step was added.
+- The workflow installs `metz-scan` pinned to 0.4.0 and runs
+  `bundle exec rake metz` in a `continue-on-error` step, preserving the Rake
+  task's advisory role.
+
+### Verification
+
+- Focused eval runner: `bundle exec ruby -Itest test/ctxpack/fixture_evals_test.rb`
+  passes: 2 runs, 37 assertions, 0 failures, 0 errors, 0 skips.
+- Full suite: `bundle exec rake test` passes: 49 runs, 311 assertions, 0
+  failures, 0 errors, 0 skips.
