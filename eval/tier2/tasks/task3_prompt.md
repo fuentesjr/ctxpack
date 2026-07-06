@@ -1,0 +1,12 @@
+Make the following small behavior change.
+
+When a new role is created via RolesController#create with the "Copy
+workflow from" option (copy_workflow_from parameter) and the referenced
+source role does not exist, the role is currently created and the parameter
+is silently ignored.
+
+Change this so that in that case the role is still created, but the response
+sets flash[:warning] with a localized message telling the user that workflow
+rules were not copied because the source role could not be found. Creates
+with a valid copy source, or without the parameter, must not set the
+warning.

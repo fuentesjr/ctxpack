@@ -1,0 +1,23 @@
+{
+  "app": "redmine",
+  "app_sha": "3386d9595767b3d0c455ace9281e056e9f61bd56",
+  "seed": "3386d9595767b3d0c455ace9281e056e9f61bd56",
+  "procedure": "eval/tier2/draw_anchors.rb (deterministic; see PREREGISTRATION.md)",
+  "inputs": {
+    "routes": "eval/tier2/routes/redmine.json",
+    "results": "eval/tier2/results/redmine.json"
+  },
+  "drawn_at": "2026-07-05",
+  "assigned": {
+    "shape1": "twofa#deactivate_init",
+    "shape2": "my#show_api_key",
+    "shape3": "roles#create"
+  },
+  "skips": [
+    {
+      "shape": "shape3",
+      "pair": "twofa#deactivate_init",
+      "reason": "not a write action (create/update/destroy)"
+    }
+  ]
+}

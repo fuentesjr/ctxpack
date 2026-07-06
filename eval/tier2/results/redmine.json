@@ -1,0 +1,1368 @@
+{
+  "app": "redmine",
+  "total_pairs": 336,
+  "summary": {
+    "resolved": 330,
+    "other": 5,
+    "file_not_found": 1
+  },
+  "resolution_rate": 0.9821,
+  "compile_crashes": 0,
+  "results": [
+    {
+      "anchor": "account#activate",
+      "result": "resolved"
+    },
+    {
+      "anchor": "account#activation_email",
+      "result": "resolved"
+    },
+    {
+      "anchor": "account#login",
+      "result": "resolved"
+    },
+    {
+      "anchor": "account#logout",
+      "result": "resolved"
+    },
+    {
+      "anchor": "account#lost_password",
+      "result": "resolved"
+    },
+    {
+      "anchor": "account#register",
+      "result": "resolved"
+    },
+    {
+      "anchor": "account#twofa",
+      "result": "resolved"
+    },
+    {
+      "anchor": "account#twofa_confirm",
+      "result": "resolved"
+    },
+    {
+      "anchor": "account#twofa_resend",
+      "result": "resolved"
+    },
+    {
+      "anchor": "activities#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin#default_configuration",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin#info",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin#plugins",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin#projects",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin#test_email",
+      "result": "resolved"
+    },
+    {
+      "anchor": "attachments#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "attachments#download",
+      "result": "resolved"
+    },
+    {
+      "anchor": "attachments#download_all",
+      "result": "resolved"
+    },
+    {
+      "anchor": "attachments#edit_all",
+      "result": "resolved"
+    },
+    {
+      "anchor": "attachments#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "attachments#thumbnail",
+      "result": "resolved"
+    },
+    {
+      "anchor": "attachments#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "attachments#update_all",
+      "result": "resolved"
+    },
+    {
+      "anchor": "attachments#upload",
+      "result": "resolved"
+    },
+    {
+      "anchor": "auth_sources#autocomplete_for_new_user",
+      "result": "resolved"
+    },
+    {
+      "anchor": "auth_sources#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "auth_sources#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "auth_sources#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "auth_sources#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "auth_sources#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "auth_sources#show",
+      "error": "action show was not directly defined in app/controllers/auth_sources_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def show found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "auth_sources#test_connection",
+      "result": "resolved"
+    },
+    {
+      "anchor": "auth_sources#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "auto_completes#issues",
+      "result": "resolved"
+    },
+    {
+      "anchor": "auto_completes#wiki_pages",
+      "result": "resolved"
+    },
+    {
+      "anchor": "boards#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "boards#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "boards#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "boards#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "boards#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "boards#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "boards#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "calendars#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "comments#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "comments#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "context_menus/issues#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "context_menus/projects#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "context_menus/time_entries#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "context_menus/users#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "custom_field_enumerations#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "custom_field_enumerations#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "custom_field_enumerations#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "custom_field_enumerations#update",
+      "error": "action update was not directly defined in app/controllers/custom_field_enumerations_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def update found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "custom_field_enumerations#update_each",
+      "result": "resolved"
+    },
+    {
+      "anchor": "custom_fields#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "custom_fields#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "custom_fields#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "custom_fields#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "custom_fields#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "custom_fields#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "documents#add_attachment",
+      "result": "resolved"
+    },
+    {
+      "anchor": "documents#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "documents#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "documents#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "documents#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "documents#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "documents#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "documents#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "email_addresses#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "email_addresses#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "email_addresses#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "email_addresses#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "enumerations#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "enumerations#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "enumerations#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "enumerations#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "enumerations#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "enumerations#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "files#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "files#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "files#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "gantts#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#add_users",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#autocomplete_for_user",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#new_users",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#remove_user",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#remove_users",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "groups#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "help#show_code_highlighting",
+      "result": "resolved"
+    },
+    {
+      "anchor": "help#show_wiki_syntax",
+      "result": "resolved"
+    },
+    {
+      "anchor": "imports#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "imports#mapping",
+      "result": "resolved"
+    },
+    {
+      "anchor": "imports#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "imports#run",
+      "result": "resolved"
+    },
+    {
+      "anchor": "imports#settings",
+      "result": "resolved"
+    },
+    {
+      "anchor": "imports#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issue_categories#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issue_categories#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issue_categories#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issue_categories#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issue_categories#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issue_categories#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issue_categories#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issue_relations#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issue_relations#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issue_relations#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issue_relations#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issue_statuses#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issue_statuses#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issue_statuses#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issue_statuses#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issue_statuses#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issue_statuses#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issue_statuses#update_issue_done_ratio",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issues#bulk_edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issues#bulk_update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issues#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issues#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issues#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issues#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issues#issue_tab",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issues#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issues#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "issues#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "journals#diff",
+      "result": "resolved"
+    },
+    {
+      "anchor": "journals#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "journals#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "journals#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "journals#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mail_handler#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mail_handler#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "members#autocomplete",
+      "result": "resolved"
+    },
+    {
+      "anchor": "members#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "members#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "members#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "members#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "members#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "members#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "members#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages#preview",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages#quote",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages#reply",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "my#account",
+      "result": "resolved"
+    },
+    {
+      "anchor": "my#add_block",
+      "result": "resolved"
+    },
+    {
+      "anchor": "my#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "my#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "my#order_blocks",
+      "result": "resolved"
+    },
+    {
+      "anchor": "my#page",
+      "result": "resolved"
+    },
+    {
+      "anchor": "my#password",
+      "result": "resolved"
+    },
+    {
+      "anchor": "my#remove_block",
+      "result": "resolved"
+    },
+    {
+      "anchor": "my#reset_api_key",
+      "result": "resolved"
+    },
+    {
+      "anchor": "my#reset_atom_key",
+      "result": "resolved"
+    },
+    {
+      "anchor": "my#show_api_key",
+      "result": "resolved"
+    },
+    {
+      "anchor": "my#update_page",
+      "result": "resolved"
+    },
+    {
+      "anchor": "news#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "news#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "news#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "news#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "news#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "news#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "news#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "previews#issue",
+      "result": "resolved"
+    },
+    {
+      "anchor": "previews#news",
+      "result": "resolved"
+    },
+    {
+      "anchor": "previews#text",
+      "result": "resolved"
+    },
+    {
+      "anchor": "principal_memberships#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "principal_memberships#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "principal_memberships#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "principal_memberships#index",
+      "error": "action index was not directly defined in app/controllers/principal_memberships_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def index found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "principal_memberships#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "principal_memberships#show",
+      "error": "action show was not directly defined in app/controllers/principal_memberships_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def show found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "principal_memberships#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "project_enumerations#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "project_enumerations#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "projects#archive",
+      "result": "resolved"
+    },
+    {
+      "anchor": "projects#autocomplete",
+      "result": "resolved"
+    },
+    {
+      "anchor": "projects#bookmark",
+      "result": "resolved"
+    },
+    {
+      "anchor": "projects#bulk_destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "projects#close",
+      "result": "resolved"
+    },
+    {
+      "anchor": "projects#copy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "projects#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "projects#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "projects#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "projects#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "projects#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "projects#reopen",
+      "result": "resolved"
+    },
+    {
+      "anchor": "projects#settings",
+      "result": "resolved"
+    },
+    {
+      "anchor": "projects#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "projects#unarchive",
+      "result": "resolved"
+    },
+    {
+      "anchor": "projects#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "queries#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "queries#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "queries#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "queries#filter",
+      "result": "resolved"
+    },
+    {
+      "anchor": "queries#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "queries#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "queries#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "rails/health#show",
+      "error": "expected controller file does not exist: app/controllers/rails/health_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "reactions#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "reactions#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "reports#issue_report",
+      "result": "resolved"
+    },
+    {
+      "anchor": "reports#issue_report_details",
+      "result": "resolved"
+    },
+    {
+      "anchor": "repositories#add_related_issue",
+      "result": "resolved"
+    },
+    {
+      "anchor": "repositories#annotate",
+      "result": "resolved"
+    },
+    {
+      "anchor": "repositories#browse",
+      "error": "action browse was not directly defined in app/controllers/repositories_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def browse found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "repositories#changes",
+      "result": "resolved"
+    },
+    {
+      "anchor": "repositories#committers",
+      "result": "resolved"
+    },
+    {
+      "anchor": "repositories#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "repositories#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "repositories#diff",
+      "result": "resolved"
+    },
+    {
+      "anchor": "repositories#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "repositories#entry",
+      "result": "resolved"
+    },
+    {
+      "anchor": "repositories#fetch_changesets",
+      "result": "resolved"
+    },
+    {
+      "anchor": "repositories#graph",
+      "result": "resolved"
+    },
+    {
+      "anchor": "repositories#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "repositories#raw",
+      "result": "resolved"
+    },
+    {
+      "anchor": "repositories#remove_related_issue",
+      "result": "resolved"
+    },
+    {
+      "anchor": "repositories#revision",
+      "result": "resolved"
+    },
+    {
+      "anchor": "repositories#revisions",
+      "result": "resolved"
+    },
+    {
+      "anchor": "repositories#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "repositories#stats",
+      "result": "resolved"
+    },
+    {
+      "anchor": "repositories#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "roles#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "roles#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "roles#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "roles#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "roles#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "roles#permissions",
+      "result": "resolved"
+    },
+    {
+      "anchor": "roles#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "roles#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "roles#update_permissions",
+      "result": "resolved"
+    },
+    {
+      "anchor": "search#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#plugin",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sys#create_project_repository",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sys#fetch_changesets",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sys#projects",
+      "result": "resolved"
+    },
+    {
+      "anchor": "timelog#bulk_edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "timelog#bulk_update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "timelog#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "timelog#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "timelog#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "timelog#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "timelog#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "timelog#report",
+      "result": "resolved"
+    },
+    {
+      "anchor": "timelog#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "timelog#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "trackers#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "trackers#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "trackers#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "trackers#fields",
+      "result": "resolved"
+    },
+    {
+      "anchor": "trackers#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "trackers#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "trackers#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "twofa#activate",
+      "result": "resolved"
+    },
+    {
+      "anchor": "twofa#activate_confirm",
+      "result": "resolved"
+    },
+    {
+      "anchor": "twofa#activate_init",
+      "result": "resolved"
+    },
+    {
+      "anchor": "twofa#admin_deactivate",
+      "result": "resolved"
+    },
+    {
+      "anchor": "twofa#deactivate",
+      "result": "resolved"
+    },
+    {
+      "anchor": "twofa#deactivate_confirm",
+      "result": "resolved"
+    },
+    {
+      "anchor": "twofa#deactivate_init",
+      "result": "resolved"
+    },
+    {
+      "anchor": "twofa#select_scheme",
+      "result": "resolved"
+    },
+    {
+      "anchor": "twofa_backup_codes#confirm",
+      "result": "resolved"
+    },
+    {
+      "anchor": "twofa_backup_codes#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "twofa_backup_codes#init",
+      "result": "resolved"
+    },
+    {
+      "anchor": "twofa_backup_codes#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#bulk_destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#bulk_lock",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#bulk_unlock",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "versions#close_completed",
+      "result": "resolved"
+    },
+    {
+      "anchor": "versions#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "versions#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "versions#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "versions#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "versions#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "versions#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "versions#status_by",
+      "result": "resolved"
+    },
+    {
+      "anchor": "versions#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "watchers#append",
+      "result": "resolved"
+    },
+    {
+      "anchor": "watchers#autocomplete_for_mention",
+      "result": "resolved"
+    },
+    {
+      "anchor": "watchers#autocomplete_for_user",
+      "result": "resolved"
+    },
+    {
+      "anchor": "watchers#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "watchers#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "watchers#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "watchers#unwatch",
+      "result": "resolved"
+    },
+    {
+      "anchor": "watchers#watch",
+      "result": "resolved"
+    },
+    {
+      "anchor": "webhooks#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "webhooks#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "webhooks#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "webhooks#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "webhooks#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "webhooks#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "welcome#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "welcome#robots",
+      "result": "resolved"
+    },
+    {
+      "anchor": "wiki#add_attachment",
+      "result": "resolved"
+    },
+    {
+      "anchor": "wiki#annotate",
+      "result": "resolved"
+    },
+    {
+      "anchor": "wiki#date_index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "wiki#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "wiki#destroy_version",
+      "result": "resolved"
+    },
+    {
+      "anchor": "wiki#diff",
+      "result": "resolved"
+    },
+    {
+      "anchor": "wiki#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "wiki#export",
+      "result": "resolved"
+    },
+    {
+      "anchor": "wiki#history",
+      "result": "resolved"
+    },
+    {
+      "anchor": "wiki#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "wiki#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "wiki#preview",
+      "result": "resolved"
+    },
+    {
+      "anchor": "wiki#protect",
+      "result": "resolved"
+    },
+    {
+      "anchor": "wiki#rename",
+      "result": "resolved"
+    },
+    {
+      "anchor": "wiki#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "wiki#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "wikis#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "workflows#copy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "workflows#duplicate",
+      "result": "resolved"
+    },
+    {
+      "anchor": "workflows#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "workflows#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "workflows#permissions",
+      "result": "resolved"
+    },
+    {
+      "anchor": "workflows#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "workflows#update_permissions",
+      "result": "resolved"
+    }
+  ]
+}

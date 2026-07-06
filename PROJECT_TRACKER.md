@@ -80,28 +80,31 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Written 2026-07-05 for Next steps item 1 (Tier 2 agent A/B). If this
-section disagrees with "Next steps", Next steps wins.
+Written 2026-07-05, updated same day after the Tier 2 pre-registration was
+frozen (user sign-off in session). If this section disagrees with "Next
+steps", Next steps wins.
 
-Tier 2 is an offline pre-registered experiment (`eval-plan.md`, "Tier 2 —
-agent-in-the-loop A/B"), not a spec pass — the Codex delegation loop and
-the corpus re-scan rule do not apply. It also has external side effects
-(real agent sessions cost money and time), so the pre-registration gets
-explicit user sign-off before any session runs.
+The pre-registration is FROZEN at `eval/tier2/PREREGISTRATION.md` — app
+(Redmine @ pinned SHA), anchors (deterministic draw, committed), task
+prompts, acceptance tests, arms, metrics, run counts, and the JSONL
+run-record schema are all fixed. Only its explicit amendment rules apply
+from here. Remaining work:
 
-1. Read `eval-plan.md` Tier 2 end-to-end (setup, tasks, metrics, decision
-   rules) plus the Tier 0 method in `eval/tier0/RESULTS.md` for the app
-   corpus and SHA-pinning precedent.
-2. Draft the pre-registration under `eval/tier2/` (mirroring the Tier 0
-   layout): chosen app + pinned SHA, the three task instances, agent
-   version/settings, arm prompts, session count, and the JSONL run-record
-   schema (the harness's public contract, per the eval-platforms decision).
-   **Stop for user sign-off before running sessions.**
-3. Build the harness to the re-runnable contract (decision log 2026-07-05):
-   scripted arms, no one-shot setup, one JSONL record per session.
-4. Run the pre-registered sessions, analyze per the decision rules, write
-   `eval/tier2/RESULTS.md`.
-5. Close with the end-of-session ritual: update Status/Next steps/Decision
+1. Build the harness to the re-runnable contract (decision log 2026-07-05)
+   and the frozen execution rules: scripted arms, serial pre-registered
+   order with alternating arm order per round, resumable via
+   `eval/tier2/runs.jsonl` (skip `status: "complete"` tuples), abort vs
+   timeout handling, sterile `CLAUDE_CONFIG_DIR`, workspaces from the
+   pinned Redmine SHA (task 2 plus seed patch), packets generated once per
+   task with recorded SHA-256.
+2. Run the 2-session pilot (task 2, both arms, `pilot: true`); record
+   per-session usage-window consumption for batch sizing; apply any
+   mechanical acceptance-test fixes under the pre-registration's amendment
+   rule (allowed only before grid sessions).
+3. Run the 18-session grid in usage-window-sized batches, blind-judge the
+   diffs per the frozen rubric, analyze per the pre-registered
+   interpretation, write `eval/tier2/RESULTS.md`.
+4. Close with the end-of-session ritual: update Status/Next steps/Decision
    log here, rewrite this section for what follows (v0 wrap-up or the
    compiler split refactor, depending on the Tier 2 verdict), ask before
    committing.
@@ -120,7 +123,7 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 | Experiment | Status | Notes |
 |---|---|---|
 | Tier 0 anchor viability spike | **Done** (2026-07-05) | **91.0% engine-excluded average across Mastodon/Discourse/Zammad → ≥ 70% gate passes; proceed as designed.** Post-ANCH-amendment re-run: **93.9%**, zero regressions (addendum in RESULTS.md). Full method, taxonomy, and raw data in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md). Zero compiler crashes across 1,967 real-app pairs. |
-| Tier 2 agent A/B | **Next up** | All gates cleared (Tier 0, end-to-end CLI, pass 4 done). Harness contract: re-runnable, one JSONL run record per session (`eval-plan.md`, Tier 2 setup). |
+| Tier 2 agent A/B | **Pre-registration FROZEN** (2026-07-05) | `eval/tier2/PREREGISTRATION.md` signed off: Redmine @ `3386d959` (98.2% anchor resolution, 330/336), Claude Code + Sonnet 5 pinned, anchors drawn deterministically pre-packet (`twofa#deactivate_init` / `my#show_api_key` / `roles#create`), 3 runs/arm + pilot, subscription-window-aware execution rules. Next: build harness, pilot, grid. |
 
 ## Next steps
 
@@ -132,7 +135,25 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Decision log
 
-- **2026-07-05** — Pass 4 landed via the Codex delegation loop. Runner shape:
+- **2026-07-05** — Tier 2 pre-registration frozen (user sign-off in session);
+  full design in `eval/tier2/PREREGISTRATION.md`. Key decisions: app is
+  Redmine @ `3386d959` — the only large conventional Minitest candidate
+  (Tier 0 trio are RSpec; ctxpack test rules and task shape 2 assume
+  Minitest); its anchor scan gave 98.2% resolution (330/336, zero crashes),
+  data under `eval/tier2/{routes,results}/`. Subject pinned to Claude Code +
+  Sonnet 5 — the current Sonnet is the honest strong control (same sticker
+  price as older Sonnets, cheaper on intro pricing; downgrading the subject
+  would inflate the packet's measured benefit; if budget ever binds, cut
+  runs, not the control). Anchors drawn deterministically before any packet
+  existed (`draw_anchors.rb`, seed = app SHA, skips logged). 3 runs/arm
+  (18 sessions + 2-session pilot) with a pre-registered all-tasks-at-once,
+  no-post-peek extension rule to 5. Grid runs on the user's Claude
+  subscription: serial sessions, arm order alternating by round, batches
+  resumable across 5-hour usage windows via `runs.jsonl`, throttled
+  sessions recorded `aborted` + re-run (vs `timeout` = agent failure,
+  metrics kept). Known limitation recorded: Redmine's `test/functional/`
+  layout means packet test candidates are structurally empty — this
+  instance measures code-content value, not the test pointer. Runner shape:
   a Minitest test file (`test/ctxpack/fixture_evals_test.rb`) that globs
   `test/fixtures/evals/*.yml` and defines two tests per case (packet
   expectations against the internal packet object per EVAL-5; CLI
