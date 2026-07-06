@@ -80,34 +80,26 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Written 2026-07-05, updated same day after the Tier 2 pre-registration was
-frozen (user sign-off in session). If this section disagrees with "Next
-steps", Next steps wins.
+Written 2026-07-05, rewritten 2026-07-06 after the Tier 2 grid completed
+(directional SUPPORT). If this section disagrees with "Next steps", Next
+steps wins.
 
-The pre-registration is FROZEN at `eval/tier2/PREREGISTRATION.md` — app
-(Redmine @ pinned SHA), anchors (deterministic draw, committed), task
-prompts, acceptance tests, arms, metrics, run counts, and the JSONL
-run-record schema are all fixed. Only its explicit amendment rules apply
-from here. Remaining work:
+Tier 2 is run: harness built, pilot + 18-session grid executed (all
+`complete`, zero aborts, 100% success), analysis in
+[`eval/tier2/RESULTS.md`](eval/tier2/RESULTS.md), verdict **SUPPORT**
+(directional). The exploration-metric finding is final; only the blind
+diff-quality scores remain an agent first-pass awaiting author confirmation.
 
-1. Build the harness to the re-runnable contract (decision log 2026-07-05)
-   and the frozen execution rules: scripted arms, serial pre-registered
-   order with alternating arm order per round, resumable via
-   `eval/tier2/runs.jsonl` (skip `status: "complete"` tuples), abort vs
-   timeout handling, sterile `CLAUDE_CONFIG_DIR`, workspaces from the
-   pinned Redmine SHA (task 2 plus seed patch), packets generated once per
-   task with recorded SHA-256.
-2. Run the 2-session pilot (task 2, both arms, `pilot: true`); record
-   per-session usage-window consumption for batch sizing; apply any
-   mechanical acceptance-test fixes under the pre-registration's amendment
-   rule (allowed only before grid sessions).
-3. Run the 18-session grid in usage-window-sized batches, blind-judge the
-   diffs per the frozen rubric, analyze per the pre-registered
-   interpretation, write `eval/tier2/RESULTS.md`.
-4. Close with the end-of-session ritual: update Status/Next steps/Decision
-   log here, rewrite this section for what follows (v0 wrap-up or the
-   compiler split refactor, depending on the Tier 2 verdict), ask before
-   committing.
+Immediate next step — **have the user confirm the diff-quality scores, then
+choose the post-support fork** (Next steps 1–2): expand the experiment
+(more tasks / second app / modern test layout — the task-1 multi-file
+regression is the sharpest open question) versus declaring v0 evidence
+sufficient and picking up the deferred compiler split refactor. This is a
+scope decision, not a delegated pass — it needs the user, so no execution
+plan is pre-committed here. Once the fork is chosen, the session taking it
+rewrites this section for that work.
+
+Final step of this plan: rewrite this section for the chosen fork.
 
 ## Status
 
@@ -123,18 +115,43 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 | Experiment | Status | Notes |
 |---|---|---|
 | Tier 0 anchor viability spike | **Done** (2026-07-05) | **91.0% engine-excluded average across Mastodon/Discourse/Zammad → ≥ 70% gate passes; proceed as designed.** Post-ANCH-amendment re-run: **93.9%**, zero regressions (addendum in RESULTS.md). Full method, taxonomy, and raw data in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md). Zero compiler crashes across 1,967 real-app pairs. |
-| Tier 2 agent A/B | **Pre-registration FROZEN** (2026-07-05) | `eval/tier2/PREREGISTRATION.md` signed off: Redmine @ `3386d959` (98.2% anchor resolution, 330/336), Claude Code + Sonnet 5 pinned, anchors drawn deterministically pre-packet (`twofa#deactivate_init` / `my#show_api_key` / `roles#create`), 3 runs/arm + pilot, subscription-window-aware execution rules. Next: build harness, pilot, grid. |
+| Tier 2 agent A/B | **Done — SUPPORT** (2026-07-06) | Harness (`eval/tier2/harness.rb`) + 18-session grid + pilot run; all 20 sessions `complete`, zero aborts, 100% `task_success`. 2/3 tasks (bug-fix, behavior-change) show ≥ 30% median reduction in calls-to-first-load-bearing-read; multi-file feature (task 1) mildly worse; diff quality at ceiling (control 8.00 / treatment 7.89, agent first-pass pending author confirmation). Directional support per the frozen rule. Full analysis: [`eval/tier2/RESULTS.md`](eval/tier2/RESULTS.md). |
 
 ## Next steps
 
-1. **Tier 2 agent A/B** (offline, `eval-plan.md`) — all gates cleared; the
-   only remaining v0 work item. Pre-registered experiment, not a spec pass:
-   the Codex delegation loop does not apply. Harness contract: re-runnable
-   (pinned agent setup, scripted arms, recorded SHAs), one JSONL run record
-   per session.
+1. **Author-confirm the Tier 2 diff-quality scores** — the exploration-metric
+   result (SUPPORT) is mechanical and final; the blind 0–8 diff scores are an
+   agent first-pass (`tmp/tier2/judging/`, seed = app SHA). Review/adjust to
+   close the residual-bias gap the pre-registration acknowledges.
+2. **Decide the post-support fork.** `eval-plan.md`'s rule is "Tier 2 support
+   → expand to more tasks and a second app." The task-1 regression sharpens
+   the question: does the packet help *multi-file* feature work, and does the
+   test-candidate pointer add value on a modern (`test/controllers/`) layout
+   Redmine could not exercise? Alternative: call v0 evidence sufficient and
+   turn to the deferred compiler split refactor. User's call.
 
 ## Decision log
 
+- **2026-07-06** — Tier 2 grid executed; verdict **SUPPORT** (directional).
+  Harness (`eval/tier2/harness.rb`) ran the 2-session pilot then the
+  18-session grid in two same-day batches (round 1, then rounds 2+3) on the
+  user's subscription; all 20 sessions `complete`, zero aborts/timeouts,
+  ≈10.64M grid tokens, ~44 min elapsed. No acceptance-test or harness
+  amendment was needed (pilot diffs correct first try). Per the frozen rule
+  (≥30% median reduction in calls-to-first-load-bearing-read or distraction,
+  ≥2/3 tasks, no success/quality regression): tasks 2 (bug-fix, LBR 4→2) and 3
+  (behavior, 2→1) clear the bar; task 1 (multi-file feature) is mildly *worse*
+  (5→7) — the packet aids small-surface tasks and adds exploration overhead on
+  spread-out feature work, the study's key nuance. `task_success` is 100% in
+  both arms (saturated → non-discriminating); blind diff quality is at ceiling
+  (control 8.00 / treatment 7.89, no regression) but those 0–8 scores are an
+  agent first-pass (`tmp/tier2/judging/`, seed = app SHA) pending author
+  confirmation, so the load-bearing claim is the exploration metric, not the
+  quality gap. Pre-registered follow-up rule ("support → expand to more tasks
+  and a second app") now live; task-1 regression + Redmine's structurally
+  empty test-candidate pointer (`test/functional/` layout, TEST-5) make a
+  modern-layout, multi-file-feature follow-up the sharpest next probe. Full
+  method and tables: `eval/tier2/RESULTS.md`.
 - **2026-07-05** — Tier 2 pre-registration frozen (user sign-off in session);
   full design in `eval/tier2/PREREGISTRATION.md`. Key decisions: app is
   Redmine @ `3386d959` — the only large conventional Minitest candidate

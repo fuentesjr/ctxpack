@@ -1,0 +1,31 @@
+diff --git a/app/controllers/roles_controller.rb b/app/controllers/roles_controller.rb
+index 9181c83..d8ca3a9 100644
+--- a/app/controllers/roles_controller.rb
++++ b/app/controllers/roles_controller.rb
+@@ -63,8 +63,12 @@ class RolesController < ApplicationController
+     @role.safe_attributes = params[:role]
+     if request.post? && @role.save
+       # workflow copy
+-      if params[:copy_workflow_from].present? && (copy_from = Role.find_by_id(params[:copy_workflow_from]))
+-        @role.copy_workflow_rules(copy_from)
++      if params[:copy_workflow_from].present?
++        if (copy_from = Role.find_by_id(params[:copy_workflow_from]))
++          @role.copy_workflow_rules(copy_from)
++        else
++          flash[:warning] = l(:warning_workflow_not_copied_role_not_found)
++        end
+       end
+       flash[:notice] = l(:notice_successful_create)
+       redirect_to roles_path
+diff --git a/config/locales/en.yml b/config/locales/en.yml
+index d0d9374..b6bdef1 100644
+--- a/config/locales/en.yml
++++ b/config/locales/en.yml
+@@ -239,6 +239,7 @@ en:
+   error_move_of_child_not_possible: "Subtask %{child} could not be moved to the new project: %{errors}"
+   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: "Spent time cannot be reassigned to an issue that is about to be deleted"
+   warning_fields_cleared_on_bulk_edit: "Changes will result in the automatic deletion of values from one or more fields on the selected objects"
++  warning_workflow_not_copied_role_not_found: "Workflow rules were not copied because the source role could not be found."
+   error_exceeds_maximum_hours_per_day: "Cannot log more than %{max_hours} hours on the same day (%{logged_hours} hours have already been logged)"
+   error_can_not_delete_auth_source: "This authentication mode is in use and cannot be deleted."
+   error_spent_on_future_date: "Cannot log time on a future date"

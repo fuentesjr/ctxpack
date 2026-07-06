@@ -1,0 +1,60 @@
+diff --git a/app/controllers/roles_controller.rb b/app/controllers/roles_controller.rb
+index 9181c83..dc9eecc 100644
+--- a/app/controllers/roles_controller.rb
++++ b/app/controllers/roles_controller.rb
+@@ -63,8 +63,12 @@ class RolesController < ApplicationController
+     @role.safe_attributes = params[:role]
+     if request.post? && @role.save
+       # workflow copy
+-      if params[:copy_workflow_from].present? && (copy_from = Role.find_by_id(params[:copy_workflow_from]))
+-        @role.copy_workflow_rules(copy_from)
++      if params[:copy_workflow_from].present?
++        if (copy_from = Role.find_by_id(params[:copy_workflow_from]))
++          @role.copy_workflow_rules(copy_from)
++        else
++          flash[:warning] = l(:warning_workflow_copy_source_not_found)
++        end
+       end
+       flash[:notice] = l(:notice_successful_create)
+       redirect_to roles_path
+diff --git a/config/locales/en.yml b/config/locales/en.yml
+index d0d9374..5321876 100644
+--- a/config/locales/en.yml
++++ b/config/locales/en.yml
+@@ -239,6 +239,7 @@ en:
+   error_move_of_child_not_possible: "Subtask %{child} could not be moved to the new project: %{errors}"
+   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: "Spent time cannot be reassigned to an issue that is about to be deleted"
+   warning_fields_cleared_on_bulk_edit: "Changes will result in the automatic deletion of values from one or more fields on the selected objects"
++  warning_workflow_copy_source_not_found: "Workflow rules were not copied because the source role could not be found."
+   error_exceeds_maximum_hours_per_day: "Cannot log more than %{max_hours} hours on the same day (%{logged_hours} hours have already been logged)"
+   error_can_not_delete_auth_source: "This authentication mode is in use and cannot be deleted."
+   error_spent_on_future_date: "Cannot log time on a future date"
+diff --git a/test/functional/roles_controller_test.rb b/test/functional/roles_controller_test.rb
+index 8a87657..1a437c1 100644
+--- a/test/functional/roles_controller_test.rb
++++ b/test/functional/roles_controller_test.rb
+@@ -146,6 +146,24 @@ class RolesControllerTest < Redmine::ControllerTest
+     assert_equal Role.find(1).workflow_rules.size, role.workflow_rules.size
+   end
+ 
++  def test_create_with_workflow_copy_from_invalid_source_should_create_role_and_set_warning
++    post(
++      :create,
++      :params => {
++        :role => {
++          :name => 'RoleWithInvalidWorkflowCopy',
++          :permissions => ['add_issues', 'edit_issues', 'log_time', ''],
++          :assignable => '0'
++        },
++        :copy_workflow_from => '999999'
++      }
++    )
++    assert_redirected_to '/roles'
++    role = Role.find_by_name('RoleWithInvalidWorkflowCopy')
++    assert_not_nil role
++    assert_equal I18n.t(:warning_workflow_copy_source_not_found), flash[:warning]
++  end
++
+   def test_create_with_managed_roles
+     role = new_record(Role) do
+       post(

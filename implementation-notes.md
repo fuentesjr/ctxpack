@@ -327,3 +327,105 @@ notes. No compiler, renderer, or CLI behavior was changed.
   passes: 2 runs, 37 assertions, 0 failures, 0 errors, 0 skips.
 - Full suite: `bundle exec rake test` passes: 49 runs, 311 assertions, 0
   failures, 0 errors, 0 skips.
+
+## Tier 2 harness (2026-07-05)
+
+Not a spec pass — built in-session (the Codex delegation loop is reserved for
+spec passes; PROJECT_TRACKER "Next steps"). Executes the frozen
+`eval/tier2/PREREGISTRATION.md`; this section records harness mechanics only.
+
+### Decisions
+
+- Single stdlib-only script `eval/tier2/harness.rb` with `setup` / `run [N]` /
+  `status` subcommands. `runs.jsonl` is the resume key: tuples with
+  `status: "complete"` are skipped, so batches across usage windows are
+  `run N` invocations of the same script.
+- Work area `tmp/tier2/` (gitignored; `tmp/` added to `.gitignore`): pinned
+  Redmine template (shallow fetch of the exact SHA, branch `pinned`), sterile
+  `CLAUDE_CONFIG_DIR`, per-session workspaces, scoring logs. Committed
+  artifacts: `packets/` (+ `packets.json` meta with ctxpack SHA + SHA-256s),
+  `transcripts/`, `diffs/`, `runs.jsonl`, `tasks/task2_failing_output.txt`.
+- Workspaces are `git clone --local` of the template plus copied untracked
+  prep (`config/database.yml`, `Gemfile.lock`, `db/redmine_test.sqlite3` —
+  all Redmine-gitignored). Task 2 workspaces commit the seed patch on top.
+  Bundler gems live in the shared mise Ruby (4.0.1), so clones are cheap.
+- Final diff is captured as `git add -A` + `git diff --cached --binary`
+  (includes files the agent created); the same staged state yields
+  `--name-only` for the metric definitions. Workspaces are deleted after
+  scoring; the patch and transcript are the durable artifacts.
+- Session status mapping (frozen rules → mechanics): watchdog kill at 30 min
+  → `timeout` (metrics kept, `task_success` false); non-zero exit or missing/
+  non-`success` result event → `aborted` (metrics discarded, tuple re-run;
+  the run loop stops on abort since the usage window is likely exhausted);
+  otherwise `complete`. Claude stderr goes to `tmp/tier2/stderr/` for abort
+  diagnosis.
+- Packets are generated anchor-only (no `--task`): CLI-4/8 make that
+  deterministic, and it keeps every treatment byte either frozen text or
+  ctxpack output — no unfrozen task-summary text invented at setup time.
+- Task 2's packet is generated from the *seeded* tree (recorded as a
+  PREREGISTRATION amendment): generating from the pristine tree inlined the
+  pre-bug line into the packet snippet — a fix leak to the treatment arm.
+- `tasks/task2_seed.patch` regenerated via `git diff --output=…` (recorded
+  amendment): the original was corrupted at authoring time because the rtk
+  hook filters `git diff` stdout, so `git diff > file` captured the filtered
+  summary. Root cause worth remembering for any future committed-patch
+  authoring.
+
+### Verification
+
+- Prompt builder: all 6 task/arm prompts render with no leftover
+  `{placeholder}` tokens; task 2 embeds the verbatim captured failing output;
+  treatment embeds the recorded packet bytes. Substitution uses block-form
+  `sub` so packet/test-output bytes can't be mangled as backreferences.
+- Scoring: task 2 simulated-correct-fix → true; empty diff → false; diff
+  touching `test/` → false (frozen extra check). Tasks 1/3 acceptance tests
+  red on the unmodified tree for exactly the missing behavior (no fixture or
+  API drift — no amendment needed); task 3's valid-copy/no-param guards green.
+- Metrics parser: synthetic stream-json transcript covering every frozen
+  definition (load-bearing index over all tool_use events, distraction reads,
+  discarded edits, usage sum) matches expected values.
+- Baseline: unseeded `test_show_api_key` green in the template on
+  Ruby 4.0.1 / Rails 8.1.3 / SQLite; seeded run errors with the captured
+  `undefined method 'api_key' for nil`.
+- Not yet verified: a real end-to-end session (blocked on a one-time
+  interactive login into the sterile `CLAUDE_CONFIG_DIR`; the auto-mode
+  classifier correctly refused materializing the keychain credential into a
+  file). The pilot is the end-to-end shakeout by design.
+
+### Pilot outcome (2026-07-06)
+
+End-to-end shakeout clean. Both task-2 pilot sessions (`run 2`) completed,
+`task_success=true`, scoring 56 runs / 0 failures each. Both produced the
+identical minimal fix (`@current_user`→`@user`, single line, `test/`
+untouched) — no mechanical acceptance-test fix needed, no PREREGISTRATION
+amendment. Early directional signal (n=1, task 2 only, not inferential):
+treatment hit the load-bearing read on call 1 (4 tool calls, 26s, 175k
+tokens) vs control's call 2 (17 tool calls, 92s, 660k tokens). Calibration:
+control ~660k / treatment ~175k total tokens/session on the trivial task;
+tasks 1/3 expected heavier. Grid (18 sessions) not yet run — checkpointed for
+go/no-go.
+
+### Grid outcome (2026-07-06)
+
+Full 18-session grid complete (20/20 including pilot), zero aborts/timeouts,
+every session `task_success=true`. Ran in two batches (round 1, then rounds
+2+3) same day; ~11.7M tokens / ~27 min elapsed total for the grid. Diffs
+sane: task 1 both arms identical 3-file change; task 3 both arms near-
+identical (agent adds its own test, allowed for 1/3, doesn't touch the
+copied-in acceptance file).
+
+**task_success is saturated (100% both arms)** — the discriminating signal is
+in process metrics + the pending blind diff-quality judging. Pre-registered
+per-task median analysis (≥30% reduction in LBR *or* distraction, ≥2 of 3
+tasks):
+- Task 1 (twofa feature, multi-file): treatment *worse* — median LBR 5→7
+  (−40%), packet adds exploration/tokens. No improvement.
+- Task 2 (bug fix): median LBR 4→2 (50% reduction). PASS.
+- Task 3 (behavior change): median LBR 2→1 (50% reduction). PASS.
+- => 2/3 tasks improve, success rate unregressed → **SUPPORT, conditional on
+  blind diff-quality showing no regression** (judging not yet done).
+
+Interesting signal: the packet helps the smaller-surface bug-fix/behavior
+tasks but *hurts* the multi-file feature (task 1) — worth calling out in
+RESULTS, not a harness defect. Remaining: blind-judge 18 diffs (0–8),
+write RESULTS.md, tick PREREGISTRATION checkboxes, PROJECT_TRACKER ritual.

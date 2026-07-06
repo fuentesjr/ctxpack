@@ -276,9 +276,33 @@ drift, single-app generalization), plus instance-specific:
 - **Subscription-window batching** spreads sessions over days; mitigated by
   pinned versions and the alternating arm order.
 
+## Amendments
+
+- **2026-07-05 (pre-pilot, mechanical setup fix):** `tasks/task2_seed.patch`
+  as originally committed was not an applicable unified diff — the
+  redirection that wrote it captured rtk-hook-filtered `git diff` output
+  instead of the raw diff. Regenerated via `git diff --output=…` from the
+  pinned checkout with the identical frozen semantic (the one-line
+  `@user` → `@current_user` rename inside `MyController#show_api_key`);
+  verified with `git apply --check`. No task text, assertion, or threshold
+  changed; no agent output existed at the time.
+
+- **2026-07-05 (pre-pilot, mechanical setup clarification):** the frozen text
+  did not say which tree state task 2's packet is generated from. Generating
+  it from the pristine pinned tree would inline the pre-bug line
+  (`@user = User.current`) into the packet — leaking the fix to the
+  treatment arm. The harness therefore generates task 2's packet from the
+  seeded tree (pinned SHA + seed commit), the realistic input for a bug-fix
+  task; tasks 1 and 3 generate from the pinned tree directly. Recorded
+  packet SHA-256s in `packets/packets.json` reflect this. No agent output
+  existed at the time.
+
 ## Sign-off
 
 - [x] User approved this pre-registration (FROZEN 2026-07-05)
-- [ ] Pilot run (2 sessions) complete; harness/acceptance fixes recorded
-- [ ] Grid run per the execution rules
-- [ ] Analysis + `RESULTS.md` per the interpretation rules
+- [x] Pilot run (2 sessions) complete; no acceptance/harness fixes needed
+      (2026-07-06)
+- [x] Grid run per the execution rules — 18/18 `complete`, zero aborts
+      (2026-07-06)
+- [x] Analysis + `RESULTS.md` per the interpretation rules — **SUPPORT**
+      (diff-quality scores pending author confirmation)
