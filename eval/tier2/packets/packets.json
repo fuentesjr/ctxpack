@@ -1,0 +1,20 @@
+{
+  "ctxpack_sha": "6e68c71e2d4b98a1c5fa7cf130e73eea0df67d10",
+  "packets": {
+    "1": {
+      "anchor": "twofa#deactivate_init",
+      "path": "packets/task1.md",
+      "sha256": "3efccba1d43b75606a5de22aab54862e91151794d88762e15012cb75e3a29498"
+    },
+    "2": {
+      "anchor": "my#show_api_key",
+      "path": "packets/task2.md",
+      "sha256": "e0fc8a6d351ad094c940ff0be5a61df02a2d424a3eadde83d80de094018bd882"
+    },
+    "3": {
+      "anchor": "roles#create",
+      "path": "packets/task3.md",
+      "sha256": "15dd19412027fda18fe663a5cd5549242ab1fb8c1caf945902b85b52289da903"
+    }
+  }
+}
