@@ -1,0 +1,20 @@
+You are working in a Campfire checkout at the current working directory.
+
+Task anchor (controller#action): rooms/involvements#update
+
+Make the following small behavior change.
+
+Rooms::InvolvementsController#update currently crashes when the involvement
+parameter is not one of the supported values (`invisible`, `nothing`,
+`mentions`, or `everything`).
+
+Change this so an invalid involvement value does not update the membership and
+redirects back to the room involvement page with a localized flash alert.
+Valid involvement values must continue to update the membership, broadcast the
+same visibility changes, and redirect as they do today.
+
+Rules:
+- Make the smallest correct change consistent with this codebase's
+  conventions.
+- Leave your final changes uncommitted in the working tree.
+- Work autonomously; do not ask questions.

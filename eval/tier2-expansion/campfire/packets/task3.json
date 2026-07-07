@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "anchor": "rooms#index",
+  "repo": {
+    "commit": "4450b7a467ea910f75be3d30b85c05aad7d5d359",
+    "dirty": false
+  },
+  "entrypoint": {
+    "file": "app/controllers/rooms_controller.rb",
+    "controller": "RoomsController",
+    "action": "index"
+  },
+  "files": [
+    {
+      "path": "app/controllers/rooms_controller.rb",
+      "reason_code": "controller_action",
+      "snippet_ranges": [
+        [
+          6,
+          8
+        ]
+      ]
+    },
+    {
+      "path": "app/models/current.rb",
+      "reason_code": "referenced_constant",
+      "snippet_ranges": []
+    },
+    {
+      "path": "test/controllers/rooms_controller_test.rb",
+      "reason_code": "minitest_candidate",
+      "snippet_ranges": []
+    }
+  ],
+  "tests": [
+    {
+      "command": "bin/rails test test/controllers/rooms_controller_test.rb",
+      "reason_code": "minitest_candidate"
+    }
+  ],
+  "uncertainty": []
+}

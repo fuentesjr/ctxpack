@@ -1,0 +1,567 @@
+{
+  "app": "campfire",
+  "total_pairs": 118,
+  "summary": {
+    "other": 33,
+    "resolved": 77,
+    "inherited_action": 7,
+    "file_not_found": 1
+  },
+  "resolution_rate": 0.6525,
+  "compile_crashes": 0,
+  "results": [
+    {
+      "anchor": "accounts#create",
+      "error": "action create was not directly defined in app/controllers/accounts_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def create found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "accounts#destroy",
+      "error": "action destroy was not directly defined in app/controllers/accounts_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def destroy found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "accounts#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "accounts#new",
+      "error": "action new was not directly defined in app/controllers/accounts_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def new found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "accounts#show",
+      "error": "action show was not directly defined in app/controllers/accounts_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def show found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "accounts#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "accounts/bots#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "accounts/bots#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "accounts/bots#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "accounts/bots#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "accounts/bots#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "accounts/bots#show",
+      "error": "action show was not directly defined in app/controllers/accounts/bots_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def show found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "accounts/bots#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "accounts/bots/keys#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "accounts/custom_styles#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "accounts/custom_styles#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "accounts/join_codes#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "accounts/logos#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "accounts/logos#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "accounts/users#create",
+      "error": "action create was not directly defined in app/controllers/accounts/users_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def create found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "accounts/users#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "accounts/users#edit",
+      "error": "action edit was not directly defined in app/controllers/accounts/users_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def edit found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "accounts/users#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "accounts/users#new",
+      "error": "action new was not directly defined in app/controllers/accounts/users_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def new found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "accounts/users#show",
+      "error": "action show was not directly defined in app/controllers/accounts/users_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def show found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "accounts/users#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "autocompletable/users#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "first_runs#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "first_runs#destroy",
+      "error": "action destroy was not directly defined in app/controllers/first_runs_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def destroy found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "first_runs#edit",
+      "error": "action edit was not directly defined in app/controllers/first_runs_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def edit found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "first_runs#new",
+      "error": "action new was not directly defined in app/controllers/first_runs_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def new found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "first_runs#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "first_runs#update",
+      "error": "action update was not directly defined in app/controllers/first_runs_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def update found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "messages#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages#new",
+      "error": "action new was not directly defined in app/controllers/messages_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def new found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "messages#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages/boosts#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages/boosts#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages/boosts#edit",
+      "error": "action edit was not directly defined in app/controllers/messages/boosts_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def edit found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "messages/boosts#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages/boosts#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages/boosts#show",
+      "error": "action show was not directly defined in app/controllers/messages/boosts_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def show found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "messages/boosts#update",
+      "error": "action update was not directly defined in app/controllers/messages/boosts_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def update found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "messages/by_bots#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "pwa#manifest",
+      "result": "resolved"
+    },
+    {
+      "anchor": "pwa#service_worker",
+      "result": "resolved"
+    },
+    {
+      "anchor": "qr_code#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "rooms#create",
+      "error": "action create was not directly defined in app/controllers/rooms_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def create found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "rooms#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "rooms#edit",
+      "error": "action edit was not directly defined in app/controllers/rooms_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def edit found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "rooms#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "rooms#new",
+      "error": "action new was not directly defined in app/controllers/rooms_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def new found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "rooms#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "rooms#update",
+      "error": "action update was not directly defined in app/controllers/rooms_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def update found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "rooms/closeds#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "rooms/closeds#destroy",
+      "error": "action destroy was not directly defined in app/controllers/rooms/closeds_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def destroy found in app/controllers/rooms_controller.rb (RoomsController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "rooms/closeds#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "rooms/closeds#index",
+      "error": "action index was not directly defined in app/controllers/rooms/closeds_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def index found in app/controllers/rooms_controller.rb (RoomsController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "rooms/closeds#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "rooms/closeds#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "rooms/closeds#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "rooms/directs#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "rooms/directs#destroy",
+      "error": "action destroy was not directly defined in app/controllers/rooms/directs_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def destroy found in app/controllers/rooms_controller.rb (RoomsController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "rooms/directs#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "rooms/directs#index",
+      "error": "action index was not directly defined in app/controllers/rooms/directs_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def index found in app/controllers/rooms_controller.rb (RoomsController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "rooms/directs#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "rooms/directs#show",
+      "error": "action show was not directly defined in app/controllers/rooms/directs_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def show found in app/controllers/rooms_controller.rb (RoomsController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "rooms/directs#update",
+      "error": "action update was not directly defined in app/controllers/rooms/directs_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def update found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "rooms/involvements#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "rooms/involvements#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "rooms/opens#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "rooms/opens#destroy",
+      "error": "action destroy was not directly defined in app/controllers/rooms/opens_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def destroy found in app/controllers/rooms_controller.rb (RoomsController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "rooms/opens#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "rooms/opens#index",
+      "error": "action index was not directly defined in app/controllers/rooms/opens_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "def index found in app/controllers/rooms_controller.rb (RoomsController)",
+      "result": "inherited_action"
+    },
+    {
+      "anchor": "rooms/opens#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "rooms/opens#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "rooms/opens#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "rooms/refreshes#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "rooms/settings#show",
+      "error": "expected controller file does not exist: app/controllers/rooms/settings_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "searches#clear",
+      "result": "resolved"
+    },
+    {
+      "anchor": "searches#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "searches#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sessions#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sessions#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sessions#edit",
+      "error": "action edit was not directly defined in app/controllers/sessions_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def edit found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "sessions#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sessions#show",
+      "error": "action show was not directly defined in app/controllers/sessions_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def show found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "sessions#update",
+      "error": "action update was not directly defined in app/controllers/sessions_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def update found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "sessions/transfers#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "sessions/transfers#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "unfurl_links#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users/avatars#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users/avatars#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users/bans#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users/bans#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users/profiles#create",
+      "error": "action create was not directly defined in app/controllers/users/profiles_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def create found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "users/profiles#destroy",
+      "error": "action destroy was not directly defined in app/controllers/users/profiles_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def destroy found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "users/profiles#edit",
+      "error": "action edit was not directly defined in app/controllers/users/profiles_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def edit found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "users/profiles#new",
+      "error": "action new was not directly defined in app/controllers/users/profiles_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def new found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "users/profiles#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users/profiles#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users/push_subscriptions#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users/push_subscriptions#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users/push_subscriptions#edit",
+      "error": "action edit was not directly defined in app/controllers/users/push_subscriptions_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def edit found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "users/push_subscriptions#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users/push_subscriptions#new",
+      "error": "action new was not directly defined in app/controllers/users/push_subscriptions_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def new found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "users/push_subscriptions#show",
+      "error": "action show was not directly defined in app/controllers/users/push_subscriptions_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def show found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "users/push_subscriptions#update",
+      "error": "action update was not directly defined in app/controllers/users/push_subscriptions_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def update found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "users/push_subscriptions/test_notifications#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users/sidebars#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "welcome#show",
+      "result": "resolved"
+    }
+  ]
+}

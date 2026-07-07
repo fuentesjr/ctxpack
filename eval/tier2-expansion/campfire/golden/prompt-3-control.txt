@@ -1,0 +1,37 @@
+You are working in a Campfire checkout at the current working directory.
+
+Task anchor (controller#action): rooms#index
+
+A controller test is failing on this branch:
+
+    bin/rails test test/controllers/rooms_controller_test.rb -n "test_index_redirects_to_the_user's_last_room"
+
+Failure output:
+
+    Running 5 tests in a single process (parallelization threshold is 50)
+    Run options: -n test_index_redirects_to_the_user's_last_room --seed 15402
+    
+    # Running:
+    
+    F
+    
+    Failure:
+    RoomsControllerTest#test_index_redirects_to_the_user's_last_room [test/controllers/rooms_controller_test.rb:10]:
+    Expected response to be a redirect to <http://www.example.com/rooms/699448325> but was a redirect to <http://www.example.com/rooms/104393281>.
+    Expected "http://www.example.com/rooms/699448325" to be === "http://www.example.com/rooms/104393281".
+    
+    bin/rails test test/controllers/rooms_controller_test.rb:8
+    
+    
+    
+    Finished in 4.927861s, 0.2029 runs/s, 0.6088 assertions/s.
+    1 runs, 3 assertions, 1 failures, 0 errors, 0 skips
+
+Diagnose and fix the bug so this test passes. Do not modify any file under
+test/.
+
+Rules:
+- Make the smallest correct change consistent with this codebase's
+  conventions.
+- Leave your final changes uncommitted in the working tree.
+- Work autonomously; do not ask questions.

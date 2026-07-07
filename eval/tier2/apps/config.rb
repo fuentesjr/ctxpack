@@ -14,7 +14,7 @@ module Tier2
     def initialize(name:, repo:, template_dir:, prepared_files:, artifact_dir:,
                    work_dir:, test_command:, test_name_filter:,
                    test_runner_signature:, test_env:, tasks:, rounds: 3,
-                   pilot_task: nil)
+                   pilot_task: nil, config_dir: nil)
       @name = name
       @repo = repo
       @template_dir = template_dir
@@ -27,6 +27,7 @@ module Tier2
       @test_env = test_env
       @rounds = rounds
       @pilot_task = pilot_task
+      @config_dir = config_dir
       @tasks = tasks
       @tasks_by_id = tasks.to_h { |task| [task.id, task] }
     end
@@ -67,8 +68,12 @@ module Tier2
       File.join(work_dir, "scoring-logs")
     end
 
+    # Per-app override lets an app reuse another app's authenticated sterile
+    # CLAUDE_CONFIG_DIR. Claude Code binds OAuth credentials to the literal
+    # CLAUDE_CONFIG_DIR path (macOS Keychain), so a copied/symlinked dir is not
+    # authenticated — an app must point at the exact authenticated path.
     def config_dir
-      File.join(work_dir, "claude-config")
+      @config_dir || File.join(work_dir, "claude-config")
     end
 
     def stderr_dir

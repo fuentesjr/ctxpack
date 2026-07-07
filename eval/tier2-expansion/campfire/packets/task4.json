@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "anchor": "rooms/involvements#update",
+  "repo": {
+    "commit": "71ffeeea789599a334311f28bcb6816863985488",
+    "dirty": false
+  },
+  "entrypoint": {
+    "file": "app/controllers/rooms/involvements_controller.rb",
+    "controller": "Rooms::InvolvementsController",
+    "action": "update"
+  },
+  "files": [
+    {
+      "path": "app/controllers/rooms/involvements_controller.rb",
+      "reason_code": "controller_action",
+      "snippet_ranges": [
+        [
+          8,
+          13
+        ]
+      ]
+    },
+    {
+      "path": "test/controllers/rooms/involvements_controller_test.rb",
+      "reason_code": "minitest_candidate",
+      "snippet_ranges": []
+    }
+  ],
+  "tests": [
+    {
+      "command": "bin/rails test test/controllers/rooms/involvements_controller_test.rb",
+      "reason_code": "minitest_candidate"
+    }
+  ],
+  "uncertainty": []
+}

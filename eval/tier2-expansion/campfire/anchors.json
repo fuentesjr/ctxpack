@@ -1,0 +1,38 @@
+{
+  "app": "campfire",
+  "app_sha": "71ffeeea789599a334311f28bcb6816863985488",
+  "app_ref": "v1.4.3",
+  "seed": "71ffeeea789599a334311f28bcb6816863985488",
+  "procedure": "eval/tier2/draw_anchors.rb (deterministic; see eval/tier2-expansion/PREREGISTRATION.md 'Anchor selection'). Feature-weighted mix: --features 2 (2 feature / 1 bug / 1 behavior).",
+  "test_glob": "test/controllers/{controller}_controller_test.rb",
+  "inputs": {
+    "routes": "eval/tier2-expansion/campfire/routes/campfire.json",
+    "results": "eval/tier2-expansion/campfire/results/campfire.json"
+  },
+  "route_table_method": "bin/rails routes --expanded (rails-edge app; eval/tier0/extract_routes.rb stub cannot fetch unpublished actionpack). See eval/tier2-expansion/build_routes_from_rails.rb.",
+  "drawn_at": "2026-07-07",
+  "assigned": {
+    "bug": "rooms#index",
+    "behavior": "rooms/involvements#update",
+    "feature_1": "autocompletable/users#index",
+    "feature_2": "accounts#edit"
+  },
+  "task_id_mapping": {
+    "1": "feature_1 (autocompletable/users#index)",
+    "2": "feature_2 (accounts#edit)",
+    "3": "bug (rooms#index)",
+    "4": "behavior (rooms/involvements#update)"
+  },
+  "skips": [
+    {
+      "slot": "behavior",
+      "pair": "autocompletable/users#index",
+      "reason": "not a write action (create/update/destroy)"
+    },
+    {
+      "slot": "behavior",
+      "pair": "accounts#edit",
+      "reason": "not a write action (create/update/destroy)"
+    }
+  ]
+}

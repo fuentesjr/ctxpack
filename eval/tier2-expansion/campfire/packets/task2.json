@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "anchor": "accounts#edit",
+  "repo": {
+    "commit": "71ffeeea789599a334311f28bcb6816863985488",
+    "dirty": false
+  },
+  "entrypoint": {
+    "file": "app/controllers/accounts_controller.rb",
+    "controller": "AccountsController",
+    "action": "edit"
+  },
+  "files": [
+    {
+      "path": "app/controllers/accounts_controller.rb",
+      "reason_code": "controller_action",
+      "snippet_ranges": [
+        [
+          5,
+          9
+        ]
+      ]
+    },
+    {
+      "path": "app/controllers/accounts_controller.rb",
+      "reason_code": "before_action_callback",
+      "snippet_ranges": [
+        [
+          17,
+          19
+        ]
+      ]
+    },
+    {
+      "path": "app/models/current.rb",
+      "reason_code": "referenced_constant",
+      "snippet_ranges": []
+    },
+    {
+      "path": "test/controllers/accounts_controller_test.rb",
+      "reason_code": "minitest_candidate",
+      "snippet_ranges": []
+    }
+  ],
+  "tests": [
+    {
+      "command": "bin/rails test test/controllers/accounts_controller_test.rb",
+      "reason_code": "minitest_candidate"
+    }
+  ],
+  "uncertainty": []
+}

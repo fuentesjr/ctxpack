@@ -1,0 +1,22 @@
+You are working in a Campfire checkout at the current working directory.
+
+Task anchor (controller#action): accounts#edit
+
+Implement the following feature.
+
+The account settings page (AccountsController#edit) currently lists account
+administrators and members, but it omits bot users. Add a visible section to
+the account settings page that lists the account's active bot users.
+
+Requirements:
+
+- Preserve the existing administrators/members partition and ordering.
+- Keep the existing account settings behavior unchanged for non-bot users.
+- Follow Campfire's existing controller, view, and localization conventions;
+  if you introduce new user-facing copy, add it to the locale file.
+
+Rules:
+- Make the smallest correct change consistent with this codebase's
+  conventions.
+- Leave your final changes uncommitted in the working tree.
+- Work autonomously; do not ask questions.

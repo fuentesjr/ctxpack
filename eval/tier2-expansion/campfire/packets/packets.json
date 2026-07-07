@@ -1,0 +1,41 @@
+{
+  "ctxpack_sha": "abd289f34c76a2b0da28e11a54a83f209dcfc251",
+  "packets": {
+    "1": {
+      "anchor": "autocompletable/users#index",
+      "path": "packets/task1.md",
+      "sha256": "af8c519069c76b84be909758be1666b62f8fbe8a67369ee517badfb0a34336b7",
+      "had_test_candidate": true,
+      "suggested_test_commands": [
+        "bin/rails test test/controllers/autocompletable/users_controller_test.rb"
+      ]
+    },
+    "2": {
+      "anchor": "accounts#edit",
+      "path": "packets/task2.md",
+      "sha256": "381d47cd2c19ae187c34695335b6ea7ce4c406ed43648cf8a2bbb45a52bd1d41",
+      "had_test_candidate": true,
+      "suggested_test_commands": [
+        "bin/rails test test/controllers/accounts_controller_test.rb"
+      ]
+    },
+    "3": {
+      "anchor": "rooms#index",
+      "path": "packets/task3.md",
+      "sha256": "f40535e9fe96e4370d62b2d39a674d4d7d1885d8630d8effdaabc95b92d99314",
+      "had_test_candidate": true,
+      "suggested_test_commands": [
+        "bin/rails test test/controllers/rooms_controller_test.rb"
+      ]
+    },
+    "4": {
+      "anchor": "rooms/involvements#update",
+      "path": "packets/task4.md",
+      "sha256": "c62b58392768de326c8b6e5b85a3ec81ef9323cec6bf31e7b863eec7832ead92",
+      "had_test_candidate": true,
+      "suggested_test_commands": [
+        "bin/rails test test/controllers/rooms/involvements_controller_test.rb"
+      ]
+    }
+  }
+}
