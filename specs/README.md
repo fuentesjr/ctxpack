@@ -43,10 +43,9 @@ implementation pass discovers them late:
 - **Application root and task text.** Inputs to compilation, passed as
   parameters. Discovering the root (CLI-3) and validating/deriving artifact
   names (CLI-4..CLI-8b) belong to the CLI layer only.
-- **`minitest_basic` fixture tree.** EVAL-2's first fixture doubles as
-  compilation's test scaffolding: author it at its final path
-  (`test/fixtures/apps/minitest_basic/`) in the compilation pass so Tier 1
-  evals reuse it rather than duplicate it.
+- **Fixture trees.** EVAL-2 fixture apps double as compilation scaffolding:
+  author them at their final paths under `test/fixtures/apps/` so Tier 1 evals
+  reuse them rather than duplicate them.
 
 ## Conventions
 
@@ -90,5 +89,6 @@ Out of scope:
 - **v0 non-goals** — the full list lives in `design.md` ("Non-goals for v0").
   Highlights that shape these specs: no embeddings or generic RAG, no route
   browsing or route-string parsing, no inherited/concern/metaprogrammed action
-  resolution, no Rails engines, no Rails boot, no RSpec, no Rubydex dependency,
-  no LLM anywhere in packet construction or evals.
+  resolution, no Rails engines, no Rails boot, no system/browser spec
+  discovery, no Rubydex dependency, no LLM anywhere in packet construction or
+  evals.

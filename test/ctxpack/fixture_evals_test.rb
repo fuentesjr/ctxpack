@@ -7,7 +7,7 @@ require "tmpdir"
 require "yaml"
 
 class FixtureEvalsTest < Minitest::Test
-  Case = Struct.new(:path, :name, :command, :expectation, keyword_init: true)
+  Case = Struct.new(:path, :name, :app, :command, :expectation, keyword_init: true)
   Result = Struct.new(:status, :stdout, :stderr, keyword_init: true)
 
   CASES_DIR = File.expand_path("../fixtures/evals", __dir__)
@@ -19,6 +19,7 @@ class FixtureEvalsTest < Minitest::Test
     Case.new(
       path: path,
       name: data.fetch("name"),
+      app: data.fetch("app", "minitest_basic"),
       command: data.fetch("command"),
       expectation: data.fetch("expect")
     )
@@ -51,7 +52,7 @@ class FixtureEvalsTest < Minitest::Test
     end
 
     define_method("test_eval_#{eval_case.name}_cli_output_is_deterministic") do
-      with_cli_app do |app_root|
+      with_cli_app(eval_case) do |app_root|
         out_path = File.join(app_root, "tmp", "#{eval_case.name}.md")
         manifest_path = File.join(app_root, "tmp", "#{eval_case.name}.json")
         args = cli_args(eval_case, out_path)
@@ -80,7 +81,7 @@ class FixtureEvalsTest < Minitest::Test
 
   def compile_case(eval_case)
     Ctxpack.compile(
-      app_root: fixture_app("minitest_basic"),
+      app_root: fixture_app(eval_case.app),
       anchor: eval_case.command.fetch("anchor"),
       task: eval_case.command.fetch("task")
     )
@@ -101,11 +102,11 @@ class FixtureEvalsTest < Minitest::Test
     end
   end
 
-  def with_cli_app
+  def with_cli_app(eval_case)
     Dir.mktmpdir("ctxpack-fixture-eval") do |tmpdir|
-      app_root = File.join(tmpdir, "minitest_basic")
+      app_root = File.join(tmpdir, eval_case.app)
       FileUtils.mkdir_p(app_root)
-      FileUtils.cp_r(Dir.glob(File.join(fixture_app("minitest_basic"), "*")), app_root)
+      FileUtils.cp_r(Dir.glob(File.join(fixture_app(eval_case.app), "*")), app_root)
       FileUtils.mkdir_p(File.join(app_root, "config"))
       File.write(File.join(app_root, "config", "application.rb"), "# test Rails marker\n")
       yield app_root

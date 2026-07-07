@@ -1,4 +1,6 @@
 require "test_helper"
+require "fileutils"
+require "tmpdir"
 
 class TestCandidatesTest < Minitest::Test
   def test_test_1_rule_2_requires_contiguous_action_tokens_and_excludes_negative_order
@@ -54,5 +56,54 @@ class TestCandidatesTest < Minitest::Test
     assert_empty packet.tests
     assert packet.no_test_candidates
     refute(packet.files.any? { |entry| entry.path == "test/integration/random_flow_test.rb" })
+  end
+
+  def test_test_1_rspec_family_uses_controller_and_request_specs_only
+    packet = Ctxpack.compile(
+      app_root: fixture_app("rspec_basic"),
+      anchor: "accounts#upgrade"
+    )
+
+    assert_equal [
+      "bundle exec rspec spec/controllers/accounts_controller_spec.rb",
+      "bundle exec rspec spec/requests/accounts_upgrade_spec.rb"
+    ], packet.tests.map(&:command)
+    assert_equal ["rspec_candidate"], packet.file("spec/controllers/accounts_controller_spec.rb").reason_codes
+    assert_equal ["rspec_candidate"], packet.file("spec/requests/accounts_upgrade_spec.rb").reason_codes
+    refute packet.file("spec/system/accounts_upgrade_spec.rb")
+    refute packet.file("test/controllers/accounts_controller_test.rb")
+    assert(packet.uncertainty.any? { |note| note.code == "test_inferred_by_path" && note.subject == "spec/requests/accounts_upgrade_spec.rb" })
+  end
+
+  def test_test_1_rspec_request_rule_uses_contiguous_action_tokens
+    packet = Ctxpack.compile(
+      app_root: fixture_app("rspec_basic"),
+      anchor: "accounts#bulk_update"
+    )
+
+    assert_equal [
+      "spec/controllers/accounts_controller_spec.rb",
+      "spec/requests/accounts_bulk_update_flow_spec.rb"
+    ], packet.tests.map(&:path)
+    refute packet.file("spec/requests/bulk_accounts_update_spec.rb")
+  end
+
+  def test_test_1_rspec_framework_detection_accepts_rspec_rails_dependency
+    Dir.mktmpdir("ctxpack-rspec-detection") do |dir|
+      app_root = File.join(dir, "rspec_basic")
+      FileUtils.cp_r(fixture_app("rspec_basic"), app_root)
+      FileUtils.rm(File.join(app_root, "spec", "rails_helper.rb"))
+      File.write(File.join(app_root, "Gemfile"), "source \"https://rubygems.org\"\ngem \"rspec-rails\"\n")
+
+      packet = Ctxpack.compile(
+        app_root: app_root,
+        anchor: "accounts#upgrade"
+      )
+
+      assert_equal [
+        "bundle exec rspec spec/controllers/accounts_controller_spec.rb",
+        "bundle exec rspec spec/requests/accounts_upgrade_spec.rb"
+      ], packet.tests.map(&:command)
+    end
   end
 end

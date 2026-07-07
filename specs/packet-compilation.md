@@ -197,7 +197,14 @@ Rationale (from design): test discovery must be as rule-bound as controller
 resolution, or the determinism claim is hollow for exactly the fuzziest part
 of the packet.
 
-**TEST-1.** Discovery applies exactly two rules, in order:
+**TEST-1.** Discovery first selects exactly one test family, then applies
+exactly two path rules within that family, in order.
+
+RSpec family is selected when the application root contains `spec/` and either
+`spec/rails_helper.rb` exists or `Gemfile` / `Gemfile.lock` names
+`rspec-rails`. Otherwise the Minitest family is selected.
+
+Minitest rules:
 
 1. **Conventional controller test** —
    `test/controllers/<controller_path>_controller_test.rb`, included only if
@@ -205,32 +212,45 @@ of the packet.
 2. **Integration matches** — files matching `test/integration/*_test.rb`
    whose basename contains both the controller token (final path segment,
    e.g. `accounts`) and the action name, as underscore-delimited tokens.
-   Matching rule **[fixed by spec]**: split the basename on underscores; the
-   controller token must be present, and the action's tokens must appear as a
-   contiguous in-order subsequence (`bulk_update` matches
-   `accounts_bulk_update_flow_test.rb`, not `bulk_accounts_update_test.rb`).
-   Action tokens are taken with any trailing `?`/`!` stripped and the empty
-   token from a leading `_` dropped (`merged?` matches
-   `oddities_merged_test.rb`). **[amended: consequence of the ANCH-1
-   action-grammar amendment — filenames cannot carry `?`/`!`]**
-   Multiple matches are sorted lexicographically.
 
-**TEST-2.** The combined list is truncated at the max-test-files limit
-(LIM-1); truncation MUST be reported in the omitted-candidates note.
+RSpec rules:
 
-**TEST-3.** Both rules use the `minitest_candidate` reason code. The packet's
-"Why" line states which rule matched. Rule 2 matches MUST always carry the
-`test_inferred_by_path` uncertainty note.
+1. **Conventional controller spec** —
+   `spec/controllers/<controller_path>_controller_spec.rb`, included only if
+   the file exists.
+2. **Request spec matches** — files matching `spec/requests/*_spec.rb` whose
+   basename contains both the controller token and the action name, as
+   underscore-delimited tokens. `spec/system/` is out of v0 scope and MUST NOT
+   be searched.
 
-**TEST-4.** No content matching in v0: path rules only, no grepping test
+For both families, rule 2 uses this matching rule **[fixed by spec]**: split
+the basename on underscores; the controller token must be present, and the
+action's tokens must appear as a contiguous in-order subsequence
+(`bulk_update` matches `accounts_bulk_update_flow_test.rb`, not
+`bulk_accounts_update_test.rb`). Action tokens are taken with any trailing
+`?`/`!` stripped and the empty token from a leading `_` dropped (`merged?`
+matches `oddities_merged_test.rb`). **[amended: consequence of the ANCH-1
+action-grammar amendment — filenames cannot carry `?`/`!`]** Multiple rule 2
+matches are sorted lexicographically.
+
+**TEST-2.** The selected family's combined list is truncated at the
+max-test-files limit (LIM-1); truncation MUST be reported in the
+omitted-candidates note.
+
+**TEST-3.** Minitest rules use the `minitest_candidate` reason code. RSpec
+rules use the `rspec_candidate` reason code. The packet's "Why" line states
+which family rule matched. Rule 2 matches in either family MUST always carry
+the `test_inferred_by_path` uncertainty note.
+
+**TEST-4.** No test-content matching in v0: path rules only, no grepping test
 bodies for routes or controller names.
 
-**TEST-5.** If neither rule matches, the packet says so explicitly rather
-than guessing.
+**TEST-5.** If neither rule in the selected family matches, the packet says so
+explicitly rather than guessing from another framework or test directory.
 
 **TEST-6.** Each included test file yields a suggested command in the
-packet's "Tests to run" section, of the form
-`bin/rails test <path>`.
+packet's "Tests to run" section: Minitest candidates use
+`bin/rails test <path>`; RSpec candidates use `bundle exec rspec <path>`.
 
 ## Limits
 

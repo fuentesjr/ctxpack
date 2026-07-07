@@ -29,6 +29,9 @@ test/fixtures/apps/minitest_basic/
   test/integration/accounts_upgrade_test.rb
 ```
 
+Additional fixture trees MAY exercise other deterministic families, e.g.
+`test/fixtures/apps/rspec_basic/` for RSpec controller/request spec discovery.
+
 **EVAL-3.** Fixture trees live inside ctxpack's own repository, so packets
 generated from them stamp ctxpack's current commit SHA. Consequences:
 double-run determinism checks are unaffected (same repo state → same stamp),
@@ -41,6 +44,7 @@ they normalize output paths.
 
 ```yaml
 name: accounts_upgrade
+app: minitest_basic
 command:
   anchor: accounts#upgrade
   task: Implement billing upgrade
@@ -65,9 +69,11 @@ expect:
   max_files: 8
 ```
 
-Semantics: `include` entries must all be present with the stated reason code;
-`exclude` paths must be absent; `tests` commands must all be suggested;
-`max_files` bounds the packet's total file count.
+Semantics: `app` names the fixture tree under `test/fixtures/apps/` and
+defaults to `minitest_basic` when omitted. `include` entries must all be
+present with the stated reason code; `exclude` paths must be absent; `tests`
+commands must all be suggested; `max_files` bounds the packet's total file
+count.
 
 **EVAL-5.** Assertions SHOULD target stable fields (via the internal packet
 object or the JSON manifest, MAN-1) rather than parsing Markdown prose.

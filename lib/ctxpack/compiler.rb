@@ -482,23 +482,9 @@ module Ctxpack
     end
 
     def add_test_candidates(packet, controller_path, action)
-      candidates = []
-      controller_test_path = File.join("test", "controllers", "#{controller_path}_controller_test.rb").tr(File::SEPARATOR, "/")
-      if File.file?(File.join(@app_root, controller_test_path))
-        candidates << test_candidate(
-          path: controller_test_path,
-          rule: "conventional_controller_test",
-          why: "matched conventional controller test path"
-        )
-      end
-
-      integration_matches(controller_path, action).each do |path|
-        candidates << test_candidate(
-          path: path,
-          rule: "integration_path_match",
-          why: "matched integration test path tokens"
-        )
-      end
+      framework = detected_test_framework
+      packet.test_framework = framework.to_s
+      candidates = framework == :rspec ? rspec_test_candidates(controller_path, action) : minitest_test_candidates(controller_path, action)
 
       packet.no_test_candidates = candidates.empty?
       included = candidates.first(LIMITS.fetch(:max_test_files))
@@ -509,7 +495,7 @@ module Ctxpack
         entry = packet.add_file(candidate.path)
         entry.add_evidence(
           EvidenceItem.new(
-            reason_code: "minitest_candidate",
+            reason_code: candidate.reason_code,
             subject: candidate.path,
             why: candidate.why,
             snippet_ranges: [],
@@ -517,11 +503,11 @@ module Ctxpack
           )
         )
 
-        if candidate.rule == "integration_path_match"
+        if path_inferred_test_rule?(candidate.rule)
           packet.add_uncertainty(
             code: "test_inferred_by_path",
             subject: candidate.path,
-            message: "integration test candidate was inferred by path"
+            message: "test candidate was inferred by path"
           )
         end
       end
@@ -535,24 +521,97 @@ module Ctxpack
       end
     end
 
-    def test_candidate(path:, rule:, why:)
+    def minitest_test_candidates(controller_path, action)
+      candidates = []
+      controller_test_path = File.join("test", "controllers", "#{controller_path}_controller_test.rb").tr(File::SEPARATOR, "/")
+      if File.file?(File.join(@app_root, controller_test_path))
+        candidates << test_candidate(
+          path: controller_test_path,
+          command: "bin/rails test #{controller_test_path}",
+          reason_code: "minitest_candidate",
+          rule: "conventional_controller_test",
+          why: "matched conventional controller test path"
+        )
+      end
+
+      path_token_matches("test/integration", "*_test.rb", controller_path, action).each do |path|
+        candidates << test_candidate(
+          path: path,
+          command: "bin/rails test #{path}",
+          reason_code: "minitest_candidate",
+          rule: "integration_path_match",
+          why: "matched integration test path tokens"
+        )
+      end
+
+      candidates
+    end
+
+    def rspec_test_candidates(controller_path, action)
+      candidates = []
+      controller_spec_path = File.join("spec", "controllers", "#{controller_path}_controller_spec.rb").tr(File::SEPARATOR, "/")
+      if File.file?(File.join(@app_root, controller_spec_path))
+        candidates << test_candidate(
+          path: controller_spec_path,
+          command: "bundle exec rspec #{controller_spec_path}",
+          reason_code: "rspec_candidate",
+          rule: "conventional_controller_spec",
+          why: "matched conventional controller spec path"
+        )
+      end
+
+      path_token_matches("spec/requests", "*_spec.rb", controller_path, action).each do |path|
+        candidates << test_candidate(
+          path: path,
+          command: "bundle exec rspec #{path}",
+          reason_code: "rspec_candidate",
+          rule: "request_spec_path_match",
+          why: "matched request spec path tokens"
+        )
+      end
+
+      candidates
+    end
+
+    def detected_test_framework
+      rspec_app? ? :rspec : :minitest
+    end
+
+    def rspec_app?
+      return false unless Dir.exist?(File.join(@app_root, "spec"))
+
+      File.file?(File.join(@app_root, "spec", "rails_helper.rb")) || rspec_rails_dependency?
+    end
+
+    def rspec_rails_dependency?
+      %w[Gemfile Gemfile.lock].any? do |name|
+        path = File.join(@app_root, name)
+        File.file?(path) && File.read(path).include?("rspec-rails")
+      end
+    end
+
+    def path_inferred_test_rule?(rule)
+      %w[integration_path_match request_spec_path_match].include?(rule)
+    end
+
+    def test_candidate(path:, command:, reason_code:, rule:, why:)
       TestCandidate.new(
         path: path,
-        command: "bin/rails test #{path}",
-        reason_code: "minitest_candidate",
+        command: command,
+        reason_code: reason_code,
         why: why,
         rule: rule
       )
     end
 
-    def integration_matches(controller_path, action)
-      integration_dir = File.join(@app_root, "test", "integration")
-      return [] unless Dir.exist?(integration_dir)
+    def path_token_matches(relative_dir, glob, controller_path, action)
+      absolute_dir = File.join(@app_root, relative_dir)
+      return [] unless Dir.exist?(absolute_dir)
 
       controller_token = controller_path.split("/").last
       action_tokens = action.sub(/[?!]\z/, "").split("_").reject(&:empty?)
 
-      Dir.glob(File.join(integration_dir, "*_test.rb")).map do |absolute_path|
+      Dir.glob(File.join(absolute_dir, glob)).map do |absolute_path|
         relative_path = relative_path(absolute_path)
         basename = File.basename(relative_path, ".rb")
         tokens = basename.split("_")

@@ -429,3 +429,81 @@ Interesting signal: the packet helps the smaller-surface bug-fix/behavior
 tasks but *hurts* the multi-file feature (task 1) — worth calling out in
 RESULTS, not a harness defect. Remaining: blind-judge 18 diffs (0–8),
 write RESULTS.md, tick PREREGISTRATION checkboxes, PROJECT_TRACKER ritual.
+
+## P1: RSpec test-candidate rules (2026-07-07)
+
+Implemented the Tier 2 expansion prerequisite for RSpec test candidates. Scope
+was limited to TEST-1..6 and their format/eval cross-spec effects: no anchor,
+callback, constant, CLI, or manifest schema behavior changed.
+
+### Decisions
+
+- Test discovery now selects one family before matching paths. RSpec wins when
+  the app has `spec/` plus either `spec/rails_helper.rb` or an `rspec-rails`
+  dependency in `Gemfile` / `Gemfile.lock`; otherwise Minitest remains the
+  fallback.
+- The RSpec family mirrors the existing two-rule shape:
+  `spec/controllers/<controller_path>_controller_spec.rb`, then
+  `spec/requests/*_spec.rb` path-token matches. `spec/system/` is deliberately
+  ignored for v0.
+- The rule-2 token matcher is shared with Minitest integration matching, so
+  contiguous action-token behavior and the ANCH grammar normalization carry
+  over unchanged.
+- RSpec candidates use `rspec_candidate` and `bundle exec rspec <path>`.
+  Rule-2 RSpec request matches reuse `test_inferred_by_path`; no new
+  uncertainty code was needed.
+- `Packet#test_framework` is internal render metadata only. It keeps no-test
+  candidate and retrieve-more prose framework-aware without changing MAN-2.
+- Fixture eval cases now accept optional top-level `app`, defaulting to
+  `minitest_basic`, so the same runner can cover `rspec_basic`.
+
+### Requirement Coverage
+
+- TEST-1 RSpec detection and rules:
+  `TestCandidatesTest#test_test_1_rspec_family_uses_controller_and_request_specs_only`,
+  `#test_test_1_rspec_request_rule_uses_contiguous_action_tokens`,
+  `#test_test_1_rspec_framework_detection_accepts_rspec_rails_dependency`.
+- TEST-2 remains covered by the existing Minitest truncation test; RSpec uses
+  the same candidate truncation path.
+- TEST-3 RSpec reason code and rule-2 uncertainty:
+  `TestCandidatesTest#test_test_1_rspec_family_uses_controller_and_request_specs_only`
+  plus the `accounts_upgrade_rspec` fixture eval.
+- TEST-4/TEST-5 cross-framework non-guessing:
+  `TestCandidatesTest#test_test_1_rspec_family_uses_controller_and_request_specs_only`
+  asserts RSpec ignores the colocated Minitest fixture and `spec/system/`.
+- TEST-6 RSpec command:
+  `TestCandidatesTest#test_test_1_rspec_family_uses_controller_and_request_specs_only`
+  and `FixtureEvalsTest#test_eval_accounts_upgrade_rspec_packet_expectations`.
+- FMT-6/FMT-8 RSpec rendering:
+  `PacketFormatTest#test_fmt_6_8_test_3_renders_rspec_candidate_reason_and_uncertainty_text`.
+- EVAL-4 optional `app` and RSpec fixture coverage:
+  `FixtureEvalsTest#test_eval_accounts_upgrade_rspec_packet_expectations` and
+  `#test_eval_accounts_upgrade_rspec_cli_output_is_deterministic`.
+
+### Verification
+
+- Red proof: direct RSpec candidate tests first failed because output was the
+  existing `bin/rails test test/controllers/accounts_controller_test.rb`;
+  the RSpec fixture eval first failed because
+  `spec/requests/accounts_upgrade_spec.rb` was absent.
+- Focused green:
+  `bundle exec ruby -Itest test/ctxpack/test_candidates_test.rb` — 7 runs, 20
+  assertions, 0 failures, 0 errors, 0 skips.
+- Focused green:
+  `bundle exec ruby -Itest test/ctxpack/fixture_evals_test.rb` — 4 runs, 71
+  assertions, 0 failures, 0 errors, 0 skips.
+- Focused green:
+  `bundle exec ruby -Itest test/ctxpack/packet_format_test.rb` — 10 runs, 100
+  assertions, 0 failures, 0 errors, 0 skips.
+- Full suite: `bundle exec rake test` — 55 runs, 362 assertions, 0 failures,
+  0 errors, 0 skips.
+- Strategic validator: `ruby /Users/sal/Projects/strategic-software-design/scripts/validate.rb --type feature --task "Continue from PROJECT_TRACKER.md" --base-ref HEAD`
+  passed slice tests, red-green, and pending-comment gates. RuboCop
+  lint/metrics were skipped because plain RuboCop could not load the committed
+  Metz cop namespace; logged in `metz-scan-feedback.md`.
+- Advisory Metz scan: `bundle exec rake metz` completed. Findings remain the
+  known class/method length pressure, with `Compiler` now at 553 lines and
+  `MarkdownRenderer` at 226 lines; no gate.
+- Clean-context design review was required by the validator but not run:
+  this session's sub-agent tool policy forbids spawning unless the user
+  explicitly asks for delegation.

@@ -1,0 +1,1 @@
+# RSpec request spec fixture.

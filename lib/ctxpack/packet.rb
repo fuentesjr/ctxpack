@@ -49,7 +49,7 @@ module Ctxpack
                 :omitted_candidates,
                 :convention_constant_matches
 
-    attr_accessor :no_test_candidates
+    attr_accessor :no_test_candidates, :test_framework
 
     def initialize(anchor:, task:, repo:, entrypoint:, app_root: nil)
       @version = 1
@@ -64,6 +64,7 @@ module Ctxpack
       @omitted_candidates = []
       @convention_constant_matches = []
       @no_test_candidates = false
+      @test_framework = nil
     end
 
     def file(path)

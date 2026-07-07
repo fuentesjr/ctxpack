@@ -97,6 +97,26 @@ class PacketFormatTest < Minitest::Test
     assert_includes retrieve_more, "- Inspect the superclass or concerns for callback `external_callback`."
   end
 
+  def test_fmt_6_8_test_3_renders_rspec_candidate_reason_and_uncertainty_text
+    packet = Ctxpack.compile(
+      app_root: fixture_app("rspec_basic"),
+      anchor: "accounts#upgrade"
+    )
+
+    markdown = Ctxpack.render_markdown(packet)
+
+    assert_includes markdown, <<~MARKDOWN
+      Why: test file matched the conventional controller spec path.
+      Reason code: `rspec_candidate`
+    MARKDOWN
+    assert_includes markdown, <<~MARKDOWN
+      Why: test file matched request spec path tokens for the anchor.
+      Reason code: `rspec_candidate`
+    MARKDOWN
+    assert_includes markdown, "- `bundle exec rspec spec/requests/accounts_upgrade_spec.rb`"
+    assert_includes markdown, "- Inspect test file `spec/requests/accounts_upgrade_spec.rb` to confirm the path-inferred RSpec candidate covers the task."
+  end
+
   def test_fmt_2_11_test_5_renders_nil_task_unknown_repo_and_no_test_candidates
     packet = Ctxpack::Packet.new(
       anchor: "accounts#upgrade",

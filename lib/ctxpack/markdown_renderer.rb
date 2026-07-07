@@ -75,7 +75,7 @@ module Ctxpack
         "callback `#{item.subject}` applies to the requested action."
       when "referenced_constant"
         "constant `#{item.subject}` was referenced by the action or an applicable callback."
-      when "minitest_candidate"
+      when "minitest_candidate", "rspec_candidate"
         test_candidate_why(item)
       else
         "#{item.why}."
@@ -88,6 +88,10 @@ module Ctxpack
         "test file matched the conventional controller test path."
       when "matched integration test path tokens"
         "test file matched integration path tokens for the anchor."
+      when "matched conventional controller spec path"
+        "test file matched the conventional controller spec path."
+      when "matched request spec path tokens"
+        "test file matched request spec path tokens for the anchor."
       else
         "#{item.why}."
       end
@@ -120,7 +124,7 @@ module Ctxpack
       if packet.tests.any?
         packet.tests.each { |test| lines << "- `#{test.command}`" }
       else
-        lines << "No Minitest candidates were found by ctxpack's path rules."
+        lines << "No #{test_framework_label} candidates were found by ctxpack's path rules."
       end
       lines << ""
     end
@@ -190,7 +194,7 @@ module Ctxpack
 
     def retrieval_suggestions
       suggestions = uncertainty_suggestions + omission_suggestions
-      suggestions << "Search `test/` by hand if the task needs test coverage." if packet.no_test_candidates
+      suggestions << "Search `#{test_search_root}` by hand if the task needs test coverage." if packet.no_test_candidates
       suggestions
     end
 
@@ -203,9 +207,9 @@ module Ctxpack
         case code
         when "test_inferred_by_path"
           if subjects.length == 1
-            "Inspect test file `#{subjects.first}` to confirm the path-inferred Minitest candidate covers the task."
+            "Inspect test file `#{subjects.first}` to confirm the path-inferred #{test_framework_label} candidate covers the task."
           else
-            "Inspect path-inferred Minitest candidates: #{inline_list(subjects)}."
+            "Inspect path-inferred #{test_framework_label} candidates: #{inline_list(subjects)}."
           end
         when "dynamic_callback_args"
           "Inspect callback declarations with dynamic callback arguments: #{inline_list(subjects)}."
@@ -249,6 +253,14 @@ module Ctxpack
 
     def inline_list(values)
       values.map { |value| "`#{value}`" }.join(", ")
+    end
+
+    def test_framework_label
+      packet.test_framework == "rspec" ? "RSpec" : "Minitest"
+    end
+
+    def test_search_root
+      packet.test_framework == "rspec" ? "spec/" : "test/"
     end
   end
 end

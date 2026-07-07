@@ -80,9 +80,8 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Written 2026-07-05; rewritten 2026-07-06 after Tier 2 returned SUPPORT and the
-**Tier 2 expansion pre-registration was frozen** (user sign-off in session). If
-this section disagrees with "Next steps", Next steps wins.
+Written 2026-07-07 after P1 (RSpec test-candidate rules) landed. If this
+section disagrees with "Next steps", Next steps wins.
 
 Tier 2 is done (directional SUPPORT, [`eval/tier2/RESULTS.md`](eval/tier2/RESULTS.md);
 diff-quality scores are an agent first-pass still open for author confirmation).
@@ -91,27 +90,27 @@ expansion is frozen at
 [`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md):
 apps **Campfire (Minitest, modern layout) + Lobsters + Publify (RSpec)**, 4
 tasks/app (2 feature-weighted), test-pointer sub-analysis, harness + metrics
-reused. Two prerequisite build passes gate the grid.
+reused. P1 is complete: ctxpack now selects Minitest vs RSpec test-candidate
+families and fixture-evals cover RSpec controller/request specs.
 
-**Immediate next step (a fresh session should start here) — P1: teach ctxpack
-RSpec test candidates.** Extend the frozen TEST-1..6 rules
-(`specs/packet-compilation.md`) with an RSpec family: framework detection
-(`spec/` + `rails_helper.rb`/rspec-rails), `spec/controllers/<ctrl>_controller_spec.rb`
-+ `spec/requests/*_spec.rb` (v0 scope — no `spec/system/`), an `rspec_candidate`
-reason code, and a `bundle exec rspec <path>` command (TEST-6 variant). This is
-an ordinary spec pass: amend the spec + reconcile `design.md`, delegate
-implementation to Codex per "Working process", review requirement-by-
-requirement, add fixture-eval coverage, re-verify. Then **P2**: generalize
-`harness.rb` to a per-app config (SHA, prepared files, anchors, tasks, scoring
-command `bin/rails test` vs `bundle exec rspec`) without changing the
-`runs.jsonl` contract or metric definitions.
+**Immediate next step (a fresh session should start here) — P2: generalize the
+Tier 2 harness to multi-app config.** Refactor `eval/tier2/harness.rb` so app-
+specific data lives in config rather than Redmine-shaped constants: repository
+or prepared template identity, pinned SHA, app setup/prepared files, anchors,
+task prompts, acceptance-test/scoring command, packet generation inputs, and
+test command family (`bin/rails test` for Minitest apps vs `bundle exec rspec`
+for RSpec apps). Preserve the existing `runs.jsonl` contract, status meanings,
+metric definitions, transcript/diff artifacts, and resume semantics. Add enough
+verification to prove the current Redmine run remains representable by the new
+config, then add the empty/initial config entries needed for the frozen
+Campfire + Lobsters + Publify expansion without authoring their final tasks yet.
 
-After P1+P2: author per-app tasks/anchors/acceptance tests (anchors drawn
+After P2: author per-app tasks/anchors/acceptance tests (anchors drawn
 pre-packet), pilot each app, run the grid in usage-window batches, analyze per
 the frozen interpretation, write `eval/tier2-expansion/RESULTS.md`.
 
-Final step of this plan: rewrite this section for whatever follows P1 (P2, then
-task authoring).
+Final step of this plan: rewrite this section for the task-authoring pass that
+follows P2.
 
 ## Status
 
@@ -128,26 +127,31 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 |---|---|---|
 | Tier 0 anchor viability spike | **Done** (2026-07-05) | **91.0% engine-excluded average across Mastodon/Discourse/Zammad → ≥ 70% gate passes; proceed as designed.** Post-ANCH-amendment re-run: **93.9%**, zero regressions (addendum in RESULTS.md). Full method, taxonomy, and raw data in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md). Zero compiler crashes across 1,967 real-app pairs. |
 | Tier 2 agent A/B | **Done — SUPPORT** (2026-07-06) | Harness (`eval/tier2/harness.rb`) + 18-session grid + pilot run; all 20 sessions `complete`, zero aborts, 100% `task_success`. 2/3 tasks (bug-fix, behavior-change) show ≥ 30% median reduction in calls-to-first-load-bearing-read; multi-file feature (task 1) mildly worse; diff quality at ceiling (control 8.00 / treatment 7.89, agent first-pass pending author confirmation). Directional support per the frozen rule. Full analysis: [`eval/tier2/RESULTS.md`](eval/tier2/RESULTS.md). |
-| Tier 2 expansion | **Pre-registration FROZEN** (2026-07-06) | [`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md) signed off. Adds Campfire (Minitest, modern layout) + Lobsters + Publify (RSpec), 4 tasks/app (feature-weighted), test-pointer sub-analysis. Gated on two build passes: P1 ctxpack RSpec test-candidate rules, P2 harness multi-app generalization. Next: P1. |
+| Tier 2 expansion | **Pre-registration FROZEN; P1 done** (2026-07-07) | [`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md) signed off. Adds Campfire (Minitest, modern layout) + Lobsters + Publify (RSpec), 4 tasks/app (feature-weighted), test-pointer sub-analysis. P1 ctxpack RSpec test-candidate rules landed with fixture-eval coverage. Next: P2 harness multi-app generalization. |
 
 ## Next steps
 
-1. **P1 — ctxpack RSpec test-candidate rules** (spec pass; the work order in
-   "Next step: execution plan"). Extend TEST-1..6 with an RSpec family
-   (controllers + requests, `rspec_candidate`, `bundle exec rspec`), fixture-
-   eval covered. Gate for the expansion grid.
-2. **P2 — harness multi-app generalization** (per-app config + RSpec scoring),
+1. **P2 — harness multi-app generalization** (per-app config + RSpec scoring),
    contract/schema/metrics unchanged.
-3. **Author per-app tasks/anchors/acceptance tests** (Campfire, Lobsters,
+2. **Author per-app tasks/anchors/acceptance tests** (Campfire, Lobsters,
    Publify; anchors drawn pre-packet), pilot each app, run the grid, write
    `eval/tier2-expansion/RESULTS.md`. All per
    [`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md).
-4. **(Open, non-blocking) Author-confirm the Tier 2 diff-quality scores** —
+3. **(Open, non-blocking) Author-confirm the Tier 2 diff-quality scores** —
    agent first-pass in `tmp/tier2/judging/` (seed = app SHA); does not change
    the SUPPORT verdict, which rests on the exploration metric.
 
 ## Decision log
 
+- **2026-07-07** — P1 for the Tier 2 expansion landed: ctxpack now detects an
+  RSpec test family when `spec/` plus `spec/rails_helper.rb` or `rspec-rails`
+  is present, emits `rspec_candidate` entries for
+  `spec/controllers/<controller>_controller_spec.rb` and path-token-matched
+  `spec/requests/*_spec.rb`, ignores `spec/system/` for v0, and suggests
+  `bundle exec rspec <path>`. Minitest remains the fallback family and keeps
+  `bin/rails test <path>`. Specs, `design.md`, README, fixture evals, and
+  implementation notes were reconciled; `accounts_upgrade_rspec.yml` covers
+  the new path. P2 is now the expansion gate.
 - **2026-07-06** — Tier 2 expansion pre-registration frozen (user sign-off in
   session); [`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md).
   Post-SUPPORT fork resolved as **expand** (not the compiler refactor). Verified
