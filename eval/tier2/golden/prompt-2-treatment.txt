@@ -1,0 +1,88 @@
+You are working in a Redmine checkout at the current working directory.
+
+Task anchor (controller#action): my#show_api_key
+
+A functional test is failing on this branch:
+
+    bin/rails test test/functional/my_controller_test.rb -n test_show_api_key
+
+Failure output:
+
+    Please switch from -n/--name to -i/--include
+    
+    Run options: -n test_show_api_key --seed 53292
+    
+    # Running:
+    
+    E
+    
+    Error:
+    MyControllerTest#test_show_api_key:
+    ActionView::Template::Error: undefined method 'api_key' for nil
+        app/views/my/show_api_key.html.erb:4
+        lib/redmine/sudo_mode.rb:78:in 'Redmine::SudoMode::Controller#sudo_mode'
+        test/functional/my_controller_test.rb:889:in 'MyControllerTest#test_show_api_key'
+    
+    bin/rails test test/functional/my_controller_test.rb:888
+    
+    
+    
+    Finished in 1.170189s, 0.8546 runs/s, 0.0000 assertions/s.
+    1 runs, 0 assertions, 0 failures, 1 errors, 0 skips
+
+Diagnose and fix the bug so this test passes. Do not modify any file under
+test/.
+
+## Context packet
+
+The following context packet was generated for this task's anchor by a
+static analysis tool. It may help you locate relevant code.
+
+# ctxpack context packet
+
+## Task
+No task was provided.
+
+## Anchor
+- Anchor: `my#show_api_key`
+- Controller: `MyController`
+- Action: `show_api_key`
+- File: `app/controllers/my_controller.rb`
+- Generated from: d070f7d (clean)
+
+## Files to inspect first
+
+### `app/controllers/my_controller.rb`
+
+Why: controller action for requested anchor.
+Reason code: `controller_action`
+
+```ruby
+  def show_api_key
+    @current_user = User.current
+  end
+```
+
+### `app/models/user.rb`
+
+Why: constant `User` was referenced by the action or an applicable callback.
+Reason code: `referenced_constant`
+
+## Tests to run
+No Minitest candidates were found by ctxpack's path rules.
+
+## Uncertainty
+- Callback `require_login` applies but was not defined in this controller file.
+- Callbacks declared outside this controller file, including superclasses and concerns, were not resolved.
+- Route discovery is delegated to Rails; run `bin/rails routes -g show_api_key` if the exact endpoint matters.
+- Convention-only constant match `User` resolved to `app/models/user.rb`; verify it if the task depends on that behavior.
+
+## Retrieve more only if needed
+- Inspect the superclass or concerns for callback `require_login`.
+- Search `test/` by hand if the task needs test coverage.
+
+Rules:
+- Make the smallest correct change consistent with this codebase's
+  conventions.
+- Leave your final changes uncommitted in the working tree.
+- Work autonomously; do not ask questions.

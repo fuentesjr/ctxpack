@@ -4,6 +4,21 @@ Operational notes for running the frozen Tier 2 A/B (see
 [`PREREGISTRATION.md`](PREREGISTRATION.md) for the science, which is fixed;
 this file is just how to drive [`harness.rb`](harness.rb)).
 
+The harness accepts an optional app selector:
+
+```bash
+ruby eval/tier2/harness.rb [app] setup
+ruby eval/tier2/harness.rb [app] run [N]
+ruby eval/tier2/harness.rb [app] status
+ruby eval/tier2/harness.rb [app] verify
+```
+
+If `[app]` is omitted, it defaults to `redmine`, so the original Tier 2
+commands below remain valid. `verify` is offline: it compares Redmine's
+schedule, run ids, prompt bytes, prompt determinism, and packet SHA-256s
+against `eval/tier2/golden/*`. Skeleton expansion apps with no tasks print
+`<app>: not yet authored (0 tasks)` and exit successfully.
+
 ## Why a dedicated session / flags
 
 The harness spawns the subject agent as
@@ -35,6 +50,7 @@ tree.
 
 ## Preconditions (already satisfied, verify if unsure)
 
+- `ruby eval/tier2/harness.rb verify` prints `OK`.
 - `ruby eval/tier2/harness.rb status` runs and lists the 20-tuple schedule.
 - `tmp/tier2/template` is Redmine @ `3386d959`, bundled, test DB migrated.
 - `tmp/tier2/claude-config/` is an authenticated sterile `CLAUDE_CONFIG_DIR`

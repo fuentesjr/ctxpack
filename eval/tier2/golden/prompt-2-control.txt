@@ -1,0 +1,40 @@
+You are working in a Redmine checkout at the current working directory.
+
+Task anchor (controller#action): my#show_api_key
+
+A functional test is failing on this branch:
+
+    bin/rails test test/functional/my_controller_test.rb -n test_show_api_key
+
+Failure output:
+
+    Please switch from -n/--name to -i/--include
+    
+    Run options: -n test_show_api_key --seed 53292
+    
+    # Running:
+    
+    E
+    
+    Error:
+    MyControllerTest#test_show_api_key:
+    ActionView::Template::Error: undefined method 'api_key' for nil
+        app/views/my/show_api_key.html.erb:4
+        lib/redmine/sudo_mode.rb:78:in 'Redmine::SudoMode::Controller#sudo_mode'
+        test/functional/my_controller_test.rb:889:in 'MyControllerTest#test_show_api_key'
+    
+    bin/rails test test/functional/my_controller_test.rb:888
+    
+    
+    
+    Finished in 1.170189s, 0.8546 runs/s, 0.0000 assertions/s.
+    1 runs, 0 assertions, 0 failures, 1 errors, 0 skips
+
+Diagnose and fix the bug so this test passes. Do not modify any file under
+test/.
+
+Rules:
+- Make the smallest correct change consistent with this codebase's
+  conventions.
+- Leave your final changes uncommitted in the working tree.
+- Work autonomously; do not ask questions.

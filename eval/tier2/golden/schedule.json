@@ -1,0 +1,142 @@
+[
+  {
+    "run_id": "t2-2-control-1-pilot",
+    "task": 2,
+    "arm": "control",
+    "run_index": 1,
+    "pilot": true
+  },
+  {
+    "run_id": "t2-2-treatment-1-pilot",
+    "task": 2,
+    "arm": "treatment",
+    "run_index": 1,
+    "pilot": true
+  },
+  {
+    "run_id": "t2-1-control-1",
+    "task": 1,
+    "arm": "control",
+    "run_index": 1,
+    "pilot": false
+  },
+  {
+    "run_id": "t2-1-treatment-1",
+    "task": 1,
+    "arm": "treatment",
+    "run_index": 1,
+    "pilot": false
+  },
+  {
+    "run_id": "t2-2-control-1",
+    "task": 2,
+    "arm": "control",
+    "run_index": 1,
+    "pilot": false
+  },
+  {
+    "run_id": "t2-2-treatment-1",
+    "task": 2,
+    "arm": "treatment",
+    "run_index": 1,
+    "pilot": false
+  },
+  {
+    "run_id": "t2-3-control-1",
+    "task": 3,
+    "arm": "control",
+    "run_index": 1,
+    "pilot": false
+  },
+  {
+    "run_id": "t2-3-treatment-1",
+    "task": 3,
+    "arm": "treatment",
+    "run_index": 1,
+    "pilot": false
+  },
+  {
+    "run_id": "t2-1-treatment-2",
+    "task": 1,
+    "arm": "treatment",
+    "run_index": 2,
+    "pilot": false
+  },
+  {
+    "run_id": "t2-1-control-2",
+    "task": 1,
+    "arm": "control",
+    "run_index": 2,
+    "pilot": false
+  },
+  {
+    "run_id": "t2-2-treatment-2",
+    "task": 2,
+    "arm": "treatment",
+    "run_index": 2,
+    "pilot": false
+  },
+  {
+    "run_id": "t2-2-control-2",
+    "task": 2,
+    "arm": "control",
+    "run_index": 2,
+    "pilot": false
+  },
+  {
+    "run_id": "t2-3-treatment-2",
+    "task": 3,
+    "arm": "treatment",
+    "run_index": 2,
+    "pilot": false
+  },
+  {
+    "run_id": "t2-3-control-2",
+    "task": 3,
+    "arm": "control",
+    "run_index": 2,
+    "pilot": false
+  },
+  {
+    "run_id": "t2-1-control-3",
+    "task": 1,
+    "arm": "control",
+    "run_index": 3,
+    "pilot": false
+  },
+  {
+    "run_id": "t2-1-treatment-3",
+    "task": 1,
+    "arm": "treatment",
+    "run_index": 3,
+    "pilot": false
+  },
+  {
+    "run_id": "t2-2-control-3",
+    "task": 2,
+    "arm": "control",
+    "run_index": 3,
+    "pilot": false
+  },
+  {
+    "run_id": "t2-2-treatment-3",
+    "task": 2,
+    "arm": "treatment",
+    "run_index": 3,
+    "pilot": false
+  },
+  {
+    "run_id": "t2-3-control-3",
+    "task": 3,
+    "arm": "control",
+    "run_index": 3,
+    "pilot": false
+  },
+  {
+    "run_id": "t2-3-treatment-3",
+    "task": 3,
+    "arm": "treatment",
+    "run_index": 3,
+    "pilot": false
+  }
+]

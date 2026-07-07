@@ -3,9 +3,10 @@
 # Tier 2 harness — executes the frozen pre-registration in PREREGISTRATION.md.
 #
 # Subcommands:
-#   ruby eval/tier2/harness.rb setup            # idempotent grid setup
-#   ruby eval/tier2/harness.rb run [N]          # run up to N pending sessions (default: all)
-#   ruby eval/tier2/harness.rb status           # tuple completion state
+#   ruby eval/tier2/harness.rb [app] setup       # idempotent grid setup
+#   ruby eval/tier2/harness.rb [app] run [N]     # run up to N pending sessions
+#   ruby eval/tier2/harness.rb [app] status      # tuple completion state
+#   ruby eval/tier2/harness.rb [app] verify      # offline golden proof
 #
 # Contract (decision log 2026-07-05): re-runnable, scripted arms, serial
 # pre-registered order, resumable via runs.jsonl (skip status:"complete"
@@ -17,32 +18,17 @@ require "json"
 require "digest"
 require "fileutils"
 require "open3"
+require "rbconfig"
 require "time"
 
-module Tier2
-  TIER2_DIR   = __dir__
-  ROOT        = File.expand_path("../..", __dir__)
-  WORK        = File.join(ROOT, "tmp/tier2")
-  TEMPLATE    = File.join(WORK, "template")
-  WS_DIR      = File.join(WORK, "workspaces")
-  SCORE_LOGS  = File.join(WORK, "scoring-logs")
-  CONFIG_DIR  = File.join(WORK, "claude-config")
-  RUNS_PATH   = File.join(TIER2_DIR, "runs.jsonl")
-  PACKETS_DIR = File.join(TIER2_DIR, "packets")
-  PACKETS_META = File.join(PACKETS_DIR, "packets.json")
+require_relative "apps/config"
 
-  APP_SHA   = "3386d9595767b3d0c455ace9281e056e9f61bd56"
+module Tier2
   MODEL     = "claude-sonnet-5"
   TIMEOUT_S = 30 * 60
 
-  ANCHORS = {1 => "twofa#deactivate_init", 2 => "my#show_api_key", 3 => "roles#create"}.freeze
-
-  # Untracked files prepared once in the template and copied into every
-  # fresh checkout (Redmine gitignores all three).
-  PREPARED_FILES = ["config/database.yml", "Gemfile.lock", "db/redmine_test.sqlite3"].freeze
-
   WRAPPER = <<~PROMPT
-    You are working in a Redmine checkout at the current working directory.
+    You are working in a {app_label} checkout at the current working directory.
 
     Task anchor (controller#action): {anchor}
 
@@ -66,6 +52,8 @@ module Tier2
     {packet_markdown}
   BLOCK
 
+  class VerificationError < StandardError; end
+
   module_function
 
   def sh!(*cmd, chdir: nil, env: {})
@@ -78,132 +66,161 @@ module Tier2
 
   # --- setup ---------------------------------------------------------------
 
-  def setup
-    verify_template
-    prepare_config_dir
-    capture_task2_failing_output
-    generate_packets
+  def setup(config)
+    verify_template(config)
+    prepare_config_dir(config)
+    capture_failing_outputs(config)
+    generate_packets(config)
     puts "setup complete"
   end
 
-  def verify_template
-    head = sh!("git", "rev-parse", "HEAD", chdir: TEMPLATE).strip
-    raise "template not at pinned SHA (#{head})" unless head == APP_SHA
+  def verify_template(config)
+    head = sh!("git", "rev-parse", "HEAD", chdir: config.template_dir).strip
+    raise "template not at pinned SHA (#{head})" unless head == config.repo_sha
 
-    PREPARED_FILES.each do |f|
-      path = File.join(TEMPLATE, f)
+    config.prepared_files.each do |f|
+      path = File.join(config.template_dir, f)
       raise "template missing prepared file #{f}" unless File.exist?(path)
     end
-    seed = File.join(TIER2_DIR, "tasks/task2_seed.patch")
-    sh!("git", "apply", "--check", seed, chdir: TEMPLATE)
-    puts "template ok @ #{APP_SHA[0, 8]}"
+    config.tasks.each do |task|
+      next unless task.seeded && task.seed_patch
+
+      sh!("git", "apply", "--check", task_file(config, task.seed_patch), chdir: config.template_dir)
+    end
+    puts "template ok @ #{config.repo_sha[0, 8]}"
   end
 
-  def prepare_config_dir
-    FileUtils.mkdir_p(CONFIG_DIR)
-    settings = File.join(CONFIG_DIR, "settings.json")
+  def prepare_config_dir(config)
+    FileUtils.mkdir_p(config.config_dir)
+    settings = File.join(config.config_dir, "settings.json")
     File.write(settings, "{}\n") unless File.exist?(settings)
-    puts "config dir ok (settings sha256 #{settings_sha256[0, 12]}…)"
+    puts "config dir ok (settings sha256 #{settings_sha256(config)[0, 12]}...)"
   end
 
-  def settings_sha256
-    Digest::SHA256.hexdigest(File.read(File.join(CONFIG_DIR, "settings.json")))
+  def settings_sha256(config)
+    Digest::SHA256.hexdigest(File.read(File.join(config.config_dir, "settings.json")))
   end
 
   # Captured once, verbatim, used identically in both arms (PREREGISTRATION,
   # Tasks). Committed alongside the frozen task prompt.
-  def capture_task2_failing_output
-    out_path = File.join(TIER2_DIR, "tasks/task2_failing_output.txt")
-    return puts "task2 failing output ok (cached)" if File.exist?(out_path)
+  def capture_failing_outputs(config)
+    config.tasks.each do |task|
+      next unless task.failing_capture
 
-    ws = make_workspace(File.join(WORK, "seedcheck"), seeded: true)
-    out, _st = Open3.capture2e(
-      {"RAILS_ENV" => "test"},
-      "bin/rails", "test", "test/functional/my_controller_test.rb", "-n", "test_show_api_key",
-      chdir: ws
-    )
-    raise "seeded test unexpectedly passed" unless out.match?(/1 failures|1 errors/)
-
-    File.write(out_path, out)
-    FileUtils.rm_rf(ws)
-    puts "task2 failing output captured (#{out.bytesize} bytes)"
+      capture_failing_output(config, task)
+    end
   end
 
-  def generate_packets
-    FileUtils.mkdir_p(PACKETS_DIR)
-    return puts "packets ok (cached)" if File.exist?(PACKETS_META)
+  def capture_failing_output(config, task)
+    capture = task.failing_capture
+    out_path = artifact_file(config, capture.fetch(:output_file))
+    return puts "task#{task.id} failing output ok (cached)" if File.exist?(out_path)
+
+    ws = make_workspace(config, File.join(config.work_dir, "seedcheck"), task: task, seeded: task.seeded)
+    command = config.test_command.call(capture.fetch(:test_target)) +
+              config.test_name_filter.call(capture.fetch(:filter_name))
+    out, _st = Open3.capture2e(config.test_env, *command, chdir: ws)
+    raise "seeded test unexpectedly passed" unless out.match?(capture.fetch(:expect_pattern))
+
+    FileUtils.mkdir_p(File.dirname(out_path))
+    File.write(out_path, out)
+    FileUtils.rm_rf(ws)
+    puts "task#{task.id} failing output captured (#{out.bytesize} bytes)"
+  end
+
+  def generate_packets(config)
+    FileUtils.mkdir_p(config.packets_dir)
+    return puts "packets ok (cached)" if File.exist?(config.packets_meta)
+    return puts "packets skipped (0 tasks)" if config.tasks.empty?
 
     dirty = sh!("git", "status", "--porcelain", "lib", "exe", chdir: ROOT)
     raise "ctxpack lib/exe dirty; commit before generating packets" unless dirty.empty?
 
     ctxpack_sha = sh!("git", "rev-parse", "HEAD", chdir: ROOT).strip
     meta = {"ctxpack_sha" => ctxpack_sha, "packets" => {}}
-    ANCHORS.each do |task, anchor|
-      out = File.join(PACKETS_DIR, "task#{task}.md")
-      # Task 2's packet must be generated from the seeded (buggy) tree — the
-      # realistic input for a bug-fix task, and generating from the pristine
-      # tree would inline the pre-bug line, leaking the fix to the treatment
-      # arm. Tasks 1/3 generate from the pinned template directly.
-      src = task == 2 ? make_workspace(File.join(WORK, "packetgen"), seeded: true) : TEMPLATE
+    config.tasks.each do |task|
+      out = packet_file(config, task)
+      src =
+        if task.packet_from_seeded
+          make_workspace(config, File.join(config.work_dir, "packetgen"), task: task, seeded: task.seeded)
+        else
+          config.template_dir
+        end
       sh!(RbConfig.ruby, "-I", File.join(ROOT, "lib"), File.join(ROOT, "exe/ctxpack"),
-          "packet", anchor, "--out", out, "--force", chdir: src)
-      FileUtils.rm_rf(src) unless src == TEMPLATE
-      meta["packets"][task.to_s] = {
-        "anchor" => anchor,
-        "path" => "packets/task#{task}.md",
-        "sha256" => Digest::SHA256.hexdigest(File.read(out))
+          "packet", task.anchor, "--out", out, "--manifest", "--force", chdir: src)
+      FileUtils.rm_rf(src) unless src == config.template_dir
+      manifest = read_packet_manifest(out)
+      tests = Array(manifest["tests"])
+      meta["packets"][task.id.to_s] = {
+        "anchor" => task.anchor,
+        "path" => "packets/task#{task.id}.md",
+        "sha256" => Digest::SHA256.hexdigest(File.read(out)),
+        "had_test_candidate" => tests.any? { |t| t["reason_code"].to_s.match?(/candidate/) },
+        "suggested_test_commands" => tests.filter_map { |t| t["command"] }
       }
     end
-    File.write(PACKETS_META, JSON.pretty_generate(meta) + "\n")
+    File.write(config.packets_meta, JSON.pretty_generate(meta) + "\n")
     puts "packets generated @ ctxpack #{ctxpack_sha[0, 8]}"
+  end
+
+  def read_packet_manifest(markdown_path)
+    json_path = markdown_path.sub(/\.[^\/.]+\z/, ".json")
+    return {} unless File.exist?(json_path)
+
+    JSON.parse(File.read(json_path))
   end
 
   # --- workspaces ----------------------------------------------------------
 
-  def make_workspace(dest, seeded:)
+  def make_workspace(config, dest, task: nil, seeded:)
     FileUtils.rm_rf(dest)
     FileUtils.mkdir_p(File.dirname(dest))
-    sh!("git", "clone", "-q", "--local", TEMPLATE, dest)
-    PREPARED_FILES.each do |f|
+    sh!("git", "clone", "-q", "--local", config.template_dir, dest)
+    config.prepared_files.each do |f|
       FileUtils.mkdir_p(File.dirname(File.join(dest, f)))
-      FileUtils.cp(File.join(TEMPLATE, f), File.join(dest, f))
+      FileUtils.cp(File.join(config.template_dir, f), File.join(dest, f))
     end
     if seeded
-      sh!("git", "apply", "--index", File.join(TIER2_DIR, "tasks/task2_seed.patch"), chdir: dest)
+      raise "seeded workspace requires a task with seed_patch" unless task&.seed_patch
+
+      sh!("git", "apply", "--index", task_file(config, task.seed_patch), chdir: dest)
       sh!("git", "-c", "user.email=tier2@ctxpack", "-c", "user.name=tier2",
-          "commit", "-qm", "tier2 task2 seed", chdir: dest)
+          "commit", "-qm", "tier2 task#{task.id} seed", chdir: dest)
     end
     dest
   end
 
   # --- schedule ------------------------------------------------------------
 
-  def schedule
+  def schedule(config)
     tuples = []
-    %w[control treatment].each do |arm|
-      tuples << {task: 2, arm: arm, run_index: 1, pilot: true}
+    if config.pilot_task
+      config.task(config.pilot_task)
+      %w[control treatment].each do |arm|
+        tuples << {task: config.pilot_task, arm: arm, run_index: 1, pilot: true}
+      end
     end
-    (1..3).each do |round|
+    (1..config.rounds).each do |round|
       arms = round.odd? ? %w[control treatment] : %w[treatment control]
-      [1, 2, 3].each do |task|
-        arms.each { |arm| tuples << {task: task, arm: arm, run_index: round, pilot: false} }
+      config.tasks.each do |task|
+        arms.each { |arm| tuples << {task: task.id, arm: arm, run_index: round, pilot: false} }
       end
     end
     tuples
   end
 
-  def completed_keys
-    return [] unless File.exist?(RUNS_PATH)
+  def completed_keys(config)
+    return [] unless File.exist?(config.runs_path)
 
-    File.readlines(RUNS_PATH).filter_map do |line|
+    File.readlines(config.runs_path).filter_map do |line|
       r = JSON.parse(line)
       [r["task"], r["arm"], r["run_index"], r["pilot"]] if r["status"] == "complete"
     end
   end
 
-  def pending
-    done = completed_keys
-    schedule.reject { |t| done.include?([t[:task], t[:arm], t[:run_index], t[:pilot]]) }
+  def pending(config)
+    done = completed_keys(config)
+    schedule(config).reject { |t| done.include?([t[:task], t[:arm], t[:run_index], t[:pilot]]) }
   end
 
   def run_id(t)
@@ -212,42 +229,49 @@ module Tier2
 
   # --- prompt --------------------------------------------------------------
 
-  def build_prompt(task, arm)
-    desc = File.read(File.join(TIER2_DIR, "tasks/task#{task}_prompt.md"))
-    if task == 2
-      failing = File.read(File.join(TIER2_DIR, "tasks/task2_failing_output.txt"))
-      desc = desc.sub("{failing_test_output}") { failing.strip.gsub("\n", "\n    ") }
+  def build_prompt(config, task_id, arm)
+    task = config.task(task_id)
+    desc = File.read(task_file(config, task.prompt_file))
+    if task.failing_capture
+      capture = task.failing_capture
+      failing = File.read(artifact_file(config, capture.fetch(:output_file)))
+      desc = desc.sub(capture.fetch(:token)) { failing.strip.gsub("\n", "\n    ") }
       desc = desc.sub(/^<!--.*?-->\n?/m, "") # harness note, not agent-facing
     end
     block =
       if arm == "treatment"
-        packet = File.read(File.join(PACKETS_DIR, "task#{task}.md"))
+        packet = File.read(packet_file(config, task))
         CONTEXT_BLOCK.sub("{packet_markdown}") { packet }
       else
         ""
       end
     WRAPPER
-      .sub("{anchor}") { ANCHORS.fetch(task) }
+      .sub("{app_label}") { app_label(config) }
+      .sub("{anchor}") { task.anchor }
       .sub("{task_description}") { desc.strip }
       .sub("{context_block}") { block.strip }
       .gsub(/\n{3,}/, "\n\n")
   end
 
+  def app_label(config)
+    config.name.split(/[_-]/).map(&:capitalize).join(" ")
+  end
+
   # --- session execution ---------------------------------------------------
 
-  def run(max_sessions = nil)
-    queue = pending
+  def run(config, max_sessions = nil)
+    queue = pending(config)
     queue = queue.first(max_sessions) if max_sessions
     abort "nothing pending" if queue.empty?
 
-    packets_meta = JSON.parse(File.read(PACKETS_META))
+    packets_meta = JSON.parse(File.read(config.packets_meta))
     cli_version = `claude --version`.strip
 
     queue.each do |t|
       id = run_id(t)
       puts "=== #{id} (#{Time.now.strftime('%H:%M:%S')}) ==="
-      record = run_session(t, id, packets_meta, cli_version)
-      File.open(RUNS_PATH, "a") { |f| f.puts(JSON.generate(record)) }
+      record = run_session(config, t, id, packets_meta, cli_version)
+      File.open(config.runs_path, "a") { |f| f.puts(JSON.generate(record)) }
       puts "    -> #{record['status']}" \
            "#{record['metrics'] ? " success=#{record['metrics']['task_success']}" : ''}"
       if record["status"] == "aborted"
@@ -257,16 +281,17 @@ module Tier2
     end
   end
 
-  def run_session(t, id, packets_meta, cli_version)
-    ws = make_workspace(File.join(WS_DIR, id), seeded: t[:task] == 2)
-    transcript = File.join(TIER2_DIR, "transcripts", "#{id}.jsonl")
-    diff_path = File.join(TIER2_DIR, "diffs", "#{id}.patch")
+  def run_session(config, t, id, packets_meta, cli_version)
+    task = config.task(t[:task])
+    ws = make_workspace(config, File.join(config.workspaces_dir, id), task: task, seeded: task.seeded)
+    transcript = File.join(config.artifact_dir, "transcripts", "#{id}.jsonl")
+    diff_path = File.join(config.artifact_dir, "diffs", "#{id}.patch")
     FileUtils.mkdir_p(File.dirname(transcript))
     FileUtils.mkdir_p(File.dirname(diff_path))
 
-    prompt = build_prompt(t[:task], t[:arm])
+    prompt = build_prompt(config, t[:task], t[:arm])
     started = Time.now
-    status = invoke_claude(prompt, ws, transcript)
+    status = invoke_claude(config, prompt, ws, transcript)
     ended = Time.now
 
     # Final diff: stage everything (captures new untracked files) and take
@@ -278,6 +303,7 @@ module Tier2
 
     record = {
       "run_id" => id,
+      "app" => config.name,
       "pilot" => t[:pilot],
       "task" => t[:task],
       "arm" => t[:arm],
@@ -285,10 +311,10 @@ module Tier2
       "status" => status,
       "started_at" => started.utc.iso8601,
       "ended_at" => ended.utc.iso8601,
-      "app_sha" => APP_SHA,
+      "app_sha" => config.repo_sha,
       "ctxpack_sha" => packets_meta.fetch("ctxpack_sha"),
       "packet_sha256" => t[:arm] == "treatment" ? packets_meta.dig("packets", t[:task].to_s, "sha256") : nil,
-      "agent" => {"cli_version" => cli_version, "model" => MODEL, "settings_sha256" => settings_sha256},
+      "agent" => {"cli_version" => cli_version, "model" => MODEL, "settings_sha256" => settings_sha256(config)},
       "usage" => nil,
       "metrics" => nil,
       "transcript_path" => "transcripts/#{id}.jsonl",
@@ -297,9 +323,9 @@ module Tier2
     }
 
     if status != "aborted"
-      usage, metrics = analyze_transcript(transcript, ws, diff_files)
+      usage, metrics = analyze_transcript(config, transcript, ws, diff_files, t, packets_meta)
       metrics["wall_time_s"] = (ended - started).round
-      metrics["task_success"] = status == "timeout" ? false : score(t[:task], id, diff_path, diff_files)
+      metrics["task_success"] = status == "timeout" ? false : score(config, t[:task], id, diff_path, diff_files)
       record["usage"] = usage
       record["metrics"] = metrics
     end
@@ -311,14 +337,13 @@ module Tier2
   # exit with a success result event is complete; exceeding TIMEOUT_S is
   # timeout (metrics kept, task_success false); anything else — usage-limit
   # kill, crash, network — is aborted (metrics discarded, tuple re-run).
-  def invoke_claude(prompt, workspace, transcript_path)
-    env = {"CLAUDE_CONFIG_DIR" => CONFIG_DIR}
+  def invoke_claude(config, prompt, workspace, transcript_path)
+    env = {"CLAUDE_CONFIG_DIR" => config.config_dir}
     cmd = ["claude", "-p", "--model", MODEL, "--output-format", "stream-json",
            "--verbose", "--dangerously-skip-permissions"]
     timed_out = false
-    stderr_dir = File.join(WORK, "stderr")
-    FileUtils.mkdir_p(stderr_dir)
-    stderr_path = File.join(stderr_dir, "#{File.basename(transcript_path, '.jsonl')}.log")
+    FileUtils.mkdir_p(config.stderr_dir)
+    stderr_path = File.join(config.stderr_dir, "#{File.basename(transcript_path, '.jsonl')}.log")
     File.open(transcript_path, "w") do |out|
       r, w = IO.pipe
       pid = Process.spawn(env, *cmd, chdir: workspace, in: r, out: out, err: [stderr_path, "w"])
@@ -361,7 +386,7 @@ module Tier2
 
   # --- metrics (definitions frozen in PREREGISTRATION.md, Metrics) ---------
 
-  def analyze_transcript(transcript_path, workspace, diff_files)
+  def analyze_transcript(config, transcript_path, workspace, diff_files, t, packets_meta)
     tool_uses = []
     result = nil
     File.foreach(transcript_path) do |line|
@@ -379,17 +404,32 @@ module Tier2
     rel = ->(path) { path.to_s.delete_prefix("#{workspace}/") }
     reads = []
     edits = []
-    first_load_bearing = nil
+    test_runner_calls = []
+    first_load_bearing_read = nil
+    first_load_bearing_edit = nil
     tool_uses.each_with_index do |tu, i|
       case tu["name"]
       when "Read"
         file = rel.call(tu.dig("input", "file_path"))
         reads << file
-        first_load_bearing ||= i + 1 if diff_files.include?(file)
+        first_load_bearing_read ||= i + 1 if diff_files.include?(file)
       when "Edit", "Write"
-        edits << rel.call(tu.dig("input", "file_path"))
+        file = rel.call(tu.dig("input", "file_path"))
+        edits << file
+        first_load_bearing_edit ||= i + 1 if diff_files.include?(file)
+      when "Bash"
+        command = tu.dig("input", "command").to_s
+        test_runner_calls << i + 1 if command.match?(config.test_runner_signature)
       end
     end
+
+    packet_meta = packets_meta.fetch("packets", {}).fetch(t[:task].to_s, {})
+    treatment = t[:arm] == "treatment"
+    ran_test_before_edit =
+      if treatment
+        first_load_bearing_edit &&
+          test_runner_calls.any? { |call_index| call_index < first_load_bearing_edit }
+      end
 
     u = result&.fetch("usage", nil) || {}
     usage = {
@@ -400,73 +440,183 @@ module Tier2
     }
     metrics = {
       "task_success" => nil,
-      "calls_to_first_load_bearing_read" => first_load_bearing,
+      "calls_to_first_load_bearing_read" => first_load_bearing_read,
       "distraction_reads" => (reads.uniq - edits.uniq - diff_files).size,
       "discarded_edits" => (edits.uniq - diff_files).size,
       "total_tool_calls" => tool_uses.size,
       "total_tokens" => usage.values.sum,
-      "wall_time_s" => nil
+      "wall_time_s" => nil,
+      "packet_had_test_candidate" => treatment ? !!packet_meta.fetch("had_test_candidate", false) : nil,
+      "ran_suggested_test_before_first_edit" => treatment ? !!ran_test_before_edit : nil
     }
     [usage, metrics]
   end
 
   # --- scoring -------------------------------------------------------------
 
-  ACCEPTANCE = {
-    1 => "test/functional/tier2_task1_acceptance_test.rb",
-    3 => "test/functional/tier2_task3_acceptance_test.rb"
-  }.freeze
+  def score(config, task_id, id, diff_path, diff_files)
+    task = config.task(task_id)
+    scoring = task.scoring
+    forbidden = Array(scoring[:forbid_edits_under])
+    return false if forbidden.any? { |prefix| diff_files.any? { |f| f.start_with?(prefix) } }
 
-  def score(task, id, diff_path, diff_files)
-    # Task 2 extra check (frozen): no file under test/ modified.
-    return false if task == 2 && diff_files.any? { |f| f.start_with?("test/") }
-
-    ws = make_workspace(File.join(WORK, "scoring"), seeded: task == 2)
-    if File.size(diff_path) > 0
-      apply = Open3.capture2e("git", "apply", "--whitespace=nowarn", diff_path, chdir: ws)
-      unless apply[1].success?
-        log_scoring(id, "git apply failed:\n#{apply[0]}")
-        return false
+    ws = make_workspace(config, File.join(config.work_dir, "scoring"), task: task, seeded: task.seeded)
+    begin
+      if File.size(diff_path) > 0
+        apply = Open3.capture2e("git", "apply", "--whitespace=nowarn", diff_path, chdir: ws)
+        unless apply[1].success?
+          log_scoring(config, id, "git apply failed:\n#{apply[0]}")
+          return false
+        end
       end
+
+      if scoring[:acceptance_test]
+        src = task_file(config, scoring[:acceptance_test].fetch(:source))
+        dest = File.join(ws, scoring[:acceptance_test].fetch(:dest))
+        FileUtils.mkdir_p(File.dirname(dest))
+        FileUtils.cp(src, dest)
+      end
+
+      out, st = Open3.capture2e(config.test_env, *config.test_command.call(scoring.fetch(:test_target)), chdir: ws)
+      log_scoring(config, id, out)
+      st.success?
+    ensure
+      FileUtils.rm_rf(ws)
     end
-
-    test_target =
-      if task == 2
-        "test/functional/my_controller_test.rb"
-      else
-        src = File.join(TIER2_DIR, "tasks/task#{task}_acceptance_test.rb")
-        FileUtils.cp(src, File.join(ws, ACCEPTANCE.fetch(task)))
-        ACCEPTANCE.fetch(task)
-      end
-
-    out, st = Open3.capture2e({"RAILS_ENV" => "test"}, "bin/rails", "test", test_target, chdir: ws)
-    log_scoring(id, out)
-    FileUtils.rm_rf(ws)
-    st.success?
   end
 
-  def log_scoring(id, text)
-    FileUtils.mkdir_p(SCORE_LOGS)
-    File.write(File.join(SCORE_LOGS, "#{id}.log"), text)
+  def log_scoring(config, id, text)
+    FileUtils.mkdir_p(config.score_logs_dir)
+    File.write(File.join(config.score_logs_dir, "#{id}.log"), text)
   end
 
   # --- status --------------------------------------------------------------
 
-  def status
-    done = completed_keys
-    schedule.each do |t|
+  def status(config)
+    done = completed_keys(config)
+    schedule(config).each do |t|
       mark = done.include?([t[:task], t[:arm], t[:run_index], t[:pilot]]) ? "done   " : "pending"
       puts "#{mark} #{run_id(t)}"
     end
-    puts "#{done.size}/#{schedule.size} complete"
+    puts "#{done.size}/#{schedule(config).size} complete"
+  end
+
+  # --- verify --------------------------------------------------------------
+
+  def verify(config)
+    if config.tasks.empty?
+      puts "#{config.name}: not yet authored (0 tasks)"
+      return
+    end
+
+    verify_schedule(config)
+    config.tasks.each do |task|
+      %w[control treatment].each do |arm|
+        verify_prompt(config, task, arm)
+      end
+    end
+    verify_packet_shas(config) if File.exist?(config.packets_meta)
+    puts "OK"
+  rescue VerificationError => e
+    warn e.message
+    exit 1
+  end
+
+  def verify_schedule(config)
+    path = File.join(config.golden_dir, "schedule.json")
+    raise VerificationError, "#{config.name}: missing golden schedule #{path}" unless File.exist?(path)
+
+    expected = JSON.parse(File.read(path))
+    actual = schedule(config).map do |t|
+      {"run_id" => run_id(t), "task" => t[:task], "arm" => t[:arm],
+       "run_index" => t[:run_index], "pilot" => t[:pilot]}
+    end
+    verify_equal!("schedule", expected, actual)
+  end
+
+  def verify_prompt(config, task, arm)
+    path = File.join(config.golden_dir, "prompt-#{task.id}-#{arm}.txt")
+    raise VerificationError, "#{config.name}: missing golden prompt #{path}" unless File.exist?(path)
+
+    first = build_prompt(config, task.id, arm)
+    second = build_prompt(config, task.id, arm)
+    verify_equal!("prompt-#{task.id}-#{arm} determinism", first, second)
+    verify_equal!("prompt-#{task.id}-#{arm}", File.binread(path), first)
+  end
+
+  def verify_packet_shas(config)
+    meta = JSON.parse(File.read(config.packets_meta))
+    meta.fetch("packets", {}).each do |task_id, packet|
+      path = File.join(config.artifact_dir, packet.fetch("path"))
+      raise VerificationError, "packet #{task_id} missing at #{path}" unless File.exist?(path)
+
+      actual = Digest::SHA256.hexdigest(File.binread(path))
+      expected = packet.fetch("sha256")
+      next if actual == expected
+
+      raise VerificationError, "packet #{task_id} sha256 mismatch\nexpected: #{expected}\nactual:   #{actual}"
+    end
+  end
+
+  def verify_equal!(label, expected, actual)
+    return if expected == actual
+
+    raise VerificationError, mismatch_message(label, expected, actual)
+  end
+
+  def mismatch_message(label, expected, actual)
+    if expected.is_a?(String) && actual.is_a?(String)
+      idx = first_mismatch_index(expected, actual)
+      return "#{label} mismatch at byte #{idx}\n" \
+             "expected sha256: #{Digest::SHA256.hexdigest(expected)} (#{expected.bytesize} bytes)\n" \
+             "actual sha256:   #{Digest::SHA256.hexdigest(actual)} (#{actual.bytesize} bytes)"
+    end
+
+    "#{label} mismatch\nexpected:\n#{JSON.pretty_generate(expected)}\nactual:\n#{JSON.pretty_generate(actual)}"
+  end
+
+  def first_mismatch_index(expected, actual)
+    limit = [expected.bytesize, actual.bytesize].min
+    idx = 0
+    idx += 1 while idx < limit && expected.getbyte(idx) == actual.getbyte(idx)
+    idx
+  end
+
+  # --- paths ---------------------------------------------------------------
+
+  def artifact_file(config, relative_path)
+    File.join(config.artifact_dir, relative_path)
+  end
+
+  def task_file(config, basename)
+    File.join(config.tasks_dir, basename)
+  end
+
+  def packet_file(config, task)
+    File.join(config.packets_dir, "task#{task.id}.md")
+  end
+
+  # --- CLI -----------------------------------------------------------------
+
+  def parse_cli(argv)
+    args = argv.dup
+    app_name =
+      if args[0] && Apps.known?(args[0])
+        args.shift
+      else
+        "redmine"
+      end
+    [Apps.load(app_name), args]
   end
 end
 
 if __FILE__ == $PROGRAM_NAME
-  case ARGV[0]
-  when "setup"  then Tier2.setup
-  when "run"    then Tier2.run(ARGV[1]&.to_i)
-  when "status" then Tier2.status
-  else abort "usage: harness.rb setup|run [N]|status"
+  config, args = Tier2.parse_cli(ARGV)
+  case args[0]
+  when "setup"  then Tier2.setup(config)
+  when "run"    then Tier2.run(config, args[1]&.to_i)
+  when "status" then Tier2.status(config)
+  when "verify" then Tier2.verify(config)
+  else abort "usage: harness.rb [app] setup|run [N]|status|verify"
   end
 end
