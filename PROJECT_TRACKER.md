@@ -80,37 +80,44 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Written 2026-07-07 after P1 (RSpec test-candidate rules) landed. If this
+Written 2026-07-07 after P2 (harness multi-app generalization) landed. If this
 section disagrees with "Next steps", Next steps wins.
 
-Tier 2 is done (directional SUPPORT, [`eval/tier2/RESULTS.md`](eval/tier2/RESULTS.md);
-diff-quality scores are an agent first-pass still open for author confirmation).
-The post-support fork was decided: **expand** (not the compiler refactor). The
-expansion is frozen at
-[`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md):
-apps **Campfire (Minitest, modern layout) + Lobsters + Publify (RSpec)**, 4
-tasks/app (2 feature-weighted), test-pointer sub-analysis, harness + metrics
-reused. P1 is complete: ctxpack now selects Minitest vs RSpec test-candidate
-families and fixture-evals cover RSpec controller/request specs.
+Both expansion prerequisites are now done. P1 (`21505b0`): ctxpack selects
+Minitest vs RSpec test-candidate families with fixture-eval coverage. P2:
+`eval/tier2/harness.rb` is now driven by per-app Ruby config objects under
+`eval/tier2/apps/` (`redmine.rb` reproduces Tier 2 byte-for-byte, proven by the
+new offline `verify` subcommand against `eval/tier2/golden/*`; skeleton
+`campfire.rb`/`lobsters.rb`/`publify.rb` load and short-circuit on 0 tasks). The
+`runs.jsonl` contract, status/metric definitions, and resume semantics are
+unchanged; the record gained an additive `app` field and two pre-registered
+treatment-only metrics (`packet_had_test_candidate`,
+`ran_suggested_test_before_first_edit`).
 
-**Immediate next step (a fresh session should start here) — P2: generalize the
-Tier 2 harness to multi-app config.** Refactor `eval/tier2/harness.rb` so app-
-specific data lives in config rather than Redmine-shaped constants: repository
-or prepared template identity, pinned SHA, app setup/prepared files, anchors,
-task prompts, acceptance-test/scoring command, packet generation inputs, and
-test command family (`bin/rails test` for Minitest apps vs `bundle exec rspec`
-for RSpec apps). Preserve the existing `runs.jsonl` contract, status meanings,
-metric definitions, transcript/diff artifacts, and resume semantics. Add enough
-verification to prove the current Redmine run remains representable by the new
-config, then add the empty/initial config entries needed for the frozen
-Campfire + Lobsters + Publify expansion without authoring their final tasks yet.
+**Immediate next step (a fresh session should start here) — author per-app
+tasks, anchors, and hidden acceptance tests for Campfire, then Lobsters, then
+Publify**, one app at a time, per
+[`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md).
+Per app: (1) pin the SHA and prepare a low-friction template checkout (clone,
+test DB, prepared untracked files) under `tmp/tier2-expansion/<app>/template`,
+filling the `sha`/`prepared_files` TODOs in its config; (2) draw anchors
+deterministically **before any packet exists** (`draw_anchors.rb`, seed = app
+SHA, tightest-shape-first, distinct controllers, skips logged); (3) author the
+4-task mix (2 feature / 1 bug / 1 behavior, feature-weighted) as frozen verbatim
+files — prompts, seed patches, hidden acceptance tests; (4) capture the app's
+golden prompts/schedule so `harness.rb <app> verify` guards the config the way
+it does for Redmine; (5) `setup` then a small pilot; apply only mechanical
+acceptance-test fixes (recorded, never weakening an assertion). This is the
+delegatable unit of work per app.
 
-After P2: author per-app tasks/anchors/acceptance tests (anchors drawn
-pre-packet), pilot each app, run the grid in usage-window batches, analyze per
-the frozen interpretation, write `eval/tier2-expansion/RESULTS.md`.
+After all three apps are authored and piloted: run the grid in usage-window
+batches (serial, arm order alternating by round, resume via each app's
+`runs.jsonl`), then analyze per the frozen per-app-then-across-apps
+interpretation (including the test-pointer sub-analysis) and write
+`eval/tier2-expansion/RESULTS.md`.
 
-Final step of this plan: rewrite this section for the task-authoring pass that
-follows P2.
+Final step of this plan: rewrite this section for the pass that follows the
+first app's authoring (or for the grid run, if all three are authored).
 
 ## Status
 
@@ -127,22 +134,54 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 |---|---|---|
 | Tier 0 anchor viability spike | **Done** (2026-07-05) | **91.0% engine-excluded average across Mastodon/Discourse/Zammad → ≥ 70% gate passes; proceed as designed.** Post-ANCH-amendment re-run: **93.9%**, zero regressions (addendum in RESULTS.md). Full method, taxonomy, and raw data in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md). Zero compiler crashes across 1,967 real-app pairs. |
 | Tier 2 agent A/B | **Done — SUPPORT** (2026-07-06) | Harness (`eval/tier2/harness.rb`) + 18-session grid + pilot run; all 20 sessions `complete`, zero aborts, 100% `task_success`. 2/3 tasks (bug-fix, behavior-change) show ≥ 30% median reduction in calls-to-first-load-bearing-read; multi-file feature (task 1) mildly worse; diff quality at ceiling (control 8.00 / treatment 7.89, agent first-pass pending author confirmation). Directional support per the frozen rule. Full analysis: [`eval/tier2/RESULTS.md`](eval/tier2/RESULTS.md). |
-| Tier 2 expansion | **Pre-registration FROZEN; P1 done** (2026-07-07) | [`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md) signed off. Adds Campfire (Minitest, modern layout) + Lobsters + Publify (RSpec), 4 tasks/app (feature-weighted), test-pointer sub-analysis. P1 ctxpack RSpec test-candidate rules landed with fixture-eval coverage. Next: P2 harness multi-app generalization. |
+| Tier 2 expansion | **Pre-registration FROZEN; P1 + P2 done** (2026-07-07) | [`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md) signed off. Adds Campfire (Minitest, modern layout) + Lobsters + Publify (RSpec), 4 tasks/app (feature-weighted), test-pointer sub-analysis. P1 (RSpec test-candidate rules, `21505b0`) landed with fixture-eval coverage. P2 (harness per-app config under `eval/tier2/apps/`, offline `verify` against `eval/tier2/golden/*`, additive `app` field + two treatment-only metrics) landed; Redmine reproduced byte-for-byte. Next: author per-app tasks/anchors/acceptance tests. |
 
 ## Next steps
 
-1. **P2 — harness multi-app generalization** (per-app config + RSpec scoring),
-   contract/schema/metrics unchanged.
-2. **Author per-app tasks/anchors/acceptance tests** (Campfire, Lobsters,
-   Publify; anchors drawn pre-packet), pilot each app, run the grid, write
+1. **Author per-app tasks/anchors/acceptance tests** (Campfire, then Lobsters,
+   then Publify; SHA pinned + template prepared, anchors drawn pre-packet,
+   golden captured for `verify`), pilot each app, then run the grid and write
    `eval/tier2-expansion/RESULTS.md`. All per
-   [`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md).
-3. **(Open, non-blocking) Author-confirm the Tier 2 diff-quality scores** —
+   [`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md);
+   the delegatable unit is one app.
+2. **(Open, non-blocking) Author-confirm the Tier 2 diff-quality scores** —
    agent first-pass in `tmp/tier2/judging/` (seed = app SHA); does not change
    the SUPPORT verdict, which rests on the exploration metric.
 
 ## Decision log
 
+- **2026-07-07** — P2 (Tier 2 harness multi-app generalization) landed via the
+  Codex delegation loop. `eval/tier2/harness.rb` is now driven by per-app Ruby
+  config objects (`AppConfig`/`TaskConfig` in `eval/tier2/apps/config.rb`), one
+  file per app; `redmine.rb` carries the former Redmine constants (SHA, prepared
+  files, anchors, Minitest command/filter, task2 seed + failing-capture,
+  scoring). Orchestrator decisions before dispatch: **Ruby config objects (not
+  YAML)** — per-task scoring has real logic (task2's forbid-`test/` rule,
+  acceptance-test copy) that resists declarative config; **harness stays at
+  `eval/tier2/harness.rb` with Redmine's committed tree untouched**, new apps get
+  their own artifact trees under `eval/tier2-expansion/<app>/`; **the
+  pre-registered test-pointer sub-analysis metrics were plumbed now** (they are
+  harness code). New capabilities: an offline `verify` subcommand proving app
+  representability (schedule/run-ids, byte-for-byte prompts, prompt determinism,
+  packet SHA-256s) against a committed `golden/` oracle; per-app `runs.jsonl`
+  with an additive `app` field; `packets.json` now records `had_test_candidate`
+  + `suggested_test_commands` from the packet manifest; two treatment-only
+  metrics (`packet_had_test_candidate`, `ran_suggested_test_before_first_edit`).
+  Skeleton `campfire`/`lobsters`/`publify` configs load and short-circuit on 0
+  tasks. `runs.jsonl` schema (additive only), status meanings, existing metric
+  definitions, transcript/diff artifacts, and resume semantics are unchanged.
+  Session-side verification (never trusting Codex's summary): the on-disk
+  `golden/` was regenerated from the **original committed harness** (`git show
+  HEAD`) and confirmed byte-identical — so `verify` passing is a real
+  representability proof, not circular; `harness.rb verify` prints `OK` and
+  `status` lists the frozen 20 tuples; `analyze_transcript` recomputed the
+  existing metrics **byte-identical to the committed records** across 4 real
+  sessions (both arms, tasks 1–3), with the new metrics correct (`nil` on
+  control, `false` on Redmine treatment per the `test/functional/` limitation);
+  `bundle exec rake test` green (55 runs); no changes to `lib/`/`exe/`/`specs/`
+  or committed Redmine artifacts. Corpus re-scan skipped per its own rule (no
+  compiler behavior touched). Both expansion prerequisites (P1 `21505b0`, P2) are
+  now landed; the gate is per-app task authoring.
 - **2026-07-07** — P1 for the Tier 2 expansion landed: ctxpack now detects an
   RSpec test family when `spec/` plus `spec/rails_helper.rb` or `rspec-rails`
   is present, emits `rspec_candidate` entries for

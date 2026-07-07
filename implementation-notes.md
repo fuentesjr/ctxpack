@@ -507,3 +507,67 @@ callback, constant, CLI, or manifest schema behavior changed.
 - Clean-context design review was required by the validator but not run:
   this session's sub-agent tool policy forbids spawning unless the user
   explicitly asks for delegation.
+
+## P2: multi-app Tier 2 harness configs (2026-07-07)
+
+Implemented the Tier 2 expansion prerequisite for a multi-app harness. Scope
+was limited to `eval/tier2/harness.rb`, per-app config files under
+`eval/tier2/apps/`, and Tier 2/expansion docs. No `lib/`, `exe/`, `specs/`, or
+committed Redmine run/task/packet/diff/transcript artifacts were changed.
+
+### Decisions
+
+- Added `Tier2::AppConfig` and `Tier2::TaskConfig` in
+  `eval/tier2/apps/config.rb`, plus an app registry loaded by the optional CLI
+  app selector.
+- Moved Redmine-specific constants into `eval/tier2/apps/redmine.rb`: pinned
+  SHA, template/work/artifact paths, prepared files, Minitest command/filter,
+  runner signature, pilot task, and the three task configs.
+- Added empty `campfire`, `lobsters`, and `publify` skeleton configs. Their
+  SHA placeholders evaluate to the requested unauthored sentinel and their task
+  arrays are empty, so `status` and `verify` are safe before templates, DBs,
+  packets, or golden prompts exist.
+- Generalized schedule, prompt construction, resume keys, workspace creation,
+  packet generation, transcript metrics, and scoring to take an app config.
+  Redmine's run id shape and per-file resume tuple remain
+  `[task, arm, run_index, pilot]`.
+- Added `"app" => config.name` to newly written run records only. Existing
+  `eval/tier2/runs.jsonl` records are read unchanged and were not rewritten.
+- Added offline `verify`: schedule/run-id comparison against
+  `golden/schedule.json`, byte-for-byte prompt checks for every task/arm,
+  prompt determinism checks, and packet SHA-256 verification.
+- Packet generation now requests the JSON manifest with `--manifest` and, for
+  newly generated packets, records `had_test_candidate` and
+  `suggested_test_commands` in `packets.json`. Existing Redmine metadata that
+  lacks these keys is interpreted as `false` / `[]`.
+- Added pre-registered treatment-only metrics:
+  `packet_had_test_candidate` and
+  `ran_suggested_test_before_first_edit`.
+
+### Verification
+
+- `ruby eval/tier2/harness.rb verify`:
+  `OK`
+- `ruby eval/tier2/harness.rb status`: listed the frozen 20 Redmine tuples and
+  ended with `20/20 complete`.
+- `ruby -e 'require "./eval/tier2/apps/campfire"'`,
+  `ruby -e 'require "./eval/tier2/apps/lobsters"'`, and
+  `ruby -e 'require "./eval/tier2/apps/publify"'`: all exited 0 with no output.
+- `ruby eval/tier2/harness.rb campfire status`,
+  `ruby eval/tier2/harness.rb lobsters status`, and
+  `ruby eval/tier2/harness.rb publify status`: each printed `0/0 complete`.
+- Additional skeleton proof:
+  `ruby eval/tier2/harness.rb campfire verify`,
+  `ruby eval/tier2/harness.rb lobsters verify`, and
+  `ruby eval/tier2/harness.rb publify verify` print
+  `<app>: not yet authored (0 tasks)`.
+- Full suite: `bundle exec rake test` — 55 runs, 362 assertions, 0 failures,
+  0 errors, 0 skips.
+- Strategic validator was run from a `/private/tmp` copy because this sandbox
+  cannot create `.git/index.lock` in the working repo. With Ruby 4.0.1 on
+  `PATH`, it passed `slice_tests` and `todo`; `red_green` was skipped, and
+  RuboCop lint/metrics were skipped with the existing Metz cop warning:
+  `unrecognized cop or department Metz found in .rubocop.yml`.
+- Clean-context design review was required by the validator but not run:
+  the available sub-agent tool policy forbids spawning unless the user
+  explicitly asks for delegation.

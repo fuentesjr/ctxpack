@@ -180,8 +180,10 @@ single-app→now-multi-app generalization, read-tool-only counting). New:
 ## Sign-off
 
 - [x] User approves apps, task mix, and the two prerequisite passes (2026-07-06)
-- [ ] P1 (ctxpack RSpec rules) landed + fixture-eval covered; SHA recorded
-- [ ] P2 (harness multi-app generalization) landed
+- [x] P1 (ctxpack RSpec rules) landed + fixture-eval covered; SHA `21505b0`
+      (the packet-generation `ctxpack_sha` recorded per run captures it at grid time)
+- [x] P2 (harness multi-app generalization) landed (2026-07-07); Redmine
+      reproduced byte-for-byte via `harness.rb verify` against `eval/tier2/golden/*`
 - [ ] Per-app tasks/anchors/acceptance tests authored and frozen
 - [ ] Pilot per new app; then grid per the execution rules
 - [ ] Analysis + `RESULTS.md` per the interpretation rules
