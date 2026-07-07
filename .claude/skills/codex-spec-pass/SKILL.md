@@ -1,0 +1,1 @@
+../../../.agents/skills/codex-spec-pass/SKILL.md

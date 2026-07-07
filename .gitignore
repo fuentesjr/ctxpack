@@ -1,2 +1,12 @@
-.agents/
+# .agents/ is mostly the install root of the `skills` npm CLI (npx skills,
+# skills.sh — it owns skills-lock.json); it stays ignored EXCEPT the
+# repo-owned skills carved out below — canonical committed content (AGENTS.md).
+.agents/*
+!.agents/skills/
+.agents/skills/*
+!.agents/skills/codex-spec-pass/
+!.agents/skills/tier0-corpus-rescan/
+!.agents/skills/add-fixture-eval/
+!.agents/skills/extract-approach/
 skills-lock.json
+tmp/
