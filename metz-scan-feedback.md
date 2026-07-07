@@ -73,3 +73,10 @@ Status: filed https://github.com/fuentesjr/metz-scan/issues/32
   `add_controller_evidence` and `add_constant_evidence`). Thresholds are
   per-cop tunable in `.rubocop.yml`; defaults kept for now to gather
   signal on whether the 5-line rule is calibrated for this kind of code.
+- **2026-07-07 (v0.4.0)** — The project-level `.rubocop.yml` workaround
+  (`Metz: Enabled`) lets `rake metz` stay Metz-only, but a separate
+  RuboCop-based validator that did not load metz-scan errored with
+  `unrecognized cop or department Metz found in .rubocop.yml`. This is a
+  downstream friction point of issue #31: scanned-project config required
+  for normal metz-scan output can poison plain RuboCop consumers unless they
+  know to load the Metz extension.

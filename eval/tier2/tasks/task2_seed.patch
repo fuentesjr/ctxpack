@@ -1,13 +1,13 @@
-app/controllers/my_controller.rb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- Changes ---
-
-app/controllers/my_controller.rb
-  @@ -134,7 +134,7 @@
-  -    @user = User.current
-  +    @current_user = User.current
-     end
-   
-     # Create a new API key
-  +1 -1
+diff --git a/app/controllers/my_controller.rb b/app/controllers/my_controller.rb
+index 3d27f3b..a56a285 100644
+--- a/app/controllers/my_controller.rb
++++ b/app/controllers/my_controller.rb
+@@ -134,7 +134,7 @@ class MyController < ApplicationController
+   end
+ 
+   def show_api_key
+-    @user = User.current
++    @current_user = User.current
+   end
+ 
+   # Create a new API key

@@ -38,7 +38,7 @@ Rails apps already contain strong structural signals:
 
 - routes point to controller actions
 - controller actions reference services, models, jobs, mailers, and views
-- Minitest controller/integration tests describe app behavior
+- Minitest controller/integration tests and RSpec controller/request specs describe app behavior
 - Zeitwerk maps constants to file paths
 - Rails conventions reveal useful context without broad semantic search
 
@@ -52,7 +52,7 @@ The first version should stay intentionally small:
 controller#action
 → action snippet + applicable before_action callbacks
 → obvious referenced constants
-→ likely Minitest candidates
+→ likely test candidates
 → compact Markdown packet
 ```
 
@@ -141,7 +141,7 @@ The honest competitor is not keyword search — modern coding agents already fol
 - inherited or metaprogrammed action discovery
 - full dependency graphs
 - Rubydex-backed indexing as a required dependency
-- RSpec support before the Minitest path proves out
+- system/browser spec discovery
 - autonomous agent behavior
 
 ## 🧰 Implementation direction
@@ -151,7 +151,7 @@ The planned v0 implementation is a small Ruby CLI/gem:
 - Ruby for low Rails impedance
 - Prism for direct Ruby parsing
 - convention-based constant-to-file resolution
-- Minitest first
+- deterministic Minitest and RSpec controller/request test pointers
 - Rubydex later only if evals show a concrete need
 
 ## 🗺️ Project workflow

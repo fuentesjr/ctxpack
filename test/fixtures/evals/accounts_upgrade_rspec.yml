@@ -1,0 +1,25 @@
+name: accounts_upgrade_rspec
+app: rspec_basic
+command:
+  anchor: accounts#upgrade
+  task: Implement billing upgrade
+
+expect:
+  entrypoint:
+    file: app/controllers/accounts_controller.rb
+    action: upgrade
+
+  include:
+    - path: app/controllers/accounts_controller.rb
+      reason_code: controller_action
+    - path: spec/requests/accounts_upgrade_spec.rb
+      reason_code: rspec_candidate
+
+  exclude:
+    - test/controllers/accounts_controller_test.rb
+    - spec/system/accounts_upgrade_spec.rb
+
+  tests:
+    - bundle exec rspec spec/requests/accounts_upgrade_spec.rb
+
+  max_files: 8

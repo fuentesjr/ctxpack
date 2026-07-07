@@ -80,34 +80,44 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Written 2026-07-05, updated same day after the Tier 2 pre-registration was
-frozen (user sign-off in session). If this section disagrees with "Next
-steps", Next steps wins.
+Written 2026-07-07 after P2 (harness multi-app generalization) landed. If this
+section disagrees with "Next steps", Next steps wins.
 
-The pre-registration is FROZEN at `eval/tier2/PREREGISTRATION.md` — app
-(Redmine @ pinned SHA), anchors (deterministic draw, committed), task
-prompts, acceptance tests, arms, metrics, run counts, and the JSONL
-run-record schema are all fixed. Only its explicit amendment rules apply
-from here. Remaining work:
+Both expansion prerequisites are now done. P1 (`21505b0`): ctxpack selects
+Minitest vs RSpec test-candidate families with fixture-eval coverage. P2:
+`eval/tier2/harness.rb` is now driven by per-app Ruby config objects under
+`eval/tier2/apps/` (`redmine.rb` reproduces Tier 2 byte-for-byte, proven by the
+new offline `verify` subcommand against `eval/tier2/golden/*`; skeleton
+`campfire.rb`/`lobsters.rb`/`publify.rb` load and short-circuit on 0 tasks). The
+`runs.jsonl` contract, status/metric definitions, and resume semantics are
+unchanged; the record gained an additive `app` field and two pre-registered
+treatment-only metrics (`packet_had_test_candidate`,
+`ran_suggested_test_before_first_edit`).
 
-1. Build the harness to the re-runnable contract (decision log 2026-07-05)
-   and the frozen execution rules: scripted arms, serial pre-registered
-   order with alternating arm order per round, resumable via
-   `eval/tier2/runs.jsonl` (skip `status: "complete"` tuples), abort vs
-   timeout handling, sterile `CLAUDE_CONFIG_DIR`, workspaces from the
-   pinned Redmine SHA (task 2 plus seed patch), packets generated once per
-   task with recorded SHA-256.
-2. Run the 2-session pilot (task 2, both arms, `pilot: true`); record
-   per-session usage-window consumption for batch sizing; apply any
-   mechanical acceptance-test fixes under the pre-registration's amendment
-   rule (allowed only before grid sessions).
-3. Run the 18-session grid in usage-window-sized batches, blind-judge the
-   diffs per the frozen rubric, analyze per the pre-registered
-   interpretation, write `eval/tier2/RESULTS.md`.
-4. Close with the end-of-session ritual: update Status/Next steps/Decision
-   log here, rewrite this section for what follows (v0 wrap-up or the
-   compiler split refactor, depending on the Tier 2 verdict), ask before
-   committing.
+**Immediate next step (a fresh session should start here) — author per-app
+tasks, anchors, and hidden acceptance tests for Campfire, then Lobsters, then
+Publify**, one app at a time, per
+[`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md).
+Per app: (1) pin the SHA and prepare a low-friction template checkout (clone,
+test DB, prepared untracked files) under `tmp/tier2-expansion/<app>/template`,
+filling the `sha`/`prepared_files` TODOs in its config; (2) draw anchors
+deterministically **before any packet exists** (`draw_anchors.rb`, seed = app
+SHA, tightest-shape-first, distinct controllers, skips logged); (3) author the
+4-task mix (2 feature / 1 bug / 1 behavior, feature-weighted) as frozen verbatim
+files — prompts, seed patches, hidden acceptance tests; (4) capture the app's
+golden prompts/schedule so `harness.rb <app> verify` guards the config the way
+it does for Redmine; (5) `setup` then a small pilot; apply only mechanical
+acceptance-test fixes (recorded, never weakening an assertion). This is the
+delegatable unit of work per app.
+
+After all three apps are authored and piloted: run the grid in usage-window
+batches (serial, arm order alternating by round, resume via each app's
+`runs.jsonl`), then analyze per the frozen per-app-then-across-apps
+interpretation (including the test-pointer sub-analysis) and write
+`eval/tier2-expansion/RESULTS.md`.
+
+Final step of this plan: rewrite this section for the pass that follows the
+first app's authoring (or for the grid run, if all three are authored).
 
 ## Status
 
@@ -123,18 +133,104 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 | Experiment | Status | Notes |
 |---|---|---|
 | Tier 0 anchor viability spike | **Done** (2026-07-05) | **91.0% engine-excluded average across Mastodon/Discourse/Zammad → ≥ 70% gate passes; proceed as designed.** Post-ANCH-amendment re-run: **93.9%**, zero regressions (addendum in RESULTS.md). Full method, taxonomy, and raw data in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md). Zero compiler crashes across 1,967 real-app pairs. |
-| Tier 2 agent A/B | **Pre-registration FROZEN** (2026-07-05) | `eval/tier2/PREREGISTRATION.md` signed off: Redmine @ `3386d959` (98.2% anchor resolution, 330/336), Claude Code + Sonnet 5 pinned, anchors drawn deterministically pre-packet (`twofa#deactivate_init` / `my#show_api_key` / `roles#create`), 3 runs/arm + pilot, subscription-window-aware execution rules. Next: build harness, pilot, grid. |
+| Tier 2 agent A/B | **Done — SUPPORT** (2026-07-06) | Harness (`eval/tier2/harness.rb`) + 18-session grid + pilot run; all 20 sessions `complete`, zero aborts, 100% `task_success`. 2/3 tasks (bug-fix, behavior-change) show ≥ 30% median reduction in calls-to-first-load-bearing-read; multi-file feature (task 1) mildly worse; diff quality at ceiling (control 8.00 / treatment 7.89, agent first-pass pending author confirmation). Directional support per the frozen rule. Full analysis: [`eval/tier2/RESULTS.md`](eval/tier2/RESULTS.md). |
+| Tier 2 expansion | **Pre-registration FROZEN; P1 + P2 done** (2026-07-07) | [`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md) signed off. Adds Campfire (Minitest, modern layout) + Lobsters + Publify (RSpec), 4 tasks/app (feature-weighted), test-pointer sub-analysis. P1 (RSpec test-candidate rules, `21505b0`) landed with fixture-eval coverage. P2 (harness per-app config under `eval/tier2/apps/`, offline `verify` against `eval/tier2/golden/*`, additive `app` field + two treatment-only metrics) landed; Redmine reproduced byte-for-byte. Next: author per-app tasks/anchors/acceptance tests. |
 
 ## Next steps
 
-1. **Tier 2 agent A/B** (offline, `eval-plan.md`) — all gates cleared; the
-   only remaining v0 work item. Pre-registered experiment, not a spec pass:
-   the Codex delegation loop does not apply. Harness contract: re-runnable
-   (pinned agent setup, scripted arms, recorded SHAs), one JSONL run record
-   per session.
+1. **Author per-app tasks/anchors/acceptance tests** (Campfire, then Lobsters,
+   then Publify; SHA pinned + template prepared, anchors drawn pre-packet,
+   golden captured for `verify`), pilot each app, then run the grid and write
+   `eval/tier2-expansion/RESULTS.md`. All per
+   [`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md);
+   the delegatable unit is one app.
+2. **(Open, non-blocking) Author-confirm the Tier 2 diff-quality scores** —
+   agent first-pass in `tmp/tier2/judging/` (seed = app SHA); does not change
+   the SUPPORT verdict, which rests on the exploration metric.
 
 ## Decision log
 
+- **2026-07-07** — P2 (Tier 2 harness multi-app generalization) landed via the
+  Codex delegation loop. `eval/tier2/harness.rb` is now driven by per-app Ruby
+  config objects (`AppConfig`/`TaskConfig` in `eval/tier2/apps/config.rb`), one
+  file per app; `redmine.rb` carries the former Redmine constants (SHA, prepared
+  files, anchors, Minitest command/filter, task2 seed + failing-capture,
+  scoring). Orchestrator decisions before dispatch: **Ruby config objects (not
+  YAML)** — per-task scoring has real logic (task2's forbid-`test/` rule,
+  acceptance-test copy) that resists declarative config; **harness stays at
+  `eval/tier2/harness.rb` with Redmine's committed tree untouched**, new apps get
+  their own artifact trees under `eval/tier2-expansion/<app>/`; **the
+  pre-registered test-pointer sub-analysis metrics were plumbed now** (they are
+  harness code). New capabilities: an offline `verify` subcommand proving app
+  representability (schedule/run-ids, byte-for-byte prompts, prompt determinism,
+  packet SHA-256s) against a committed `golden/` oracle; per-app `runs.jsonl`
+  with an additive `app` field; `packets.json` now records `had_test_candidate`
+  + `suggested_test_commands` from the packet manifest; two treatment-only
+  metrics (`packet_had_test_candidate`, `ran_suggested_test_before_first_edit`).
+  Skeleton `campfire`/`lobsters`/`publify` configs load and short-circuit on 0
+  tasks. `runs.jsonl` schema (additive only), status meanings, existing metric
+  definitions, transcript/diff artifacts, and resume semantics are unchanged.
+  Session-side verification (never trusting Codex's summary): the on-disk
+  `golden/` was regenerated from the **original committed harness** (`git show
+  HEAD`) and confirmed byte-identical — so `verify` passing is a real
+  representability proof, not circular; `harness.rb verify` prints `OK` and
+  `status` lists the frozen 20 tuples; `analyze_transcript` recomputed the
+  existing metrics **byte-identical to the committed records** across 4 real
+  sessions (both arms, tasks 1–3), with the new metrics correct (`nil` on
+  control, `false` on Redmine treatment per the `test/functional/` limitation);
+  `bundle exec rake test` green (55 runs); no changes to `lib/`/`exe/`/`specs/`
+  or committed Redmine artifacts. Corpus re-scan skipped per its own rule (no
+  compiler behavior touched). Both expansion prerequisites (P1 `21505b0`, P2) are
+  now landed; the gate is per-app task authoring.
+- **2026-07-07** — P1 for the Tier 2 expansion landed: ctxpack now detects an
+  RSpec test family when `spec/` plus `spec/rails_helper.rb` or `rspec-rails`
+  is present, emits `rspec_candidate` entries for
+  `spec/controllers/<controller>_controller_spec.rb` and path-token-matched
+  `spec/requests/*_spec.rb`, ignores `spec/system/` for v0, and suggests
+  `bundle exec rspec <path>`. Minitest remains the fallback family and keeps
+  `bin/rails test <path>`. Specs, `design.md`, README, fixture evals, and
+  implementation notes were reconciled; `accounts_upgrade_rspec.yml` covers
+  the new path. P2 is now the expansion gate.
+- **2026-07-06** — Tier 2 expansion pre-registration frozen (user sign-off in
+  session); [`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md).
+  Post-SUPPORT fork resolved as **expand** (not the compiler refactor). Verified
+  app candidates via two background research agents (Minitest modern-layout hunt
+  + runnable-RSpec hunt). Frozen app set: **Campfire** (`basecamp/once-campfire`,
+  Minitest, modern `test/controllers/`, MIT/SQLite — fires the test-pointer rule
+  Redmine's `test/functional/` layout could not) + **Lobsters** (`lobsters/lobsters`,
+  RSpec, Rails 8, MariaDB-only, `spec/controllers` + `spec/requests`) + **Publify**
+  (`publify/publify`, RSpec, SQLite, frictionless). Solidus considered, rejected
+  for v0 (monorepo + generated-dummy-app, per-engine scoring complexity).
+  Sign-off decisions: Publify over Solidus; 4 tasks/app (2 feature / 1 bug /
+  1 behavior — feature-weighted to probe Tier 2's one loss, the multi-file
+  `twofa` feature); RSpec extension scoped to controllers + requests (no
+  `spec/system/`). Design answers three questions: multi-file-feature effect,
+  test-pointer contribution (pre-registered sub-analysis splitting deltas by
+  `packet_had_test_candidate`), and cross-framework generalization. Two build
+  passes gate the grid — P1 (ctxpack RSpec test-candidate rules) then P2
+  (harness multi-app config + `bundle exec rspec` scoring); `runs.jsonl`
+  contract and metric definitions unchanged. Grid ~72 sessions
+  (3 apps × 4 tasks × 2 arms × 3 runs), resumable across usage windows.
+- **2026-07-06** — Tier 2 grid executed; verdict **SUPPORT** (directional).
+  Harness (`eval/tier2/harness.rb`) ran the 2-session pilot then the
+  18-session grid in two same-day batches (round 1, then rounds 2+3) on the
+  user's subscription; all 20 sessions `complete`, zero aborts/timeouts,
+  ≈10.64M grid tokens, ~44 min elapsed. No acceptance-test or harness
+  amendment was needed (pilot diffs correct first try). Per the frozen rule
+  (≥30% median reduction in calls-to-first-load-bearing-read or distraction,
+  ≥2/3 tasks, no success/quality regression): tasks 2 (bug-fix, LBR 4→2) and 3
+  (behavior, 2→1) clear the bar; task 1 (multi-file feature) is mildly *worse*
+  (5→7) — the packet aids small-surface tasks and adds exploration overhead on
+  spread-out feature work, the study's key nuance. `task_success` is 100% in
+  both arms (saturated → non-discriminating); blind diff quality is at ceiling
+  (control 8.00 / treatment 7.89, no regression) but those 0–8 scores are an
+  agent first-pass (`tmp/tier2/judging/`, seed = app SHA) pending author
+  confirmation, so the load-bearing claim is the exploration metric, not the
+  quality gap. Pre-registered follow-up rule ("support → expand to more tasks
+  and a second app") now live; task-1 regression + Redmine's structurally
+  empty test-candidate pointer (`test/functional/` layout, TEST-5) make a
+  modern-layout, multi-file-feature follow-up the sharpest next probe. Full
+  method and tables: `eval/tier2/RESULTS.md`.
 - **2026-07-05** — Tier 2 pre-registration frozen (user sign-off in session);
   full design in `eval/tier2/PREREGISTRATION.md`. Key decisions: app is
   Redmine @ `3386d959` — the only large conventional Minitest candidate

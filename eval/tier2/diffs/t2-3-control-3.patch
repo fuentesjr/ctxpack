@@ -1,0 +1,31 @@
+diff --git a/app/controllers/roles_controller.rb b/app/controllers/roles_controller.rb
+index 9181c83..dc9eecc 100644
+--- a/app/controllers/roles_controller.rb
++++ b/app/controllers/roles_controller.rb
+@@ -63,8 +63,12 @@ class RolesController < ApplicationController
+     @role.safe_attributes = params[:role]
+     if request.post? && @role.save
+       # workflow copy
+-      if params[:copy_workflow_from].present? && (copy_from = Role.find_by_id(params[:copy_workflow_from]))
+-        @role.copy_workflow_rules(copy_from)
++      if params[:copy_workflow_from].present?
++        if (copy_from = Role.find_by_id(params[:copy_workflow_from]))
++          @role.copy_workflow_rules(copy_from)
++        else
++          flash[:warning] = l(:warning_workflow_copy_source_not_found)
++        end
+       end
+       flash[:notice] = l(:notice_successful_create)
+       redirect_to roles_path
+diff --git a/config/locales/en.yml b/config/locales/en.yml
+index d0d9374..1a196ae 100644
+--- a/config/locales/en.yml
++++ b/config/locales/en.yml
+@@ -227,6 +227,7 @@ en:
+   error_session_expired: "Your session has expired. Please login again."
+   error_token_expired: "This password recovery link has expired, please try again."
+   warning_attachments_not_saved: "%{count} file(s) could not be saved."
++  warning_workflow_copy_source_not_found: "Workflow rules were not copied because the source role could not be found."
+   error_password_expired: "Your password has expired or the administrator requires you to change it."
+   error_invalid_file_encoding: "The file is not a valid %{encoding} encoded file"
+   error_invalid_csv_file_or_settings: "The file is not a CSV file or does not match the settings below (%{value})"

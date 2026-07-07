@@ -16,7 +16,7 @@ Generic retrieval can find files that mention the right words, but Rails applica
 
 - routes point to controller actions
 - controller actions reference services, models, jobs, mailers, and views
-- Minitest controller/integration tests describe behavior at the application boundary
+- Minitest controller/integration tests and RSpec controller/request specs describe behavior at the application boundary
 - models expose validations, associations, callbacks, and schema constraints
 - package systems such as Packwerk define ownership and boundary rules
 
@@ -45,7 +45,7 @@ Instead of doing broad semantic search for `billing`, `upgrade`, and `account`, 
 AccountsController#upgrade
 → controller action snippet
 → referenced constants/services/models/jobs
-→ likely Minitest test candidates
+→ likely test candidates
 → package/boundary notes when cheaply detectable
 ```
 
@@ -56,7 +56,7 @@ The output is not an answer and not an autonomous agent. It is a prepared contex
 The first version should be intentionally small and deterministic:
 
 ```text
-controller#action → action snippet + applicable before_action callbacks → referenced constants → nearby Minitest candidate → compact markdown packet
+controller#action → action snippet + applicable before_action callbacks → referenced constants → nearby test candidate → compact markdown packet
 ```
 
 v0 should be built as a small Ruby CLI/gem. Ruby is the default implementation choice because `ctxpack` is Rails-native: it can lean on Ruby parsing, Rails naming conventions, and familiar gem/bundle workflows without reimplementing Ruby semantics in another language. Go's single-binary distribution may be valuable later, but it should wait until the packet algorithm proves useful.
@@ -243,7 +243,7 @@ A v0 packet should include:
 - `before_action` callbacks that apply to the action, with snippets when defined in the same file
 - obvious constants referenced by the action body and applicable callbacks
 - files resolved from those constants when Zeitwerk naming makes that cheap and exact
-- likely Minitest test candidates
+- likely Minitest or RSpec test candidates
 - tests to run
 - uncertainty notes
 - follow-up retrieval suggestions only when more context is needed
@@ -254,16 +254,18 @@ The packet should be Markdown because humans and agents are the primary readers.
 
 ## Test candidate rules
 
-"Likely Minitest candidates" must be as rule-bound as controller resolution, or the determinism claim is hollow for exactly the fuzziest part of the packet. The controller test path is a real Rails convention; integration test names are not — they are guesses, and the rules for guessing must be explicit.
+Likely test candidates must be as rule-bound as controller resolution, or the determinism claim is hollow for exactly the fuzziest part of the packet. Controller test/spec paths are real Rails conventions; integration/request filenames are not — they are guesses, and the rules for guessing must be explicit.
 
-v0 discovery rules, in order:
+v0 first selects one test family. RSpec is selected when the app has `spec/`
+plus `spec/rails_helper.rb` or an `rspec-rails` dependency; otherwise Minitest
+is selected. The selected family then applies two rules in order:
 
-1. Conventional controller test: `test/controllers/<controller_path>_controller_test.rb`, included only if the file exists.
-2. Integration matches: files matching `test/integration/*_test.rb` whose basename contains both the controller token (final path segment, e.g. `accounts`) and the action name as underscore-delimited tokens. Multiple matches are sorted lexicographically.
+1. Conventional controller test/spec: `test/controllers/<controller_path>_controller_test.rb` for Minitest, or `spec/controllers/<controller_path>_controller_spec.rb` for RSpec, included only if the file exists.
+2. Boundary-test path matches: Minitest checks `test/integration/*_test.rb`; RSpec checks `spec/requests/*_spec.rb`. The basename must contain the controller token and the action tokens as underscore-delimited tokens. Multiple matches are sorted lexicographically. `spec/system/` is intentionally out of v0 scope.
 
-The combined list is truncated at the max-test-files limit, with truncation reported in the omitted-candidates note. Both rules use the `minitest_candidate` reason code; the packet's "Why" line states which rule matched, and rule 2 matches always carry the `test_inferred_by_path` uncertainty note.
+The combined list is truncated at the max-test-files limit, with truncation reported in the omitted-candidates note. Minitest rules use `minitest_candidate`; RSpec rules use `rspec_candidate`; the packet's "Why" line states which rule matched. Rule 2 matches always carry the `test_inferred_by_path` uncertainty note.
 
-No content matching in v0 — path rules only, no grepping test bodies for routes or controller names. If neither rule matches anything, the packet says so rather than guessing.
+No test-content matching in v0 — path rules only, no grepping test bodies for routes or controller names. If the selected family matches nothing, the packet says so rather than guessing across another framework.
 
 ## v0 packet limits
 
@@ -500,7 +502,7 @@ Do not start with:
 - perfect static analysis of Ruby
 - Go implementation or single-binary packaging before packet usefulness is proven
 - Rubydex-backed global indexing as a required dependency
-- RSpec support before the Minitest path proves out
+- system/browser spec discovery
 - inherited or metaprogrammed controller action resolution
 - Rails engines and mounted app resolution
 
@@ -512,7 +514,7 @@ The goal is to test whether Rails-aware structural context beats generic retriev
    Design the packet the agent receives before designing the index.
 
 2. **Exact Rails anchors beat fuzzy recall**  
-   A controller action, route helper, Minitest file, or stack frame is often more valuable than many keyword matches. v0 should start with exact `controller#action` anchors.
+   A controller action, route helper, test file, or stack frame is often more valuable than many keyword matches. v0 should start with exact `controller#action` anchors.
 
 3. **Do not duplicate Rails**  
    Use `bin/rails routes` for route discovery. `ctxpack` should compile context, not become a parallel Rails route UI.
@@ -521,7 +523,7 @@ The goal is to test whether Rails-aware structural context beats generic retriev
    The packet should fit comfortably inside an agent prompt. If context is uncertain, suggest follow-up retrieval instead of dumping files.
 
 5. **Every file needs a reason**  
-   `Contains billing` is not enough. `Controller action`, `minitest_candidate`, or `constant referenced by action` is better.
+   `Contains billing` is not enough. `Controller action`, `minitest_candidate`, `rspec_candidate`, or `constant referenced by action` is better.
 
 6. **No false precision**  
    Static Ruby analysis cannot reliably produce a complete call graph for a real Rails app. The tool should present shallow evidence, not pretend to know the entire execution path.

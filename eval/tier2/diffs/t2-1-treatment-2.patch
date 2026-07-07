@@ -1,0 +1,47 @@
+diff --git a/app/controllers/twofa_controller.rb b/app/controllers/twofa_controller.rb
+index 3023caa..bd53404 100644
+--- a/app/controllers/twofa_controller.rb
++++ b/app/controllers/twofa_controller.rb
+@@ -65,6 +65,7 @@ class TwofaController < ApplicationController
+   before_action :deactivate_setup, only: [:deactivate_init, :deactivate_confirm, :deactivate]
+ 
+   def deactivate_init
++    @twofa.deliver_twofa_deactivation_requested
+     if @twofa.send_code(controller: 'twofa', action: 'deactivate')
+       flash[:notice] = l('twofa_code_sent')
+     end
+diff --git a/config/locales/en.yml b/config/locales/en.yml
+index d0d9374..1f81319 100644
+--- a/config/locales/en.yml
++++ b/config/locales/en.yml
+@@ -1461,6 +1461,7 @@ en:
+   twofa_mail_body_security_notification_unpaired: "Two-factor authentication disabled for your account."
+   twofa_mail_body_backup_codes_generated: "New two-factor authentication backup codes generated."
+   twofa_mail_body_backup_code_used: "A two-factor authentication backup code has been used."
++  twofa_mail_body_security_notification_deactivation_requested: "Deactivation of two-factor authentication was requested for your account."
+   twofa_invalid_code: Code is invalid or outdated.
+   twofa_label_enter_otp: Please enter your two-factor authentication code.
+   twofa_too_many_tries: Too many tries.
+diff --git a/lib/redmine/twofa/base.rb b/lib/redmine/twofa/base.rb
+index ac943ca..64e0c0e 100644
+--- a/lib/redmine/twofa/base.rb
++++ b/lib/redmine/twofa/base.rb
+@@ -99,6 +99,18 @@ module Redmine
+         false
+       end
+ 
++      def deliver_twofa_deactivation_requested
++        ::Mailer.deliver_security_notification(
++          @user,
++          User.current,
++          {
++            title: :label_my_account,
++            message: 'twofa_mail_body_security_notification_deactivation_requested',
++            url: {controller: 'my', action: 'account'}
++          }
++        )
++      end
++
+       def verify!(code)
+         verify_otp!(code) || verify_backup_code!(code)
+       end
