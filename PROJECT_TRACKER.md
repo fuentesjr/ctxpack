@@ -80,46 +80,57 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Written 2026-07-08 (evening) after the two confirmatory expansion passes landed.
-If this section disagrees with "Next steps", Next steps wins.
+Written 2026-07-08 (evening). Work order for a fresh "Continue from
+PROJECT_TRACKER.md" session. If this section disagrees with "Next steps", Next
+steps wins.
 
-**The expansion epic and its confirmatory passes are complete.** The
-SUPPORT/generalizes verdict now has **both gates closed** and its north-star
-computed ([`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md)):
+**Context (all done, committed to `main`, nothing pushed):** the Tier 2 expansion
+epic and both confirmatory passes are complete
+([`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md)):
+✅ blind diff-quality 0–8 (commit `cac1190`, control 7.94 / treatment 7.94, **no
+regression, gate closed**; provenance `eval/tier2-expansion/judging/`);
+✅ packet-vs-diff coverage (commit `c1e5f82`, control prod recall 0.80 / precision
+0.63; recall gap is a **feature-task, resolution-scope** gap and is
+**near-orthogonal to the exploration wins**; artifacts
+`eval/tier2-expansion/coverage/`); ✅ GitHub issues #1/#2/#3 closed.
 
-- ✅ **Blind diff-quality 0–8 pass** (commit `cac1190`): control 7.94 / treatment
-  7.94 — **no regression, gate closed**. Judge-of-record blind scores + sealed
-  mapping under `eval/tier2-expansion/judging/`.
-- ✅ **Packet-vs-diff coverage** (commit `c1e5f82`): control prod-only recall 0.80
-  / precision 0.63; the recall gap is a **feature-task, resolution-scope** gap
-  (views/locales/siblings) and is **near-orthogonal to the exploration wins**.
-  Artifacts under `eval/tier2-expansion/coverage/`.
-- ✅ GitHub issues #1/#2/#3 closed with pointers.
+**Next work order: the OFFLINE Rubydex-recall probe** (user-chosen 2026-07-08).
+This is the cheap gate before any Tier 3 grid — full rationale and open decisions
+in [`eval/tier3-rubydex/PROPOSAL.md`](eval/tier3-rubydex/PROPOSAL.md) (not frozen).
+The question: does a **Rubydex-resolved** packet file-set recall the missed
+feature files (views / locale files / sibling models) that the convention/Zeitwerk
+resolver structurally misses — computed **offline over the same committed
+expansion diffs**, for near-zero agent cost? Do it in order:
 
-**The immediate next step is a DECISION, not execution.** The only remaining
-`eval-plan.md` branch is Tier 3 (Rubydex-backed resolution), now drafted as
-[`eval/tier3-rubydex/PROPOSAL.md`](eval/tier3-rubydex/PROPOSAL.md) — **NOT frozen**.
-The coverage finding reshaped it: the recall gap Rubydex would close is real but
-near-orthogonal to what produced value, so the DRA recommendation is to run a
-**cheap offline Rubydex-recall probe first** (does a Rubydex-resolved packet
-actually recall the missed feature files, over the same committed diffs?) before
-spending any agent grid. The next working session should **not start a grid**; it
-should resolve the proposal's open items with the user:
+1. **Hard prerequisite / gate — is Rubydex installed and able to index the three
+   pinned apps offline?** (Campfire `71ffeeea`, Lobsters `430d864b`, Publify
+   `publify_core` engine `80ede867`; Publify is an engine, Campfire is rails-edge,
+   Lobsters needs MariaDB — the same no-boot constraint that shaped Tier 0.) If an
+   app can't be indexed offline, record it and either narrow the app set or fall
+   back to a pivot bet; do not force it. This is the blocking unknown — resolve it
+   first.
+2. **Build a Rubydex-resolved packet file-set per task** (resolve the frozen
+   anchor's dependencies via Rubydex's index/graph instead of path convention).
+   Match the file-set shape that `eval/tier2-expansion/packet_coverage.rb`
+   consumes (a set of repo-relative paths per app × task).
+3. **Recompute recall/precision over the same committed diffs**, reusing the
+   `packet_coverage.rb` machinery, comparing **Rubydex vs convention** resolution
+   — focused on the **feature tasks**, where the 0.69→? recall gap lives. Success
+   signal: Rubydex meaningfully raises feature prod-recall by reaching the
+   views/locales/siblings, without wrecking precision.
+4. **Write up under `eval/tier3-rubydex/`.** If Rubydex closes the offline gap,
+   *then* the head-to-head agent grid in `PROPOSAL.md` earns its cost — freeze it
+   with the user (arm design, scope, success bar) before running. If it doesn't,
+   don't spend a grid; consider the `eval-plan.md` Tier-2-fail pivots (packets as
+   PR-linkable review artifacts, or packets for smaller/cheaper models).
 
-1. **Hard prerequisite:** is Rubydex runnable/indexable on the pinned apps
-   offline (Publify is an engine; Campfire is rails-edge)? If not, the probe is
-   blocked or needs a different app set.
-2. Arm design (conv-vs-rubydex 2-arm vs 3-arm), scope (full grid vs feature-only),
-   and the frozen success bar.
-3. Whether the swappable-resolver seam needs a build pass first.
+**Delegation (this session's working model, confirmed by the user):** Claude is
+orchestrator / judge / DRA; **Codex does the heavy code implementation** (e.g. the
+Rubydex resolver + probe script); Sonnet subagents do scaffolding and everything
+else. Route accordingly.
 
-Alternatives if #3 is declined: the coverage result also makes "packets as
-PR-linkable review artifacts" or "packets for smaller/cheaper models"
-(`eval-plan.md` Tier 2-fail pivots) reasonable next bets — the packet's value is
-now well-characterized (fast first-anchor on find-the-code tasks).
-
-Final step of this plan: after the Tier 3 go/no-go is decided (and the offline
-probe run, if taken), rewrite this section for whatever follows.
+Final step of this plan: after the offline probe lands (or the prerequisite
+blocks it), rewrite this section for whatever follows.
 
 ## Status
 
@@ -157,9 +168,14 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
    `eval/tier0/RESULTS.md`; v0 compiler → passes 1–3; fixture evals → pass 4).
    Two honest scope drifts noted at close: the Tier 0 write-up landed under
    `eval/tier0/` (not the `docs/experiments/` path #3 named), and LIM-1's
-   snippet-line limit shipped at 120 (not the 80 in #1's draft). **Still open
-   (optional, needs user OK):** no issue tracks the Tier 2 expansion epic —
-   filing one is outward-facing and was left for the user.
+   snippet-line limit shipped at 120 (not the 80 in #1's draft).
+4. **(Open) File a GitHub issue tracking the Tier 2 expansion epic.** No open
+   issue covers it; it should record the SUPPORT/generalizes verdict, the two
+   confirmatory passes (diff-quality gate closed, packet-vs-diff coverage), and
+   point at `eval/tier2-expansion/RESULTS.md` + the Tier 3 proposal as the live
+   follow-up. Filing/editing issues is **outward-facing — confirm with the user
+   before doing it** (the earlier pre-authorization covered only closing
+   #1/#2/#3, not opening new issues).
 
 ## Decision log
 
