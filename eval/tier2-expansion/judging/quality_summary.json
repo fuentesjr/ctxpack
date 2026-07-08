@@ -1,0 +1,356 @@
+{
+  "overall": {
+    "control": {
+      "mean": 7.944444444444445,
+      "n": 36,
+      "scores": [
+        7,
+        7,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    "treatment": {
+      "mean": 7.944444444444445,
+      "n": 36,
+      "scores": [
+        7,
+        7,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    }
+  },
+  "by_app_task": {
+    "campfire": {
+      "1": {
+        "kind": "feature",
+        "control": {
+          "mean": 8.0,
+          "scores": [
+            8,
+            8,
+            8
+          ]
+        },
+        "treatment": {
+          "mean": 8.0,
+          "scores": [
+            8,
+            8,
+            8
+          ]
+        }
+      },
+      "2": {
+        "kind": "feature",
+        "control": {
+          "mean": 8.0,
+          "scores": [
+            8,
+            8,
+            8
+          ]
+        },
+        "treatment": {
+          "mean": 8.0,
+          "scores": [
+            8,
+            8,
+            8
+          ]
+        }
+      },
+      "3": {
+        "kind": "bug",
+        "control": {
+          "mean": 8.0,
+          "scores": [
+            8,
+            8,
+            8
+          ]
+        },
+        "treatment": {
+          "mean": 8.0,
+          "scores": [
+            8,
+            8,
+            8
+          ]
+        }
+      },
+      "4": {
+        "kind": "behavior",
+        "control": {
+          "mean": 7.666666666666667,
+          "scores": [
+            7,
+            8,
+            8
+          ]
+        },
+        "treatment": {
+          "mean": 8.0,
+          "scores": [
+            8,
+            8,
+            8
+          ]
+        }
+      }
+    },
+    "lobsters": {
+      "1": {
+        "kind": "feature",
+        "control": {
+          "mean": 8.0,
+          "scores": [
+            8,
+            8,
+            8
+          ]
+        },
+        "treatment": {
+          "mean": 8.0,
+          "scores": [
+            8,
+            8,
+            8
+          ]
+        }
+      },
+      "2": {
+        "kind": "feature",
+        "control": {
+          "mean": 8.0,
+          "scores": [
+            8,
+            8,
+            8
+          ]
+        },
+        "treatment": {
+          "mean": 8.0,
+          "scores": [
+            8,
+            8,
+            8
+          ]
+        }
+      },
+      "3": {
+        "kind": "bug",
+        "control": {
+          "mean": 7.666666666666667,
+          "scores": [
+            7,
+            8,
+            8
+          ]
+        },
+        "treatment": {
+          "mean": 8.0,
+          "scores": [
+            8,
+            8,
+            8
+          ]
+        }
+      },
+      "4": {
+        "kind": "behavior",
+        "control": {
+          "mean": 8.0,
+          "scores": [
+            8,
+            8,
+            8
+          ]
+        },
+        "treatment": {
+          "mean": 8.0,
+          "scores": [
+            8,
+            8,
+            8
+          ]
+        }
+      }
+    },
+    "publify": {
+      "1": {
+        "kind": "feature",
+        "control": {
+          "mean": 8.0,
+          "scores": [
+            8,
+            8,
+            8
+          ]
+        },
+        "treatment": {
+          "mean": 7.333333333333333,
+          "scores": [
+            7,
+            7,
+            8
+          ]
+        }
+      },
+      "2": {
+        "kind": "feature",
+        "control": {
+          "mean": 8.0,
+          "scores": [
+            8,
+            8,
+            8
+          ]
+        },
+        "treatment": {
+          "mean": 8.0,
+          "scores": [
+            8,
+            8,
+            8
+          ]
+        }
+      },
+      "3": {
+        "kind": "bug",
+        "control": {
+          "mean": 8.0,
+          "scores": [
+            8,
+            8,
+            8
+          ]
+        },
+        "treatment": {
+          "mean": 8.0,
+          "scores": [
+            8,
+            8,
+            8
+          ]
+        }
+      },
+      "4": {
+        "kind": "behavior",
+        "control": {
+          "mean": 8.0,
+          "scores": [
+            8,
+            8,
+            8
+          ]
+        },
+        "treatment": {
+          "mean": 8.0,
+          "scores": [
+            8,
+            8,
+            8
+          ]
+        }
+      }
+    }
+  },
+  "by_kind": {
+    "feature": {
+      "control": {
+        "mean": 8.0,
+        "n": 18
+      },
+      "treatment": {
+        "mean": 7.888888888888889,
+        "n": 18
+      }
+    },
+    "bug": {
+      "control": {
+        "mean": 7.888888888888889,
+        "n": 9
+      },
+      "treatment": {
+        "mean": 8.0,
+        "n": 9
+      }
+    },
+    "behavior": {
+      "control": {
+        "mean": 7.888888888888889,
+        "n": 9
+      },
+      "treatment": {
+        "mean": 8.0,
+        "n": 9
+      }
+    }
+  }
+}

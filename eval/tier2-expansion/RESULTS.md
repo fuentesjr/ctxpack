@@ -24,7 +24,9 @@ The two open questions resolve cleanly: **the packet helps multi-file features
 depend on the test-candidate pointer** (they persist, even strengthen, when the
 packet carries no test candidate — so the packet's code content is the driver).
 As in Tier 2, `task_success` is saturated (71/72), so the exploration metric
-carries the verdict; the blind diff-quality pass is a pending follow-up (below).
+carries the verdict; the blind diff-quality pass (below) is now **complete** and
+confirms **no quality regression** (control 7.94 / treatment 7.94 of 8), closing
+the frozen rule's one remaining gate.
 
 ## Provenance
 
@@ -89,14 +91,59 @@ median). DIS = distraction-reads. `tc` = packet carried a test candidate.
   confound in the "whole packet" direction (caveat: only n=2 false instances —
   Lobsters' within-app 2/2 split).
 
-## Diff quality (blind, 0–8) — PENDING follow-up
+## Diff quality (blind, 0–8)
 
-Not yet run. As in Tier 2, the verdict rests on the exploration metric with
-`task_success` saturated; the blind four-dimension 0–8 rubric (arm labels
-stripped, seeded shuffle, author-judged) over the 72 diffs is a confirmatory
-follow-up. The `diffs/` are committed per app; nothing in the support verdict
-depends on quality *improving* — only on it not regressing, which the saturated
-success rate is consistent with.
+Ran the pre-registered blind four-dimension rubric (0–2 each:
+correct-beyond-acceptance-test, minimal, follows-conventions,
+no-unrelated-changes; sum 0–8) over **all 72 grid diffs**. Arm labels stripped;
+each app's 24 diffs shuffled into opaque codes by a PRNG seeded on its app SHA;
+**byte-identical diffs forced to identical scores** (47 unique byte-contents
+across the 72). Judge-of-record: the orchestrator, scoring **blind to arm** — the
+opaque-code → session/arm map was sealed and unread until scoring was finalized.
+Reproducible via `build_blind_judging.rb` + `tabulate_quality.rb`; per-code
+scores, comments, mapping, and aggregate under
+[`judging/`](judging/) (see [`judging/README.md`](judging/README.md)).
+
+| app · task | kind | control (runs → mean) | treatment (runs → mean) |
+|---|---|---|---|
+| camp t1 | feature | 8,8,8 → **8.00** | 8,8,8 → **8.00** |
+| camp t2 | feature | 8,8,8 → **8.00** | 8,8,8 → **8.00** |
+| camp t3 | bug | 8,8,8 → **8.00** | 8,8,8 → **8.00** |
+| camp t4 | behavior | 7,8,8 → **7.67** | 8,8,8 → **8.00** |
+| lob t1 | feature | 8,8,8 → **8.00** | 8,8,8 → **8.00** |
+| lob t2 | feature | 8,8,8 → **8.00** | 8,8,8 → **8.00** |
+| lob t3 | bug | 7,8,8 → **7.67** | 8,8,8 → **8.00** |
+| lob t4 | behavior | 8,8,8 → **8.00** | 8,8,8 → **8.00** |
+| pub t1 | feature | 8,8,8 → **8.00** | 7,7,8 → **7.33** |
+| pub t2 | feature | 8,8,8 → **8.00** | 8,8,8 → **8.00** |
+| pub t3 | bug | 8,8,8 → **8.00** | 8,8,8 → **8.00** |
+| pub t4 | behavior | 8,8,8 → **8.00** | 8,8,8 → **8.00** |
+| **overall** | | **7.94** (n=36) | **7.94** (n=36) |
+
+**No diff-quality regression — the gate closes.** Overall means are identical
+(7.944 vs 7.944 of 8). Diff quality is at ceiling, exactly as in Tier 2: Sonnet 5
+produces correct, minimal, conventional diffs with or without the packet, so this
+dimension is non-discriminating and the exploration metric carries the support
+verdict. What the pass had to show — that treatment does **not** regress quality —
+holds.
+
+The four sub-8 diffs (each 7/8) are genuine, describable gaps, and they **split
+evenly by arm** (2 control, 2 treatment), so the parity is insensitive to any
+single scoring call:
+
+- **control** — `camp t4` (behavior): a `rescue ArgumentError` used for expected
+  invalid-input control flow (vs the explicit guard the others use), which also
+  lets a nil/missing param through; `lob t3` (bug): fixes the failing test by
+  changing the `after_action` from `only: [:unread]` to `only: [:all]`, silently
+  dropping read-marking from the `:unread` action (the intended fix keeps both).
+- **treatment** — **both** on `pub t1` (setup-nickname feature): 2 of 3 treatment
+  runs implemented the `nickname` param handling in the controller but **omitted
+  the setup-form field**, so an operator can't actually choose the nickname
+  through the setup UI the task is about (it still passes a param-posting test).
+  Hypothesis (weak, n=2, one task): the anchor-centered packet points hard at the
+  controller and may under-cue the view layer, whereas a control agent exploring
+  to localize tends to stumble onto the setup view. Worth watching if the packet
+  ever grows view-awareness; not a general pattern at this n.
 
 ## Reading of the result
 
@@ -116,8 +163,11 @@ app-specific.
 - **Directional, not statistical.** n = 3/arm/task; medians over 3 points, with
   real noise (LBR nils on bug tasks; treatment outliers like `lob t2` [2,16,14]).
 - **Saturated success** makes `task_success` non-discriminating; the exploration
-  metric is a proxy for effort, not outcome quality — and **diff quality is not
-  yet judged**.
+  metric is a proxy for effort, not outcome quality. Diff quality is now judged
+  and at ceiling in both arms (7.94/7.94), so it too is non-discriminating — it
+  rules out a quality regression but adds no positive signal. Blind but
+  single-judge (the orchestrator), and the 0–8 rubric compresses a lot into four
+  coarse dimensions.
 - **Author-authored tasks across 3 apps** amplify selection bias; mitigated by
   pre-packet blind anchor draws and hidden acceptance tests, not eliminated.
 - **Read-tool-only counting**; work done via Grep/Bash/other tools is invisible
@@ -131,8 +181,8 @@ app-specific.
 Per `eval-plan.md`'s decision rule, Tier 2 SUPPORT → expand (done here) → *"only
 then consider Rubydex-backed resolution, judged by the same harness."* With
 generalization now shown across two frameworks and the value localized to
-find-the-code tasks, the sharpest next probes are: (1) the pending blind
-diff-quality pass to close the quality gate; (2) whether packet-vs-diff coverage
-(recall/precision of packet files against files the completed task touched — the
-designated post-v0 north-star) tracks the exploration wins; and (3) Rubydex-backed
-resolution against this same three-app harness.
+find-the-code tasks, the sharpest next probes are: (1) ~~the blind diff-quality
+pass~~ **done** (above) — no regression, gate closed; (2) whether packet-vs-diff
+coverage (recall/precision of packet files against files the completed task
+touched — the designated post-v0 north-star) tracks the exploration wins; and
+(3) Rubydex-backed resolution against this same three-app harness.
