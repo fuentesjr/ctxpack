@@ -1,0 +1,31 @@
+diff --git a/app/controllers/tags_controller.rb b/app/controllers/tags_controller.rb
+index 1b1079e..35fa26e 100644
+--- a/app/controllers/tags_controller.rb
++++ b/app/controllers/tags_controller.rb
+@@ -9,6 +9,11 @@ class TagsController < ContentController
+     @page_title = controller_name.capitalize
+     @keywords = ""
+     @description = "Tags for #{this_blog.blog_name}"
++
++    respond_to do |format|
++      format.html
++      format.json { render json: @tags, methods: :articles_count }
++    end
+   end
+ 
+   def show
+diff --git a/app/models/tag.rb b/app/models/tag.rb
+index cd51397..b190fa7 100644
+--- a/app/models/tag.rb
++++ b/app/models/tag.rb
+@@ -59,6 +59,10 @@ class Tag < ApplicationRecord
+     contents.published
+   end
+ 
++  def articles_count
++    published_contents.count
++  end
++
+   def permalink
+     name
+   end

@@ -1,0 +1,55 @@
+diff --git a/app/controllers/tags_controller.rb b/app/controllers/tags_controller.rb
+index 1b1079e..70f7d24 100644
+--- a/app/controllers/tags_controller.rb
++++ b/app/controllers/tags_controller.rb
+@@ -9,6 +9,11 @@ class TagsController < ContentController
+     @page_title = controller_name.capitalize
+     @keywords = ""
+     @description = "Tags for #{this_blog.blog_name}"
++
++    respond_to do |format|
++      format.html
++      format.json { render json: @tags.as_json(only: [:name], methods: [:articles_count]) }
++    end
+   end
+ 
+   def show
+diff --git a/app/models/tag.rb b/app/models/tag.rb
+index cd51397..b190fa7 100644
+--- a/app/models/tag.rb
++++ b/app/models/tag.rb
+@@ -59,6 +59,10 @@ class Tag < ApplicationRecord
+     contents.published
+   end
+ 
++  def articles_count
++    published_contents.count
++  end
++
+   def permalink
+     name
+   end
+diff --git a/spec/controllers/tags_controller_spec.rb b/spec/controllers/tags_controller_spec.rb
+index df0c76a..c48d12b 100644
+--- a/spec/controllers/tags_controller_spec.rb
++++ b/spec/controllers/tags_controller_spec.rb
+@@ -19,6 +19,19 @@ RSpec.describe TagsController, type: :controller do
+       specify { expect(response).to render_template("tags/index") }
+       specify { expect(assigns(:tags)).to eq [@tag] }
+     end
++
++    describe "as json" do
++      before do
++        get "index", format: "json"
++      end
++
++      specify { expect(response).to be_successful }
++
++      it "returns the tag names with their published articles count" do
++        json = JSON.parse(response.body)
++        expect(json).to eq [{ "name" => @tag.name, "articles_count" => 1 }]
++      end
++    end
+   end
+ 
+   describe "showing a single tag" do

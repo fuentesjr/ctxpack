@@ -1,0 +1,92 @@
+diff --git a/app/controllers/setup_controller.rb b/app/controllers/setup_controller.rb
+index 4e6a7b8..647e7e9 100644
+--- a/app/controllers/setup_controller.rb
++++ b/app/controllers/setup_controller.rb
+@@ -15,7 +15,7 @@ class SetupController < BaseController
+ 
+     @user = User.new(user_params.merge(login: "admin",
+                                        text_filter_name: this_blog.text_filter,
+-                                       nickname: "Publify Admin"))
++                                       nickname: user_params[:nickname].presence || "Publify Admin"))
+     @user.name = @user.login
+ 
+     return render :index unless this_blog.valid? && @user.valid?
+@@ -42,7 +42,7 @@ class SetupController < BaseController
+   end
+ 
+   def user_params
+-    params.require(:user).permit(:email, :password)
++    params.require(:user).permit(:email, :password, :nickname)
+   end
+ 
+   def create_first_post(user)
+diff --git a/app/views/setup/index.html.erb b/app/views/setup/index.html.erb
+index 956dc0c..516ce00 100644
+--- a/app/views/setup/index.html.erb
++++ b/app/views/setup/index.html.erb
+@@ -38,6 +38,9 @@
+     <div class='form-group'>
+       <%= form.text_field(:email, class: 'form-control', placeholder: t('.your_mail')) %>
+     </div>
++    <div class='form-group'>
++      <%= form.text_field(:nickname, class: 'form-control', placeholder: t('.nickname')) %>
++    </div>
+     <div class='form-group'>
+       <%= form.label :password, t('.password') %><br>
+       <%= form.password_field(:password, class: 'form-control') %>
+diff --git a/config/locales/en.yml b/config/locales/en.yml
+index 67cd5c9..0f1f415 100644
+--- a/config/locales/en.yml
++++ b/config/locales/en.yml
+@@ -827,6 +827,7 @@ en:
+       title: Hello World!
+     index:
+       blog_name: Blog name
++      nickname: Nickname
+       password: Password
+       welcome_to_your_blog_setup: Welcome to your blog setup
+       your_mail: Your email
+diff --git a/spec/controllers/setup_controller_spec.rb b/spec/controllers/setup_controller_spec.rb
+index 527d0bc..2cec15b 100644
+--- a/spec/controllers/setup_controller_spec.rb
++++ b/spec/controllers/setup_controller_spec.rb
+@@ -69,6 +69,39 @@ RSpec.describe SetupController, type: :controller do
+         it "sends a confirmation email" do
+           expect(ActionMailer::Base.deliveries.size).to eq 1
+         end
++
++        it "uses the default nickname when none is given" do
++          admin = User.find_by(login: "admin")
++          expect(admin.nickname).to eq("Publify Admin")
++        end
++      end
++
++      context "when passing a custom nickname" do
++        before do
++          post :create, params: { blog: { blog_name: "Foo" },
++                                  user: { email: "foo@bar.net",
++                                          password: strong_password,
++                                          nickname: "Foo Bar" } }
++        end
++
++        it "uses the submitted nickname" do
++          admin = User.find_by(login: "admin")
++          expect(admin.nickname).to eq("Foo Bar")
++        end
++      end
++
++      context "when passing a blank nickname" do
++        before do
++          post :create, params: { blog: { blog_name: "Foo" },
++                                  user: { email: "foo@bar.net",
++                                          password: strong_password,
++                                          nickname: "" } }
++        end
++
++        it "falls back to the default nickname" do
++          admin = User.find_by(login: "admin")
++          expect(admin.nickname).to eq("Publify Admin")
++        end
+       end
+ 
+       context "when passing incorrect parameters" do

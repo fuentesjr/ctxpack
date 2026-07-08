@@ -1,0 +1,15 @@
+diff --git a/app/controllers/admin/users_controller.rb b/app/controllers/admin/users_controller.rb
+index 518d46d..f932bd6 100644
+--- a/app/controllers/admin/users_controller.rb
++++ b/app/controllers/admin/users_controller.rb
+@@ -38,7 +38,9 @@ class Admin::UsersController < Admin::BaseController
+   end
+ 
+   def destroy
+-    @user.destroy if User.where("profile = ? and id != ?", User::ADMIN, @user.id).count > 1
++    if @user != current_user && User.where("profile = ? and id != ?", User::ADMIN, @user.id).count > 1
++      @user.destroy
++    end
+     redirect_to admin_users_url
+   end
+ 

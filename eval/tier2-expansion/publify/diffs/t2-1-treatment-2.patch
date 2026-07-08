@@ -1,0 +1,50 @@
+diff --git a/app/controllers/setup_controller.rb b/app/controllers/setup_controller.rb
+index 4e6a7b8..9bab33a 100644
+--- a/app/controllers/setup_controller.rb
++++ b/app/controllers/setup_controller.rb
+@@ -15,7 +15,7 @@ class SetupController < BaseController
+ 
+     @user = User.new(user_params.merge(login: "admin",
+                                        text_filter_name: this_blog.text_filter,
+-                                       nickname: "Publify Admin"))
++                                       nickname: nickname_param.presence || "Publify Admin"))
+     @user.name = @user.login
+ 
+     return render :index unless this_blog.valid? && @user.valid?
+@@ -45,6 +45,10 @@ class SetupController < BaseController
+     params.require(:user).permit(:email, :password)
+   end
+ 
++  def nickname_param
++    params.require(:user).permit(:nickname)[:nickname]
++  end
++
+   def create_first_post(user)
+     this_blog.articles.build(title: I18n.t("setup.article.title"),
+                              author: user.login,
+diff --git a/app/views/setup/index.html.erb b/app/views/setup/index.html.erb
+index 956dc0c..3e1f072 100644
+--- a/app/views/setup/index.html.erb
++++ b/app/views/setup/index.html.erb
+@@ -42,6 +42,9 @@
+       <%= form.label :password, t('.password') %><br>
+       <%= form.password_field(:password, class: 'form-control') %>
+     </div>
++    <div class='form-group'>
++      <%= form.text_field(:nickname, class: 'form-control', placeholder: t('.nickname')) %>
++    </div>
+   <% end %>
+ 
+   <input type="submit" id="submit" class='btn btn-lg btn-success btn-block' value="<%= t('generic.save') %>">
+diff --git a/config/locales/en.yml b/config/locales/en.yml
+index 67cd5c9..0f1f415 100644
+--- a/config/locales/en.yml
++++ b/config/locales/en.yml
+@@ -827,6 +827,7 @@ en:
+       title: Hello World!
+     index:
+       blog_name: Blog name
++      nickname: Nickname
+       password: Password
+       welcome_to_your_blog_setup: Welcome to your blog setup
+       your_mail: Your email

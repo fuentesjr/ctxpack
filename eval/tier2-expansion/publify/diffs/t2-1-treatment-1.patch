@@ -1,0 +1,27 @@
+diff --git a/app/controllers/setup_controller.rb b/app/controllers/setup_controller.rb
+index 4e6a7b8..d51c94f 100644
+--- a/app/controllers/setup_controller.rb
++++ b/app/controllers/setup_controller.rb
+@@ -15,7 +15,7 @@ class SetupController < BaseController
+ 
+     @user = User.new(user_params.merge(login: "admin",
+                                        text_filter_name: this_blog.text_filter,
+-                                       nickname: "Publify Admin"))
++                                       nickname: nickname_param))
+     @user.name = @user.login
+ 
+     return render :index unless this_blog.valid? && @user.valid?
+@@ -42,7 +42,12 @@ class SetupController < BaseController
+   end
+ 
+   def user_params
+-    params.require(:user).permit(:email, :password)
++    params.require(:user).permit(:email, :password, :nickname)
++  end
++
++  def nickname_param
++    nickname = user_params[:nickname]
++    nickname.presence || "Publify Admin"
+   end
+ 
+   def create_first_post(user)
