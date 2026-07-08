@@ -235,6 +235,8 @@ operational/robustness decisions. Full detail in `PROJECT_TRACKER.md`.
       reproduced byte-for-byte via `harness.rb verify` against `eval/tier2/golden/*`
 - [x] Per-app tasks/anchors/acceptance tests authored and frozen (Campfire +
       Lobsters + Publify, all red-green validated session-side; 2026-07-08)
-- [~] Pilot per new app (all three done — Campfire/Lobsters/Publify pilots green);
-      grid per the execution rules still pending
-- [ ] Analysis + `RESULTS.md` per the interpretation rules
+- [x] Pilot per new app + grid per the execution rules (all 72 grid sessions +
+      6 pilots complete; 2026-07-08)
+- [x] Analysis + `RESULTS.md` per the interpretation rules
+      ([`RESULTS.md`](RESULTS.md); verdict SUPPORT/generalizes; blind
+      diff-quality pass flagged as pending follow-up)

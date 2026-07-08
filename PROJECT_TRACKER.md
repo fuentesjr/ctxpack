@@ -80,62 +80,35 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Written 2026-07-08 after all three expansion apps were authored + validated +
-piloted. If this section disagrees with "Next steps", Next steps wins.
+Written 2026-07-08 after the Tier 2 expansion grid completed with verdict
+SUPPORT/generalizes ([`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md)).
+If this section disagrees with "Next steps", Next steps wins.
 
-**All three apps are done** (authored, red-green validated session-side, golden
-captured, `verify` OK, 2-session pilot green). Anchors, tasks, and env per each
-app's README:
-- **Campfire** — `v1.4.3` (`71ffeeea`), Minitest, SQLite; 4/4 test-candidate.
-- **Lobsters** — `430d864b`, RSpec, **MariaDB** + Ruby 4.0.0 + libvips
-  (`eval/tier2-expansion/lobsters/README.md`); within-app **2/2** test-candidate
-  split (the sharp sub-analysis contrast).
-- **Publify** — `publify_core` **engine** v10.0.3 (`80ede867`), RSpec, SQLite,
-  **Ruby 3.1.7 via mise** (`eval/tier2-expansion/publify/README.md`); 4/4
-  test-candidate. Engine wrinkles (stub `config/application.rb`, `concurrent-ruby`
-  1.3.4 pin, routes via `spec/dummy`) are documented and baked into prepared
-  files / the workspace baseline.
+**The expansion epic is complete** — all 72 grid sessions ran, `RESULTS.md` is
+written, and the pre-registration is fully signed off. The remaining work is the
+`RESULTS.md` "Pre-registered next action" list, in priority order:
 
-**Immediate next step (a fresh session starts here) — run the grid.** This is the
-one gated action: it MUST be launched from a session started with
-`claude --dangerously-skip-permissions` (the harness spawns unsandboxed subject
-sessions — see `eval/tier2/RUNBOOK.md`; a normal session is refused by the
-permission classifier). 72 grid sessions (3 apps × 4 tasks × 2 arms × 3 rounds);
-per-app pilots already complete. Mechanics:
+1. **Blind diff-quality 0–8 pass (closes the one open gate).** The support
+   verdict rests on the exploration metric with `task_success` saturated; the
+   frozen rule also wants "no diff-quality regression." Run the same blind
+   four-dimension rubric Tier 2 used (arm labels stripped, seeded shuffle by app
+   SHA, author-judged) over the 72 committed diffs under
+   `eval/tier2-expansion/<app>/diffs/`. Mechanically like Tier 2's
+   `tmp/tier2/judging/`. Small, self-contained; land it and append the quality
+   table to `RESULTS.md`.
+2. **Packet-vs-diff coverage (the post-v0 north-star, decision log 2026-07-05).**
+   For each completed session, compute recall/precision of packet files against
+   the files the subject diff actually touched. This is the designated evidence
+   source for validating the LIM-1 limits and is now computable from the
+   committed `packets/` + `diffs/`. Purely offline; no new sessions.
+3. **Rubydex-backed resolution** judged by this same three-app harness — the
+   `eval-plan.md` decision rule's next branch, now that generalization is shown.
 
-1. **Env up per app before its batch.** Lobsters needs the local MariaDB running
-   (`brew services start mariadb`) + libvips; Publify needs `mise` (Ruby 3.1.7,
-   pinned in `tmp/tier2-expansion/publify/mise.toml`); all harness/test commands
-   for Publify run via `mise exec ruby@3.1.7 --`. Campfire needs its
-   `mise exec ruby@3.4.5 --` prefix. Each app's README has the exact setup.
-2. **Run, resumable, per app:**
-   `ruby eval/tier2/harness.rb <app> run [N]` — runs up to N pending tuples,
-   skips `status:"complete"`, appends to that app's `runs.jsonl`. Omit N to drain
-   the app. `status` shows completion; the 2 pilot tuples per app already read
-   `done`. Serial, arm order alternates by round (already encoded in
-   `schedule`). Batches are resumable across 5-hour usage windows; a throttled
-   session records `aborted` and is re-run (vs `timeout` = agent failure, metrics
-   kept). Re-run `harness.rb <app> verify` before each app's first batch to
-   confirm nothing drifted.
-3. **Analyze + write `eval/tier2-expansion/RESULTS.md`** per the frozen
-   interpretation (`PREREGISTRATION.md` "Pre-registered interpretation"): the
-   parent ≥30%-median-reduction rule applied **per app**, then read across apps
-   (generalizes if the bar is met on ≥2 of 3 apps across both frameworks);
-   feature-vs-bug/behavior deltas pooled across apps (the multi-file-feature
-   question); and the **test-pointer sub-analysis** splitting deltas by
-   `packet_had_test_candidate` (Lobsters' 2/2 within-app split carries this,
-   with Campfire 4/4 + Publify 4/4 as the always-true instances). Redmine (Tier
-   2) stays in the write-up as the code-content-only baseline. 3 runs/arm/task is
-   directional; the parent's all-tasks-at-once, no-post-peek extension-to-5 rule
-   carries over.
+Housekeeping still open (see "Next steps" #2–3): the stale GitHub issues (#1/#2/#3)
+and the non-blocking Tier 2 diff-quality author-confirm carry over.
 
-Because the grid is large (~72 sessions, order ~30-45M tokens, ~2-3 h across
-usage windows) and consumes the subscription, **get an explicit go-ahead before
-launching it** even from a skip-permissions session.
-
-Final step of this plan: after the grid completes and `RESULTS.md` is written,
-rewrite this section for whatever the results imply (per `eval-plan.md`'s
-decision rule — e.g. Rubydex-backed resolution, or a v1 scoping pass).
+Final step of this plan: after the diff-quality pass lands (or #2/#3 are chosen),
+rewrite this section for whichever probe is taken up next.
 
 ## Status
 
@@ -152,18 +125,16 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 |---|---|---|
 | Tier 0 anchor viability spike | **Done** (2026-07-05) | **91.0% engine-excluded average across Mastodon/Discourse/Zammad → ≥ 70% gate passes; proceed as designed.** Post-ANCH-amendment re-run: **93.9%**, zero regressions (addendum in RESULTS.md). Full method, taxonomy, and raw data in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md). Zero compiler crashes across 1,967 real-app pairs. |
 | Tier 2 agent A/B | **Done — SUPPORT** (2026-07-06) | Harness (`eval/tier2/harness.rb`) + 18-session grid + pilot run; all 20 sessions `complete`, zero aborts, 100% `task_success`. 2/3 tasks (bug-fix, behavior-change) show ≥ 30% median reduction in calls-to-first-load-bearing-read; multi-file feature (task 1) mildly worse; diff quality at ceiling (control 8.00 / treatment 7.89, agent first-pass pending author confirmation). Directional support per the frozen rule. Full analysis: [`eval/tier2/RESULTS.md`](eval/tier2/RESULTS.md). |
-| Tier 2 expansion | **All three apps authored + piloted** (2026-07-08); grid pending | [`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md) signed off. Adds Campfire (Minitest) + Lobsters + Publify (RSpec), 4 tasks/app (feature-weighted), test-pointer sub-analysis. P1 (RSpec rules, `21505b0`) + P2 (harness per-app config) landed. **Campfire** (`v1.4.3`, SQLite/Minitest) 4/4 test-candidate. **Lobsters** (`430d864b`, RSpec/MariaDB) within-app **2/2** split (the sharp sub-analysis contrast). **Publify** (`publify_core` **engine** v10.0.3 `80ede867`, RSpec/SQLite, Ruby 3.1.7) 4/4: anchors frozen (bug=`articles#preview`, behavior=`admin/users#destroy`, features=`setup#index`/`tags#index`), 4 tasks + hidden RSpec request specs authored (Codex) and **verified red-then-green session-side**, config wired, golden captured, `verify` OK, 2-session pilot green (both arms `complete`/`success`, minimal single-file fixes, no `spec/` edits, no amendments). Publify pins the `publify_core` ENGINE (the deploy app is a controller-less shell); bridged with a benchmark-only stub `config/application.rb` + `concurrent-ruby 1.3.4` pin + `spec/dummy` route extraction — no ctxpack compiler behavior touched. Next: run the 72-session grid (needs a `--dangerously-skip-permissions` session), then write `RESULTS.md`. |
+| Tier 2 expansion | **Done — SUPPORT / generalizes** (2026-07-08) | Grid complete (72 sessions + 6 pilots), verdict in [`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md): the packet meets the ≥30%-exploration-reduction bar on **3/3 apps across both frameworks**; multi-file features help (Tier 2 scare refuted); wins don't depend on the test pointer (code content is the driver); the bug task is the sole non-meeter (failing test already localizes). `task_success` saturated 71/72; blind diff-quality pass pending. [`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md) signed off. Adds Campfire (Minitest) + Lobsters + Publify (RSpec), 4 tasks/app (feature-weighted), test-pointer sub-analysis. P1 (RSpec rules, `21505b0`) + P2 (harness per-app config) landed. **Campfire** (`v1.4.3`, SQLite/Minitest) 4/4 test-candidate. **Lobsters** (`430d864b`, RSpec/MariaDB) within-app **2/2** split (the sharp sub-analysis contrast). **Publify** (`publify_core` **engine** v10.0.3 `80ede867`, RSpec/SQLite, Ruby 3.1.7) 4/4: anchors frozen (bug=`articles#preview`, behavior=`admin/users#destroy`, features=`setup#index`/`tags#index`), 4 tasks + hidden RSpec request specs authored (Codex) and **verified red-then-green session-side**, config wired, golden captured, `verify` OK, 2-session pilot green (both arms `complete`/`success`, minimal single-file fixes, no `spec/` edits, no amendments). Publify pins the `publify_core` ENGINE (the deploy app is a controller-less shell); bridged with a benchmark-only stub `config/application.rb` + `concurrent-ruby 1.3.4` pin + `spec/dummy` route extraction — no ctxpack compiler behavior touched. Next: run the 72-session grid (needs a `--dangerously-skip-permissions` session), then write `RESULTS.md`. |
 
 ## Next steps
 
-1. **Run the grid** (all three apps — Campfire, Lobsters, Publify — are now
-   authored, red-green validated, golden, `verify` OK, and piloted). Launch from
-   a `claude --dangerously-skip-permissions` session (see `eval/tier2/RUNBOOK.md`);
-   `ruby eval/tier2/harness.rb <app> run [N]` per app in usage-window batches
-   (resumable via each app's `runs.jsonl`), then write
-   `eval/tier2-expansion/RESULTS.md` per the frozen interpretation. Full mechanics
-   in "Next step: execution plan" above. It is large (~72 sessions) and consumes
-   the subscription — get an explicit go-ahead before launching.
+1. **Tier 2 expansion is complete** — all 72 grid sessions ran and
+   [`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md) records the
+   verdict (SUPPORT/generalizes). The remaining follow-ups are in the execution
+   plan above, in priority order: the blind diff-quality 0–8 pass (closes the one
+   open gate), packet-vs-diff coverage (post-v0 north-star), then Rubydex-backed
+   resolution.
 2. **(Open, non-blocking) Author-confirm the Tier 2 diff-quality scores** —
    agent first-pass in `tmp/tier2/judging/` (seed = app SHA); does not change
    the SUPPORT verdict, which rests on the exploration metric.
@@ -180,6 +151,33 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Decision log
 
+- **2026-07-08** — Tier 2 expansion grid executed; verdict **SUPPORT /
+  generalizes** ([`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md)).
+  All **72 grid sessions** (3 apps × 4 tasks × 2 arms × 3 rounds) + 6 pilots ran
+  `complete` on the subscription (`--dangerously-skip-permissions` session),
+  serial, resumable; ≈51.4M subject tokens (~$20 Sonnet-equiv). Publify batched
+  first as a usage-measurement run (hit the 5-hour rolling-window cap once,
+  resumed clean); Campfire + Lobsters each swept 24/24 in one window. **Finding:
+  the packet meets the frozen ≥30%-median-exploration-reduction bar on 3/3 apps
+  across both frameworks** (Campfire 2/4, Lobsters 3/4, Publify 3/4; no treatment
+  success regression). The two Tier-2-open questions resolved: **(1) multi-file
+  features are the strongest category** (5/6 task-instances meet the bar, median
+  58.5% reduction) — the Tier 2 n=1 "packet hurts features" pattern was noise;
+  the sole weak category is the **bug task** (0/3), where control localizes
+  directly from the failing-test output. **(2) The test-candidate pointer is not
+  the driver** — wins persist/strengthen when the packet carries no test
+  candidate (had_tc=false 2/2 meet, median 53.5% vs had_tc=true 6/10, 50%), so
+  the packet's file/constant/callback content carries the value (caveat: n=2
+  false, Lobsters' 2/2 split). `task_success` saturated 71/72 (only Publify
+  control bug round-2 missed) → exploration metric carries the verdict, as in
+  Tier 2. **Run-hygiene** (pre-registered): throttle-induced timeout/abort records
+  (subject process hung on the usage cap, 0 tokens) re-run and kept only as
+  provenance; one degraded 4 s `complete` (publify) deleted + re-run; every tuple
+  has exactly one `complete`. **Usage note:** subject sessions run under the
+  sterile `CLAUDE_CONFIG_DIR`, so `/usage` on the orchestrator config does not
+  tally them (the account weekly limit is shared server-side; the grid's true
+  draw is ~$20 Sonnet, small). Blind diff-quality 0–8 pass is a pending
+  confirmatory follow-up. No compiler behavior touched → corpus re-scan skipped.
 - **2026-07-08** — Publify (third Tier 2 expansion app) authored + validated +
   piloted; **the pinned unit is the `publify_core` engine, not the `publify`
   deploy app** (user-approved fork). Discovered at template prep that the deploy
