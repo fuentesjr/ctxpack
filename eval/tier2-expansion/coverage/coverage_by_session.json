@@ -1,0 +1,2887 @@
+[
+  {
+    "session": "t2-1-control-1",
+    "app": "campfire",
+    "task": 1,
+    "kind": "feature",
+    "arm": "control",
+    "round": 1,
+    "patch": "campfire/diffs/t2-1-control-1.patch",
+    "packet_files": [
+      "app/controllers/autocompletable/users_controller.rb",
+      "test/controllers/autocompletable/users_controller_test.rb"
+    ],
+    "diff_files": [
+      "app/controllers/autocompletable/users_controller.rb",
+      "app/models/user.rb",
+      "test/controllers/autocompletable/users_controller_test.rb"
+    ],
+    "inter": [
+      "app/controllers/autocompletable/users_controller.rb",
+      "test/controllers/autocompletable/users_controller_test.rb"
+    ],
+    "all_files": {
+      "recall": 0.6666666666666666,
+      "precision": 1.0
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/autocompletable/users_controller.rb"
+      ],
+      "diff_files": [
+        "app/controllers/autocompletable/users_controller.rb",
+        "app/models/user.rb"
+      ],
+      "inter": [
+        "app/controllers/autocompletable/users_controller.rb"
+      ],
+      "recall": 0.5,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-1-control-2",
+    "app": "campfire",
+    "task": 1,
+    "kind": "feature",
+    "arm": "control",
+    "round": 2,
+    "patch": "campfire/diffs/t2-1-control-2.patch",
+    "packet_files": [
+      "app/controllers/autocompletable/users_controller.rb",
+      "test/controllers/autocompletable/users_controller_test.rb"
+    ],
+    "diff_files": [
+      "app/controllers/autocompletable/users_controller.rb",
+      "app/models/user.rb",
+      "test/controllers/autocompletable/users_controller_test.rb"
+    ],
+    "inter": [
+      "app/controllers/autocompletable/users_controller.rb",
+      "test/controllers/autocompletable/users_controller_test.rb"
+    ],
+    "all_files": {
+      "recall": 0.6666666666666666,
+      "precision": 1.0
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/autocompletable/users_controller.rb"
+      ],
+      "diff_files": [
+        "app/controllers/autocompletable/users_controller.rb",
+        "app/models/user.rb"
+      ],
+      "inter": [
+        "app/controllers/autocompletable/users_controller.rb"
+      ],
+      "recall": 0.5,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-1-control-3",
+    "app": "campfire",
+    "task": 1,
+    "kind": "feature",
+    "arm": "control",
+    "round": 3,
+    "patch": "campfire/diffs/t2-1-control-3.patch",
+    "packet_files": [
+      "app/controllers/autocompletable/users_controller.rb",
+      "test/controllers/autocompletable/users_controller_test.rb"
+    ],
+    "diff_files": [
+      "app/controllers/autocompletable/users_controller.rb",
+      "app/models/user.rb",
+      "test/controllers/autocompletable/users_controller_test.rb"
+    ],
+    "inter": [
+      "app/controllers/autocompletable/users_controller.rb",
+      "test/controllers/autocompletable/users_controller_test.rb"
+    ],
+    "all_files": {
+      "recall": 0.6666666666666666,
+      "precision": 1.0
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/autocompletable/users_controller.rb"
+      ],
+      "diff_files": [
+        "app/controllers/autocompletable/users_controller.rb",
+        "app/models/user.rb"
+      ],
+      "inter": [
+        "app/controllers/autocompletable/users_controller.rb"
+      ],
+      "recall": 0.5,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-1-treatment-1",
+    "app": "campfire",
+    "task": 1,
+    "kind": "feature",
+    "arm": "treatment",
+    "round": 1,
+    "patch": "campfire/diffs/t2-1-treatment-1.patch",
+    "packet_files": [
+      "app/controllers/autocompletable/users_controller.rb",
+      "test/controllers/autocompletable/users_controller_test.rb"
+    ],
+    "diff_files": [
+      "app/controllers/autocompletable/users_controller.rb",
+      "test/controllers/autocompletable/users_controller_test.rb"
+    ],
+    "inter": [
+      "app/controllers/autocompletable/users_controller.rb",
+      "test/controllers/autocompletable/users_controller_test.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 1.0
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/autocompletable/users_controller.rb"
+      ],
+      "diff_files": [
+        "app/controllers/autocompletable/users_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/autocompletable/users_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-1-treatment-2",
+    "app": "campfire",
+    "task": 1,
+    "kind": "feature",
+    "arm": "treatment",
+    "round": 2,
+    "patch": "campfire/diffs/t2-1-treatment-2.patch",
+    "packet_files": [
+      "app/controllers/autocompletable/users_controller.rb",
+      "test/controllers/autocompletable/users_controller_test.rb"
+    ],
+    "diff_files": [
+      "app/controllers/autocompletable/users_controller.rb",
+      "app/models/user.rb",
+      "test/controllers/autocompletable/users_controller_test.rb"
+    ],
+    "inter": [
+      "app/controllers/autocompletable/users_controller.rb",
+      "test/controllers/autocompletable/users_controller_test.rb"
+    ],
+    "all_files": {
+      "recall": 0.6666666666666666,
+      "precision": 1.0
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/autocompletable/users_controller.rb"
+      ],
+      "diff_files": [
+        "app/controllers/autocompletable/users_controller.rb",
+        "app/models/user.rb"
+      ],
+      "inter": [
+        "app/controllers/autocompletable/users_controller.rb"
+      ],
+      "recall": 0.5,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-1-treatment-3",
+    "app": "campfire",
+    "task": 1,
+    "kind": "feature",
+    "arm": "treatment",
+    "round": 3,
+    "patch": "campfire/diffs/t2-1-treatment-3.patch",
+    "packet_files": [
+      "app/controllers/autocompletable/users_controller.rb",
+      "test/controllers/autocompletable/users_controller_test.rb"
+    ],
+    "diff_files": [
+      "app/controllers/autocompletable/users_controller.rb",
+      "app/models/user.rb",
+      "test/controllers/autocompletable/users_controller_test.rb"
+    ],
+    "inter": [
+      "app/controllers/autocompletable/users_controller.rb",
+      "test/controllers/autocompletable/users_controller_test.rb"
+    ],
+    "all_files": {
+      "recall": 0.6666666666666666,
+      "precision": 1.0
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/autocompletable/users_controller.rb"
+      ],
+      "diff_files": [
+        "app/controllers/autocompletable/users_controller.rb",
+        "app/models/user.rb"
+      ],
+      "inter": [
+        "app/controllers/autocompletable/users_controller.rb"
+      ],
+      "recall": 0.5,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-2-control-1",
+    "app": "campfire",
+    "task": 2,
+    "kind": "feature",
+    "arm": "control",
+    "round": 1,
+    "patch": "campfire/diffs/t2-2-control-1.patch",
+    "packet_files": [
+      "app/controllers/accounts_controller.rb",
+      "app/models/current.rb",
+      "test/controllers/accounts_controller_test.rb"
+    ],
+    "diff_files": [
+      "app/controllers/accounts_controller.rb",
+      "app/views/accounts/edit.html.erb"
+    ],
+    "inter": [
+      "app/controllers/accounts_controller.rb"
+    ],
+    "all_files": {
+      "recall": 0.5,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/accounts_controller.rb",
+        "app/models/current.rb"
+      ],
+      "diff_files": [
+        "app/controllers/accounts_controller.rb",
+        "app/views/accounts/edit.html.erb"
+      ],
+      "inter": [
+        "app/controllers/accounts_controller.rb"
+      ],
+      "recall": 0.5,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-2-control-2",
+    "app": "campfire",
+    "task": 2,
+    "kind": "feature",
+    "arm": "control",
+    "round": 2,
+    "patch": "campfire/diffs/t2-2-control-2.patch",
+    "packet_files": [
+      "app/controllers/accounts_controller.rb",
+      "app/models/current.rb",
+      "test/controllers/accounts_controller_test.rb"
+    ],
+    "diff_files": [
+      "app/controllers/accounts_controller.rb",
+      "app/views/accounts/edit.html.erb",
+      "test/controllers/accounts_controller_test.rb"
+    ],
+    "inter": [
+      "app/controllers/accounts_controller.rb",
+      "test/controllers/accounts_controller_test.rb"
+    ],
+    "all_files": {
+      "recall": 0.6666666666666666,
+      "precision": 0.6666666666666666
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/accounts_controller.rb",
+        "app/models/current.rb"
+      ],
+      "diff_files": [
+        "app/controllers/accounts_controller.rb",
+        "app/views/accounts/edit.html.erb"
+      ],
+      "inter": [
+        "app/controllers/accounts_controller.rb"
+      ],
+      "recall": 0.5,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-2-control-3",
+    "app": "campfire",
+    "task": 2,
+    "kind": "feature",
+    "arm": "control",
+    "round": 3,
+    "patch": "campfire/diffs/t2-2-control-3.patch",
+    "packet_files": [
+      "app/controllers/accounts_controller.rb",
+      "app/models/current.rb",
+      "test/controllers/accounts_controller_test.rb"
+    ],
+    "diff_files": [
+      "app/controllers/accounts_controller.rb",
+      "app/views/accounts/edit.html.erb",
+      "config/locales/en.yml",
+      "test/controllers/accounts_controller_test.rb"
+    ],
+    "inter": [
+      "app/controllers/accounts_controller.rb",
+      "test/controllers/accounts_controller_test.rb"
+    ],
+    "all_files": {
+      "recall": 0.5,
+      "precision": 0.6666666666666666
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/accounts_controller.rb",
+        "app/models/current.rb"
+      ],
+      "diff_files": [
+        "app/controllers/accounts_controller.rb",
+        "app/views/accounts/edit.html.erb",
+        "config/locales/en.yml"
+      ],
+      "inter": [
+        "app/controllers/accounts_controller.rb"
+      ],
+      "recall": 0.3333333333333333,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-2-treatment-1",
+    "app": "campfire",
+    "task": 2,
+    "kind": "feature",
+    "arm": "treatment",
+    "round": 1,
+    "patch": "campfire/diffs/t2-2-treatment-1.patch",
+    "packet_files": [
+      "app/controllers/accounts_controller.rb",
+      "app/models/current.rb",
+      "test/controllers/accounts_controller_test.rb"
+    ],
+    "diff_files": [
+      "app/controllers/accounts_controller.rb",
+      "app/views/accounts/edit.html.erb"
+    ],
+    "inter": [
+      "app/controllers/accounts_controller.rb"
+    ],
+    "all_files": {
+      "recall": 0.5,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/accounts_controller.rb",
+        "app/models/current.rb"
+      ],
+      "diff_files": [
+        "app/controllers/accounts_controller.rb",
+        "app/views/accounts/edit.html.erb"
+      ],
+      "inter": [
+        "app/controllers/accounts_controller.rb"
+      ],
+      "recall": 0.5,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-2-treatment-2",
+    "app": "campfire",
+    "task": 2,
+    "kind": "feature",
+    "arm": "treatment",
+    "round": 2,
+    "patch": "campfire/diffs/t2-2-treatment-2.patch",
+    "packet_files": [
+      "app/controllers/accounts_controller.rb",
+      "app/models/current.rb",
+      "test/controllers/accounts_controller_test.rb"
+    ],
+    "diff_files": [
+      "app/controllers/accounts_controller.rb",
+      "app/views/accounts/edit.html.erb"
+    ],
+    "inter": [
+      "app/controllers/accounts_controller.rb"
+    ],
+    "all_files": {
+      "recall": 0.5,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/accounts_controller.rb",
+        "app/models/current.rb"
+      ],
+      "diff_files": [
+        "app/controllers/accounts_controller.rb",
+        "app/views/accounts/edit.html.erb"
+      ],
+      "inter": [
+        "app/controllers/accounts_controller.rb"
+      ],
+      "recall": 0.5,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-2-treatment-3",
+    "app": "campfire",
+    "task": 2,
+    "kind": "feature",
+    "arm": "treatment",
+    "round": 3,
+    "patch": "campfire/diffs/t2-2-treatment-3.patch",
+    "packet_files": [
+      "app/controllers/accounts_controller.rb",
+      "app/models/current.rb",
+      "test/controllers/accounts_controller_test.rb"
+    ],
+    "diff_files": [
+      "app/controllers/accounts_controller.rb",
+      "app/views/accounts/edit.html.erb",
+      "app/views/accounts/users/_bot.html.erb",
+      "config/locales/en.yml"
+    ],
+    "inter": [
+      "app/controllers/accounts_controller.rb"
+    ],
+    "all_files": {
+      "recall": 0.25,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/accounts_controller.rb",
+        "app/models/current.rb"
+      ],
+      "diff_files": [
+        "app/controllers/accounts_controller.rb",
+        "app/views/accounts/edit.html.erb",
+        "app/views/accounts/users/_bot.html.erb",
+        "config/locales/en.yml"
+      ],
+      "inter": [
+        "app/controllers/accounts_controller.rb"
+      ],
+      "recall": 0.25,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-3-control-1",
+    "app": "campfire",
+    "task": 3,
+    "kind": "bug",
+    "arm": "control",
+    "round": 1,
+    "patch": "campfire/diffs/t2-3-control-1.patch",
+    "packet_files": [
+      "app/controllers/rooms_controller.rb",
+      "app/models/current.rb",
+      "test/controllers/rooms_controller_test.rb"
+    ],
+    "diff_files": [
+      "app/controllers/rooms_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/rooms_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/rooms_controller.rb",
+        "app/models/current.rb"
+      ],
+      "diff_files": [
+        "app/controllers/rooms_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/rooms_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-3-control-2",
+    "app": "campfire",
+    "task": 3,
+    "kind": "bug",
+    "arm": "control",
+    "round": 2,
+    "patch": "campfire/diffs/t2-3-control-2.patch",
+    "packet_files": [
+      "app/controllers/rooms_controller.rb",
+      "app/models/current.rb",
+      "test/controllers/rooms_controller_test.rb"
+    ],
+    "diff_files": [
+      "app/controllers/rooms_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/rooms_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/rooms_controller.rb",
+        "app/models/current.rb"
+      ],
+      "diff_files": [
+        "app/controllers/rooms_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/rooms_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-3-control-3",
+    "app": "campfire",
+    "task": 3,
+    "kind": "bug",
+    "arm": "control",
+    "round": 3,
+    "patch": "campfire/diffs/t2-3-control-3.patch",
+    "packet_files": [
+      "app/controllers/rooms_controller.rb",
+      "app/models/current.rb",
+      "test/controllers/rooms_controller_test.rb"
+    ],
+    "diff_files": [
+      "app/controllers/rooms_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/rooms_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/rooms_controller.rb",
+        "app/models/current.rb"
+      ],
+      "diff_files": [
+        "app/controllers/rooms_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/rooms_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-3-treatment-1",
+    "app": "campfire",
+    "task": 3,
+    "kind": "bug",
+    "arm": "treatment",
+    "round": 1,
+    "patch": "campfire/diffs/t2-3-treatment-1.patch",
+    "packet_files": [
+      "app/controllers/rooms_controller.rb",
+      "app/models/current.rb",
+      "test/controllers/rooms_controller_test.rb"
+    ],
+    "diff_files": [
+      "app/controllers/rooms_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/rooms_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/rooms_controller.rb",
+        "app/models/current.rb"
+      ],
+      "diff_files": [
+        "app/controllers/rooms_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/rooms_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-3-treatment-2",
+    "app": "campfire",
+    "task": 3,
+    "kind": "bug",
+    "arm": "treatment",
+    "round": 2,
+    "patch": "campfire/diffs/t2-3-treatment-2.patch",
+    "packet_files": [
+      "app/controllers/rooms_controller.rb",
+      "app/models/current.rb",
+      "test/controllers/rooms_controller_test.rb"
+    ],
+    "diff_files": [
+      "app/controllers/rooms_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/rooms_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/rooms_controller.rb",
+        "app/models/current.rb"
+      ],
+      "diff_files": [
+        "app/controllers/rooms_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/rooms_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-3-treatment-3",
+    "app": "campfire",
+    "task": 3,
+    "kind": "bug",
+    "arm": "treatment",
+    "round": 3,
+    "patch": "campfire/diffs/t2-3-treatment-3.patch",
+    "packet_files": [
+      "app/controllers/rooms_controller.rb",
+      "app/models/current.rb",
+      "test/controllers/rooms_controller_test.rb"
+    ],
+    "diff_files": [
+      "app/controllers/rooms_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/rooms_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/rooms_controller.rb",
+        "app/models/current.rb"
+      ],
+      "diff_files": [
+        "app/controllers/rooms_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/rooms_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-4-control-1",
+    "app": "campfire",
+    "task": 4,
+    "kind": "behavior",
+    "arm": "control",
+    "round": 1,
+    "patch": "campfire/diffs/t2-4-control-1.patch",
+    "packet_files": [
+      "app/controllers/rooms/involvements_controller.rb",
+      "test/controllers/rooms/involvements_controller_test.rb"
+    ],
+    "diff_files": [
+      "app/controllers/rooms/involvements_controller.rb",
+      "config/locales/en.yml",
+      "test/controllers/rooms/involvements_controller_test.rb"
+    ],
+    "inter": [
+      "app/controllers/rooms/involvements_controller.rb",
+      "test/controllers/rooms/involvements_controller_test.rb"
+    ],
+    "all_files": {
+      "recall": 0.6666666666666666,
+      "precision": 1.0
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/rooms/involvements_controller.rb"
+      ],
+      "diff_files": [
+        "app/controllers/rooms/involvements_controller.rb",
+        "config/locales/en.yml"
+      ],
+      "inter": [
+        "app/controllers/rooms/involvements_controller.rb"
+      ],
+      "recall": 0.5,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-4-control-2",
+    "app": "campfire",
+    "task": 4,
+    "kind": "behavior",
+    "arm": "control",
+    "round": 2,
+    "patch": "campfire/diffs/t2-4-control-2.patch",
+    "packet_files": [
+      "app/controllers/rooms/involvements_controller.rb",
+      "test/controllers/rooms/involvements_controller_test.rb"
+    ],
+    "diff_files": [
+      "app/controllers/rooms/involvements_controller.rb",
+      "config/locales/en.yml",
+      "test/controllers/rooms/involvements_controller_test.rb"
+    ],
+    "inter": [
+      "app/controllers/rooms/involvements_controller.rb",
+      "test/controllers/rooms/involvements_controller_test.rb"
+    ],
+    "all_files": {
+      "recall": 0.6666666666666666,
+      "precision": 1.0
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/rooms/involvements_controller.rb"
+      ],
+      "diff_files": [
+        "app/controllers/rooms/involvements_controller.rb",
+        "config/locales/en.yml"
+      ],
+      "inter": [
+        "app/controllers/rooms/involvements_controller.rb"
+      ],
+      "recall": 0.5,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-4-control-3",
+    "app": "campfire",
+    "task": 4,
+    "kind": "behavior",
+    "arm": "control",
+    "round": 3,
+    "patch": "campfire/diffs/t2-4-control-3.patch",
+    "packet_files": [
+      "app/controllers/rooms/involvements_controller.rb",
+      "test/controllers/rooms/involvements_controller_test.rb"
+    ],
+    "diff_files": [
+      "app/controllers/rooms/involvements_controller.rb",
+      "config/locales/en.yml",
+      "test/controllers/rooms/involvements_controller_test.rb"
+    ],
+    "inter": [
+      "app/controllers/rooms/involvements_controller.rb",
+      "test/controllers/rooms/involvements_controller_test.rb"
+    ],
+    "all_files": {
+      "recall": 0.6666666666666666,
+      "precision": 1.0
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/rooms/involvements_controller.rb"
+      ],
+      "diff_files": [
+        "app/controllers/rooms/involvements_controller.rb",
+        "config/locales/en.yml"
+      ],
+      "inter": [
+        "app/controllers/rooms/involvements_controller.rb"
+      ],
+      "recall": 0.5,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-4-treatment-1",
+    "app": "campfire",
+    "task": 4,
+    "kind": "behavior",
+    "arm": "treatment",
+    "round": 1,
+    "patch": "campfire/diffs/t2-4-treatment-1.patch",
+    "packet_files": [
+      "app/controllers/rooms/involvements_controller.rb",
+      "test/controllers/rooms/involvements_controller_test.rb"
+    ],
+    "diff_files": [
+      "app/controllers/rooms/involvements_controller.rb",
+      "config/locales/en.yml"
+    ],
+    "inter": [
+      "app/controllers/rooms/involvements_controller.rb"
+    ],
+    "all_files": {
+      "recall": 0.5,
+      "precision": 0.5
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/rooms/involvements_controller.rb"
+      ],
+      "diff_files": [
+        "app/controllers/rooms/involvements_controller.rb",
+        "config/locales/en.yml"
+      ],
+      "inter": [
+        "app/controllers/rooms/involvements_controller.rb"
+      ],
+      "recall": 0.5,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-4-treatment-2",
+    "app": "campfire",
+    "task": 4,
+    "kind": "behavior",
+    "arm": "treatment",
+    "round": 2,
+    "patch": "campfire/diffs/t2-4-treatment-2.patch",
+    "packet_files": [
+      "app/controllers/rooms/involvements_controller.rb",
+      "test/controllers/rooms/involvements_controller_test.rb"
+    ],
+    "diff_files": [
+      "app/controllers/rooms/involvements_controller.rb",
+      "config/locales/en.yml",
+      "test/controllers/rooms/involvements_controller_test.rb"
+    ],
+    "inter": [
+      "app/controllers/rooms/involvements_controller.rb",
+      "test/controllers/rooms/involvements_controller_test.rb"
+    ],
+    "all_files": {
+      "recall": 0.6666666666666666,
+      "precision": 1.0
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/rooms/involvements_controller.rb"
+      ],
+      "diff_files": [
+        "app/controllers/rooms/involvements_controller.rb",
+        "config/locales/en.yml"
+      ],
+      "inter": [
+        "app/controllers/rooms/involvements_controller.rb"
+      ],
+      "recall": 0.5,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-4-treatment-3",
+    "app": "campfire",
+    "task": 4,
+    "kind": "behavior",
+    "arm": "treatment",
+    "round": 3,
+    "patch": "campfire/diffs/t2-4-treatment-3.patch",
+    "packet_files": [
+      "app/controllers/rooms/involvements_controller.rb",
+      "test/controllers/rooms/involvements_controller_test.rb"
+    ],
+    "diff_files": [
+      "app/controllers/rooms/involvements_controller.rb",
+      "config/locales/en.yml",
+      "test/controllers/rooms/involvements_controller_test.rb"
+    ],
+    "inter": [
+      "app/controllers/rooms/involvements_controller.rb",
+      "test/controllers/rooms/involvements_controller_test.rb"
+    ],
+    "all_files": {
+      "recall": 0.6666666666666666,
+      "precision": 1.0
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/rooms/involvements_controller.rb"
+      ],
+      "diff_files": [
+        "app/controllers/rooms/involvements_controller.rb",
+        "config/locales/en.yml"
+      ],
+      "inter": [
+        "app/controllers/rooms/involvements_controller.rb"
+      ],
+      "recall": 0.5,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-1-control-1",
+    "app": "lobsters",
+    "task": 1,
+    "kind": "feature",
+    "arm": "control",
+    "round": 1,
+    "patch": "lobsters/diffs/t2-1-control-1.patch",
+    "packet_files": [
+      "app/controllers/comments_controller.rb",
+      "app/models/inactive_user.rb",
+      "spec/controllers/comments_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/comments_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/comments_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/comments_controller.rb",
+        "app/models/inactive_user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/comments_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/comments_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-1-control-2",
+    "app": "lobsters",
+    "task": 1,
+    "kind": "feature",
+    "arm": "control",
+    "round": 2,
+    "patch": "lobsters/diffs/t2-1-control-2.patch",
+    "packet_files": [
+      "app/controllers/comments_controller.rb",
+      "app/models/inactive_user.rb",
+      "spec/controllers/comments_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/comments_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/comments_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/comments_controller.rb",
+        "app/models/inactive_user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/comments_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/comments_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-1-control-3",
+    "app": "lobsters",
+    "task": 1,
+    "kind": "feature",
+    "arm": "control",
+    "round": 3,
+    "patch": "lobsters/diffs/t2-1-control-3.patch",
+    "packet_files": [
+      "app/controllers/comments_controller.rb",
+      "app/models/inactive_user.rb",
+      "spec/controllers/comments_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/comments_controller.rb",
+      "spec/requests/comments_spec.rb"
+    ],
+    "inter": [
+      "app/controllers/comments_controller.rb"
+    ],
+    "all_files": {
+      "recall": 0.5,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/comments_controller.rb",
+        "app/models/inactive_user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/comments_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/comments_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-1-treatment-1",
+    "app": "lobsters",
+    "task": 1,
+    "kind": "feature",
+    "arm": "treatment",
+    "round": 1,
+    "patch": "lobsters/diffs/t2-1-treatment-1.patch",
+    "packet_files": [
+      "app/controllers/comments_controller.rb",
+      "app/models/inactive_user.rb",
+      "spec/controllers/comments_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/comments_controller.rb",
+      "app/models/inactive_user.rb"
+    ],
+    "inter": [
+      "app/controllers/comments_controller.rb",
+      "app/models/inactive_user.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.6666666666666666
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/comments_controller.rb",
+        "app/models/inactive_user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/comments_controller.rb",
+        "app/models/inactive_user.rb"
+      ],
+      "inter": [
+        "app/controllers/comments_controller.rb",
+        "app/models/inactive_user.rb"
+      ],
+      "recall": 1.0,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-1-treatment-2",
+    "app": "lobsters",
+    "task": 1,
+    "kind": "feature",
+    "arm": "treatment",
+    "round": 2,
+    "patch": "lobsters/diffs/t2-1-treatment-2.patch",
+    "packet_files": [
+      "app/controllers/comments_controller.rb",
+      "app/models/inactive_user.rb",
+      "spec/controllers/comments_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/comments_controller.rb",
+      "spec/features/comment_spec.rb"
+    ],
+    "inter": [
+      "app/controllers/comments_controller.rb"
+    ],
+    "all_files": {
+      "recall": 0.5,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/comments_controller.rb",
+        "app/models/inactive_user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/comments_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/comments_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-1-treatment-3",
+    "app": "lobsters",
+    "task": 1,
+    "kind": "feature",
+    "arm": "treatment",
+    "round": 3,
+    "patch": "lobsters/diffs/t2-1-treatment-3.patch",
+    "packet_files": [
+      "app/controllers/comments_controller.rb",
+      "app/models/inactive_user.rb",
+      "spec/controllers/comments_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/comments_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/comments_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/comments_controller.rb",
+        "app/models/inactive_user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/comments_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/comments_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-2-control-1",
+    "app": "lobsters",
+    "task": 2,
+    "kind": "feature",
+    "arm": "control",
+    "round": 1,
+    "patch": "lobsters/diffs/t2-2-control-1.patch",
+    "packet_files": [
+      "app/controllers/users_controller.rb",
+      "app/models/comment_vote_hydrator.rb",
+      "app/models/flagged_commenters.rb",
+      "app/models/user.rb"
+    ],
+    "diff_files": [
+      "app/controllers/users_controller.rb",
+      "app/models/user.rb",
+      "spec/requests/users_controller_spec.rb"
+    ],
+    "inter": [
+      "app/controllers/users_controller.rb",
+      "app/models/user.rb"
+    ],
+    "all_files": {
+      "recall": 0.6666666666666666,
+      "precision": 0.5
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/users_controller.rb",
+        "app/models/comment_vote_hydrator.rb",
+        "app/models/flagged_commenters.rb",
+        "app/models/user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/users_controller.rb",
+        "app/models/user.rb"
+      ],
+      "inter": [
+        "app/controllers/users_controller.rb",
+        "app/models/user.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-2-control-2",
+    "app": "lobsters",
+    "task": 2,
+    "kind": "feature",
+    "arm": "control",
+    "round": 2,
+    "patch": "lobsters/diffs/t2-2-control-2.patch",
+    "packet_files": [
+      "app/controllers/users_controller.rb",
+      "app/models/comment_vote_hydrator.rb",
+      "app/models/flagged_commenters.rb",
+      "app/models/user.rb"
+    ],
+    "diff_files": [
+      "app/controllers/users_controller.rb",
+      "app/models/user_standing.rb",
+      "spec/requests/users_controller_spec.rb"
+    ],
+    "inter": [
+      "app/controllers/users_controller.rb"
+    ],
+    "all_files": {
+      "recall": 0.3333333333333333,
+      "precision": 0.25
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/users_controller.rb",
+        "app/models/comment_vote_hydrator.rb",
+        "app/models/flagged_commenters.rb",
+        "app/models/user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/users_controller.rb",
+        "app/models/user_standing.rb"
+      ],
+      "inter": [
+        "app/controllers/users_controller.rb"
+      ],
+      "recall": 0.5,
+      "precision": 0.25
+    }
+  },
+  {
+    "session": "t2-2-control-3",
+    "app": "lobsters",
+    "task": 2,
+    "kind": "feature",
+    "arm": "control",
+    "round": 3,
+    "patch": "lobsters/diffs/t2-2-control-3.patch",
+    "packet_files": [
+      "app/controllers/users_controller.rb",
+      "app/models/comment_vote_hydrator.rb",
+      "app/models/flagged_commenters.rb",
+      "app/models/user.rb"
+    ],
+    "diff_files": [
+      "app/controllers/users_controller.rb",
+      "app/models/user.rb",
+      "spec/requests/users_controller_spec.rb"
+    ],
+    "inter": [
+      "app/controllers/users_controller.rb",
+      "app/models/user.rb"
+    ],
+    "all_files": {
+      "recall": 0.6666666666666666,
+      "precision": 0.5
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/users_controller.rb",
+        "app/models/comment_vote_hydrator.rb",
+        "app/models/flagged_commenters.rb",
+        "app/models/user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/users_controller.rb",
+        "app/models/user.rb"
+      ],
+      "inter": [
+        "app/controllers/users_controller.rb",
+        "app/models/user.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-2-treatment-1",
+    "app": "lobsters",
+    "task": 2,
+    "kind": "feature",
+    "arm": "treatment",
+    "round": 1,
+    "patch": "lobsters/diffs/t2-2-treatment-1.patch",
+    "packet_files": [
+      "app/controllers/users_controller.rb",
+      "app/models/comment_vote_hydrator.rb",
+      "app/models/flagged_commenters.rb",
+      "app/models/user.rb"
+    ],
+    "diff_files": [
+      "app/controllers/users_controller.rb",
+      "app/models/user.rb",
+      "spec/requests/users_controller_spec.rb"
+    ],
+    "inter": [
+      "app/controllers/users_controller.rb",
+      "app/models/user.rb"
+    ],
+    "all_files": {
+      "recall": 0.6666666666666666,
+      "precision": 0.5
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/users_controller.rb",
+        "app/models/comment_vote_hydrator.rb",
+        "app/models/flagged_commenters.rb",
+        "app/models/user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/users_controller.rb",
+        "app/models/user.rb"
+      ],
+      "inter": [
+        "app/controllers/users_controller.rb",
+        "app/models/user.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-2-treatment-2",
+    "app": "lobsters",
+    "task": 2,
+    "kind": "feature",
+    "arm": "treatment",
+    "round": 2,
+    "patch": "lobsters/diffs/t2-2-treatment-2.patch",
+    "packet_files": [
+      "app/controllers/users_controller.rb",
+      "app/models/comment_vote_hydrator.rb",
+      "app/models/flagged_commenters.rb",
+      "app/models/user.rb"
+    ],
+    "diff_files": [
+      "app/controllers/users_controller.rb",
+      "app/models/user.rb",
+      "spec/requests/users_controller_spec.rb"
+    ],
+    "inter": [
+      "app/controllers/users_controller.rb",
+      "app/models/user.rb"
+    ],
+    "all_files": {
+      "recall": 0.6666666666666666,
+      "precision": 0.5
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/users_controller.rb",
+        "app/models/comment_vote_hydrator.rb",
+        "app/models/flagged_commenters.rb",
+        "app/models/user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/users_controller.rb",
+        "app/models/user.rb"
+      ],
+      "inter": [
+        "app/controllers/users_controller.rb",
+        "app/models/user.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-2-treatment-3",
+    "app": "lobsters",
+    "task": 2,
+    "kind": "feature",
+    "arm": "treatment",
+    "round": 3,
+    "patch": "lobsters/diffs/t2-2-treatment-3.patch",
+    "packet_files": [
+      "app/controllers/users_controller.rb",
+      "app/models/comment_vote_hydrator.rb",
+      "app/models/flagged_commenters.rb",
+      "app/models/user.rb"
+    ],
+    "diff_files": [
+      "app/controllers/users_controller.rb",
+      "app/models/user_standing_summary.rb",
+      "spec/requests/users_controller_spec.rb"
+    ],
+    "inter": [
+      "app/controllers/users_controller.rb"
+    ],
+    "all_files": {
+      "recall": 0.3333333333333333,
+      "precision": 0.25
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/users_controller.rb",
+        "app/models/comment_vote_hydrator.rb",
+        "app/models/flagged_commenters.rb",
+        "app/models/user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/users_controller.rb",
+        "app/models/user_standing_summary.rb"
+      ],
+      "inter": [
+        "app/controllers/users_controller.rb"
+      ],
+      "recall": 0.5,
+      "precision": 0.25
+    }
+  },
+  {
+    "session": "t2-3-control-1",
+    "app": "lobsters",
+    "task": 3,
+    "kind": "bug",
+    "arm": "control",
+    "round": 1,
+    "patch": "lobsters/diffs/t2-3-control-1.patch",
+    "packet_files": [
+      "app/controllers/inbox_controller.rb",
+      "spec/controllers/inbox_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/inbox_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/inbox_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.5
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/inbox_controller.rb"
+      ],
+      "diff_files": [
+        "app/controllers/inbox_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/inbox_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-3-control-2",
+    "app": "lobsters",
+    "task": 3,
+    "kind": "bug",
+    "arm": "control",
+    "round": 2,
+    "patch": "lobsters/diffs/t2-3-control-2.patch",
+    "packet_files": [
+      "app/controllers/inbox_controller.rb",
+      "spec/controllers/inbox_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/inbox_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/inbox_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.5
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/inbox_controller.rb"
+      ],
+      "diff_files": [
+        "app/controllers/inbox_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/inbox_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-3-control-3",
+    "app": "lobsters",
+    "task": 3,
+    "kind": "bug",
+    "arm": "control",
+    "round": 3,
+    "patch": "lobsters/diffs/t2-3-control-3.patch",
+    "packet_files": [
+      "app/controllers/inbox_controller.rb",
+      "spec/controllers/inbox_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/inbox_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/inbox_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.5
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/inbox_controller.rb"
+      ],
+      "diff_files": [
+        "app/controllers/inbox_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/inbox_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-3-treatment-1",
+    "app": "lobsters",
+    "task": 3,
+    "kind": "bug",
+    "arm": "treatment",
+    "round": 1,
+    "patch": "lobsters/diffs/t2-3-treatment-1.patch",
+    "packet_files": [
+      "app/controllers/inbox_controller.rb",
+      "spec/controllers/inbox_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/inbox_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/inbox_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.5
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/inbox_controller.rb"
+      ],
+      "diff_files": [
+        "app/controllers/inbox_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/inbox_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-3-treatment-2",
+    "app": "lobsters",
+    "task": 3,
+    "kind": "bug",
+    "arm": "treatment",
+    "round": 2,
+    "patch": "lobsters/diffs/t2-3-treatment-2.patch",
+    "packet_files": [
+      "app/controllers/inbox_controller.rb",
+      "spec/controllers/inbox_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/inbox_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/inbox_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.5
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/inbox_controller.rb"
+      ],
+      "diff_files": [
+        "app/controllers/inbox_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/inbox_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-3-treatment-3",
+    "app": "lobsters",
+    "task": 3,
+    "kind": "bug",
+    "arm": "treatment",
+    "round": 3,
+    "patch": "lobsters/diffs/t2-3-treatment-3.patch",
+    "packet_files": [
+      "app/controllers/inbox_controller.rb",
+      "spec/controllers/inbox_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/inbox_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/inbox_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.5
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/inbox_controller.rb"
+      ],
+      "diff_files": [
+        "app/controllers/inbox_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/inbox_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-4-control-1",
+    "app": "lobsters",
+    "task": 4,
+    "kind": "behavior",
+    "arm": "control",
+    "round": 1,
+    "patch": "lobsters/diffs/t2-4-control-1.patch",
+    "packet_files": [
+      "app/controllers/stories_controller.rb",
+      "app/jobs/create_story_card_job.rb",
+      "app/models/story.rb"
+    ],
+    "diff_files": [
+      "app/controllers/stories_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/stories_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/stories_controller.rb",
+        "app/jobs/create_story_card_job.rb",
+        "app/models/story.rb"
+      ],
+      "diff_files": [
+        "app/controllers/stories_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/stories_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    }
+  },
+  {
+    "session": "t2-4-control-2",
+    "app": "lobsters",
+    "task": 4,
+    "kind": "behavior",
+    "arm": "control",
+    "round": 2,
+    "patch": "lobsters/diffs/t2-4-control-2.patch",
+    "packet_files": [
+      "app/controllers/stories_controller.rb",
+      "app/jobs/create_story_card_job.rb",
+      "app/models/story.rb"
+    ],
+    "diff_files": [
+      "app/controllers/stories_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/stories_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/stories_controller.rb",
+        "app/jobs/create_story_card_job.rb",
+        "app/models/story.rb"
+      ],
+      "diff_files": [
+        "app/controllers/stories_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/stories_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    }
+  },
+  {
+    "session": "t2-4-control-3",
+    "app": "lobsters",
+    "task": 4,
+    "kind": "behavior",
+    "arm": "control",
+    "round": 3,
+    "patch": "lobsters/diffs/t2-4-control-3.patch",
+    "packet_files": [
+      "app/controllers/stories_controller.rb",
+      "app/jobs/create_story_card_job.rb",
+      "app/models/story.rb"
+    ],
+    "diff_files": [
+      "app/controllers/stories_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/stories_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/stories_controller.rb",
+        "app/jobs/create_story_card_job.rb",
+        "app/models/story.rb"
+      ],
+      "diff_files": [
+        "app/controllers/stories_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/stories_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    }
+  },
+  {
+    "session": "t2-4-treatment-1",
+    "app": "lobsters",
+    "task": 4,
+    "kind": "behavior",
+    "arm": "treatment",
+    "round": 1,
+    "patch": "lobsters/diffs/t2-4-treatment-1.patch",
+    "packet_files": [
+      "app/controllers/stories_controller.rb",
+      "app/jobs/create_story_card_job.rb",
+      "app/models/story.rb"
+    ],
+    "diff_files": [
+      "app/controllers/stories_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/stories_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/stories_controller.rb",
+        "app/jobs/create_story_card_job.rb",
+        "app/models/story.rb"
+      ],
+      "diff_files": [
+        "app/controllers/stories_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/stories_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    }
+  },
+  {
+    "session": "t2-4-treatment-2",
+    "app": "lobsters",
+    "task": 4,
+    "kind": "behavior",
+    "arm": "treatment",
+    "round": 2,
+    "patch": "lobsters/diffs/t2-4-treatment-2.patch",
+    "packet_files": [
+      "app/controllers/stories_controller.rb",
+      "app/jobs/create_story_card_job.rb",
+      "app/models/story.rb"
+    ],
+    "diff_files": [
+      "app/controllers/stories_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/stories_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/stories_controller.rb",
+        "app/jobs/create_story_card_job.rb",
+        "app/models/story.rb"
+      ],
+      "diff_files": [
+        "app/controllers/stories_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/stories_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    }
+  },
+  {
+    "session": "t2-4-treatment-3",
+    "app": "lobsters",
+    "task": 4,
+    "kind": "behavior",
+    "arm": "treatment",
+    "round": 3,
+    "patch": "lobsters/diffs/t2-4-treatment-3.patch",
+    "packet_files": [
+      "app/controllers/stories_controller.rb",
+      "app/jobs/create_story_card_job.rb",
+      "app/models/story.rb"
+    ],
+    "diff_files": [
+      "app/controllers/stories_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/stories_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/stories_controller.rb",
+        "app/jobs/create_story_card_job.rb",
+        "app/models/story.rb"
+      ],
+      "diff_files": [
+        "app/controllers/stories_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/stories_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    }
+  },
+  {
+    "session": "t2-1-control-1",
+    "app": "publify",
+    "task": 1,
+    "kind": "feature",
+    "arm": "control",
+    "round": 1,
+    "patch": "publify/diffs/t2-1-control-1.patch",
+    "packet_files": [
+      "app/controllers/setup_controller.rb",
+      "app/models/user.rb",
+      "spec/controllers/setup_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/setup_controller.rb",
+      "app/views/setup/index.html.erb",
+      "config/locales/en.yml",
+      "spec/controllers/setup_controller_spec.rb"
+    ],
+    "inter": [
+      "app/controllers/setup_controller.rb",
+      "spec/controllers/setup_controller_spec.rb"
+    ],
+    "all_files": {
+      "recall": 0.5,
+      "precision": 0.6666666666666666
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/setup_controller.rb",
+        "app/models/user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/setup_controller.rb",
+        "app/views/setup/index.html.erb",
+        "config/locales/en.yml"
+      ],
+      "inter": [
+        "app/controllers/setup_controller.rb"
+      ],
+      "recall": 0.3333333333333333,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-1-control-2",
+    "app": "publify",
+    "task": 1,
+    "kind": "feature",
+    "arm": "control",
+    "round": 2,
+    "patch": "publify/diffs/t2-1-control-2.patch",
+    "packet_files": [
+      "app/controllers/setup_controller.rb",
+      "app/models/user.rb",
+      "spec/controllers/setup_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/setup_controller.rb",
+      "app/views/setup/index.html.erb",
+      "config/locales/en.yml",
+      "spec/controllers/setup_controller_spec.rb"
+    ],
+    "inter": [
+      "app/controllers/setup_controller.rb",
+      "spec/controllers/setup_controller_spec.rb"
+    ],
+    "all_files": {
+      "recall": 0.5,
+      "precision": 0.6666666666666666
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/setup_controller.rb",
+        "app/models/user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/setup_controller.rb",
+        "app/views/setup/index.html.erb",
+        "config/locales/en.yml"
+      ],
+      "inter": [
+        "app/controllers/setup_controller.rb"
+      ],
+      "recall": 0.3333333333333333,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-1-control-3",
+    "app": "publify",
+    "task": 1,
+    "kind": "feature",
+    "arm": "control",
+    "round": 3,
+    "patch": "publify/diffs/t2-1-control-3.patch",
+    "packet_files": [
+      "app/controllers/setup_controller.rb",
+      "app/models/user.rb",
+      "spec/controllers/setup_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/setup_controller.rb",
+      "app/views/setup/index.html.erb",
+      "config/locales/en.yml"
+    ],
+    "inter": [
+      "app/controllers/setup_controller.rb"
+    ],
+    "all_files": {
+      "recall": 0.3333333333333333,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/setup_controller.rb",
+        "app/models/user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/setup_controller.rb",
+        "app/views/setup/index.html.erb",
+        "config/locales/en.yml"
+      ],
+      "inter": [
+        "app/controllers/setup_controller.rb"
+      ],
+      "recall": 0.3333333333333333,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-1-treatment-1",
+    "app": "publify",
+    "task": 1,
+    "kind": "feature",
+    "arm": "treatment",
+    "round": 1,
+    "patch": "publify/diffs/t2-1-treatment-1.patch",
+    "packet_files": [
+      "app/controllers/setup_controller.rb",
+      "app/models/user.rb",
+      "spec/controllers/setup_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/setup_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/setup_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/setup_controller.rb",
+        "app/models/user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/setup_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/setup_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-1-treatment-2",
+    "app": "publify",
+    "task": 1,
+    "kind": "feature",
+    "arm": "treatment",
+    "round": 2,
+    "patch": "publify/diffs/t2-1-treatment-2.patch",
+    "packet_files": [
+      "app/controllers/setup_controller.rb",
+      "app/models/user.rb",
+      "spec/controllers/setup_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/setup_controller.rb",
+      "app/views/setup/index.html.erb",
+      "config/locales/en.yml"
+    ],
+    "inter": [
+      "app/controllers/setup_controller.rb"
+    ],
+    "all_files": {
+      "recall": 0.3333333333333333,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/setup_controller.rb",
+        "app/models/user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/setup_controller.rb",
+        "app/views/setup/index.html.erb",
+        "config/locales/en.yml"
+      ],
+      "inter": [
+        "app/controllers/setup_controller.rb"
+      ],
+      "recall": 0.3333333333333333,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-1-treatment-3",
+    "app": "publify",
+    "task": 1,
+    "kind": "feature",
+    "arm": "treatment",
+    "round": 3,
+    "patch": "publify/diffs/t2-1-treatment-3.patch",
+    "packet_files": [
+      "app/controllers/setup_controller.rb",
+      "app/models/user.rb",
+      "spec/controllers/setup_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/setup_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/setup_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/setup_controller.rb",
+        "app/models/user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/setup_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/setup_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-2-control-1",
+    "app": "publify",
+    "task": 2,
+    "kind": "feature",
+    "arm": "control",
+    "round": 1,
+    "patch": "publify/diffs/t2-2-control-1.patch",
+    "packet_files": [
+      "app/controllers/tags_controller.rb",
+      "app/models/tag.rb",
+      "spec/controllers/tags_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/tags_controller.rb",
+      "app/models/tag.rb"
+    ],
+    "inter": [
+      "app/controllers/tags_controller.rb",
+      "app/models/tag.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.6666666666666666
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/tags_controller.rb",
+        "app/models/tag.rb"
+      ],
+      "diff_files": [
+        "app/controllers/tags_controller.rb",
+        "app/models/tag.rb"
+      ],
+      "inter": [
+        "app/controllers/tags_controller.rb",
+        "app/models/tag.rb"
+      ],
+      "recall": 1.0,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-2-control-2",
+    "app": "publify",
+    "task": 2,
+    "kind": "feature",
+    "arm": "control",
+    "round": 2,
+    "patch": "publify/diffs/t2-2-control-2.patch",
+    "packet_files": [
+      "app/controllers/tags_controller.rb",
+      "app/models/tag.rb",
+      "spec/controllers/tags_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/tags_controller.rb",
+      "app/models/tag.rb"
+    ],
+    "inter": [
+      "app/controllers/tags_controller.rb",
+      "app/models/tag.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.6666666666666666
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/tags_controller.rb",
+        "app/models/tag.rb"
+      ],
+      "diff_files": [
+        "app/controllers/tags_controller.rb",
+        "app/models/tag.rb"
+      ],
+      "inter": [
+        "app/controllers/tags_controller.rb",
+        "app/models/tag.rb"
+      ],
+      "recall": 1.0,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-2-control-3",
+    "app": "publify",
+    "task": 2,
+    "kind": "feature",
+    "arm": "control",
+    "round": 3,
+    "patch": "publify/diffs/t2-2-control-3.patch",
+    "packet_files": [
+      "app/controllers/tags_controller.rb",
+      "app/models/tag.rb",
+      "spec/controllers/tags_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/tags_controller.rb",
+      "app/models/tag.rb",
+      "spec/controllers/tags_controller_spec.rb"
+    ],
+    "inter": [
+      "app/controllers/tags_controller.rb",
+      "app/models/tag.rb",
+      "spec/controllers/tags_controller_spec.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 1.0
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/tags_controller.rb",
+        "app/models/tag.rb"
+      ],
+      "diff_files": [
+        "app/controllers/tags_controller.rb",
+        "app/models/tag.rb"
+      ],
+      "inter": [
+        "app/controllers/tags_controller.rb",
+        "app/models/tag.rb"
+      ],
+      "recall": 1.0,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-2-treatment-1",
+    "app": "publify",
+    "task": 2,
+    "kind": "feature",
+    "arm": "treatment",
+    "round": 1,
+    "patch": "publify/diffs/t2-2-treatment-1.patch",
+    "packet_files": [
+      "app/controllers/tags_controller.rb",
+      "app/models/tag.rb",
+      "spec/controllers/tags_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/tags_controller.rb",
+      "app/models/tag.rb",
+      "spec/controllers/tags_controller_spec.rb",
+      "spec/models/tag_spec.rb"
+    ],
+    "inter": [
+      "app/controllers/tags_controller.rb",
+      "app/models/tag.rb",
+      "spec/controllers/tags_controller_spec.rb"
+    ],
+    "all_files": {
+      "recall": 0.75,
+      "precision": 1.0
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/tags_controller.rb",
+        "app/models/tag.rb"
+      ],
+      "diff_files": [
+        "app/controllers/tags_controller.rb",
+        "app/models/tag.rb"
+      ],
+      "inter": [
+        "app/controllers/tags_controller.rb",
+        "app/models/tag.rb"
+      ],
+      "recall": 1.0,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-2-treatment-2",
+    "app": "publify",
+    "task": 2,
+    "kind": "feature",
+    "arm": "treatment",
+    "round": 2,
+    "patch": "publify/diffs/t2-2-treatment-2.patch",
+    "packet_files": [
+      "app/controllers/tags_controller.rb",
+      "app/models/tag.rb",
+      "spec/controllers/tags_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/tags_controller.rb",
+      "app/models/tag.rb"
+    ],
+    "inter": [
+      "app/controllers/tags_controller.rb",
+      "app/models/tag.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.6666666666666666
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/tags_controller.rb",
+        "app/models/tag.rb"
+      ],
+      "diff_files": [
+        "app/controllers/tags_controller.rb",
+        "app/models/tag.rb"
+      ],
+      "inter": [
+        "app/controllers/tags_controller.rb",
+        "app/models/tag.rb"
+      ],
+      "recall": 1.0,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-2-treatment-3",
+    "app": "publify",
+    "task": 2,
+    "kind": "feature",
+    "arm": "treatment",
+    "round": 3,
+    "patch": "publify/diffs/t2-2-treatment-3.patch",
+    "packet_files": [
+      "app/controllers/tags_controller.rb",
+      "app/models/tag.rb",
+      "spec/controllers/tags_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/tags_controller.rb",
+      "app/models/tag.rb",
+      "spec/controllers/tags_controller_spec.rb"
+    ],
+    "inter": [
+      "app/controllers/tags_controller.rb",
+      "app/models/tag.rb",
+      "spec/controllers/tags_controller_spec.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 1.0
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/tags_controller.rb",
+        "app/models/tag.rb"
+      ],
+      "diff_files": [
+        "app/controllers/tags_controller.rb",
+        "app/models/tag.rb"
+      ],
+      "inter": [
+        "app/controllers/tags_controller.rb",
+        "app/models/tag.rb"
+      ],
+      "recall": 1.0,
+      "precision": 1.0
+    }
+  },
+  {
+    "session": "t2-3-control-1",
+    "app": "publify",
+    "task": 3,
+    "kind": "bug",
+    "arm": "control",
+    "round": 1,
+    "patch": "publify/diffs/t2-3-control-1.patch",
+    "packet_files": [
+      "app/controllers/articles_controller.rb",
+      "app/models/article.rb",
+      "app/models/user.rb",
+      "spec/controllers/articles_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/articles_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/articles_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.25
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/articles_controller.rb",
+        "app/models/article.rb",
+        "app/models/user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/articles_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/articles_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    }
+  },
+  {
+    "session": "t2-3-control-2",
+    "app": "publify",
+    "task": 3,
+    "kind": "bug",
+    "arm": "control",
+    "round": 2,
+    "patch": "publify/diffs/t2-3-control-2.patch",
+    "packet_files": [
+      "app/controllers/articles_controller.rb",
+      "app/models/article.rb",
+      "app/models/user.rb",
+      "spec/controllers/articles_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/articles_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/articles_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.25
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/articles_controller.rb",
+        "app/models/article.rb",
+        "app/models/user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/articles_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/articles_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    }
+  },
+  {
+    "session": "t2-3-control-3",
+    "app": "publify",
+    "task": 3,
+    "kind": "bug",
+    "arm": "control",
+    "round": 3,
+    "patch": "publify/diffs/t2-3-control-3.patch",
+    "packet_files": [
+      "app/controllers/articles_controller.rb",
+      "app/models/article.rb",
+      "app/models/user.rb",
+      "spec/controllers/articles_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/articles_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/articles_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.25
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/articles_controller.rb",
+        "app/models/article.rb",
+        "app/models/user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/articles_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/articles_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    }
+  },
+  {
+    "session": "t2-3-treatment-1",
+    "app": "publify",
+    "task": 3,
+    "kind": "bug",
+    "arm": "treatment",
+    "round": 1,
+    "patch": "publify/diffs/t2-3-treatment-1.patch",
+    "packet_files": [
+      "app/controllers/articles_controller.rb",
+      "app/models/article.rb",
+      "app/models/user.rb",
+      "spec/controllers/articles_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/articles_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/articles_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.25
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/articles_controller.rb",
+        "app/models/article.rb",
+        "app/models/user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/articles_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/articles_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    }
+  },
+  {
+    "session": "t2-3-treatment-2",
+    "app": "publify",
+    "task": 3,
+    "kind": "bug",
+    "arm": "treatment",
+    "round": 2,
+    "patch": "publify/diffs/t2-3-treatment-2.patch",
+    "packet_files": [
+      "app/controllers/articles_controller.rb",
+      "app/models/article.rb",
+      "app/models/user.rb",
+      "spec/controllers/articles_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/articles_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/articles_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.25
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/articles_controller.rb",
+        "app/models/article.rb",
+        "app/models/user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/articles_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/articles_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    }
+  },
+  {
+    "session": "t2-3-treatment-3",
+    "app": "publify",
+    "task": 3,
+    "kind": "bug",
+    "arm": "treatment",
+    "round": 3,
+    "patch": "publify/diffs/t2-3-treatment-3.patch",
+    "packet_files": [
+      "app/controllers/articles_controller.rb",
+      "app/models/article.rb",
+      "app/models/user.rb",
+      "spec/controllers/articles_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/articles_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/articles_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.25
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/articles_controller.rb",
+        "app/models/article.rb",
+        "app/models/user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/articles_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/articles_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    }
+  },
+  {
+    "session": "t2-4-control-1",
+    "app": "publify",
+    "task": 4,
+    "kind": "behavior",
+    "arm": "control",
+    "round": 1,
+    "patch": "publify/diffs/t2-4-control-1.patch",
+    "packet_files": [
+      "app/controllers/admin/users_controller.rb",
+      "app/models/user.rb",
+      "spec/controllers/admin/users_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/admin/users_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/admin/users_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/admin/users_controller.rb",
+        "app/models/user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/admin/users_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/admin/users_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-4-control-2",
+    "app": "publify",
+    "task": 4,
+    "kind": "behavior",
+    "arm": "control",
+    "round": 2,
+    "patch": "publify/diffs/t2-4-control-2.patch",
+    "packet_files": [
+      "app/controllers/admin/users_controller.rb",
+      "app/models/user.rb",
+      "spec/controllers/admin/users_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/admin/users_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/admin/users_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/admin/users_controller.rb",
+        "app/models/user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/admin/users_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/admin/users_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-4-control-3",
+    "app": "publify",
+    "task": 4,
+    "kind": "behavior",
+    "arm": "control",
+    "round": 3,
+    "patch": "publify/diffs/t2-4-control-3.patch",
+    "packet_files": [
+      "app/controllers/admin/users_controller.rb",
+      "app/models/user.rb",
+      "spec/controllers/admin/users_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/admin/users_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/admin/users_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/admin/users_controller.rb",
+        "app/models/user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/admin/users_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/admin/users_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-4-treatment-1",
+    "app": "publify",
+    "task": 4,
+    "kind": "behavior",
+    "arm": "treatment",
+    "round": 1,
+    "patch": "publify/diffs/t2-4-treatment-1.patch",
+    "packet_files": [
+      "app/controllers/admin/users_controller.rb",
+      "app/models/user.rb",
+      "spec/controllers/admin/users_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/admin/users_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/admin/users_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/admin/users_controller.rb",
+        "app/models/user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/admin/users_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/admin/users_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-4-treatment-2",
+    "app": "publify",
+    "task": 4,
+    "kind": "behavior",
+    "arm": "treatment",
+    "round": 2,
+    "patch": "publify/diffs/t2-4-treatment-2.patch",
+    "packet_files": [
+      "app/controllers/admin/users_controller.rb",
+      "app/models/user.rb",
+      "spec/controllers/admin/users_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/admin/users_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/admin/users_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/admin/users_controller.rb",
+        "app/models/user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/admin/users_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/admin/users_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.5
+    }
+  },
+  {
+    "session": "t2-4-treatment-3",
+    "app": "publify",
+    "task": 4,
+    "kind": "behavior",
+    "arm": "treatment",
+    "round": 3,
+    "patch": "publify/diffs/t2-4-treatment-3.patch",
+    "packet_files": [
+      "app/controllers/admin/users_controller.rb",
+      "app/models/user.rb",
+      "spec/controllers/admin/users_controller_spec.rb"
+    ],
+    "diff_files": [
+      "app/controllers/admin/users_controller.rb"
+    ],
+    "inter": [
+      "app/controllers/admin/users_controller.rb"
+    ],
+    "all_files": {
+      "recall": 1.0,
+      "precision": 0.3333333333333333
+    },
+    "production_only": {
+      "packet_files": [
+        "app/controllers/admin/users_controller.rb",
+        "app/models/user.rb"
+      ],
+      "diff_files": [
+        "app/controllers/admin/users_controller.rb"
+      ],
+      "inter": [
+        "app/controllers/admin/users_controller.rb"
+      ],
+      "recall": 1.0,
+      "precision": 0.5
+    }
+  }
+]

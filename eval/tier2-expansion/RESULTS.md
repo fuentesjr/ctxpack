@@ -145,6 +145,60 @@ single scoring call:
   to localize tends to stumble onto the setup view. Worth watching if the packet
   ever grows view-awareness; not a general pattern at this n.
 
+## Packet-vs-diff coverage (LIM-1 north-star)
+
+Offline recall/precision of each task's **packet file-set** (the ≤8 files
+`ctxpack` resolves — `files[].path` in the packet manifest) against the files
+each subject diff actually touched — the designated post-v0 evidence source for
+the LIM-1 limits (decision log 2026-07-05). `recall = |packet ∩ diff| / |diff|`
+(of what the task touched, how much the packet had), `precision = |packet ∩
+diff| / |packet|`. **Production-only** (top-level `test/`/`spec/` removed from
+both sets) is the headline variant; self-authored tests are noise. The packet is
+per-task and identical across arms, so **control diffs give the unbiased read**
+(the agent never saw the packet) while treatment is a steering read. Computed by
+`packet_coverage.rb` over all 72 grid sessions; per-session + aggregate JSON
+under [`coverage/`](coverage/).
+
+| slice | arm | prod-only recall | prod-only precision |
+|---|---|---|---|
+| overall | control (unbiased) | **0.80** | **0.63** |
+| overall | treatment | 0.85 | 0.65 |
+| feature | control | **0.69** | 0.65 |
+| bug | control | **1.00** | 0.61 |
+| behavior | control | **0.83** | 0.61 |
+
+Readings:
+
+- **The ≤8-file packet recalls ~80% of the production files a completed task
+  touches, sight unseen** (control), and ~37% of its production files go
+  untouched (precision 0.63 — over-inclusion, mostly the resolved constant files
+  like `user.rb`/`Article` and the odd sibling). No sign the LIM-1 budget starves
+  recall (no limit-hit truncation drove the misses) or grossly over-includes; the
+  8/4/2/120 guesses look defensible, not validated-tight.
+- **The recall gap is a feature-task, resolution-scope gap, not a limit gap.**
+  Bug tasks recall 1.00 (the fix is a one-liner in the very controller the packet
+  points at); behavior 0.83; **features only 0.69** — the missed files are
+  **views, locale files, and sibling models** the anchor-centered convention
+  resolver structurally cannot reach (it resolves constants by Zeitwerk path, not
+  view/locale/graph edges). That is exactly the surface a semantic resolver
+  (Rubydex, probe #3) would target.
+- **Coverage recall does *not* track the exploration wins — they are near
+  orthogonal.** Recall is *highest* on bug tasks (1.00), where the packet gave
+  *no* exploration benefit (control already localizes from the failing test); and
+  *lowest* on features (0.69), where the packet's exploration wins are
+  *strongest*. So the packet's measured value comes from **landing the first
+  load-bearing file fast (the entrypoint), not from enumerating every file the
+  task will touch**. A complete file-set is neither necessary (features win with
+  0.69 recall) nor sufficient (bugs have 1.00 recall and no win) for the
+  exploration benefit. This tempers the #3 case: the coverage gap is real but the
+  current packet already wins on features *without* closing it.
+- **Caveat — treatment recall (0.85) overstates coverage.** Part of the
+  control→treatment recall bump is an *under-touch* artifact: on `pub t1` the two
+  treatment runs that omitted the setup view (the same runs docked in Diff
+  Quality) score recall 1.0 only because their diff denominator shrank to the one
+  controller file. High recall is not always good; the honest coverage read is the
+  control arm.
+
 ## Reading of the result
 
 The packet reliably lands the first load-bearing read a step or two sooner
@@ -182,7 +236,11 @@ Per `eval-plan.md`'s decision rule, Tier 2 SUPPORT → expand (done here) → *"
 then consider Rubydex-backed resolution, judged by the same harness."* With
 generalization now shown across two frameworks and the value localized to
 find-the-code tasks, the sharpest next probes are: (1) ~~the blind diff-quality
-pass~~ **done** (above) — no regression, gate closed; (2) whether packet-vs-diff
-coverage (recall/precision of packet files against files the completed task
-touched — the designated post-v0 north-star) tracks the exploration wins; and
-(3) Rubydex-backed resolution against this same three-app harness.
+pass~~ **done** (above) — no regression, gate closed; (2) ~~packet-vs-diff
+coverage~~ **done** (above) — control-arm prod recall 0.80 / precision 0.63; the
+recall gap is a feature-task view/locale/sibling-model *resolution-scope* gap,
+and it is **near-orthogonal to the exploration wins** (highest recall on bug
+tasks, which show no win); and (3) Rubydex-backed resolution against this same
+three-app harness — now with a concrete target (the feature-task recall gap) and
+a concrete caution (the packet already wins on features without closing it). See
+[`../tier3-rubydex/PROPOSAL.md`](../tier3-rubydex/PROPOSAL.md).

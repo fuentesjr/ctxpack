@@ -1,0 +1,936 @@
+{
+  "session_count": 72,
+  "apps": [
+    "campfire",
+    "lobsters",
+    "publify"
+  ],
+  "task_kind": {
+    "1": "feature",
+    "2": "feature",
+    "3": "bug",
+    "4": "behavior"
+  },
+  "variants": {
+    "all_files": "packet and diff file-sets as read",
+    "production_only": "top-level test/ and spec/ paths removed from both packet and diff file-sets"
+  },
+  "by_app_task_arm": {
+    "campfire": {
+      "1": {
+        "kind": "feature",
+        "control": {
+          "sessions": 3,
+          "all_files": {
+            "recall": {
+              "mean": 0.6666666666666666,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            }
+          },
+          "production_only": {
+            "recall": {
+              "mean": 0.5,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            }
+          }
+        },
+        "treatment": {
+          "sessions": 3,
+          "all_files": {
+            "recall": {
+              "mean": 0.7777777777777777,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            }
+          },
+          "production_only": {
+            "recall": {
+              "mean": 0.6666666666666666,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            }
+          }
+        }
+      },
+      "2": {
+        "kind": "feature",
+        "control": {
+          "sessions": 3,
+          "all_files": {
+            "recall": {
+              "mean": 0.5555555555555555,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.5555555555555555,
+              "n": 3,
+              "nulls": 0
+            }
+          },
+          "production_only": {
+            "recall": {
+              "mean": 0.4444444444444444,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.5,
+              "n": 3,
+              "nulls": 0
+            }
+          }
+        },
+        "treatment": {
+          "sessions": 3,
+          "all_files": {
+            "recall": {
+              "mean": 0.4166666666666667,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.3333333333333333,
+              "n": 3,
+              "nulls": 0
+            }
+          },
+          "production_only": {
+            "recall": {
+              "mean": 0.4166666666666667,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.5,
+              "n": 3,
+              "nulls": 0
+            }
+          }
+        }
+      },
+      "3": {
+        "kind": "bug",
+        "control": {
+          "sessions": 3,
+          "all_files": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.3333333333333333,
+              "n": 3,
+              "nulls": 0
+            }
+          },
+          "production_only": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.5,
+              "n": 3,
+              "nulls": 0
+            }
+          }
+        },
+        "treatment": {
+          "sessions": 3,
+          "all_files": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.3333333333333333,
+              "n": 3,
+              "nulls": 0
+            }
+          },
+          "production_only": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.5,
+              "n": 3,
+              "nulls": 0
+            }
+          }
+        }
+      },
+      "4": {
+        "kind": "behavior",
+        "control": {
+          "sessions": 3,
+          "all_files": {
+            "recall": {
+              "mean": 0.6666666666666666,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            }
+          },
+          "production_only": {
+            "recall": {
+              "mean": 0.5,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            }
+          }
+        },
+        "treatment": {
+          "sessions": 3,
+          "all_files": {
+            "recall": {
+              "mean": 0.611111111111111,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.8333333333333334,
+              "n": 3,
+              "nulls": 0
+            }
+          },
+          "production_only": {
+            "recall": {
+              "mean": 0.5,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            }
+          }
+        }
+      }
+    },
+    "lobsters": {
+      "1": {
+        "kind": "feature",
+        "control": {
+          "sessions": 3,
+          "all_files": {
+            "recall": {
+              "mean": 0.8333333333333334,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.3333333333333333,
+              "n": 3,
+              "nulls": 0
+            }
+          },
+          "production_only": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.5,
+              "n": 3,
+              "nulls": 0
+            }
+          }
+        },
+        "treatment": {
+          "sessions": 3,
+          "all_files": {
+            "recall": {
+              "mean": 0.8333333333333334,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.4444444444444444,
+              "n": 3,
+              "nulls": 0
+            }
+          },
+          "production_only": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.6666666666666666,
+              "n": 3,
+              "nulls": 0
+            }
+          }
+        }
+      },
+      "2": {
+        "kind": "feature",
+        "control": {
+          "sessions": 3,
+          "all_files": {
+            "recall": {
+              "mean": 0.5555555555555555,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.4166666666666667,
+              "n": 3,
+              "nulls": 0
+            }
+          },
+          "production_only": {
+            "recall": {
+              "mean": 0.8333333333333334,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.4166666666666667,
+              "n": 3,
+              "nulls": 0
+            }
+          }
+        },
+        "treatment": {
+          "sessions": 3,
+          "all_files": {
+            "recall": {
+              "mean": 0.5555555555555555,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.4166666666666667,
+              "n": 3,
+              "nulls": 0
+            }
+          },
+          "production_only": {
+            "recall": {
+              "mean": 0.8333333333333334,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.4166666666666667,
+              "n": 3,
+              "nulls": 0
+            }
+          }
+        }
+      },
+      "3": {
+        "kind": "bug",
+        "control": {
+          "sessions": 3,
+          "all_files": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.5,
+              "n": 3,
+              "nulls": 0
+            }
+          },
+          "production_only": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            }
+          }
+        },
+        "treatment": {
+          "sessions": 3,
+          "all_files": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.5,
+              "n": 3,
+              "nulls": 0
+            }
+          },
+          "production_only": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            }
+          }
+        }
+      },
+      "4": {
+        "kind": "behavior",
+        "control": {
+          "sessions": 3,
+          "all_files": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.3333333333333333,
+              "n": 3,
+              "nulls": 0
+            }
+          },
+          "production_only": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.3333333333333333,
+              "n": 3,
+              "nulls": 0
+            }
+          }
+        },
+        "treatment": {
+          "sessions": 3,
+          "all_files": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.3333333333333333,
+              "n": 3,
+              "nulls": 0
+            }
+          },
+          "production_only": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.3333333333333333,
+              "n": 3,
+              "nulls": 0
+            }
+          }
+        }
+      }
+    },
+    "publify": {
+      "1": {
+        "kind": "feature",
+        "control": {
+          "sessions": 3,
+          "all_files": {
+            "recall": {
+              "mean": 0.4444444444444444,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.5555555555555555,
+              "n": 3,
+              "nulls": 0
+            }
+          },
+          "production_only": {
+            "recall": {
+              "mean": 0.3333333333333333,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.5,
+              "n": 3,
+              "nulls": 0
+            }
+          }
+        },
+        "treatment": {
+          "sessions": 3,
+          "all_files": {
+            "recall": {
+              "mean": 0.7777777777777778,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.3333333333333333,
+              "n": 3,
+              "nulls": 0
+            }
+          },
+          "production_only": {
+            "recall": {
+              "mean": 0.7777777777777778,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.5,
+              "n": 3,
+              "nulls": 0
+            }
+          }
+        }
+      },
+      "2": {
+        "kind": "feature",
+        "control": {
+          "sessions": 3,
+          "all_files": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.7777777777777777,
+              "n": 3,
+              "nulls": 0
+            }
+          },
+          "production_only": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            }
+          }
+        },
+        "treatment": {
+          "sessions": 3,
+          "all_files": {
+            "recall": {
+              "mean": 0.9166666666666666,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.8888888888888888,
+              "n": 3,
+              "nulls": 0
+            }
+          },
+          "production_only": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            }
+          }
+        }
+      },
+      "3": {
+        "kind": "bug",
+        "control": {
+          "sessions": 3,
+          "all_files": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.25,
+              "n": 3,
+              "nulls": 0
+            }
+          },
+          "production_only": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.3333333333333333,
+              "n": 3,
+              "nulls": 0
+            }
+          }
+        },
+        "treatment": {
+          "sessions": 3,
+          "all_files": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.25,
+              "n": 3,
+              "nulls": 0
+            }
+          },
+          "production_only": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.3333333333333333,
+              "n": 3,
+              "nulls": 0
+            }
+          }
+        }
+      },
+      "4": {
+        "kind": "behavior",
+        "control": {
+          "sessions": 3,
+          "all_files": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.3333333333333333,
+              "n": 3,
+              "nulls": 0
+            }
+          },
+          "production_only": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.5,
+              "n": 3,
+              "nulls": 0
+            }
+          }
+        },
+        "treatment": {
+          "sessions": 3,
+          "all_files": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.3333333333333333,
+              "n": 3,
+              "nulls": 0
+            }
+          },
+          "production_only": {
+            "recall": {
+              "mean": 1.0,
+              "n": 3,
+              "nulls": 0
+            },
+            "precision": {
+              "mean": 0.5,
+              "n": 3,
+              "nulls": 0
+            }
+          }
+        }
+      }
+    }
+  },
+  "overall_by_arm": {
+    "control": {
+      "sessions": 36,
+      "all_files": {
+        "recall": {
+          "mean": 0.8101851851851852,
+          "n": 36,
+          "nulls": 0
+        },
+        "precision": {
+          "mean": 0.5324074074074074,
+          "n": 36,
+          "nulls": 0
+        }
+      },
+      "production_only": {
+        "recall": {
+          "mean": 0.8009259259259259,
+          "n": 36,
+          "nulls": 0
+        },
+        "precision": {
+          "mean": 0.6319444444444444,
+          "n": 36,
+          "nulls": 0
+        }
+      }
+    },
+    "treatment": {
+      "sessions": 36,
+      "all_files": {
+        "recall": {
+          "mean": 0.8240740740740741,
+          "n": 36,
+          "nulls": 0
+        },
+        "precision": {
+          "mean": 0.5,
+          "n": 36,
+          "nulls": 0
+        }
+      },
+      "production_only": {
+        "recall": {
+          "mean": 0.849537037037037,
+          "n": 36,
+          "nulls": 0
+        },
+        "precision": {
+          "mean": 0.6458333333333334,
+          "n": 36,
+          "nulls": 0
+        }
+      }
+    }
+  },
+  "by_task_kind": {
+    "feature": {
+      "control": {
+        "sessions": 18,
+        "all_files": {
+          "recall": {
+            "mean": 0.6759259259259259,
+            "n": 18,
+            "nulls": 0
+          },
+          "precision": {
+            "mean": 0.6064814814814814,
+            "n": 18,
+            "nulls": 0
+          }
+        },
+        "production_only": {
+          "recall": {
+            "mean": 0.6851851851851852,
+            "n": 18,
+            "nulls": 0
+          },
+          "precision": {
+            "mean": 0.6527777777777778,
+            "n": 18,
+            "nulls": 0
+          }
+        }
+      },
+      "treatment": {
+        "sessions": 18,
+        "all_files": {
+          "recall": {
+            "mean": 0.712962962962963,
+            "n": 18,
+            "nulls": 0
+          },
+          "precision": {
+            "mean": 0.5694444444444444,
+            "n": 18,
+            "nulls": 0
+          }
+        },
+        "production_only": {
+          "recall": {
+            "mean": 0.7824074074074074,
+            "n": 18,
+            "nulls": 0
+          },
+          "precision": {
+            "mean": 0.6805555555555556,
+            "n": 18,
+            "nulls": 0
+          }
+        }
+      }
+    },
+    "bug": {
+      "control": {
+        "sessions": 9,
+        "all_files": {
+          "recall": {
+            "mean": 1.0,
+            "n": 9,
+            "nulls": 0
+          },
+          "precision": {
+            "mean": 0.3611111111111111,
+            "n": 9,
+            "nulls": 0
+          }
+        },
+        "production_only": {
+          "recall": {
+            "mean": 1.0,
+            "n": 9,
+            "nulls": 0
+          },
+          "precision": {
+            "mean": 0.6111111111111112,
+            "n": 9,
+            "nulls": 0
+          }
+        }
+      },
+      "treatment": {
+        "sessions": 9,
+        "all_files": {
+          "recall": {
+            "mean": 1.0,
+            "n": 9,
+            "nulls": 0
+          },
+          "precision": {
+            "mean": 0.3611111111111111,
+            "n": 9,
+            "nulls": 0
+          }
+        },
+        "production_only": {
+          "recall": {
+            "mean": 1.0,
+            "n": 9,
+            "nulls": 0
+          },
+          "precision": {
+            "mean": 0.6111111111111112,
+            "n": 9,
+            "nulls": 0
+          }
+        }
+      }
+    },
+    "behavior": {
+      "control": {
+        "sessions": 9,
+        "all_files": {
+          "recall": {
+            "mean": 0.8888888888888888,
+            "n": 9,
+            "nulls": 0
+          },
+          "precision": {
+            "mean": 0.5555555555555556,
+            "n": 9,
+            "nulls": 0
+          }
+        },
+        "production_only": {
+          "recall": {
+            "mean": 0.8333333333333334,
+            "n": 9,
+            "nulls": 0
+          },
+          "precision": {
+            "mean": 0.6111111111111112,
+            "n": 9,
+            "nulls": 0
+          }
+        }
+      },
+      "treatment": {
+        "sessions": 9,
+        "all_files": {
+          "recall": {
+            "mean": 0.8703703703703703,
+            "n": 9,
+            "nulls": 0
+          },
+          "precision": {
+            "mean": 0.5,
+            "n": 9,
+            "nulls": 0
+          }
+        },
+        "production_only": {
+          "recall": {
+            "mean": 0.8333333333333334,
+            "n": 9,
+            "nulls": 0
+          },
+          "precision": {
+            "mean": 0.6111111111111112,
+            "n": 9,
+            "nulls": 0
+          }
+        }
+      }
+    }
+  }
+}

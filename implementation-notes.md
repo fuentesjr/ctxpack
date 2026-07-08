@@ -571,3 +571,42 @@ committed Redmine run/task/packet/diff/transcript artifacts were changed.
 - Clean-context design review was required by the validator but not run:
   the available sub-agent tool policy forbids spawning unless the user
   explicitly asks for delegation.
+
+## Tier 2 expansion packet coverage script (2026-07-08)
+
+Added `eval/tier2-expansion/packet_coverage.rb`, an offline stdlib-only
+analysis script for LIM-1 packet file-set coverage against the 72 committed
+Tier 2 expansion diffs. Scope was limited to the new script and generated
+`eval/tier2-expansion/coverage/` JSON outputs; no `lib/`, `exe/`, `specs/`,
+packet JSON, or committed diff data changed.
+
+### Decisions
+
+- Packet file-sets are canonicalized from each packet manifest's
+  `files[].path`, with duplicates removed and paths sorted.
+- Diff file-sets are parsed only from `diff --git a/<path> b/<path>` headers,
+  using the `b/` path. New-file and deleted-file hunks are covered by that
+  header shape; malformed headers abort instead of being guessed.
+- Production-only coverage removes only top-level `test/` and `spec/` paths
+  from both packet and diff sets. Other non-test files, including
+  `config/locales/en.yml`, remain production files.
+- Aggregates are means of per-session recall/precision values. Null metrics
+  from empty denominator sets are excluded from means and counted in the JSON.
+- Control and treatment are kept separate in every table and aggregate because
+  control is the unbiased packet-budget read, while treatment is a steering
+  read.
+
+### Verification
+
+- `ruby eval/tier2-expansion/packet_coverage.rb` processed 72 sessions and
+  wrote `coverage_summary.json` plus `coverage_by_session.json`.
+- JSON shape check: `coverage_summary.json` reports `session_count=72` and
+  `coverage_by_session.json` has 72 rows.
+- Spot-check: every non-pilot Campfire task 4 diff touches
+  `app/controllers/rooms/involvements_controller.rb` and
+  `config/locales/en.yml`, with test-file edits in most rounds. The task 4
+  packet lists the controller and its test candidate, so production-only
+  overlap is the controller only: recall `1/2 = 0.5`, precision `1/1 = 1.0`.
+- `ruby -c eval/tier2-expansion/packet_coverage.rb`: `Syntax OK`.
+- Full suite: `bundle exec rake test` — 55 runs, 362 assertions, 0 failures,
+  0 errors, 0 skips.
