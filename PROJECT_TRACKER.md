@@ -80,35 +80,46 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Written 2026-07-08 after the Tier 2 expansion grid completed with verdict
-SUPPORT/generalizes ([`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md)).
+Written 2026-07-08 (evening) after the two confirmatory expansion passes landed.
 If this section disagrees with "Next steps", Next steps wins.
 
-**The expansion epic is complete** — all 72 grid sessions ran, `RESULTS.md` is
-written, and the pre-registration is fully signed off. The remaining work is the
-`RESULTS.md` "Pre-registered next action" list, in priority order:
+**The expansion epic and its confirmatory passes are complete.** The
+SUPPORT/generalizes verdict now has **both gates closed** and its north-star
+computed ([`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md)):
 
-1. **Blind diff-quality 0–8 pass (closes the one open gate).** The support
-   verdict rests on the exploration metric with `task_success` saturated; the
-   frozen rule also wants "no diff-quality regression." Run the same blind
-   four-dimension rubric Tier 2 used (arm labels stripped, seeded shuffle by app
-   SHA, author-judged) over the 72 committed diffs under
-   `eval/tier2-expansion/<app>/diffs/`. Mechanically like Tier 2's
-   `tmp/tier2/judging/`. Small, self-contained; land it and append the quality
-   table to `RESULTS.md`.
-2. **Packet-vs-diff coverage (the post-v0 north-star, decision log 2026-07-05).**
-   For each completed session, compute recall/precision of packet files against
-   the files the subject diff actually touched. This is the designated evidence
-   source for validating the LIM-1 limits and is now computable from the
-   committed `packets/` + `diffs/`. Purely offline; no new sessions.
-3. **Rubydex-backed resolution** judged by this same three-app harness — the
-   `eval-plan.md` decision rule's next branch, now that generalization is shown.
+- ✅ **Blind diff-quality 0–8 pass** (commit `cac1190`): control 7.94 / treatment
+  7.94 — **no regression, gate closed**. Judge-of-record blind scores + sealed
+  mapping under `eval/tier2-expansion/judging/`.
+- ✅ **Packet-vs-diff coverage** (commit `c1e5f82`): control prod-only recall 0.80
+  / precision 0.63; the recall gap is a **feature-task, resolution-scope** gap
+  (views/locales/siblings) and is **near-orthogonal to the exploration wins**.
+  Artifacts under `eval/tier2-expansion/coverage/`.
+- ✅ GitHub issues #1/#2/#3 closed with pointers.
 
-Housekeeping still open (see "Next steps" #2–3): the stale GitHub issues (#1/#2/#3)
-and the non-blocking Tier 2 diff-quality author-confirm carry over.
+**The immediate next step is a DECISION, not execution.** The only remaining
+`eval-plan.md` branch is Tier 3 (Rubydex-backed resolution), now drafted as
+[`eval/tier3-rubydex/PROPOSAL.md`](eval/tier3-rubydex/PROPOSAL.md) — **NOT frozen**.
+The coverage finding reshaped it: the recall gap Rubydex would close is real but
+near-orthogonal to what produced value, so the DRA recommendation is to run a
+**cheap offline Rubydex-recall probe first** (does a Rubydex-resolved packet
+actually recall the missed feature files, over the same committed diffs?) before
+spending any agent grid. The next working session should **not start a grid**; it
+should resolve the proposal's open items with the user:
 
-Final step of this plan: after the diff-quality pass lands (or #2/#3 are chosen),
-rewrite this section for whichever probe is taken up next.
+1. **Hard prerequisite:** is Rubydex runnable/indexable on the pinned apps
+   offline (Publify is an engine; Campfire is rails-edge)? If not, the probe is
+   blocked or needs a different app set.
+2. Arm design (conv-vs-rubydex 2-arm vs 3-arm), scope (full grid vs feature-only),
+   and the frozen success bar.
+3. Whether the swappable-resolver seam needs a build pass first.
+
+Alternatives if #3 is declined: the coverage result also makes "packets as
+PR-linkable review artifacts" or "packets for smaller/cheaper models"
+(`eval-plan.md` Tier 2-fail pivots) reasonable next bets — the packet's value is
+now well-characterized (fast first-anchor on find-the-code tasks).
+
+Final step of this plan: after the Tier 3 go/no-go is decided (and the offline
+probe run, if taken), rewrite this section for whatever follows.
 
 ## Status
 
@@ -125,32 +136,66 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 |---|---|---|
 | Tier 0 anchor viability spike | **Done** (2026-07-05) | **91.0% engine-excluded average across Mastodon/Discourse/Zammad → ≥ 70% gate passes; proceed as designed.** Post-ANCH-amendment re-run: **93.9%**, zero regressions (addendum in RESULTS.md). Full method, taxonomy, and raw data in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md). Zero compiler crashes across 1,967 real-app pairs. |
 | Tier 2 agent A/B | **Done — SUPPORT** (2026-07-06) | Harness (`eval/tier2/harness.rb`) + 18-session grid + pilot run; all 20 sessions `complete`, zero aborts, 100% `task_success`. 2/3 tasks (bug-fix, behavior-change) show ≥ 30% median reduction in calls-to-first-load-bearing-read; multi-file feature (task 1) mildly worse; diff quality at ceiling (control 8.00 / treatment 7.89, agent first-pass pending author confirmation). Directional support per the frozen rule. Full analysis: [`eval/tier2/RESULTS.md`](eval/tier2/RESULTS.md). |
-| Tier 2 expansion | **Done — SUPPORT / generalizes** (2026-07-08) | Grid complete (72 sessions + 6 pilots), verdict in [`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md): the packet meets the ≥30%-exploration-reduction bar on **3/3 apps across both frameworks**; multi-file features help (Tier 2 scare refuted); wins don't depend on the test pointer (code content is the driver); the bug task is the sole non-meeter (failing test already localizes). `task_success` saturated 71/72; blind diff-quality pass pending. [`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md) signed off. Adds Campfire (Minitest) + Lobsters + Publify (RSpec), 4 tasks/app (feature-weighted), test-pointer sub-analysis. P1 (RSpec rules, `21505b0`) + P2 (harness per-app config) landed. **Campfire** (`v1.4.3`, SQLite/Minitest) 4/4 test-candidate. **Lobsters** (`430d864b`, RSpec/MariaDB) within-app **2/2** split (the sharp sub-analysis contrast). **Publify** (`publify_core` **engine** v10.0.3 `80ede867`, RSpec/SQLite, Ruby 3.1.7) 4/4: anchors frozen (bug=`articles#preview`, behavior=`admin/users#destroy`, features=`setup#index`/`tags#index`), 4 tasks + hidden RSpec request specs authored (Codex) and **verified red-then-green session-side**, config wired, golden captured, `verify` OK, 2-session pilot green (both arms `complete`/`success`, minimal single-file fixes, no `spec/` edits, no amendments). Publify pins the `publify_core` ENGINE (the deploy app is a controller-less shell); bridged with a benchmark-only stub `config/application.rb` + `concurrent-ruby 1.3.4` pin + `spec/dummy` route extraction — no ctxpack compiler behavior touched. Next: run the 72-session grid (needs a `--dangerously-skip-permissions` session), then write `RESULTS.md`. |
+| Tier 2 expansion | **Done — SUPPORT / generalizes** (2026-07-08) | Grid complete (72 sessions + 6 pilots), verdict in [`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md): the packet meets the ≥30%-exploration-reduction bar on **3/3 apps across both frameworks**; multi-file features help (Tier 2 scare refuted); wins don't depend on the test pointer (code content is the driver); the bug task is the sole non-meeter (failing test already localizes). `task_success` saturated 71/72. **Both confirmatory passes now landed** (2026-07-08 eve): blind diff-quality 0–8 = control 7.94 / treatment 7.94 (no regression, gate closed); packet-vs-diff coverage (LIM-1 north-star) = control prod recall 0.80 / precision 0.63, recall gap concentrated in feature tasks and near-orthogonal to the exploration wins. Tier 3 (Rubydex) drafted (not frozen). [`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md) signed off. Adds Campfire (Minitest) + Lobsters + Publify (RSpec), 4 tasks/app (feature-weighted), test-pointer sub-analysis. P1 (RSpec rules, `21505b0`) + P2 (harness per-app config) landed. **Campfire** (`v1.4.3`, SQLite/Minitest) 4/4 test-candidate. **Lobsters** (`430d864b`, RSpec/MariaDB) within-app **2/2** split (the sharp sub-analysis contrast). **Publify** (`publify_core` **engine** v10.0.3 `80ede867`, RSpec/SQLite, Ruby 3.1.7) 4/4: anchors frozen (bug=`articles#preview`, behavior=`admin/users#destroy`, features=`setup#index`/`tags#index`), 4 tasks + hidden RSpec request specs authored (Codex) and **verified red-then-green session-side**, config wired, golden captured, `verify` OK, 2-session pilot green (both arms `complete`/`success`, minimal single-file fixes, no `spec/` edits, no amendments). Publify pins the `publify_core` ENGINE (the deploy app is a controller-less shell); bridged with a benchmark-only stub `config/application.rb` + `concurrent-ruby 1.3.4` pin + `spec/dummy` route extraction — no ctxpack compiler behavior touched. Next: run the 72-session grid (needs a `--dangerously-skip-permissions` session), then write `RESULTS.md`. |
 
 ## Next steps
 
-1. **Tier 2 expansion is complete** — all 72 grid sessions ran and
-   [`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md) records the
-   verdict (SUPPORT/generalizes). The remaining follow-ups are in the execution
-   plan above, in priority order: the blind diff-quality 0–8 pass (closes the one
-   open gate), packet-vs-diff coverage (post-v0 north-star), then Rubydex-backed
-   resolution.
-2. **(Open, non-blocking) Author-confirm the Tier 2 diff-quality scores** —
-   agent first-pass in `tmp/tier2/judging/` (seed = app SHA); does not change
-   the SUPPORT verdict, which rests on the exploration metric.
-3. **(Open, non-blocking) Update stale GitHub issues.** All three open issues
-   track work that has fully landed and should be closed with a pointer to
-   where it lives: **#3** (Tier 0 anchor viability spike → `eval/tier0/RESULTS.md`,
-   gate passed 91.0%→93.9%; note the write-up landed there, not the
-   `docs/experiments/` path the issue names), **#1** (v0 packet compiler
-   vertical slice → passes 1–3, `lib/`+`exe/`, every box satisfied), **#2**
-   (v0 fixture evals + regression → pass 4, `test/ctxpack/fixture_evals_test.rb`
-   + `.github/workflows/ci.yml`). Tick each checklist and close. No open issue
-   tracks the Tier 2 expansion epic — consider filing one. Closing/editing
-   issues is outward-facing: confirm before doing it.
+1. **Tier 2 expansion is complete, including both confirmatory passes.** The grid
+   ([`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md)) returned
+   SUPPORT/generalizes; the **blind diff-quality pass** (no regression, gate
+   closed) and **packet-vs-diff coverage** (north-star) have now landed
+   (commits `cac1190`, `c1e5f82`). The only remaining `eval-plan.md` branch is
+   **Tier 3 (Rubydex)**, drafted but **not frozen** in
+   [`eval/tier3-rubydex/PROPOSAL.md`](eval/tier3-rubydex/PROPOSAL.md) — see the
+   execution plan above; it needs a user decision (prerequisite: is Rubydex
+   runnable on the pinned apps?), not execution.
+2. **(Done) Tier 2 diff-quality scores** — now judge-of-record blind scores
+   (seed = app SHA), committed under `eval/tier2-expansion/judging/`; verdict
+   unchanged (rests on the exploration metric). A human author re-score remains
+   optional but is no longer a blocker.
+3. **(Done) Stale GitHub issues #1/#2/#3 closed** with pointers (Tier 0 spike →
+   `eval/tier0/RESULTS.md`; v0 compiler → passes 1–3; fixture evals → pass 4).
+   Two honest scope drifts noted at close: the Tier 0 write-up landed under
+   `eval/tier0/` (not the `docs/experiments/` path #3 named), and LIM-1's
+   snippet-line limit shipped at 120 (not the 80 in #1's draft). **Still open
+   (optional, needs user OK):** no issue tracks the Tier 2 expansion epic —
+   filing one is outward-facing and was left for the user.
 
 ## Decision log
 
+- **2026-07-08 (evening)** — Two confirmatory Tier 2 expansion passes landed via
+  an orchestrated session (Claude as orchestrator/judge/DRA; Codex for the heavy
+  analysis script; Sonnet subagents for scaffolding). **(a) Blind diff-quality
+  0–8 pass** (commit `cac1190`): the pre-registered four-dimension rubric over all
+  72 grid diffs — arm labels stripped, each app's diffs shuffled by a PRNG seeded
+  on its app SHA, byte-identical diffs forced to identical scores (47 unique
+  across 72), judge scored **blind to arm** (mapping sealed until scoring
+  finalized). Result **control 7.94 / treatment 7.94 — no regression, gate
+  closed**; diff quality is at ceiling in both arms (non-discriminating, as in
+  Tier 2). The four sub-8s split 2 control / 2 treatment, so parity is insensitive
+  to any single call; treatment's only misses are both on `pub t1` (setup nickname
+  done backend-only, no view field). Harness `build_blind_judging.rb` +
+  `tabulate_quality.rb` + committed provenance under
+  `eval/tier2-expansion/judging/`. **(b) Packet-vs-diff coverage** (commit
+  `c1e5f82`, `packet_coverage.rb`, Codex-authored + session-verified): recall/
+  precision of each packet file-set vs the files each diff touched. Control
+  (unbiased) prod-only **recall 0.80 / precision 0.63** — the ≤8-file packet
+  recalls ~80% of production files sight-unseen; **no sign LIM-1's 8/4/2/120
+  starves recall or grossly over-includes**. The recall gap is a **feature-task,
+  resolution-scope gap** (feature 0.69 vs bug 1.00 vs behavior 0.83 — missed files
+  are views/locales/sibling models the Zeitwerk path resolver can't reach) and is
+  **near-orthogonal to the exploration wins** (highest recall on bug tasks, which
+  show no win) → the packet's value is landing the first load-bearing file fast,
+  not completeness. Verified session-side: quality tabulation + coverage re-run
+  byte-identical, cells hand-checked against raw packets/diffs, `rake test` 55/362
+  green (no `lib/` touched). No compiler behavior touched → corpus re-scan skipped
+  (both passes). **(c)** GitHub issues #1/#2/#3 closed with pointers (user
+  pre-authorized). **(d)** Tier 3 (Rubydex) drafted as
+  `eval/tier3-rubydex/PROPOSAL.md` — **not frozen**; the coverage finding reshaped
+  it (real gap, but orthogonal to value), so the DRA recommendation is a cheap
+  offline Rubydex-recall probe before any grid, gated on whether Rubydex can index
+  the pinned apps. The expansion epic's confirmatory work is now fully closed; the
+  next step is the Tier 3 go/no-go decision, not execution.
 - **2026-07-08** — Tier 2 expansion grid executed; verdict **SUPPORT /
   generalizes** ([`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md)).
   All **72 grid sessions** (3 apps × 4 tasks × 2 arms × 3 rounds) + 6 pilots ran
