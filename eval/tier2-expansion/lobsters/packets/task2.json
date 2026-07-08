@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "anchor": "users#standing",
+  "repo": {
+    "commit": "430d864b0d7bf1b30913ee42e6cca3d9fbddcaa4",
+    "dirty": true
+  },
+  "entrypoint": {
+    "file": "app/controllers/users_controller.rb",
+    "controller": "UsersController",
+    "action": "standing"
+  },
+  "files": [
+    {
+      "path": "app/controllers/users_controller.rb",
+      "reason_code": "controller_action",
+      "snippet_ranges": [
+        [
+          132,
+          164
+        ]
+      ]
+    },
+    {
+      "path": "app/controllers/users_controller.rb",
+      "reason_code": "before_action_callback",
+      "snippet_ranges": [
+        [
+          168,
+          191
+        ]
+      ]
+    },
+    {
+      "path": "app/controllers/users_controller.rb",
+      "reason_code": "before_action_callback",
+      "snippet_ranges": [
+        [
+          193,
+          199
+        ]
+      ]
+    },
+    {
+      "path": "app/models/flagged_commenters.rb",
+      "reason_code": "referenced_constant",
+      "snippet_ranges": []
+    },
+    {
+      "path": "app/models/comment_vote_hydrator.rb",
+      "reason_code": "referenced_constant",
+      "snippet_ranges": []
+    },
+    {
+      "path": "app/models/user.rb",
+      "reason_code": "referenced_constant",
+      "snippet_ranges": []
+    }
+  ],
+  "tests": [],
+  "uncertainty": [
+    {
+      "code": "unresolved_external_callbacks"
+    }
+  ]
+}

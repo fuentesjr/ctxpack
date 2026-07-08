@@ -1,0 +1,37 @@
+{
+  "ctxpack_sha": "4ff53b331c5efb1ab90151f653672e483520e479",
+  "packets": {
+    "1": {
+      "anchor": "comments#disown",
+      "path": "packets/task1.md",
+      "sha256": "248ba86028b857c5f7fa3dba2c2050d9ae9fc8a498bd5d2ff55f2bc5311dcd3c",
+      "had_test_candidate": true,
+      "suggested_test_commands": [
+        "bundle exec rspec spec/controllers/comments_controller_spec.rb"
+      ]
+    },
+    "2": {
+      "anchor": "users#standing",
+      "path": "packets/task2.md",
+      "sha256": "a847c52b8dbac92c42d6ebc56d15f26b8937d7d196b7464e0b8cbdb848a95b55",
+      "had_test_candidate": false,
+      "suggested_test_commands": []
+    },
+    "3": {
+      "anchor": "inbox#all",
+      "path": "packets/task3.md",
+      "sha256": "7b09298d6195ca8f80ccc1ba6f88009362b5aebc8cba45080db78dca897234b5",
+      "had_test_candidate": true,
+      "suggested_test_commands": [
+        "bundle exec rspec spec/controllers/inbox_controller_spec.rb"
+      ]
+    },
+    "4": {
+      "anchor": "stories#update",
+      "path": "packets/task4.md",
+      "sha256": "3e93c29adb5df7aed32391ded3bdb85656049945c6fcf4c6d296a8303df3bac2",
+      "had_test_candidate": false,
+      "suggested_test_commands": []
+    }
+  }
+}

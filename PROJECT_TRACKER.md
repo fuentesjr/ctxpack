@@ -80,51 +80,65 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Written 2026-07-07 after Campfire was authored + piloted. If this section
-disagrees with "Next steps", Next steps wins.
+Written 2026-07-07 after Lobsters was authored + validated + piloted. If this
+section disagrees with "Next steps", Next steps wins.
 
-Campfire is done: pinned `v1.4.3` (`71ffeeea`), template bundled under Ruby
-3.4.5 (see below), anchors drawn + frozen (`eval/tier2-expansion/campfire/anchors.json`),
-4 tasks + hidden acceptance tests authored (all verified red-then-green), config
-wired (`eval/tier2/apps/campfire.rb`), golden captured, `verify` OK, 2-session
-pilot green with no amendments. All four packets fire the test-candidate pointer.
+Campfire and Lobsters are done. **Campfire**: pinned `v1.4.3` (`71ffeeea`),
+Minitest, all four packets fire the test-candidate pointer. **Lobsters**: pinned
+`430d864b`, RSpec, MariaDB + Ruby 4.0.0 + libvips (see
+`eval/tier2-expansion/lobsters/README.md` for the env setup); anchors frozen
+(bug=`inbox#all`, behavior=`stories#update`, feature_1=`comments#disown`,
+feature_2=`users#standing`), 4 tasks + hidden RSpec acceptance specs authored
+(Codex) and **verified red-then-green session-side** (Codex's sandbox blocks
+local MariaDB, so validation is the orchestrator's — captured in the learning
+note), config wired (`eval/tier2/apps/lobsters.rb`, pilot task 3), golden
+captured, `verify` OK, 2-session pilot green (both arms `complete`/`success`,
+minimal `:unread`→`:all,:unread` fix, no amendments). Lobsters gives a
+**within-app 2/2 test-candidate split** (tasks 1,3 true; 2,4 false) — better
+sub-analysis contrast than Campfire's 4/4. Two additive harness changes landed
+(both P2-compatible, `runs.jsonl`/metrics unchanged): `remove_files` +
+workspace-baseline commit (neutralizes the repo's `CLAUDE.md`/`AGENTS.md` and
+absorbs the `Gemfile.lock` platform patch out of the subject diff), and
+`SCORE_TIMEOUT_S` (bounds a non-terminating acceptance run → scored `false`).
 
-**Immediate next step (a fresh session should start here) — author the Lobsters
-app** (`lobsters/lobsters`, RSpec), then Publify, per
+**Immediate next step (a fresh session should start here) — author the Publify
+app** (`publify/publify`, RSpec, SQLite — frictionless, no MariaDB), per
 [`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md).
-One app is the delegatable unit; follow the Campfire template exactly:
-1. **Template prep (in-session/autobots):** pin the SHA, clone to
-   `tmp/tier2-expansion/lobsters/template`, bundle + prepare a test DB, stage the
-   untracked prepared files; fill `sha`/`prepared_files` in `apps/lobsters.rb`.
-   Watch the version-manager trap — mise ignores `.ruby-version`; drop a
-   `mise.toml` pinning the app's Ruby in the app tree and launch everything via
-   `mise exec ruby@<ver> --` (Campfire notes: `eval/tier2-expansion/campfire/README.md`).
-   Lobsters is MariaDB — confirm a DB is reachable in the sterile scoring env.
-2. **Route table + classifier (in-session):** `eval/tier2-expansion/build_routes_from_rails.rb`
-   (or Tier 0 `extract_routes.rb` if actionpack is a published version) →
-   `routes/lobsters.json`; `eval/tier0/classify_anchors.rb` → `results/lobsters.json`.
-3. **Draw anchors (in-session):** `draw_anchors.rb ... --test-glob
-   'spec/controllers/{controller}_controller_spec.rb' --features 2`, seed = app
-   SHA; freeze `anchors.json`.
-4. **Author tasks + wire config (Codex):** 4-task mix (2 feature / 1 bug / 1
-   behavior); RSpec scoring (`bundle exec rspec`); hidden acceptance specs under
-   `spec/requests/` or `spec/controllers/`; validate red-then-green.
-5. **Golden + verify + setup + pilot (in-session):** `capture_golden.rb`,
-   `verify`, `setup`, then a 2-session pilot; apply only mechanical fixes.
+One app is the delegatable unit; follow the **Lobsters** template exactly (it is
+the closest precedent — RSpec, per-app config, red-green validated
+session-side):
+1. **Template prep (in-session):** pin the SHA, clone to
+   `tmp/tier2-expansion/publify/template`, resolve its Ruby via `mise.toml`
+   (watch the version-manager trap), bundle, prepare the SQLite test DB, stage
+   prepared files; fill `sha`/`prepared_files` in `apps/publify.rb`. Check for a
+   committed agent-instruction file (`CLAUDE.md`/`AGENTS.md`) — if present,
+   remove from the template working tree + add to `remove_files` (as Lobsters).
+2. **Route table + classifier + draw (in-session):** `build_routes_from_rails.rb`
+   → `routes/publify.json`; `classify_anchors.rb` → `results/publify.json`;
+   `draw_anchors.rb ... --test-glob 'spec/controllers/{controller}_controller_spec.rb'
+   --features 2`, seed = app SHA; freeze `anchors.json`. Preview each anchor's
+   packet to record the `had_test_candidate` split.
+3. **Author tasks + wire config (Codex):** 4-task mix (2 feature / 1 bug / 1
+   behavior); RSpec scoring; hidden acceptance specs under `spec/requests/`;
+   reference-impl patches for the 3 non-bug tasks under `tmp/.../reference-impls/`.
+4. **Validate + golden + pilot (in-session):** red-then-green via the harness
+   `setup`/`score` paths against the local DB (never trust Codex — its sandbox
+   can't reach the DB); `capture_golden.rb`; `verify`; 2-session pilot; mechanical
+   fixes only.
 
-RSpec specifics for Lobsters/Publify vs Campfire: `test_command` →
-`["bundle", "exec", "rspec", path]`, `test_name_filter` → `["-e", name]` (or
-`path:line`), `test_runner_signature` → `/\brspec\b/`; acceptance specs are
-`*_spec.rb`; the P1 RSpec test-candidate rules feed `had_test_candidate`.
+RSpec specifics (same as Lobsters): `test_command` → `["bundle","exec","rspec",path]`,
+`test_name_filter` → `["-e", name]`, `test_runner_signature` → `/\brspec\b/`;
+acceptance specs are `*_spec.rb`; the failing-capture `expect_pattern` for RSpec
+is `/[1-9]\d* failures?\b/`.
 
-After Lobsters + Publify are authored and piloted: run the full grid (3 apps ×
-4 tasks × 2 arms × 3 rounds) in usage-window batches (serial, arm order
-alternating by round, resume via each app's `runs.jsonl`), then analyze per the
-frozen per-app-then-across-apps interpretation (incl. the test-pointer
+After Publify is authored + piloted: run the full grid (3 apps × 4 tasks × 2
+arms × 3 rounds = 72 sessions + pilots) in usage-window batches (serial, arm
+order alternating by round, resume via each app's `runs.jsonl`), then analyze
+per the frozen per-app-then-across-apps interpretation (incl. the test-pointer
 sub-analysis) and write `eval/tier2-expansion/RESULTS.md`.
 
-Final step of this plan: rewrite this section for the pass that follows Lobsters
-authoring (or for the grid run, once all three apps are authored + piloted).
+Final step of this plan: rewrite this section for the grid run once Publify is
+authored + piloted (all three apps ready).
 
 ## Status
 
@@ -141,13 +155,14 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 |---|---|---|
 | Tier 0 anchor viability spike | **Done** (2026-07-05) | **91.0% engine-excluded average across Mastodon/Discourse/Zammad → ≥ 70% gate passes; proceed as designed.** Post-ANCH-amendment re-run: **93.9%**, zero regressions (addendum in RESULTS.md). Full method, taxonomy, and raw data in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md). Zero compiler crashes across 1,967 real-app pairs. |
 | Tier 2 agent A/B | **Done — SUPPORT** (2026-07-06) | Harness (`eval/tier2/harness.rb`) + 18-session grid + pilot run; all 20 sessions `complete`, zero aborts, 100% `task_success`. 2/3 tasks (bug-fix, behavior-change) show ≥ 30% median reduction in calls-to-first-load-bearing-read; multi-file feature (task 1) mildly worse; diff quality at ceiling (control 8.00 / treatment 7.89, agent first-pass pending author confirmation). Directional support per the frozen rule. Full analysis: [`eval/tier2/RESULTS.md`](eval/tier2/RESULTS.md). |
-| Tier 2 expansion | **Campfire authored + piloted** (2026-07-07); Lobsters/Publify pending | [`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md) signed off. Adds Campfire (Minitest, modern layout) + Lobsters + Publify (RSpec), 4 tasks/app (feature-weighted), test-pointer sub-analysis. P1 (RSpec test-candidate rules, `21505b0`) + P2 (harness per-app config) landed. **Campfire** (`v1.4.3`) fully authored: anchors drawn (2 feature/1 bug/1 behavior), 4 tasks + hidden acceptance tests (all verified red-then-green), config wired, golden captured, `verify` OK; **all four packets fire the test-candidate pointer** (`had_test_candidate: true`) — the Redmine confound Campfire exists to break. 2-session pilot (task 3 bug): both `complete`/`success=true`, correct fix, no amendments. Next: author Lobsters, then Publify, then run the grid. |
+| Tier 2 expansion | **Campfire + Lobsters authored + piloted** (2026-07-07); Publify pending | [`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md) signed off. Adds Campfire (Minitest) + Lobsters + Publify (RSpec), 4 tasks/app (feature-weighted), test-pointer sub-analysis. P1 (RSpec rules, `21505b0`) + P2 (harness per-app config) landed. **Campfire** (`v1.4.3`) authored + piloted; all four packets fire the test-candidate pointer. **Lobsters** (`430d864b`, RSpec/MariaDB): anchors frozen (bug=`inbox#all`, behavior=`stories#update`, features=`comments#disown`/`users#standing`), 4 tasks + hidden RSpec acceptance specs authored (Codex) and **verified red-then-green session-side** (Codex sandbox can't reach local MariaDB), config wired, golden captured, `verify` OK, 2-session pilot green (both arms `complete`/`success`, no amendments). Gives a **within-app 2/2 test-candidate split** (tasks 1,3 true; 2,4 false). Two additive P2-compatible harness changes: `remove_files` (+ workspace-baseline commit; neutralizes Lobsters' `CLAUDE.md`/`AGENTS.md`, absorbs the `Gemfile.lock` platform patch) and `SCORE_TIMEOUT_S` (bounds a non-terminating acceptance run). Next: author Publify, then run the grid. |
 
 ## Next steps
 
-1. **Author per-app tasks/anchors/acceptance tests** (Campfire, then Lobsters,
-   then Publify; SHA pinned + template prepared, anchors drawn pre-packet,
-   golden captured for `verify`), pilot each app, then run the grid and write
+1. **Author Publify** (Campfire + Lobsters are complete — authored, validated
+   red-green, golden, `verify` OK, piloted). Publify still needs the full
+   per-app authoring flow (template prep, route/classifier/draw, 4-task mix,
+   red-green validation, golden, pilot). Then run the grid and write
    `eval/tier2-expansion/RESULTS.md`. All per
    [`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md);
    the delegatable unit is one app.
@@ -167,6 +182,48 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Decision log
 
+- **2026-07-07** — Lobsters (second Tier 2 expansion app) authored + validated +
+  piloted. Pinned to HEAD **`430d864b`** (no tagged releases; SHA recorded
+  verbatim), RSpec + FactoryBot. **Env setup** (README has full detail):
+  `brew install mariadb` + a local server (name resolution maps the app's TCP
+  `127.0.0.1` peer → `localhost`, so `root@localhost`'s password was set to match
+  the app's committed `database.yml.sample` local-dev value); `brew install vips` (the app
+  won't boot without libvips); Ruby **4.0.0** via `mise install` (exact
+  `.ruby-version`; the machine's mise global 4.0.1 mismatches Bundler's
+  `ruby file:` pin). **Anchors drawn blind** (seed = app SHA): bug=`inbox#all`,
+  behavior=`stories#update`, feature_1=`comments#disown`,
+  feature_2=`users#standing`; route table via `bin/rails routes`
+  (`build_routes_from_rails.rb`; 189 pairs, classifier 170/189 resolved, 0
+  crashes). **4 tasks + hidden RSpec acceptance specs + task-3 seed authored
+  (Codex)** and **independently verified red-then-green session-side** — Codex's
+  managed sandbox blocks local MariaDB (learning note
+  `docs/agent-learnings/2026-07-07-sandbox-blocked-db-validation.md`), so it
+  authored + syntax/patch-checked but the orchestrator ran the actual red-green
+  via the harness `setup`/`score` paths + a warm clone: task1 1→0 failures,
+  task2 green passes (base loops → timeout→false), task3 seed 2→fix 0, task4 1→0;
+  additive check green (stories 27 / comments 9 / users 12). **Within-app 2/2
+  test-candidate split** (tasks 1,3 fire the pointer; 2,4 don't — the request-spec
+  path match needs both controller+action tokens in the filename) — sharper
+  sub-analysis contrast than Campfire's 4/4. **Golden captured, `verify` OK,
+  2-session pilot green** (task 3; both arms `complete`/`success`, minimal
+  `:unread`→`:all,:unread` fix, neither touches `spec/`, no amendments; ~62-64s
+  each). **Two additive harness changes** (P2-compatible; `runs.jsonl` schema,
+  metric definitions, prompts, abort/timeout rules unchanged; Redmine + Campfire
+  `verify` still OK): (a) `remove_files` config + a guarded workspace-baseline
+  commit in `make_workspace` — strips the repo's `CLAUDE.md`/`AGENTS.md`
+  (auto-loaded by subject sessions; also removed from the template working tree
+  so agents in the ctxpack repo don't load the "refuse to write code"
+  instruction) and bakes the `Gemfile.lock` platform patch into the baseline so
+  neither leaks into the subject diff; no-op for clean-tree apps; (b)
+  `SCORE_TIMEOUT_S` (6 min) + `run_test_with_timeout` — a non-terminating
+  acceptance run (the base `users#standing` action infinite-loops on a `.json`
+  request) is process-group-killed and scored `false` rather than wedging the
+  serial grid. Both recorded as pre-registration amendments
+  (`eval/tier2-expansion/PREREGISTRATION.md`). The Lobsters `CLAUDE.md`/`AGENTS.md`
+  forbid LLM *contributions* (PR-scoped per user confirmation); using a pinned,
+  read-only checkout as an offline benchmark (diffs discarded, nothing upstream)
+  is outside that scope. No compiler behavior touched → corpus re-scan skipped.
+  ctxpack suite green (55 runs, 362 assertions).
 - **2026-07-07** — Campfire (first Tier 2 expansion app) authored + piloted.
   Pinned to tag **`v1.4.3`** (`71ffeeea…`), not a moving HEAD — a stable release
   whose committed `Gemfile.lock` (rails 8.2.0.alpha, pinned git revision) makes

@@ -177,6 +177,28 @@ single-app→now-multi-app generalization, read-tool-only counting). New:
 4. **Solidus monorepo:** out of scope, to keep per-engine scoring out of the
    harness.
 
+## Amendments (post-freeze)
+
+Recorded per the inherited amendment discipline. None weakens an assertion or
+changes the frozen design (apps, task mix, metrics, interpretation); all are
+operational/robustness decisions. Full detail in `PROJECT_TRACKER.md`.
+
+- **2026-07-07 — Lobsters authored (user-approved read of the CLAUDE.md).**
+  Pinned SHA `430d864b…`, Ruby 4.0.0, local MariaDB. Lobsters ships a committed
+  `CLAUDE.md`/`AGENTS.md` forbidding LLM *contributions*; the user confirmed this
+  is PR-scoped and does not cover offline benchmark use (pinned read-only
+  checkout, subject diffs discarded, nothing sent upstream). Those files are
+  neutralized in the sterile workspaces (new additive `remove_files` config) so
+  the subject session sees the task, not the repo's agent policy — also removing
+  an A/B confound. Anchors were drawn blind before this (`anchors.json`).
+- **2026-07-07 — Scoring timeout (`SCORE_TIMEOUT_S`, 6 min).** Additive harness
+  robustness: a subject diff can leave the app in a non-terminating state for the
+  acceptance test (Lobsters `users#standing` base loops on a `.json` request). A
+  scoring run past the bound is killed and scored `false` (the correct outcome
+  for an unimplemented task) rather than wedging the serial grid. Metric
+  definitions and `runs.jsonl` schema unchanged; Redmine/Campfire scoring never
+  reaches the bound.
+
 ## Sign-off
 
 - [x] User approves apps, task mix, and the two prerequisite passes (2026-07-06)

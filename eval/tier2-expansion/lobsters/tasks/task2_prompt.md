@@ -1,0 +1,15 @@
+Implement the following feature.
+
+The user standing endpoint (UsersController#standing) should support JSON
+requests at `GET /~:username/standing.json`. The JSON response should return a
+small structured summary for the requested user.
+
+Requirements:
+
+- Return JSON with at least these keys: `username`, `n_comments`,
+  `n_flagged_comments`, and `n_flags`.
+- Compute the standing summary outside the controller, on `User` or a small
+  service object.
+- Preserve the existing HTML standing page and its authorization behavior.
+- Follow Lobsters' existing controller and model conventions; do not introduce
+  a template engine dependency for this JSON response.

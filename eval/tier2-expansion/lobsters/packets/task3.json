@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "anchor": "inbox#all",
+  "repo": {
+    "commit": "20d3446516e65ef06d6a655ba1f65c8bfcad3905",
+    "dirty": false
+  },
+  "entrypoint": {
+    "file": "app/controllers/inbox_controller.rb",
+    "controller": "InboxController",
+    "action": "all"
+  },
+  "files": [
+    {
+      "path": "app/controllers/inbox_controller.rb",
+      "reason_code": "controller_action",
+      "snippet_ranges": [
+        [
+          16,
+          33
+        ]
+      ]
+    },
+    {
+      "path": "app/controllers/inbox_controller.rb",
+      "reason_code": "before_action_callback",
+      "snippet_ranges": [
+        [
+          55,
+          62
+        ]
+      ]
+    },
+    {
+      "path": "spec/controllers/inbox_controller_spec.rb",
+      "reason_code": "rspec_candidate",
+      "snippet_ranges": []
+    }
+  ],
+  "tests": [
+    {
+      "command": "bundle exec rspec spec/controllers/inbox_controller_spec.rb",
+      "reason_code": "rspec_candidate"
+    }
+  ],
+  "uncertainty": [
+    {
+      "code": "unresolved_external_callbacks"
+    }
+  ]
+}

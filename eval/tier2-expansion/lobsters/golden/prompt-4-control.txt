@@ -1,0 +1,19 @@
+You are working in a Lobsters checkout at the current working directory.
+
+Task anchor (controller#action): stories#update
+
+Make the following small behavior change.
+
+StoriesController#update currently resurrects a deleted story when the owner
+edits it.
+
+Change this so editing a deleted story still updates the submitted story
+attributes, but keeps the story deleted. Non-deleted stories must continue to
+update normally, and the explicit undelete action must remain the way to
+restore a deleted story.
+
+Rules:
+- Make the smallest correct change consistent with this codebase's
+  conventions.
+- Leave your final changes uncommitted in the working tree.
+- Work autonomously; do not ask questions.

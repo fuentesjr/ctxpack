@@ -1,0 +1,41 @@
+You are working in a Lobsters checkout at the current working directory.
+
+Task anchor (controller#action): inbox#all
+
+A controller spec is failing on this branch:
+
+    bundle exec rspec spec/controllers/inbox_controller_spec.rb -e "marks the notification and associated message as read"
+
+Failure output:
+
+    W, [2026-07-07T16:51:43.525807 #25642]  WARN -- : heinous_inline_partial initialized, found: {"app/views/comments/_threads.html.erb" => "app/views/comments/_comment.html.erb", "app/views/home/index.html.erb" => "app/views/stories/_listdetail.html.erb", "app/views/search/index.html.erb" => "app/views/stories/_listdetail.html.erb"}
+    W, [2026-07-07T16:51:49.509062 #25835]  WARN -- : heinous_inline_partial initialized, found: {"app/views/comments/_threads.html.erb" => "app/views/comments/_comment.html.erb", "app/views/home/index.html.erb" => "app/views/stories/_listdetail.html.erb", "app/views/search/index.html.erb" => "app/views/stories/_listdetail.html.erb"}
+    Run options: include {full_description: /marks\ the\ notification\ and\ associated\ message\ as\ read/}
+    F
+    
+    Failures:
+    
+      1) InboxController GET all marks the notification and associated message as read
+         Failure/Error: expect(unread_notification.read_at).to_not be_nil
+           Expected nil not to be nil.
+         # ./spec/controllers/inbox_controller_spec.rb:23:in 'block (3 levels) in <top (required)>'
+    
+    Finished in 2.2 seconds (files took 42.54 seconds to load)
+    1 example, 1 failure
+    
+    Failed examples:
+    
+    rspec ./spec/controllers/inbox_controller_spec.rb:10 # InboxController GET all marks the notification and associated message as read
+    
+    Coverage report generated for RSpec to /Users/sal/Projects/ctxpack/tmp/tier2-expansion/lobsters/seedcheck/coverage.
+    Line Coverage: 11.97% (861 / 7193)
+    Stopped processing SimpleCov as a previous error not related to SimpleCov has been detected
+
+Diagnose and fix the bug so this spec passes. Do not modify any file under
+spec/.
+
+Rules:
+- Make the smallest correct change consistent with this codebase's
+  conventions.
+- Leave your final changes uncommitted in the working tree.
+- Work autonomously; do not ask questions.

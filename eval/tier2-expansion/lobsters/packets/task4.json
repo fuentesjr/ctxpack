@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "anchor": "stories#update",
+  "repo": {
+    "commit": "430d864b0d7bf1b30913ee42e6cca3d9fbddcaa4",
+    "dirty": true
+  },
+  "entrypoint": {
+    "file": "app/controllers/stories_controller.rb",
+    "controller": "StoriesController",
+    "action": "update"
+  },
+  "files": [
+    {
+      "path": "app/controllers/stories_controller.rb",
+      "reason_code": "controller_action",
+      "snippet_ranges": [
+        [
+          220,
+          240
+        ]
+      ]
+    },
+    {
+      "path": "app/controllers/stories_controller.rb",
+      "reason_code": "before_action_callback",
+      "snippet_ranges": [
+        [
+          475,
+          488
+        ]
+      ]
+    },
+    {
+      "path": "app/jobs/create_story_card_job.rb",
+      "reason_code": "referenced_constant",
+      "snippet_ranges": []
+    },
+    {
+      "path": "app/models/story.rb",
+      "reason_code": "referenced_constant",
+      "snippet_ranges": []
+    }
+  ],
+  "tests": [],
+  "uncertainty": [
+    {
+      "code": "dynamic_callback_args"
+    }
+  ]
+}

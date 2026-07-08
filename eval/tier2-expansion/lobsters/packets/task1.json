@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "anchor": "comments#disown",
+  "repo": {
+    "commit": "430d864b0d7bf1b30913ee42e6cca3d9fbddcaa4",
+    "dirty": true
+  },
+  "entrypoint": {
+    "file": "app/controllers/comments_controller.rb",
+    "controller": "CommentsController",
+    "action": "disown"
+  },
+  "files": [
+    {
+      "path": "app/controllers/comments_controller.rb",
+      "reason_code": "controller_action",
+      "snippet_ranges": [
+        [
+          179,
+          195
+        ]
+      ]
+    },
+    {
+      "path": "app/models/inactive_user.rb",
+      "reason_code": "referenced_constant",
+      "snippet_ranges": []
+    },
+    {
+      "path": "spec/controllers/comments_controller_spec.rb",
+      "reason_code": "rspec_candidate",
+      "snippet_ranges": []
+    }
+  ],
+  "tests": [
+    {
+      "command": "bundle exec rspec spec/controllers/comments_controller_spec.rb",
+      "reason_code": "rspec_candidate"
+    }
+  ],
+  "uncertainty": [
+    {
+      "code": "unresolved_external_callbacks"
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+# ctxpack context packet
+
+## Task
+No task was provided.
+
+## Anchor
+- Anchor: `users#standing`
+- Controller: `UsersController`
+- Action: `standing`
+- File: `app/controllers/users_controller.rb`
+- Generated from: 430d864 (dirty)
+
+## Files to inspect first
+
+### `app/controllers/users_controller.rb`
+
+Why: controller action for requested anchor.
+Reason code: `controller_action`
+
+```ruby
+  def standing
+    @interval = time_interval("1m")
+
+    fc = FlaggedCommenters.new(@interval[:param], 1.day)
+    @fc_flagged = fc.commenters.map { |_, c| c[:n_flags] }.sort
+    @flagged_user_stats = fc.check_list_for(@showing_user)
+
+    rows = ActiveRecord::Base.connection.exec_query("
+      select
+        n_flags, count(*) as n_users
+      from (
+        select
+          comments.user_id, sum(flags) as n_flags
+        from
+          comments
+        where
+          comments.created_at >= now() - interval #{@interval[:dur]} #{@interval[:intv]}
+        group by comments.user_id) count_by_user
+      group by 1
+      order by 1 asc;
+    ").rows
+    users = Array.new(@fc_flagged.last.to_i + 1, 0)
+    rows.each { |r| users[r.first] = r.last }
+    @lookup = rows.to_h
+
+    @flagged_comments = @showing_user.comments
+      .where({comments: {flags: 1..}})
+      .where("comments.created_at >= ?", "now() - interval #{@interval[:dur]} #{@interval[:intv]}")
+      .joins(:story)
+      .includes(:user, :hat, story: :user)
+      .order(id: :desc)
+    @flagged_comments = CommentVoteHydrator.new(@flagged_comments, @user)
+  end
+```
+
+Why: callback `load_showing_user` applies to the requested action.
+Reason code: `before_action_callback`
+
+```ruby
+  def load_showing_user
+    # This is for the enumerator, a bot that agressively tries to enumerate accounts via Tor + VPNs.
+    # At least it's obvious from its outdated user agent? So let's lie to it.
+    @showing_user = if request.user_agent == "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:64.0) Gecko/20100101 Firefox/64.0"
+      if rand(0..100) == 23
+        User.new(username: params[:username], created_at: rand(0..9999).days.ago)
+      end
+    else
+      User.find_by(username: params[:username])
+    end
+    # case-insensitive search by username
+
+    if @showing_user.nil?
+      @title = "User not found"
+      render action: :not_found, status: 404
+      return false
+    end
+
+    # now a case-sensitive check
+    if params[:username] != @showing_user.username
+      redirect_to username: @showing_user.username
+      false
+    end
+  end
+```
+
+Why: callback `only_user_or_moderator` applies to the requested action.
+Reason code: `before_action_callback`
+
+```ruby
+  def only_user_or_moderator
+    if params[:username] == @user.username || @user.is_moderator?
+      true
+    else
+      redirect_to(user_path(params[:username]))
+    end
+  end
+```
+
+### `app/models/flagged_commenters.rb`
+
+Why: constant `FlaggedCommenters` was referenced by the action or an applicable callback.
+Reason code: `referenced_constant`
+
+### `app/models/comment_vote_hydrator.rb`
+
+Why: constant `CommentVoteHydrator` was referenced by the action or an applicable callback.
+Reason code: `referenced_constant`
+
+### `app/models/user.rb`
+
+Why: constant `User` was referenced by the action or an applicable callback.
+Reason code: `referenced_constant`
+
+## Tests to run
+No RSpec candidates were found by ctxpack's path rules.
+
+## Uncertainty
+- Callback `require_logged_in_user` applies but was not defined in this controller file.
+- Callbacks declared outside this controller file, including superclasses and concerns, were not resolved.
+- Route discovery is delegated to Rails; run `bin/rails routes -g standing` if the exact endpoint matters.
+- Convention-only constant match `FlaggedCommenters` resolved to `app/models/flagged_commenters.rb`; verify it if the task depends on that behavior.
+- Convention-only constant match `CommentVoteHydrator` resolved to `app/models/comment_vote_hydrator.rb`; verify it if the task depends on that behavior.
+- Convention-only constant match `User` resolved to `app/models/user.rb`; verify it if the task depends on that behavior.
+
+## Retrieve more only if needed
+- Inspect the superclass or concerns for callback `require_logged_in_user`.
+- Search `spec/` by hand if the task needs test coverage.
+

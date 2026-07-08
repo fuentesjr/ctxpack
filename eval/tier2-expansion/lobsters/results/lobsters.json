@@ -1,0 +1,791 @@
+{
+  "app": "lobsters",
+  "total_pairs": 189,
+  "summary": {
+    "resolved": 170,
+    "other": 3,
+    "file_not_found": 16
+  },
+  "resolution_rate": 0.8995,
+  "compile_crashes": 0,
+  "results": [
+    {
+      "anchor": "about#about",
+      "result": "resolved"
+    },
+    {
+      "anchor": "about#chat",
+      "result": "resolved"
+    },
+    {
+      "anchor": "about#four_oh_four",
+      "result": "resolved"
+    },
+    {
+      "anchor": "about#privacy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "avatars#expire",
+      "result": "resolved"
+    },
+    {
+      "anchor": "avatars#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "banned_ips#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "cabinet#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "categories#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "categories#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "categories#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "categories#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "comments#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "comments#delete",
+      "result": "resolved"
+    },
+    {
+      "anchor": "comments#disown",
+      "result": "resolved"
+    },
+    {
+      "anchor": "comments#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "comments#flag",
+      "result": "resolved"
+    },
+    {
+      "anchor": "comments#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "comments#redirect_from_short_id",
+      "result": "resolved"
+    },
+    {
+      "anchor": "comments#reply",
+      "result": "resolved"
+    },
+    {
+      "anchor": "comments#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "comments#show_short_id",
+      "result": "resolved"
+    },
+    {
+      "anchor": "comments#undelete",
+      "result": "resolved"
+    },
+    {
+      "anchor": "comments#unvote",
+      "result": "resolved"
+    },
+    {
+      "anchor": "comments#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "comments#upvote",
+      "result": "resolved"
+    },
+    {
+      "anchor": "comments#upvoted",
+      "result": "resolved"
+    },
+    {
+      "anchor": "comments#user_threads",
+      "result": "resolved"
+    },
+    {
+      "anchor": "filters#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "filters#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "hat_requests#approve",
+      "result": "resolved"
+    },
+    {
+      "anchor": "hat_requests#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "hat_requests#destroy",
+      "error": "action destroy was not directly defined in app/controllers/hat_requests_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def destroy found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "hat_requests#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "hat_requests#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "hat_requests#reject",
+      "result": "resolved"
+    },
+    {
+      "anchor": "hat_requests#show",
+      "error": "action show was not directly defined in app/controllers/hat_requests_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def show found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "hat_requests#update",
+      "error": "action update was not directly defined in app/controllers/hat_requests_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def update found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "hats#doff",
+      "result": "resolved"
+    },
+    {
+      "anchor": "hats#doff_by_user",
+      "result": "resolved"
+    },
+    {
+      "anchor": "hats#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "hats#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "hats#update_by_recreating",
+      "result": "resolved"
+    },
+    {
+      "anchor": "hats#update_in_place",
+      "result": "resolved"
+    },
+    {
+      "anchor": "home#active",
+      "result": "resolved"
+    },
+    {
+      "anchor": "home#category",
+      "result": "resolved"
+    },
+    {
+      "anchor": "home#for_domain",
+      "result": "resolved"
+    },
+    {
+      "anchor": "home#for_origin",
+      "result": "resolved"
+    },
+    {
+      "anchor": "home#hidden",
+      "result": "resolved"
+    },
+    {
+      "anchor": "home#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "home#multi_tag",
+      "result": "resolved"
+    },
+    {
+      "anchor": "home#newest",
+      "result": "resolved"
+    },
+    {
+      "anchor": "home#newest_by_user",
+      "result": "resolved"
+    },
+    {
+      "anchor": "home#recent",
+      "result": "resolved"
+    },
+    {
+      "anchor": "home#saved",
+      "result": "resolved"
+    },
+    {
+      "anchor": "home#single_tag",
+      "result": "resolved"
+    },
+    {
+      "anchor": "home#top",
+      "result": "resolved"
+    },
+    {
+      "anchor": "home#upvoted",
+      "result": "resolved"
+    },
+    {
+      "anchor": "inbox#all",
+      "result": "resolved"
+    },
+    {
+      "anchor": "inbox#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "inbox#unread",
+      "result": "resolved"
+    },
+    {
+      "anchor": "invitations#build",
+      "result": "resolved"
+    },
+    {
+      "anchor": "invitations#confirm_email",
+      "result": "resolved"
+    },
+    {
+      "anchor": "invitations#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "invitations#create_by_request",
+      "result": "resolved"
+    },
+    {
+      "anchor": "invitations#delete_request",
+      "result": "resolved"
+    },
+    {
+      "anchor": "invitations#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "invitations#send_for_request",
+      "result": "resolved"
+    },
+    {
+      "anchor": "login#forgot_password",
+      "result": "resolved"
+    },
+    {
+      "anchor": "login#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "login#login",
+      "result": "resolved"
+    },
+    {
+      "anchor": "login#logout",
+      "result": "resolved"
+    },
+    {
+      "anchor": "login#reset_password",
+      "result": "resolved"
+    },
+    {
+      "anchor": "login#set_new_password",
+      "result": "resolved"
+    },
+    {
+      "anchor": "login#twofa",
+      "result": "resolved"
+    },
+    {
+      "anchor": "login#twofa_verify",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages#batch_delete",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages#keep_as_new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages#mod_note",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages#sent",
+      "result": "resolved"
+    },
+    {
+      "anchor": "messages#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mission_control/jobs/bulk_discards#create",
+      "error": "expected controller file does not exist: app/controllers/mission_control/jobs/bulk_discards_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "mission_control/jobs/bulk_retries#create",
+      "error": "expected controller file does not exist: app/controllers/mission_control/jobs/bulk_retries_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "mission_control/jobs/discards#create",
+      "error": "expected controller file does not exist: app/controllers/mission_control/jobs/discards_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "mission_control/jobs/dispatches#create",
+      "error": "expected controller file does not exist: app/controllers/mission_control/jobs/dispatches_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "mission_control/jobs/jobs#index",
+      "error": "expected controller file does not exist: app/controllers/mission_control/jobs/jobs_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "mission_control/jobs/jobs#show",
+      "error": "expected controller file does not exist: app/controllers/mission_control/jobs/jobs_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "mission_control/jobs/queues#index",
+      "error": "expected controller file does not exist: app/controllers/mission_control/jobs/queues_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "mission_control/jobs/queues#show",
+      "error": "expected controller file does not exist: app/controllers/mission_control/jobs/queues_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "mission_control/jobs/queues/pauses#create",
+      "error": "expected controller file does not exist: app/controllers/mission_control/jobs/queues/pauses_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "mission_control/jobs/queues/pauses#destroy",
+      "error": "expected controller file does not exist: app/controllers/mission_control/jobs/queues/pauses_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "mission_control/jobs/recurring_tasks#index",
+      "error": "expected controller file does not exist: app/controllers/mission_control/jobs/recurring_tasks_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "mission_control/jobs/recurring_tasks#show",
+      "error": "expected controller file does not exist: app/controllers/mission_control/jobs/recurring_tasks_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "mission_control/jobs/recurring_tasks#update",
+      "error": "expected controller file does not exist: app/controllers/mission_control/jobs/recurring_tasks_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "mission_control/jobs/retries#create",
+      "error": "expected controller file does not exist: app/controllers/mission_control/jobs/retries_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "mission_control/jobs/workers#index",
+      "error": "expected controller file does not exist: app/controllers/mission_control/jobs/workers_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "mission_control/jobs/workers#show",
+      "error": "expected controller file does not exist: app/controllers/mission_control/jobs/workers_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "mod/activities#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/comments#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/domains#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/domains#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/domains#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/domains_ban#create_and_ban",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/domains_ban#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/flagged#commenters",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/flagged#flagged_comments",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/flagged#flagged_stories",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/mail_messages#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/mails#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/mails#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/mails#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/mails#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/mails#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/mails#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/notes#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/origins#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/origins#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/reparents#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/reparents#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/stories#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/stories#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/stories#undelete",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/stories#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/tags#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/tags#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/tags#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod/tags#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod_mail_messages#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod_mails#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "mod_mails#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "moderations#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "origins#for_domain",
+      "result": "resolved"
+    },
+    {
+      "anchor": "search#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#deactivate",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#github_auth",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#github_callback",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#github_disconnect",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#mastodon_auth",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#mastodon_authentication",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#mastodon_callback",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#mastodon_disconnect",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#pushover_auth",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#pushover_callback",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#twofa",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#twofa_auth",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#twofa_enroll",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#twofa_update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#twofa_verify",
+      "result": "resolved"
+    },
+    {
+      "anchor": "settings#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "signup#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "signup#invite",
+      "result": "resolved"
+    },
+    {
+      "anchor": "signup#invited",
+      "result": "resolved"
+    },
+    {
+      "anchor": "signup#signup",
+      "result": "resolved"
+    },
+    {
+      "anchor": "stats#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "stories#check_url_dupe",
+      "result": "resolved"
+    },
+    {
+      "anchor": "stories#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "stories#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "stories#disown",
+      "result": "resolved"
+    },
+    {
+      "anchor": "stories#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "stories#fetch_url_attributes",
+      "result": "resolved"
+    },
+    {
+      "anchor": "stories#flag",
+      "result": "resolved"
+    },
+    {
+      "anchor": "stories#hide",
+      "result": "resolved"
+    },
+    {
+      "anchor": "stories#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "stories#preview",
+      "result": "resolved"
+    },
+    {
+      "anchor": "stories#save",
+      "result": "resolved"
+    },
+    {
+      "anchor": "stories#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "stories#undelete",
+      "result": "resolved"
+    },
+    {
+      "anchor": "stories#unhide",
+      "result": "resolved"
+    },
+    {
+      "anchor": "stories#unsave",
+      "result": "resolved"
+    },
+    {
+      "anchor": "stories#unvote",
+      "result": "resolved"
+    },
+    {
+      "anchor": "stories#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "stories#upvote",
+      "result": "resolved"
+    },
+    {
+      "anchor": "story_image#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "story_urls#all",
+      "result": "resolved"
+    },
+    {
+      "anchor": "story_urls#latest",
+      "result": "resolved"
+    },
+    {
+      "anchor": "suggestions#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "suggestions#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#ban",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#disable_invitation",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#enable_invitation",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#standing",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#tree",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users#unban",
+      "result": "resolved"
+    }
+  ]
+}

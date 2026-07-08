@@ -26,6 +26,13 @@ require_relative "apps/config"
 module Tier2
   MODEL     = "claude-sonnet-5"
   TIMEOUT_S = 30 * 60
+  # Scoring must terminate: a subject diff can leave the app in a state where
+  # the acceptance test never finishes (e.g. an unimplemented feature that
+  # falls through to a code path that loops). A scoring run past this bound is
+  # killed and counts as a failed task (task_success=false) — the correct
+  # outcome — rather than wedging the serial grid. Generous vs. a normal
+  # cold-boot scoring (~1-2 min).
+  SCORE_TIMEOUT_S = 6 * 60
 
   WRAPPER = <<~PROMPT
     You are working in a {app_label} checkout at the current working directory.
@@ -180,6 +187,8 @@ module Tier2
       FileUtils.mkdir_p(File.dirname(File.join(dest, f)))
       FileUtils.cp(File.join(config.template_dir, f), File.join(dest, f))
     end
+    config.remove_files.each { |f| FileUtils.rm_f(File.join(dest, f)) }
+    commit_workspace_baseline(config, dest)
     if seeded
       raise "seeded workspace requires a task with seed_patch" unless task&.seed_patch
 
@@ -188,6 +197,20 @@ module Tier2
           "commit", "-qm", "tier2 task#{task.id} seed", chdir: dest)
     end
     dest
+  end
+
+  # Bake tracked prepared-file patches (e.g. a Gemfile.lock platform line) and
+  # remove_files deletions into a baseline commit BEFORE the subject runs, so
+  # they never appear in the subject's captured diff (git add -A) and cannot
+  # break scoring's `git apply`. gitignored prepared files (database.yml, test
+  # DBs) are not staged by `git add -A`, so this is a no-op for apps whose tree
+  # stays clean after prep (Redmine, Campfire: verified porcelain-clean).
+  def commit_workspace_baseline(config, dest)
+    return if sh!("git", "status", "--porcelain", chdir: dest).empty?
+
+    sh!("git", "add", "-A", chdir: dest)
+    sh!("git", "-c", "user.email=tier2@ctxpack", "-c", "user.name=tier2",
+        "commit", "-qm", "tier2 workspace baseline (prepared files, neutralized agent config)", chdir: dest)
   end
 
   # --- schedule ------------------------------------------------------------
@@ -477,12 +500,38 @@ module Tier2
         FileUtils.cp(src, dest)
       end
 
-      out, st = Open3.capture2e(config.test_env, *config.test_command.call(scoring.fetch(:test_target)), chdir: ws)
+      out, success = run_test_with_timeout(config, config.test_command.call(scoring.fetch(:test_target)), ws)
       log_scoring(config, id, out)
-      st.success?
+      success
     ensure
       FileUtils.rm_rf(ws)
     end
+  end
+
+  # Run the acceptance test command, bounded by SCORE_TIMEOUT_S. Returns
+  # [combined_output, success_bool]; a timeout kills the whole process group
+  # (bundle -> rspec/rails children) and returns false. Output is drained on a
+  # thread so a chatty runner can't deadlock on a full pipe.
+  def run_test_with_timeout(config, cmd, ws)
+    r, w = IO.pipe
+    pid = Process.spawn(config.test_env, *cmd, chdir: ws, out: w, err: [:child, :out], pgroup: true)
+    w.close
+    reader = Thread.new { r.read }
+    deadline = Time.now + SCORE_TIMEOUT_S
+    st = nil
+    loop do
+      _, st = Process.waitpid2(pid, Process::WNOHANG)
+      break if st
+      if Time.now > deadline
+        Process.kill("KILL", -pid)
+        Process.waitpid2(pid)
+        return ["#{reader.value}\n[tier2: scoring timed out after #{SCORE_TIMEOUT_S}s — treated as failure]", false]
+      end
+      sleep 1
+    end
+    [reader.value, st.success?]
+  rescue Errno::ESRCH, Errno::ECHILD
+    [reader&.value.to_s, false]
   end
 
   def log_scoring(config, id, text)

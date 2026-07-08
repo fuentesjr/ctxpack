@@ -6,19 +6,26 @@ module Tier2
   EXPANSION_DIR = File.expand_path("../../tier2-expansion", __dir__) unless const_defined?(:EXPANSION_DIR)
 
   class AppConfig
-    attr_reader :name, :repo, :template_dir, :prepared_files, :artifact_dir,
-                :work_dir, :test_command, :test_name_filter,
+    attr_reader :name, :repo, :template_dir, :prepared_files, :remove_files,
+                :artifact_dir, :work_dir, :test_command, :test_name_filter,
                 :test_runner_signature, :test_env, :rounds, :pilot_task,
                 :tasks
 
     def initialize(name:, repo:, template_dir:, prepared_files:, artifact_dir:,
                    work_dir:, test_command:, test_name_filter:,
                    test_runner_signature:, test_env:, tasks:, rounds: 3,
-                   pilot_task: nil, config_dir: nil)
+                   pilot_task: nil, config_dir: nil, remove_files: [])
       @name = name
       @repo = repo
       @template_dir = template_dir
       @prepared_files = prepared_files
+      # Tracked files deleted from each cloned workspace and baked into the
+      # workspace baseline (so the deletion never appears in the subject diff).
+      # Used to neutralize repo-level agent-instruction files (CLAUDE.md /
+      # AGENTS.md) that would otherwise be auto-loaded by the subject session
+      # and confound / sabotage the task. Default [] → no-op for apps without
+      # such files (Redmine, Campfire).
+      @remove_files = remove_files
       @artifact_dir = artifact_dir
       @work_dir = work_dir
       @test_command = test_command

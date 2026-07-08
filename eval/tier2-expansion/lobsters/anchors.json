@@ -1,0 +1,110 @@
+{
+  "app": "lobsters",
+  "app_sha": "430d864b0d7bf1b30913ee42e6cca3d9fbddcaa4",
+  "app_ref": "HEAD @ 2026-07-06 (430d864b; lobsters has no tagged releases)",
+  "seed": "430d864b0d7bf1b30913ee42e6cca3d9fbddcaa4",
+  "procedure": "eval/tier2/draw_anchors.rb (deterministic; see eval/tier2-expansion/PREREGISTRATION.md \"Anchor selection\"). Feature-weighted mix: --features 2 (2 feature / 1 bug / 1 behavior).",
+  "test_glob": "spec/controllers/{controller}_controller_spec.rb",
+  "inputs": {
+    "routes": "eval/tier2-expansion/lobsters/routes/lobsters.json",
+    "results": "eval/tier2-expansion/lobsters/results/lobsters.json"
+  },
+  "route_table_method": "bin/rails routes --expanded via eval/tier2-expansion/build_routes_from_rails.rb (booted app @ Ruby 4.0.0; Rails 8.0.5 IS published so extract_routes.rb was viable, but the booted-app route table is highest fidelity). 189 app pairs, 170 resolved (89.9%), 0 compile crashes.",
+  "drawn_at": "2026-07-07",
+  "assigned": {
+    "bug": "inbox#all",
+    "behavior": "stories#update",
+    "feature_1": "comments#disown",
+    "feature_2": "users#standing"
+  },
+  "task_id_mapping": {
+    "1": "feature_1 (comments#disown)",
+    "2": "feature_2 (users#standing)",
+    "3": "bug (inbox#all)",
+    "4": "behavior (stories#update)"
+  },
+  "packet_test_candidate": {
+    "note": "Recorded post-draw for provenance only; NOT consulted by the draw (draw_anchors.rb is packet-content-blind). Feeds the pre-registered test-pointer sub-analysis: Lobsters gives a within-app 2/2 contrast (vs Campfire 4/4).",
+    "inbox#all": true,
+    "comments#disown": true,
+    "stories#update": false,
+    "users#standing": false
+  },
+  "skips": [
+    {
+      "slot": "bug",
+      "pair": "comments#disown",
+      "reason": "action not referenced in test file"
+    },
+    {
+      "slot": "bug",
+      "pair": "users#standing",
+      "reason": "no test file"
+    },
+    {
+      "slot": "bug",
+      "pair": "stories#upvote",
+      "reason": "no test file"
+    },
+    {
+      "slot": "bug",
+      "pair": "signup#index",
+      "reason": "no test file"
+    },
+    {
+      "slot": "bug",
+      "pair": "login#set_new_password",
+      "reason": "no test file"
+    },
+    {
+      "slot": "bug",
+      "pair": "stories#update",
+      "reason": "no test file"
+    },
+    {
+      "slot": "bug",
+      "pair": "mission_control/jobs/retries#create",
+      "reason": "anchor does not resolve (no packet possible)"
+    },
+    {
+      "slot": "bug",
+      "pair": "hats#edit",
+      "reason": "no test file"
+    },
+    {
+      "slot": "bug",
+      "pair": "mod/comments#destroy",
+      "reason": "no test file"
+    },
+    {
+      "slot": "bug",
+      "pair": "settings#twofa_enroll",
+      "reason": "no test file"
+    },
+    {
+      "slot": "behavior",
+      "pair": "comments#disown",
+      "reason": "not a write action (create/update/destroy)"
+    },
+    {
+      "slot": "behavior",
+      "pair": "users#standing",
+      "reason": "not a write action (create/update/destroy)"
+    },
+    {
+      "slot": "behavior",
+      "pair": "stories#upvote",
+      "reason": "not a write action (create/update/destroy)"
+    },
+    {
+      "slot": "behavior",
+      "pair": "signup#index",
+      "reason": "not a write action (create/update/destroy)"
+    },
+    {
+      "slot": "behavior",
+      "pair": "login#set_new_password",
+      "reason": "not a write action (create/update/destroy)"
+    }
+  ]
+}
