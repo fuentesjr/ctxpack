@@ -1,0 +1,33 @@
+diff --git a/app/controllers/accounts_controller.rb b/app/controllers/accounts_controller.rb
+index dda9d83..ba22b27 100644
+--- a/app/controllers/accounts_controller.rb
++++ b/app/controllers/accounts_controller.rb
+@@ -6,6 +6,7 @@ class AccountsController < ApplicationController
+     users = account_users.ordered.without_bots
+     @administrators, @members = users.partition(&:administrator?)
+     set_page_and_extract_portion_from users, per_page: 500
++    @bots = User.active_bots.ordered
+   end
+ 
+   def update
+diff --git a/app/views/accounts/edit.html.erb b/app/views/accounts/edit.html.erb
+index cfa750d..3e46f9d 100644
+--- a/app/views/accounts/edit.html.erb
++++ b/app/views/accounts/edit.html.erb
+@@ -111,6 +111,16 @@
+       </turbo-frame>
+     </menu>
+   </div>
++
++  <% if @bots.any? %>
++    <div class="margin-block pad-inline pad-block-start fill-shade border-radius">
++      <div class="txt-subtle txt-small txt-align-start">Bots</div>
++
++      <menu class="flex flex-column gap margin-none pad">
++        <%= render partial: "accounts/users/user", collection: @bots, as: :user %>
++      </menu>
++    </div>
++  <% end %>
+ </section>
+ 
+ <% content_for :footer do %>

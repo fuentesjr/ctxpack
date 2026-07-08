@@ -1,0 +1,62 @@
+diff --git a/app/controllers/accounts_controller.rb b/app/controllers/accounts_controller.rb
+index dda9d83..cc7254c 100644
+--- a/app/controllers/accounts_controller.rb
++++ b/app/controllers/accounts_controller.rb
+@@ -5,6 +5,7 @@ class AccountsController < ApplicationController
+   def edit
+     users = account_users.ordered.without_bots
+     @administrators, @members = users.partition(&:administrator?)
++    @bots = User.active_bots.ordered
+     set_page_and_extract_portion_from users, per_page: 500
+   end
+ 
+diff --git a/app/views/accounts/edit.html.erb b/app/views/accounts/edit.html.erb
+index cfa750d..ee015e0 100644
+--- a/app/views/accounts/edit.html.erb
++++ b/app/views/accounts/edit.html.erb
+@@ -111,6 +111,16 @@
+       </turbo-frame>
+     </menu>
+   </div>
++
++  <% if @bots.any? %>
++    <div class="margin-block pad-inline pad-block-start fill-shade border-radius">
++      <h2 class="txt-subtle txt-small margin-none txt-align-start"><%= t(".bots") %></h2>
++
++      <menu class="flex flex-column gap margin-none pad">
++        <%= render partial: "accounts/users/user", collection: @bots, as: :user %>
++      </menu>
++    </div>
++  <% end %>
+ </section>
+ 
+ <% content_for :footer do %>
+diff --git a/config/locales/en.yml b/config/locales/en.yml
+index 60999e5..41e4c50 100644
+--- a/config/locales/en.yml
++++ b/config/locales/en.yml
+@@ -30,3 +30,6 @@
+ # available at https://guides.rubyonrails.org/i18n.html.
+ 
+ en:
++  accounts:
++    edit:
++      bots: Bots
+diff --git a/test/controllers/accounts_controller_test.rb b/test/controllers/accounts_controller_test.rb
+index 8292c6f..f56940a 100644
+--- a/test/controllers/accounts_controller_test.rb
++++ b/test/controllers/accounts_controller_test.rb
+@@ -42,6 +42,13 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
+     end
+   end
+ 
++  test "edit lists active bot users" do
++    get edit_account_url
++
++    assert_response :ok
++    assert_select "strong", text: users(:bender).name
++  end
++
+   test "update" do
+     assert users(:david).administrator?
+ 

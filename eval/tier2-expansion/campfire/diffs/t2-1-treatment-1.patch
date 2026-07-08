@@ -1,0 +1,59 @@
+diff --git a/app/controllers/autocompletable/users_controller.rb b/app/controllers/autocompletable/users_controller.rb
+index 0141cfb..3e68f6a 100644
+--- a/app/controllers/autocompletable/users_controller.rb
++++ b/app/controllers/autocompletable/users_controller.rb
+@@ -5,10 +5,16 @@ class Autocompletable::UsersController < ApplicationController
+ 
+   private
+     def find_autocompletable_users
+-      params[:query].present? ? users_scope.active.filtered_by(params[:query]) : users_scope.active
++      scope = params[:query].present? ? users_scope.active.filtered_by(params[:query]) : users_scope.active
++      scope = scope.where.not(id: excluded_user_ids) if excluded_user_ids.present?
++      scope
+     end
+ 
+     def users_scope
+       params[:room_id].present? ? Current.user.rooms.find(params[:room_id]).users : User.all
+     end
++
++    def excluded_user_ids
++      Array(params[:except]).flat_map { |id| id.to_s.split(",") }
++    end
+ end
+diff --git a/test/controllers/autocompletable/users_controller_test.rb b/test/controllers/autocompletable/users_controller_test.rb
+index dbd1315..8b28577 100644
+--- a/test/controllers/autocompletable/users_controller_test.rb
++++ b/test/controllers/autocompletable/users_controller_test.rb
+@@ -37,4 +37,32 @@ class Autocompletable::UsersControllerTest < ActionDispatch::IntegrationTest
+       get autocompletable_users_url(room_id: rooms(:watercooler).id, format: :json), params: { query: "da" }
+     end
+   end
++
++  test "except excludes matching users given as an array" do
++    get autocompletable_users_url(format: :json), params: { query: "da", except: [ users(:david).id ] }
++
++    assert_response :success
++    assert_empty response.parsed_body
++  end
++
++  test "except excludes matching users given as a comma-separated list" do
++    get autocompletable_users_url(format: :json), params: { query: "da", except: users(:david).id.to_s }
++
++    assert_response :success
++    assert_empty response.parsed_body
++  end
++
++  test "except excludes matching users in room search" do
++    get autocompletable_users_url(room_id: rooms(:hq).id, format: :json), params: { query: "da", except: users(:david).id.to_s }
++
++    assert_response :success
++    assert_empty response.parsed_body
++  end
++
++  test "without except, autocomplete behavior is unchanged" do
++    get autocompletable_users_url(format: :json), params: { query: "da" }
++
++    assert_response :success
++    assert_equal "David", response.parsed_body.first["name"]
++  end
+ end

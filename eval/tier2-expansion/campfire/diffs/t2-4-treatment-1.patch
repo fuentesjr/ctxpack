@@ -1,0 +1,34 @@
+diff --git a/app/controllers/rooms/involvements_controller.rb b/app/controllers/rooms/involvements_controller.rb
+index 7f2878b..199dab0 100644
+--- a/app/controllers/rooms/involvements_controller.rb
++++ b/app/controllers/rooms/involvements_controller.rb
+@@ -6,10 +6,14 @@ class Rooms::InvolvementsController < ApplicationController
+   end
+ 
+   def update
+-    @membership.update! involvement: params[:involvement]
++    if params[:involvement].in?(Membership.involvements.keys)
++      @membership.update! involvement: params[:involvement]
+ 
+-    broadcast_visibility_changes
+-    redirect_to room_involvement_url(@room)
++      broadcast_visibility_changes
++      redirect_to room_involvement_url(@room)
++    else
++      redirect_to room_involvement_url(@room), alert: t(".invalid_involvement")
++    end
+   end
+ 
+   private
+diff --git a/config/locales/en.yml b/config/locales/en.yml
+index 60999e5..b036509 100644
+--- a/config/locales/en.yml
++++ b/config/locales/en.yml
+@@ -30,3 +30,7 @@
+ # available at https://guides.rubyonrails.org/i18n.html.
+ 
+ en:
++  rooms:
++    involvements:
++      update:
++        invalid_involvement: "That's not a valid notification setting."

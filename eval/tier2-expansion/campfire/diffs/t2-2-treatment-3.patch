@@ -1,0 +1,61 @@
+diff --git a/app/controllers/accounts_controller.rb b/app/controllers/accounts_controller.rb
+index dda9d83..cc7254c 100644
+--- a/app/controllers/accounts_controller.rb
++++ b/app/controllers/accounts_controller.rb
+@@ -5,6 +5,7 @@ class AccountsController < ApplicationController
+   def edit
+     users = account_users.ordered.without_bots
+     @administrators, @members = users.partition(&:administrator?)
++    @bots = User.active_bots.ordered
+     set_page_and_extract_portion_from users, per_page: 500
+   end
+ 
+diff --git a/app/views/accounts/edit.html.erb b/app/views/accounts/edit.html.erb
+index cfa750d..482ef3b 100644
+--- a/app/views/accounts/edit.html.erb
++++ b/app/views/accounts/edit.html.erb
+@@ -110,6 +110,18 @@
+         <%= render "accounts/users/next_page_container", page: @page.next_param unless @page.last? %>
+       </turbo-frame>
+     </menu>
++
++    <% if @bots.any? %>
++      <hr class="margin-block separator full-width" style="--border-style: solid">
++
++      <div class="txt-align-start">
++        <strong class="txt-subtle txt-small"><%= t(".bots") %></strong>
++      </div>
++
++      <menu class="flex flex-column gap margin-none pad">
++        <%= render partial: "accounts/users/bot", collection: @bots, as: :bot %>
++      </menu>
++    <% end %>
+   </div>
+ </section>
+ 
+diff --git a/app/views/accounts/users/_bot.html.erb b/app/views/accounts/users/_bot.html.erb
+new file mode 100644
+index 0000000..9b9d492
+--- /dev/null
++++ b/app/views/accounts/users/_bot.html.erb
+@@ -0,0 +1,9 @@
++<li class="flex align-center gap margin-none">
++  <figure class="avatar flex-item-no-shrink" style="--avatar-size: 3.75ch;">
++    <%= avatar_tag bot, loading: :lazy %>
++  </figure>
++
++  <div class="min-width">
++    <div class="overflow-ellipsis fill-shade"><strong><%= bot.name %></strong></div>
++  </div>
++</li>
+diff --git a/config/locales/en.yml b/config/locales/en.yml
+index 60999e5..d53a850 100644
+--- a/config/locales/en.yml
++++ b/config/locales/en.yml
+@@ -30,3 +30,6 @@
+ # available at https://guides.rubyonrails.org/i18n.html.
+ 
+ en:
++  accounts:
++    edit:
++      bots: "Bots"

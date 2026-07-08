@@ -1,0 +1,35 @@
+diff --git a/app/controllers/accounts_controller.rb b/app/controllers/accounts_controller.rb
+index dda9d83..cc7254c 100644
+--- a/app/controllers/accounts_controller.rb
++++ b/app/controllers/accounts_controller.rb
+@@ -5,6 +5,7 @@ class AccountsController < ApplicationController
+   def edit
+     users = account_users.ordered.without_bots
+     @administrators, @members = users.partition(&:administrator?)
++    @bots = User.active_bots.ordered
+     set_page_and_extract_portion_from users, per_page: 500
+   end
+ 
+diff --git a/app/views/accounts/edit.html.erb b/app/views/accounts/edit.html.erb
+index cfa750d..60d3778 100644
+--- a/app/views/accounts/edit.html.erb
++++ b/app/views/accounts/edit.html.erb
+@@ -110,6 +110,18 @@
+         <%= render "accounts/users/next_page_container", page: @page.next_param unless @page.last? %>
+       </turbo-frame>
+     </menu>
++
++    <% if @bots.any? %>
++      <hr class="margin-block separator full-width" style="--border-style: solid">
++
++      <div class="flex align-center gap txt-subtle txt-small pad-inline">
++        <%= image_tag "bot.svg", aria: { hidden: "true" }, size: 16 %> Bots
++      </div>
++
++      <menu class="flex flex-column gap margin-none pad">
++        <%= render partial: "accounts/users/user", collection: @bots, as: :user %>
++      </menu>
++    <% end %>
+   </div>
+ </section>
+ 
