@@ -1,0 +1,45 @@
+{
+  "app": "publify",
+  "app_sha": "80ede867d802949e218fdf0bb4f3c31f68f8a56a",
+  "app_ref": "publify/publify_core v10.0.3 (80ede867). NOTE: the third app is the publify_core ENGINE, not the publify deploy app — the deploy app is a thin shell whose only app controller is application_controller.rb; the domain (31 controllers) lives in publify_core. Pinning the engine keeps a self-contained SQLite/RSpec unit. See PROJECT_TRACKER decision log 2026-07-07 and README.md.",
+  "seed": "80ede867d802949e218fdf0bb4f3c31f68f8a56a",
+  "procedure": "eval/tier2/draw_anchors.rb (deterministic; see eval/tier2-expansion/PREREGISTRATION.md \"Anchor selection\"). Feature-weighted mix: --features 2 (2 feature / 1 bug / 1 behavior).",
+  "test_glob": "spec/controllers/{controller}_controller_spec.rb",
+  "inputs": {
+    "routes": "eval/tier2-expansion/publify/routes/publify.json",
+    "results": "eval/tier2-expansion/publify/results/publify.json"
+  },
+  "route_table_method": "bin/rails routes --expanded run from spec/dummy (the engine's non-isolated routes draw into the dummy host app; BUNDLE_GEMFILE points at the engine Gemfile) via eval/tier2-expansion/build_routes_from_rails.rb. 144 routes, 118 unique app pairs, classifier 98/118 resolved (83.1%), 0 compile crashes. ctxpack app_root = engine root + a stub config/application.rb (discovery marker only; never booted).",
+  "drawn_at": "2026-07-07",
+  "assigned": {
+    "bug": "articles#preview",
+    "behavior": "admin/users#destroy",
+    "feature_1": "setup#index",
+    "feature_2": "tags#index"
+  },
+  "task_id_mapping": {
+    "1": "feature_1 (setup#index)",
+    "2": "feature_2 (tags#index)",
+    "3": "bug (articles#preview)",
+    "4": "behavior (admin/users#destroy)"
+  },
+  "packet_test_candidate": {
+    "note": "Recorded post-draw for provenance only; NOT consulted by the draw (draw_anchors.rb is packet-content-blind). Feeds the pre-registered test-pointer sub-analysis. Publify is 4/4 (every drawn controller has a spec/controllers/<controller>_controller_spec.rb), like Campfire; the within-app contrast for the sub-analysis comes from Lobsters' 2/2.",
+    "setup#index": true,
+    "tags#index": true,
+    "articles#preview": true,
+    "admin/users#destroy": true
+  },
+  "skips": [
+    {
+      "slot": "feature_1",
+      "pair": "articles#archives",
+      "reason": "controller already assigned to another slot"
+    },
+    {
+      "slot": "feature_2",
+      "pair": "articles#archives",
+      "reason": "controller already assigned to another slot"
+    }
+  ]
+}

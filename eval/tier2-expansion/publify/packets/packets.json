@@ -1,0 +1,41 @@
+{
+  "ctxpack_sha": "9875b262694bdcc244ccfe7821b5bfed7ad2474d",
+  "packets": {
+    "1": {
+      "anchor": "setup#index",
+      "path": "packets/task1.md",
+      "sha256": "185c827d0a40cda7c7b34f6e5b46cb29fe2c11fa7629aea6594e2921d54b847e",
+      "had_test_candidate": true,
+      "suggested_test_commands": [
+        "bundle exec rspec spec/controllers/setup_controller_spec.rb"
+      ]
+    },
+    "2": {
+      "anchor": "tags#index",
+      "path": "packets/task2.md",
+      "sha256": "e3caa1354c25997f2639404f046d1e88041a1788079cffc6a48156398ef2e4d9",
+      "had_test_candidate": true,
+      "suggested_test_commands": [
+        "bundle exec rspec spec/controllers/tags_controller_spec.rb"
+      ]
+    },
+    "3": {
+      "anchor": "articles#preview",
+      "path": "packets/task3.md",
+      "sha256": "462e219939ecc99a156bce5501938b1815446d1b13bda441e647bb73a545ebc3",
+      "had_test_candidate": true,
+      "suggested_test_commands": [
+        "bundle exec rspec spec/controllers/articles_controller_spec.rb"
+      ]
+    },
+    "4": {
+      "anchor": "admin/users#destroy",
+      "path": "packets/task4.md",
+      "sha256": "96d23fcef45f4c9b5f3688e5a49bdda9092326733395d965250272acc130037f",
+      "had_test_candidate": true,
+      "suggested_test_commands": [
+        "bundle exec rspec spec/controllers/admin/users_controller_spec.rb"
+      ]
+    }
+  }
+}

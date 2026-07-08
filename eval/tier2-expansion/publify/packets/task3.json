@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "anchor": "articles#preview",
+  "repo": {
+    "commit": "b78e0b43924bcc8f38336439be65faf4181e3670",
+    "dirty": false
+  },
+  "entrypoint": {
+    "file": "app/controllers/articles_controller.rb",
+    "controller": "ArticlesController",
+    "action": "preview"
+  },
+  "files": [
+    {
+      "path": "app/controllers/articles_controller.rb",
+      "reason_code": "controller_action",
+      "snippet_ranges": [
+        [
+          64,
+          68
+        ]
+      ]
+    },
+    {
+      "path": "app/controllers/articles_controller.rb",
+      "reason_code": "before_action_callback",
+      "snippet_ranges": [
+        [
+          154,
+          162
+        ]
+      ]
+    },
+    {
+      "path": "app/models/article.rb",
+      "reason_code": "referenced_constant",
+      "snippet_ranges": []
+    },
+    {
+      "path": "app/models/user.rb",
+      "reason_code": "referenced_constant",
+      "snippet_ranges": []
+    },
+    {
+      "path": "spec/controllers/articles_controller_spec.rb",
+      "reason_code": "rspec_candidate",
+      "snippet_ranges": []
+    }
+  ],
+  "tests": [
+    {
+      "command": "bundle exec rspec spec/controllers/articles_controller_spec.rb",
+      "reason_code": "rspec_candidate"
+    }
+  ],
+  "uncertainty": [
+    {
+      "code": "unresolved_external_callbacks"
+    }
+  ]
+}

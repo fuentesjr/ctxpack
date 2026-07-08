@@ -198,6 +198,33 @@ operational/robustness decisions. Full detail in `PROJECT_TRACKER.md`.
   for an unimplemented task) rather than wedging the serial grid. Metric
   definitions and `runs.jsonl` schema unchanged; Redmine/Campfire scoring never
   reaches the bound.
+- **2026-07-08 — Third app is `publify/publify_core` (the engine), not
+  `publify/publify` (the deploy app); user-approved.** Discovered at template
+  prep that the Publify *deploy app* is a thin shell — its only app controller is
+  `application_controller.rb`; the 31 real controllers live in the `publify_core`
+  engine gem (the frictionless-monolith premise behind picking Publify over
+  Solidus was false for the deploy app). Rather than drop to two apps or take
+  monolithic Publify v8 (ancient Rails), the user chose to pin the **engine repo**
+  `publify_core` v10.0.3 (commit `80ede867`) — a self-contained single engine
+  with a committed `spec/dummy` app, SQLite, and RSpec (milder than the multi-gem
+  Solidus monorepo the pre-reg rejected). This does **not** weaken any frozen
+  assertion (apps=3, 2 feature / 1 bug / 1 behavior, metrics, interpretation
+  unchanged); it changes only the third app's identity and adds three additive,
+  benchmark-only template shims, none of which touch ctxpack compiler behavior or
+  the `runs.jsonl`/metric contract: (a) a stub `config/application.rb` that only
+  satisfies ctxpack's app-root discovery (`File.file?`), never booted (RSpec
+  loads `spec/dummy/config/environment`); baked into the workspace baseline so it
+  never appears in a subject diff; (b) a `concurrent-ruby 1.3.4` pin in the
+  Gemfile (>= 1.3.5 dropped the implicit `require "logger"` Rails 6.1 needs);
+  (c) prepared `Gemfile.lock` + dummy-app `test.sqlite3` (both gitignored
+  upstream). The route table is built by running `bin/rails routes` from
+  `spec/dummy` with `BUNDLE_GEMFILE` pointed at the engine Gemfile (the engine's
+  non-isolated routes draw into the dummy host app). Anchors were drawn blind
+  from the resulting route table (`anchors.json`, seed = the engine SHA) before
+  any packet was inspected. All four anchors fire `had_test_candidate=true`
+  (4/4, like Campfire; the within-app test-pointer contrast still comes from
+  Lobsters' 2/2). Redmine/Campfire/Lobsters `verify` remain OK (no harness
+  contract change).
 
 ## Sign-off
 
@@ -206,6 +233,8 @@ operational/robustness decisions. Full detail in `PROJECT_TRACKER.md`.
       (the packet-generation `ctxpack_sha` recorded per run captures it at grid time)
 - [x] P2 (harness multi-app generalization) landed (2026-07-07); Redmine
       reproduced byte-for-byte via `harness.rb verify` against `eval/tier2/golden/*`
-- [ ] Per-app tasks/anchors/acceptance tests authored and frozen
-- [ ] Pilot per new app; then grid per the execution rules
+- [x] Per-app tasks/anchors/acceptance tests authored and frozen (Campfire +
+      Lobsters + Publify, all red-green validated session-side; 2026-07-08)
+- [~] Pilot per new app (all three done — Campfire/Lobsters/Publify pilots green);
+      grid per the execution rules still pending
 - [ ] Analysis + `RESULTS.md` per the interpretation rules

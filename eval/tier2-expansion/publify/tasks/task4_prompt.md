@@ -1,0 +1,8 @@
+Make the following small behavior change.
+
+Admin::UsersController#destroy currently allows an admin to delete their own
+account when enough other admin accounts exist.
+
+Change this so an admin cannot delete their own account. Deleting another user
+must continue to work when the existing last-admin guard permits it, and the
+last-admin guard itself should remain in place.

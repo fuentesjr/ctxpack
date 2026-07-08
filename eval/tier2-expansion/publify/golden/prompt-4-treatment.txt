@@ -1,0 +1,76 @@
+You are working in a Publify checkout at the current working directory.
+
+Task anchor (controller#action): admin/users#destroy
+
+Make the following small behavior change.
+
+Admin::UsersController#destroy currently allows an admin to delete their own
+account when enough other admin accounts exist.
+
+Change this so an admin cannot delete their own account. Deleting another user
+must continue to work when the existing last-admin guard permits it, and the
+last-admin guard itself should remain in place.
+
+## Context packet
+
+The following context packet was generated for this task's anchor by a
+static analysis tool. It may help you locate relevant code.
+
+# ctxpack context packet
+
+## Task
+No task was provided.
+
+## Anchor
+- Anchor: `admin/users#destroy`
+- Controller: `Admin::UsersController`
+- Action: `destroy`
+- File: `app/controllers/admin/users_controller.rb`
+- Generated from: 80ede86 (dirty)
+
+## Files to inspect first
+
+### `app/controllers/admin/users_controller.rb`
+
+Why: controller action for requested anchor.
+Reason code: `controller_action`
+
+```ruby
+  def destroy
+    @user.destroy if User.where("profile = ? and id != ?", User::ADMIN, @user.id).count > 1
+    redirect_to admin_users_url
+  end
+```
+
+Why: callback `set_user` applies to the requested action.
+Reason code: `before_action_callback`
+
+```ruby
+  def set_user
+    @user = User.find(params[:id])
+  end
+```
+
+### `app/models/user.rb`
+
+Why: constant `User` was referenced by the action or an applicable callback.
+Reason code: `referenced_constant`
+
+### `spec/controllers/admin/users_controller_spec.rb`
+
+Why: test file matched the conventional controller spec path.
+Reason code: `rspec_candidate`
+
+## Tests to run
+- `bundle exec rspec spec/controllers/admin/users_controller_spec.rb`
+
+## Uncertainty
+- Callbacks declared outside this controller file, including superclasses and concerns, were not resolved.
+- Route discovery is delegated to Rails; run `bin/rails routes -g destroy` if the exact endpoint matters.
+- Convention-only constant match `User` resolved to `app/models/user.rb`; verify it if the task depends on that behavior.
+
+Rules:
+- Make the smallest correct change consistent with this codebase's
+  conventions.
+- Leave your final changes uncommitted in the working tree.
+- Work autonomously; do not ask questions.

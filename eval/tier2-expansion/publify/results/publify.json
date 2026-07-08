@@ -1,0 +1,518 @@
+{
+  "app": "publify",
+  "total_pairs": 118,
+  "summary": {
+    "other": 13,
+    "resolved": 98,
+    "file_not_found": 7
+  },
+  "resolution_rate": 0.8305,
+  "compile_crashes": 0,
+  "results": [
+    {
+      "anchor": "accounts#confirm",
+      "error": "action confirm was not directly defined in app/controllers/accounts_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def confirm found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "admin/articles#auto_complete_for_article_keywords",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/articles#autosave",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/articles#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/articles#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/articles#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/articles#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/articles#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/articles#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/dashboard#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/feedback#article",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/feedback#bulkops",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/feedback#change_state",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/feedback#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/feedback#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/feedback#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/feedback#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/feedback#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/notes#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/notes#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/notes#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/notes#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/notes#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/notes#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/pages#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/pages#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/pages#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/pages#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/pages#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/pages#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/post_types#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/post_types#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/post_types#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/post_types#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/post_types#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/profiles#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/profiles#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/redirects#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/redirects#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/redirects#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/redirects#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/redirects#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/resources#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/resources#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/resources#upload",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/seo#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/seo#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/settings#display",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/settings#feedback",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/settings#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/settings#migrate",
+      "error": "action migrate was not directly defined in app/controllers/admin/settings_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def migrate found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "admin/settings#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/settings#write",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/sidebar#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/sidebar#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/sidebar#publish",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/sidebar#sortable",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/sidebar#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/tags#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/tags#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/tags#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/tags#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/tags#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/themes#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/themes#preview",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/themes#switchto",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#destroy",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#edit",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#new",
+      "result": "resolved"
+    },
+    {
+      "anchor": "admin/users#update",
+      "result": "resolved"
+    },
+    {
+      "anchor": "articles#archives",
+      "result": "resolved"
+    },
+    {
+      "anchor": "articles#check_password",
+      "result": "resolved"
+    },
+    {
+      "anchor": "articles#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "articles#live_search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "articles#markup_help",
+      "result": "resolved"
+    },
+    {
+      "anchor": "articles#preview",
+      "result": "resolved"
+    },
+    {
+      "anchor": "articles#preview_page",
+      "result": "resolved"
+    },
+    {
+      "anchor": "articles#redirect",
+      "result": "resolved"
+    },
+    {
+      "anchor": "articles#search",
+      "result": "resolved"
+    },
+    {
+      "anchor": "articles#tag",
+      "result": "resolved"
+    },
+    {
+      "anchor": "articles#view_page",
+      "result": "resolved"
+    },
+    {
+      "anchor": "authors#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "comments#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "comments#preview",
+      "result": "resolved"
+    },
+    {
+      "anchor": "devise/passwords#create",
+      "error": "expected controller file does not exist: app/controllers/devise/passwords_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "devise/passwords#edit",
+      "error": "expected controller file does not exist: app/controllers/devise/passwords_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "devise/passwords#new",
+      "error": "expected controller file does not exist: app/controllers/devise/passwords_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "devise/passwords#update",
+      "error": "expected controller file does not exist: app/controllers/devise/passwords_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "devise/sessions#create",
+      "error": "expected controller file does not exist: app/controllers/devise/sessions_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "devise/sessions#destroy",
+      "error": "expected controller file does not exist: app/controllers/devise/sessions_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "devise/sessions#new",
+      "error": "expected controller file does not exist: app/controllers/devise/sessions_controller.rb",
+      "result": "file_not_found"
+    },
+    {
+      "anchor": "feedback#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "notes#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "notes#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "setup#create",
+      "result": "resolved"
+    },
+    {
+      "anchor": "setup#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#create",
+      "error": "action create was not directly defined in app/controllers/tags_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def create found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "tags#destroy",
+      "error": "action destroy was not directly defined in app/controllers/tags_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def destroy found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "tags#edit",
+      "error": "action edit was not directly defined in app/controllers/tags_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def edit found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "tags#index",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#new",
+      "error": "action new was not directly defined in app/controllers/tags_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def new found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "tags#show",
+      "result": "resolved"
+    },
+    {
+      "anchor": "tags#update",
+      "error": "action update was not directly defined in app/controllers/tags_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def update found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "text#robots",
+      "result": "resolved"
+    },
+    {
+      "anchor": "theme#fonts",
+      "result": "resolved"
+    },
+    {
+      "anchor": "theme#images",
+      "result": "resolved"
+    },
+    {
+      "anchor": "theme#javascripts",
+      "result": "resolved"
+    },
+    {
+      "anchor": "theme#static_view_test",
+      "result": "resolved"
+    },
+    {
+      "anchor": "theme#stylesheets",
+      "result": "resolved"
+    },
+    {
+      "anchor": "users/registrations#cancel",
+      "error": "action cancel was not directly defined in app/controllers/users/registrations_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def cancel found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "users/registrations#create",
+      "error": "action create was not directly defined in app/controllers/users/registrations_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def create found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "users/registrations#destroy",
+      "error": "action destroy was not directly defined in app/controllers/users/registrations_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def destroy found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "users/registrations#edit",
+      "error": "action edit was not directly defined in app/controllers/users/registrations_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def edit found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "users/registrations#new",
+      "error": "action new was not directly defined in app/controllers/users/registrations_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def new found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "users/registrations#update",
+      "error": "action update was not directly defined in app/controllers/users/registrations_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0",
+      "detail": "no def update found via superclass/concern chase (depth 5); likely metaprogrammed or defined outside app/controllers conventions",
+      "result": "other"
+    },
+    {
+      "anchor": "xml#sitemap",
+      "result": "resolved"
+    }
+  ]
+}

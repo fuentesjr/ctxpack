@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "anchor": "tags#index",
+  "repo": {
+    "commit": "80ede867d802949e218fdf0bb4f3c31f68f8a56a",
+    "dirty": true
+  },
+  "entrypoint": {
+    "file": "app/controllers/tags_controller.rb",
+    "controller": "TagsController",
+    "action": "index"
+  },
+  "files": [
+    {
+      "path": "app/controllers/tags_controller.rb",
+      "reason_code": "controller_action",
+      "snippet_ranges": [
+        [
+          7,
+          12
+        ]
+      ]
+    },
+    {
+      "path": "app/models/tag.rb",
+      "reason_code": "referenced_constant",
+      "snippet_ranges": []
+    },
+    {
+      "path": "spec/controllers/tags_controller_spec.rb",
+      "reason_code": "rspec_candidate",
+      "snippet_ranges": []
+    }
+  ],
+  "tests": [
+    {
+      "command": "bundle exec rspec spec/controllers/tags_controller_spec.rb",
+      "reason_code": "rspec_candidate"
+    }
+  ],
+  "uncertainty": [
+    {
+      "code": "unresolved_external_callbacks"
+    }
+  ]
+}

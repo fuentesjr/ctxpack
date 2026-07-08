@@ -1,0 +1,93 @@
+You are working in a Publify checkout at the current working directory.
+
+Task anchor (controller#action): articles#preview
+
+A controller spec is failing on this branch:
+
+    bundle exec rspec spec/controllers/articles_controller_spec.rb -e "assignes last article with id like parent_id"
+
+Failure output:
+
+    Run options: include {:full_description=>/assignes\ last\ article\ with\ id\ like\ parent_id/}
+    
+    Randomized with seed 10069
+    
+    ArticlesController
+      #preview
+        with logged user
+          assignes last article with id like parent_id (FAILED - 1)
+    
+    Failures:
+    
+      1) ArticlesController#preview with logged user assignes last article with id like parent_id
+         Failure/Error: expect(assigns[:article]).to eq(draft)
+    
+           expected: #<Article id: 2, type: "Article", title: "A big article", author: nil, body: "A content with several ...published", parent_id: 1, settings: {}, post_type: "read", blog_id: 1, text_filter_name: "markdown">
+                got: #<Article id: 1, type: "Article", title: "A big article", author: nil, body: "A content with several ...blished", parent_id: nil, settings: {}, post_type: "read", blog_id: 1, text_filter_name: "markdown">
+    
+           (compared using ==)
+    
+           Diff:
+    
+    
+    
+    
+           @@ -1,23 +1,23 @@
+           -#<Article:0x000000010ced36d8
+           - id: 2,
+           +#<Article:0x000000010c8df420
+           + id: 1,
+             type: "Article",
+             title: "A big article",
+             author: nil,
+             body: "A content with several data",
+             extended: "extended content for fun",
+             excerpt: nil,
+           - created_at: Wed, 08 Jul 2026 02:04:54.128900000 UTC +00:00,
+           - updated_at: Wed, 08 Jul 2026 02:04:54.132725000 UTC +00:00,
+           - user_id: 2,
+           + created_at: Wed, 08 Jul 2026 02:04:54.089568000 UTC +00:00,
+           + updated_at: Wed, 08 Jul 2026 02:04:54.115116000 UTC +00:00,
+           + user_id: 1,
+             permalink: "a-big-article",
+           - guid: "deadbeef2",
+           + guid: "deadbeef1",
+             whiteboard: nil,
+             name: nil,
+             allow_pings: true,
+             allow_comments: true,
+           - published_at: Wed, 08 Jul 2026 02:04:54.117585000 UTC +00:00,
+           + published_at: Wed, 08 Jul 2026 02:04:54.079986000 UTC +00:00,
+             state: "published",
+           - parent_id: 1,
+           + parent_id: nil,
+             settings: {},
+             post_type: "read",
+             blog_id: 1,
+         # ./spec/controllers/articles_controller_spec.rb:253:in `block (4 levels) in <top (required)>'
+    
+    Top 1 slowest examples (1.12 seconds, 99.3% of total time):
+      ArticlesController#preview with logged user assignes last article with id like parent_id
+        1.12 seconds ./spec/controllers/articles_controller_spec.rb:250
+    
+    Finished in 1.13 seconds (files took 3.85 seconds to load)
+    1 example, 1 failure
+    
+    Failed examples:
+    
+    rspec ./spec/controllers/articles_controller_spec.rb:250 # ArticlesController#preview with logged user assignes last article with id like parent_id
+    
+    Randomized with seed 10069
+    
+    Coverage report generated for RSpec to /Users/sal/Projects/ctxpack/tmp/tier2-expansion/publify/seedcheck/coverage.
+    Line Coverage: 62.24% (1398 / 2246)
+    Stopped processing SimpleCov as a previous error not related to SimpleCov has been detected
+
+Diagnose and fix the bug so this spec passes. Do not modify any file under
+spec/.
+
+Rules:
+- Make the smallest correct change consistent with this codebase's
+  conventions.
+- Leave your final changes uncommitted in the working tree.
+- Work autonomously; do not ask questions.

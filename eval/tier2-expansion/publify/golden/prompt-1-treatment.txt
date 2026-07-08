@@ -1,0 +1,85 @@
+You are working in a Publify checkout at the current working directory.
+
+Task anchor (controller#action): setup#index
+
+Implement the following feature.
+
+During initial blog setup, SetupController should let the operator choose the
+admin user's display nickname.
+
+Requirements:
+
+- When `user[nickname]` is submitted with a non-blank value, the created admin
+  user should use that value as its `nickname`.
+- When the nickname is absent or blank, the existing default nickname
+  `"Publify Admin"` must remain unchanged.
+- Preserve the existing blog and user creation flow, including the generated
+  first post/page, sign-in, notification, and redirect behavior.
+- Follow Publify's existing controller conventions and keep the change
+  additive.
+
+## Context packet
+
+The following context packet was generated for this task's anchor by a
+static analysis tool. It may help you locate relevant code.
+
+# ctxpack context packet
+
+## Task
+No task was provided.
+
+## Anchor
+- Anchor: `setup#index`
+- Controller: `SetupController`
+- Action: `index`
+- File: `app/controllers/setup_controller.rb`
+- Generated from: 80ede86 (dirty)
+
+## Files to inspect first
+
+### `app/controllers/setup_controller.rb`
+
+Why: controller action for requested anchor.
+Reason code: `controller_action`
+
+```ruby
+  def index
+    this_blog.blog_name = ""
+    @user = User.new
+  end
+```
+
+Why: callback `check_config` applies to the requested action.
+Reason code: `before_action_callback`
+
+```ruby
+  def check_config
+    return unless this_blog.configured?
+
+    redirect_to controller: "articles", action: "index"
+  end
+```
+
+### `app/models/user.rb`
+
+Why: constant `User` was referenced by the action or an applicable callback.
+Reason code: `referenced_constant`
+
+### `spec/controllers/setup_controller_spec.rb`
+
+Why: test file matched the conventional controller spec path.
+Reason code: `rspec_candidate`
+
+## Tests to run
+- `bundle exec rspec spec/controllers/setup_controller_spec.rb`
+
+## Uncertainty
+- Callbacks declared outside this controller file, including superclasses and concerns, were not resolved.
+- Route discovery is delegated to Rails; run `bin/rails routes -g index` if the exact endpoint matters.
+- Convention-only constant match `User` resolved to `app/models/user.rb`; verify it if the task depends on that behavior.
+
+Rules:
+- Make the smallest correct change consistent with this codebase's
+  conventions.
+- Leave your final changes uncommitted in the working tree.
+- Work autonomously; do not ask questions.

@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "anchor": "admin/users#destroy",
+  "repo": {
+    "commit": "80ede867d802949e218fdf0bb4f3c31f68f8a56a",
+    "dirty": true
+  },
+  "entrypoint": {
+    "file": "app/controllers/admin/users_controller.rb",
+    "controller": "Admin::UsersController",
+    "action": "destroy"
+  },
+  "files": [
+    {
+      "path": "app/controllers/admin/users_controller.rb",
+      "reason_code": "controller_action",
+      "snippet_ranges": [
+        [
+          40,
+          43
+        ]
+      ]
+    },
+    {
+      "path": "app/controllers/admin/users_controller.rb",
+      "reason_code": "before_action_callback",
+      "snippet_ranges": [
+        [
+          47,
+          49
+        ]
+      ]
+    },
+    {
+      "path": "app/models/user.rb",
+      "reason_code": "referenced_constant",
+      "snippet_ranges": []
+    },
+    {
+      "path": "spec/controllers/admin/users_controller_spec.rb",
+      "reason_code": "rspec_candidate",
+      "snippet_ranges": []
+    }
+  ],
+  "tests": [
+    {
+      "command": "bundle exec rspec spec/controllers/admin/users_controller_spec.rb",
+      "reason_code": "rspec_candidate"
+    }
+  ],
+  "uncertainty": []
+}
