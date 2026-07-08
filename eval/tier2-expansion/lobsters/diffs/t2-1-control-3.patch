@@ -1,0 +1,65 @@
+diff --git a/app/controllers/comments_controller.rb b/app/controllers/comments_controller.rb
+index a0964bc5..2e88d996 100644
+--- a/app/controllers/comments_controller.rb
++++ b/app/controllers/comments_controller.rb
+@@ -181,8 +181,15 @@ class CommentsController < ApplicationController
+       return render plain: "can't find comment", status: 400
+     end
+ 
++    original_author_id = comment.user_id
+     InactiveUser.disown! comment
+ 
++    if ActiveModel::Type::Boolean.new.cast(params[:cascade])
++      Comment.where(parent_comment_id: comment.id, user_id: original_author_id).find_each do |reply|
++        InactiveUser.disown! reply
++      end
++    end
++
+     if request.xhr?
+       comment = find_comment
+       show_story = ActiveModel::Type::Boolean.new.cast(params[:show_story])
+diff --git a/spec/requests/comments_spec.rb b/spec/requests/comments_spec.rb
+index 1bd208ef..4f47eaf1 100644
+--- a/spec/requests/comments_spec.rb
++++ b/spec/requests/comments_spec.rb
+@@ -79,7 +79,7 @@ describe "comments", type: :request do
+   end
+ 
+   describe "disowning" do
+-    let(:inactive_user) { create(:user, :inactive) }
++    let!(:inactive_user) { create(:user, :inactive) }
+ 
+     before do
+       sign_in author
+@@ -99,5 +99,31 @@ describe "comments", type: :request do
+         expect(response.status).to eq(200)
+       }.to change { comment.reload.user }.from(comment.user).to(inactive_user)
+     end
++
++    it "does not disown replies without cascade" do
++      same_author_reply = create(:comment, user: author, parent_comment: comment, story: comment.story)
++      post "/comments/#{comment.short_id}/disown"
++      expect(same_author_reply.reload.user).to eq(author)
++    end
++
++    it "cascades disowning to direct replies from the same author" do
++      same_author_reply = create(:comment, user: author, parent_comment: comment, story: comment.story)
++      post "/comments/#{comment.short_id}/disown", params: {cascade: "1"}
++      expect(comment.reload.user).to eq(inactive_user)
++      expect(same_author_reply.reload.user).to eq(inactive_user)
++    end
++
++    it "does not cascade disowning to replies from other authors" do
++      other_author_reply = create(:comment, user: user, parent_comment: comment, story: comment.story)
++      post "/comments/#{comment.short_id}/disown", params: {cascade: "1"}
++      expect(other_author_reply.reload.user).to eq(user)
++    end
++
++    it "does not cascade disowning beyond direct replies" do
++      same_author_reply = create(:comment, user: author, parent_comment: comment, story: comment.story)
++      grandchild_reply = create(:comment, user: author, parent_comment: same_author_reply, story: comment.story)
++      post "/comments/#{comment.short_id}/disown", params: {cascade: "1"}
++      expect(grandchild_reply.reload.user).to eq(author)
++    end
+   end
+ end

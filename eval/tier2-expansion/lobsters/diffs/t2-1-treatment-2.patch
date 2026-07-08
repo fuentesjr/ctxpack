@@ -1,0 +1,69 @@
+diff --git a/app/controllers/comments_controller.rb b/app/controllers/comments_controller.rb
+index a0964bc5..dc9bae8a 100644
+--- a/app/controllers/comments_controller.rb
++++ b/app/controllers/comments_controller.rb
+@@ -183,6 +183,12 @@ class CommentsController < ApplicationController
+ 
+     InactiveUser.disown! comment
+ 
++    if ActiveModel::Type::Boolean.new.cast(params[:cascade])
++      Comment.where(parent_comment_id: comment.id, user_id: @user.id).find_each do |reply|
++        InactiveUser.disown! reply
++      end
++    end
++
+     if request.xhr?
+       comment = find_comment
+       show_story = ActiveModel::Type::Boolean.new.cast(params[:show_story])
+diff --git a/spec/features/comment_spec.rb b/spec/features/comment_spec.rb
+index 3229c338..3994aade 100644
+--- a/spec/features/comment_spec.rb
++++ b/spec/features/comment_spec.rb
+@@ -98,6 +98,47 @@ RSpec.feature "Commenting" do
+       comment.reload
+       expect(comment.user).to eq(user)
+     end
++
++    scenario "cascading disown to direct replies by the same author" do
++      create(:user, :inactive)
++
++      other_user = create(:user)
++      comment = create(:comment, user_id: user.id, story_id: story.id, created_at: 90.days.ago)
++      own_reply = create(:comment, user_id: user.id, story_id: story.id,
++        parent_comment_id: comment.id, created_at: 90.days.ago)
++      other_reply = create(:comment, user_id: other_user.id, story_id: story.id,
++        parent_comment_id: comment.id, created_at: 90.days.ago)
++      grandchild_reply = create(:comment, user_id: user.id, story_id: story.id,
++        parent_comment_id: own_reply.id, created_at: 90.days.ago)
++
++      page.driver.post "/comments/#{comment.short_id}/disown", cascade: "1"
++
++      comment.reload
++      own_reply.reload
++      other_reply.reload
++      grandchild_reply.reload
++
++      expect(comment.user).not_to eq(user)
++      expect(own_reply.user).not_to eq(user)
++      expect(other_reply.user).to eq(other_user)
++      expect(grandchild_reply.user).to eq(user)
++    end
++
++    scenario "not cascading disown without the cascade parameter" do
++      create(:user, :inactive)
++
++      comment = create(:comment, user_id: user.id, story_id: story.id, created_at: 90.days.ago)
++      own_reply = create(:comment, user_id: user.id, story_id: story.id,
++        parent_comment_id: comment.id, created_at: 90.days.ago)
++
++      page.driver.post "/comments/#{comment.short_id}/disown"
++
++      comment.reload
++      own_reply.reload
++
++      expect(comment.user).not_to eq(user)
++      expect(own_reply.user).to eq(user)
++    end
+   end
+ 
+   feature "Merging story comments" do

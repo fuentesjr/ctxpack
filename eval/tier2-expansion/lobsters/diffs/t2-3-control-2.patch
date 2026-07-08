@@ -1,0 +1,13 @@
+diff --git a/app/controllers/inbox_controller.rb b/app/controllers/inbox_controller.rb
+index 1cb8d2a4..ee4ad171 100644
+--- a/app/controllers/inbox_controller.rb
++++ b/app/controllers/inbox_controller.rb
+@@ -3,7 +3,7 @@
+ class InboxController < ApplicationController
+   before_action :require_logged_in_user
+   before_action :set_page, only: [:all]
+-  after_action :update_read_at, only: [:unread]
++  after_action :update_read_at, only: [:all, :unread]
+ 
+   def index
+     if @user.inbox_count > 0

@@ -1,0 +1,35 @@
+diff --git a/app/controllers/comments_controller.rb b/app/controllers/comments_controller.rb
+index a0964bc5..7c51c515 100644
+--- a/app/controllers/comments_controller.rb
++++ b/app/controllers/comments_controller.rb
+@@ -181,7 +181,11 @@ class CommentsController < ApplicationController
+       return render plain: "can't find comment", status: 400
+     end
+ 
+-    InactiveUser.disown! comment
++    if params[:cascade].present?
++      InactiveUser.disown_with_cascade! comment
++    else
++      InactiveUser.disown! comment
++    end
+ 
+     if request.xhr?
+       comment = find_comment
+diff --git a/app/models/inactive_user.rb b/app/models/inactive_user.rb
+index 27795133..4c6ac73f 100644
+--- a/app/models/inactive_user.rb
++++ b/app/models/inactive_user.rb
+@@ -11,6 +11,13 @@ module InactiveUser
+     refresh_counts! author
+   end
+ 
++  def self.disown_with_cascade! comment
++    author = comment.user
++    child_ids = Comment.where(parent_comment_id: comment.id, user_id: author.id).ids
++    Comment.where(id: [comment.id, *child_ids]).update_all(user_id: inactive_user.id)
++    refresh_counts! author
++  end
++
+   def self.disown_all_by_author! author
+     # leave attribution on deleted stuff, which is generally very relevant to mods
+     # when looking back at returning users

@@ -1,0 +1,12 @@
+diff --git a/app/controllers/stories_controller.rb b/app/controllers/stories_controller.rb
+index 594b46ec..076e006c 100644
+--- a/app/controllers/stories_controller.rb
++++ b/app/controllers/stories_controller.rb
+@@ -224,7 +224,6 @@ class StoriesController < ApplicationController
+     end
+ 
+     @story.last_edited_at = Time.current
+-    @story.is_deleted = false
+     @story.editor = @user
+     update_story_attributes
+ 

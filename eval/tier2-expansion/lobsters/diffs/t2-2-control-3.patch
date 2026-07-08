@@ -1,0 +1,139 @@
+diff --git a/app/controllers/users_controller.rb b/app/controllers/users_controller.rb
+index 9bc82492..d5cadc0a 100644
+--- a/app/controllers/users_controller.rb
++++ b/app/controllers/users_controller.rb
+@@ -130,37 +130,42 @@ class UsersController < ApplicationController
+   end
+ 
+   def standing
+-    @interval = time_interval("1m")
++    respond_to do |format|
++      format.html {
++        @interval = time_interval("1m")
+ 
+-    fc = FlaggedCommenters.new(@interval[:param], 1.day)
+-    @fc_flagged = fc.commenters.map { |_, c| c[:n_flags] }.sort
+-    @flagged_user_stats = fc.check_list_for(@showing_user)
++        fc = FlaggedCommenters.new(@interval[:param], 1.day)
++        @fc_flagged = fc.commenters.map { |_, c| c[:n_flags] }.sort
++        @flagged_user_stats = fc.check_list_for(@showing_user)
+ 
+-    rows = ActiveRecord::Base.connection.exec_query("
+-      select
+-        n_flags, count(*) as n_users
+-      from (
+-        select
+-          comments.user_id, sum(flags) as n_flags
+-        from
+-          comments
+-        where
+-          comments.created_at >= now() - interval #{@interval[:dur]} #{@interval[:intv]}
+-        group by comments.user_id) count_by_user
+-      group by 1
+-      order by 1 asc;
+-    ").rows
+-    users = Array.new(@fc_flagged.last.to_i + 1, 0)
+-    rows.each { |r| users[r.first] = r.last }
+-    @lookup = rows.to_h
++        rows = ActiveRecord::Base.connection.exec_query("
++          select
++            n_flags, count(*) as n_users
++          from (
++            select
++              comments.user_id, sum(flags) as n_flags
++            from
++              comments
++            where
++              comments.created_at >= now() - interval #{@interval[:dur]} #{@interval[:intv]}
++            group by comments.user_id) count_by_user
++          group by 1
++          order by 1 asc;
++        ").rows
++        users = Array.new(@fc_flagged.last.to_i + 1, 0)
++        rows.each { |r| users[r.first] = r.last }
++        @lookup = rows.to_h
+ 
+-    @flagged_comments = @showing_user.comments
+-      .where({comments: {flags: 1..}})
+-      .where("comments.created_at >= ?", "now() - interval #{@interval[:dur]} #{@interval[:intv]}")
+-      .joins(:story)
+-      .includes(:user, :hat, story: :user)
+-      .order(id: :desc)
+-    @flagged_comments = CommentVoteHydrator.new(@flagged_comments, @user)
++        @flagged_comments = @showing_user.comments
++          .where({comments: {flags: 1..}})
++          .where("comments.created_at >= ?", "now() - interval #{@interval[:dur]} #{@interval[:intv]}")
++          .joins(:story)
++          .includes(:user, :hat, story: :user)
++          .order(id: :desc)
++        @flagged_comments = CommentVoteHydrator.new(@flagged_comments, @user)
++      }
++      format.json { render json: @showing_user.standing_summary }
++    end
+   end
+ 
+   private
+diff --git a/app/models/user.rb b/app/models/user.rb
+index 41cbcb38..4c5af2c0 100644
+--- a/app/models/user.rb
++++ b/app/models/user.rb
+@@ -369,6 +369,15 @@ class User < ApplicationRecord
+     Keystore.value_for("user:#{id}:comments_deleted").to_i
+   end
+ 
++  def standing_summary
++    {
++      username: username,
++      n_comments: comments.count,
++      n_flagged_comments: comments.where(flags: 1..).count,
++      n_flags: comments.sum(:flags)
++    }
++  end
++
+   def fetched_avatar(size = 100)
+     gravatar_url = "https://www.gravatar.com/avatar/" <<
+       Digest::MD5.hexdigest(email.strip.downcase) <<
+diff --git a/spec/requests/users_controller_spec.rb b/spec/requests/users_controller_spec.rb
+index a97ff55e..b30c9056 100644
+--- a/spec/requests/users_controller_spec.rb
++++ b/spec/requests/users_controller_spec.rb
+@@ -114,6 +114,39 @@ describe "users controller" do
+       get "/~#{bad_user.username}/standing"
+       expect(response.body).to include("flags")
+     end
++
++    it "returns a JSON summary to the user" do
++      create(:comment, user: bad_user)
++      flagged_comment = create(:comment, user: bad_user)
++      flagger1 = create(:user)
++      flagger2 = create(:user)
++      Vote.vote_thusly_on_story_or_comment_for_user_because(
++        -1, flagged_comment.story_id, flagged_comment.id, flagger1.id, "S"
++      )
++      Vote.vote_thusly_on_story_or_comment_for_user_because(
++        -1, flagged_comment.story_id, flagged_comment.id, flagger2.id, "S"
++      )
++
++      sign_in bad_user
++
++      get "/~#{bad_user.username}/standing.json"
++
++      json = JSON.parse(response.body)
++      expect(json).to eq({
++        "username" => bad_user.username,
++        "n_comments" => 2,
++        "n_flagged_comments" => 1,
++        "n_flags" => 2
++      })
++    end
++
++    it "doesn't return JSON to other users" do
++      user2 = create(:user)
++      sign_in user2
++
++      get "/~#{bad_user.username}/standing.json"
++      expect(response.status).to eq(302)
++    end
+   end
+ 
+   describe "username case mismatch" do

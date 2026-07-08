@@ -1,0 +1,154 @@
+diff --git a/app/controllers/users_controller.rb b/app/controllers/users_controller.rb
+index 9bc82492..664f34ad 100644
+--- a/app/controllers/users_controller.rb
++++ b/app/controllers/users_controller.rb
+@@ -132,35 +132,42 @@ class UsersController < ApplicationController
+   def standing
+     @interval = time_interval("1m")
+ 
+-    fc = FlaggedCommenters.new(@interval[:param], 1.day)
+-    @fc_flagged = fc.commenters.map { |_, c| c[:n_flags] }.sort
+-    @flagged_user_stats = fc.check_list_for(@showing_user)
++    respond_to do |format|
++      format.html {
++        fc = FlaggedCommenters.new(@interval[:param], 1.day)
++        @fc_flagged = fc.commenters.map { |_, c| c[:n_flags] }.sort
++        @flagged_user_stats = fc.check_list_for(@showing_user)
+ 
+-    rows = ActiveRecord::Base.connection.exec_query("
+-      select
+-        n_flags, count(*) as n_users
+-      from (
+-        select
+-          comments.user_id, sum(flags) as n_flags
+-        from
+-          comments
+-        where
+-          comments.created_at >= now() - interval #{@interval[:dur]} #{@interval[:intv]}
+-        group by comments.user_id) count_by_user
+-      group by 1
+-      order by 1 asc;
+-    ").rows
+-    users = Array.new(@fc_flagged.last.to_i + 1, 0)
+-    rows.each { |r| users[r.first] = r.last }
+-    @lookup = rows.to_h
++        rows = ActiveRecord::Base.connection.exec_query("
++          select
++            n_flags, count(*) as n_users
++          from (
++            select
++              comments.user_id, sum(flags) as n_flags
++            from
++              comments
++            where
++              comments.created_at >= now() - interval #{@interval[:dur]} #{@interval[:intv]}
++            group by comments.user_id) count_by_user
++          group by 1
++          order by 1 asc;
++        ").rows
++        users = Array.new(@fc_flagged.last.to_i + 1, 0)
++        rows.each { |r| users[r.first] = r.last }
++        @lookup = rows.to_h
+ 
+-    @flagged_comments = @showing_user.comments
+-      .where({comments: {flags: 1..}})
+-      .where("comments.created_at >= ?", "now() - interval #{@interval[:dur]} #{@interval[:intv]}")
+-      .joins(:story)
+-      .includes(:user, :hat, story: :user)
+-      .order(id: :desc)
+-    @flagged_comments = CommentVoteHydrator.new(@flagged_comments, @user)
++        @flagged_comments = @showing_user.comments
++          .where({comments: {flags: 1..}})
++          .where("comments.created_at >= ?", "now() - interval #{@interval[:dur]} #{@interval[:intv]}")
++          .joins(:story)
++          .includes(:user, :hat, story: :user)
++          .order(id: :desc)
++        @flagged_comments = CommentVoteHydrator.new(@flagged_comments, @user)
++
++        render action: "standing"
++      }
++      format.json { render json: UserStanding.new(@showing_user, @interval[:param]) }
++    end
+   end
+ 
+   private
+diff --git a/app/models/user_standing.rb b/app/models/user_standing.rb
+new file mode 100644
+index 00000000..428b2938
+--- /dev/null
++++ b/app/models/user_standing.rb
+@@ -0,0 +1,40 @@
++# typed: false
++
++# Small summary of a user's comment flagging record over a given interval,
++# used by UsersController#standing (HTML and JSON).
++class UserStanding
++  include IntervalHelper
++
++  attr_reader :user, :interval
++
++  def initialize(user, interval_param = "1m")
++    @user = user
++    @interval = time_interval(interval_param)
++  end
++
++  def comments
++    period = interval[:dur].send(interval[:intv].downcase).ago
++    user.comments.where("comments.created_at >= ?", period)
++  end
++
++  def n_comments
++    comments.count
++  end
++
++  def n_flagged_comments
++    comments.where(flags: 1..).count
++  end
++
++  def n_flags
++    comments.sum(:flags)
++  end
++
++  def as_json(*)
++    {
++      username: user.username,
++      n_comments: n_comments,
++      n_flagged_comments: n_flagged_comments,
++      n_flags: n_flags
++    }
++  end
++end
+diff --git a/spec/requests/users_controller_spec.rb b/spec/requests/users_controller_spec.rb
+index a97ff55e..ce693793 100644
+--- a/spec/requests/users_controller_spec.rb
++++ b/spec/requests/users_controller_spec.rb
+@@ -114,6 +114,29 @@ describe "users controller" do
+       get "/~#{bad_user.username}/standing"
+       expect(response.body).to include("flags")
+     end
++
++    it "returns a JSON summary to the user" do
++      create(:comment, user: bad_user).update_column(:flags, 3)
++      create(:comment, user: bad_user)
++
++      sign_in bad_user
++
++      get "/~#{bad_user.username}/standing.json"
++
++      json = JSON.parse(response.body)
++      expect(json["username"]).to eq(bad_user.username)
++      expect(json["n_comments"]).to eq(2)
++      expect(json["n_flagged_comments"]).to eq(1)
++      expect(json["n_flags"]).to eq(3)
++    end
++
++    it "doesn't return JSON to other users" do
++      user2 = create(:user)
++      sign_in user2
++
++      get "/~#{bad_user.username}/standing.json"
++      expect(response.status).to eq(302)
++    end
+   end
+ 
+   describe "username case mismatch" do

@@ -1,0 +1,17 @@
+diff --git a/app/controllers/comments_controller.rb b/app/controllers/comments_controller.rb
+index a0964bc5..e1ad377c 100644
+--- a/app/controllers/comments_controller.rb
++++ b/app/controllers/comments_controller.rb
+@@ -181,6 +181,12 @@ class CommentsController < ApplicationController
+       return render plain: "can't find comment", status: 400
+     end
+ 
++    if params[:cascade].present?
++      Comment.where(parent_comment_id: comment.id, user_id: comment.user_id).find_each do |child|
++        InactiveUser.disown! child
++      end
++    end
++
+     InactiveUser.disown! comment
+ 
+     if request.xhr?
