@@ -103,28 +103,30 @@ landed, in order:
   grid re-run.
 - **Epic issue [#4](https://github.com/fuentesjr/ctxpack/issues/4)** filed.
 
-The v0/view/companion commits are pushed (`origin/main` at `a8dab7c`). Since
-then, a docs-quality session (2026-07-09) landed **four COMMITTED-not-pushed**
-commits: `e5269f0` doc-alignment (autobots doc-drift review — README status,
-tracker push-state, VIEW-1 spec text, FMT-9, eval-plan Tier 2, CONST-1a notes);
-`bcfed2f` the VIEW-1 leading-underscore characterization eval; `3edcc74` the
-user-facing docs; plus this tracker rewrite. Suite **91 runs / 0 failures**.
+A docs-quality session (2026-07-09) then landed and **PUSHED** five commits on
+top of `a8dab7c`: `e5269f0` doc-alignment (autobots doc-drift review — README
+status, tracker push-state, VIEW-1 spec text, FMT-9, eval-plan Tier 2, CONST-1a
+notes); `bcfed2f` the VIEW-1 leading-underscore characterization eval; `3edcc74`
+the user-facing docs (`docs/examples.md`, `docs/faq.md`); `109cfe2` the prior
+tracker rewrite; `7d4f989` an autobots AI-slop cleanup (booster/filler cuts,
+README roster de-dup, two accuracy fixes, and removal of a stray 0-byte fixture
+artifact). Suite **91 runs / 0 failures**. Everything through this commit is on
+`origin/main`.
 
-**Next work order:**
-1. **Push the four unpushed commits** to `origin/main` (outward-facing — get
-   user go first). As of this writing: `e5269f0`, `bcfed2f`, `3edcc74`, plus this
-   tracker commit — verify with `git log --oneline origin/main..HEAD`.
-2. **Optional: link the new docs from README** for discoverability
-   (`docs/examples.md`, `docs/faq.md` are not yet referenced from the README
-   Status section). One-line change; skipped this session to keep scope tight.
-3. **No forced next pass after that.** The remaining backlog is discretionary:
-   real-usage dogfooding to exercise LIM-1's limits against actual
-   packet-vs-diff coverage (the post-v0 north-star), or revisiting the deferred
-   Tier 3 Rubydex direction if a corpus makes it worthwhile. Pick with the user;
-   do not invent scope.
+**Next work order — no forced next pass.** v0 (passes 1–4), the view layer, both
+companion changes, the user-facing docs, and this session's doc/slop cleanup are
+all landed, gate-passed, and pushed. The remaining backlog is discretionary:
+1. **Real-usage dogfooding** — exercise LIM-1's limits against actual
+   packet-vs-diff coverage on live work (the post-v0 north-star).
+2. **Tier 3 Rubydex** — revisit the deferred native-index direction only if a
+   corpus makes the halved-precision tradeoff worthwhile.
+3. **Optional:** link `docs/examples.md` / `docs/faq.md` from the README for
+   discoverability (not yet referenced there). One-line change.
 
-Final step of this plan: once the push lands (or the user redirects), rewrite
-this section for whatever follows.
+Pick with the user; do not invent scope.
+
+Final step of this plan: once a direction is chosen (or work lands), rewrite this
+section for whatever follows.
 
 ## Status
 
