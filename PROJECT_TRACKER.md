@@ -103,21 +103,34 @@ landed, in order:
   grid re-run.
 - **Epic issue [#4](https://github.com/fuentesjr/ctxpack/issues/4)** filed.
 
+The v0/view/companion commits are pushed (`origin/main` at `a8dab7c`). Since
+then, a doc-alignment pass (autobots doc-drift review, `e5269f0`, COMMITTED not
+pushed) realigned stale docs (README status, tracker push-state, VIEW-1 spec
+text, FMT-9, eval-plan Tier 2, CONST-1a notes) with the shipped v0.
+
 **Next work order:**
-1. **(Done) The commits are pushed** — `origin/main` is synced through the
-   view-pass validation commit (`a8dab7c`); `e6a5d10` (issue note), `ab72137`
-   (CONST-1), and `c7a4ae3` (locale) are all on `origin/main`, and
-   `git log --oneline origin/main..HEAD` is empty.
-2. **No forced next pass.** v0 (passes 1–4), the view layer, and both companion
-   changes are all landed and gate-passed; the Tier 2 expansion epic is
-   SUPPORT/generalizes and closed (#4). The remaining backlog is discretionary:
+1. **VIEW-1 leading-underscore-action characterization eval.** The doc pass
+   corrected the VIEW-1 spec (the view token only strips trailing `?`/`!`; a
+   `_`-prefixed action can never surface its own conventional template because
+   the filename is indistinguishable from a partial, per VIEW-2) and documented
+   that consequence — but it was untested. Add a Tier 1 fixture eval
+   (`test/fixtures/evals/view_leading_underscore_action.yml` anchored on
+   `oddities#_show_secure_deprecated`, plus an
+   `app/views/oddities/_show_secure_deprecated.html.erb` fixture that EXISTS on
+   disk yet is excluded) locking the behavior. NOTE: this is a **characterization
+   test of already-correct behavior, not a bug fix** — green from the start (no
+   `lib/` change); its teeth are shown by neutralizing the partial-exclusion
+   filter (green → red → restore). No compiler-behavior change ⇒ no Tier 0 rescan.
+2. **User-facing docs.** Generate `docs/examples.md` (audience: Rails developers
+   learning and using ctxpack) and `docs/faq.md`.
+3. **No forced next pass after that.** The remaining backlog is discretionary:
    real-usage dogfooding to exercise LIM-1's limits against actual
    packet-vs-diff coverage (the post-v0 north-star), or revisiting the deferred
    Tier 3 Rubydex direction if a corpus makes it worthwhile. Pick with the user;
    do not invent scope.
 
-Final step of this plan: after the commits are pushed (or the user redirects),
-rewrite this section for whatever follows.
+Final step of this plan: once items 1–2 land (or the user redirects), rewrite
+this section for whatever follows.
 
 ## Status
 
