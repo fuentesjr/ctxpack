@@ -84,11 +84,11 @@ Written 2026-07-09. Work order for a fresh "Continue from
 PROJECT_TRACKER.md" session. If this section disagrees with "Next steps", Next
 steps wins.
 
-**Context — the view path-convention layer is COMPLETE, gate-passed, and
-COMMITTED, but NOT PUSHED.** It landed as commits `6688ff9` (the pass) +
-`2e9284e` (Claude-specific delegation-model doc in CLAUDE.md); the tree is clean
-and **3 commits ahead of `origin/main`, unpushed** (the third is `67244d3`, the
-Tier 3 Rubydex probe). Spec frozen + folded, `add_view_candidates` implemented,
+**Context — the view path-convention layer is COMPLETE, gate-passed, COMMITTED,
+and PUSHED.** It landed as commits `6688ff9` (the pass) + `2e9284e`
+(Claude-specific delegation-model doc in CLAUDE.md), and `origin/main` is in sync
+as of 2026-07-09 (`da676cb`, the tracker reconciliation). Spec frozen + folded,
+`add_view_candidates` implemented,
 red-then-green fixture evals + `ViewResolutionTest`, suite green **74 runs / 621
 assertions**; full detail in the 2026-07-08 decision-log entry. Minor known debt:
 the `enforce_total_file_limit` slice is now an unreachable defensive backstop
@@ -104,25 +104,25 @@ to `results/post_amendment/` — zero per-anchor change, zero crashes across all
 pending" debt note; that was a transient fetch artifact (disproven — GitHub is
 reachable, the rescan reproduces the baseline exactly) and has been removed.
 
-**Next work order (in order — all outward-facing or session-gated):**
-1. **Push the 3 unpushed commits** to `origin/main` (outward-facing — get user go
-   first). The gate is satisfied; nothing more to verify before pushing.
-2. **Release-boundary validation — a usefulness check, NOT a correctness gate;
+**Next work order (in order — all session-gated or outward-facing; the view pass
+itself is fully landed and pushed):**
+1. **Release-boundary validation — a usefulness check, NOT a correctness gate;
    needs a `--dangerously-skip-permissions` session (cannot run from a normal
    session, per `eval/tier2/RUNBOOK.md`).** Re-run the **existing** Tier 2
    harness (NOT a new grid) watching: no bug-task exploration regression from
    the added view surface, and whether publify t1's treatment view omission
    (P06/P20 — the two dings this whole pass targets) disappears. This is the
    sharp, cheap coverage→value confirmation.
-3. **Companion changes** (separate small passes, `specs/views.md` "Companion
+2. **Companion changes** (separate small passes, `specs/views.md` "Companion
    work"): CONST-1 whole-controller-file constant widening; locale as a standing
    Uncertainty pointer. Keep them separate unless the user bundles them.
 
 **Also still open (unrelated):** file the GitHub issue tracking the Tier 2
 expansion epic (Next steps item 4 — outward-facing, confirm with user first).
 
-Final step of this plan: after the pass is pushed and validated (or the user
-redirects), rewrite this section for whatever follows.
+Final step of this plan: after the release-boundary validation runs (or the user
+redirects to companion work / the epic issue), rewrite this section for whatever
+follows.
 
 ## Status
 
@@ -132,7 +132,7 @@ redirects), rewrite this section for whatever follows.
 | 2 | [`packet-format.md`](specs/packet-format.md) | **Done** (2026-07-05) | `Ctxpack.render_markdown` / `Ctxpack.render_manifest` over the pass 1 packet object. One review fix round (FMT-5 marker drift, Anchor labels). 34 tests / 193 assertions green. |
 | 3 | [`cli.md`](specs/cli.md) | **Done** (2026-07-05) | `Ctxpack::CLI` + `exe/ctxpack` over OptionParser, wiring the pass 1/2 APIs. One review fix round (CLI-14 reminder on implicit `.ctxpack/` creation, CLI-8 anchor-only derivation test). 47 tests / 274 assertions green. |
 | 4 | [`fixture-evals.md`](specs/fixture-evals.md) | **Done** (2026-07-05) | `FixtureEvalsTest` generates packet-expectation + CLI-determinism tests from `test/fixtures/evals/*.yml`; CI (`.github/workflows/ci.yml`) runs the suite on Ruby 3.2 plus a non-blocking pinned metz step. One review fix round (empty-glob guard, manifest-inclusive determinism, CI Ruby floor). 49 tests / 311 assertions green. |
-| View resolution | [`views.md`](specs/views.md), [`packet-compilation.md`](specs/packet-compilation.md), [`packet-format.md`](specs/packet-format.md) | **Done — gate-passed, COMMITTED (`6688ff9`), NOT PUSHED** (2026-07-08; rescan re-verified 2026-07-09) | VIEW-1..VIEW-7 frozen + folded; `add_view_candidates` between controller and constants; `view_candidate` (list-only) + `view_inferred_by_convention`; `max_view_files = 2`; `max_total_files` truncates by priority. Red-then-green fixture evals + `ViewResolutionTest` (independently re-verified 6/7 red with `lib/` reverted). Suite green **74 runs / 621 assertions**. **Mandatory Tier 0 re-scan PASSED and RE-VERIFIED 2026-07-09** — classifier output byte-identical to the post-amendment baseline, zero per-anchor change, zero crashes across 1,967 pairs (addendum + re-verification note in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md)). Remaining: push (user go) + optional release-boundary Tier 2 validation (needs a `--dangerously-skip-permissions` session). |
+| View resolution | [`views.md`](specs/views.md), [`packet-compilation.md`](specs/packet-compilation.md), [`packet-format.md`](specs/packet-format.md) | **Done — gate-passed, COMMITTED (`6688ff9`) + PUSHED** (2026-07-08; rescan re-verified + pushed 2026-07-09) | VIEW-1..VIEW-7 frozen + folded; `add_view_candidates` between controller and constants; `view_candidate` (list-only) + `view_inferred_by_convention`; `max_view_files = 2`; `max_total_files` truncates by priority. Red-then-green fixture evals + `ViewResolutionTest` (independently re-verified 6/7 red with `lib/` reverted). Suite green **74 runs / 621 assertions**. **Mandatory Tier 0 re-scan PASSED and RE-VERIFIED 2026-07-09** — classifier output byte-identical to the post-amendment baseline, zero per-anchor change, zero crashes across 1,967 pairs (addendum + re-verification note in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md)). Remaining: push (user go) + optional release-boundary Tier 2 validation (needs a `--dangerously-skip-permissions` session). |
 
 Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
@@ -145,17 +145,16 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Next steps
 
-1. **View path-convention layer is COMPLETE, gate-passed, and COMMITTED
-   (`6688ff9`) — but NOT PUSHED (3 commits ahead of `origin/main`).** Design
-   freeze/fold done, implemented + independently verified red-then-green, suite
-   green (74 runs), and the mandatory Tier 0 corpus re-scan PASSED — and was
+1. **View path-convention layer is COMPLETE, gate-passed, COMMITTED
+   (`6688ff9`), and PUSHED (`origin/main` synced at `da676cb`, 2026-07-09).**
+   Design freeze/fold done, implemented + independently verified red-then-green,
+   suite green (74 runs), and the mandatory Tier 0 corpus re-scan PASSED — and was
    independently RE-VERIFIED 2026-07-09 as byte-identical to the post-amendment
    baseline (a stale "DNS-failed / rescan pending" debt note was disproven and
-   removed; addendum + re-verification note in `eval/tier0/RESULTS.md`). The next
-   immediate steps are outward-facing / session-gated: push the commits (user
-   go), then the optional release-boundary Tier 2 validation (needs a
-   `--dangerously-skip-permissions` session) — both spelled out in the execution
-   plan above.
+   removed; addendum + re-verification note in `eval/tier0/RESULTS.md`). The only
+   remaining step is session-gated: the optional release-boundary Tier 2
+   validation (needs a `--dangerously-skip-permissions` session) — spelled out in
+   the execution plan above.
 2. **(Done) Tier 2 diff-quality scores** — now judge-of-record blind scores
    (seed = app SHA), committed under `eval/tier2-expansion/judging/`; verdict
    unchanged (rests on the exploration metric). A human author re-score remains
