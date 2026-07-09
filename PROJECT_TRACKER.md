@@ -104,32 +104,26 @@ landed, in order:
 - **Epic issue [#4](https://github.com/fuentesjr/ctxpack/issues/4)** filed.
 
 The v0/view/companion commits are pushed (`origin/main` at `a8dab7c`). Since
-then, a doc-alignment pass (autobots doc-drift review, `e5269f0`, COMMITTED not
-pushed) realigned stale docs (README status, tracker push-state, VIEW-1 spec
-text, FMT-9, eval-plan Tier 2, CONST-1a notes) with the shipped v0.
+then, a docs-quality session (2026-07-09) landed **four COMMITTED-not-pushed**
+commits: `e5269f0` doc-alignment (autobots doc-drift review — README status,
+tracker push-state, VIEW-1 spec text, FMT-9, eval-plan Tier 2, CONST-1a notes);
+`bcfed2f` the VIEW-1 leading-underscore characterization eval; `3edcc74` the
+user-facing docs; plus this tracker rewrite. Suite **91 runs / 0 failures**.
 
 **Next work order:**
-1. **VIEW-1 leading-underscore-action characterization eval.** The doc pass
-   corrected the VIEW-1 spec (the view token only strips trailing `?`/`!`; a
-   `_`-prefixed action can never surface its own conventional template because
-   the filename is indistinguishable from a partial, per VIEW-2) and documented
-   that consequence — but it was untested. Add a Tier 1 fixture eval
-   (`test/fixtures/evals/view_leading_underscore_action.yml` anchored on
-   `oddities#_show_secure_deprecated`, plus an
-   `app/views/oddities/_show_secure_deprecated.html.erb` fixture that EXISTS on
-   disk yet is excluded) locking the behavior. NOTE: this is a **characterization
-   test of already-correct behavior, not a bug fix** — green from the start (no
-   `lib/` change); its teeth are shown by neutralizing the partial-exclusion
-   filter (green → red → restore). No compiler-behavior change ⇒ no Tier 0 rescan.
-2. **User-facing docs.** Generate `docs/examples.md` (audience: Rails developers
-   learning and using ctxpack) and `docs/faq.md`.
+1. **Push the four unpushed commits** to `origin/main` (outward-facing — get
+   user go first). As of this writing: `e5269f0`, `bcfed2f`, `3edcc74`, plus this
+   tracker commit — verify with `git log --oneline origin/main..HEAD`.
+2. **Optional: link the new docs from README** for discoverability
+   (`docs/examples.md`, `docs/faq.md` are not yet referenced from the README
+   Status section). One-line change; skipped this session to keep scope tight.
 3. **No forced next pass after that.** The remaining backlog is discretionary:
    real-usage dogfooding to exercise LIM-1's limits against actual
    packet-vs-diff coverage (the post-v0 north-star), or revisiting the deferred
    Tier 3 Rubydex direction if a corpus makes it worthwhile. Pick with the user;
    do not invent scope.
 
-Final step of this plan: once items 1–2 land (or the user redirects), rewrite
+Final step of this plan: once the push lands (or the user redirects), rewrite
 this section for whatever follows.
 
 ## Status
@@ -184,6 +178,31 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Decision log
 
+- **2026-07-09** — Docs-quality session (committed, NOT pushed; orchestrated:
+  Claude orchestrator, **4 parallel `doc-reviewer` subagents** for the drift
+  sweep, **fable** advised the new docs' structure). Three landed changes:
+  **(a) Doc-drift review** (`e5269f0`) — four doc-reviewers over disjoint groups
+  (README/AGENTS/CLAUDE; compilation+views specs; format+CLI+eval specs;
+  design/notes/plan) found six drifts, all verified by the orchestrator against
+  code/git and fixed: README "Status"/"Current next step" described a
+  pre-implementation state and linked closed #1/#2 (rewritten to shipped v0 +
+  pointer to this tracker); tracker "NOT PUSHED" claims corrected (git shows
+  `origin/main` synced); **VIEW-1 spec text** in `packet-compilation.md` +
+  `views.md` claimed the view token drops a leading `_` (code only strips
+  trailing `?`/`!`) — clause removed and the real VIEW-2 consequence documented
+  (a `_`-prefixed action can't surface its own view); FMT-9 omitted-candidate
+  categories under-enumerated; eval-plan Tier 2 lacked an "Executed" block;
+  CONST-1a notes lacked the per-pass Verification block. AGENTS/CLAUDE/design/
+  cli/fixture-evals specs were clean. **(b) VIEW-1 characterization eval**
+  (`bcfed2f`) — Tier 1 fixture locking the leading-underscore behavior; a
+  characterization test of already-correct behavior (green from the start, no
+  `lib/` change), teeth shown by neutralizing the partial-exclusion filter
+  (green → red → restore). **(c) User-facing docs** (`3edcc74`) —
+  `docs/examples.md` + `docs/faq.md` for Rails devs; fable (advisor) corrected
+  the install path (unpublished gem → github source), kept the usefulness claim
+  honest/evidence-linked (offline exploration wins, no code-quality claim), and
+  pushed for real generated packet output over fabricated examples. Suite green
+  **91 runs / 0 failures**. No compiler-behavior change ⇒ no Tier 0 rescan.
 - **2026-07-09** — View-pass release-boundary validation done; **coverage
   confirmed, subject re-run judged unnecessary** (user decision). Rather than a
   new grid, regenerated the publify t1/t3 packets at the current lib (`c7a4ae3`)
