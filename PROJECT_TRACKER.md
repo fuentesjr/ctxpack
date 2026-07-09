@@ -164,13 +164,12 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
    Two honest scope drifts noted at close: the Tier 0 write-up landed under
    `eval/tier0/` (not the `docs/experiments/` path #3 named), and LIM-1's
    snippet-line limit shipped at 120 (not the 80 in #1's draft).
-4. **(Open) File a GitHub issue tracking the Tier 2 expansion epic.** No open
-   issue covers it; it should record the SUPPORT/generalizes verdict, the two
-   confirmatory passes (diff-quality gate closed, packet-vs-diff coverage), and
-   point at `eval/tier2-expansion/RESULTS.md` + the Tier 3 proposal as the live
-   follow-up. Filing/editing issues is **outward-facing — confirm with the user
-   before doing it** (the earlier pre-authorization covered only closing
-   #1/#2/#3, not opening new issues).
+4. **(Done, 2026-07-09) Filed the Tier 2 expansion epic GitHub issue** as
+   [#4](https://github.com/fuentesjr/ctxpack/issues/4) (`type: epic`, user
+   authorized): records the SUPPORT/generalizes verdict, both confirmatory passes
+   (diff-quality gate closed `cac1190`, packet-vs-diff coverage `c1e5f82`), and
+   points at `eval/tier2-expansion/RESULTS.md` + the Tier 3 proposal as the live
+   follow-up.
 
 ## Decision log
 
