@@ -133,6 +133,7 @@ follows.
 | 3 | [`cli.md`](specs/cli.md) | **Done** (2026-07-05) | `Ctxpack::CLI` + `exe/ctxpack` over OptionParser, wiring the pass 1/2 APIs. One review fix round (CLI-14 reminder on implicit `.ctxpack/` creation, CLI-8 anchor-only derivation test). 47 tests / 274 assertions green. |
 | 4 | [`fixture-evals.md`](specs/fixture-evals.md) | **Done** (2026-07-05) | `FixtureEvalsTest` generates packet-expectation + CLI-determinism tests from `test/fixtures/evals/*.yml`; CI (`.github/workflows/ci.yml`) runs the suite on Ruby 3.2 plus a non-blocking pinned metz step. One review fix round (empty-glob guard, manifest-inclusive determinism, CI Ruby floor). 49 tests / 311 assertions green. |
 | View resolution | [`views.md`](specs/views.md), [`packet-compilation.md`](specs/packet-compilation.md), [`packet-format.md`](specs/packet-format.md) | **Done — gate-passed, COMMITTED (`6688ff9`) + PUSHED** (2026-07-08; rescan re-verified + pushed 2026-07-09) | VIEW-1..VIEW-7 frozen + folded; `add_view_candidates` between controller and constants; `view_candidate` (list-only) + `view_inferred_by_convention`; `max_view_files = 2`; `max_total_files` truncates by priority. Red-then-green fixture evals + `ViewResolutionTest` (independently re-verified 6/7 red with `lib/` reverted). Suite green **74 runs / 621 assertions**. **Mandatory Tier 0 re-scan PASSED and RE-VERIFIED 2026-07-09** — classifier output byte-identical to the post-amendment baseline, zero per-anchor change, zero crashes across 1,967 pairs (addendum + re-verification note in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md)). Remaining: push (user go) + optional release-boundary Tier 2 validation (needs a `--dangerously-skip-permissions` session). |
+| CONST-1 widening (companion) | [`packet-compilation.md`](specs/packet-compilation.md) | **Done — gate-passed, COMMITTED, NOT PUSHED** (2026-07-09) | Codex-implemented (fable-frozen), intra-file action call graph: constant scan now covers action body + applicable same-file callbacks + same-file methods **transitively called from the action** (BFS, nil/`self` receiver + direct-method-name only; dynamic dispatch out). CONST-4 three-group order (action → callbacks → callees appended LAST) makes it **strictly additive under the 4-cap** (no eviction). CONST-1/1a/4 amended, `design.md` reconciled; new `file_order`/`omitted` fixture-eval DSL. 5 red-then-green fixtures + `constants_test` cases (independently re-verified red with `lib/` reverted). Suite green **89 runs / 815 assertions**. **Mandatory Tier 0 re-scan PASSED** — zero per-anchor change, zero crashes across 1,967 pairs (also a crash-stress test of the new call-graph code). |
 
 Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
@@ -173,6 +174,38 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Decision log
 
+- **2026-07-09** — CONST-1 widening companion pass landed (committed, not yet
+  pushed; orchestrated: Claude orchestrator/verifier, **fable** froze the design,
+  **Codex** implemented via the `codex-spec-pass` loop with flags
+  `--write` — full slice — then `--write --resume` for the pass notes). **Design
+  fork resolved by fable** (over the orchestrator's first proposal): widen the
+  constant scan from the action body to an **intra-file action call graph** —
+  action body + applicable same-file callbacks + same-file methods transitively
+  called from the action (the chosen option over "whole controller class", which
+  the Tier 3 probe rejected for precision). **Ordering (CONST-4 amendment):**
+  three groups — action → applicable callbacks → transitive callees **appended
+  last** in BFS discovery order. fable's decisive argument: append-last makes the
+  widening **strictly additive under `max_constant_files=4`**, so a transitive
+  constant can never evict a direct action/callback constant (the precision
+  failure that got whole-class rejected can't sneak back). **Detection:**
+  `Prism::CallNode` with nil or `self` receiver whose name is a controller direct
+  method; dynamic dispatch (`send`/`method`/aliases) out of scope. **BFS visited
+  seeded on the action name only** so a callback-that-is-also-a-callee is still
+  traversed *through* (path-dedup keeps its constants at the callback position).
+  Spec CONST-1 reworded ("no **cross-file** call-graph"), CONST-1a added, CONST-4
+  amended; `design.md` reconciled (Codex also fixed a design.md view-rationale
+  that still referenced the rejected whole-controller option). Fixture-eval DSL
+  gained `file_order`/`omitted` assertions to express the no-eviction test.
+  **Verified session-side:** 5 red-then-green fixtures + `constants_test` cases
+  (independently re-confirmed red with `lib/` reverted), suite green **89 runs /
+  815 assertions**, and the **mandatory Tier 0 re-scan PASSED** — zero per-anchor
+  change and **zero crashes across all 1,967 pairs** (doubles as a crash-stress
+  test of the new BFS call-graph code; constant widening is additive and
+  post-resolution). Codex owns the `implementation-notes.md` entry (confirmed
+  current). Orchestrator note: an initial default-effort dispatch was cancelled to
+  redispatch at higher effort, but it had already written the full diff to disk —
+  so the output was verified in place rather than re-run (effort label is moot
+  when the output passes requirement-by-requirement review + the rescan gate).
 - **2026-07-09** — Tracker reconciled + view-pass Tier 0 rescan independently
   re-verified. A "Continue from PROJECT_TRACKER.md" session found the tracker
   self-contradicting: the execution plan/Status/commit called the view pass

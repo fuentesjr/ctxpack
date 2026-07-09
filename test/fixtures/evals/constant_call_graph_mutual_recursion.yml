@@ -1,0 +1,28 @@
+name: constant_call_graph_mutual_recursion
+command:
+  anchor: call_graph_constants#mutual
+  task: Terminate recursive helper traversal
+
+expect:
+  entrypoint:
+    file: app/controllers/call_graph_constants_controller.rb
+    action: mutual
+
+  include:
+    - path: app/controllers/call_graph_constants_controller.rb
+      reason_code: controller_action
+    - path: app/models/mutual_first.rb
+      reason_code: referenced_constant
+    - path: app/models/mutual_second.rb
+      reason_code: referenced_constant
+
+  exclude: []
+
+  file_order:
+    - app/controllers/call_graph_constants_controller.rb
+    - app/models/mutual_first.rb
+    - app/models/mutual_second.rb
+
+  tests: []
+
+  max_files: 8

@@ -52,7 +52,7 @@ The first version should stay intentionally small:
 controller#action
 → action snippet + applicable before_action callbacks
 → conventional action view templates when present
-→ obvious referenced constants
+→ obvious referenced constants from the action and same-file called helpers
 → likely test candidates
 → compact Markdown packet
 ```

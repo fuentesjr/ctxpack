@@ -151,8 +151,35 @@ those names cannot be known]**
 **CONST-1.** ctxpack collects obvious constants referenced inside the action
 body and inside the bodies of applicable same-file callbacks. "Obvious" means
 syntactically present constant references (e.g. `Billing::Subscriptions`,
-`SyncBillingAccountJob`) — no receiver-type inference, no call-graph
-construction.
+`SyncBillingAccountJob`) — no receiver-type inference, no cross-file
+call-graph construction.
+
+**CONST-1a.** The constant scan set is the action body, the bodies of
+applicable same-file callbacks, and the bodies of same-file methods
+transitively called from the action body. A call counts as an intra-file
+method call only when it is a `Prism::CallNode` whose receiver is absent
+(implicit `self`) or is a `Prism::SelfNode` (explicit `self.foo`), and whose
+method name matches a direct method of the controller class. Calls with any
+other receiver are ignored. Only literal identifier calls are followed:
+`send`, `public_send`, `method`, `alias_method`, aliases, and other dynamic
+dispatch are out of scope.
+
+Transitivity uses a FIFO work-list seeded with qualifying same-file calls
+found in the action body in source order. The visited set is seeded with the
+action's own method name only. For each popped method name, ctxpack marks it
+visited, scans that method body for constants, and appends further qualifying
+same-file calls in source order, skipping already-visited or already-queued
+names. The traversal terminates because the direct-method set is finite.
+
+Callback bodies are scanned for constants but their calls are not followed.
+Only the action's call graph expands. If a method is both an applicable
+callback and reachable from the action, its constants are emitted at its
+callback position (path-level deduplication makes a later callee emission a
+no-op), but the BFS still traverses through that method to discover its own
+callees; callback names are therefore not seeded into the visited set. As with
+actions and callbacks, constants in method parameter defaults
+(`def helper(x = MAX)`) are not scanned because ctxpack scans method bodies
+only.
 
 **CONST-2.** Collected constants are mapped to files using Rails/Zeitwerk
 naming conventions only, and only when the mapping is cheap and exact — i.e.
@@ -187,10 +214,15 @@ before moving to the next candidate. The packet reports the file under the
 trimmed constant name.
 
 **CONST-4.** Resolved constant files are deduplicated and ordered by first
-reference: action body top-to-bottom, then applicable callbacks in declaration
-order. This ordering decides both which files survive the max-constant-files
-limit (LIM-1) and their display order in the packet. Constants dropped by the
-limit are named in the omitted-candidates note (LIM-2).
+reference in three groups: action-body constants top-to-bottom, then
+applicable same-file callback constants in declaration order, then transitive
+same-file callee constants in BFS discovery order. Deduplication is by
+resolved file path across all three groups; first occurrence wins. This
+ordering decides both which files survive the max-constant-files limit
+(LIM-1) and their display order in the packet. Constants dropped by the limit
+are named in the omitted-candidates note (LIM-2). Because transitive callee
+constants are appended last, they can add context under spare capacity but
+cannot evict constants referenced directly by the action or callbacks.
 
 ## Views
 

@@ -1,0 +1,2 @@
+class LiteralSelfConstant
+end

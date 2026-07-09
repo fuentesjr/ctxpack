@@ -63,6 +63,15 @@ expect:
   exclude:
     - app/controllers/admin/accounts_controller.rb
 
+  file_order:
+    - app/controllers/accounts_controller.rb
+    - test/integration/accounts_upgrade_test.rb
+
+  omitted:
+    - category: constant_files
+      subject: EpsilonFive
+      reason: max constant files limit reached
+
   tests:
     - bin/rails test test/integration/accounts_upgrade_test.rb
 
@@ -71,9 +80,11 @@ expect:
 
 Semantics: `app` names the fixture tree under `test/fixtures/apps/` and
 defaults to `minitest_basic` when omitted. `include` entries must all be
-present with the stated reason code; `exclude` paths must be absent; `tests`
-commands must all be suggested; `max_files` bounds the packet's total file
-count.
+present with the stated reason code; `exclude` paths must be absent; optional
+`file_order`, when present, must exactly match the packet's ordered file paths;
+optional `omitted` entries must match omitted-candidate category and subject,
+with `reason` checked when provided; `tests` commands must all be suggested;
+`max_files` bounds the packet's total file count.
 
 **EVAL-5.** Assertions SHOULD target stable fields (via the internal packet
 object or the JSON manifest, MAN-1) rather than parsing Markdown prose.
@@ -85,6 +96,8 @@ object or the JSON manifest, MAN-1) rather than parsing Markdown prose.
 - correct entry point
 - required files included, with expected reason codes
 - forbidden files excluded
+- exact file ordering when the case declares `file_order`
+- omitted candidates when the case declares `omitted`
 - expected test commands suggested
 - packet stays under file and snippet limits (LIM-1)
 

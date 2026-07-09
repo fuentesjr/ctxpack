@@ -1,0 +1,25 @@
+name: constant_call_graph_motivating
+command:
+  anchor: call_graph_constants#motivate
+  task: Include a model referenced by a same-file helper
+
+expect:
+  entrypoint:
+    file: app/controllers/call_graph_constants_controller.rb
+    action: motivate
+
+  include:
+    - path: app/controllers/call_graph_constants_controller.rb
+      reason_code: controller_action
+    - path: app/models/call_graph_user.rb
+      reason_code: referenced_constant
+
+  exclude: []
+
+  file_order:
+    - app/controllers/call_graph_constants_controller.rb
+    - app/models/call_graph_user.rb
+
+  tests: []
+
+  max_files: 8

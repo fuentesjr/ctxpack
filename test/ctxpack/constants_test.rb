@@ -47,6 +47,84 @@ class ConstantsTest < Minitest::Test
                  packet.files_with_reason("referenced_constant").first.path
   end
 
+  def test_const_1a_follows_same_file_helper_called_by_action
+    packet = Ctxpack.compile(
+      app_root: fixture_app("minitest_basic"),
+      anchor: "call_graph_constants#motivate"
+    )
+
+    assert_equal [
+      ["app/models/call_graph_user.rb", "CallGraphUser"]
+    ], referenced_constant_evidence(packet)
+  end
+
+  def test_const_1a_4_appends_transitive_constants_after_action_and_callbacks_under_cap
+    packet = Ctxpack.compile(
+      app_root: fixture_app("minitest_basic"),
+      anchor: "call_graph_constants#cap_pressure"
+    )
+
+    assert_equal [
+      ["app/models/direct_alpha.rb", "DirectAlpha"],
+      ["app/models/direct_beta.rb", "DirectBeta"],
+      ["app/models/direct_gamma.rb", "DirectGamma"],
+      ["app/models/direct_delta.rb", "DirectDelta"]
+    ], referenced_constant_evidence(packet)
+
+    assert_nil packet.file("app/models/transitive_epsilon.rb")
+    assert(packet.omitted_candidates.any? do |candidate|
+      candidate.category == "constant_files" &&
+        candidate.subject == "TransitiveEpsilon" &&
+        candidate.reason == "max constant files limit reached"
+    end)
+  end
+
+  def test_const_1a_terminates_mutual_recursion_in_bfs_order
+    packet = Ctxpack.compile(
+      app_root: fixture_app("minitest_basic"),
+      anchor: "call_graph_constants#mutual"
+    )
+
+    assert_equal [
+      ["app/models/mutual_first.rb", "MutualFirst"],
+      ["app/models/mutual_second.rb", "MutualSecond"]
+    ], referenced_constant_evidence(packet)
+  end
+
+  def test_const_1a_traverses_through_callback_that_is_also_a_callee
+    packet = Ctxpack.compile(
+      app_root: fixture_app("minitest_basic"),
+      anchor: "call_graph_constants#callback_callee"
+    )
+
+    assert_equal [
+      ["app/models/shared_callback_constant.rb", "SharedCallbackConstant"],
+      ["app/models/shared_deep_constant.rb", "SharedDeepConstant"]
+    ], referenced_constant_evidence(packet)
+    assert_equal 1, packet.files.count { |entry| entry.path == "app/models/shared_callback_constant.rb" }
+  end
+
+  def test_const_1a_ignores_dynamic_and_other_receiver_calls
+    packet = Ctxpack.compile(
+      app_root: fixture_app("minitest_basic"),
+      anchor: "call_graph_constants#ignored_calls"
+    )
+
+    assert_equal [
+      ["app/models/literal_self_constant.rb", "LiteralSelfConstant"]
+    ], referenced_constant_evidence(packet)
+    assert_nil packet.file("app/models/ignored_receiver_constant.rb")
+    assert_nil packet.file("app/models/ignored_dynamic_constant.rb")
+  end
+
+  private
+
+  def referenced_constant_evidence(packet)
+    packet.files_with_reason("referenced_constant").map do |entry|
+      [entry.path, entry.evidence_for("referenced_constant").first.subject]
+    end
+  end
+
   class RecordingResolver
     attr_reader :calls
 

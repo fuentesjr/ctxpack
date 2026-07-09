@@ -1,0 +1,40 @@
+name: constant_call_graph_cap_pressure
+command:
+  anchor: call_graph_constants#cap_pressure
+  task: Preserve direct constants under cap pressure
+
+expect:
+  entrypoint:
+    file: app/controllers/call_graph_constants_controller.rb
+    action: cap_pressure
+
+  include:
+    - path: app/controllers/call_graph_constants_controller.rb
+      reason_code: controller_action
+    - path: app/models/direct_alpha.rb
+      reason_code: referenced_constant
+    - path: app/models/direct_beta.rb
+      reason_code: referenced_constant
+    - path: app/models/direct_gamma.rb
+      reason_code: referenced_constant
+    - path: app/models/direct_delta.rb
+      reason_code: referenced_constant
+
+  exclude:
+    - app/models/transitive_epsilon.rb
+
+  file_order:
+    - app/controllers/call_graph_constants_controller.rb
+    - app/models/direct_alpha.rb
+    - app/models/direct_beta.rb
+    - app/models/direct_gamma.rb
+    - app/models/direct_delta.rb
+
+  omitted:
+    - category: constant_files
+      subject: TransitiveEpsilon
+      reason: max constant files limit reached
+
+  tests: []
+
+  max_files: 8

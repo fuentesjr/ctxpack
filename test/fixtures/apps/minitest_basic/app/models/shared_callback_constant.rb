@@ -1,0 +1,2 @@
+class SharedCallbackConstant
+end

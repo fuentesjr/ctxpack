@@ -1,0 +1,2 @@
+class DirectAlpha
+end

@@ -64,7 +64,7 @@ templated truncation marker line inside the fence (e.g.
 |---|---|
 | `controller_action` | The controller action file for the requested anchor |
 | `before_action_callback` | Snippet of a `before_action` method applying to the action |
-| `referenced_constant` | File resolved by convention from a constant referenced in the action or an applicable callback **[name fixed by spec]** |
+| `referenced_constant` | File resolved by convention from a constant referenced in the action, an applicable callback, or a same-file method transitively called from the action **[name fixed by spec]** |
 | `view_candidate` | Conventional view template for the resolved action (VIEW-1..VIEW-3) |
 | `minitest_candidate` | Test file matched by TEST-1 rule 1 or rule 2 |
 | `rspec_candidate` | Spec file matched by TEST-1 RSpec rule 1 or rule 2 |

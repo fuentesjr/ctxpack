@@ -1,0 +1,2 @@
+class MutualFirst
+end

@@ -1,0 +1,2 @@
+class MutualSecond
+end

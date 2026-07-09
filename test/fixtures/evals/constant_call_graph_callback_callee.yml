@@ -1,0 +1,28 @@
+name: constant_call_graph_callback_callee
+command:
+  anchor: call_graph_constants#callback_callee
+  task: Traverse through a callback also called by the action
+
+expect:
+  entrypoint:
+    file: app/controllers/call_graph_constants_controller.rb
+    action: callback_callee
+
+  include:
+    - path: app/controllers/call_graph_constants_controller.rb
+      reason_code: controller_action
+    - path: app/models/shared_callback_constant.rb
+      reason_code: referenced_constant
+    - path: app/models/shared_deep_constant.rb
+      reason_code: referenced_constant
+
+  exclude: []
+
+  file_order:
+    - app/controllers/call_graph_constants_controller.rb
+    - app/models/shared_callback_constant.rb
+    - app/models/shared_deep_constant.rb
+
+  tests: []
+
+  max_files: 8

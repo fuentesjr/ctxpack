@@ -60,7 +60,7 @@ class PacketFormatTest < Minitest::Test
     MARKDOWN
 
     assert_includes markdown, <<~MARKDOWN
-      Why: constant `Billing::Subscriptions` was referenced by the action or an applicable callback.
+      Why: constant `Billing::Subscriptions` was referenced by the action, an applicable callback, or a same-file method transitively called from the action.
       Reason code: `referenced_constant`
     MARKDOWN
 

@@ -1,0 +1,2 @@
+class SharedDeepConstant
+end

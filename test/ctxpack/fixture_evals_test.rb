@@ -43,6 +43,15 @@ class FixtureEvalsTest < Minitest::Test
         assert_nil packet.file(path), "expected #{path} to be absent"
       end
 
+      if expected["file_order"]
+        assert_equal expected.fetch("file_order"), packet.files.map(&:path)
+      end
+
+      expected.fetch("omitted", []).each do |omitted|
+        assert(packet.omitted_candidates.any? { |candidate| omitted_candidate_matches?(candidate, omitted) },
+               "expected omitted candidate #{omitted.inspect}")
+      end
+
       expected.fetch("tests").each do |command|
         assert_includes packet.tests.map(&:command), command
       end
@@ -101,6 +110,12 @@ class FixtureEvalsTest < Minitest::Test
       end
       assert_operator snippet_lines, :<=, limits.fetch(:max_snippet_lines_per_file)
     end
+  end
+
+  def omitted_candidate_matches?(candidate, expected)
+    candidate.category == expected.fetch("category") &&
+      candidate.subject == expected.fetch("subject") &&
+      (!expected.key?("reason") || candidate.reason == expected.fetch("reason"))
   end
 
   def with_cli_app(eval_case)

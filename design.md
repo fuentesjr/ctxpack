@@ -218,8 +218,17 @@ v0 only needs to:
 - find the direct controller action method
 - collect `before_action` declarations in the same controller class and keep the ones that apply to the action (literal `only:`/`except:` filters only — arrays or single symbol/string literals; dynamic filter arguments become an uncertainty note instead of a guess)
 - extract stable snippets for the action and for applicable callback methods defined in the same file
-- collect obvious constants referenced inside the action body and the applicable callback bodies
+- collect obvious constants referenced inside the action body, applicable callback bodies, and same-file methods transitively called from the action through literal implicit-`self` or explicit-`self` method calls
 - map those constants to likely files using Rails/Zeitwerk naming conventions
+
+The intra-file call expansion is deliberately narrow: it follows only direct
+methods in the same controller class, only from the action body, and only via
+literal calls with no receiver or an explicit `self` receiver. It does not
+infer receiver types, cross file boundaries, dynamic dispatch (`send`,
+`public_send`, aliases), or constants in method parameter defaults. Callback
+calls are not expanded; callbacks contribute their own constants, and a
+callback that is also called by the action is traversed only because the
+action reaches it.
 
 Callbacks matter because in real controllers most of an action's preconditions — auth, scoping, record loading — live in `before_action`, not the action body. A packet that shows `def upgrade` using `@account` without showing `set_account` omits the actual entry behavior. Callback methods not defined in the controller file are out of v0 scope (consistent with anchor resolution): when an in-file declaration names such a method, the packet lists that name as unresolved rather than pretending it doesn't exist; declarations made entirely in superclasses or concerns are invisible to v0 and are covered by a standing uncertainty note.
 
@@ -257,15 +266,15 @@ not Ruby and is not parsed) and carry the `view_candidate` reason code.
 
 v0 deliberately does not confirm the conventional view against the action's
 actual render target: it does not parse the action body for `render` /
-`redirect_to` / `head`. That would be render-target inference — call-graph-
-shaped analysis, the same class v0 excludes for constants and callbacks — so
-a view entry can be a false positive when the action renders something else.
-This is disclosed as uncertainty, not hidden, and it does not change the "no
-Rubydex dependency" non-goal below: the probe's entire measured Rubydex
-recall gain was one file, reached via a literal in-file constant that a
-whole-controller-file constant scan would also reach without a native
-dependency, and the view layer captures the bulk of the remaining gap on its
-own — see `RESULTS.md`'s verdict for the full four-column comparison.
+`redirect_to` / `head`. That would be render-target inference across possible
+execution paths, outside the shallow scan ctxpack performs, so a view entry
+can be a false positive when the action renders something else. This is
+disclosed as uncertainty, not hidden, and it does not change the "no Rubydex
+dependency" non-goal below: the probe's entire measured Rubydex recall gain
+was one file, reached via a literal in-file helper constant that the narrow
+same-file action call graph can reach without a native dependency, and the
+view layer captures the bulk of the remaining gap on its own — see
+`RESULTS.md`'s verdict for the full four-column comparison.
 
 ## v0 packet contents
 
@@ -276,7 +285,7 @@ A v0 packet should include:
 - the git commit SHA the packet was generated from, with a dirty marker when the working tree has uncommitted changes
 - the controller/action file and snippet
 - `before_action` callbacks that apply to the action, with snippets when defined in the same file
-- obvious constants referenced by the action body and applicable callbacks
+- obvious constants referenced by the action body, applicable callbacks, and same-file methods transitively called from the action
 - files resolved from those constants when Zeitwerk naming makes that cheap and exact
 - the action's conventional view template(s), when they exist on disk (list-only, no snippet)
 - likely Minitest or RSpec test candidates

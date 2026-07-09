@@ -74,7 +74,7 @@ module Ctxpack
       when "before_action_callback"
         "callback `#{item.subject}` applies to the requested action."
       when "referenced_constant"
-        "constant `#{item.subject}` was referenced by the action or an applicable callback."
+        "constant `#{item.subject}` was referenced by the action, an applicable callback, or a same-file method transitively called from the action."
       when "view_candidate"
         "Conventional view template for `#{packet.anchor}`."
       when "minitest_candidate", "rspec_candidate"

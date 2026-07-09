@@ -785,3 +785,31 @@ cases still exercise the public compile and CLI determinism paths.
   `Could not resolve host: github.com`. The scratch clones were verified to be
   at non-pinned HEADs and were not used for classification. No
   `eval/tier0/RESULTS.md` addendum was written because the gate did not run.
+
+## CONST-1a intra-file call-graph constants pass (2026-07-09)
+
+Implemented the frozen CONST-1 widening as a narrow intra-file action call
+graph, not a whole-controller scan. Constant collection now uses three ordered
+groups: action-body constants, applicable same-file callback constants in
+declaration order, then transitive same-file callee constants in BFS discovery
+order. Appending callees last is deliberate: under
+`LIMITS[:max_constant_files] == 4`, the widening is strictly additive, so a
+callee constant can never evict a direct action or callback constant.
+
+Call detection follows only literal same-file controller method calls: a
+`Prism::CallNode` with no receiver or a `Prism::SelfNode` receiver, whose name
+matches a direct method in the controller's method map. Calls with other
+receivers are ignored. Dynamic dispatch and aliases (`send`, `public_send`,
+`method`, `alias_method`, etc.) are out of scope.
+
+Expansion is action-only: callback bodies still contribute constants, but
+their calls are not followed unless the callback method is also reached from
+the action. For the callback-that-is-also-a-callee case, BFS seeds `visited`
+with only the action name, not callback names, so traversal can pass through
+the callback method to discover its callees while path-level dedup keeps the
+callback's own constants at their callback position.
+
+Known limitations: constants in method parameter defaults are not scanned
+because ctxpack scans method bodies only; dynamic dispatch and aliases are not
+detected. Mandatory Tier 0 corpus re-scan for this compiler-behavior change is
+run session-side by the orchestrator.

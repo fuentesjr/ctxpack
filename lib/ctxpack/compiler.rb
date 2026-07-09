@@ -16,6 +16,7 @@ module Ctxpack
     CALLBACK_DECLARATIONS = %i[before_action prepend_before_action append_before_action].freeze
     AROUND_DECLARATIONS = %i[around_action].freeze
     IGNORED_DECLARATIONS = %i[after_action].freeze
+    DYNAMIC_DISPATCH_CALLS = %w[__send__ alias_method method public_send send].freeze
 
     CallbackDeclaration = Struct.new(:kind, :names, :applies, :dynamic, :block, :node, keyword_init: true)
     ParsedAnchor = Struct.new(:controller_path, :action, keyword_init: true)
@@ -467,7 +468,7 @@ module Ctxpack
     end
 
     def add_constant_evidence(packet, action_node, callbacks, methods, controller_name)
-      method_nodes = [action_node] + callbacks.filter_map { |name| methods[name] }
+      method_nodes = constant_scan_method_nodes(action_node, callbacks, methods)
       lexical_namespace = controller_name.split("::")[0...-1]
       resolved_by_path = {}
       ordered_resolutions = []
@@ -492,7 +493,7 @@ module Ctxpack
           EvidenceItem.new(
             reason_code: "referenced_constant",
             subject: resolution.constant_name,
-            why: "constant #{resolution.constant_name} was referenced by the action or an applicable callback",
+            why: "constant #{resolution.constant_name} was referenced by the action, an applicable callback, or a same-file method transitively called from the action",
             snippet_ranges: [],
             truncated: false
           )
@@ -507,6 +508,73 @@ module Ctxpack
           reason: "max constant files limit reached"
         )
       end
+    end
+
+    def constant_scan_method_nodes(action_node, callbacks, methods)
+      [action_node] +
+        callbacks.filter_map { |name| methods[name] } +
+        transitive_action_callee_nodes(action_node, methods)
+    end
+
+    def transitive_action_callee_nodes(action_node, methods)
+      visited = { action_node.name.to_s => true }
+      queued = {}
+      queue = []
+      callee_nodes = []
+
+      enqueue_callee_names(collect_intra_file_call_names(action_node.body, methods), queue, queued, visited)
+
+      until queue.empty?
+        method_name = queue.shift
+        queued.delete(method_name)
+        next if visited[method_name]
+
+        visited[method_name] = true
+        method_node = methods[method_name]
+        next unless method_node
+
+        callee_nodes << method_node
+        enqueue_callee_names(collect_intra_file_call_names(method_node.body, methods), queue, queued, visited)
+      end
+
+      callee_nodes
+    end
+
+    def enqueue_callee_names(names, queue, queued, visited)
+      names.each do |name|
+        next if visited[name] || queued[name]
+
+        queue << name
+        queued[name] = true
+      end
+    end
+
+    def collect_intra_file_call_names(node, methods)
+      method_names = methods.keys.each_with_object({}) { |name, memo| memo[name] = true }
+
+      collect_call_nodes(node)
+        .sort_by { |call_node| [call_node.location.start_offset, call_node.location.end_offset] }
+        .filter_map do |call_node|
+          method_name = call_node.name.to_s
+          next if DYNAMIC_DISPATCH_CALLS.include?(method_name)
+          next unless method_names[method_name]
+          next unless intra_file_call_receiver?(call_node.receiver)
+
+          method_name
+        end
+    end
+
+    def collect_call_nodes(node)
+      return [] unless node
+
+      call_nodes = []
+      call_nodes << node if node.is_a?(Prism::CallNode)
+      child_nodes(node).each { |child| call_nodes.concat(collect_call_nodes(child)) }
+      call_nodes
+    end
+
+    def intra_file_call_receiver?(receiver)
+      receiver.nil? || receiver.is_a?(Prism::SelfNode)
     end
 
     def collect_constants(node, inside_constant_path = false)

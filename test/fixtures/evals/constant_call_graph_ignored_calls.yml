@@ -1,0 +1,27 @@
+name: constant_call_graph_ignored_calls
+command:
+  anchor: call_graph_constants#ignored_calls
+  task: Ignore dynamic and other-receiver helper calls
+
+expect:
+  entrypoint:
+    file: app/controllers/call_graph_constants_controller.rb
+    action: ignored_calls
+
+  include:
+    - path: app/controllers/call_graph_constants_controller.rb
+      reason_code: controller_action
+    - path: app/models/literal_self_constant.rb
+      reason_code: referenced_constant
+
+  exclude:
+    - app/models/ignored_receiver_constant.rb
+    - app/models/ignored_dynamic_constant.rb
+
+  file_order:
+    - app/controllers/call_graph_constants_controller.rb
+    - app/models/literal_self_constant.rb
+
+  tests: []
+
+  max_files: 8
