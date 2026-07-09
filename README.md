@@ -51,6 +51,7 @@ The first version should stay intentionally small:
 ```text
 controller#action
 → action snippet + applicable before_action callbacks
+→ conventional action view templates when present
 → obvious referenced constants
 → likely test candidates
 → compact Markdown packet
@@ -150,6 +151,7 @@ The planned v0 implementation is a small Ruby CLI/gem:
 
 - Ruby for low Rails impedance
 - Prism for direct Ruby parsing
+- convention-based action view resolution
 - convention-based constant-to-file resolution
 - deterministic Minitest and RSpec controller/request test pointers
 - Rubydex later only if evals show a concrete need

@@ -92,6 +92,7 @@ class FixtureEvalsTest < Minitest::Test
 
     assert_operator packet.files.length, :<=, limits.fetch(:max_total_files)
     assert_operator packet.files_with_reason("referenced_constant").length, :<=, limits.fetch(:max_constant_files)
+    assert_operator packet.files_with_reason("view_candidate").length, :<=, limits.fetch(:max_view_files)
     assert_operator packet.tests.length, :<=, limits.fetch(:max_test_files)
 
     packet.files.each do |entry|

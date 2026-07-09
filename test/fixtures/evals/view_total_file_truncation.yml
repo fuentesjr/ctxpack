@@ -1,0 +1,35 @@
+name: view_total_file_truncation
+command:
+  anchor: saturation#show
+  task: Update the full packet page
+
+expect:
+  entrypoint:
+    file: app/controllers/saturation_controller.rb
+    action: show
+
+  include:
+    - path: app/controllers/saturation_controller.rb
+      reason_code: controller_action
+    - path: app/views/saturation/show.html.erb
+      reason_code: view_candidate
+    - path: app/views/saturation/show.json.jbuilder
+      reason_code: view_candidate
+    - path: app/models/alpha_one.rb
+      reason_code: referenced_constant
+    - path: app/models/beta_two.rb
+      reason_code: referenced_constant
+    - path: app/models/gamma_three.rb
+      reason_code: referenced_constant
+    - path: app/models/delta_four.rb
+      reason_code: referenced_constant
+    - path: test/controllers/saturation_controller_test.rb
+      reason_code: minitest_candidate
+
+  exclude:
+    - test/integration/saturation_show_flow_test.rb
+
+  tests:
+    - bin/rails test test/controllers/saturation_controller_test.rb
+
+  max_files: 8

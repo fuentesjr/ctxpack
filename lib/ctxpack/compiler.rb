@@ -8,6 +8,7 @@ module Ctxpack
     LIMITS = {
       max_total_files: 8,
       max_constant_files: 4,
+      max_view_files: 2,
       max_test_files: 2,
       max_snippet_lines_per_file: 120
     }.freeze
@@ -61,6 +62,7 @@ module Ctxpack
 
       callbacks = applicable_callbacks(controller_class, parsed_anchor.action, packet)
       add_controller_evidence(packet, controller_relative_path, action_node, callbacks, methods)
+      add_view_candidates(packet, parsed_anchor.controller_path, parsed_anchor.action)
       add_constant_evidence(packet, action_node, callbacks, methods, controller_name)
       add_test_candidates(packet, parsed_anchor.controller_path, parsed_anchor.action)
       enforce_total_file_limit(packet)
@@ -418,6 +420,52 @@ module Ctxpack
       range.last - range.first + 1
     end
 
+    def add_view_candidates(packet, controller_path, action)
+      view_paths = view_candidate_paths(controller_path, action)
+      included = view_paths.first(LIMITS.fetch(:max_view_files))
+      omitted = view_paths.drop(LIMITS.fetch(:max_view_files))
+
+      included.each do |path|
+        entry = packet.add_file(path)
+        entry.add_evidence(
+          EvidenceItem.new(
+            reason_code: "view_candidate",
+            subject: @anchor,
+            why: "conventional view template for #{@anchor}",
+            snippet_ranges: [],
+            truncated: false
+          )
+        )
+      end
+
+      if included.any?
+        packet.add_uncertainty(
+          code: "view_inferred_by_convention",
+          message: "view template matched by action-template convention"
+        )
+      end
+
+      omitted.each do |path|
+        packet.omitted_candidates << OmittedCandidate.new(
+          category: "view_files",
+          subject: path,
+          reason: "max view files limit reached"
+        )
+      end
+    end
+
+    def view_candidate_paths(controller_path, action)
+      action_token = action.sub(/[?!]\z/, "")
+      glob = File.join(@app_root, "app", "views", controller_path, "#{action_token}.*")
+
+      Dir.glob(glob).map do |absolute_path|
+        next unless File.file?(absolute_path)
+        next if File.basename(absolute_path).start_with?("_")
+
+        relative_path(absolute_path)
+      end.compact.sort
+    end
+
     def add_constant_evidence(packet, action_node, callbacks, methods, controller_name)
       method_nodes = [action_node] + callbacks.filter_map { |name| methods[name] }
       lexical_namespace = controller_name.split("::")[0...-1]
@@ -487,8 +535,10 @@ module Ctxpack
       candidates = framework == :rspec ? rspec_test_candidates(controller_path, action) : minitest_test_candidates(controller_path, action)
 
       packet.no_test_candidates = candidates.empty?
-      included = candidates.first(LIMITS.fetch(:max_test_files))
-      omitted = candidates.drop(LIMITS.fetch(:max_test_files))
+      max_test_files = LIMITS.fetch(:max_test_files)
+      remaining_file_slots = [LIMITS.fetch(:max_total_files) - packet.files.length, 0].max
+      included_count = [max_test_files, remaining_file_slots].min
+      included = candidates.first(included_count)
 
       included.each do |candidate|
         packet.tests << candidate
@@ -512,11 +562,11 @@ module Ctxpack
         end
       end
 
-      omitted.each do |candidate|
+      candidates.each_with_index.drop(included_count).each do |candidate, index|
         packet.omitted_candidates << OmittedCandidate.new(
           category: "test_files",
           subject: candidate.path,
-          reason: "max test files limit reached"
+          reason: index < max_test_files ? "max total files limit reached" : "max test files limit reached"
         )
       end
     end
@@ -640,7 +690,29 @@ module Ctxpack
     def enforce_total_file_limit(packet)
       return if packet.files.length <= LIMITS.fetch(:max_total_files)
 
-      raise Error, "packet exceeded max total files limit (#{packet.files.length}/#{LIMITS.fetch(:max_total_files)})"
+      packet.files.slice!(LIMITS.fetch(:max_total_files)..).each do |entry|
+        packet.tests.reject! { |test| test.path == entry.path }
+        packet.omitted_candidates << OmittedCandidate.new(
+          category: omitted_category_for_entry(entry),
+          subject: omitted_subject_for_entry(entry),
+          reason: "max total files limit reached"
+        )
+      end
+    end
+
+    def omitted_category_for_entry(entry)
+      return "view_files" if entry.reason_codes.include?("view_candidate")
+      return "test_files" if (entry.reason_codes & %w[minitest_candidate rspec_candidate]).any?
+      return "constant_files" if entry.reason_codes.include?("referenced_constant")
+
+      "files"
+    end
+
+    def omitted_subject_for_entry(entry)
+      evidence = entry.evidence_items.first
+      return entry.path unless evidence&.reason_code == "referenced_constant"
+
+      evidence.subject
     end
 
     def constant_name(node)

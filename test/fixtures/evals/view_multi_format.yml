@@ -1,0 +1,24 @@
+name: view_multi_format
+command:
+  anchor: catalog_items#index
+  task: Update catalog rendering
+
+expect:
+  entrypoint:
+    file: app/controllers/catalog_items_controller.rb
+    action: index
+
+  include:
+    - path: app/controllers/catalog_items_controller.rb
+      reason_code: controller_action
+    - path: app/views/catalog_items/index.html.erb
+      reason_code: view_candidate
+    - path: app/views/catalog_items/index.json.jbuilder
+      reason_code: view_candidate
+
+  exclude:
+    - app/views/catalog_items/index_foo.html.erb
+
+  tests: []
+
+  max_files: 8

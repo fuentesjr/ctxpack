@@ -75,6 +75,8 @@ module Ctxpack
         "callback `#{item.subject}` applies to the requested action."
       when "referenced_constant"
         "constant `#{item.subject}` was referenced by the action or an applicable callback."
+      when "view_candidate"
+        "Conventional view template for `#{packet.anchor}`."
       when "minitest_candidate", "rspec_candidate"
         test_candidate_why(item)
       else
@@ -155,6 +157,8 @@ module Ctxpack
         "`around_action` callback `#{item.subject}` applies and is not snippeted in v0."
       when "block_callback_present"
         "Inline `#{item.subject}` callback block applies and has no method snippet."
+      when "view_inferred_by_convention"
+        "Included view template(s) were matched by action->template convention and not confirmed against the action's actual render target."
       else
         "#{item.code}: #{item.message}"
       end
@@ -176,6 +180,8 @@ module Ctxpack
         "Constant `#{candidate.subject}` was omitted because #{candidate.reason}."
       when "test_files"
         "Test file `#{candidate.subject}` was omitted because #{candidate.reason}."
+      when "view_files"
+        "View `#{candidate.subject}` was omitted because #{candidate.reason}."
       when "snippets"
         "Snippet `#{candidate.subject}` was omitted because #{candidate.reason}."
       else
@@ -231,6 +237,8 @@ module Ctxpack
           else
             "Inspect inline callback block behavior for: #{inline_list(subjects)}."
           end
+        when "view_inferred_by_convention"
+          "Confirm the action renders the included view template(s); it may redirect or render another."
         end
       end.compact
     end
@@ -245,6 +253,8 @@ module Ctxpack
           subjects.length == 1 ? "Inspect omitted constant `#{subjects.first}` manually." : "Inspect omitted constants manually: #{inline_list(subjects)}."
         when "test_files"
           subjects.length == 1 ? "Inspect omitted test file `#{subjects.first}` manually." : "Inspect omitted test files manually: #{inline_list(subjects)}."
+        when "view_files"
+          "Inspect omitted view file(s) manually: #{inline_list(subjects)}."
         when "snippets"
           subjects.length == 1 ? "Inspect omitted snippet `#{subjects.first}` manually." : "Inspect omitted snippets manually: #{inline_list(subjects)}."
         end

@@ -148,3 +148,30 @@ remain zero. This matches the ~94% prediction in "Implications" item 1.
 The remaining failures are the inherited/concern/metaprogrammed families
 that the amendments deliberately did not touch. Per-anchor data:
 [`results/post_amendment/`](results/post_amendment/).
+
+## View-pass addendum (2026-07-08)
+
+Mandatory pass-boundary re-scan for the view-resolution pass (VIEW-1..VIEW-7
++ the LIM-1 raise→truncate change — see PROJECT_TRACKER decision log). The
+classifier was re-run against the same three apps at the same pinned SHAs,
+using the committed route tables (no re-extraction; apps shallow-fetched at
+the recorded commits and `git rev-parse HEAD` verified against the SHAs above).
+
+| App | Pairs | Resolved | Rate | Δ vs post-amendment |
+|---|---|---|---|---|
+| Mastodon | 616 | 584 | 94.8% | 0 |
+| Discourse | 755 | 728 | 96.4% | 0 |
+| Zammad | 596 | 539 | 90.4% | 0 |
+| **Average** | | | **93.9%** | |
+
+**Zero per-anchor change.** A per-anchor diff against `results/post_amendment/`
+found 0 regressions, 0 newly-resolved, 0 label-flips across all 1,967 pairs;
+resolution rates and compiler-crash counts (0) are byte-identical to the
+post-amendment baseline. This was the prediction: view inclusion is **additive
+and post-resolution** — it appends `view_candidate` files to a packet after the
+action has already resolved, and the total-file-limit change only truncates an
+already-resolved packet, so neither can alter whether an anchor resolves. The
+classifier exercises the full `Ctxpack.compile` path (including the new view
+glob) against real app view trees with zero crashes. No new baseline is written
+because the results are identical to `results/post_amendment/`. Gate passes; no
+defect to route back.

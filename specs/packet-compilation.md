@@ -6,8 +6,9 @@ static analysis strategy", "Test candidate rules", "v0 packet limits".
 Compilation is the pipeline from anchor to internal packet object:
 
 ```text
-anchor → controller file → action + applicable callbacks → referenced
-constants → constant files → test candidates → limits applied → packet object
+anchor → controller file → action + applicable callbacks → views →
+referenced constants → constant files → test candidates → limits applied →
+packet object
 ```
 
 Rendering the packet object is specified in `packet-format.md`.
@@ -191,6 +192,81 @@ order. This ordering decides both which files survive the max-constant-files
 limit (LIM-1) and their display order in the packet. Constants dropped by the
 limit are named in the omitted-candidates note (LIM-2).
 
+## Views
+
+Rationale (from the Tier 3 offline probe,
+[`../eval/tier3-rubydex/RESULTS.md`](../eval/tier3-rubydex/RESULTS.md)): for
+view-primary feature tasks (a form field, rendered UI) the load-bearing file
+is the view, and none of the resolution above ever reaches it — the
+constant resolver only walks Ruby via Zeitwerk convention. The view is
+convention-mappable from the action far more cheaply and precisely than a
+semantic resolver reaches it; the probe measured a feature-task recall gain
+of +0.130 (0.685 → 0.815, control arm, production-only) for a precision cost
+of −0.097, a favorable 1.33 recall-gained-per-precision-lost ratio.
+
+**VIEW-1.** After the action resolves (ANCH-3), ctxpack includes the
+conventional view template(s) for the action: files on disk matching
+`app/views/<controller_path>/<action>.*`, where `<controller_path>` is the
+anchor's controller path (namespaced, snake_case) and `<action>` is the
+anchor's action token:
+
+```text
+setup#index          → app/views/setup/index.*
+admin/users#destroy  → app/views/admin/users/destroy.*
+```
+
+The action token is taken with any trailing `?`/`!` stripped and a leading
+`_`'s empty token dropped, consistent with ANCH-1 / TEST-1 rule 2 (view
+filenames cannot carry `?`/`!`). Inclusion is existence-gated: if no matching
+template exists, no view entry is added and resolution does NOT fail — many
+actions render nothing (redirect, `head`, JSON-only via a controller that
+renders implicitly, an action whose template lives elsewhere). A missing
+conventional template is normal, not an error (contrast ANCH-6, where a
+missing *controller* file is a hard failure).
+
+**VIEW-2.** Matching is a single-segment glob under the exact directory only:
+
+- Glob `app/views/<controller_path>/<action>.<ext>` — one path segment
+  `<action>`, a dot, then any extension. No recursion into subdirectories.
+- Partials (basename beginning `_`) MUST NOT be included.
+- Other actions' templates MUST NOT be included (no prefix/fuzzy match).
+- Every format variant that exists matches and is included (e.g.
+  `index.html.erb`, `index.json.jbuilder`, `index.turbo_stream.erb`), sorted
+  lexicographically. Not restricted to `*.html.*`.
+
+**VIEW-3.** Each included view file carries the `view_candidate` reason code
+(FMT-6) and an empty `snippet_ranges` — the template is not Ruby, is not
+parsed, and is listed to point the agent at the file, the same list-only
+shape `referenced_constant` already uses for files whose snippet set is
+empty. v0 does not extract an ERB snippet.
+
+**VIEW-4.** v0 MUST NOT parse the action body for `render` / `redirect_to` /
+`head` to confirm or suppress the conventional view. That is render-target
+inference (call-graph-shaped, the class of analysis v0 excludes, per PARSE-1
+/ ANCH-5). Consequence: a view entry may be a false positive when the action
+renders a different template or redirects. This is disclosed, not hidden
+(VIEW-6).
+
+**VIEW-5.** View files count against the LIM-1 `max_total_files` invariant
+(8) via a dedicated `max_view_files` sub-limit of 2. File ordering places the
+action view(s) ahead of constant files and test candidates within
+`max_total_files` — see LIM-1's priority rule. Views truncated by either
+limit MUST be named in the LIM-2 omitted-candidates note.
+
+**VIEW-6.** View inclusion is convention-only evidence (like CONST-3, but the
+action→template default is stronger than constant guessing). The packet's
+`## Uncertainty` section MUST disclose that included views were matched by
+convention and not confirmed against the action's actual render target
+(VIEW-4), via the uncertainty code `view_inferred_by_convention` (FMT-7). The
+`## Retrieve more only if needed` section (FMT-2 §8) maps that code to one
+templated suggestion (e.g. "confirm the action renders this template; it may
+redirect or render another").
+
+**VIEW-7.** View resolution is a pure function of the on-disk view directory
+and the anchor — no clocks, no globbing-order ambiguity (lexicographic sort,
+VIEW-2). DET-2 file ordering places views at the position fixed by VIEW-5's
+priority rule.
+
 ## Test candidates
 
 Rationale (from design): test discovery must be as rule-bound as controller
@@ -259,15 +335,24 @@ packet's "Tests to run" section: Minitest candidates use
 ```text
 max total files:            8
 max constant files:         4
+max view files:             2
 max test files:             2
 max snippet lines per file: 120
 ```
 
 Max total files is an outer safety invariant over the whole packet, not an
-allocation target. With v0's categories (1 controller + 4 constant files +
-2 test files) it is unreachable by construction; it exists so future reason
-codes (views, mailers, …) cannot grow packets past 8 without a deliberate
-spec change.
+allocation target. Before views, v0's categories (1 controller + 4 constant
+files + 2 test files = 7) made 8 unreachable by construction; that clause
+anticipated exactly this outcome — adding the `view_candidate` reason code is
+the "future reason codes (views, mailers, …)" case that needed a deliberate
+spec change. With views, the categories now sum to 1 + 2 + 4 + 2 = 9, one over
+the ceiling, so it is reachable: when a packet's candidates across categories
+would exceed 8, files are included in priority order — controller → action
+view(s) → constants → test candidates (VIEW-5) — so a high-signal action view
+is not squeezed out by a fourth constant file or a rule-2 test match, and
+whichever category is still filling when the ceiling is reached is truncated
+there. `max_total_files` itself stays at 8; it is not raised to
+`8 + max_view_files`.
 
 **LIM-2.** When any limit truncates candidates, the packet MUST include an
 explicit omitted-candidates note naming what was left out (FMT-9). Silent

@@ -44,6 +44,7 @@ Instead of doing broad semantic search for `billing`, `upgrade`, and `account`, 
 ```text
 AccountsController#upgrade
 → controller action snippet
+→ conventional view template, when one exists on disk
 → referenced constants/services/models/jobs
 → likely test candidates
 → package/boundary notes when cheaply detectable
@@ -56,7 +57,7 @@ The output is not an answer and not an autonomous agent. It is a prepared contex
 The first version should be intentionally small and deterministic:
 
 ```text
-controller#action → action snippet + applicable before_action callbacks → referenced constants → nearby test candidate → compact markdown packet
+controller#action → action snippet + applicable before_action callbacks → conventional view template(s) → referenced constants → nearby test candidate → compact markdown packet
 ```
 
 v0 should be built as a small Ruby CLI/gem. Ruby is the default implementation choice because `ctxpack` is Rails-native: it can lean on Ruby parsing, Rails naming conventions, and familiar gem/bundle workflows without reimplementing Ruby semantics in another language. Go's single-binary distribution may be valuable later, but it should wait until the packet algorithm proves useful.
@@ -232,6 +233,40 @@ Default resolver: convention/path-based constant resolver
 Future resolver: Rubydex-backed semantic resolver
 ```
 
+## View resolution
+
+For view-primary feature tasks — a form field, changed rendered UI — the
+load-bearing file is the view, not the controller. None of the resolution
+above reaches it: the constant resolver only walks Ruby via Zeitwerk
+convention. The Tier 3 offline probe
+([`eval/tier3-rubydex/RESULTS.md`](eval/tier3-rubydex/RESULTS.md)) measured
+this directly: adding the action's conventional view template(s) to the
+packet lifted feature-task recall from 0.685 to 0.815 (control arm,
+production-only diffs) for a precision cost of 0.097 — a favorable 1.33
+recall-gained-per-precision-lost ratio, and dependency-free. It also targeted
+the only two treatment-arm diff-quality dings measured across the whole
+72-session expansion grid (publify's `setup#index`, sessions P06/P20): a
+backend-only fix that omitted the setup form the packet never pointed at.
+
+v0 includes the action's conventional view template(s) — files on disk
+matching `app/views/<controller_path>/<action>.*`, every existing format
+variant, sorted lexicographically — existence-gated: no matching template is
+not an error, since many actions render nothing (redirect, `head`, an
+implicit JSON render). Included views are list-only (no ERB snippet; ERB is
+not Ruby and is not parsed) and carry the `view_candidate` reason code.
+
+v0 deliberately does not confirm the conventional view against the action's
+actual render target: it does not parse the action body for `render` /
+`redirect_to` / `head`. That would be render-target inference — call-graph-
+shaped analysis, the same class v0 excludes for constants and callbacks — so
+a view entry can be a false positive when the action renders something else.
+This is disclosed as uncertainty, not hidden, and it does not change the "no
+Rubydex dependency" non-goal below: the probe's entire measured Rubydex
+recall gain was one file, reached via a literal in-file constant that a
+whole-controller-file constant scan would also reach without a native
+dependency, and the view layer captures the bulk of the remaining gap on its
+own — see `RESULTS.md`'s verdict for the full four-column comparison.
+
 ## v0 packet contents
 
 A v0 packet should include:
@@ -243,6 +278,7 @@ A v0 packet should include:
 - `before_action` callbacks that apply to the action, with snippets when defined in the same file
 - obvious constants referenced by the action body and applicable callbacks
 - files resolved from those constants when Zeitwerk naming makes that cheap and exact
+- the action's conventional view template(s), when they exist on disk (list-only, no snippet)
 - likely Minitest or RSpec test candidates
 - tests to run
 - uncertainty notes
@@ -276,6 +312,7 @@ Initial internal v0 limits:
 ```text
 max total files: 8
 max constant files: 4
+max view files: 2
 max test files: 2
 max snippet lines per file: 120
 ```
@@ -606,7 +643,7 @@ But the skill or sub-agent should not be the canonical packet builder. Keeping p
 - What is the smallest packet that still changes agent behavior?
 - Should v0 include snippets only, or also deterministic file-level metadata?
 - How often do Rails conventions fail because of custom routing, metaprogramming, or unconventional service layout? (Measured directly by the Tier 0 spike in [`eval-plan.md`](eval-plan.md), with a failure taxonomy that says which non-goal to promote first.)
-- Do the initial limits — 8 total files, 4 constant files, 2 test files, and 120 snippet lines per file — keep packets small without hiding essential context?
+- Do the initial limits — 8 total files, 4 constant files, 2 view files, 2 test files, and 120 snippet lines per file — keep packets small without hiding essential context?
 - When, if ever, do fixture evals justify adding a Rubydex-backed resolver?
 
 ## Next experiments

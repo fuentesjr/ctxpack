@@ -1,0 +1,21 @@
+name: view_namespaced
+command:
+  anchor: admin/widgets#show
+  task: Update the widget page
+
+expect:
+  entrypoint:
+    file: app/controllers/admin/widgets_controller.rb
+    action: show
+
+  include:
+    - path: app/controllers/admin/widgets_controller.rb
+      reason_code: controller_action
+    - path: app/views/admin/widgets/show.html.erb
+      reason_code: view_candidate
+
+  exclude: []
+
+  tests: []
+
+  max_files: 8

@@ -45,6 +45,11 @@ and a fenced Ruby snippet when a snippet applies. A single file may carry
 multiple Why/reason/snippet blocks (e.g. the controller file carries the
 action snippet and each applicable callback snippet).
 
+**FMT-4a.** The `view_candidate` Why line is templated as "Conventional view
+template for `<controller#action>`." — filled in with the resolved anchor
+(the same `controller#action` form used in `## Anchor`), e.g. "Conventional
+view template for `setup#index`." No snippet follows (VIEW-3).
+
 **FMT-5.** Snippets are extracted with stable ranges (the enclosing method
 definition), subject to the per-file line limit (LIM-1) and the allocation
 policy in LIM-4. A head-truncated action snippet ends with an explicit
@@ -60,6 +65,7 @@ templated truncation marker line inside the fence (e.g.
 | `controller_action` | The controller action file for the requested anchor |
 | `before_action_callback` | Snippet of a `before_action` method applying to the action |
 | `referenced_constant` | File resolved by convention from a constant referenced in the action or an applicable callback **[name fixed by spec]** |
+| `view_candidate` | Conventional view template for the resolved action (VIEW-1..VIEW-3) |
 | `minitest_candidate` | Test file matched by TEST-1 rule 1 or rule 2 |
 | `rspec_candidate` | Spec file matched by TEST-1 RSpec rule 1 or rule 2 |
 
@@ -76,12 +82,15 @@ New codes require a spec update; freeform reason codes are prohibited.
 | `unresolved_external_callbacks` | An applicable in-file callback declaration names a method with no direct definition in the controller file (CB-4) **[name fixed by spec]** |
 | `around_callback_present` | An `around_action` applies to the action; named, not snippeted (CB-1a) **[name fixed by spec]** |
 | `block_callback_present` | An applicable callback was declared with an inline block, so there is no method to snippet (CB-1a) **[name fixed by spec]** |
+| `view_inferred_by_convention` | An included view file was matched by action→template convention, not confirmed against the action's actual render target (VIEW-4, VIEW-6) |
 
 **FMT-8.** The `## Uncertainty` section MUST state, in templated prose, at
 minimum: which test files were inferred by path; that callbacks outside the
 controller file were not resolved; that route discovery is delegated to Rails;
-and any convention-only constant matches worth verifying. If a guess was
-made anywhere, it is named here — no false precision.
+any convention-only constant matches worth verifying; and that included view
+templates were matched by convention and not confirmed against the action's
+actual render target (VIEW-4, VIEW-6). If a guess was made anywhere, it is
+named here — no false precision.
 
 **FMT-9.** The `## Omitted candidates` section names the specific candidates
 each limit excluded (constants, test files), so the reader can inspect
@@ -119,8 +128,10 @@ same repo state + same packet inputs = same normalized packet content
 comparing across repo states (see EVAL-7).
 
 **DET-2.** File ordering within the packet is deterministic: the entrypoint
-controller file first, then constant files in first-reference order
-(CONST-4), then test candidates in TEST-1 rule order. **[fixed by spec]**
+controller file first, then the action's conventional view file(s) in
+lexicographic order (VIEW-2, VIEW-5, VIEW-7), then constant files in
+first-reference order (CONST-4), then test candidates in TEST-1 rule order.
+**[fixed by spec]**
 
 **DET-3.** All prose in the packet is templated: reason text, Why lines,
 uncertainty notes. No model-generated summaries anywhere.

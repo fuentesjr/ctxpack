@@ -1,0 +1,24 @@
+name: view_budget_truncation
+command:
+  anchor: view_budgets#index
+  task: Update all view formats
+
+expect:
+  entrypoint:
+    file: app/controllers/view_budgets_controller.rb
+    action: index
+
+  include:
+    - path: app/controllers/view_budgets_controller.rb
+      reason_code: controller_action
+    - path: app/views/view_budgets/index.html.erb
+      reason_code: view_candidate
+    - path: app/views/view_budgets/index.json.jbuilder
+      reason_code: view_candidate
+
+  exclude:
+    - app/views/view_budgets/index.turbo_stream.erb
+
+  tests: []
+
+  max_files: 8

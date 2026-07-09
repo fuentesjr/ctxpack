@@ -16,7 +16,7 @@
 - Repo stamping uses `Open3.capture2` with stderr routed away from stdout so git warnings cannot contaminate the SHA or dirty-state checks.
 - Literal callback applicability follows amended CB-2: literal `only:` / `except:` arrays and single symbol/string literals are resolved (the spec originally admitted arrays only; it was amended after review because `only: :upgrade` is the dominant Rails style). Other keywords, computed names, splats, and any non-literal filters produce `dynamic_callback_args`.
 - Dynamic callback uncertainties fall back to the declaration kind as the subject when no literal callback name exists, so notes are deterministic and non-empty.
-- `LIMITS[:max_total_files]` is enforced at the end of compilation. It is unreachable by current v0 categories (1 controller + 4 constants + 2 tests = 7) but remains an outer safety invariant for future evidence categories.
+- `LIMITS[:max_total_files]` is enforced by priority-ordered truncation. With views, the category ceilings can sum to 1 controller + 2 views + 4 constants + 2 tests = 9, so `add_test_candidates` caps included tests against the remaining total-file slots and records dropped tests as omitted candidates.
 
 ## Spec / Design Reconciliation
 
@@ -54,8 +54,8 @@
 - TEST-4: `TestCandidatesTest#test_test_4_5_path_rules_only_and_explicit_no_candidates_state`
 - TEST-5: `TestCandidatesTest#test_test_4_5_path_rules_only_and_explicit_no_candidates_state`
 - TEST-6: `CompileBasicTest#test_anch_cb_const_test_fmt_man_happy_path_packet_object`
-- LIM-1: `LimitsTest#test_lim_1_v0_limits_are_internal_constants`, `PacketObjectTest#test_man_2_det_2_packet_object_exposes_manifest_shape_and_file_order`; max-total enforcement is guarded in code and untested because it is unreachable by v0 construction.
-- LIM-2: `LimitsTest#test_const_4_lim_1_lim_2_truncates_constant_files_in_first_reference_order`, `TestCandidatesTest#test_test_2_lim_2_truncates_test_candidates_and_records_omissions`, `LimitsTest#test_lim_4_truncates_long_action_and_names_dropped_callback_snippets`
+- LIM-1: `LimitsTest#test_lim_1_v0_limits_are_internal_constants`, `PacketObjectTest#test_man_2_det_2_packet_object_exposes_manifest_shape_and_file_order`, `ViewResolutionTest#test_lim_1_total_file_budget_drops_later_test_from_files_and_tests_to_run`
+- LIM-2: `LimitsTest#test_const_4_lim_1_lim_2_truncates_constant_files_in_first_reference_order`, `TestCandidatesTest#test_test_2_lim_2_truncates_test_candidates_and_records_omissions`, `LimitsTest#test_lim_4_truncates_long_action_and_names_dropped_callback_snippets`, `ViewResolutionTest#test_view_5_truncates_view_variants_and_records_omitted_candidate`, `ViewResolutionTest#test_lim_1_total_file_budget_drops_later_test_from_files_and_tests_to_run`
 - LIM-3: Not directly unit-tested; it is rationale for fixed limit values, covered by keeping limits internal and documenting this scope boundary.
 - LIM-4: `LimitsTest#test_lim_4_truncates_long_action_and_names_dropped_callback_snippets`
 
@@ -610,3 +610,178 @@ packet JSON, or committed diff data changed.
 - `ruby -c eval/tier2-expansion/packet_coverage.rb`: `Syntax OK`.
 - Full suite: `bundle exec rake test` — 55 runs, 362 assertions, 0 failures,
   0 errors, 0 skips.
+
+## View resolution spec freeze + canonical-spec fold (2026-07-08)
+
+Spec-only pass: froze `specs/views.md`'s four `[FREEZE]` decisions per
+explicit user sign-off and folded VIEW-1..VIEW-7 into `packet-compilation.md`
+and `packet-format.md`. No `lib/`, `exe/`, or `test/` touched — nothing to
+run.
+
+### Decisions (as directed, not independently chosen)
+
+- VIEW-2 format variants: all existing variants match (not `*.html.*`-only).
+- VIEW-3: list-only `view_candidate`, empty `snippet_ranges`, no ERB
+  snippeting.
+- VIEW-4: convention-only, existence-gated, no render-target analysis
+  (already the recommendation; just de-hedged).
+- VIEW-5a `max_view_files` = 2.
+- VIEW-5b priority: reorder file inclusion/display order to
+  controller → view(s) → constants → tests; `max_total_files` ceiling stays
+  at 8 (not raised to `8 + max_view_files`).
+
+### Fold judgment calls
+
+- **[orchestrator adjudication, 2026-07-08]** The fold agent flagged that the
+  pipeline diagrams (`… → constant files → views → …`) placed views *after*
+  constants while LIM-1/DET-2 place them *before*. Resolved toward one
+  consistent order: edited both pipeline diagrams (`packet-compilation.md`
+  and `design.md`'s two) to `… → action + applicable callbacks → views →
+  referenced constants → constant files → test candidates → …`. Rationale:
+  view resolution has no data dependency on constants (needs only
+  `controller_path` + `action`, available at ANCH-3), so views-before-constants
+  is equally accurate as compute order; and the single-pass `add_*` append
+  implementation makes call order == display order, so the "two different axes"
+  framing doesn't match the code. DET-2 (views before constants) is the
+  normative file order Codex implements against; the pipeline now agrees.
+  (The `## Views` doc section remains placed after `## Constants` — section
+  order is organizational, not normative.)
+- **[implementation flag for Phase 2 / Codex]** With views, `max_total_files`
+  is now reachable (1+2+4+2 = 9). `compiler.rb`'s `enforce_total_file_limit`
+  currently *raises* on > 8 (the "unreachable by construction" backstop, noted
+  at implementation-notes "Decisions" line ~19). Per the revised LIM-1 it must
+  become **priority-ordered truncation**: include in controller → views →
+  constants → tests order and truncate the category still filling when the
+  ceiling is reached (in practice the 2nd test), naming every dropped file in
+  the LIM-2 omitted note *and* removing a dropped test from "Tests to run".
+  Recommended shape: cap tests at `min(max_test_files, max_total_files -
+  files_so_far)` at allocation time rather than post-hoc truncating
+  `packet.files`, so `packet.tests`/omitted stay consistent.
+- `packet-format.md` had no existing per-reason-code registry of literal
+  "Why:" text (only `design.md`'s worked example demonstrates concrete Why
+  lines; FMT-6's table gives a "Meaning," not literal packet prose). Added a
+  new lettered sub-requirement, **FMT-4a**, spelling out the literal
+  `view_candidate` Why template — following the CONST-2a/b/c and CB-2a
+  lettered-subrequirement convention already used in `packet-compilation.md`.
+  Existing codes' Why text remains implicit via `design.md`'s example; not
+  retrofitted, since that was out of scope.
+- `specs/README.md`'s non-goals echo and `design.md`'s "Non-goals for v0"
+  list never named views as excluded (verified by grep) — so there was
+  nothing to remove per the "adjust ... if appropriate" instruction. Noted
+  as a no-op rather than silently skipped.
+- `design.md`: added a new "## View resolution" section (mirroring "## Test
+  candidate rules" in structure) between "Parsing and static analysis
+  strategy" and "v0 packet contents," rather than editing the worked
+  "Example packet shape" — the task only asked to reconcile prose/rationale
+  and record probe evidence/the VIEW-4 boundary, not to add a views entry to
+  the worked example. Also extended the "v0 packet contents" bullet list,
+  the "v0 packet limits" numbers block, and the stale "Open questions" limits
+  line (which enumerated the old 4 numbers) to include `max_view_files`.
+- Left `packet-format.md`'s MAN-2 example JSON manifest untouched — the
+  "On freeze" checklist doesn't call for a manifest example update, and a
+  view file in `files[]` needs no new manifest field (reason_code +
+  snippet_ranges already cover it), so there's nothing the example is
+  missing.
+
+### Not done in this pass (explicitly out of scope, per `specs/views.md`
+"Folded into the canonical specs")
+
+- Fixture-eval YAML cases (red-then-green) for the new view-resolution
+  behavior.
+- Tier 0 corpus re-scan (mandatory before implementation acceptance, not
+  before this spec-only freeze).
+- The two "Companion work" items in `specs/views.md` (CONST-1 whole-
+  controller-file widening; locale-as-pointer) — deliberately kept out of
+  this pass.
+
+### Verification
+
+- Spec-only pass; no code changed, so `bundle exec rake test` was not run.
+  Verification here is read-through consistency: re-read
+  `specs/packet-compilation.md`, `specs/packet-format.md`, `specs/README.md`,
+  and `design.md` in full after editing to confirm the new VIEW/FMT-4a/LIM-1/
+  DET-2 text reads in the surrounding requirement-code voice and that the
+  `max total files` / `max view files` alignment block in
+  `packet-compilation.md` matches the existing column-aligned formatting
+  (verified programmatically, not by eye).
+- Confirmed VIEW-1..VIEW-7 numbering is unchanged from the draft (no
+  renumbering), per `specs/README.md`'s numbering-stability convention.
+
+## View resolution implementation pass (2026-07-08)
+
+Implemented the frozen VIEW-1..VIEW-7 compiler pass and the associated
+packet-format renderer additions. No packet schema change was needed:
+`Packet#to_h` already serializes view evidence as `files[]` records with the
+`view_candidate` reason code and `snippet_ranges: []`.
+
+### Requirement coverage
+
+- VIEW-1: `test/fixtures/evals/view_namespaced.yml`,
+  `test/fixtures/evals/view_no_template.yml`,
+  `ViewResolutionTest#test_view_1_2_3_6_7_includes_namespaced_view_with_empty_snippet_and_uncertainty`,
+  `ViewResolutionTest#test_view_1_missing_template_does_not_fail_or_emit_view_uncertainty`
+- VIEW-2: `test/fixtures/evals/view_multi_format.yml`,
+  `test/fixtures/evals/view_partial_excluded.yml`,
+  `ViewResolutionTest#test_view_2_includes_all_format_variants_in_lexicographic_order`,
+  `ViewResolutionTest#test_view_2_excludes_partials`
+- VIEW-3: `test/fixtures/evals/view_namespaced.yml`,
+  `ViewResolutionTest#test_view_1_2_3_6_7_includes_namespaced_view_with_empty_snippet_and_uncertainty`
+- VIEW-4: code inspection of `Compiler#add_view_candidates` confirms
+  convention-only existence-gated globbing with no action-body render-target
+  analysis; VIEW-6 disclosure covered by renderer tests below.
+- VIEW-5: `test/fixtures/evals/view_budget_truncation.yml`,
+  `test/fixtures/evals/view_total_file_truncation.yml`,
+  `ViewResolutionTest#test_view_5_truncates_view_variants_and_records_omitted_candidate`,
+  `ViewResolutionTest#test_lim_1_total_file_budget_drops_later_test_from_files_and_tests_to_run`
+- VIEW-6: `ViewResolutionTest#test_view_1_2_3_6_7_includes_namespaced_view_with_empty_snippet_and_uncertainty`,
+  `ViewResolutionTest#test_fmt_4a_8_9_renders_view_reason_uncertainty_and_omission_suggestions`
+- VIEW-7 / DET-2: `ViewResolutionTest#test_view_2_includes_all_format_variants_in_lexicographic_order`,
+  `ViewResolutionTest#test_lim_1_total_file_budget_drops_later_test_from_files_and_tests_to_run`
+- FMT-4a: `ViewResolutionTest#test_fmt_4a_8_9_renders_view_reason_uncertainty_and_omission_suggestions`
+- FMT-6: all new fixture evals that include a view assert
+  `reason_code: view_candidate`; `ViewResolutionTest#test_view_1_2_3_6_7_includes_namespaced_view_with_empty_snippet_and_uncertainty`
+  asserts the packet object reason code.
+- FMT-7 / FMT-8: `ViewResolutionTest#test_view_1_2_3_6_7_includes_namespaced_view_with_empty_snippet_and_uncertainty`,
+  `ViewResolutionTest#test_fmt_4a_8_9_renders_view_reason_uncertainty_and_omission_suggestions`
+- LIM-1 / LIM-2: `LimitsTest#test_lim_1_v0_limits_are_internal_constants`,
+  `ViewResolutionTest#test_view_5_truncates_view_variants_and_records_omitted_candidate`,
+  `ViewResolutionTest#test_lim_1_total_file_budget_drops_later_test_from_files_and_tests_to_run`
+
+### Fixture eval note
+
+The YAML fixture-eval schema covers stable packet fields (`entrypoint`,
+`include`, `exclude`, `tests`, `max_files`) but has no omitted-candidate
+assertion shape. Per the brief, omitted view and total-file truncation checks
+live in `ViewResolutionTest` against `packet.omitted_candidates`; the YAML
+cases still exercise the public compile and CLI determinism paths.
+
+### Red / green record
+
+- Red, fixture evals before `lib/` changes:
+  `bundle exec ruby -Itest -Ilib test/ctxpack/fixture_evals_test.rb --name '/view_(namespaced|multi_format|partial_excluded|budget_truncation|total_file_truncation)_packet_expectations/'`
+  -> `5 runs, 30 assertions, 5 failures, 0 errors, 0 skips`; each failure was
+  an expected view file absent from the packet. The `view_no_template` case is
+  intentionally not listed in this red command because the pre-view compiler
+  already satisfied "missing conventional template adds nothing and does not
+  fail"; it remains a regression guard after implementation.
+- Red, focused unit tests before `lib/` changes:
+  `bundle exec ruby -Itest -Ilib test/ctxpack/view_resolution_test.rb` ->
+  `7 runs, 11 assertions, 6 failures, 0 errors, 0 skips`.
+- Green, focused unit tests after implementation:
+  `bundle exec ruby -Itest -Ilib test/ctxpack/view_resolution_test.rb` ->
+  `7 runs, 33 assertions, 0 failures, 0 errors, 0 skips`.
+- Green, new fixture eval packet expectations after implementation:
+  `bundle exec ruby -Itest -Ilib test/ctxpack/fixture_evals_test.rb --name '/view_(namespaced|multi_format|no_template|partial_excluded|budget_truncation|total_file_truncation)_packet_expectations/'`
+  -> `6 runs, 174 assertions, 0 failures, 0 errors, 0 skips`.
+- Green, full suite before this note-only edit:
+  `bundle exec rake test` -> `74 runs, 621 assertions, 0 failures, 0 errors,
+  0 skips`.
+- Full suite after README/tracker/note reconciliation:
+  `bundle exec rake test` -> `74 runs, 621 assertions, 0 failures, 0 errors,
+  0 skips`.
+- Tier 0 corpus re-scan: attempted, but not completed. Cloning into
+  `/private/tmp/ctxpack-tier0-view-pass/` initially succeeded for default
+  branches, then `git fetch`/`git checkout` of the pinned SHAs failed with
+  `Could not resolve host: github.com`. The scratch clones were verified to be
+  at non-pinned HEADs and were not used for classification. No
+  `eval/tier0/RESULTS.md` addendum was written because the gate did not run.

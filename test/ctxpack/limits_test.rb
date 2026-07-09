@@ -5,6 +5,7 @@ class LimitsTest < Minitest::Test
     assert_equal({
       max_total_files: 8,
       max_constant_files: 4,
+      max_view_files: 2,
       max_test_files: 2,
       max_snippet_lines_per_file: 120
     }, Ctxpack::Compiler::LIMITS)

@@ -1,0 +1,22 @@
+name: view_partial_excluded
+command:
+  anchor: partial_examples#show
+  task: Update the partial example page
+
+expect:
+  entrypoint:
+    file: app/controllers/partial_examples_controller.rb
+    action: show
+
+  include:
+    - path: app/controllers/partial_examples_controller.rb
+      reason_code: controller_action
+    - path: app/views/partial_examples/show.html.erb
+      reason_code: view_candidate
+
+  exclude:
+    - app/views/partial_examples/_form.html.erb
+
+  tests: []
+
+  max_files: 8

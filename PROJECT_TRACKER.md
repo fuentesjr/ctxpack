@@ -80,71 +80,61 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Written 2026-07-08 (late). Work order for a fresh "Continue from
+Written 2026-07-08. Work order for a fresh "Continue from
 PROJECT_TRACKER.md" session. If this section disagrees with "Next steps", Next
 steps wins.
 
-**Context (all done, committed to `main` except where noted; nothing pushed):**
-The Tier 2 expansion epic + both confirmatory passes are complete
-([`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md)). The
-**OFFLINE Rubydex-recall probe is now also complete** and **uncommitted on
-`main`** ([`eval/tier3-rubydex/RESULTS.md`](eval/tier3-rubydex/RESULTS.md)):
-- **Gate PASSED** — Rubydex (static, no boot/DB) indexes all three pinned apps
-  offline in <1s ([`eval/tier3-rubydex/GATE.md`](eval/tier3-rubydex/GATE.md)).
-- **Verdict:** the four-column offline recompute (convention / +view / +rubydex /
-  +both over the same committed diffs) says **build a Rails view path-convention
-  layer + widen the convention constant-scan to the whole controller file;
-  locale = a pointer; DEFER Rubydex; no new agent grid.** Feature-task recall
-  (control, prod-only): convention 0.685 → +view **0.815** (favorable, +0.130R
-  for −0.097P) vs +rubydex 0.769 (+0.083R for **−0.312P** — halves precision).
-  Rubydex's entire measured recall gain is ONE file (campfire t1 `user.rb`, a
-  literal in-file constant a full-file convention scan also reaches); a native
-  Rust dependency `design.md` excludes is not justified for it.
+**Context — the view path-convention layer is COMPLETE and gate-passed, but
+UNCOMMITTED (no commit/push authorized).** Everything below landed in the
+working tree this session (Claude orchestrator/judge/DRA; **Codex** did the
+heavy compiler implementation; a **Sonnet** worker folded the spec):
+- **Spec frozen + folded.** The four `[FREEZE]` decisions were signed off by the
+  user (all-variants; list-only; `max_view_files = 2`; reorder priority
+  controller → views → constants → tests, ceiling stays 8). `specs/views.md` is
+  frozen; VIEW-1..VIEW-7 folded into `packet-compilation.md` (`## Views` + the
+  LIM-1 raise→truncate revision) and `packet-format.md`
+  (FMT-4a/FMT-6/FMT-7/FMT-8/DET-2); `specs/README.md`, root `README.md`, and
+  `design.md` reconciled. (Orchestrator adjudicated the fold's one flagged
+  tension: all pipeline diagrams now place views before constants, matching
+  DET-2/LIM-1 — see `implementation-notes.md`.)
+- **Implemented + verified.** `add_view_candidates` runs between controller and
+  constants (DET-2 order); `view_candidate` files are list-only (empty snippet);
+  a single `view_inferred_by_convention` uncertainty drives the FMT-8 /
+  retrieve-more prose; `max_total_files` now truncates by priority (drops the
+  later test from both `packet.files` and "Tests to run", names it omitted).
+  Red-then-green fixture evals + `ViewResolutionTest`, independently re-verified
+  session-side (6/7 red with `lib/` reverted, green restored). Suite green
+  **74 runs / 621 assertions / 0 failures**. Minor known debt: the
+  `enforce_total_file_limit` slice is now an unreachable defensive backstop
+  (the test-allocation cap already bounds total ≤ 8) — harmless, retained as an
+  invariant guard.
+- **Mandatory Tier 0 corpus re-scan PASSED** (addendum in
+  [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md)): classifier re-run at the
+  three pinned SHAs against the committed route tables — **zero per-anchor
+  change, zero crashes** across all 1,967 pairs (view inclusion is additive and
+  post-resolution, exactly as predicted).
 
-**Next work order: land the view path-convention layer as a real spec pass**
-(the one buildable, dependency-free win with *measured* value — it targets the
-only two treatment-arm quality dings in the whole grid, publify t1 P06/P20). Two
-tightly-related heuristics, ideally one pass:
-1. **View reason code** — anchor `controller#action` → include existing
-   `app/views/<controller>/<action>.*`. (Snippet handling: views are ERB, decide
-   whether to snippet or list-only; keep LIM-1's ≤8-file / snippet-line budgets.)
-2. **Widen the referenced-constant scan** from the action body to the whole
-   controller file (captures the sibling-model recall Rubydex got, e.g. campfire
-   `User.all` in a private helper — no dependency).
-3. **Locale = a standing pointer/note**, not a packet file (misses are new keys;
-   a truncated giant `en.yml` would be metric-gaming) — verify this is the right
-   call at design time.
+**Next work order (in order):**
+1. **Commit the view pass** (outward-facing — get user go first). One coherent
+   commit: frozen `specs/views.md`, the folded canonical specs, `lib/` + `test/`
+   changes, `implementation-notes.md`, the Tier 0 addendum, the view learning
+   note, `README.md`, and this tracker. Nothing pushed by default.
+2. **Release-boundary validation — a usefulness check, NOT a correctness gate;
+   needs a `--dangerously-skip-permissions` session (cannot run from a normal
+   session, per `eval/tier2/RUNBOOK.md`).** Re-run the **existing** Tier 2
+   harness (NOT a new grid) watching: no bug-task exploration regression from
+   the added view surface, and whether publify t1's treatment view omission
+   (P06/P20 — the two dings this whole pass targets) disappears. This is the
+   sharp, cheap coverage→value confirmation.
+3. **Companion changes** (separate small passes, `specs/views.md` "Companion
+   work"): CONST-1 whole-controller-file constant widening; locale as a standing
+   Uncertainty pointer. Keep them separate unless the user bundles them.
 
-This **changes compiler behavior**, so it is a full spec pass via the Codex
-delegation loop (spec amendment reconciled with `design.md`, new **fixture-eval
-cases** red-then-green per `add-fixture-eval`, and a **mandatory Tier 0 corpus
-re-scan** per its rule). Before dispatching, **freeze the design with the user**:
-snippet-vs-list for views, exact view/locale reason codes, and whether the
-constant-scan widening ships in the same pass or separately (small, reviewable
-changes are preferred). After it lands, **re-run the existing Tier 2 harness at
-the release boundary** (not a new grid) watching: no bug-task exploration
-regression from the added view surface, and whether publify t1's treatment view
-omission disappears — the sharp, cheap coverage→value check.
+**Also still open (unrelated):** file the GitHub issue tracking the Tier 2
+expansion epic (Next steps item 4 — outward-facing, confirm with user first).
 
-If the user would rather not build now: the alternative is to **commit the probe
-artifacts and stop** — the probe already answered the Tier 3 go/no-go (defer
-Rubydex, no grid), so nothing is left open that *requires* the view pass; it is
-the recommended next improvement, not a blocker.
-
-**Delegation (confirmed working model):** Claude is orchestrator / judge / DRA;
-**Codex does the heavy code implementation**; Sonnet subagents do scaffolding
-and everything else. Route accordingly. **Fable** is available as an independent
-external advisor (spawn an `advisor` agent with `model: fable`) for design forks
-— it earned its keep this session (caught a real error + surfaced measured
-evidence).
-
-**Uncommitted on `main` from the probe** (user has not authorized a commit):
-`eval/tier3-rubydex/{GATE.md,RESULTS.md,PROPOSAL.md(unchanged),four_column_coverage.rb,implementation-notes.md,coverage/*}`,
-`docs/agent-learnings/2026-07-08-rubydex-cwd-dependent-resolution.md`, and this
-tracker edit.
-
-Final step of this plan: after the view pass lands (or the user redirects),
-rewrite this section for whatever follows.
+Final step of this plan: after the view pass is committed and validated (or the
+user redirects), rewrite this section for whatever follows.
 
 ## Status
 
@@ -154,6 +144,7 @@ rewrite this section for whatever follows.
 | 2 | [`packet-format.md`](specs/packet-format.md) | **Done** (2026-07-05) | `Ctxpack.render_markdown` / `Ctxpack.render_manifest` over the pass 1 packet object. One review fix round (FMT-5 marker drift, Anchor labels). 34 tests / 193 assertions green. |
 | 3 | [`cli.md`](specs/cli.md) | **Done** (2026-07-05) | `Ctxpack::CLI` + `exe/ctxpack` over OptionParser, wiring the pass 1/2 APIs. One review fix round (CLI-14 reminder on implicit `.ctxpack/` creation, CLI-8 anchor-only derivation test). 47 tests / 274 assertions green. |
 | 4 | [`fixture-evals.md`](specs/fixture-evals.md) | **Done** (2026-07-05) | `FixtureEvalsTest` generates packet-expectation + CLI-determinism tests from `test/fixtures/evals/*.yml`; CI (`.github/workflows/ci.yml`) runs the suite on Ruby 3.2 plus a non-blocking pinned metz step. One review fix round (empty-glob guard, manifest-inclusive determinism, CI Ruby floor). 49 tests / 311 assertions green. |
+| View resolution | [`views.md`](specs/views.md), [`packet-compilation.md`](specs/packet-compilation.md), [`packet-format.md`](specs/packet-format.md) | **Done — gate-passed, UNCOMMITTED** (2026-07-08) | VIEW-1..VIEW-7 frozen + folded; `add_view_candidates` between controller and constants; `view_candidate` (list-only) + `view_inferred_by_convention`; `max_view_files = 2`; `max_total_files` truncates by priority. Red-then-green fixture evals + `ViewResolutionTest` (independently re-verified 6/7 red with `lib/` reverted). Suite green **74 runs / 621 assertions**. **Mandatory Tier 0 re-scan PASSED** — zero per-anchor change, zero crashes across 1,967 pairs vs the post-amendment baseline (addendum in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md)). Remaining: user commit + optional release-boundary Tier 2 validation (needs a `--dangerously-skip-permissions` session). |
 
 Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
@@ -166,17 +157,14 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Next steps
 
-1. **Tier 2 expansion + the Tier 3 offline probe are both complete.** Expansion
-   ([`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md)) returned
-   SUPPORT/generalizes; both confirmatory passes landed (commits `cac1190`,
-   `c1e5f82`). The **Tier 3 Rubydex question is now resolved** by the offline
-   probe ([`eval/tier3-rubydex/RESULTS.md`](eval/tier3-rubydex/RESULTS.md)):
-   **defer Rubydex** (no native dep, no grid), and instead **build a view
-   path-convention layer + widen the constant-scan** — the dependency-free win
-   with measured value. That view pass is the recommended next work order (see
-   the execution plan above); it needs a short design freeze with the user, not
-   more investigation. The `eval/tier3-rubydex/PROPOSAL.md` Rubydex grid is **not
-   pursued** on this corpus.
+1. **View path-convention layer is COMPLETE and gate-passed (uncommitted).**
+   Design freeze/fold done, implemented + independently verified red-then-green,
+   suite green (74 runs), and the mandatory Tier 0 corpus re-scan PASSED with
+   zero per-anchor change (addendum in `eval/tier0/RESULTS.md`). The next
+   immediate steps are outward-facing / session-gated: commit the pass (user
+   go), then the optional release-boundary Tier 2 validation (needs a
+   `--dangerously-skip-permissions` session) — both spelled out in the execution
+   plan above.
 2. **(Done) Tier 2 diff-quality scores** — now judge-of-record blind scores
    (seed = app SHA), committed under `eval/tier2-expansion/judging/`; verdict
    unchanged (rests on the exploration metric). A human author re-score remains
@@ -196,6 +184,36 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Decision log
 
+- **2026-07-08** — View path-convention pass landed in the working tree
+  (uncommitted; orchestrated: Claude DRA/judge, a **Sonnet** worker folded the
+  spec, **Codex** did the heavy compiler implementation). **(a) Freeze** — the
+  four `[FREEZE]` decisions signed off by the user: all format variants,
+  list-only `view_candidate` (empty snippet), `max_view_files = 2`, priority
+  reorder controller → views → constants → tests with `max_total_files` held at
+  8. **(b) Fold** — `specs/views.md` frozen; VIEW-1..VIEW-7 into
+  `packet-compilation.md` (`## Views` + LIM-1 revised from an unreachable raise
+  to priority-ordered truncation) and `packet-format.md`
+  (FMT-4a/FMT-6/FMT-7/FMT-8/DET-2); `specs/README.md`, root `README.md`,
+  `design.md` reconciled. Orchestrator adjudicated the fold's one flagged
+  tension by making all pipeline diagrams place views before constants (matching
+  DET-2/LIM-1; views have no data dependency on constants). **(c) Implement** —
+  `add_view_candidates` between controller and constants; existence-gated glob
+  `app/views/<controller_path>/<action>.*`, all variants sorted, partials and
+  other-action prefixes excluded; single `view_inferred_by_convention`
+  uncertainty; the total-file limit truncates the later test from both
+  `packet.files` and "Tests to run" and names it omitted. **(d) Verify** —
+  new red-then-green fixture evals (`view_*.yml`) + `ViewResolutionTest`,
+  independently re-verified session-side (6/7 red with `lib/` reverted, green
+  restored); full suite **74 runs / 621 assertions / 0 failures**; existing
+  goldens (`accounts_upgrade`) unperturbed; no new deps. **(e) Mandatory Tier 0
+  corpus re-scan PASSED** — classifier re-run at the three pinned SHAs against
+  committed routes, **zero per-anchor change / zero crashes** across all 1,967
+  pairs vs `results/post_amendment/` (view inclusion is additive and
+  post-resolution; addendum in `eval/tier0/RESULTS.md`). Minor debt: the
+  `enforce_total_file_limit` slice is now unreachable dead code (the allocation
+  cap bounds total ≤ 8) — harmless, retained as a defensive invariant. Nothing
+  committed (awaiting user go). Remaining: commit + optional release-boundary
+  Tier 2 harness validation (needs a `--dangerously-skip-permissions` session).
 - **2026-07-08 (late)** — OFFLINE Rubydex-recall probe **complete**
   ([`eval/tier3-rubydex/RESULTS.md`](eval/tier3-rubydex/RESULTS.md); orchestrated:
   Claude DRA/judge, Codex authored the recompute script, **Fable** consulted as an
@@ -639,8 +657,8 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 - LIM-1 values (8/4/2/120) are unvalidated guesses until Tier 0/Tier 2 produce
   evidence (tracked in `design.md`). Long-term, packet-vs-diff coverage is the
   designated evidence source (decision log 2026-07-05).
-- The `max_total_files` guard is untested because it is unreachable by v0
-  construction (see `implementation-notes.md`).
+- The view pass's mandatory Tier 0 rescan is still pending because GitHub DNS
+  failed during pinned checkout fetches on 2026-07-09; see the execution plan.
 - Generic validators that auto-load every `*_test.rb` will trip over the
   static fixture tests under `test/fixtures/apps/`; the Rake task excludes
   them deliberately (TEST-4: content is never read).

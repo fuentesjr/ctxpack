@@ -15,7 +15,7 @@ the CLI wires both behind a command; fixture evals exercise the whole.
 
 | Spec | Covers | Requirement prefix |
 |---|---|---|
-| [`packet-compilation.md`](packet-compilation.md) | Anchor resolution, parsing, callbacks, constants, test candidates, limits | `ANCH`, `PARSE`, `CB`, `CONST`, `TEST`, `LIM` |
+| [`packet-compilation.md`](packet-compilation.md) | Anchor resolution, parsing, callbacks, constants, views, test candidates, limits | `ANCH`, `PARSE`, `CB`, `CONST`, `VIEW`, `TEST`, `LIM` |
 | [`packet-format.md`](packet-format.md) | Markdown packet structure, reason/uncertainty codes, repo stamp, determinism, JSON manifest | `FMT`, `DET`, `MAN` |
 | [`cli.md`](cli.md) | Command surface, flags, artifact naming and location | `CLI` |
 | [`fixture-evals.md`](fixture-evals.md) | Tier 1 deterministic regression evals (fixtures, YAML cases, runner) | `EVAL` |

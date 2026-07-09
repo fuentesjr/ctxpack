@@ -1,0 +1,20 @@
+name: view_no_template
+command:
+  anchor: viewless_reports#preview
+  task: Update redirect behavior
+
+expect:
+  entrypoint:
+    file: app/controllers/viewless_reports_controller.rb
+    action: preview
+
+  include:
+    - path: app/controllers/viewless_reports_controller.rb
+      reason_code: controller_action
+
+  exclude:
+    - app/views/viewless_reports/preview.html.erb
+
+  tests: []
+
+  max_files: 8
