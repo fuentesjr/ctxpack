@@ -80,49 +80,44 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Written 2026-07-09. Work order for a fresh "Continue from
-PROJECT_TRACKER.md" session. If this section disagrees with "Next steps", Next
-steps wins.
+Written 2026-07-09 (end of the view + companion + validation session). Work
+order for a fresh "Continue from PROJECT_TRACKER.md" session. If this section
+disagrees with "Next steps", Next steps wins.
 
-**Context — the view path-convention layer is COMPLETE, gate-passed, COMMITTED,
-and PUSHED.** It landed as commits `6688ff9` (the pass) + `2e9284e`
-(Claude-specific delegation-model doc in CLAUDE.md), and `origin/main` is in sync
-as of 2026-07-09 (`da676cb`, the tracker reconciliation). Spec frozen + folded,
-`add_view_candidates` implemented,
-red-then-green fixture evals + `ViewResolutionTest`, suite green **74 runs / 621
-assertions**; full detail in the 2026-07-08 decision-log entry. Minor known debt:
-the `enforce_total_file_limit` slice is now an unreachable defensive backstop
-(the test-allocation cap already bounds total ≤ 8) — harmless, retained as an
-invariant guard.
+**Context — the view path-convention layer AND both companion changes are
+COMPLETE and gate-passed. The view pass is PUSHED; the companion work + the
+validation note are COMMITTED but NOT yet PUSHED.** This session (2026-07-09)
+landed, in order:
+- View pass pushed + Tier 0 rescan re-verified (`da676cb`, `origin/main` synced).
+- **CONST-1a intra-file call-graph constant widening** (`ab72137`, Codex via the
+  spec-pass loop, fable-frozen): action → callbacks → transitive same-file
+  callees appended last (strictly additive under the 4-cap). Suite **89 runs**;
+  **Tier 0 rescan PASSED** (zero change, zero crashes / 1,967 pairs).
+- **Locale-pointer standing uncertainty note** (`c7a4ae3`, coding-worker,
+  fable-frozen): unconditional note, no retrieve-more (FMT-2 §8), FMT-8 amended.
+  Suite **89 runs / 817 assertions**. Tier 0 rescan N/A (prose-only).
+- **View-pass release-boundary validation** — coverage confirmed on publify
+  (`eval/tier2-expansion/VIEW_PASS_VALIDATION.md`): t1 packet now surfaces the
+  view + locale pointer (the P06/P20 omission), t3 bug packet unchanged (no
+  added distraction surface). User accepted coverage as sufficient; no subject
+  grid re-run.
+- **Epic issue [#4](https://github.com/fuentesjr/ctxpack/issues/4)** filed.
 
-**Mandatory Tier 0 corpus re-scan PASSED — and was independently RE-VERIFIED
-2026-07-09** (addendum + re-verification note in
-[`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md)): classifier re-run at the three
-pinned SHAs against the committed route tables produces output **byte-identical**
-to `results/post_amendment/` — zero per-anchor change, zero crashes across all
-1,967 pairs. A prior session had left a self-contradicting "DNS-failed / rescan
-pending" debt note; that was a transient fetch artifact (disproven — GitHub is
-reachable, the rescan reproduces the baseline exactly) and has been removed.
+**Next work order:**
+1. **Push the unpushed commits** to `origin/main` (outward-facing — get user go
+   first). As of this writing: `e6a5d10` (issue note), `ab72137` (CONST-1),
+   `c7a4ae3` (locale), plus this validation/tracker commit — verify with
+   `git log --oneline origin/main..HEAD`.
+2. **No forced next pass.** v0 (passes 1–4), the view layer, and both companion
+   changes are all landed and gate-passed; the Tier 2 expansion epic is
+   SUPPORT/generalizes and closed (#4). The remaining backlog is discretionary:
+   real-usage dogfooding to exercise LIM-1's limits against actual
+   packet-vs-diff coverage (the post-v0 north-star), or revisiting the deferred
+   Tier 3 Rubydex direction if a corpus makes it worthwhile. Pick with the user;
+   do not invent scope.
 
-**Next work order (in order — all session-gated or outward-facing; the view pass
-itself is fully landed and pushed):**
-1. **Release-boundary validation — a usefulness check, NOT a correctness gate;
-   needs a `--dangerously-skip-permissions` session (cannot run from a normal
-   session, per `eval/tier2/RUNBOOK.md`).** Re-run the **existing** Tier 2
-   harness (NOT a new grid) watching: no bug-task exploration regression from
-   the added view surface, and whether publify t1's treatment view omission
-   (P06/P20 — the two dings this whole pass targets) disappears. This is the
-   sharp, cheap coverage→value confirmation.
-2. **Companion changes** (separate small passes, `specs/views.md` "Companion
-   work"): CONST-1 whole-controller-file constant widening; locale as a standing
-   Uncertainty pointer. Keep them separate unless the user bundles them.
-
-**Also still open (unrelated):** file the GitHub issue tracking the Tier 2
-expansion epic (Next steps item 4 — outward-facing, confirm with user first).
-
-Final step of this plan: after the release-boundary validation runs (or the user
-redirects to companion work / the epic issue), rewrite this section for whatever
-follows.
+Final step of this plan: after the commits are pushed (or the user redirects),
+rewrite this section for whatever follows.
 
 ## Status
 
@@ -143,7 +138,8 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 | Tier 0 anchor viability spike | **Done** (2026-07-05) | **91.0% engine-excluded average across Mastodon/Discourse/Zammad → ≥ 70% gate passes; proceed as designed.** Post-ANCH-amendment re-run: **93.9%**, zero regressions (addendum in RESULTS.md). Full method, taxonomy, and raw data in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md). Zero compiler crashes across 1,967 real-app pairs. |
 | Tier 2 agent A/B | **Done — SUPPORT** (2026-07-06) | Harness (`eval/tier2/harness.rb`) + 18-session grid + pilot run; all 20 sessions `complete`, zero aborts, 100% `task_success`. 2/3 tasks (bug-fix, behavior-change) show ≥ 30% median reduction in calls-to-first-load-bearing-read; multi-file feature (task 1) mildly worse; diff quality at ceiling (control 8.00 / treatment 7.89, agent first-pass pending author confirmation). Directional support per the frozen rule. Full analysis: [`eval/tier2/RESULTS.md`](eval/tier2/RESULTS.md). |
 | Tier 3 Rubydex offline probe | **Done — DEFER Rubydex, build view layer** (2026-07-08) | Gate PASSED (Rubydex indexes all 3 pinned apps offline <1s). Four-column offline recompute over the committed diffs ([`eval/tier3-rubydex/RESULTS.md`](eval/tier3-rubydex/RESULTS.md)): feature control prod-recall convention 0.685 → +view **0.815** (+0.130R/−0.097P) vs +rubydex 0.769 (+0.083R/**−0.312P**, halves precision; recall gain = 1 file, convention-reachable). Verdict: build a Rails view path-convention layer + widen the constant-scan to the whole controller file (dependency-free); locale = a pointer; **defer Rubydex** (native dep unjustified); **no new grid**. Fable advised (caught a GATE error + measured harm P06/P20). Bug caught + fixed: Rubydex resolution is cwd-dependent. Uncommitted. |
-| Tier 2 expansion | **Done — SUPPORT / generalizes** (2026-07-08) | Grid complete (72 sessions + 6 pilots), verdict in [`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md): the packet meets the ≥30%-exploration-reduction bar on **3/3 apps across both frameworks**; multi-file features help (Tier 2 scare refuted); wins don't depend on the test pointer (code content is the driver); the bug task is the sole non-meeter (failing test already localizes). `task_success` saturated 71/72. **Both confirmatory passes now landed** (2026-07-08 eve): blind diff-quality 0–8 = control 7.94 / treatment 7.94 (no regression, gate closed); packet-vs-diff coverage (LIM-1 north-star) = control prod recall 0.80 / precision 0.63, recall gap concentrated in feature tasks and near-orthogonal to the exploration wins. Tier 3 (Rubydex) drafted (not frozen). [`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md) signed off. Adds Campfire (Minitest) + Lobsters + Publify (RSpec), 4 tasks/app (feature-weighted), test-pointer sub-analysis. P1 (RSpec rules, `21505b0`) + P2 (harness per-app config) landed. **Campfire** (`v1.4.3`, SQLite/Minitest) 4/4 test-candidate. **Lobsters** (`430d864b`, RSpec/MariaDB) within-app **2/2** split (the sharp sub-analysis contrast). **Publify** (`publify_core` **engine** v10.0.3 `80ede867`, RSpec/SQLite, Ruby 3.1.7) 4/4: anchors frozen (bug=`articles#preview`, behavior=`admin/users#destroy`, features=`setup#index`/`tags#index`), 4 tasks + hidden RSpec request specs authored (Codex) and **verified red-then-green session-side**, config wired, golden captured, `verify` OK, 2-session pilot green (both arms `complete`/`success`, minimal single-file fixes, no `spec/` edits, no amendments). Publify pins the `publify_core` ENGINE (the deploy app is a controller-less shell); bridged with a benchmark-only stub `config/application.rb` + `concurrent-ruby 1.3.4` pin + `spec/dummy` route extraction — no ctxpack compiler behavior touched. Next: run the 72-session grid (needs a `--dangerously-skip-permissions` session), then write `RESULTS.md`. |
+| Tier 2 expansion | **Done — SUPPORT / generalizes** (2026-07-08) | Grid complete (72 sessions + 6 pilots), verdict in [`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md): the packet meets the ≥30%-exploration-reduction bar on **3/3 apps across both frameworks**; multi-file features help (Tier 2 scare refuted); wins don't depend on the test pointer (code content is the driver); the bug task is the sole non-meeter (failing test already localizes). `task_success` saturated 71/72. **Both confirmatory passes now landed** (2026-07-08 eve): blind diff-quality 0–8 = control 7.94 / treatment 7.94 (no regression, gate closed); packet-vs-diff coverage (LIM-1 north-star) = control prod recall 0.80 / precision 0.63, recall gap concentrated in feature tasks and near-orthogonal to the exploration wins. Tier 3 (Rubydex) drafted (not frozen). [`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md) signed off. Adds Campfire (Minitest) + Lobsters + Publify (RSpec), 4 tasks/app (feature-weighted), test-pointer sub-analysis. P1 (RSpec rules, `21505b0`) + P2 (harness per-app config) landed. **Campfire** (`v1.4.3`, SQLite/Minitest) 4/4 test-candidate. **Lobsters** (`430d864b`, RSpec/MariaDB) within-app **2/2** split (the sharp sub-analysis contrast). **Publify** (`publify_core` **engine** v10.0.3 `80ede867`, RSpec/SQLite, Ruby 3.1.7) 4/4: anchors frozen (bug=`articles#preview`, behavior=`admin/users#destroy`, features=`setup#index`/`tags#index`), 4 tasks + hidden RSpec request specs authored (Codex) and **verified red-then-green session-side**, config wired, golden captured, `verify` OK, 2-session pilot green (both arms `complete`/`success`, minimal single-file fixes, no `spec/` edits, no amendments). Publify pins the `publify_core` ENGINE (the deploy app is a controller-less shell); bridged with a benchmark-only stub `config/application.rb` + `concurrent-ruby 1.3.4` pin + `spec/dummy` route extraction — no ctxpack compiler behavior touched. Grid ran 72 sessions + 6 pilots; verdict SUPPORT/generalizes. |
+| View-pass release-boundary validation | **Done — coverage confirmed** (2026-07-09) | Packet-coverage check of view + CONST-1 + locale on publify ([`eval/tier2-expansion/VIEW_PASS_VALIDATION.md`](eval/tier2-expansion/VIEW_PASS_VALIDATION.md)): regenerated t1/t3 packets at the new lib (`c7a4ae3`) vs the frozen-grid packets. **t1 `setup#index` now surfaces the setup view + locale pointer** — the two-part P06/P20 omission — while **t3 `articles#preview` is byte-identical** (no view exists → no added distraction surface). Both watch-items pass. Per user decision the coverage confirmation is sufficient; subject-session behavioral re-run not spent (established prior + would risk frozen provenance). Frozen grid `runs.jsonl`/`packets/` untouched. |
 
 ## Next steps
 
@@ -175,6 +171,27 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Decision log
 
+- **2026-07-09** — View-pass release-boundary validation done; **coverage
+  confirmed, subject re-run judged unnecessary** (user decision). Rather than a
+  new grid, regenerated the publify t1/t3 packets at the current lib (`c7a4ae3`)
+  and diffed coverage against the frozen-grid committed packets (write-up:
+  `eval/tier2-expansion/VIEW_PASS_VALIDATION.md`). **(1) P06/P20 target closed at
+  the packet level:** t1 `setup#index` now surfaces `app/views/setup/index.html.erb`
+  (view_candidate) AND the locale standing note — the exact two-part omission
+  (no form field + no locale) behind the two treatment-arm quality dings. CONST-1
+  contributed nothing on publify (`User` was already action-body-reachable; its
+  target was campfire t1). **(2) No bug-task regression surface:** t3
+  `articles#preview` packet is byte-identical old-vs-new (no conventional view →
+  the existence-gated glob adds nothing; the only universal addition is the
+  one-line locale uncertainty note, not a file), so the added view surface cannot
+  introduce distraction-read regression on the bug task. Given the frozen 72-session
+  grid already established that treatment agents act on packet files, the
+  coverage fact is load-bearing and the behavioral value follows; the optional
+  subject-session re-run was not spent (predictable, and would require isolating
+  regenerated packets from the committed frozen-grid provenance). Frozen grid
+  `runs.jsonl`/`packets/` left untouched (regeneration went to scratch). Closes
+  the last of the three companion work items requested this session (epic issue
+  #4 filed, CONST-1, locale pointer, view-pass validation).
 - **2026-07-09** — Locale-pointer companion pass landed (committed, not yet
   pushed; orchestrated: Claude orchestrator/verifier, **fable** froze the design,
   a local **coding-worker** implemented it). **Design fork resolved by fable
