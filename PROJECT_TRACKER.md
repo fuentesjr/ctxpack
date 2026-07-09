@@ -80,57 +80,71 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Written 2026-07-08 (evening). Work order for a fresh "Continue from
+Written 2026-07-08 (late). Work order for a fresh "Continue from
 PROJECT_TRACKER.md" session. If this section disagrees with "Next steps", Next
 steps wins.
 
-**Context (all done, committed to `main`, nothing pushed):** the Tier 2 expansion
-epic and both confirmatory passes are complete
-([`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md)):
-✅ blind diff-quality 0–8 (commit `cac1190`, control 7.94 / treatment 7.94, **no
-regression, gate closed**; provenance `eval/tier2-expansion/judging/`);
-✅ packet-vs-diff coverage (commit `c1e5f82`, control prod recall 0.80 / precision
-0.63; recall gap is a **feature-task, resolution-scope** gap and is
-**near-orthogonal to the exploration wins**; artifacts
-`eval/tier2-expansion/coverage/`); ✅ GitHub issues #1/#2/#3 closed.
+**Context (all done, committed to `main` except where noted; nothing pushed):**
+The Tier 2 expansion epic + both confirmatory passes are complete
+([`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md)). The
+**OFFLINE Rubydex-recall probe is now also complete** and **uncommitted on
+`main`** ([`eval/tier3-rubydex/RESULTS.md`](eval/tier3-rubydex/RESULTS.md)):
+- **Gate PASSED** — Rubydex (static, no boot/DB) indexes all three pinned apps
+  offline in <1s ([`eval/tier3-rubydex/GATE.md`](eval/tier3-rubydex/GATE.md)).
+- **Verdict:** the four-column offline recompute (convention / +view / +rubydex /
+  +both over the same committed diffs) says **build a Rails view path-convention
+  layer + widen the convention constant-scan to the whole controller file;
+  locale = a pointer; DEFER Rubydex; no new agent grid.** Feature-task recall
+  (control, prod-only): convention 0.685 → +view **0.815** (favorable, +0.130R
+  for −0.097P) vs +rubydex 0.769 (+0.083R for **−0.312P** — halves precision).
+  Rubydex's entire measured recall gain is ONE file (campfire t1 `user.rb`, a
+  literal in-file constant a full-file convention scan also reaches); a native
+  Rust dependency `design.md` excludes is not justified for it.
 
-**Next work order: the OFFLINE Rubydex-recall probe** (user-chosen 2026-07-08).
-This is the cheap gate before any Tier 3 grid — full rationale and open decisions
-in [`eval/tier3-rubydex/PROPOSAL.md`](eval/tier3-rubydex/PROPOSAL.md) (not frozen).
-The question: does a **Rubydex-resolved** packet file-set recall the missed
-feature files (views / locale files / sibling models) that the convention/Zeitwerk
-resolver structurally misses — computed **offline over the same committed
-expansion diffs**, for near-zero agent cost? Do it in order:
+**Next work order: land the view path-convention layer as a real spec pass**
+(the one buildable, dependency-free win with *measured* value — it targets the
+only two treatment-arm quality dings in the whole grid, publify t1 P06/P20). Two
+tightly-related heuristics, ideally one pass:
+1. **View reason code** — anchor `controller#action` → include existing
+   `app/views/<controller>/<action>.*`. (Snippet handling: views are ERB, decide
+   whether to snippet or list-only; keep LIM-1's ≤8-file / snippet-line budgets.)
+2. **Widen the referenced-constant scan** from the action body to the whole
+   controller file (captures the sibling-model recall Rubydex got, e.g. campfire
+   `User.all` in a private helper — no dependency).
+3. **Locale = a standing pointer/note**, not a packet file (misses are new keys;
+   a truncated giant `en.yml` would be metric-gaming) — verify this is the right
+   call at design time.
 
-1. **Hard prerequisite / gate — is Rubydex installed and able to index the three
-   pinned apps offline?** (Campfire `71ffeeea`, Lobsters `430d864b`, Publify
-   `publify_core` engine `80ede867`; Publify is an engine, Campfire is rails-edge,
-   Lobsters needs MariaDB — the same no-boot constraint that shaped Tier 0.) If an
-   app can't be indexed offline, record it and either narrow the app set or fall
-   back to a pivot bet; do not force it. This is the blocking unknown — resolve it
-   first.
-2. **Build a Rubydex-resolved packet file-set per task** (resolve the frozen
-   anchor's dependencies via Rubydex's index/graph instead of path convention).
-   Match the file-set shape that `eval/tier2-expansion/packet_coverage.rb`
-   consumes (a set of repo-relative paths per app × task).
-3. **Recompute recall/precision over the same committed diffs**, reusing the
-   `packet_coverage.rb` machinery, comparing **Rubydex vs convention** resolution
-   — focused on the **feature tasks**, where the 0.69→? recall gap lives. Success
-   signal: Rubydex meaningfully raises feature prod-recall by reaching the
-   views/locales/siblings, without wrecking precision.
-4. **Write up under `eval/tier3-rubydex/`.** If Rubydex closes the offline gap,
-   *then* the head-to-head agent grid in `PROPOSAL.md` earns its cost — freeze it
-   with the user (arm design, scope, success bar) before running. If it doesn't,
-   don't spend a grid; consider the `eval-plan.md` Tier-2-fail pivots (packets as
-   PR-linkable review artifacts, or packets for smaller/cheaper models).
+This **changes compiler behavior**, so it is a full spec pass via the Codex
+delegation loop (spec amendment reconciled with `design.md`, new **fixture-eval
+cases** red-then-green per `add-fixture-eval`, and a **mandatory Tier 0 corpus
+re-scan** per its rule). Before dispatching, **freeze the design with the user**:
+snippet-vs-list for views, exact view/locale reason codes, and whether the
+constant-scan widening ships in the same pass or separately (small, reviewable
+changes are preferred). After it lands, **re-run the existing Tier 2 harness at
+the release boundary** (not a new grid) watching: no bug-task exploration
+regression from the added view surface, and whether publify t1's treatment view
+omission disappears — the sharp, cheap coverage→value check.
 
-**Delegation (this session's working model, confirmed by the user):** Claude is
-orchestrator / judge / DRA; **Codex does the heavy code implementation** (e.g. the
-Rubydex resolver + probe script); Sonnet subagents do scaffolding and everything
-else. Route accordingly.
+If the user would rather not build now: the alternative is to **commit the probe
+artifacts and stop** — the probe already answered the Tier 3 go/no-go (defer
+Rubydex, no grid), so nothing is left open that *requires* the view pass; it is
+the recommended next improvement, not a blocker.
 
-Final step of this plan: after the offline probe lands (or the prerequisite
-blocks it), rewrite this section for whatever follows.
+**Delegation (confirmed working model):** Claude is orchestrator / judge / DRA;
+**Codex does the heavy code implementation**; Sonnet subagents do scaffolding
+and everything else. Route accordingly. **Fable** is available as an independent
+external advisor (spawn an `advisor` agent with `model: fable`) for design forks
+— it earned its keep this session (caught a real error + surfaced measured
+evidence).
+
+**Uncommitted on `main` from the probe** (user has not authorized a commit):
+`eval/tier3-rubydex/{GATE.md,RESULTS.md,PROPOSAL.md(unchanged),four_column_coverage.rb,implementation-notes.md,coverage/*}`,
+`docs/agent-learnings/2026-07-08-rubydex-cwd-dependent-resolution.md`, and this
+tracker edit.
+
+Final step of this plan: after the view pass lands (or the user redirects),
+rewrite this section for whatever follows.
 
 ## Status
 
@@ -147,19 +161,22 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 |---|---|---|
 | Tier 0 anchor viability spike | **Done** (2026-07-05) | **91.0% engine-excluded average across Mastodon/Discourse/Zammad → ≥ 70% gate passes; proceed as designed.** Post-ANCH-amendment re-run: **93.9%**, zero regressions (addendum in RESULTS.md). Full method, taxonomy, and raw data in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md). Zero compiler crashes across 1,967 real-app pairs. |
 | Tier 2 agent A/B | **Done — SUPPORT** (2026-07-06) | Harness (`eval/tier2/harness.rb`) + 18-session grid + pilot run; all 20 sessions `complete`, zero aborts, 100% `task_success`. 2/3 tasks (bug-fix, behavior-change) show ≥ 30% median reduction in calls-to-first-load-bearing-read; multi-file feature (task 1) mildly worse; diff quality at ceiling (control 8.00 / treatment 7.89, agent first-pass pending author confirmation). Directional support per the frozen rule. Full analysis: [`eval/tier2/RESULTS.md`](eval/tier2/RESULTS.md). |
+| Tier 3 Rubydex offline probe | **Done — DEFER Rubydex, build view layer** (2026-07-08) | Gate PASSED (Rubydex indexes all 3 pinned apps offline <1s). Four-column offline recompute over the committed diffs ([`eval/tier3-rubydex/RESULTS.md`](eval/tier3-rubydex/RESULTS.md)): feature control prod-recall convention 0.685 → +view **0.815** (+0.130R/−0.097P) vs +rubydex 0.769 (+0.083R/**−0.312P**, halves precision; recall gain = 1 file, convention-reachable). Verdict: build a Rails view path-convention layer + widen the constant-scan to the whole controller file (dependency-free); locale = a pointer; **defer Rubydex** (native dep unjustified); **no new grid**. Fable advised (caught a GATE error + measured harm P06/P20). Bug caught + fixed: Rubydex resolution is cwd-dependent. Uncommitted. |
 | Tier 2 expansion | **Done — SUPPORT / generalizes** (2026-07-08) | Grid complete (72 sessions + 6 pilots), verdict in [`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md): the packet meets the ≥30%-exploration-reduction bar on **3/3 apps across both frameworks**; multi-file features help (Tier 2 scare refuted); wins don't depend on the test pointer (code content is the driver); the bug task is the sole non-meeter (failing test already localizes). `task_success` saturated 71/72. **Both confirmatory passes now landed** (2026-07-08 eve): blind diff-quality 0–8 = control 7.94 / treatment 7.94 (no regression, gate closed); packet-vs-diff coverage (LIM-1 north-star) = control prod recall 0.80 / precision 0.63, recall gap concentrated in feature tasks and near-orthogonal to the exploration wins. Tier 3 (Rubydex) drafted (not frozen). [`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md) signed off. Adds Campfire (Minitest) + Lobsters + Publify (RSpec), 4 tasks/app (feature-weighted), test-pointer sub-analysis. P1 (RSpec rules, `21505b0`) + P2 (harness per-app config) landed. **Campfire** (`v1.4.3`, SQLite/Minitest) 4/4 test-candidate. **Lobsters** (`430d864b`, RSpec/MariaDB) within-app **2/2** split (the sharp sub-analysis contrast). **Publify** (`publify_core` **engine** v10.0.3 `80ede867`, RSpec/SQLite, Ruby 3.1.7) 4/4: anchors frozen (bug=`articles#preview`, behavior=`admin/users#destroy`, features=`setup#index`/`tags#index`), 4 tasks + hidden RSpec request specs authored (Codex) and **verified red-then-green session-side**, config wired, golden captured, `verify` OK, 2-session pilot green (both arms `complete`/`success`, minimal single-file fixes, no `spec/` edits, no amendments). Publify pins the `publify_core` ENGINE (the deploy app is a controller-less shell); bridged with a benchmark-only stub `config/application.rb` + `concurrent-ruby 1.3.4` pin + `spec/dummy` route extraction — no ctxpack compiler behavior touched. Next: run the 72-session grid (needs a `--dangerously-skip-permissions` session), then write `RESULTS.md`. |
 
 ## Next steps
 
-1. **Tier 2 expansion is complete, including both confirmatory passes.** The grid
+1. **Tier 2 expansion + the Tier 3 offline probe are both complete.** Expansion
    ([`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md)) returned
-   SUPPORT/generalizes; the **blind diff-quality pass** (no regression, gate
-   closed) and **packet-vs-diff coverage** (north-star) have now landed
-   (commits `cac1190`, `c1e5f82`). The only remaining `eval-plan.md` branch is
-   **Tier 3 (Rubydex)**, drafted but **not frozen** in
-   [`eval/tier3-rubydex/PROPOSAL.md`](eval/tier3-rubydex/PROPOSAL.md) — see the
-   execution plan above; it needs a user decision (prerequisite: is Rubydex
-   runnable on the pinned apps?), not execution.
+   SUPPORT/generalizes; both confirmatory passes landed (commits `cac1190`,
+   `c1e5f82`). The **Tier 3 Rubydex question is now resolved** by the offline
+   probe ([`eval/tier3-rubydex/RESULTS.md`](eval/tier3-rubydex/RESULTS.md)):
+   **defer Rubydex** (no native dep, no grid), and instead **build a view
+   path-convention layer + widen the constant-scan** — the dependency-free win
+   with measured value. That view pass is the recommended next work order (see
+   the execution plan above); it needs a short design freeze with the user, not
+   more investigation. The `eval/tier3-rubydex/PROPOSAL.md` Rubydex grid is **not
+   pursued** on this corpus.
 2. **(Done) Tier 2 diff-quality scores** — now judge-of-record blind scores
    (seed = app SHA), committed under `eval/tier2-expansion/judging/`; verdict
    unchanged (rests on the exploration metric). A human author re-score remains
@@ -179,6 +196,41 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Decision log
 
+- **2026-07-08 (late)** — OFFLINE Rubydex-recall probe **complete**
+  ([`eval/tier3-rubydex/RESULTS.md`](eval/tier3-rubydex/RESULTS.md); orchestrated:
+  Claude DRA/judge, Codex authored the recompute script, **Fable** consulted as an
+  independent advisor). **(a) Gate PASSED** — Rubydex 0.2.8 is a *static* Rust
+  indexer (no boot/DB); indexes all three pinned apps offline in <1s
+  ([`GATE.md`](eval/tier3-rubydex/GATE.md)). **(b) Reframe (Fable-surfaced,
+  verified):** the feature recall gap is *two* mechanisms, not one — Rubydex
+  reaches only Ruby files (not `.erb`/`.yml`); its demonstrated reach is sibling
+  models via the call graph, while views need a Rails path convention and locales
+  are newly-added keys. Fable also caught a real error in the first `GATE.md`
+  draft (`lobsters user_standing.rb` is an *agent-created* file, unreachable by
+  any resolver) and pointed at *measured* harm (the only two treatment-arm
+  quality dings in the 72-session grid, publify t1 P06/P20, are the view/locale
+  omission). **(c) Four-column offline recompute** (`four_column_coverage.rb`,
+  Codex-authored + session-verified; convention column self-checks byte-exact
+  against the committed coverage baseline): feature control prod-only recall
+  convention 0.685 → **+view 0.815** (+0.130R for −0.097P, ratio 1.33) vs
+  **+rubydex 0.769** (+0.083R for **−0.312P** — halves precision). Rubydex raises
+  recall on exactly **1 of 12 tasks** (campfire t1 `user.rb`, a literal `User.all`
+  in a private helper — reachable by widening the convention scan to the whole
+  controller file, no dependency); everywhere else it only floods precision
+  (superclasses/jobs/concerns). **(d) A real bug caught session-side** (the
+  self-check couldn't — it only guards the convention column): Rubydex resolution
+  is **cwd-dependent**, not just `workspace_path`; fixed with `Dir.chdir(app_root)`
+  around index/resolve (learning note
+  `docs/agent-learnings/2026-07-08-rubydex-cwd-dependent-resolution.md`).
+  **Verdict:** build a **view path-convention layer** + **widen the constant-scan
+  to the whole controller file** (dependency-free, targets the measured harm);
+  **locale = a pointer**; **DEFER Rubydex** (one convention-reachable file of
+  recall for a halved precision + a native Rust dep `design.md` excludes); **no
+  new agent grid** — validate the view pass at the release boundary via the
+  existing harness. `rake test` green (55 runs; only `eval/` touched); corpus
+  re-scan skipped (analysis script only, no compiler behavior touched). The
+  `eval/tier3-rubydex/PROPOSAL.md` Rubydex grid is now **not pursued** on this
+  corpus. Nothing committed (awaiting user go).
 - **2026-07-08 (evening)** — Two confirmatory Tier 2 expansion passes landed via
   an orchestrated session (Claude as orchestrator/judge/DRA; Codex for the heavy
   analysis script; Sonnet subagents for scaffolding). **(a) Blind diff-quality
