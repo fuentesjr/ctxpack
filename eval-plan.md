@@ -81,7 +81,7 @@ Stated limitation, so it is never misread: **Tier 1 proves the tool agrees with 
 > [`eval/tier2/RESULTS.md`](eval/tier2/RESULTS.md) and
 > [`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md). The
 > "support → expand to more tasks and a second app" decision-rule action below
-> has been carried out (three additional apps across both test frameworks).
+> has been carried out.
 
 The actual hypothesis test. Run only after Tier 0 passes and the vertical slice exists.
 

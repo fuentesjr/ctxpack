@@ -29,7 +29,7 @@ Sometimes, and honestly-measured. What we can say from **offline** A/B studies
   *both* arms (packet and no-packet), so the measured value is getting to the
   right files faster, not writing a better patch.
 
-Caveats worth internalizing: these are small, offline runs on a handful of open
+Caveats: these are small, offline runs on a handful of open
 Rails apps, and ctxpack is v0. Treat the exploration win as a real but bounded
 effect on **focused** tasks, and verify it pays off in your own workflow.
 
@@ -163,5 +163,5 @@ packet afterward (e.g. pasting it into a hosted AI agent) is up to you.
 It parses a small, bounded set of files per anchor (the controller plus a handful
 of resolved targets), so a single packet compiles in well under a second even on
 large apps — there's no whole-repo indexing step. In the anchor-viability spike
-it compiled thousands of real controller#action pairs across large open-source
+it compiled 1,967 real controller#action pairs across three large open-source
 apps with zero crashes.

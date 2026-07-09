@@ -2,9 +2,9 @@ name: view_leading_underscore_action
 
 # Characterization (VIEW-1/VIEW-2): an action whose name itself begins with `_`
 # (tolerated by ANCH-1) can never surface its own conventional template, because
-# the resulting filename is indistinguishable from a partial and VIEW-2 excludes
-# all `_`-prefixed basenames. The template below EXISTS on disk, so this is not a
-# no-template case — it is present yet correctly excluded. Locks intended behavior.
+# the resulting filename looks like a partial, which VIEW-2 excludes. The template
+# below EXISTS on disk, so this is not a no-template case — it is present yet
+# correctly excluded.
 command:
   anchor: oddities#_show_secure_deprecated
   task: Update the deprecated secure show action

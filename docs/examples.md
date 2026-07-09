@@ -4,12 +4,11 @@ A hands-on tour for Rails developers. By the end you can generate a context
 packet for any `controller#action`, read every section, feed it to an AI coding
 agent, and know when ctxpack will (correctly) refuse.
 
-All packet output shown here is **real** — generated from the bundled fixture
-app with ctxpack at commit `bcfed2f`. Output is byte-for-byte deterministic, so
-the same anchor + same tree always produces the same packet.
-
-> Is it actually worth it? The honest answer — where it helps, where it doesn't,
-> and the evidence — is in the [FAQ](faq.md#does-it-actually-help).
+All packet output shown here is **real**, produced by the ctxpack CLI (tool
+commit `bcfed2f`) against a throwaway copy of the bundled fixture app. Output is
+byte-for-byte deterministic, so the same anchor + same tree always produces the
+same packet. (The `Generated from:` line inside a packet is the *target app's*
+git SHA, so the sample below shows a different short SHA than the tool commit.)
 
 ## What ctxpack does, and when to reach for it
 
@@ -148,7 +147,7 @@ Section by section:
   generated from uncommitted changes — the packet reflects your working tree,
   not a commit. Outside a git repo the line reads `unknown (not a git
   repository)`.
-- **`## Files to inspect first`** — the heart of the packet, ordered by priority:
+- **`## Files to inspect first`** — the ordered file list, by priority:
   controller action → applicable callbacks → referenced constants → view
   template → test candidates. Each entry has a plain-language **Why** and a
   machine-readable **Reason code** (full table [below](#what-gets-included-and-why)).
@@ -193,7 +192,7 @@ The `controller#action` shown in that output is your anchor.
 
 ## Feeding a packet to an AI coding agent
 
-This is the payoff. The Markdown packet is written to be dropped straight into
+The Markdown packet is written to be dropped straight into
 an agent prompt (Claude Code, Cursor, a custom harness — anything that reads
 text):
 

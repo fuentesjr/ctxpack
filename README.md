@@ -24,8 +24,8 @@ Planned output:
 ## ✨ Status
 
 `ctxpack` v0 is **implemented and evaluated**. The compiler, Markdown/manifest
-renderers, CLI, fixture evals, the Rails view-convention resolution layer, and
-the locale-pointer uncertainty note are all shipped and tested. See
+renderers, CLI, fixture evals, and the Rails view-convention resolution layer
+are all shipped and tested. See
 [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) for live pass status and the
 `RESULTS.md` files under [`eval/`](eval/) for the Tier 0 / Tier 2 evaluation
 results.
@@ -174,9 +174,8 @@ See the issue templates in [`.github/ISSUE_TEMPLATE`](.github/ISSUE_TEMPLATE).
 
 ## 🐣 Current status & next step
 
-v0 (packet compiler, Markdown/manifest renderers, CLI, fixture evals) plus the
-Rails view-convention resolution layer and the locale-pointer note are landed
-and gate-passed; the Tier 0 anchor spike and the Tier 2 agent A/B (and its
-multi-app expansion) are complete. For the live status and the current next
-step, see [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) ("Resuming a session" and
-"Status"), which is the source of truth over this snapshot.
+v0 and the view/locale companion work are landed and gate-passed; the Tier 0
+anchor spike and the Tier 2 agent A/B (with its multi-app expansion) are
+complete. For live status and the current next step, see
+[`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) ("Resuming a session" and "Status"),
+the source of truth over this snapshot.
