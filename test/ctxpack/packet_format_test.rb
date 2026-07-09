@@ -75,6 +75,7 @@ class PacketFormatTest < Minitest::Test
     assert_includes markdown, "- Test file `test/integration/accounts_upgrade_test.rb` was inferred by path and should be verified."
     assert_includes markdown, "- Callbacks declared outside this controller file, including superclasses and concerns, were not resolved."
     assert_includes markdown, "- Route discovery is delegated to Rails; run `bin/rails routes -g upgrade` if the exact endpoint matters."
+    assert_includes markdown, "- Locale files are not scanned; user-facing strings conventionally live in `config/locales/`. If the task adds or changes user-visible copy, add or update the matching locale key(s)."
     assert_includes markdown, "- Convention-only constant match `Billing::Subscriptions` resolved to `app/services/billing/subscriptions.rb`; verify it if the task depends on that behavior."
 
     assert_includes markdown, "- Inspect test file `test/integration/accounts_upgrade_test.rb` to confirm the path-inferred Minitest candidate covers the task."

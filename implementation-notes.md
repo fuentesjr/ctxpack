@@ -813,3 +813,29 @@ Known limitations: constants in method parameter defaults are not scanned
 because ctxpack scans method bodies only; dynamic dispatch and aliases are not
 detected. Mandatory Tier 0 corpus re-scan for this compiler-behavior change is
 run session-side by the orchestrator.
+
+## Locale-pointer standing uncertainty note (2026-07-09)
+
+Companion to the view pass, targeting the locale half of a measured quality
+ding (an agent changed a nickname backend-only, adding no locale key). Chosen
+shape (advisor-frozen): an **unconditional standing uncertainty note**, not a
+view-gated coded uncertainty. Rationale: the frozen guidance
+(`specs/views.md` companion item 2) calls for a "standing pointer, not a packet
+file ... a note, not a resolver"; the locale gap is *newly-added keys*, which is
+orthogonal to whether a view template exists (so view-gating wouldn't track the
+failure mode); and `uncertainty_notes` already carries two unconditional
+standing notes, so a third fits the precedent. It is renderer-only prose — no
+compiler behavior, no resolution or manifest change — so the Tier 0 corpus
+rescan is **N/A** for this pass.
+
+The note is appended in `markdown_renderer.rb#uncertainty_notes` after the
+route-discovery note. It deliberately adds **no** "Retrieve more only if needed"
+suggestion: FMT-2 §8 fixes that section as a pure function of uncertainty/
+omission *codes*, and this is a code-less standing note, so the conditional
+action ("add or update the matching locale key(s)") is embedded in the note
+itself (mirroring the route note's embedded `bin/rails routes` action). Wording
+states the scan gap without false precision ("not scanned", "conventionally").
+FMT-8 amended to enumerate the note; no FMT-7 code added, no MAN-2/manifest
+change (standing notes are Markdown-only, consistent with the existing two).
+Implemented by a local coding-worker; verified session-side red-then-green
+(89 runs / 817 assertions).

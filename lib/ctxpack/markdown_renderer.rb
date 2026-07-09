@@ -141,6 +141,7 @@ module Ctxpack
       notes = packet.uncertainty.map { |item| uncertainty_text(item) }
       notes << "Callbacks declared outside this controller file, including superclasses and concerns, were not resolved."
       notes << "Route discovery is delegated to Rails; run `bin/rails routes -g #{packet.entrypoint.action}` if the exact endpoint matters."
+      notes << "Locale files are not scanned; user-facing strings conventionally live in `config/locales/`. If the task adds or changes user-visible copy, add or update the matching locale key(s)."
       notes.concat(packet.convention_constant_matches.map { |match| convention_constant_text(match) })
       notes
     end

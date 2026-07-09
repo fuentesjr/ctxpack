@@ -629,6 +629,7 @@ Reason code: `minitest_candidate`
 - The Minitest file was inferred by path and should be verified.
 - Callbacks declared outside this controller file (superclass or concerns) were not resolved.
 - Route discovery is delegated to Rails; run `bin/rails routes -g upgrade` if the exact endpoint matters.
+- Locale files are not scanned; user-facing strings conventionally live in `config/locales/`. If the task adds or changes user-visible copy, add or update the matching locale key(s).
 - Billing package boundaries were not inspected in v0.
 
 ## Retrieve more only if needed

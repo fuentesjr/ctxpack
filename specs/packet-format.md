@@ -87,10 +87,11 @@ New codes require a spec update; freeform reason codes are prohibited.
 **FMT-8.** The `## Uncertainty` section MUST state, in templated prose, at
 minimum: which test files were inferred by path; that callbacks outside the
 controller file were not resolved; that route discovery is delegated to Rails;
-any convention-only constant matches worth verifying; and that included view
+any convention-only constant matches worth verifying; that included view
 templates were matched by convention and not confirmed against the action's
-actual render target (VIEW-4, VIEW-6). If a guess was made anywhere, it is
-named here — no false precision.
+actual render target (VIEW-4, VIEW-6); and that locale files are not scanned,
+so user-facing strings conventionally live in `config/locales/`. If a guess
+was made anywhere, it is named here — no false precision.
 
 **FMT-9.** The `## Omitted candidates` section names the specific candidates
 each limit excluded (constants, test files), so the reader can inspect
