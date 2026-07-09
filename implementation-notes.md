@@ -811,8 +811,18 @@ callback's own constants at their callback position.
 
 Known limitations: constants in method parameter defaults are not scanned
 because ctxpack scans method bodies only; dynamic dispatch and aliases are not
-detected. Mandatory Tier 0 corpus re-scan for this compiler-behavior change is
-run session-side by the orchestrator.
+detected.
+
+Requirement coverage: five dedicated cases in `test/ctxpack/constants_test.rb`
+(`test_const_1a_follows_same_file_helper_called_by_action`,
+`test_const_1a_4_appends_transitive_constants_after_action_and_callbacks_under_the_4_cap`,
+`test_const_1a_terminates_mutual_recursion_in_bfs_order`,
+`test_const_1a_traverses_through_callback_that_is_also_a_callee`,
+`test_const_1a_ignores_dynamic_and_other_receiver_calls`) plus red-then-green
+fixture evals. Verified session-side: `bundle exec rake test` — 89 runs,
+815 assertions, 0 failures. Mandatory Tier 0 corpus re-scan for this
+compiler-behavior change PASSED: zero per-anchor change, zero crashes across
+all 1,967 pairs.
 
 ## Locale-pointer standing uncertainty note (2026-07-09)
 

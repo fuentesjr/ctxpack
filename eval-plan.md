@@ -73,6 +73,16 @@ Stated limitation, so it is never misread: **Tier 1 proves the tool agrees with 
 
 ## Tier 2 — agent-in-the-loop A/B
 
+> **Executed 2026-07-06 (Redmine pilot grid) and 2026-07-08 (multi-app
+> expansion).** Verdict **SUPPORT / generalizes**: the packet meets the
+> ≥ 30%-median-exploration-reduction bar across Redmine, Campfire, Lobsters,
+> and Publify (72 grid sessions + 6 pilots), with no task-success or
+> diff-quality regression. Method, metrics, and per-app tables:
+> [`eval/tier2/RESULTS.md`](eval/tier2/RESULTS.md) and
+> [`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md). The
+> "support → expand to more tasks and a second app" decision-rule action below
+> has been carried out (three additional apps across both test frameworks).
+
 The actual hypothesis test. Run only after Tier 0 passes and the vertical slice exists.
 
 The harness is built to re-run — pinned agent setup, scripted arms, recorded SHAs — not as one-shot scripts. A "support" result converts it from a gate into a usefulness-regression check re-run at release boundaries; the decision rules below already assume this ("judged by the same harness").

@@ -85,8 +85,8 @@ order for a fresh "Continue from PROJECT_TRACKER.md" session. If this section
 disagrees with "Next steps", Next steps wins.
 
 **Context — the view path-convention layer AND both companion changes are
-COMPLETE and gate-passed. The view pass is PUSHED; the companion work + the
-validation note are COMMITTED but NOT yet PUSHED.** This session (2026-07-09)
+COMPLETE, gate-passed, and PUSHED (`origin/main` synced at `a8dab7c`;
+`git log --oneline origin/main..HEAD` is empty).** This session (2026-07-09)
 landed, in order:
 - View pass pushed + Tier 0 rescan re-verified (`da676cb`, `origin/main` synced).
 - **CONST-1a intra-file call-graph constant widening** (`ab72137`, Codex via the
@@ -104,10 +104,10 @@ landed, in order:
 - **Epic issue [#4](https://github.com/fuentesjr/ctxpack/issues/4)** filed.
 
 **Next work order:**
-1. **Push the unpushed commits** to `origin/main` (outward-facing — get user go
-   first). As of this writing: `e6a5d10` (issue note), `ab72137` (CONST-1),
-   `c7a4ae3` (locale), plus this validation/tracker commit — verify with
-   `git log --oneline origin/main..HEAD`.
+1. **(Done) The commits are pushed** — `origin/main` is synced through the
+   view-pass validation commit (`a8dab7c`); `e6a5d10` (issue note), `ab72137`
+   (CONST-1), and `c7a4ae3` (locale) are all on `origin/main`, and
+   `git log --oneline origin/main..HEAD` is empty.
 2. **No forced next pass.** v0 (passes 1–4), the view layer, and both companion
    changes are all landed and gate-passed; the Tier 2 expansion epic is
    SUPPORT/generalizes and closed (#4). The remaining backlog is discretionary:
@@ -128,8 +128,8 @@ rewrite this section for whatever follows.
 | 3 | [`cli.md`](specs/cli.md) | **Done** (2026-07-05) | `Ctxpack::CLI` + `exe/ctxpack` over OptionParser, wiring the pass 1/2 APIs. One review fix round (CLI-14 reminder on implicit `.ctxpack/` creation, CLI-8 anchor-only derivation test). 47 tests / 274 assertions green. |
 | 4 | [`fixture-evals.md`](specs/fixture-evals.md) | **Done** (2026-07-05) | `FixtureEvalsTest` generates packet-expectation + CLI-determinism tests from `test/fixtures/evals/*.yml`; CI (`.github/workflows/ci.yml`) runs the suite on Ruby 3.2 plus a non-blocking pinned metz step. One review fix round (empty-glob guard, manifest-inclusive determinism, CI Ruby floor). 49 tests / 311 assertions green. |
 | View resolution | [`views.md`](specs/views.md), [`packet-compilation.md`](specs/packet-compilation.md), [`packet-format.md`](specs/packet-format.md) | **Done — gate-passed, COMMITTED (`6688ff9`) + PUSHED** (2026-07-08; rescan re-verified + pushed 2026-07-09) | VIEW-1..VIEW-7 frozen + folded; `add_view_candidates` between controller and constants; `view_candidate` (list-only) + `view_inferred_by_convention`; `max_view_files = 2`; `max_total_files` truncates by priority. Red-then-green fixture evals + `ViewResolutionTest` (independently re-verified 6/7 red with `lib/` reverted). Suite green **74 runs / 621 assertions**. **Mandatory Tier 0 re-scan PASSED and RE-VERIFIED 2026-07-09** — classifier output byte-identical to the post-amendment baseline, zero per-anchor change, zero crashes across 1,967 pairs (addendum + re-verification note in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md)). Remaining: push (user go) + optional release-boundary Tier 2 validation (needs a `--dangerously-skip-permissions` session). |
-| CONST-1 widening (companion) | [`packet-compilation.md`](specs/packet-compilation.md) | **Done — gate-passed, COMMITTED (`ab72137`), NOT PUSHED** (2026-07-09) | Codex-implemented (fable-frozen), intra-file action call graph: constant scan now covers action body + applicable same-file callbacks + same-file methods **transitively called from the action** (BFS, nil/`self` receiver + direct-method-name only; dynamic dispatch out). CONST-4 three-group order (action → callbacks → callees appended LAST) makes it **strictly additive under the 4-cap** (no eviction). CONST-1/1a/4 amended, `design.md` reconciled; new `file_order`/`omitted` fixture-eval DSL. 5 red-then-green fixtures + `constants_test` cases (independently re-verified red with `lib/` reverted). Suite green **89 runs / 815 assertions**. **Mandatory Tier 0 re-scan PASSED** — zero per-anchor change, zero crashes across 1,967 pairs (also a crash-stress test of the new call-graph code). |
-| Locale pointer (companion) | [`packet-format.md`](specs/packet-format.md) FMT-8, [`views.md`](specs/views.md) | **Done — COMMITTED, NOT PUSHED** (2026-07-09) | coding-worker-implemented (fable-frozen), targets the locale half of the P06/P20 ding. An **unconditional standing uncertainty note** ("Locale files are not scanned; user-facing strings conventionally live in `config/locales/`…") in `markdown_renderer.rb#uncertainty_notes` — chosen over a view-gated coded uncertainty because the gap is *newly-added keys* (orthogonal to view presence) and it mirrors the two existing standing notes. **No** retrieve-more suggestion (FMT-2 §8: code-less note ⇒ no suggestion; action embedded in the note). FMT-8 amended, `design.md` reconciled; no FMT-7/manifest change. Red-then-green in `packet_format_test.rb` (independently re-verified). Suite green **89 runs / 817 assertions**. **Tier 0 rescan N/A** — prose-only renderer change, no resolution/manifest behavior touched. |
+| CONST-1 widening (companion) | [`packet-compilation.md`](specs/packet-compilation.md) | **Done — gate-passed, COMMITTED (`ab72137`) + PUSHED** (2026-07-09) | Codex-implemented (fable-frozen), intra-file action call graph: constant scan now covers action body + applicable same-file callbacks + same-file methods **transitively called from the action** (BFS, nil/`self` receiver + direct-method-name only; dynamic dispatch out). CONST-4 three-group order (action → callbacks → callees appended LAST) makes it **strictly additive under the 4-cap** (no eviction). CONST-1/1a/4 amended, `design.md` reconciled; new `file_order`/`omitted` fixture-eval DSL. 5 red-then-green fixtures + `constants_test` cases (independently re-verified red with `lib/` reverted). Suite green **89 runs / 815 assertions**. **Mandatory Tier 0 re-scan PASSED** — zero per-anchor change, zero crashes across 1,967 pairs (also a crash-stress test of the new call-graph code). |
+| Locale pointer (companion) | [`packet-format.md`](specs/packet-format.md) FMT-8, [`views.md`](specs/views.md) | **Done — COMMITTED + PUSHED** (2026-07-09) | coding-worker-implemented (fable-frozen), targets the locale half of the P06/P20 ding. An **unconditional standing uncertainty note** ("Locale files are not scanned; user-facing strings conventionally live in `config/locales/`…") in `markdown_renderer.rb#uncertainty_notes` — chosen over a view-gated coded uncertainty because the gap is *newly-added keys* (orthogonal to view presence) and it mirrors the two existing standing notes. **No** retrieve-more suggestion (FMT-2 §8: code-less note ⇒ no suggestion; action embedded in the note). FMT-8 amended, `design.md` reconciled; no FMT-7/manifest change. Red-then-green in `packet_format_test.rb` (independently re-verified). Suite green **89 runs / 817 assertions**. **Tier 0 rescan N/A** — prose-only renderer change, no resolution/manifest behavior touched. |
 
 Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 

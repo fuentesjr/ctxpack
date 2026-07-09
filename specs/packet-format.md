@@ -94,8 +94,9 @@ so user-facing strings conventionally live in `config/locales/`. If a guess
 was made anywhere, it is named here — no false precision.
 
 **FMT-9.** The `## Omitted candidates` section names the specific candidates
-each limit excluded (constants, test files), so the reader can inspect
-manually. Truncation without this section is a bug (LIM-2).
+each limit excluded (constant files, test files, view files, and truncated
+snippets), so the reader can inspect manually. Truncation without this section
+is a bug (LIM-2).
 
 ## Repo stamp
 

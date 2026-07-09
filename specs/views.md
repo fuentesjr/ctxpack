@@ -50,9 +50,9 @@ setup#index          → app/views/setup/index.*
 admin/users#destroy  → app/views/admin/users/destroy.*
 ```
 
-The action token is taken with any trailing `?`/`!` stripped and a leading `_`'s
-empty token dropped, consistent with ANCH-1 / TEST-1 rule 2 (view filenames
-cannot carry `?`/`!`). Inclusion is existence-gated: if no matching template
+The action token is taken with any trailing `?`/`!` stripped (view filenames
+cannot carry `?`/`!`, consistent with ANCH-1 / TEST-1 rule 2); no other
+normalization is applied to the token. Inclusion is existence-gated: if no matching template
 exists, **no view entry is added and resolution does NOT fail** — many actions
 render nothing (redirect, `head`, JSON-only via a controller that renders
 implicitly, an action whose template lives elsewhere). A missing conventional
@@ -64,7 +64,10 @@ glob under the exact directory only:
 
 - Glob `app/views/<controller_path>/<action>.<ext>` — one path segment
   `<action>`, a dot, then any extension. No recursion into subdirectories.
-- Partials (basename beginning `_`) MUST NOT be included.
+- Partials (basename beginning `_`) MUST NOT be included. Consequence: an
+  action whose name itself begins with `_` (tolerated by ANCH-1) can never
+  have its own conventional view included, because the resulting filename is
+  indistinguishable from a partial.
 - Other actions' templates MUST NOT be included (no prefix/fuzzy match).
 - **Frozen: all format variants.** Every format variant that exists matches
   and is included (`index.html.erb`, `index.json.jbuilder`,

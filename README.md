@@ -23,14 +23,21 @@ Planned output:
 
 ## ✨ Status
 
-`ctxpack` is currently in **v0 design/prototype planning**.
+`ctxpack` v0 is **implemented and evaluated**. The compiler, Markdown/manifest
+renderers, CLI, fixture evals, the Rails view-convention resolution layer, and
+the locale-pointer uncertainty note are all shipped and tested. See
+[`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) for live pass status and the
+`RESULTS.md` files under [`eval/`](eval/) for the Tier 0 / Tier 2 evaluation
+results.
 
 The repo contains:
 
+- [`lib/`](lib/) + [`exe/ctxpack`](exe/ctxpack) — the v0 gem and CLI
+- [`test/`](test/) — unit tests and YAML fixture evals
+- [`specs/`](specs/README.md) — normative v0 specifications derived from the design: CLI, packet compilation, packet format/determinism, fixture evals
 - [`design.md`](design.md) — the v0 product and implementation design
 - [`eval-plan.md`](eval-plan.md) — the three-tier evaluation plan: anchor viability, determinism regression, agent A/B
-- [`specs/`](specs/README.md) — normative v0 specifications derived from the design: CLI, packet compilation, packet format/determinism, fixture evals
-- [GitHub issues](https://github.com/fuentesjr/ctxpack/issues) — mini-epics and tasks for the first implementation slice
+- [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) — live implementation status and next steps
 
 ## 🧭 Why Rails?
 
@@ -165,16 +172,11 @@ This repo starts with two issue primitives:
 
 See the issue templates in [`.github/ISSUE_TEMPLATE`](.github/ISSUE_TEMPLATE).
 
-## 🐣 Current next step
+## 🐣 Current status & next step
 
-1. Run the Tier 0 anchor viability spike from [`eval-plan.md`](eval-plan.md): measure how often v0 anchor resolution succeeds on 2–3 real Rails apps, before writing any renderer code.
-2. If the Tier 0 gate passes, build the smallest vertical slice:
-   - scaffold the Ruby gem/CLI
-   - add the static Rails-shaped fixture
-   - implement `ctxpack packet accounts#upgrade`
-   - prove deterministic output with fixture evals
-
-See:
-
-- [Mini-epic #1: Build the v0 packet compiler vertical slice](https://github.com/fuentesjr/ctxpack/issues/1)
-- [Mini-epic #2: Add v0 fixture evals and deterministic regression checks](https://github.com/fuentesjr/ctxpack/issues/2)
+v0 (packet compiler, Markdown/manifest renderers, CLI, fixture evals) plus the
+Rails view-convention resolution layer and the locale-pointer note are landed
+and gate-passed; the Tier 0 anchor spike and the Tier 2 agent A/B (and its
+multi-app expansion) are complete. For the live status and the current next
+step, see [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) ("Resuming a session" and
+"Status"), which is the source of truth over this snapshot.
