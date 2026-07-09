@@ -80,45 +80,33 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Written 2026-07-08. Work order for a fresh "Continue from
+Written 2026-07-09. Work order for a fresh "Continue from
 PROJECT_TRACKER.md" session. If this section disagrees with "Next steps", Next
 steps wins.
 
-**Context — the view path-convention layer is COMPLETE and gate-passed, but
-UNCOMMITTED (no commit/push authorized).** Everything below landed in the
-working tree this session (Claude orchestrator/judge/DRA; **Codex** did the
-heavy compiler implementation; a **Sonnet** worker folded the spec):
-- **Spec frozen + folded.** The four `[FREEZE]` decisions were signed off by the
-  user (all-variants; list-only; `max_view_files = 2`; reorder priority
-  controller → views → constants → tests, ceiling stays 8). `specs/views.md` is
-  frozen; VIEW-1..VIEW-7 folded into `packet-compilation.md` (`## Views` + the
-  LIM-1 raise→truncate revision) and `packet-format.md`
-  (FMT-4a/FMT-6/FMT-7/FMT-8/DET-2); `specs/README.md`, root `README.md`, and
-  `design.md` reconciled. (Orchestrator adjudicated the fold's one flagged
-  tension: all pipeline diagrams now place views before constants, matching
-  DET-2/LIM-1 — see `implementation-notes.md`.)
-- **Implemented + verified.** `add_view_candidates` runs between controller and
-  constants (DET-2 order); `view_candidate` files are list-only (empty snippet);
-  a single `view_inferred_by_convention` uncertainty drives the FMT-8 /
-  retrieve-more prose; `max_total_files` now truncates by priority (drops the
-  later test from both `packet.files` and "Tests to run", names it omitted).
-  Red-then-green fixture evals + `ViewResolutionTest`, independently re-verified
-  session-side (6/7 red with `lib/` reverted, green restored). Suite green
-  **74 runs / 621 assertions / 0 failures**. Minor known debt: the
-  `enforce_total_file_limit` slice is now an unreachable defensive backstop
-  (the test-allocation cap already bounds total ≤ 8) — harmless, retained as an
-  invariant guard.
-- **Mandatory Tier 0 corpus re-scan PASSED** (addendum in
-  [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md)): classifier re-run at the
-  three pinned SHAs against the committed route tables — **zero per-anchor
-  change, zero crashes** across all 1,967 pairs (view inclusion is additive and
-  post-resolution, exactly as predicted).
+**Context — the view path-convention layer is COMPLETE, gate-passed, and
+COMMITTED, but NOT PUSHED.** It landed as commits `6688ff9` (the pass) +
+`2e9284e` (Claude-specific delegation-model doc in CLAUDE.md); the tree is clean
+and **3 commits ahead of `origin/main`, unpushed** (the third is `67244d3`, the
+Tier 3 Rubydex probe). Spec frozen + folded, `add_view_candidates` implemented,
+red-then-green fixture evals + `ViewResolutionTest`, suite green **74 runs / 621
+assertions**; full detail in the 2026-07-08 decision-log entry. Minor known debt:
+the `enforce_total_file_limit` slice is now an unreachable defensive backstop
+(the test-allocation cap already bounds total ≤ 8) — harmless, retained as an
+invariant guard.
 
-**Next work order (in order):**
-1. **Commit the view pass** (outward-facing — get user go first). One coherent
-   commit: frozen `specs/views.md`, the folded canonical specs, `lib/` + `test/`
-   changes, `implementation-notes.md`, the Tier 0 addendum, the view learning
-   note, `README.md`, and this tracker. Nothing pushed by default.
+**Mandatory Tier 0 corpus re-scan PASSED — and was independently RE-VERIFIED
+2026-07-09** (addendum + re-verification note in
+[`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md)): classifier re-run at the three
+pinned SHAs against the committed route tables produces output **byte-identical**
+to `results/post_amendment/` — zero per-anchor change, zero crashes across all
+1,967 pairs. A prior session had left a self-contradicting "DNS-failed / rescan
+pending" debt note; that was a transient fetch artifact (disproven — GitHub is
+reachable, the rescan reproduces the baseline exactly) and has been removed.
+
+**Next work order (in order — all outward-facing or session-gated):**
+1. **Push the 3 unpushed commits** to `origin/main` (outward-facing — get user go
+   first). The gate is satisfied; nothing more to verify before pushing.
 2. **Release-boundary validation — a usefulness check, NOT a correctness gate;
    needs a `--dangerously-skip-permissions` session (cannot run from a normal
    session, per `eval/tier2/RUNBOOK.md`).** Re-run the **existing** Tier 2
@@ -133,8 +121,8 @@ heavy compiler implementation; a **Sonnet** worker folded the spec):
 **Also still open (unrelated):** file the GitHub issue tracking the Tier 2
 expansion epic (Next steps item 4 — outward-facing, confirm with user first).
 
-Final step of this plan: after the view pass is committed and validated (or the
-user redirects), rewrite this section for whatever follows.
+Final step of this plan: after the pass is pushed and validated (or the user
+redirects), rewrite this section for whatever follows.
 
 ## Status
 
@@ -144,7 +132,7 @@ user redirects), rewrite this section for whatever follows.
 | 2 | [`packet-format.md`](specs/packet-format.md) | **Done** (2026-07-05) | `Ctxpack.render_markdown` / `Ctxpack.render_manifest` over the pass 1 packet object. One review fix round (FMT-5 marker drift, Anchor labels). 34 tests / 193 assertions green. |
 | 3 | [`cli.md`](specs/cli.md) | **Done** (2026-07-05) | `Ctxpack::CLI` + `exe/ctxpack` over OptionParser, wiring the pass 1/2 APIs. One review fix round (CLI-14 reminder on implicit `.ctxpack/` creation, CLI-8 anchor-only derivation test). 47 tests / 274 assertions green. |
 | 4 | [`fixture-evals.md`](specs/fixture-evals.md) | **Done** (2026-07-05) | `FixtureEvalsTest` generates packet-expectation + CLI-determinism tests from `test/fixtures/evals/*.yml`; CI (`.github/workflows/ci.yml`) runs the suite on Ruby 3.2 plus a non-blocking pinned metz step. One review fix round (empty-glob guard, manifest-inclusive determinism, CI Ruby floor). 49 tests / 311 assertions green. |
-| View resolution | [`views.md`](specs/views.md), [`packet-compilation.md`](specs/packet-compilation.md), [`packet-format.md`](specs/packet-format.md) | **Done — gate-passed, UNCOMMITTED** (2026-07-08) | VIEW-1..VIEW-7 frozen + folded; `add_view_candidates` between controller and constants; `view_candidate` (list-only) + `view_inferred_by_convention`; `max_view_files = 2`; `max_total_files` truncates by priority. Red-then-green fixture evals + `ViewResolutionTest` (independently re-verified 6/7 red with `lib/` reverted). Suite green **74 runs / 621 assertions**. **Mandatory Tier 0 re-scan PASSED** — zero per-anchor change, zero crashes across 1,967 pairs vs the post-amendment baseline (addendum in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md)). Remaining: user commit + optional release-boundary Tier 2 validation (needs a `--dangerously-skip-permissions` session). |
+| View resolution | [`views.md`](specs/views.md), [`packet-compilation.md`](specs/packet-compilation.md), [`packet-format.md`](specs/packet-format.md) | **Done — gate-passed, COMMITTED (`6688ff9`), NOT PUSHED** (2026-07-08; rescan re-verified 2026-07-09) | VIEW-1..VIEW-7 frozen + folded; `add_view_candidates` between controller and constants; `view_candidate` (list-only) + `view_inferred_by_convention`; `max_view_files = 2`; `max_total_files` truncates by priority. Red-then-green fixture evals + `ViewResolutionTest` (independently re-verified 6/7 red with `lib/` reverted). Suite green **74 runs / 621 assertions**. **Mandatory Tier 0 re-scan PASSED and RE-VERIFIED 2026-07-09** — classifier output byte-identical to the post-amendment baseline, zero per-anchor change, zero crashes across 1,967 pairs (addendum + re-verification note in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md)). Remaining: push (user go) + optional release-boundary Tier 2 validation (needs a `--dangerously-skip-permissions` session). |
 
 Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
@@ -157,11 +145,14 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Next steps
 
-1. **View path-convention layer is COMPLETE and gate-passed (uncommitted).**
-   Design freeze/fold done, implemented + independently verified red-then-green,
-   suite green (74 runs), and the mandatory Tier 0 corpus re-scan PASSED with
-   zero per-anchor change (addendum in `eval/tier0/RESULTS.md`). The next
-   immediate steps are outward-facing / session-gated: commit the pass (user
+1. **View path-convention layer is COMPLETE, gate-passed, and COMMITTED
+   (`6688ff9`) — but NOT PUSHED (3 commits ahead of `origin/main`).** Design
+   freeze/fold done, implemented + independently verified red-then-green, suite
+   green (74 runs), and the mandatory Tier 0 corpus re-scan PASSED — and was
+   independently RE-VERIFIED 2026-07-09 as byte-identical to the post-amendment
+   baseline (a stale "DNS-failed / rescan pending" debt note was disproven and
+   removed; addendum + re-verification note in `eval/tier0/RESULTS.md`). The next
+   immediate steps are outward-facing / session-gated: push the commits (user
    go), then the optional release-boundary Tier 2 validation (needs a
    `--dangerously-skip-permissions` session) — both spelled out in the execution
    plan above.
@@ -184,6 +175,28 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Decision log
 
+- **2026-07-09** — Tracker reconciled + view-pass Tier 0 rescan independently
+  re-verified. A "Continue from PROJECT_TRACKER.md" session found the tracker
+  self-contradicting: the execution plan/Status/commit called the view pass
+  "COMPLETE but UNCOMMITTED" and the Tier 0 rescan "PASSED," while a "Known debt"
+  line (committed in the *same* commit `6688ff9`, and referencing a date after
+  its own timestamp) said the rescan was "still pending because GitHub DNS
+  failed." Ground truth established: (a) the pass is **already committed**
+  (`6688ff9` + `2e9284e`), tree clean, **3 commits ahead of `origin/main`,
+  unpushed**; (b) GitHub is reachable — the "DNS failed" reading was a transient
+  fetch artifact (the same `timeout`-command-not-found trap that also produced a
+  false DNS-FAIL in this session's first probe); (c) the rescan was **re-run**
+  at the three pinned SHAs (fresh shallow checkouts, `git rev-parse HEAD`
+  verified, committed route tables) and its per-app/per-anchor output is
+  **byte-identical** to `results/post_amendment/` — 0 regressions / 0
+  newly-resolved / 0 label-flips / 0 crashes across all 1,967 pairs. Conclusion:
+  the committed rescan addendum is genuine and the compiler-behavior gate is
+  satisfied. Actions (local docs only, uncommitted): removed the disproven debt
+  line; added a re-verification note to `eval/tier0/RESULTS.md`; rewrote the
+  execution plan / Status / Next-steps to reflect committed-not-pushed +
+  rescan-re-verified. No `lib/`/spec changes. Remaining next steps are all
+  outward-facing (push; file the Tier 2 epic issue) or session-gated
+  (release-boundary Tier 2 validation) — awaiting user go.
 - **2026-07-08** — View path-convention pass landed in the working tree
   (uncommitted; orchestrated: Claude DRA/judge, a **Sonnet** worker folded the
   spec, **Codex** did the heavy compiler implementation). **(a) Freeze** — the
@@ -657,8 +670,6 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 - LIM-1 values (8/4/2/120) are unvalidated guesses until Tier 0/Tier 2 produce
   evidence (tracked in `design.md`). Long-term, packet-vs-diff coverage is the
   designated evidence source (decision log 2026-07-05).
-- The view pass's mandatory Tier 0 rescan is still pending because GitHub DNS
-  failed during pinned checkout fetches on 2026-07-09; see the execution plan.
 - Generic validators that auto-load every `*_test.rb` will trip over the
   static fixture tests under `test/fixtures/apps/`; the Rake task excludes
   them deliberately (TEST-4: content is never read).

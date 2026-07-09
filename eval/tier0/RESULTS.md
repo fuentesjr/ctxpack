@@ -175,3 +175,15 @@ classifier exercises the full `Ctxpack.compile` path (including the new view
 glob) against real app view trees with zero crashes. No new baseline is written
 because the results are identical to `results/post_amendment/`. Gate passes; no
 defect to route back.
+
+### Re-verification (2026-07-09)
+
+The view-pass rescan above was independently re-run to resolve a tracker
+contradiction (a stale "Known debt" line claimed the rescan was still pending
+because a GitHub fetch had failed on 2026-07-09). Fresh shallow checkouts of all
+three apps at the pinned SHAs (`git rev-parse HEAD` verified against the table
+above), classifier re-run against the committed route tables: the per-anchor and
+per-app output JSONs are **byte-identical** to `results/post_amendment/` — 0
+regressions / 0 newly-resolved / 0 label-flips / 0 crashes across all 1,967
+pairs. The original addendum is genuine; the "pending/DNS-failed" debt note was a
+transient fetch artifact and is removed from the tracker.
