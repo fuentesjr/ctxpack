@@ -28,6 +28,31 @@ Edit skills only at their canonical `.agents/skills/<name>/SKILL.md` path —
 the `.claude/skills/` entries are symlinks, and the rest of `.agents/skills/`
 is a gitignored synced mirror you must not edit.
 
+## Delegation model (Claude-specific)
+
+Roles the main session coordinates. All of this is Claude Code harness
+machinery — subagent types and the `--advisor` flag don't exist for Codex or
+other agents, which is why it lives here and not in `AGENTS.md`.
+
+- **Orchestrator (this session).** Plans, coordinates, verifies, owns the
+  "Proof before claiming success" bar below, and relays to the user.
+  Subagents never talk to the user directly.
+- **Heavy / substantial implementation → Codex** via the `codex-spec-pass`
+  loop (mechanics in the next section). Prefer this over local writable
+  workers for anything spec-pass-sized or otherwise nontrivial.
+- **Lighter edits → local writable workers:** `coding-worker` for
+  normal-scope changes, `fast-coding-worker` for small/mechanical ones.
+- **Judgment calls → the advisor**, configured at launch via
+  `--advisor <model>` (currently `fable`). Guidance-only: it returns exactly
+  one of a plan, a correction, or a stop signal — never a patch, never
+  user-facing prose. It advises both a stuck writable worker (the built-in
+  advisory pattern) and the orchestrator; the caller still owns the decision
+  and the execution. Consult it on genuine forks or hard-to-reverse calls,
+  not for things settleable from the code or sensible defaults.
+
+Escalation thresholds (two failed attempts, spec↔design conflicts, new deps,
+etc.) are in `AGENTS.md` "Escalation rules" and apply to every role.
+
 ## Codex delegation notes (Claude-side mechanics)
 
 The `codex:codex-rescue` agent is a one-shot forwarder. Poll from the main
