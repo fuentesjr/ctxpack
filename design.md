@@ -360,7 +360,7 @@ The default is a hidden directory that projects should gitignore, not `docs/`:
 - Search tools like `rg` skip hidden directories by default, so even local packets stay out of routine code searches.
 - Committing a packet should be a deliberate act, not a side effect. When a packet is worth committing — to link from a PR or issue — `docs/ctxpack/` is the default committed location: `--dir docs/ctxpack`. Arbitrary locations via `--dir`/`--out` remain possible, but one canonical committed path keeps shared packets discoverable and easy to sweep for staleness against their embedded commit SHA.
 
-When ctxpack creates `.ctxpack/` for the first time, it should print a one-line reminder to add the directory to `.gitignore`. No interactive prompt, no automatic `.gitignore` edits.
+When ctxpack creates `.ctxpack/` for the first time, it should print a one-line reminder to stderr to add the directory to `.gitignore`. No interactive prompt, no automatic `.gitignore` edits. Success stdout is a composable, line-oriented result: one saved artifact path per line, relative to the directory where the command was invoked. This keeps paths directly usable even when ctxpack finds the Rails root by walking upward from a nested directory.
 
 Default filename shape:
 
@@ -401,11 +401,15 @@ Rules:
 - prefer an explicit `--name` for clear feature/bug/context naming
 - use snake_case names to resemble Rails migration filenames
 - include enough context in the name to avoid vague artifacts like `upgrade.md`
+- when a derived name exceeds 80 characters, truncate the task prefix before the anchor; if the anchor itself exceeds the cap, retain its trailing 80 characters so the action remains visible
 - include a timestamp in the default filename for ordering and collision resistance
 - do not include generated timestamps inside packet content
 - do not silently overwrite an existing artifact; require `--force` or an explicit `--out`
 - allow `--dir` or `--out` for callers that want a different location
+- reject `--out` + `--manifest` before compilation when the Markdown and JSON paths would collide, including extension-case-only differences
 - treat committing a packet as opt-in, never the default; when opting in, `docs/ctxpack/` is the standard committed location (`--dir docs/ctxpack`)
+
+Both top-level and `packet`-subcommand `--help` / `-h` forms should work without a Rails application root and return through the CLI's injected streams. Compilation failures should render the supplied controller/action in the Rails-native route hint only when both tokens are safe to paste into a shell; otherwise the hint uses generic placeholders.
 
 ## Machine-readable manifest
 

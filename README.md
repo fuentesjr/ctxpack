@@ -15,7 +15,7 @@ ctxpack packet accounts#upgrade \
   --task "Implement billing upgrade"
 ```
 
-Planned output:
+Example output:
 
 ```text
 .ctxpack/20260527143015_billing_upgrade_accounts_upgrade.md
@@ -30,11 +30,16 @@ are all shipped and tested. See
 `RESULTS.md` files under [`eval/`](eval/) for the Tier 0 / Tier 2 evaluation
 results.
 
+Hands-on walkthrough and FAQ:
+
+- [`docs/examples.md`](docs/examples.md) — install, first packet, anatomy of the Markdown output
+- [`docs/faq.md`](docs/faq.md) — limits, refusals, when packets help, determinism
+
 The repo contains:
 
 - [`lib/`](lib/) + [`exe/ctxpack`](exe/ctxpack) — the v0 gem and CLI
 - [`test/`](test/) — unit tests and YAML fixture evals
-- [`specs/`](specs/README.md) — normative v0 specifications derived from the design: CLI, packet compilation, packet format/determinism, fixture evals
+- [`specs/`](specs/README.md) — normative v0 specifications derived from the design: compilation (anchors, callbacks, constants, views, tests, limits), packet format/determinism, CLI, fixture evals
 - [`design.md`](design.md) — the v0 product and implementation design
 - [`eval-plan.md`](eval-plan.md) — the three-tier evaluation plan: anchor viability, determinism regression, agent A/B
 - [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) — live implementation status and next steps
@@ -49,17 +54,17 @@ Rails apps already contain strong structural signals:
 - Zeitwerk maps constants to file paths
 - Rails conventions reveal useful context without broad semantic search
 
-`ctxpack` tries to use those conventions before reaching for heavier tools like embeddings, graph databases, or full Ruby call graphs.
+`ctxpack` uses those conventions before reaching for heavier tools like embeddings, graph databases, or full Ruby call graphs.
 
 ## 🎯 v0 goal
 
-The first version should stay intentionally small:
+v0 stays intentionally small:
 
 ```text
 controller#action
 → action snippet + applicable before_action callbacks
 → conventional action view templates when present
-→ obvious referenced constants from the action and same-file called helpers
+→ obvious referenced constants from the action, applicable callbacks, and same-file called helpers
 → likely test candidates
 → compact Markdown packet
 ```
@@ -71,11 +76,11 @@ accounts#upgrade       → app/controllers/accounts_controller.rb
 admin/accounts#upgrade → app/controllers/admin/accounts_controller.rb
 ```
 
-v0 will fail clearly when it cannot resolve a direct controller action instead of pretending to understand every Rails edge case.
+v0 fails clearly when it cannot resolve a direct controller action instead of pretending to understand every Rails edge case.
 
 ## 📦 What is a context packet?
 
-A context packet is a small, point-in-time artifact for a specific coding task. It should include:
+A context packet is a small, point-in-time artifact for a specific coding task. It includes:
 
 - the requested task
 - the exact Rails anchor
@@ -89,7 +94,7 @@ A context packet is a small, point-in-time artifact for a specific coding task. 
 
 The key property is **provenance**: every file needs a reason.
 
-## 🛤️ Planned v0 CLI
+## 🛤️ CLI
 
 ```bash
 ctxpack packet accounts#upgrade \
@@ -97,12 +102,25 @@ ctxpack packet accounts#upgrade \
   --task "Implement billing upgrade"
 ```
 
-Inside a Rails app, reach the executable the usual gem way — `bundle exec
-ctxpack`, or `bundle binstubs ctxpack` for a `bin/ctxpack` next to
-`bin/rails`. It works from any subdirectory of the app: like `bin/rails`, it
-walks upward to find the application root.
+ctxpack is **pre-release** (not on RubyGems yet). From a Rails app:
 
-By default, `ctxpack` should write a durable Markdown artifact under:
+```ruby
+# Gemfile
+gem "ctxpack", github: "fuentesjr/ctxpack"
+```
+
+```bash
+bundle install
+bundle binstubs ctxpack   # optional: bin/ctxpack next to bin/rails
+bundle exec ctxpack packet accounts#upgrade --task "Implement billing upgrade"
+```
+
+It works from any subdirectory of the app: like `bin/rails`, it walks upward to
+find the application root (`config/application.rb`). Saved paths are printed
+relative to the directory where the command was invoked, so they can be opened
+or piped directly from there.
+
+By default, `ctxpack` writes a durable Markdown artifact under:
 
 ```text
 .ctxpack/
@@ -119,6 +137,11 @@ bin/rails routes -c AccountsController
 
 Use `ctxpack` after choosing the exact Rails anchor.
 
+Optional flags: `--out PATH` (full path override), `--force` (overwrite),
+`--manifest` (sibling JSON next to the Markdown artifact). Requires Ruby ≥ 3.2;
+the only runtime dependency is [`prism`](https://github.com/ruby/prism).
+Run `ctxpack --help` or `ctxpack packet --help` for the complete option list.
+
 ## 🧪 Evaluation philosophy
 
 Evaluation is split into two kinds of checks — see [`eval-plan.md`](eval-plan.md).
@@ -133,14 +156,14 @@ Evaluation is split into two kinds of checks — see [`eval-plan.md`](eval-plan.
 
 **Offline hypothesis experiments** (Tiers 0 and 2) test whether packets are actually worth building, with pass/kill thresholds registered before any data is collected:
 
-- Tier 0 measures how often v0 anchor rules resolve on real open-source Rails apps — run *before* building the packet renderer
-- Tier 2 A/Bs the same coding agent on the same task with and without a packet
+- Tier 0 measured how often v0 anchor rules resolve on real open-source Rails apps (Mastodon, Discourse, Zammad) — gate passed; see [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md)
+- Tier 2 A/Bs the same coding agent on the same task with and without a packet — directional support on Redmine and a multi-app expansion; see [`eval/tier2/RESULTS.md`](eval/tier2/RESULTS.md) and [`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md)
 
 The honest competitor is not keyword search — modern coding agents already follow Rails conventions on their own. Success means the packet beats the agent's own first two minutes of exploration: fewer irrelevant reads, clearer tests, less wandering.
 
 ## 🚫 Non-goals for v0
 
-`ctxpack` should not start with:
+`ctxpack` does not include:
 
 - embeddings or generic RAG
 - a custom route browser
@@ -148,24 +171,24 @@ The honest competitor is not keyword search — modern coding agents already fol
 - Rails engines or mounted apps
 - inherited or metaprogrammed action discovery
 - full dependency graphs
-- Rubydex-backed indexing as a required dependency
+- Rubydex-backed indexing as a required dependency (probed offline and deferred)
 - system/browser spec discovery
 - autonomous agent behavior
 
-## 🧰 Implementation direction
+## 🧰 Implementation
 
-The planned v0 implementation is a small Ruby CLI/gem:
+v0 is a small Ruby CLI/gem:
 
 - Ruby for low Rails impedance
 - Prism for direct Ruby parsing
 - convention-based action view resolution
-- convention-based constant-to-file resolution
+- convention-based constant-to-file resolution (action body, applicable same-file callbacks, and same-file methods the action calls)
 - deterministic Minitest and RSpec controller/request test pointers
-- Rubydex later only if evals show a concrete need
+- Rubydex only if a later corpus shows a concrete need the convention layer cannot cover
 
 ## 🗺️ Project workflow
 
-This repo starts with two issue primitives:
+This repo uses two issue primitives:
 
 - **Mini-epics** — focused outcomes spanning a small batch of tasks
 - **Tasks** — one concrete implementation, documentation, or review unit

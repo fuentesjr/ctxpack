@@ -15,6 +15,11 @@ Non-normative: inside a Rails app the executable is typically reached via
 `bundle exec ctxpack` or a binstub (`bundle binstubs ctxpack` → `bin/ctxpack`
 next to `bin/rails`). Examples write bare `ctxpack` for brevity.
 
+**CLI-1a.** `ctxpack --help`, `ctxpack -h`, `ctxpack packet --help`, and
+`ctxpack packet -h` MUST print packet-command help to stdout and return success
+without discovering an application root, compiling a packet, writing files, or
+terminating the caller through `SystemExit`. **[fixed by spec]**
+
 **CLI-2.** `<anchor>` is a positional argument in exact `controller#action`
 form (see `packet-compilation.md`, ANCH-1). Route strings
 (`POST /accounts/:id/upgrade`) and route helpers (`upgrade_account`) MUST NOT
@@ -23,8 +28,9 @@ be accepted in v0.
 **CLI-3.** ctxpack discovers the application root the way Rails tooling does:
 starting from the current directory, it walks upward to the nearest ancestor
 containing `config/application.rb` and treats that directory as the
-application root. All resolution, output paths, and the repo stamp are
-relative to the discovered root. If no ancestor contains
+application root. All compilation resolution, output destinations, and the
+repo stamp are relative to the discovered root; displayed success paths follow
+CLI-15. If no ancestor contains
 `config/application.rb`, the command fails with a message saying it searched
 upward for a Rails application root and found none. **[upward discovery
 fixed by spec; matches `bin/rails`/Rake run-from-subdirectory ergonomics]**
@@ -57,7 +63,12 @@ derives from the anchor alone. **[derivation from anchor-only fixed by spec]**
 **CLI-8a.** Derivation rules **[fixed by spec]**: downcase; replace each run
 of non-`[a-z0-9]` characters with a single underscore; strip leading/trailing
 underscores; append the sanitized anchor (`admin/accounts#upgrade` →
-`admin_accounts_upgrade`); cap the whole derived name at 80 characters.
+`admin_accounts_upgrade`); cap the whole derived name at 80 characters while
+preserving the anchor as the suffix. When the combined task + anchor exceeds
+the cap, ctxpack truncates the task prefix to the available space and strips
+any trailing underscore from that prefix. If the sanitized anchor alone is
+longer than 80 characters, its trailing 80 characters are used so the action
+suffix survives.
 
 **CLI-8b.** An explicit `--name` MUST match `^[A-Za-z0-9_]+$`; anything else
 (spaces, punctuation) fails with a clear message. CamelCase input is
@@ -71,6 +82,11 @@ default path.
 
 **CLI-10.** `--manifest` — additionally write a JSON manifest next to the
 Markdown artifact, same basename with `.json` extension (see MAN-1).
+
+**CLI-10a.** If `--out` and `--manifest` would resolve the Markdown artifact
+and manifest to the same path, including paths that differ only by extension
+case, the command MUST fail before compiling or writing either artifact and
+tell the user to choose a non-JSON Markdown output path. **[fixed by spec]**
 
 ## Output behavior
 
@@ -94,11 +110,15 @@ Committing a packet is opt-in, never a side effect; `docs/ctxpack/` is the
 standard committed location, reached via `--dir docs/ctxpack`.
 
 **CLI-14.** When ctxpack creates `.ctxpack/` for the first time, it MUST print
-a one-line reminder to add the directory to `.gitignore`. It MUST NOT prompt
-interactively and MUST NOT edit `.gitignore` itself.
+a one-line reminder to stderr to add the directory to `.gitignore`. It MUST NOT
+prompt interactively and MUST NOT edit `.gitignore` itself. **[stderr fixed by
+spec so success stdout remains composable]**
 
 **CLI-15.** On success, the command prints the saved artifact path (and the
-manifest path when `--manifest` was given).
+manifest path when `--manifest` was given). Artifact paths are printed one per
+line to stdout, relative to the invocation directory, so each line resolves
+directly from the directory where ctxpack was run. No reminder or other status
+text appears on success stdout. **[path base and stdout contract fixed by spec]**
 
 ## Failure behavior
 
@@ -110,7 +130,10 @@ packets.
 
 **CLI-17.** Failure messages SHOULD point the user at Rails-native discovery
 (`bin/rails routes -g …`, `bin/rails routes -c …`) rather than offering any
-ctxpack-side route browsing, which is a v0 non-goal.
+ctxpack-side route browsing, which is a v0 non-goal. When the supplied anchor
+contains shell-safe controller/action tokens, the hint SHOULD substitute those
+values into copy-pasteable commands. Malformed or shell-sensitive anchors MUST
+use generic `ACTION` / `CONTROLLER` placeholders. **[fixed by spec]**
 
 ## Explicit non-features
 

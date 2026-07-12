@@ -6,6 +6,65 @@ require "stringio"
 require "tmpdir"
 
 class CLITest < Minitest::Test
+  def test_top_level_help_uses_injected_stdout_and_returns_success
+    Dir.mktmpdir("ctxpack-help") do |cwd|
+      result = run_cli(["--help"], cwd: cwd)
+
+      assert_equal 0, result.status
+      assert_includes result.stdout, Ctxpack::CLI::USAGE
+      assert_includes result.stdout, "        --manifest\n"
+      assert_equal "", result.stderr
+    end
+  end
+
+  def test_top_level_short_help_returns_success
+    Dir.mktmpdir("ctxpack-help") do |cwd|
+      result = run_cli(["-h"], cwd: cwd)
+
+      assert_equal 0, result.status
+      assert_includes result.stdout, Ctxpack::CLI::USAGE
+      assert_includes result.stdout, "        --manifest\n"
+      assert_equal "", result.stderr
+    end
+  end
+
+  def test_packet_help_uses_injected_stdout_without_exiting
+    Dir.mktmpdir("ctxpack-help") do |cwd|
+      result = nil
+      exit_error = begin
+        result = run_cli(["packet", "--help"], cwd: cwd)
+        nil
+      rescue SystemExit => error
+        error
+      end
+
+      assert_nil exit_error
+      assert_equal 0, result.status
+      assert_includes result.stdout, Ctxpack::CLI::USAGE
+      assert_includes result.stdout, "        --task TASK\n"
+      assert_includes result.stdout, "        --manifest\n"
+      assert_equal "", result.stderr
+    end
+  end
+
+  def test_packet_short_help_uses_injected_stdout_without_exiting
+    Dir.mktmpdir("ctxpack-help") do |cwd|
+      result = nil
+      exit_error = begin
+        result = run_cli(["packet", "-h"], cwd: cwd)
+        nil
+      rescue SystemExit => error
+        error
+      end
+
+      assert_nil exit_error
+      assert_equal 0, result.status
+      assert_includes result.stdout, Ctxpack::CLI::USAGE
+      assert_includes result.stdout, "        --manifest\n"
+      assert_equal "", result.stderr
+    end
+  end
+
   def test_packet_discovers_root_from_nested_cwd_and_writes_default_artifact
     with_cli_app do |app_root|
       nested_cwd = File.join(app_root, "app", "controllers")
@@ -22,7 +81,27 @@ class CLITest < Minitest::Test
       assert_includes File.read(artifact), "## Task\nImplement billing upgrade\n\n"
       refute_includes File.read(artifact), "20260527143015"
       assert_includes result.stdout, ".ctxpack/20260527143015_implement_billing_upgrade_accounts_upgrade.md"
-      assert_equal "", result.stderr
+      assert_includes result.stderr, "Reminder: add .ctxpack/ to .gitignore"
+    end
+  end
+
+  def test_packet_prints_paths_relative_to_the_invocation_directory
+    with_cli_app do |app_root|
+      nested_cwd = File.join(app_root, "app", "controllers")
+
+      result = run_cli(
+        ["packet", "accounts#upgrade", "--name", "billing_upgrade"],
+        cwd: nested_cwd,
+        at: Time.utc(2026, 5, 27, 14, 30, 15)
+      )
+
+      assert_equal 0, result.status
+      printed_path = result.stdout.lines.fetch(0).chomp
+      assert_equal "../../.ctxpack/20260527143015_billing_upgrade.md", printed_path
+      assert_equal(
+        File.join(app_root, ".ctxpack", "20260527143015_billing_upgrade.md"),
+        File.expand_path(printed_path, nested_cwd)
+      )
     end
   end
 
@@ -53,7 +132,7 @@ class CLITest < Minitest::Test
     end
   end
 
-  def test_packet_caps_derived_name_at_80_characters
+  def test_packet_caps_derived_name_at_80_characters_without_losing_anchor
     with_cli_app do |app_root|
       result = run_cli(
         ["packet", "accounts#upgrade", "--task", "a" * 100],
@@ -61,8 +140,44 @@ class CLITest < Minitest::Test
         at: Time.utc(2026, 5, 27, 14, 30, 15)
       )
 
-      expected_name = "a" * 80
+      expected_name = "#{"a" * 63}_accounts_upgrade"
       assert_equal 0, result.status
+      assert_equal 80, expected_name.length
+      assert File.file?(File.join(app_root, ".ctxpack", "20260527143015_#{expected_name}.md"))
+    end
+  end
+
+  def test_packet_trims_separator_runs_at_truncated_task_boundary
+    with_cli_app do |app_root|
+      task = "#{"a" * 62} #{"b" * 10}"
+      result = run_cli(
+        ["packet", "accounts#upgrade", "--task", task],
+        cwd: app_root,
+        at: Time.utc(2026, 5, 27, 14, 30, 15)
+      )
+
+      expected_name = "#{"a" * 62}_accounts_upgrade"
+      assert_equal 0, result.status
+      assert File.file?(File.join(app_root, ".ctxpack", "20260527143015_#{expected_name}.md"))
+    end
+  end
+
+  def test_packet_keeps_trailing_80_characters_when_anchor_exceeds_name_limit
+    with_cli_app do |app_root|
+      action = "upgrade_#{"x" * 85}"
+      controller_path = File.join(app_root, "app", "controllers", "accounts_controller.rb")
+      source = File.read(controller_path)
+      File.write(controller_path, source.sub(/\nend\n\z/, "\n  def #{action}\n    head :accepted\n  end\nend\n"))
+
+      result = run_cli(
+        ["packet", "accounts##{action}"],
+        cwd: app_root,
+        at: Time.utc(2026, 5, 27, 14, 30, 15)
+      )
+
+      expected_name = "accounts_#{action}".chars.last(80).join
+      assert_equal 0, result.status
+      assert_equal 80, expected_name.length
       assert File.file?(File.join(app_root, ".ctxpack", "20260527143015_#{expected_name}.md"))
     end
   end
@@ -97,10 +212,38 @@ class CLITest < Minitest::Test
       assert File.file?(markdown_path)
       assert File.file?(manifest_path)
       assert_equal [
-        "docs/ctxpack/20260527143015_billing_upgrade.md",
-        "docs/ctxpack/20260527143015_billing_upgrade.json"
+        "../../docs/ctxpack/20260527143015_billing_upgrade.md",
+        "../../docs/ctxpack/20260527143015_billing_upgrade.json"
       ], result.stdout.lines.map(&:chomp)
       assert_equal "accounts#upgrade", JSON.parse(File.read(manifest_path)).fetch("anchor")
+    end
+  end
+
+  def test_packet_rejects_manifest_when_out_path_would_collide_with_markdown
+    with_cli_app do |app_root|
+      result = run_cli(
+        ["packet", "accounts#upgrade", "--out", "tmp/packet.json", "--manifest"],
+        cwd: app_root
+      )
+
+      assert_equal 1, result.status
+      assert_includes result.stderr, "manifest path would overwrite the Markdown artifact"
+      refute File.exist?(File.join(app_root, "tmp", "packet.json"))
+      assert_equal "", result.stdout
+    end
+  end
+
+  def test_packet_rejects_manifest_collision_regardless_of_extension_case
+    with_cli_app do |app_root|
+      result = run_cli(
+        ["packet", "accounts#upgrade", "--out", "tmp/packet.JSON", "--manifest"],
+        cwd: app_root
+      )
+
+      assert_equal 1, result.status
+      assert_includes result.stderr, "manifest path would overwrite the Markdown artifact"
+      refute File.exist?(File.join(app_root, "tmp", "packet.JSON"))
+      refute File.exist?(File.join(app_root, "tmp", "packet.json"))
     end
   end
 
@@ -118,9 +261,11 @@ class CLITest < Minitest::Test
       )
 
       assert_equal 0, first.status
-      assert_includes first.stdout, "Reminder: add .ctxpack/ to .gitignore"
+      assert_equal [".ctxpack/20260527143015_first.md"], first.stdout.lines.map(&:chomp)
+      assert_includes first.stderr, "Reminder: add .ctxpack/ to .gitignore"
       assert_equal 0, second.status
       refute_includes second.stdout, "Reminder: add .ctxpack/ to .gitignore"
+      refute_includes second.stderr, "Reminder: add .ctxpack/ to .gitignore"
       refute File.exist?(File.join(app_root, ".gitignore"))
     end
   end
@@ -136,7 +281,8 @@ class CLITest < Minitest::Test
       assert_equal 0, result.status
       assert Dir.exist?(File.join(app_root, ".ctxpack"))
       assert File.file?(File.join(app_root, ".ctxpack", "sub", "20260527143015_accounts_upgrade.md"))
-      assert_includes result.stdout, "Reminder: add .ctxpack/ to .gitignore"
+      assert_includes result.stderr, "Reminder: add .ctxpack/ to .gitignore"
+      refute_includes result.stdout, "Reminder: add .ctxpack/ to .gitignore"
     end
   end
 
@@ -192,9 +338,31 @@ class CLITest < Minitest::Test
       assert_equal 1, result.status
       assert_includes result.stderr, "expected controller file does not exist"
       assert_includes result.stderr, "app/controllers/missing_accounts_controller.rb"
-      assert_includes result.stderr, "bin/rails routes -g"
-      assert_includes result.stderr, "bin/rails routes -c"
+      assert_includes result.stderr, "bin/rails routes -g upgrade"
+      assert_includes result.stderr, "bin/rails routes -c missing_accounts"
       assert_equal "", result.stdout
+    end
+  end
+
+  def test_packet_uses_generic_route_hint_for_malformed_anchor_tokens
+    with_cli_app do |app_root|
+      result = run_cli(["packet", "accounts#upgrade;rm"], cwd: app_root)
+
+      assert_equal 1, result.status
+      assert_includes result.stderr, "bin/rails routes -g ACTION"
+      assert_includes result.stderr, "bin/rails routes -c CONTROLLER"
+      refute_includes result.stderr, "routes -g upgrade;rm"
+    end
+  end
+
+  def test_packet_uses_generic_route_hint_for_shell_sensitive_action_name
+    with_cli_app do |app_root|
+      result = run_cli(["packet", "accounts#missing?"], cwd: app_root)
+
+      assert_equal 1, result.status
+      assert_includes result.stderr, "bin/rails routes -g ACTION"
+      assert_includes result.stderr, "bin/rails routes -c CONTROLLER"
+      refute_includes result.stderr, "routes -g missing?"
     end
   end
 

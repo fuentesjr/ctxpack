@@ -80,53 +80,24 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Written 2026-07-09 (end of the view + companion + validation session). Work
-order for a fresh "Continue from PROJECT_TRACKER.md" session. If this section
-disagrees with "Next steps", Next steps wins.
+Written 2026-07-12 after the CLI ergonomics pass. Work order for a fresh
+"Continue from PROJECT_TRACKER.md" session. If this section disagrees with
+"Next steps", Next steps wins.
 
-**Context — the view path-convention layer AND both companion changes are
-COMPLETE, gate-passed, and PUSHED (`origin/main` synced at `a8dab7c`;
-`git log --oneline origin/main..HEAD` is empty).** This session (2026-07-09)
-landed, in order:
-- View pass pushed + Tier 0 rescan re-verified (`da676cb`, `origin/main` synced).
-- **CONST-1a intra-file call-graph constant widening** (`ab72137`, Codex via the
-  spec-pass loop, fable-frozen): action → callbacks → transitive same-file
-  callees appended last (strictly additive under the 4-cap). Suite **89 runs**;
-  **Tier 0 rescan PASSED** (zero change, zero crashes / 1,967 pairs).
-- **Locale-pointer standing uncertainty note** (`c7a4ae3`, coding-worker,
-  fable-frozen): unconditional note, no retrieve-more (FMT-2 §8), FMT-8 amended.
-  Suite **89 runs / 817 assertions**. Tier 0 rescan N/A (prose-only).
-- **View-pass release-boundary validation** — coverage confirmed on publify
-  (`eval/tier2-expansion/VIEW_PASS_VALIDATION.md`): t1 packet now surfaces the
-  view + locale pointer (the P06/P20 omission), t3 bug packet unchanged (no
-  added distraction surface). User accepted coverage as sufficient; no subject
-  grid re-run.
-- **Epic issue [#4](https://github.com/fuentesjr/ctxpack/issues/4)** filed.
+**Context — the CLI ergonomics pass is COMPLETE, verified, and UNCOMMITTED.**
+It fixes manifest-path collisions, invocation-relative result paths,
+stdout/stderr separation, injected help, anchor-preserving names, and contextual
+route hints. CLI-1a/8a/10a/14/15/17, `design.md`, README, examples, tests, and
+implementation notes are reconciled. Clean-HEAD red proof produced **11 runs /
+9 failures** plus the expected OptionParser `SystemExit`; final verification is
+**102 runs / 912 assertions / 0 failures**. Tier 0 is N/A because compilation
+behavior did not change.
 
-A docs-quality session (2026-07-09) then landed and **PUSHED** five commits on
-top of `a8dab7c`: `e5269f0` doc-alignment (autobots doc-drift review — README
-status, tracker push-state, VIEW-1 spec text, FMT-9, eval-plan Tier 2, CONST-1a
-notes); `bcfed2f` the VIEW-1 leading-underscore characterization eval; `3edcc74`
-the user-facing docs (`docs/examples.md`, `docs/faq.md`); `109cfe2` the prior
-tracker rewrite; `7d4f989` an autobots AI-slop cleanup (booster/filler cuts,
-README roster de-dup, two accuracy fixes, and removal of a stray 0-byte fixture
-artifact). Suite **91 runs / 0 failures**. Everything through this commit is on
-`origin/main`.
-
-**Next work order — no forced next pass.** v0 (passes 1–4), the view layer, both
-companion changes, the user-facing docs, and this session's doc/slop cleanup are
-all landed, gate-passed, and pushed. The remaining backlog is discretionary:
-1. **Real-usage dogfooding** — exercise LIM-1's limits against actual
-   packet-vs-diff coverage on live work (the post-v0 north-star).
-2. **Tier 3 Rubydex** — revisit the deferred native-index direction only if a
-   corpus makes the halved-precision tradeoff worthwhile.
-3. **Optional:** link `docs/examples.md` / `docs/faq.md` from the README for
-   discoverability (not yet referenced there). One-line change.
-
-Pick with the user; do not invent scope.
-
-Final step of this plan: once a direction is chosen (or work lands), rewrite this
-section for whatever follows.
+**Next work order:** obtain user direction before any commit or push. If the
+user asks to land the pass, review the final diff and commit only the scoped CLI
+ergonomics files; preserve the README work already present when this pass began.
+Afterward, return to the discretionary backlog: real-usage LIM-1 dogfooding or
+the deferred Tier 3 Rubydex probe. Do not invent another implementation pass.
 
 ## Status
 
@@ -135,6 +106,7 @@ section for whatever follows.
 | 1 | [`packet-compilation.md`](specs/packet-compilation.md) | **Done** (2026-07-05) | `Ctxpack.compile(app_root:, anchor:, task:)` → internal packet object. ANCH amendment mini-pass landed same day (class-by-file matching, tolerant action grammar). 25 tests / 101 assertions green. |
 | 2 | [`packet-format.md`](specs/packet-format.md) | **Done** (2026-07-05) | `Ctxpack.render_markdown` / `Ctxpack.render_manifest` over the pass 1 packet object. One review fix round (FMT-5 marker drift, Anchor labels). 34 tests / 193 assertions green. |
 | 3 | [`cli.md`](specs/cli.md) | **Done** (2026-07-05) | `Ctxpack::CLI` + `exe/ctxpack` over OptionParser, wiring the pass 1/2 APIs. One review fix round (CLI-14 reminder on implicit `.ctxpack/` creation, CLI-8 anchor-only derivation test). 47 tests / 274 assertions green. |
+| CLI ergonomics | [`cli.md`](specs/cli.md) | **Done locally — verified, UNCOMMITTED** (2026-07-12) | Agenticons implementation + edge-case review; CLI-1a/8a/10a/14/15/17 reconciled. Clean-HEAD red proof; focused CLI **24 runs / 148 assertions** and full suite **102 runs / 912 assertions**, zero failures. Tier 0 N/A (no compiler behavior). |
 | 4 | [`fixture-evals.md`](specs/fixture-evals.md) | **Done** (2026-07-05) | `FixtureEvalsTest` generates packet-expectation + CLI-determinism tests from `test/fixtures/evals/*.yml`; CI (`.github/workflows/ci.yml`) runs the suite on Ruby 3.2 plus a non-blocking pinned metz step. One review fix round (empty-glob guard, manifest-inclusive determinism, CI Ruby floor). 49 tests / 311 assertions green. |
 | View resolution | [`views.md`](specs/views.md), [`packet-compilation.md`](specs/packet-compilation.md), [`packet-format.md`](specs/packet-format.md) | **Done — gate-passed, COMMITTED (`6688ff9`) + PUSHED** (2026-07-08; rescan re-verified + pushed 2026-07-09) | VIEW-1..VIEW-7 frozen + folded; `add_view_candidates` between controller and constants; `view_candidate` (list-only) + `view_inferred_by_convention`; `max_view_files = 2`; `max_total_files` truncates by priority. Red-then-green fixture evals + `ViewResolutionTest` (independently re-verified 6/7 red with `lib/` reverted). Suite green **74 runs / 621 assertions**. **Mandatory Tier 0 re-scan PASSED and RE-VERIFIED 2026-07-09** — classifier output byte-identical to the post-amendment baseline, zero per-anchor change, zero crashes across 1,967 pairs (addendum + re-verification note in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md)). Remaining: push (user go) + optional release-boundary Tier 2 validation (needs a `--dangerously-skip-permissions` session). |
 | CONST-1 widening (companion) | [`packet-compilation.md`](specs/packet-compilation.md) | **Done — gate-passed, COMMITTED (`ab72137`) + PUSHED** (2026-07-09) | Codex-implemented (fable-frozen), intra-file action call graph: constant scan now covers action body + applicable same-file callbacks + same-file methods **transitively called from the action** (BFS, nil/`self` receiver + direct-method-name only; dynamic dispatch out). CONST-4 three-group order (action → callbacks → callees appended LAST) makes it **strictly additive under the 4-cap** (no eviction). CONST-1/1a/4 amended, `design.md` reconciled; new `file_order`/`omitted` fixture-eval DSL. 5 red-then-green fixtures + `constants_test` cases (independently re-verified red with `lib/` reverted). Suite green **89 runs / 815 assertions**. **Mandatory Tier 0 re-scan PASSED** — zero per-anchor change, zero crashes across 1,967 pairs (also a crash-stress test of the new call-graph code). |
@@ -152,34 +124,25 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Next steps
 
-1. **View path-convention layer is COMPLETE, gate-passed, COMMITTED
-   (`6688ff9`), and PUSHED (`origin/main` synced at `da676cb`, 2026-07-09).**
-   Design freeze/fold done, implemented + independently verified red-then-green,
-   suite green (74 runs), and the mandatory Tier 0 corpus re-scan PASSED — and was
-   independently RE-VERIFIED 2026-07-09 as byte-identical to the post-amendment
-   baseline (a stale "DNS-failed / rescan pending" debt note was disproven and
-   removed; addendum + re-verification note in `eval/tier0/RESULTS.md`). The only
-   remaining step is session-gated: the optional release-boundary Tier 2
-   validation (needs a `--dangerously-skip-permissions` session) — spelled out in
-   the execution plan above.
-2. **(Done) Tier 2 diff-quality scores** — now judge-of-record blind scores
-   (seed = app SHA), committed under `eval/tier2-expansion/judging/`; verdict
-   unchanged (rests on the exploration metric). A human author re-score remains
-   optional but is no longer a blocker.
-3. **(Done) Stale GitHub issues #1/#2/#3 closed** with pointers (Tier 0 spike →
-   `eval/tier0/RESULTS.md`; v0 compiler → passes 1–3; fixture evals → pass 4).
-   Two honest scope drifts noted at close: the Tier 0 write-up landed under
-   `eval/tier0/` (not the `docs/experiments/` path #3 named), and LIM-1's
-   snippet-line limit shipped at 120 (not the 80 in #1's draft).
-4. **(Done, 2026-07-09) Filed the Tier 2 expansion epic GitHub issue** as
-   [#4](https://github.com/fuentesjr/ctxpack/issues/4) (`type: epic`, user
-   authorized): records the SUPPORT/generalizes verdict, both confirmatory passes
-   (diff-quality gate closed `cac1190`, packet-vs-diff coverage `c1e5f82`), and
-   points at `eval/tier2-expansion/RESULTS.md` + the Tier 3 proposal as the live
-   follow-up.
+1. **CLI ergonomics pass is complete locally and uncommitted.** Await user
+   direction before committing or pushing.
+2. **Real-usage dogfooding remains discretionary.** Exercise LIM-1 against
+   packet-vs-diff coverage on live work.
+3. **Tier 3 Rubydex remains deferred.** Revisit only if a corpus makes the
+   halved-precision tradeoff worthwhile.
 
 ## Decision log
 
+- **2026-07-12** — CLI ergonomics pass completed locally with Agenticons
+  (`coding_worker` implementation, `edge_case_analyst` acceptance audit; parent
+  verification). Fixed six seams: manifest collision refusal, cwd-relative
+  saved paths, path-only stdout/reminder-on-stderr, injected top-level/subcommand
+  help, anchor-preserving 80-character names, and safe contextual route hints.
+  Specs/design/user docs reconciled. Clean-HEAD red proof: 11 targeted runs, 9
+  failures, plus the expected pre-fix help `SystemExit`; green: 24 CLI runs / 148
+  assertions and 102 full-suite runs / 912 assertions, zero failures. Tier 0 N/A
+  because no compiler behavior changed. Work remains uncommitted pending user
+  direction.
 - **2026-07-09** — Docs-quality session (committed, NOT pushed; orchestrated:
   Claude orchestrator, **4 parallel `doc-reviewer` subagents** for the drift
   sweep, **fable** advised the new docs' structure). Three landed changes:

@@ -201,8 +201,9 @@ was changed in this pass.
   `Ctxpack::CLI`, and exits with the returned status.
 - Root discovery walks upward from `cwd` to the nearest ancestor containing
   `config/application.rb`. Relative `--dir` and `--out` values are resolved
-  against that root, and printed success paths are root-relative when the output
-  lives under the root.
+  against that root. At the end of pass 3, printed success paths were
+  root-relative when the output lived under the root; the 2026-07-12 CLI
+  ergonomics pass below supersedes that display behavior.
 - Default artifact names use the spec's storage-only UTC timestamp plus a
   deterministic derived name. Explicit names are validated with
   `^[A-Za-z0-9_]+$` and normalized with a local Rails-style `underscore`
@@ -849,3 +850,44 @@ FMT-8 amended to enumerate the note; no FMT-7 code added, no MAN-2/manifest
 change (standing notes are Markdown-only, consistent with the existing two).
 Implemented by a local coding-worker; verified session-side red-then-green
 (89 runs / 817 assertions).
+
+## CLI ergonomics pass (2026-07-12)
+
+Change type: bugfix. User task statement: “Ok go ahead”. Implemented with an
+Agenticons `coding_worker`; an `edge_case_analyst` independently challenged the
+acceptance criteria, and the orchestrator reviewed the diff and verified every
+result session-side.
+
+The pass fixes six user-facing seams without adding commands or dependencies:
+
+- `--out packet.json --manifest` and extension-case variants fail before
+  compilation instead of allowing the manifest to replace the Markdown.
+- saved paths are relative to the invocation directory, not the discovered app
+  root, so each stdout line resolves where the user ran ctxpack.
+- success stdout contains artifact paths only; the first-run gitignore reminder
+  moved to stderr.
+- top-level and packet `-h` / `--help` return through injected streams without
+  Rails-root discovery or `SystemExit`.
+- the 80-character derived-name cap truncates the task first and keeps the
+  anchor suffix; an anchor over the cap keeps its trailing 80 characters.
+- route-recovery hints substitute safe controller/action tokens and retain
+  generic placeholders for malformed or shell-sensitive anchors.
+
+Normative coverage: CLI-1a, CLI-8a, CLI-10a, CLI-14, CLI-15, and CLI-17. The
+fixture-eval skill classified the manifest collision as CLI/artifact UX with no
+packet-content component, so its regression belongs in `cli_test.rb`, not a
+Tier 1 YAML case.
+
+### Red / green record
+
+- Clean-HEAD red proof with the final CLI tests overlaid: the help case reached
+  OptionParser's process-exiting handler; the remaining targeted cases produced
+  `11 runs, 40 assertions, 9 failures, 0 errors, 0 skips`. Failures covered both
+  manifest collisions, both reminder-stream cases, invocation-relative paths,
+  anchor-preserving truncation, and contextual route hints.
+- Focused green: `bundle exec ruby -Itest test/ctxpack/cli_test.rb` →
+  `24 runs, 148 assertions, 0 failures, 0 errors, 0 skips`.
+- Full green: `bundle exec rake test` → `102 runs, 912 assertions, 0 failures,
+  0 errors, 0 skips`.
+- Tier 0 corpus re-scan: N/A. This pass changes CLI argument, naming, stream,
+  path-display, and error-hint behavior only; packet compilation is unchanged.

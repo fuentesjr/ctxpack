@@ -1,11 +1,13 @@
 require "ctxpack"
 require "fileutils"
 require "optparse"
+require "pathname"
 
 module Ctxpack
   class CLI
     USAGE = "usage: ctxpack packet <anchor> [--task TASK] [--name NAME] [--dir DIR] [--out PATH] [--force] [--manifest]".freeze
     EXPLICIT_NAME_PATTERN = /\A[A-Za-z0-9_]+\z/
+    ROUTE_HINT_ANCHOR_PATTERN = /\A(?<controller>[a-z][a-z0-9_]*(?:\/[a-z][a-z0-9_]*)*)#(?<action>_?[a-z][a-z0-9_]*)\z/
 
     def initialize(stdout: $stdout, stderr: $stderr, cwd: Dir.pwd, clock: Time)
       @stdout = stdout
@@ -15,6 +17,11 @@ module Ctxpack
     end
 
     def run(argv)
+      if help_request?(argv)
+        @stdout.write(packet_parser({}).to_s)
+        return 0
+      end
+
       command, args = argv[0], argv[1..] || []
       return usage_error("unknown command #{command.inspect}") unless command == "packet"
 
@@ -23,6 +30,9 @@ module Ctxpack
       name = artifact_name(options.fetch(:name), options.fetch(:task), anchor)
       markdown_path = markdown_path(app_root, options, name)
       manifest_path = sibling_manifest_path(markdown_path) if options.fetch(:manifest)
+      if manifest_path&.casecmp?(markdown_path)
+        raise ArgumentError, "manifest path would overwrite the Markdown artifact; choose an --out path that does not end in .json"
+      end
 
       protect_outputs!([markdown_path, manifest_path].compact, options)
 
@@ -35,8 +45,8 @@ module Ctxpack
       File.binwrite(manifest_path, manifest) if manifest_path
 
       print_gitignore_reminder if created_ctxpack_dir
-      @stdout.puts(display_path(markdown_path, app_root))
-      @stdout.puts(display_path(manifest_path, app_root)) if manifest_path
+      @stdout.puts(display_path(markdown_path))
+      @stdout.puts(display_path(manifest_path)) if manifest_path
 
       0
     rescue OptionParser::ParseError, ArgumentError => error
@@ -45,11 +55,15 @@ module Ctxpack
       1
     rescue Ctxpack::Error => error
       @stderr.puts("ctxpack: #{error.message}")
-      @stderr.puts("Use Rails-native route discovery, for example `bin/rails routes -g ACTION` or `bin/rails routes -c CONTROLLER`.")
+      @stderr.puts(route_discovery_hint(anchor))
       1
     end
 
     private
+
+    def help_request?(argv)
+      [["--help"], ["-h"], ["packet", "--help"], ["packet", "-h"]].include?(argv)
+    end
 
     def parse_packet_args(args)
       options = {
@@ -61,7 +75,18 @@ module Ctxpack
         manifest: false
       }
 
-      parser = OptionParser.new do |parser|
+      parser = packet_parser(options)
+
+      remaining = args.dup
+      parser.parse!(remaining)
+      raise ArgumentError, "missing anchor; expected controller#action" if remaining.empty?
+      raise ArgumentError, "too many arguments: #{remaining[1..].join(" ")}" if remaining.length > 1
+
+      [options, remaining.first]
+    end
+
+    def packet_parser(options)
+      OptionParser.new do |parser|
         parser.banner = USAGE
         parser.on("--task TASK") { |task| options[:task] = task }
         parser.on("--name NAME") { |name| options[:name] = name }
@@ -70,13 +95,6 @@ module Ctxpack
         parser.on("--force") { options[:force] = true }
         parser.on("--manifest") { options[:manifest] = true }
       end
-
-      remaining = args.dup
-      parser.parse!(remaining)
-      raise ArgumentError, "missing anchor; expected controller#action" if remaining.empty?
-      raise ArgumentError, "too many arguments: #{remaining[1..].join(" ")}" if remaining.length > 1
-
-      [options, remaining.first]
     end
 
     def discover_app_root
@@ -96,11 +114,19 @@ module Ctxpack
     def artifact_name(explicit_name, task, anchor)
       return explicit_artifact_name(explicit_name) if explicit_name
 
-      parts = []
       task_name = sanitize_derived_name(task.to_s)
-      parts << task_name unless task_name.empty?
-      parts << sanitize_derived_name(anchor)
-      parts.join("_")[0, 80]
+      anchor_name = sanitize_derived_name(anchor)
+      limited_anchor_name = anchor_name.length > 80 ? anchor_name[-80, 80] : anchor_name
+      return limited_anchor_name if task_name.empty?
+
+      combined_name = "#{task_name}_#{anchor_name}"
+      return combined_name if combined_name.length <= 80
+
+      task_length = 80 - anchor_name.length - 1
+      return limited_anchor_name if task_length <= 0
+
+      task_prefix = task_name[0, task_length].sub(/_+\z/, "")
+      "#{task_prefix}_#{anchor_name}"
     end
 
     def explicit_artifact_name(name)
@@ -167,25 +193,26 @@ module Ctxpack
     end
 
     def print_gitignore_reminder
-      @stdout.puts("Reminder: add .ctxpack/ to .gitignore if you do not want local packets committed.")
+      @stderr.puts("Reminder: add .ctxpack/ to .gitignore if you do not want local packets committed.")
     end
 
-    def display_path(path, app_root)
-      expanded_path = File.expand_path(path)
-      expanded_root = File.expand_path(app_root)
-      root_prefix = "#{expanded_root}#{File::SEPARATOR}"
-
-      if expanded_path.start_with?(root_prefix)
-        expanded_path.delete_prefix(root_prefix)
-      else
-        expanded_path
-      end
+    def display_path(path)
+      Pathname.new(path).relative_path_from(Pathname.new(@cwd)).to_s
     end
 
     def usage_error(message)
       @stderr.puts("ctxpack: #{message}")
       @stderr.puts(USAGE)
       1
+    end
+
+    def route_discovery_hint(anchor)
+      match = ROUTE_HINT_ANCHOR_PATTERN.match(anchor.to_s)
+      if match
+        return "Use Rails-native route discovery, for example `bin/rails routes -g #{match[:action]}` or `bin/rails routes -c #{match[:controller]}`."
+      end
+
+      "Use Rails-native route discovery, for example `bin/rails routes -g ACTION` or `bin/rails routes -c CONTROLLER`."
     end
   end
 end

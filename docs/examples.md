@@ -49,6 +49,9 @@ Reminder: add .ctxpack/ to .gitignore if you do not want local packets committed
 
 ctxpack finds your app root by walking up to the first `config/application.rb`,
 writes the packet to `.ctxpack/<utc-timestamp>_<name>.md`, and prints the path.
+The reminder is written to stderr; success stdout contains only artifact paths,
+one per line. Paths are relative to the directory where you invoked ctxpack, so
+they remain directly usable when you run from a nested app directory.
 Requires Ruby ≥ 3.2; its only runtime dependency is
 [`prism`](https://github.com/ruby/prism), Ruby's own parser.
 
@@ -245,16 +248,23 @@ ctxpack packet <anchor> [--task TASK] [--name NAME] [--dir DIR] [--out PATH] [--
 | `--out PATH` | Write to an exact path instead of a timestamped name. Overwrites without prompting. |
 | `--force` | Allow overwriting the computed timestamped path. |
 | `--manifest` | Also write the sibling `.json` manifest. |
+| `-h`, `--help` | Print the packet-command options and exit successfully; works before Rails-root discovery. |
 
 Notes you'll hit in practice:
 
 - **Default location.** Packets land in `.ctxpack/` with a UTC-timestamped
   filename, so repeated runs never clobber each other. The first time ctxpack
-  creates `.ctxpack/`, it reminds you to gitignore it.
+  creates `.ctxpack/`, it reminds you on stderr to gitignore it.
+- **Scripting.** Success stdout contains only saved paths, one per line,
+  relative to your invocation directory. With `--manifest`, Markdown is first
+  and JSON second.
 - **Regenerating.** Because the filename is timestamped, back-to-back runs just
   make new files. If you pin a name (`--name` or `--dir`) and the exact path
   already exists, ctxpack refuses unless you pass `--force` (or `--out`, which
   always overwrites).
+- **Exact JSON output paths.** `--out packet.json --manifest` is rejected
+  before compilation because the manifest would replace the Markdown artifact;
+  choose a Markdown path such as `--out packet.md`.
 - **Committing packets.** Want them in the repo instead of ignored? Point them
   at a tracked directory: `--dir docs/ctxpack`. Keep in mind the repo stamp — a
   committed packet is a snapshot of one tree state and goes stale as the code
@@ -313,7 +323,7 @@ base class, mixed in from a concern, or metaprogrammed):
 ```console
 $ bundle exec ctxpack packet accounts#teleport --task "..."
 ctxpack: action teleport was not directly defined in app/controllers/accounts_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0
-Use Rails-native route discovery, for example `bin/rails routes -g ACTION` or `bin/rails routes -c CONTROLLER`.
+Use Rails-native route discovery, for example `bin/rails routes -g teleport` or `bin/rails routes -c accounts`.
 ```
 
 A malformed anchor (a URL, verb, or route helper instead of `controller#action`):
