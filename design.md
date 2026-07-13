@@ -30,9 +30,7 @@ Example workflow:
 
 ```bash
 bin/rails routes -g upgrade
-ctxpack packet accounts#upgrade \
-  --name billing_upgrade_accounts_upgrade \
-  --task "Implement billing upgrade"
+ctxpack accounts#upgrade -t "Implement billing upgrade"
 ```
 
 `ctxpack` should not replace Rails' existing route discovery tools. Rails already answers "what routes exist?" `ctxpack` starts after the developer has chosen a Rails-native anchor and answers:
@@ -101,15 +99,25 @@ Out of scope for v0 anchor resolution:
 Primary command:
 
 ```bash
-ctxpack packet accounts#upgrade \
-  --name billing_upgrade_accounts_upgrade \
-  --task "Implement billing upgrade"
+ctxpack accounts#upgrade -t "Implement billing upgrade"
 ```
+
+The original `ctxpack packet accounts#upgrade --task "…"` form remains a
+compatibility path. With only one packet-producing operation in v0, making the
+Rails-shaped anchor the first argument removes ceremony from the golden path
+without removing a working interface.
+
+Long task descriptions can come from `--task-file PATH`, or from injected
+stdin with `--task-file -`; this keeps issue bodies and agent pipelines out of
+shell quoting while preserving the same packet contract and filename
+derivation. `--stdout` is the complementary pipeline mode: it emits only the
+fully rendered Markdown and creates no artifact. Artifact options conflict
+with that mode instead of acquiring hidden precedence.
 
 By default, the command should save a migration-style context artifact and print its path:
 
 ```text
-.ctxpack/20260527143015_billing_upgrade_accounts_upgrade.md
+.ctxpack/20260527143015_implement_billing_upgrade_accounts_upgrade.md
 ```
 
 The anchor is an exact Rails controller action, using the same shape shown by `bin/rails routes`.
@@ -120,7 +128,7 @@ Possible later extension, only if it stays simple:
 ctxpack packet --helper upgrade_account --task "Implement billing upgrade"
 ```
 
-But route helper support is not required for v0. The first version should avoid route-string input such as `POST /accounts/:id/upgrade` as the happy path because it creates shell quoting issues and invites route typos.
+But route helper support is not required for v0. The first version should avoid route-string input such as `POST /accounts/:id/upgrade` as the happy path because it creates shell quoting issues and invites route typos. The CLI can still recognize common Rails-shaped mistakes syntactically and point back to `bin/rails routes`; guidance is not resolution and never boots or browses the app.
 
 ## What ctxpack should not duplicate
 
@@ -136,9 +144,7 @@ bin/rails routes -c AccountsController
 Then use `ctxpack` for context compilation:
 
 ```bash
-ctxpack packet accounts#upgrade \
-  --name billing_upgrade_accounts_upgrade \
-  --task "Implement billing upgrade"
+ctxpack accounts#upgrade -t "Implement billing upgrade"
 ```
 
 This writes a durable point-in-time context artifact under `.ctxpack/` and prints the saved path.
@@ -191,7 +197,7 @@ The default artifact filename is the exception: it should use a Rails-migration-
 
 One repo-state stamp is allowed inside packet content: the git commit SHA at generation time, with a `dirty` marker when the working tree has uncommitted changes. Unlike a timestamp, the SHA is a function of repo state, so it preserves `same repo state + same inputs = same content` — and it makes staleness mechanically detectable whenever an old packet is read later. The dirty marker is honest rather than precise: the SHA cannot capture uncommitted changes, so a packet built from a dirty tree must say so.
 
-Stamp resolution uses normal git discovery from the application root (`git -C <app_root> rev-parse HEAD`), so an app living in a monorepo subdirectory stamps the enclosing repository's SHA. When the application root is not inside any git work tree, the stamp is the fixed string `unknown (not a git repository)` — still deterministic. One consequence for Tier 1 evals: the fixture trees live inside ctxpack's own repository, so their packets stamp whatever ctxpack's current SHA happens to be. Double-run determinism checks are unaffected (same repo state, same stamp), but golden-content assertions must normalize the stamp line, exactly as they normalize output paths.
+Stamp resolution uses normal git discovery from the application root (`git -C <app_root> rev-parse HEAD`), so an app living in a monorepo subdirectory stamps the enclosing repository's SHA. When the application root is not inside any git work tree, or the Git executable is unavailable, the stamp is the fixed string `unknown (not a git repository)` — still deterministic. One consequence for Tier 1 evals: the fixture trees live inside ctxpack's own repository, so their packets stamp whatever ctxpack's current SHA happens to be. Double-run determinism checks are unaffected (same repo state, same stamp), but golden-content assertions must normalize the stamp line, exactly as they normalize output paths.
 
 Skills or sub-agents may consume the packet later, but they should not be responsible for constructing the canonical packet.
 
@@ -360,7 +366,17 @@ The default is a hidden directory that projects should gitignore, not `docs/`:
 - Search tools like `rg` skip hidden directories by default, so even local packets stay out of routine code searches.
 - Committing a packet should be a deliberate act, not a side effect. When a packet is worth committing — to link from a PR or issue — `docs/ctxpack/` is the default committed location: `--dir docs/ctxpack`. Arbitrary locations via `--dir`/`--out` remain possible, but one canonical committed path keeps shared packets discoverable and easy to sweep for staleness against their embedded commit SHA.
 
-When ctxpack creates `.ctxpack/` for the first time, it should print a one-line reminder to stderr to add the directory to `.gitignore`. No interactive prompt, no automatic `.gitignore` edits. Success stdout is a composable, line-oriented result: one saved artifact path per line, relative to the directory where the command was invoked. This keeps paths directly usable even when ctxpack finds the Rails root by walking upward from a nested directory.
+When an invocation creates the implicit/default `.ctxpack/`, ctxpack should
+ask Git itself whether that path is ignored and remind on stderr only when Git
+reports it unignored. This honors repository, info/exclude, and configured
+global rules without reimplementing Git semantics; non-Git and operational
+failures stay quiet. Explicit destinations supplied with `--dir` or `--out`
+never remind; `--name` and `--manifest` still use the implicit/default
+directory and remain eligible. No interactive prompt, no automatic ignore-file
+edits. Saved-artifact stdout remains a composable, line-oriented result: one
+invocation-relative path per line.
+`--stdout` is deliberately different: exactly raw Markdown, with no path or
+reminder.
 
 Default filename shape:
 
@@ -370,27 +386,13 @@ YYYYMMDDHHMMSS_<context_name>.md
 
 The timestamp should match the familiar Rails migration style: chronological, sortable, and collision-resistant. The name should describe the feature, bug, or context, using snake case.
 
-Example:
+Example without an explicit `--name`:
 
 ```bash
-ctxpack packet accounts#upgrade \
-  --name billing_upgrade_accounts_upgrade \
-  --task "Implement billing upgrade"
+ctxpack accounts#upgrade -t "Implement billing upgrade"
 ```
 
 writes:
-
-```text
-.ctxpack/20260527143015_billing_upgrade_accounts_upgrade.md
-```
-
-If `--name` is omitted, derive a snake_case name from the task and anchor:
-
-```bash
-ctxpack packet accounts#upgrade --task "Implement billing upgrade"
-```
-
-writes something like:
 
 ```text
 .ctxpack/20260527143015_implement_billing_upgrade_accounts_upgrade.md
@@ -398,18 +400,46 @@ writes something like:
 
 Rules:
 
-- prefer an explicit `--name` for clear feature/bug/context naming
+- derive a useful name by default; reserve explicit `--name` for callers that
+  need a stable, curated artifact stem
 - use snake_case names to resemble Rails migration filenames
 - include enough context in the name to avoid vague artifacts like `upgrade.md`
 - when a derived name exceeds 80 characters, truncate the task prefix before the anchor; if the anchor itself exceeds the cap, retain its trailing 80 characters so the action remains visible
 - include a timestamp in the default filename for ordering and collision resistance
 - do not include generated timestamps inside packet content
-- do not silently overwrite an existing artifact; require `--force` or an explicit `--out`
-- allow `--dir` or `--out` for callers that want a different location
+- do not silently overwrite an existing Markdown artifact or manifest; every
+  overwrite requires `--force`, including an explicit `--out`
+- allow `--dir` or `--out` for callers that want a different location, but
+  reject `--out` with explicitly supplied `--dir` or `--name` instead of hiding
+  precedence rules; `--out --force` remains valid
 - reject `--out` + `--manifest` before compilation when the Markdown and JSON paths would collide, including extension-case-only differences
+- accept multiline task input through `--task-file PATH` / `--task-file -`,
+  conflicting explicitly with `--task` before either input is read
+- make `--stdout` a mutation-free raw-Markdown mode and reject every explicit
+  artifact option with it before discovery, reads, or compilation
 - treat committing a packet as opt-in, never the default; when opting in, `docs/ctxpack/` is the standard committed location (`--dir docs/ctxpack`)
 
-Both top-level and `packet`-subcommand `--help` / `-h` forms should work without a Rails application root and return through the CLI's injected streams. Compilation failures should render the supplied controller/action in the Rails-native route hint only when both tokens are safe to paste into a shell; otherwise the hint uses generic placeholders.
+No arguments and `--help` / `-h` in either command form or position should
+print descriptive help (including both forms, defaults, and examples) without a
+Rails application root and return through the CLI's injected streams. Sole
+top-level `--version` / `-v` should behave the same way. Common options have
+conservative aliases (`-t`, `-d`, `-o`, `-f`); `--task-file`, `--stdout`,
+`--name`, and `--manifest` stay
+long-only so the short-option surface remains memorable. Compilation failures
+should render the supplied controller/action in the Rails-native route hint
+only when both tokens are safe to paste into a shell; otherwise the hint uses
+generic placeholders. Filesystem failures should be concise `ctxpack:` errors,
+not Ruby backtraces, and user-facing paths should be invocation-relative. The
+common typo `ctxpack packets` may suggest the compatibility command, while
+unrelated unknown commands should fail without speculative suggestions. Before
+compilation or writes, every existing destination should be verified as a
+regular file even under `--force`, so a directory-valued sibling manifest
+cannot leave behind a partial Markdown artifact.
+Common route helpers, controller-class references, HTTP route strings, and a
+final slash used in place of `#` receive tailored Rails-native diagnostics
+before root discovery. The recognizers stay deliberately narrow and
+shell-safe so unrelated commands and hostile-looking input retain generic
+handling.
 
 ## Machine-readable manifest
 
@@ -418,7 +448,7 @@ Markdown should be the main artifact. A structured manifest only earns its keep 
 If needed, generate a small manifest from the same internal packet object and save it next to the Markdown packet:
 
 ```bash
-ctxpack packet accounts#upgrade \
+ctxpack accounts#upgrade \
   --name billing_upgrade_accounts_upgrade \
   --task "Implement billing upgrade" \
   --manifest
@@ -526,7 +556,7 @@ The eval runner should check:
 - expected reason codes present
 - expected test commands suggested
 - packet stays under file/snippet limits
-- running the same command twice with a fixed `--out`, or with output paths normalized, produces the same content hash
+- running the same command twice with fixed `--out ... --force`, or with output paths normalized, produces the same content hash
 
 Do not use an LLM judge in v0. Every packet bug should become a small deterministic eval case.
 
@@ -645,7 +675,7 @@ Reason code: `minitest_candidate`
 
 A skill or sub-agent can be useful as a wrapper around `ctxpack`, for example:
 
-1. run `ctxpack packet accounts#upgrade`
+1. run `ctxpack accounts#upgrade`
 2. read the generated packet
 3. use the packet as the starting context for implementation or review
 
@@ -664,7 +694,8 @@ But the skill or sub-agent should not be the canonical packet builder. Keeping p
 
 First, before any packet rendering exists, run the Tier 0 anchor viability spike from [`eval-plan.md`](eval-plan.md): attempt v0 anchor resolution against the route tables of 2–3 real open-source Rails apps and classify every failure. The strictest v0 constraint — a literal `def <action>` in the conventionally-named controller file — is also the most likely to fail on real apps, and it is cheaper to learn that in an afternoon of Prism scripting than after building the renderer.
 
-If the Tier 0 gate passes, build the smallest possible `ctxpack packet <controller#action>` prototype against one static Rails-shaped fixture tree.
+If the Tier 0 gate passes, build the smallest possible `ctxpack
+<controller#action>` prototype against one static Rails-shaped fixture tree.
 
 Success would mean the Rails-aware packet:
 

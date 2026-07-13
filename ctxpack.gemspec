@@ -1,6 +1,8 @@
+require_relative "lib/ctxpack/version"
+
 Gem::Specification.new do |spec|
   spec.name = "ctxpack"
-  spec.version = "0.1.0"
+  spec.version = Ctxpack::VERSION
   spec.summary = "Deterministic Rails context packet compiler"
   spec.authors = ["ctxpack contributors"]
   spec.files = Dir["lib/**/*.rb"] + Dir["exe/*"]

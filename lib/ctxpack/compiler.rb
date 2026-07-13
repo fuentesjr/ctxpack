@@ -753,6 +753,8 @@ module Ctxpack
 
       status_output, = Open3.capture2("git", "-C", @app_root, "status", "--porcelain", err: File::NULL)
       RepoStamp.new(commit: commit.strip, dirty: !status_output.empty?)
+    rescue Errno::ENOENT
+      RepoStamp.new(commit: nil, dirty: false)
     end
 
     def enforce_total_file_limit(packet)

@@ -1,3 +1,4 @@
+require "ctxpack/version"
 require "ctxpack/compiler"
 require "ctxpack/default_constant_resolver"
 require "ctxpack/manifest_renderer"

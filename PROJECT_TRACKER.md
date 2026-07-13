@@ -10,12 +10,11 @@ changes scope. Per-pass technical decisions live in
 
 The only prompt a fresh session needs is: **"Continue from
 PROJECT_TRACKER.md."** Concretely, that session reads this file, treats
-"Next step: execution plan" as its work order (if it disagrees with
-"Next steps", Next steps wins), runs the pass per "Working process"
-below, and closes with the end-of-session ritual. Each of those sections
-owns its own altitude: this one is only the bootstrap, "Working process"
-owns the loop mechanics, and the execution plan carries only
-pass-specific content.
+"Next step: execution plan" as its authoritative work order, runs the pass per
+"Working process" below, and closes with the end-of-session ritual. "Next
+steps" is a summary and must agree with that work order. Each section owns its
+own altitude: this one is only the bootstrap, "Working process" owns the loop
+mechanics, and the execution plan carries only pass-specific content.
 
 ## Working process
 
@@ -80,24 +79,47 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Written 2026-07-12 after the CLI ergonomics pass. Work order for a fresh
-"Continue from PROJECT_TRACKER.md" session. If this section disagrees with
-"Next steps", Next steps wins.
+Written 2026-07-12 after the CLI developer-happiness follow-on. This is the
+authoritative work order for a fresh "Continue from PROJECT_TRACKER.md"
+session; the summary under "Next steps" must agree with it.
 
-**Context — the CLI ergonomics pass is COMPLETE, verified, and UNCOMMITTED.**
-It fixes manifest-path collisions, invocation-relative result paths,
-stdout/stderr separation, injected help, anchor-preserving names, and contextual
-route hints. CLI-1a/8a/10a/14/15/17, `design.md`, README, examples, tests, and
-implementation notes are reconciled. Clean-HEAD red proof produced **11 runs /
-9 failures** plus the expected OptionParser `SystemExit`; final verification is
-**102 runs / 912 assertions / 0 failures**. Tier 0 is N/A because compilation
+**Context — a second CLI developer-happiness follow-on is complete locally,
+parent-verified, and UNCOMMITTED.** It preserves the committed
+CLI ergonomics pass (`b8c2dc8`) and adds multiline task files from files or
+standard input, mutation-free Markdown stdout, tailored syntactic Rails-input
+recovery, and a Git-aware default-directory reminder. A bounded closure also
+makes unavailable Git use the existing unknown repo stamp instead of crashing.
+CLI-4a/10b/14a/17c and FMT-11 plus the related requirements, design, README,
+examples, AGENTS, tests, and implementation notes are reconciled. No
+dependencies, fixture YAML, or recorded experiment data changed. Tier 0 is N/A:
+the fallback changes only repo-stamp collection, not resolution, callbacks,
+constants, test candidates, limits, or per-anchor classification. Parent
+verification: focused repo-stamp **3 runs / 7 assertions** and full suite **135
+runs / 1190 assertions**, zero failures or errors; strategic slice, red/green,
+and pending-comment gates passed. The final delegated clean-context review was
+terminated at its 60-second boundary, so the parent completed the diff/spec
+review directly and found no additional defect.
+
+The preceding follow-on makes
+`ctxpack <anchor> [options]` the golden path while
+retaining `ctxpack packet`; adds descriptive root-independent help, no-argument
+help, version output, and conservative short aliases; rejects contradictory
+`--out` combinations; requires `--force` for every overwrite; converts
+filesystem failures to concise injected errors; and suggests the compatibility
+command only for `ctxpack packets`. Existing non-file destinations are rejected
+before compilation or writes, including under `--force`.
+CLI-1/1a/1b/1c/4/5/6/7/9/11/17a/17b, EVAL-7, `design.md`, README,
+examples, tracker, tests, and implementation notes are reconciled. Agenticons
+documentation review findings were fixed, exploratory QA passed after one
+targeted non-file-destination fix, and the final clean-context design review was
+clean. Focused CLI: **38 runs / 241 assertions**; full suite: **116 runs / 1005
+assertions**, zero failures. Strategic validation: 66 changed-slice tests and 28
+red/green behaviors passed; two non-gating RuboCop/Metz-configuration warnings
+are recorded in the implementation notes. Tier 0 is N/A because compiler
 behavior did not change.
 
-**Next work order:** obtain user direction before any commit or push. If the
-user asks to land the pass, review the final diff and commit only the scoped CLI
-ergonomics files; preserve the README work already present when this pass began.
-Afterward, return to the discretionary backlog: real-usage LIM-1 dogfooding or
-the deferred Tier 3 Rubydex probe. Do not invent another implementation pass.
+**Next work order:** obtain user direction before committing or pushing. Do not
+commit or push without explicit user approval.
 
 ## Status
 
@@ -106,7 +128,9 @@ the deferred Tier 3 Rubydex probe. Do not invent another implementation pass.
 | 1 | [`packet-compilation.md`](specs/packet-compilation.md) | **Done** (2026-07-05) | `Ctxpack.compile(app_root:, anchor:, task:)` → internal packet object. ANCH amendment mini-pass landed same day (class-by-file matching, tolerant action grammar). 25 tests / 101 assertions green. |
 | 2 | [`packet-format.md`](specs/packet-format.md) | **Done** (2026-07-05) | `Ctxpack.render_markdown` / `Ctxpack.render_manifest` over the pass 1 packet object. One review fix round (FMT-5 marker drift, Anchor labels). 34 tests / 193 assertions green. |
 | 3 | [`cli.md`](specs/cli.md) | **Done** (2026-07-05) | `Ctxpack::CLI` + `exe/ctxpack` over OptionParser, wiring the pass 1/2 APIs. One review fix round (CLI-14 reminder on implicit `.ctxpack/` creation, CLI-8 anchor-only derivation test). 47 tests / 274 assertions green. |
-| CLI ergonomics | [`cli.md`](specs/cli.md) | **Done locally — verified, UNCOMMITTED** (2026-07-12) | Agenticons implementation + edge-case review; CLI-1a/8a/10a/14/15/17 reconciled. Clean-HEAD red proof; focused CLI **24 runs / 148 assertions** and full suite **102 runs / 912 assertions**, zero failures. Tier 0 N/A (no compiler behavior). |
+| CLI ergonomics | [`cli.md`](specs/cli.md) | **Done — verified, COMMITTED (`b8c2dc8`)** (2026-07-12) | Agenticons implementation + edge-case review; CLI-1a/8a/10a/14/15/17 reconciled. Clean-HEAD red proof; focused CLI **24 runs / 148 assertions** and full suite **102 runs / 912 assertions**, zero failures. Tier 0 N/A (no compiler behavior). |
+| CLI developer happiness follow-on | [`cli.md`](specs/cli.md) | **Done locally — verified, UNCOMMITTED** (2026-07-12) | Agenticons pass: direct-anchor golden path, descriptive help/version, short aliases, explicit output-option conflicts, force-only overwrite permission, concise filesystem errors, non-file destination preflight, and typo suggestion. Focused CLI **38 runs / 241 assertions**; full suite **116 runs / 1005 assertions**, zero failures; final design review clean. No compiler behavior or dependencies; Tier 0 N/A. |
+| CLI pipelines and Rails-aware recovery | [`cli.md`](specs/cli.md) | **Done locally — parent-verified, UNCOMMITTED** (2026-07-12) | `--task-file`, `--stdout`, syntactic Rails-aware recovery, Git-aware reminder, and unavailable-Git repo-stamp fallback; CLI-4a/10b/14a/17c and FMT-11. Parent full suite **135/1190**, green; strategic gates passed. No dependencies. Tier 0 N/A because classifier behavior is unchanged. |
 | 4 | [`fixture-evals.md`](specs/fixture-evals.md) | **Done** (2026-07-05) | `FixtureEvalsTest` generates packet-expectation + CLI-determinism tests from `test/fixtures/evals/*.yml`; CI (`.github/workflows/ci.yml`) runs the suite on Ruby 3.2 plus a non-blocking pinned metz step. One review fix round (empty-glob guard, manifest-inclusive determinism, CI Ruby floor). 49 tests / 311 assertions green. |
 | View resolution | [`views.md`](specs/views.md), [`packet-compilation.md`](specs/packet-compilation.md), [`packet-format.md`](specs/packet-format.md) | **Done — gate-passed, COMMITTED (`6688ff9`) + PUSHED** (2026-07-08; rescan re-verified + pushed 2026-07-09) | VIEW-1..VIEW-7 frozen + folded; `add_view_candidates` between controller and constants; `view_candidate` (list-only) + `view_inferred_by_convention`; `max_view_files = 2`; `max_total_files` truncates by priority. Red-then-green fixture evals + `ViewResolutionTest` (independently re-verified 6/7 red with `lib/` reverted). Suite green **74 runs / 621 assertions**. **Mandatory Tier 0 re-scan PASSED and RE-VERIFIED 2026-07-09** — classifier output byte-identical to the post-amendment baseline, zero per-anchor change, zero crashes across 1,967 pairs (addendum + re-verification note in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md)). Remaining: push (user go) + optional release-boundary Tier 2 validation (needs a `--dangerously-skip-permissions` session). |
 | CONST-1 widening (companion) | [`packet-compilation.md`](specs/packet-compilation.md) | **Done — gate-passed, COMMITTED (`ab72137`) + PUSHED** (2026-07-09) | Codex-implemented (fable-frozen), intra-file action call graph: constant scan now covers action body + applicable same-file callbacks + same-file methods **transitively called from the action** (BFS, nil/`self` receiver + direct-method-name only; dynamic dispatch out). CONST-4 three-group order (action → callbacks → callees appended LAST) makes it **strictly additive under the 4-cap** (no eviction). CONST-1/1a/4 amended, `design.md` reconciled; new `file_order`/`omitted` fixture-eval DSL. 5 red-then-green fixtures + `constants_test` cases (independently re-verified red with `lib/` reverted). Suite green **89 runs / 815 assertions**. **Mandatory Tier 0 re-scan PASSED** — zero per-anchor change, zero crashes across 1,967 pairs (also a crash-stress test of the new call-graph code). |
@@ -124,8 +148,9 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Next steps
 
-1. **CLI ergonomics pass is complete locally and uncommitted.** Await user
-   direction before committing or pushing.
+1. **CLI pipelines/recovery and unavailable-Git closure are complete locally,
+   parent-verified, and uncommitted.** Await user direction before committing or
+   pushing.
 2. **Real-usage dogfooding remains discretionary.** Exercise LIM-1 against
    packet-vs-diff coverage on live work.
 3. **Tier 3 Rubydex remains deferred.** Revisit only if a corpus makes the
@@ -133,6 +158,35 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Decision log
 
+- **2026-07-12** — CLI pipelines and Rails-aware recovery implemented locally
+  with Agenticons orchestration. Added invocation-relative/injected multiline
+  task input, artifact-free raw Markdown stdout, narrow pre-discovery recovery
+  for common Rails-shaped mistakes, and Git-native ignore detection for the
+  new implicit default directory. The reminder honors repo, info/exclude, and
+  configured excludes and suppresses non-Git/operational cases. Parent
+  verification and review remain pending; no commit/push is authorized.
+- **2026-07-12** — Unavailable Git during compiler repo-stamp collection now
+  degrades to the existing FMT-11 unknown repo state instead of crashing.
+  Public compile coverage controls the executable boundary. No fixture YAML was
+  added because Git availability is an environment condition that the static
+  Tier 1 fixture DSL cannot deterministically express. Tier 0 is N/A because
+  resolution, callbacks, constants, test candidates, limits, and per-anchor
+  classification are unchanged. Parent verification remains pending.
+- **2026-07-12** — CLI developer-happiness follow-on completed with Agenticons.
+  Delivered: direct-anchor golden path with compatible `packet` form;
+  root-independent descriptive help/no-argument help/version; `-t`/`-d`/`-o`/
+  `-f`; unambiguous `--out`; `--force` for every overwrite; invocation-relative
+  overwrite/filesystem errors; concise filesystem failure handling; and a
+  targeted `packets` typo suggestion. QA found a pre-existing partial-output
+  case when a forced sibling manifest destination was a directory; destination
+  preflight now rejects it before compilation or either write, and QA re-ran the
+  reproduction successfully. Documentation review found and fixed derived-name,
+  EVAL-7 `--force`, CLI-5 coverage, and historical-note drift. Strategic
+  validation passed 66 changed-slice tests and 28 merge-base red/green behaviors;
+  final clean-context design review: clean, no findings. Focused CLI **38 runs /
+  241 assertions**; full suite **116 runs / 1005 assertions**, zero failures.
+  No compiler behavior or dependencies changed; Tier 0 N/A. Work remains
+  uncommitted pending user direction.
 - **2026-07-12** — CLI ergonomics pass completed locally with Agenticons
   (`coding_worker` implementation, `edge_case_analyst` acceptance audit; parent
   verification). Fixed six seams: manifest collision refusal, cwd-relative
@@ -141,8 +195,9 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
   Specs/design/user docs reconciled. Clean-HEAD red proof: 11 targeted runs, 9
   failures, plus the expected pre-fix help `SystemExit`; green: 24 CLI runs / 148
   assertions and 102 full-suite runs / 912 assertions, zero failures. Tier 0 N/A
-  because no compiler behavior changed. Work remains uncommitted pending user
-  direction.
+  because no compiler behavior changed. The work was subsequently committed as
+  `b8c2dc8`; this entry preserves the completion-time history rather than
+  treating that prior pass as part of the current working tree.
 - **2026-07-09** — Docs-quality session (committed, NOT pushed; orchestrated:
   Claude orchestrator, **4 parallel `doc-reviewer` subagents** for the drift
   sweep, **fable** advised the new docs' structure). Three landed changes:
@@ -613,7 +668,7 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
   `test/fixtures/evals/*.yml` and defines two tests per case (packet
   expectations against the internal packet object per EVAL-5; CLI
   determinism per EVAL-7 via in-process `Ctxpack::CLI#run` with fixed
-  `--out --manifest`, SHA-256 over both artifacts), so `bundle exec rake
+  `--out --force --manifest`, SHA-256 over both artifacts), so `bundle exec rake
   test` runs Tier 1 with zero extra wiring and EVAL-11 re-runnability holds
   by construction. First CI workflow authored: push/PR, Ruby 3.2 (the
   gemspec floor; local dev covers newer), `rake test`, plus the

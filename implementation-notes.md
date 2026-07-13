@@ -208,9 +208,9 @@ was changed in this pass.
   deterministic derived name. Explicit names are validated with
   `^[A-Za-z0-9_]+$` and normalized with a local Rails-style `underscore`
   implementation instead of adding ActiveSupport.
-- Overwrite checks run before compilation. Computed Markdown and manifest paths
-  fail if either target already exists unless `--force` is passed. Explicit
-  `--out` permits overwrite without `--force`, per CLI-7/CLI-11.
+- Historical pass-3 behavior, superseded by the CLI developer-happiness
+  follow-on below: overwrite checks ran before compilation, and explicit
+  `--out` permitted overwrite without `--force` under the original CLI-7/CLI-11.
 - `.ctxpack/` creation prints a one-line gitignore reminder only when this CLI
   invocation creates that root-level directory. The CLI never prompts and never
   edits `.gitignore`.
@@ -243,7 +243,7 @@ was changed in this pass.
   `#test_packet_rejects_invalid_explicit_name`.
 - CLI-6/CLI-10/CLI-15/MAN-1:
   `CLITest#test_packet_writes_manifest_next_to_markdown_and_prints_both_paths`.
-- CLI-7/CLI-9/CLI-11:
+- Historical CLI-7/CLI-9/CLI-11 coverage, superseded by the follow-on below:
   `CLITest#test_packet_refuses_to_overwrite_default_artifact_unless_forced`,
   `#test_packet_out_path_overwrites_without_force_and_takes_precedence_over_dir`.
 - CLI-13/CLI-14:
@@ -304,8 +304,8 @@ notes. No compiler, renderer, or CLI behavior was changed.
   files and reason codes, excluded paths, expected test commands, per-case
   `max_files`, and the LIM-1 file/test/snippet limits from
   `Ctxpack::Compiler::LIMITS`.
-- The determinism check drives `Ctxpack::CLI#run` in-process twice with a fixed
-  `--out` path plus `--manifest`, then compares SHA-256 hashes of both the
+- The determinism check drives `Ctxpack::CLI#run` in-process twice with fixed
+  `--out --force --manifest`, then compares SHA-256 hashes of both the
   written Markdown and sibling JSON manifest. Because the shared fixture tree
   has no `config/application.rb` marker, the CLI check copies the fixture tree
   into a temporary app root and adds only the marker required for CLI root
@@ -891,3 +891,149 @@ Tier 1 YAML case.
   0 errors, 0 skips`.
 - Tier 0 corpus re-scan: N/A. This pass changes CLI argument, naming, stream,
   path-display, and error-hint behavior only; packet compilation is unchanged.
+
+## CLI developer-happiness follow-on (2026-07-12)
+
+Change type: feature. User task statement: “Let's go ahead and fix all
+these. Use agenticons to accomplish that.” This follow-on keeps the deterministic
+compiler and artifact contract intact while reducing ceremony and removing
+surprising output behavior.
+
+Implemented contract:
+
+- `ctxpack <anchor> [options]` is the golden path; the original
+  `ctxpack packet <anchor> [options]` form remains compatible.
+- no arguments and help in either form/position print full descriptive help to
+  injected stdout and return normally without Rails-root discovery;
+  sole top-level `-v` / `--version` has the same root-independent behavior.
+- common options have conservative aliases: `-t` / `--task`, `-d` / `--dir`,
+  `-o` / `--out`, and `-f` / `--force`; `--name` and `--manifest` remain
+  long-only.
+- explicit `--out` conflicts with explicitly supplied `--dir` or `--name`.
+  It never grants overwrite permission: an existing Markdown artifact or
+  sibling manifest requires `--force`; fresh `--out` and `--out --force` are
+  valid.
+- overwrite and filesystem error paths are invocation-relative. Directory and
+  write failures return concise injected `ctxpack:` errors with status 1 and no
+  usage or backtrace. Existing destinations must be regular files even under
+  `--force`; validation occurs before compilation and prevents the reproduced
+  directory-valued manifest target from leaving a partial Markdown artifact.
+- the common typo `ctxpack packets` suggests `ctxpack packet`; unrelated unknown
+  commands do not receive a speculative suggestion.
+
+Normative coverage: amended CLI-1, CLI-1a, CLI-4, CLI-5, CLI-6, CLI-7, CLI-9, and
+CLI-11; added CLI-1b, CLI-1c, CLI-17a, and CLI-17b. `design.md`, README, and the
+examples guide are reconciled. No dependency, compiler behavior, packet
+content, or recorded eval data changes; Tier 0 corpus re-scan is therefore N/A.
+
+### Verification record
+
+- Red/green proof: individual tracer bullets failed first for help after an
+  anchor, no-argument help, version output, direct-anchor dispatch, descriptive
+  help, output-option conflicts, force-only overwrites, typo guidance,
+  filesystem translation, and non-file manifest preflight. The strategic
+  validator independently confirmed 28 merge-base red/green behaviors.
+- The first full-suite run exposed 14 Tier 1 determinism failures because the
+  runner repeated fixed `--out` without stating overwrite intent. Adding
+  `--force` to that harness made its focused **28 runs / 509 assertions** green
+  and reconciled EVAL-7/design/tracker notes.
+- Focused CLI suite: **38 runs, 241 assertions, 0 failures, 0 errors, 0 skips**.
+- Full `bundle exec rake test`: **116 runs, 1005 assertions, 0 failures, 0
+  errors, 0 skips**.
+- Strategic validator: slice-tests pass (66), red/green pass (28 behaviors),
+  pending-comment gate pass, final clean-context design review clean with no findings.
+- Validator warnings (verbatim):
+  - `rubocop run errored - Lint/Security gate skipped: Error: unrecognized cop or department Metz found in .rubocop.yml`
+  - `head metrics unavailable (rubocop run failed); deltas omitted`
+- Advisory `bundle exec rake metz`: 55 offenses; CLI pressure is one
+  `ClassesTooLong` and six `MethodsTooLong` findings. No code was split merely
+  to improve an advisory metric.
+- Agenticons documentation review findings were fixed. Exploratory QA passed
+  the approved scenarios and re-verified that a directory-valued sibling
+  manifest is rejected before Markdown is written. General two-artifact
+  atomicity under races or later I/O failure remains outside this pass.
+- `Gemfile.lock` unchanged; no new dependency. Tier 0 corpus re-scan N/A because
+  compilation behavior is unchanged.
+
+## CLI pipelines and Rails-aware recovery pass (2026-07-12)
+
+Change type: feature. User task statement: “Go ahead and implement all these.
+Use agenticons. You are simply the orchestrator and directly responsible
+agent.” This distinct follow-on preserves the committed CLI ergonomics pass
+(`b8c2dc8`) and the earlier uncommitted CLI developer-happiness follow-on.
+
+Implemented contract:
+
+- `--task-file PATH` resolves from invocation cwd; `-` reads injected stdin.
+  Exactly one final LF/CRLF is removed. It conflicts with an explicitly
+  supplied `--task` before discovery or reads.
+- `--stdout` renders raw Markdown without artifact creation and conflicts with
+  explicit artifact options before discovery, task reads, or compilation.
+- narrow, syntactic Rails-aware diagnostics reject route helpers,
+  controller-class references, HTTP route strings, and slash-for-`#` anchors
+  before discovery without accepting or resolving them.
+- the default-directory reminder delegates ignore semantics to Git and appears
+  only when this invocation created the implicit `.ctxpack/` and Git reports it
+  unignored. Explicit destinations, existing directories, ignored paths,
+  non-Git apps, and operational failures stay quiet.
+
+Normative coverage: CLI-1a/1c/2/4/8/14/15/19 amended; CLI-4a, CLI-10b,
+CLI-14a, and CLI-17c added. No compiler, renderer, packet, dependency, recorded
+eval, or pre-registration changes; Tier 0 and fixture-YAML additions are N/A.
+
+### Red / green record
+
+- `--task-file -`: red `ArgumentError: unknown keyword: :stdin`; green 1 run /
+  5 assertions.
+- `--stdout`: red status 1 (unknown option); green 1 run / 6 assertions.
+- route-helper guidance: red generic unknown-command output; green direct and
+  compatibility coverage, 1 run / 16 assertions.
+- remaining Rails shapes exposed `String#rsplit` (not a Ruby API); regex
+  captures replaced it and the slice passed, 1 run / 34 assertions.
+- ignored default output: red old unconditional reminder; green after the Git
+  check, 1 run / 9 assertions.
+
+Final verification is recorded by the completing session below; parent-only
+Agenticons review/QA gates remain pending until the orchestrator performs them.
+
+- Focused CLI: `56 runs, 424 assertions, 0 failures, 0 errors, 0 skips`.
+- Full suite: `134 runs, 1188 assertions, 0 failures, 0 errors, 0 skips`.
+- No dependency or lockfile change from this pass. Tier 0 rescan is N/A because
+  compiler behavior did not change.
+- Strategic validator: slice-tests, merge-base red/green, and pending-comment
+  gates passed; lint was skipped. Clean-context review is required and remains
+  parent-side. Warnings (verbatim):
+  - `rubocop run errored - Lint/Security gate skipped: Error: unrecognized cop or department Metz found in .rubocop.yml`
+  - `head metrics unavailable (rubocop run failed); deltas omitted`
+- The failed Ruby `String#rsplit` attempt crossed the extract-approach
+  threshold; the reusable capture rule is recorded in
+  `docs/agent-learnings/2026-07-12-ruby-right-split-with-captures.md`.
+- Parent audit follow-up: an injected stdin whose `read` raises `IOError`
+  initially escaped with a backtrace; after stdin-specific translation it
+  returns status 1 with concise stderr and no output mutation (red: 1 error;
+  green: 1 run / 6 assertions). Exact byte equality now covers both ordinary
+  `--stdout` and the composed `--task-file - --stdout` path. `-d`, `-o`, and
+  `-f` are explicitly covered by stdout-conflict tests.
+
+## Unavailable-Git repo-stamp closure (2026-07-12)
+
+Change type: bugfix. User task statement: “Ok proceed.”
+
+- `Compiler#repo_stamp` now treats an unavailable Git executable like the
+  existing outside-repository case: `commit: nil`, `dirty: false`, which the
+  renderer presents as FMT-11's fixed unknown state.
+- Red proof: a public `Ctxpack.compile` test with the `Open3.capture2` system
+  boundary raising `Errno::ENOENT` failed with 1 error at `repo_stamp`.
+- Green proof: the focused repo-stamp file passed with 3 runs / 7 assertions.
+- Full suite: `135 runs, 1190 assertions, 0 failures, 0 errors, 0 skips`.
+- Parent verification repeated the focused and full suites with the same green
+  counts. Strategic slice, merge-base red/green, and pending-comment gates
+  passed. The delegated clean-context reviewer was terminated at the explicit
+  60-second boundary; parent diff/spec review found no additional defect.
+- No Tier 1 YAML case was added. Git executable availability is an environment
+  condition, while the fixture-eval DSL describes deterministic Rails-shaped
+  source trees and cannot control process availability; the public unit-level
+  regression test owns this behavior.
+- Tier 0 is N/A. This changes repo-stamp collection only, not resolution,
+  callbacks, constants, test candidates, limits, or per-anchor classification.
+- No dependency or lockfile change; no recorded experiment data changed.

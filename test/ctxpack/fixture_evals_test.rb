@@ -130,7 +130,7 @@ class FixtureEvalsTest < Minitest::Test
   end
 
   def cli_args(eval_case, out_path)
-    args = ["packet", eval_case.command.fetch("anchor"), "--out", out_path, "--manifest"]
+    args = ["packet", eval_case.command.fetch("anchor"), "--out", out_path, "--force", "--manifest"]
     task = eval_case.command["task"]
     args.concat(["--task", task]) if task
     args

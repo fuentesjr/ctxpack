@@ -87,7 +87,8 @@ ruby eval/tier2/harness.rb status                     # Tier 2 grid state (offli
   approval first. OptionParser was deliberately chosen over Thor.
 - **Public API**: `Ctxpack.compile(app_root:, anchor:, task:, constant_resolver:)`,
   `Ctxpack.render_markdown`, `Ctxpack.render_manifest`, `Ctxpack::CLI#run(argv)`
-  with injectable stdout/stderr/cwd/clock. Keep new seams injectable the same way.
+  with injectable stdin/stdout/stderr/cwd/clock. Keep new seams injectable the
+  same way.
 - **v0 non-goals are binding** (`design.md`): no embeddings/RAG, no Rails
   boot, no engines, no inherited/concern/metaprogrammed action resolution, no
   route-string parsing, no LLM anywhere in packet construction or Tier 1 evals.

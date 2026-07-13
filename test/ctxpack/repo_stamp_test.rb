@@ -38,4 +38,26 @@ class RepoStampTest < Minitest::Test
       refute packet.repo.dirty
     end
   end
+
+  def test_fmt_11_man_2_repo_stamp_is_nil_when_git_is_unavailable
+    capture2 = Open3.method(:capture2)
+    open3_singleton = Open3.singleton_class
+    open3_singleton.send(:remove_method, :capture2)
+    Open3.define_singleton_method(:capture2) do |*|
+      raise Errno::ENOENT, "No such file or directory - git"
+    end
+
+    packet = Ctxpack.compile(
+      app_root: fixture_app("minitest_basic"),
+      anchor: "accounts#upgrade"
+    )
+
+    assert_nil packet.repo.commit
+    refute packet.repo.dirty
+  ensure
+    if capture2
+      open3_singleton.send(:remove_method, :capture2)
+      Open3.define_singleton_method(:capture2, capture2)
+    end
+  end
 end

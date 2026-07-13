@@ -110,7 +110,8 @@ so.
 root (`git -C <app_root> rev-parse HEAD`), so an app in a monorepo
 subdirectory stamps the enclosing repository's SHA. Outside any git work
 tree, the stamp is the fixed string `unknown (not a git repository)` — still
-deterministic.
+deterministic. If the Git executable is unavailable, stamp resolution uses the
+same unknown state instead of failing packet compilation.
 
 **FMT-12.** Dirty means any non-empty `git status --porcelain` output from
 the application root — staged, unstaged, or untracked (gitignored files

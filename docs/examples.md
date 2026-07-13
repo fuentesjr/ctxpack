@@ -41,15 +41,15 @@ $ bundle binstubs ctxpack     # optional: gives you bin/ctxpack
 Then, from anywhere inside your Rails app, generate your first packet:
 
 ```console
-$ bundle exec ctxpack packet accounts#upgrade \
-    --task "Add annual billing option to the upgrade flow"
-Reminder: add .ctxpack/ to .gitignore if you do not want local packets committed.
+$ bundle exec ctxpack accounts#upgrade \
+    -t "Add annual billing option to the upgrade flow"
+ctxpack: .ctxpack/ is not ignored; add `.ctxpack/` to .gitignore
 .ctxpack/20260709223029_add_annual_billing_option_to_the_upgrade_flow_accounts_upgrade.md
 ```
 
 ctxpack finds your app root by walking up to the first `config/application.rb`,
 writes the packet to `.ctxpack/<utc-timestamp>_<name>.md`, and prints the path.
-The reminder is written to stderr; success stdout contains only artifact paths,
+When the new default directory is not ignored according to Git, the reminder is written to stderr; success stdout contains only artifact paths,
 one per line. Paths are relative to the directory where you invoked ctxpack, so
 they remain directly usable when you run from a nested app directory.
 Requires Ruby ≥ 3.2; its only runtime dependency is
@@ -177,10 +177,10 @@ An anchor is always `controller#action` in snake_case — never a URL, route
 helper, or HTTP verb.
 
 ```console
-$ bundle exec ctxpack packet articles#preview --task "Fix preview for drafts"
+$ bundle exec ctxpack articles#preview -t "Fix preview for drafts"
 
 # Namespaced controllers use a path-style prefix:
-$ bundle exec ctxpack packet admin/users#destroy --task "Soft-delete instead of destroy"
+$ bundle exec ctxpack admin/users#destroy -t "Soft-delete instead of destroy"
 ```
 
 ctxpack does not read `config/routes.rb` — you bring the anchor. If you have a
@@ -208,7 +208,7 @@ For programmatic wiring, add `--manifest` to also emit a sibling JSON file with
 the same information in a stable, machine-readable shape:
 
 ```console
-$ bundle exec ctxpack packet accounts#upgrade --task "..." --manifest
+$ bundle exec ctxpack accounts#upgrade -t "..." --manifest
 .ctxpack/…_accounts_upgrade.md
 .ctxpack/…_accounts_upgrade.json
 ```
@@ -237,31 +237,42 @@ the [FAQ](faq.md#why-not-just-let-the-agent-grep).
 ## Flags and output
 
 ```
-ctxpack packet <anchor> [--task TASK] [--name NAME] [--dir DIR] [--out PATH] [--force] [--manifest]
+ctxpack <anchor> [options]
+ctxpack packet <anchor> [options] # compatibility form
 ```
 
 | Flag | Effect |
 |---|---|
-| `--task TASK` | Records the task string in the packet; also seeds the default filename. Optional but recommended. |
+| `-t`, `--task TASK` | Records the task string in the packet; also seeds the default filename. Optional but recommended. |
+| `--task-file PATH` | Read a multiline task from an invocation-relative file, or from stdin with `-`. Conflicts with `--task`. |
 | `--name NAME` | Override the derived filename stem (letters, numbers, underscores only). |
-| `--dir DIR` | Output directory for the timestamped file. Default `.ctxpack/`. |
-| `--out PATH` | Write to an exact path instead of a timestamped name. Overwrites without prompting. |
-| `--force` | Allow overwriting the computed timestamped path. |
+| `-d`, `--dir DIR` | Output directory for the timestamped file. Default `.ctxpack/`. |
+| `-o`, `--out PATH` | Write to an exact path instead of a timestamped name. |
+| `-f`, `--force` | Allow overwriting existing Markdown or manifest output. |
 | `--manifest` | Also write the sibling `.json` manifest. |
-| `-h`, `--help` | Print the packet-command options and exit successfully; works before Rails-root discovery. |
+| `--stdout` | Emit raw Markdown without creating files; conflicts with artifact-output options. |
+| `-h`, `--help` | Print descriptions, defaults, both forms, and examples; works in either form/position before Rails-root discovery. |
+| `-v`, `--version` | Print the installed version when used alone; no Rails app required. |
 
 Notes you'll hit in practice:
 
 - **Default location.** Packets land in `.ctxpack/` with a UTC-timestamped
   filename, so repeated runs never clobber each other. The first time ctxpack
-  creates `.ctxpack/`, it reminds you on stderr to gitignore it.
+  creates `.ctxpack/`, it asks Git about repository, info/exclude, and configured
+  global rules, then reminds on stderr only when the directory is unignored.
 - **Scripting.** Success stdout contains only saved paths, one per line,
   relative to your invocation directory. With `--manifest`, Markdown is first
   and JSON second.
+- **Issue bodies and pipelines.** `--task-file issue.md` avoids shell quoting;
+  `--task-file - --stdout` reads standard input and emits only Markdown.
 - **Regenerating.** Because the filename is timestamped, back-to-back runs just
-  make new files. If you pin a name (`--name` or `--dir`) and the exact path
-  already exists, ctxpack refuses unless you pass `--force` (or `--out`, which
-  always overwrites).
+  make new files. If either the Markdown path or sibling manifest already
+  exists, ctxpack refuses unless you pass `--force`; `--out` never implies
+  overwrite permission.
+- **Exact paths are unambiguous.** `--out` cannot be combined with an explicit
+  `--dir` or `--name`; use `--out PATH --force` when intentionally replacing an
+  exact file. `--force` does not replace directories; if either Markdown or
+  manifest destination is not a regular file, ctxpack fails before writing.
 - **Exact JSON output paths.** `--out packet.json --manifest` is rejected
   before compilation because the manifest would replace the Markdown artifact;
   choose a Markdown path such as `--out packet.md`.
@@ -321,7 +332,7 @@ An action that isn't literally defined in the controller file (inherited from a
 base class, mixed in from a concern, or metaprogrammed):
 
 ```console
-$ bundle exec ctxpack packet accounts#teleport --task "..."
+$ bundle exec ctxpack accounts#teleport -t "..."
 ctxpack: action teleport was not directly defined in app/controllers/accounts_controller.rb; inherited, concern-defined, and metaprogrammed actions are unsupported in v0
 Use Rails-native route discovery, for example `bin/rails routes -g teleport` or `bin/rails routes -c accounts`.
 ```
@@ -329,9 +340,9 @@ Use Rails-native route discovery, for example `bin/rails routes -g teleport` or 
 A malformed anchor (a URL, verb, or route helper instead of `controller#action`):
 
 ```console
-$ bundle exec ctxpack packet "POST /accounts"
-ctxpack: invalid anchor "POST /accounts"; expected controller#action with snake_case tokens
-Use Rails-native route discovery, for example `bin/rails routes -g ACTION` or `bin/rails routes -c CONTROLLER`.
+$ bundle exec ctxpack packet POST /accounts/:id/upgrade
+ctxpack: Rails route strings are not supported; pass a controller#action anchor
+Try `bin/rails routes -g upgrade` to find it.
 ```
 
 In both cases the fix is to find the real `controller#action` (via

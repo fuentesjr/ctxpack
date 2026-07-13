@@ -101,8 +101,8 @@ object or the JSON manifest, MAN-1) rather than parsing Markdown prose.
 - expected test commands suggested
 - packet stays under file and snippet limits (LIM-1)
 
-**EVAL-7.** Determinism check: running the same command twice — with a fixed
-`--out`, or with output paths normalized — produces the same content hash.
+**EVAL-7.** Determinism check: running the same command twice — with fixed
+`--out ... --force`, or with output paths normalized — produces the same content hash.
 Cross-repo-state comparisons (golden files) additionally normalize the
 repo-stamp line (EVAL-3).
 

@@ -10,15 +10,13 @@ The idea is to turn an exact Rails anchor like `accounts#upgrade` into a compact
 
 ```bash
 bin/rails routes -g upgrade
-ctxpack packet accounts#upgrade \
-  --name billing_upgrade_accounts_upgrade \
-  --task "Implement billing upgrade"
+ctxpack accounts#upgrade -t "Implement billing upgrade"
 ```
 
 Example output:
 
 ```text
-.ctxpack/20260527143015_billing_upgrade_accounts_upgrade.md
+.ctxpack/20260527143015_implement_billing_upgrade_accounts_upgrade.md
 ```
 
 ## ✨ Status
@@ -97,9 +95,7 @@ The key property is **provenance**: every file needs a reason.
 ## 🛤️ CLI
 
 ```bash
-ctxpack packet accounts#upgrade \
-  --name billing_upgrade_accounts_upgrade \
-  --task "Implement billing upgrade"
+ctxpack accounts#upgrade -t "Implement billing upgrade"
 ```
 
 ctxpack is **pre-release** (not on RubyGems yet). From a Rails app:
@@ -112,7 +108,7 @@ gem "ctxpack", github: "fuentesjr/ctxpack"
 ```bash
 bundle install
 bundle binstubs ctxpack   # optional: bin/ctxpack next to bin/rails
-bundle exec ctxpack packet accounts#upgrade --task "Implement billing upgrade"
+bundle exec ctxpack accounts#upgrade -t "Implement billing upgrade"
 ```
 
 It works from any subdirectory of the app: like `bin/rails`, it walks upward to
@@ -126,7 +122,24 @@ By default, `ctxpack` writes a durable Markdown artifact under:
 .ctxpack/
 ```
 
-The directory is meant to be gitignored — committed packets go stale and become misleading context for future agents. Committing a specific packet (e.g. to link from a PR) is opt-in, with `docs/ctxpack/` as the standard committed location: `--dir docs/ctxpack`.
+The directory is meant to be gitignored — committed packets go stale and become misleading context for future agents. When ctxpack creates the default directory, it asks Git whether `.ctxpack/` is already ignored and reminds only when needed. Committing a specific packet (e.g. to link from a PR) is opt-in, with `docs/ctxpack/` as the standard committed location: `--dir docs/ctxpack`.
+
+Long or multiline tasks can come from a file or pipeline without shell quoting:
+
+```bash
+ctxpack accounts#upgrade --task-file issue.md
+gh issue view 123 --json body --jq .body |
+  ctxpack accounts#upgrade --task-file -
+```
+
+For a pipeline that does not need a durable artifact, emit raw Markdown only:
+
+```bash
+ctxpack accounts#upgrade --task-file issue.md --stdout | your-agent
+```
+
+`--stdout` creates nothing and intentionally conflicts with artifact options
+such as `--out`, `--dir`, `--name`, `--force`, and `--manifest`.
 
 Use Rails for route discovery:
 
@@ -137,10 +150,16 @@ bin/rails routes -c AccountsController
 
 Use `ctxpack` after choosing the exact Rails anchor.
 
-Optional flags: `--out PATH` (full path override), `--force` (overwrite),
-`--manifest` (sibling JSON next to the Markdown artifact). Requires Ruby ≥ 3.2;
+The compatibility form `ctxpack packet accounts#upgrade [options]` also works.
+Common aliases are `-t`/`--task`, `-d`/`--dir`, `-o`/`--out`, and
+`-f`/`--force`; `--task-file`, `--stdout`, `--name`, and `--manifest` stay long-only. An exact `--out`
+cannot be combined with an explicit `--dir` or `--name`, and it never grants
+overwrite permission—pass `--force` when replacing either Markdown or its
+sibling manifest. Requires Ruby ≥ 3.2;
 the only runtime dependency is [`prism`](https://github.com/ruby/prism).
-Run `ctxpack --help` or `ctxpack packet --help` for the complete option list.
+Run `ctxpack` with no arguments, or use `--help` / `-h` in either command form,
+for descriptions, defaults, and examples. `ctxpack --version` and `ctxpack -v`
+print the installed version without requiring a Rails app.
 
 ## 🧪 Evaluation philosophy
 
