@@ -79,74 +79,117 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Written 2026-07-13 after the CLI output-ergonomics implementation. This is the
-authoritative work order for a fresh "Continue from PROJECT_TRACKER.md"
-session; the summary under "Next steps" must agree with it.
+Written 2026-07-13 after the seed-based interface proposal was accepted with
+decisions recorded. **This plan is addressed to Grok: the next session is a
+Grok session executing a run-to-completion campaign.** It is the
+authoritative work order; the summary under "Next steps" must agree with it.
 
-**Context — self-sufficient CLI help and manifest JSON stdout are complete
-locally, parent-verified, and UNCOMMITTED.** Bare `--stdout` remains exact rendered Markdown;
-`--stdout=markdown` is the explicit equivalent; `--stdout=json` emits the exact
-MAN-2 renderer output without creating artifacts. The same artifact conflicts,
-render-before-write behavior, and injected streams apply to every stdout form.
-Help now carries pipeline examples, path bases, output modes, and conflicts so
-it is sufficient for first use without the README. CLI-1a/10b, `design.md`,
-README, examples, FAQ, tests, tracker, and implementation notes are reconciled.
-No compiler, packet, renderer, dependency, lockfile, fixture-eval, or recorded
-experiment behavior changed; Tier 0 is N/A.
-Focused CLI verification is **60 runs / 464 assertions** and the full suite is
-**151 runs / 1365 assertions**, both with zero failures or errors. Strategic
-slice, merge-base red/green, and pending-comment gates passed; the final
-clean-context design review was clean with no findings.
+**Context.** [`docs/seed-based-interface-proposal.md`](docs/seed-based-interface-proposal.md)
+is the accepted north-star product definition — **task + seeds →
+deterministic packet**, with `controller#action` demoted to one seed kind —
+after three same-day review rounds (session review → independent Opus review
+→ independent Grok review; history in its §18). Its §11 migration path and
+§14 recorded decisions are the authoritative shape of the work; this plan
+points at them rather than duplicating them.
+[`docs/anchor-acquisition-proposal.md`](docs/anchor-acquisition-proposal.md)
+§12a records the matching re-scope. Both proposal docs and this tracker
+rewrite are committed together (user-approved); the CLI help +
+`--stdout=json` pass is **already committed and pushed as `b71af62`** — an
+earlier draft of this section wrongly called it uncommitted; ground truth
+verified against git (`origin/main` in sync at rewrite time).
 
-Packet format v2 and the Ruby 3.4 floor landed in `6a23690` and are pushed.
-All four accepted slices in `docs/packet-format-proposal.md` are active:
-blockquoted tasks, visible ranges, honest Git-unavailable wording, Markdown
-Format 2, How-to-use, the flat Inspect-first map, snippet-only Evidence, Run,
-deduplicated Follow-ups, a single Scope line, and lossless manifest v2 as the
-only emitted schema. The final landed suite was **147 runs / 1325 assertions**,
-zero failures or errors; strategic review was clean.
+**Who runs this and how (differs from "Working process"):** Grok is the
+session itself — the Codex delegation loop does not apply to this campaign.
+Everything else in "Working process" binds Grok exactly as it binds any
+session: the corpus re-scan rule at compiler-behavior pass boundaries, spec
+bugs amended in the spec *and* `design.md` in the same change, per-pass
+`implementation-notes.md` entries, and the end-of-session ritual.
 
-The work preserves the committed
-CLI ergonomics pass (`b8c2dc8`) and adds multiline task files from files or
-standard input, mutation-free Markdown stdout, tailored syntactic Rails-input
-recovery, and a Git-aware default-directory reminder. A bounded closure also
-makes unavailable Git use the existing unknown repo stamp instead of crashing.
-CLI-4a/10b/14a/17c and FMT-11 plus the related requirements, design, README,
-examples, AGENTS, tests, and implementation notes are reconciled. No
-dependencies, fixture YAML, or recorded experiment data changed. Tier 0 is N/A:
-the fallback changes only repo-stamp collection, not resolution, callbacks,
-constants, test candidates, limits, or per-anchor classification. Parent
-verification: focused repo-stamp **3 runs / 7 assertions** and full suite **135
-runs / 1190 assertions**, zero failures or errors; strategic slice, red/green,
-and pending-comment gates passed. The final delegated clean-context review was
-terminated at its 60-second boundary, so the parent completed the diff/spec
-review directly and found no additional defect.
+**Authority and stop conditions (user-granted 2026-07-13):**
 
-The preceding follow-on makes
-`ctxpack <anchor> [options]` the golden path while
-retaining `ctxpack packet`; adds descriptive root-independent help, no-argument
-help, version output, and conservative short aliases; rejects contradictory
-`--out` combinations; requires `--force` for every overwrite; converts
-filesystem failures to concise injected errors; and suggests the compatibility
-command only for `ctxpack packets`. Existing non-file destinations are rejected
-before compilation or writes, including under `--force`.
-CLI-1/1a/1b/1c/4/5/6/7/9/11/17a/17b, EVAL-7, `design.md`, README,
-examples, tracker, tests, and implementation notes are reconciled. Agenticons
-documentation review findings were fixed, exploratory QA passed after one
-targeted non-file-destination fix, and the final clean-context design review was
-clean. Focused CLI: **38 runs / 241 assertions**; full suite: **116 runs / 1005
-assertions**, zero failures. Strategic validation: 66 changed-slice tests and 28
-red/green behaviors passed; two non-gating RuboCop/Metz-configuration warnings
-are recorded in the implementation notes. Tier 0 is N/A because compiler
-behavior did not change.
+- **Commit yes, push no.** Commit locally after each verified pass with a
+  clear message; never push — the user reviews and pushes.
+- **Run to completion through Phase 4.** Do not stop between phases for
+  sign-off; evidence gates are honored autonomously (below), not waived and
+  not paused on.
+- **Hard stops:** two failed attempts on the same issue → stop and report
+  (what was tried, what happened, best hypothesis, recommended next move);
+  an unresolvable spec↔design conflict → stop; anything requiring a push, a
+  new runtime dependency (prism-only stays), paid calls, or the ~50M-token
+  three-app harness rerun → stop and leave it gated. GitHub issue
+  [#5](https://github.com/fuentesjr/ctxpack/issues/5) (RubricLLM) stays
+  untouched.
 
-**Next work order:** obtain explicit user direction before committing or pushing
-the completed CLI output-ergonomics pass. Separately, the pending
-release-boundary three-app harness rerun requires
-explicit sign-off before spending ~50M subject tokens. GitHub issue
-[#5](https://github.com/fuentesjr/ctxpack/issues/5) tracks the approved in-depth
-RubricLLM spike; it does not authorize dependency adoption or paid evaluation
-calls.
+**Step 1 — Generate the normative specs from the proposals (before any
+implementation):**
+
+Author the spec surface named in seed doc §12, tracing every requirement to
+a §14 recorded decision (where the proposal is silent, the spec decides and
+records its rationale):
+
+1. New `specs/seeds.md` — seed kinds and the P0 catalog, evidence grammar,
+   per-kind expansion recipes, seed normalization (path/app-root rules,
+   ordering, error-frame filtering with the PII rule of §6.3), the §4.2
+   dispatch rules verbatim (including `*Controller#action` → anchor evidence
+   and stdin single-occupancy), multi-seed merge rules (§3.2), budgets, and
+   the inherited acquisition constraints (§8: suggest-only, no confidence
+   field, no auto-compile, prose skill-only).
+2. Amend `specs/packet-compilation.md` — generalize the pipeline to
+   seed-resolution → focus assembly → render; today's anchor path becomes
+   one resolver; ANCH-* semantics unchanged for the anchor seed.
+3. Amend `specs/packet-format.md` — format v3 per §6.2: `seeds[]`, optional
+   `anchor`, `## Seeds`/`## Focus`, anchor heading-shape preservation within
+   v3, both version carriers bumping together, v3 replaces v2 outright.
+4. Amend `specs/cli.md` — `--from-*` flags, argv dispatch, CLI-8/8a name
+   derivation generalized from anchor to seed identity, conflicts (incl.
+   `--from-error -` vs `--task-file -`), stdout modes unchanged.
+5. Phase 0 reconciliation in the same step: rewrite `design.md`'s product
+   definition (seed compiler; anchor one seed kind; everything §9 keeps is
+   preserved verbatim — determinism, prism-only, budgets as constants, no
+   Rails boot for static recipes). Touch README/examples/FAQ only where they
+   state the product definition; the marketing shift is Phase 6, out of
+   scope. Commit the spec+design pass before writing implementation code.
+
+**Step 2 — Implement phase by phase (seed doc §11), through Phase 4:**
+
+- **Phase 1 — behavior-compatible wrap.** Internal `Seed`/focus-set types;
+  current CLI as the anchor seed only (positional spelling; no new flags).
+  Bar: full suite green; **packet bytes byte-identical for golden paths**
+  (Phase 1-only guarantee); Tier 0 corpus re-scan run (expected
+  byte-identical), not claimed N/A, because `compiler.rb` internals move.
+- **Phase 2 — `--from-test` + `--from-files` + forced format v3.** Run the
+  gates first, autonomously: the test-seed viability spike and the thin
+  files neighbor-rule spike (§3.3) against the pinned sample apps
+  (Mastodon/Discourse/Zammad checkouts; method and SHAs per
+  [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md)), with scoring
+  pre-registered *before* measuring, results committed under `eval/`. Honor
+  the outcomes. Then ship: both seeds, format v3 (goldens re-baseline as a
+  named, intentional change), seed-identity artifact naming, the full argv
+  classifier, red-then-green fixture evals per kind, and author the
+  re-scoped work-start corpus (§8).
+- **Phase 3 — `--from-error`.** Pre-register the app-frame ground-truth
+  definition, run the error spike as a go/no-go. **If it fails: demote
+  error to P1, record the demotion in the proposal + this tracker, and
+  continue to Phase 4 without it** — that is the §14.2 fallback, not a stop.
+  If it passes: ship with PII-safe frame-only normalization (§6.3).
+- **Phase 4 — multi-seed.** Enable multiple seeds per invocation; the §3.2
+  merge rules become normative (dedup, reason-code merge, budget conflicts,
+  follow-ups for dropped items).
+- **Every phase:** `bundle exec rake test` green before commit; each new
+  behavior red-then-green; Tier 0 re-scan at every compiler-behavior
+  boundary — seed work must not change anchor-resolution classification
+  (expect zero per-anchor change; any regression is either predicted in the
+  commit or routed as a defect); diff reviewed against the spec codes in
+  scope; unverified items named in the notes.
+
+**Scope boundary:** Phase 5 (`method`/`diff`/`route`) and Phase 6
+(marketing) are **out of scope** for this campaign. The route seed's Front B
+baseline condition and each P1 seed's spike belong to that later plan.
+Release-boundary Tier 2 validation stays user-gated.
+
+**End ritual:** when Phase 4 lands (or a hard stop fires), rewrite this
+section for what follows — Phase 5/6 planning or the reported blocker — and
+make "Next steps" agree.
 
 ## Status
 
@@ -160,7 +203,7 @@ calls.
 | CLI pipelines and Rails-aware recovery | [`cli.md`](specs/cli.md) | **Done — parent-verified, COMMITTED (`1b55cce`) + PUSHED** (2026-07-12) | `--task-file`, `--stdout`, syntactic Rails-aware recovery, Git-aware reminder, and unavailable-Git repo-stamp fallback; CLI-4a/10b/14a/17c and FMT-11. Parent full suite **135/1190**, green; strategic gates passed. No dependencies. Tier 0 N/A because classifier behavior is unchanged. |
 | Packet format v2 | [`packet-format.md`](specs/packet-format.md) | **Done — parent-verified, COMMITTED (`6a23690`) + PUSHED** (2026-07-13) | Agenticons implementation of all four accepted slices plus one bounded blocker-fix round. Final full suite **147/1325**, green; strategic gates passed and the final clean-context design review was clean with no findings. No compiler selection/order/limit behavior or dependencies; Tier 0 N/A. |
 | Ruby 3.4 floor | `ctxpack.gemspec`, [CI](.github/workflows/ci.yml) | **Done — verified, COMMITTED (`6a23690`) + PUSHED** (2026-07-13) | User-authorized compatibility-floor change: gem requires Ruby ≥ 3.4 and CI exercises exactly that floor; current docs and the open floor-plus-current backlog item are reconciled. Gemspec load/build and workflow checks passed; full suite **147/1325**, green. No dependency or lockfile change; historical run records retain their actual Ruby versions. |
-| CLI help + manifest stdout | [`cli.md`](specs/cli.md) | **Done locally — parent-verified, UNCOMMITTED** (2026-07-13) | Self-sufficient offline help plus exact MAN-2 streaming through `--stdout=json`; bare/explicit Markdown stdout remains compatible. Focused CLI **60/464** and full suite **151/1365**, green; strategic gates passed and final design review clean. No compiler behavior, dependencies, or recorded evidence; Tier 0 N/A. |
+| CLI help + manifest stdout | [`cli.md`](specs/cli.md) | **Done — parent-verified, COMMITTED (`b71af62`) + PUSHED** (2026-07-13) | Self-sufficient offline help plus exact MAN-2 streaming through `--stdout=json`; bare/explicit Markdown stdout remains compatible. Focused CLI **60/464** and full suite **151/1365**, green; strategic gates passed and final design review clean. No compiler behavior, dependencies, or recorded evidence; Tier 0 N/A. (An earlier tracker draft called this UNCOMMITTED after it had in fact landed and pushed; corrected 2026-07-13 against git ground truth.) |
 | 4 | [`fixture-evals.md`](specs/fixture-evals.md) | **Done** (2026-07-05) | `FixtureEvalsTest` generates packet-expectation + CLI-determinism tests from `test/fixtures/evals/*.yml`; CI (`.github/workflows/ci.yml`) runs the suite at the current Ruby 3.4 floor plus a non-blocking pinned metz step. One review fix round (empty-glob guard, manifest-inclusive determinism, CI Ruby floor). 49 tests / 311 assertions green. |
 | View resolution | [`views.md`](specs/views.md), [`packet-compilation.md`](specs/packet-compilation.md), [`packet-format.md`](specs/packet-format.md) | **Done — gate-passed, COMMITTED (`6688ff9`) + PUSHED** (2026-07-08; rescan re-verified + pushed 2026-07-09) | VIEW-1..VIEW-7 frozen + folded; `add_view_candidates` between controller and constants; `view_candidate` (list-only) + `view_inferred_by_convention`; `max_view_files = 2`; `max_total_files` truncates by priority. Red-then-green fixture evals + `ViewResolutionTest` (independently re-verified 6/7 red with `lib/` reverted). Suite green **74 runs / 621 assertions**. **Mandatory Tier 0 re-scan PASSED and RE-VERIFIED 2026-07-09** — classifier output byte-identical to the post-amendment baseline, zero per-anchor change, zero crashes across 1,967 pairs (addendum + re-verification note in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md)). Remaining: push (user go) + optional release-boundary Tier 2 validation (needs a `--dangerously-skip-permissions` session). |
 | CONST-1 widening (companion) | [`packet-compilation.md`](specs/packet-compilation.md) | **Done — gate-passed, COMMITTED (`ab72137`) + PUSHED** (2026-07-09) | Codex-implemented (fable-frozen), intra-file action call graph: constant scan now covers action body + applicable same-file callbacks + same-file methods **transitively called from the action** (BFS, nil/`self` receiver + direct-method-name only; dynamic dispatch out). CONST-4 three-group order (action → callbacks → callees appended LAST) makes it **strictly additive under the 4-cap** (no eviction). CONST-1/1a/4 amended, `design.md` reconciled; new `file_order`/`omitted` fixture-eval DSL. 5 red-then-green fixtures + `constants_test` cases (independently re-verified red with `lib/` reverted). Suite green **89 runs / 815 assertions**. **Mandatory Tier 0 re-scan PASSED** — zero per-anchor change, zero crashes across 1,967 pairs (also a crash-stress test of the new call-graph code). |
@@ -178,21 +221,59 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Next steps
 
-1. **Self-sufficient help and `--stdout=json` are complete locally and
-   uncommitted.** Parent verification and clean-context review are complete; do
-   not commit or push without user approval.
-2. **The release-boundary three-app harness rerun awaits explicit user
+1. **The work order is the Grok run-to-completion campaign** in "Next step:
+   execution plan": generate the normative specs from the two accepted
+   proposal docs (new `specs/seeds.md` + amendments + `design.md` rewrite),
+   then implement seed doc §11 Phases 1–4 without stopping — evidence gates
+   honored autonomously, commit-per-pass locally, **never push**, hard stops
+   on two failed attempts / spec-design conflict / anything user-gated.
+2. **Phase 5 (`method`/`diff`/`route`) and Phase 6 (marketing) are out of
+   this campaign's scope** and get their own plan when Phase 4 lands.
+3. **The release-boundary three-app harness rerun awaits explicit user
    sign-off.** Do not spend its ~50M subject tokens implicitly.
-3. **RubricLLM investigation is tracked in GitHub issue #5.** The spike must
+4. **RubricLLM investigation is tracked in GitHub issue #5.** The spike must
    establish measurable incremental value before any adoption proposal; it
    does not authorize a dependency or paid calls.
-4. **Real-usage dogfooding remains discretionary.** Exercise LIM-1 against
+5. **Real-usage dogfooding remains discretionary.** Exercise LIM-1 against
    packet-vs-diff coverage on live work.
-5. **Tier 3 Rubydex remains deferred.** Revisit only if a corpus makes the
+6. **Tier 3 Rubydex remains deferred.** Revisit only if a corpus makes the
    halved-precision tradeoff worthwhile.
 
 ## Decision log
 
+- **2026-07-13** — Authorized the seed-interface implementation as a **Grok
+  run-to-completion campaign** (user decisions, recorded via four explicit
+  answers): (1) evidence gates honored **autonomously** — spikes run inside
+  the campaign and their outcomes obeyed without pausing (a failed error
+  spike demotes to P1 and the run continues); (2) scope is **Phases 0–4**
+  (full P0: specs, anchor wrap, test/files/error seeds, format v3,
+  multi-seed) — Phases 5–6 excluded; (3) **commit yes, push no** — the
+  session commits each verified pass locally, the user reviews and pushes;
+  (4) **Grok is the session itself**, not a delegate of a Claude
+  orchestrator, so the Codex loop in "Working process" does not apply while
+  every verification rule does. Same session: corrected a stale tracker
+  claim — the CLI help + `--stdout=json` pass was already **committed and
+  pushed as `b71af62`** (git verified `origin/main` in sync), not
+  uncommitted as the previous plan draft said.
+- **2026-07-13** — Accepted `docs/seed-based-interface-proposal.md` as the
+  north-star product definition: **task + seeds → deterministic packet**,
+  `controller#action` demoted to one seed kind. The doc survived three review
+  rounds the same day — session review (fixes recorded as accepted decisions),
+  an independent Opus review (7 findings applied, most notably making the
+  format decision coherent: format v3 **replaces** v2 at Phase 2, no compat
+  fork, anchor goldens re-baseline), and an independent Grok review (1 high
+  finding applied: `*Controller#action`, including nested, stays **anchor
+  evidence** via the CLI-17c suggest-only rewrite, never the method seed).
+  Key recorded decisions (its §14): per-kind Tier-0-style viability spikes as
+  phase gates, `error` seed go/no-go with PII-safe frame-only normalization,
+  flags spelled `--from-<kind>`, multi-seed in the model but single-seed
+  first, task-only refused in the gem. `docs/anchor-acquisition-proposal.md`
+  §12a re-scopes that program (corpus paused pending seed-kind labels; G/F
+  proceed; Front B priority drops; its recorded constraints inherited).
+  The execution plan was first rewritten to a two-pass shape (Phase 0
+  reconciliation + Phase 1 wrap), then superseded the same day — before
+  anything was committed — by the Grok run-to-completion campaign recorded
+  in the entry above.
 - **2026-07-13** — Extended the existing mutation-free stdout mode with an
   explicit representation parameter instead of adding a second command or
   shallow flag: bare/`=markdown` emits Markdown and `=json` emits the exact
