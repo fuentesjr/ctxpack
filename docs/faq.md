@@ -136,6 +136,13 @@ produces an identical packet and manifest (files sorted, stable ordering, no
 timestamps inside the content). Determinism is a design guarantee, enforced by
 the fixture-eval suite, so packets are safe to diff, cache, or commit.
 
+## Can I consume the manifest without creating packet files?
+
+Yes. `ctxpack accounts#upgrade --stdout=json` writes exactly the Format 2
+manifest to standard output and creates nothing. Bare `--stdout` emits the
+Markdown packet instead. Both forms compose with `--task` or `--task-file` and
+conflict with artifact options such as `--out`, `--dir`, and `--manifest`.
+
 ## Can I raise the limits? {#can-i-raise-the-limits}
 
 No — the caps (8/4/2/2/120) are fixed with no flag to change them. The packet's

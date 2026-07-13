@@ -191,6 +191,14 @@ $ bundle exec ctxpack accounts#upgrade -t "..." --manifest
 .ctxpack/…_accounts_upgrade.json
 ```
 
+If the consumer reads standard input, skip both artifacts and stream the same
+manifest directly:
+
+```console
+$ bundle exec ctxpack accounts#upgrade -t "..." --stdout=json | jq .version
+2
+```
+
 ```json
 {
   "version": 2,
@@ -237,7 +245,7 @@ ctxpack packet <anchor> [options] # compatibility form
 | `-o`, `--out PATH` | Write to an exact path instead of a timestamped name. |
 | `-f`, `--force` | Allow overwriting existing Markdown or manifest output. |
 | `--manifest` | Also write the sibling `.json` manifest. |
-| `--stdout` | Emit raw Markdown without creating files; conflicts with artifact-output options. |
+| `--stdout[=FORMAT]` | Emit Markdown (default) or manifest `json` without creating files; conflicts with artifact-output options. |
 | `-h`, `--help` | Print descriptions, defaults, both forms, and examples; works in either form/position before Rails-root discovery. |
 | `-v`, `--version` | Print the installed version when used alone; no Rails app required. |
 
@@ -251,7 +259,9 @@ Notes you'll hit in practice:
   relative to your invocation directory. With `--manifest`, Markdown is first
   and JSON second.
 - **Issue bodies and pipelines.** `--task-file issue.md` avoids shell quoting;
-  `--task-file - --stdout` reads standard input and emits only Markdown.
+  `--task-file - --stdout` reads standard input and emits only Markdown, while
+  `--task-file - --stdout=json` emits exactly the MAN-2 manifest for tools such
+  as `jq` without creating artifacts.
 - **Regenerating.** Because the filename is timestamped, back-to-back runs just
   make new files. If either the Markdown path or sibling manifest already
   exists, ctxpack refuses unless you pass `--force`; `--out` never implies

@@ -57,10 +57,14 @@ module Ctxpack
 
       options[:task] = resolve_task(options)
       app_root = discover_app_root
-      if options.fetch(:stdout)
+      if (stdout_format = options.fetch(:stdout))
         packet = Ctxpack.compile(app_root: app_root, anchor: anchor, task: options.fetch(:task))
-        markdown = Ctxpack.render_markdown(packet)
-        @stdout.write(markdown)
+        rendered = if stdout_format == :json
+          Ctxpack.render_manifest(packet)
+        else
+          Ctxpack.render_markdown(packet)
+        end
+        @stdout.write(rendered)
         return 0
       end
 
@@ -123,7 +127,7 @@ module Ctxpack
         out: nil,
         force: false,
         manifest: false,
-        stdout: false,
+        stdout: nil,
         help: false
       }
 
@@ -149,6 +153,8 @@ module Ctxpack
           Examples:
             ctxpack accounts#upgrade -t "Implement billing upgrade"
             ctxpack packet accounts#upgrade --task "Implement billing upgrade"
+            cat issue.md | ctxpack accounts#upgrade --task-file - --stdout
+            ctxpack accounts#upgrade --stdout=json | jq .
 
           Options:
         TEXT
@@ -165,9 +171,23 @@ module Ctxpack
         parser.on("-o PATH", "--out PATH", "Write to an exact output path") { |path| options[:out] = path }
         parser.on("-f", "--force", "Overwrite existing output") { options[:force] = true }
         parser.on("--manifest", "Also write a sibling JSON manifest") { options[:manifest] = true }
-        parser.on("--stdout", "Write raw Markdown to stdout without creating artifacts") { options[:stdout] = true }
+        parser.on(
+          "--stdout[=FORMAT]",
+          %w[markdown json],
+          "Write FORMAT to stdout without creating artifacts. Default: markdown"
+        ) { |format| options[:stdout] = (format || "markdown").to_sym }
         parser.on("-h", "--help", "Show this help") { options[:help] = true }
         parser.separator("    -v, --version                    Show the ctxpack version (top-level only)")
+        parser.separator("")
+        parser.separator("Paths and output:")
+        parser.separator("  Run from any Rails app subdirectory; ctxpack discovers the application root.")
+        parser.separator("  Task-file paths are relative to the invocation directory.")
+        parser.separator("  Output destinations are relative to the Rails application root.")
+        parser.separator("  Saved paths are printed relative to the invocation directory.")
+        parser.separator("  Default output is timestamped Markdown under .ctxpack/.")
+        parser.separator("  --manifest also saves sibling JSON; --stdout writes Markdown or JSON and saves nothing.")
+        parser.separator("  --stdout conflicts with --dir, --out, --name, --force, and --manifest.")
+        parser.separator("  --out conflicts with --dir and --name; --force is required to overwrite.")
       end
     end
 

@@ -79,25 +79,32 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Written 2026-07-12 after the packet-format v2 implementation. This is the
+Written 2026-07-13 after the CLI output-ergonomics implementation. This is the
 authoritative work order for a fresh "Continue from PROJECT_TRACKER.md"
 session; the summary under "Next steps" must agree with it.
 
-**Context — packet format v2 is complete locally, parent-verified, and
-UNCOMMITTED.** All four
-accepted slices in `docs/packet-format-proposal.md` landed: blockquoted tasks,
-visible ranges, honest Git-unavailable wording, Markdown Format 2, How-to-use,
-the flat Inspect-first map, snippet-only Evidence, Run, deduplicated Follow-ups,
-single Scope line, and lossless manifest v2 as the only emitted schema. The
-public render interfaces are unchanged. A multiline-task YAML fixture now
-asserts raw manifest task/version facts; renderer containment remains covered
-through the public Markdown API because EVAL-5 prefers stable fields over
-Markdown parsing. The final full suite is **147 runs / 1325 assertions**, zero
-failures or errors. Strategic validation passed its slice, red/green, and
-pending-comment gates; after the bounded blocker-fix round, the final
+**Context — self-sufficient CLI help and manifest JSON stdout are complete
+locally, parent-verified, and UNCOMMITTED.** Bare `--stdout` remains exact rendered Markdown;
+`--stdout=markdown` is the explicit equivalent; `--stdout=json` emits the exact
+MAN-2 renderer output without creating artifacts. The same artifact conflicts,
+render-before-write behavior, and injected streams apply to every stdout form.
+Help now carries pipeline examples, path bases, output modes, and conflicts so
+it is sufficient for first use without the README. CLI-1a/10b, `design.md`,
+README, examples, FAQ, tests, tracker, and implementation notes are reconciled.
+No compiler, packet, renderer, dependency, lockfile, fixture-eval, or recorded
+experiment behavior changed; Tier 0 is N/A.
+Focused CLI verification is **60 runs / 464 assertions** and the full suite is
+**151 runs / 1365 assertions**, both with zero failures or errors. Strategic
+slice, merge-base red/green, and pending-comment gates passed; the final
 clean-context design review was clean with no findings.
-No compiler retrieval behavior, dependencies, or recorded experiment data
-changed; Tier 0 is N/A.
+
+Packet format v2 and the Ruby 3.4 floor landed in `6a23690` and are pushed.
+All four accepted slices in `docs/packet-format-proposal.md` are active:
+blockquoted tasks, visible ranges, honest Git-unavailable wording, Markdown
+Format 2, How-to-use, the flat Inspect-first map, snippet-only Evidence, Run,
+deduplicated Follow-ups, a single Scope line, and lossless manifest v2 as the
+only emitted schema. The final landed suite was **147 runs / 1325 assertions**,
+zero failures or errors; strategic review was clean.
 
 The work preserves the committed
 CLI ergonomics pass (`b8c2dc8`) and adds multiline task files from files or
@@ -133,12 +140,13 @@ red/green behaviors passed; two non-gating RuboCop/Metz-configuration warnings
 are recorded in the implementation notes. Tier 0 is N/A because compiler
 behavior did not change.
 
-**Next work order:** obtain explicit user sign-off before the pending
-release-boundary three-app harness rerun (~50M subject tokens), and obtain
-separate direction before committing or pushing the completed local changes.
-GitHub issue [#5](https://github.com/fuentesjr/ctxpack/issues/5) tracks the
-approved in-depth RubricLLM spike; it does not authorize dependency adoption or
-paid evaluation calls.
+**Next work order:** obtain explicit user direction before committing or pushing
+the completed CLI output-ergonomics pass. Separately, the pending
+release-boundary three-app harness rerun requires
+explicit sign-off before spending ~50M subject tokens. GitHub issue
+[#5](https://github.com/fuentesjr/ctxpack/issues/5) tracks the approved in-depth
+RubricLLM spike; it does not authorize dependency adoption or paid evaluation
+calls.
 
 ## Status
 
@@ -148,10 +156,11 @@ paid evaluation calls.
 | 2 | [`packet-format.md`](specs/packet-format.md) | **Done** (2026-07-05) | `Ctxpack.render_markdown` / `Ctxpack.render_manifest` over the pass 1 packet object. One review fix round (FMT-5 marker drift, Anchor labels). 34 tests / 193 assertions green. |
 | 3 | [`cli.md`](specs/cli.md) | **Done** (2026-07-05) | `Ctxpack::CLI` + `exe/ctxpack` over OptionParser, wiring the pass 1/2 APIs. One review fix round (CLI-14 reminder on implicit `.ctxpack/` creation, CLI-8 anchor-only derivation test). 47 tests / 274 assertions green. |
 | CLI ergonomics | [`cli.md`](specs/cli.md) | **Done — verified, COMMITTED (`b8c2dc8`)** (2026-07-12) | Agenticons implementation + edge-case review; CLI-1a/8a/10a/14/15/17 reconciled. Clean-HEAD red proof; focused CLI **24 runs / 148 assertions** and full suite **102 runs / 912 assertions**, zero failures. Tier 0 N/A (no compiler behavior). |
-| CLI developer happiness follow-on | [`cli.md`](specs/cli.md) | **Done locally — verified, UNCOMMITTED** (2026-07-12) | Agenticons pass: direct-anchor golden path, descriptive help/version, short aliases, explicit output-option conflicts, force-only overwrite permission, concise filesystem errors, non-file destination preflight, and typo suggestion. Focused CLI **38 runs / 241 assertions**; full suite **116 runs / 1005 assertions**, zero failures; final design review clean. No compiler behavior or dependencies; Tier 0 N/A. |
-| CLI pipelines and Rails-aware recovery | [`cli.md`](specs/cli.md) | **Done locally — parent-verified, UNCOMMITTED** (2026-07-12) | `--task-file`, `--stdout`, syntactic Rails-aware recovery, Git-aware reminder, and unavailable-Git repo-stamp fallback; CLI-4a/10b/14a/17c and FMT-11. Parent full suite **135/1190**, green; strategic gates passed. No dependencies. Tier 0 N/A because classifier behavior is unchanged. |
-| Packet format v2 | [`packet-format.md`](specs/packet-format.md) | **Done locally — parent-verified, UNCOMMITTED** (2026-07-13) | Agenticons implementation of all four accepted slices plus one bounded blocker-fix round. Final full suite **147/1325**, green; strategic gates passed and the final clean-context design review was clean with no findings. No compiler selection/order/limit behavior or dependencies; Tier 0 N/A. |
-| Ruby 3.4 floor | `ctxpack.gemspec`, [CI](.github/workflows/ci.yml) | **Done locally — verified, UNCOMMITTED** (2026-07-13) | User-authorized compatibility-floor change: gem requires Ruby ≥ 3.4 and CI exercises exactly that floor; current docs and the open floor-plus-current backlog item are reconciled. Gemspec load/build and workflow checks passed; full suite **147/1325**, green. No dependency or lockfile change; historical run records retain their actual Ruby versions. |
+| CLI developer happiness follow-on | [`cli.md`](specs/cli.md) | **Done — verified, COMMITTED (`1b55cce`) + PUSHED** (2026-07-12) | Agenticons pass: direct-anchor golden path, descriptive help/version, short aliases, explicit output-option conflicts, force-only overwrite permission, concise filesystem errors, non-file destination preflight, and typo suggestion. Focused CLI **38 runs / 241 assertions**; full suite **116 runs / 1005 assertions**, zero failures; final design review clean. No compiler behavior or dependencies; Tier 0 N/A. |
+| CLI pipelines and Rails-aware recovery | [`cli.md`](specs/cli.md) | **Done — parent-verified, COMMITTED (`1b55cce`) + PUSHED** (2026-07-12) | `--task-file`, `--stdout`, syntactic Rails-aware recovery, Git-aware reminder, and unavailable-Git repo-stamp fallback; CLI-4a/10b/14a/17c and FMT-11. Parent full suite **135/1190**, green; strategic gates passed. No dependencies. Tier 0 N/A because classifier behavior is unchanged. |
+| Packet format v2 | [`packet-format.md`](specs/packet-format.md) | **Done — parent-verified, COMMITTED (`6a23690`) + PUSHED** (2026-07-13) | Agenticons implementation of all four accepted slices plus one bounded blocker-fix round. Final full suite **147/1325**, green; strategic gates passed and the final clean-context design review was clean with no findings. No compiler selection/order/limit behavior or dependencies; Tier 0 N/A. |
+| Ruby 3.4 floor | `ctxpack.gemspec`, [CI](.github/workflows/ci.yml) | **Done — verified, COMMITTED (`6a23690`) + PUSHED** (2026-07-13) | User-authorized compatibility-floor change: gem requires Ruby ≥ 3.4 and CI exercises exactly that floor; current docs and the open floor-plus-current backlog item are reconciled. Gemspec load/build and workflow checks passed; full suite **147/1325**, green. No dependency or lockfile change; historical run records retain their actual Ruby versions. |
+| CLI help + manifest stdout | [`cli.md`](specs/cli.md) | **Done locally — parent-verified, UNCOMMITTED** (2026-07-13) | Self-sufficient offline help plus exact MAN-2 streaming through `--stdout=json`; bare/explicit Markdown stdout remains compatible. Focused CLI **60/464** and full suite **151/1365**, green; strategic gates passed and final design review clean. No compiler behavior, dependencies, or recorded evidence; Tier 0 N/A. |
 | 4 | [`fixture-evals.md`](specs/fixture-evals.md) | **Done** (2026-07-05) | `FixtureEvalsTest` generates packet-expectation + CLI-determinism tests from `test/fixtures/evals/*.yml`; CI (`.github/workflows/ci.yml`) runs the suite at the current Ruby 3.4 floor plus a non-blocking pinned metz step. One review fix round (empty-glob guard, manifest-inclusive determinism, CI Ruby floor). 49 tests / 311 assertions green. |
 | View resolution | [`views.md`](specs/views.md), [`packet-compilation.md`](specs/packet-compilation.md), [`packet-format.md`](specs/packet-format.md) | **Done — gate-passed, COMMITTED (`6688ff9`) + PUSHED** (2026-07-08; rescan re-verified + pushed 2026-07-09) | VIEW-1..VIEW-7 frozen + folded; `add_view_candidates` between controller and constants; `view_candidate` (list-only) + `view_inferred_by_convention`; `max_view_files = 2`; `max_total_files` truncates by priority. Red-then-green fixture evals + `ViewResolutionTest` (independently re-verified 6/7 red with `lib/` reverted). Suite green **74 runs / 621 assertions**. **Mandatory Tier 0 re-scan PASSED and RE-VERIFIED 2026-07-09** — classifier output byte-identical to the post-amendment baseline, zero per-anchor change, zero crashes across 1,967 pairs (addendum + re-verification note in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md)). Remaining: push (user go) + optional release-boundary Tier 2 validation (needs a `--dangerously-skip-permissions` session). |
 | CONST-1 widening (companion) | [`packet-compilation.md`](specs/packet-compilation.md) | **Done — gate-passed, COMMITTED (`ab72137`) + PUSHED** (2026-07-09) | Codex-implemented (fable-frozen), intra-file action call graph: constant scan now covers action body + applicable same-file callbacks + same-file methods **transitively called from the action** (BFS, nil/`self` receiver + direct-method-name only; dynamic dispatch out). CONST-4 three-group order (action → callbacks → callees appended LAST) makes it **strictly additive under the 4-cap** (no eviction). CONST-1/1a/4 amended, `design.md` reconciled; new `file_order`/`omitted` fixture-eval DSL. 5 red-then-green fixtures + `constants_test` cases (independently re-verified red with `lib/` reverted). Suite green **89 runs / 815 assertions**. **Mandatory Tier 0 re-scan PASSED** — zero per-anchor change, zero crashes across 1,967 pairs (also a crash-stress test of the new call-graph code). |
@@ -169,9 +178,9 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Next steps
 
-1. **Packet format v2 and the preceding CLI follow-ons are complete locally and
-   uncommitted.** Parent verification and the final clean-context review are
-   complete; do not commit or push without user approval.
+1. **Self-sufficient help and `--stdout=json` are complete locally and
+   uncommitted.** Parent verification and clean-context review are complete; do
+   not commit or push without user approval.
 2. **The release-boundary three-app harness rerun awaits explicit user
    sign-off.** Do not spend its ~50M subject tokens implicitly.
 3. **RubricLLM investigation is tracked in GitHub issue #5.** The spike must
@@ -184,6 +193,13 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Decision log
 
+- **2026-07-13** — Extended the existing mutation-free stdout mode with an
+  explicit representation parameter instead of adding a second command or
+  shallow flag: bare/`=markdown` emits Markdown and `=json` emits the exact
+  public manifest renderer output. Help became a self-sufficient offline
+  interface by carrying path bases, pipelines, output modes, and conflicts.
+  Packet verification and a new fixed-path regeneration feature remain out of
+  scope by explicit user direction.
 - **2026-07-13** — Opened GitHub issue
   [#5](https://github.com/fuentesjr/ctxpack/issues/5) for an in-depth,
   evidence-gated RubricLLM spike. The issue requires measuring incremental

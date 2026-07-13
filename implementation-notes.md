@@ -1129,3 +1129,57 @@ approve.”
   `continue-on-error: true`, and metz-scan 0.4.0.
 - Full `bundle exec rake test`: `147 runs, 1325 assertions, 0 failures, 0
   errors, 0 skips` (local Ruby 4.0.1; CI exercises the 3.4 floor after push).
+
+## CLI help and manifest-stdout ergonomics (2026-07-13)
+
+Change type: feature. User task statement: “1. Yes 2. Yes 3. what? I don't
+understand 4. Not right now”. In context, items 1 and 2 approved
+self-sufficient help and `--stdout=json`; item 3 was only a documentation recipe
+for fixed-path regeneration and was left alone; packet verification was
+explicitly deferred.
+
+- Bare `--stdout` remains exact rendered Markdown, and
+  `--stdout=markdown` makes that selection explicit. `--stdout=json` emits the
+  exact public manifest-renderer output, including MAN-2 version 2, without
+  creating artifacts.
+- The existing stdout invariants apply to both representations: artifact
+  options conflict before root discovery or task reads, invalid formats are
+  option errors, compilation/rendering completes before output, and success
+  contains rendered bytes only.
+- Help now names application-root discovery, the distinct path bases for task
+  files, output destinations, and displayed success paths, plus pipeline
+  examples, output modes, and the `--stdout`/`--out` conflicts.
+- The CLI interface stays one mode with a representation parameter rather than
+  adding a second machine-output command or a shallow manifest-stdout flag.
+- CLI-1a and CLI-10b, `design.md`, README, examples, FAQ, tracker, and tests are
+  reconciled. No compiler, packet, renderer, dependency, lockfile,
+  fixture-eval, or recorded experiment behavior changed. Tier 0 corpus re-scan
+  is N/A.
+
+### Red / green record
+
+- `--stdout=json`: red `1 run, 1 assertion, 1 failure` (status 1 because the
+  existing boolean option rejected the argument); green `1 run, 5 assertions,
+  0 failures, 0 errors` with exact `Ctxpack.render_manifest` equality and no
+  artifact.
+- Help completeness: red `1 run, 3 assertions, 1 failure` on the missing
+  task-file/stdout pipeline; green `1 run, 18 assertions, 0 failures, 0 errors`
+  after the help interface carried pipeline, path, output, and conflict facts.
+
+### Verification
+
+- Focused `test/ctxpack/cli_test.rb`: `60 runs, 464 assertions, 0 failures, 0
+  errors, 0 skips`.
+- Full `bundle exec rake test`: `151 runs, 1365 assertions, 0 failures, 0
+  errors, 0 skips`.
+- Strategic validator: slice-tests, merge-base red/green, and pending-comment
+  gates passed; lint was skipped. Warnings (verbatim):
+  - `rubocop run errored - Lint/Security gate skipped: Error: unrecognized cop or department Metz found in .rubocop.yml`
+  - `head metrics unavailable (rubocop run failed); deltas omitted`
+- Final clean-context design review: `clean`, zero findings. Reviewer summary:
+  “The change cleanly extends the existing stdout mode to select either
+  established renderer without adding unnecessary abstraction or leaking
+  renderer internals. The new tests constrain exact output, failure ordering,
+  compatibility, and mutation-free behavior.”
+- `Gemfile.lock` and recorded experiment data are unchanged. Tier 0 corpus
+  re-scan is N/A because compilation behavior is unchanged.

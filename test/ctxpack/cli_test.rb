@@ -59,6 +59,23 @@ class CLITest < Minitest::Test
     end
   end
 
+  def test_help_explains_pipelines_path_bases_output_modes_and_conflicts
+    Dir.mktmpdir("ctxpack-help") do |cwd|
+      result = run_cli(["--help"], cwd: cwd)
+
+      assert_equal 0, result.status
+      assert_includes result.stdout, "--task-file - --stdout"
+      assert_includes result.stdout, "--stdout=json"
+      assert_includes result.stdout, "Run from any Rails app subdirectory"
+      assert_includes result.stdout, "Task-file paths are relative to the invocation directory"
+      assert_includes result.stdout, "Output destinations are relative to the Rails application root"
+      assert_includes result.stdout, "Saved paths are printed relative to the invocation directory"
+      assert_includes result.stdout, "--stdout conflicts with --dir, --out, --name, --force, and --manifest"
+      assert_includes result.stdout, "--out conflicts with --dir and --name"
+      assert_equal "", result.stderr
+    end
+  end
+
   def test_top_level_short_help_returns_success
     Dir.mktmpdir("ctxpack-help") do |cwd|
       result = run_cli(["-h"], cwd: cwd)
@@ -289,12 +306,55 @@ class CLITest < Minitest::Test
   def test_stdout_emits_only_rendered_markdown_without_creating_artifacts
     with_cli_app do |app_root|
       result = run_cli(["accounts#upgrade", "--task", "Ship it", "--stdout"], cwd: app_root)
+      explicit = run_cli(["accounts#upgrade", "--task", "Ship it", "--stdout=markdown"], cwd: app_root)
 
       assert_equal 0, result.status
       expected = Ctxpack.render_markdown(Ctxpack.compile(app_root: app_root, anchor: "accounts#upgrade", task: "Ship it"))
       assert_equal expected, result.stdout
       assert_equal "", result.stderr
+      assert_equal 0, explicit.status
+      assert_equal expected, explicit.stdout
+      assert_equal "", explicit.stderr
       refute Dir.exist?(File.join(app_root, ".ctxpack"))
+    end
+  end
+
+  def test_stdout_json_emits_only_rendered_manifest_without_creating_artifacts
+    with_cli_app do |app_root|
+      result = run_cli(["accounts#upgrade", "--task", "Ship it", "--stdout=json"], cwd: app_root)
+
+      assert_equal 0, result.status
+      expected = Ctxpack.render_manifest(Ctxpack.compile(app_root: app_root, anchor: "accounts#upgrade", task: "Ship it"))
+      assert_equal expected, result.stdout
+      assert_equal 2, JSON.parse(result.stdout).fetch("version")
+      assert_equal "", result.stderr
+      refute Dir.exist?(File.join(app_root, ".ctxpack"))
+    end
+  end
+
+  def test_stdout_rejects_unknown_format_before_root_discovery
+    Dir.mktmpdir("ctxpack-stdout-format") do |cwd|
+      result = run_cli(["accounts#upgrade", "--stdout=yaml"], cwd: cwd)
+
+      assert_equal 1, result.status
+      assert_includes result.stderr, "invalid argument: --stdout=yaml"
+      refute_includes result.stderr, "searched upward"
+      assert_equal "", result.stdout
+    end
+  end
+
+  def test_stdout_json_rejects_artifact_options_before_task_reads_or_root_discovery
+    Dir.mktmpdir("ctxpack-stdout-json-conflict") do |cwd|
+      result = run_cli(
+        ["accounts#upgrade", "--stdout=json", "--task-file", "missing.md", "--manifest"],
+        cwd: cwd
+      )
+
+      assert_equal 1, result.status
+      assert_includes result.stderr, "--stdout cannot be combined with --manifest"
+      refute_includes result.stderr, "could not read task file"
+      refute_includes result.stderr, "searched upward"
+      assert_equal "", result.stdout
     end
   end
 

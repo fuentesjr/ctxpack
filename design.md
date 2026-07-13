@@ -111,8 +111,10 @@ Long task descriptions can come from `--task-file PATH`, or from injected
 stdin with `--task-file -`; this keeps issue bodies and agent pipelines out of
 shell quoting while preserving the same packet contract and filename
 derivation. `--stdout` is the complementary pipeline mode: it emits only the
-fully rendered Markdown and creates no artifact. Artifact options conflict
-with that mode instead of acquiring hidden precedence.
+fully rendered Markdown by default, while `--stdout=json` emits the same
+manifest facts available from the public manifest renderer. Neither form
+creates an artifact. Artifact options conflict with that mode instead of
+acquiring hidden precedence.
 
 By default, the command should save a migration-style context artifact and print its path:
 
@@ -381,8 +383,8 @@ never remind; `--name` and `--manifest` still use the implicit/default
 directory and remain eligible. No interactive prompt, no automatic ignore-file
 edits. Saved-artifact stdout remains a composable, line-oriented result: one
 invocation-relative path per line.
-`--stdout` is deliberately different: exactly raw Markdown, with no path or
-reminder.
+`--stdout` is deliberately different: exactly rendered Markdown by default or
+manifest JSON with `--stdout=json`, with no path or reminder.
 
 Default filename shape:
 
@@ -421,13 +423,15 @@ Rules:
 - reject `--out` + `--manifest` before compilation when the Markdown and JSON paths would collide, including extension-case-only differences
 - accept multiline task input through `--task-file PATH` / `--task-file -`,
   conflicting explicitly with `--task` before either input is read
-- make `--stdout` a mutation-free raw-Markdown mode and reject every explicit
-  artifact option with it before discovery, reads, or compilation
+- make `--stdout` a mutation-free rendered-content mode: Markdown by default,
+  MAN-2 JSON for `--stdout=json`, and reject every explicit artifact option
+  before discovery, reads, or compilation
 - treat committing a packet as opt-in, never the default; when opting in, `docs/ctxpack/` is the standard committed location (`--dir docs/ctxpack`)
 
 No arguments and `--help` / `-h` in either command form or position should
-print descriptive help (including both forms, defaults, and examples) without a
-Rails application root and return through the CLI's injected streams. Sole
+print self-sufficient help (including both forms, defaults, pipeline examples,
+path bases, output modes, and conflicts) without a Rails application root and
+return through the CLI's injected streams. Sole
 top-level `--version` / `-v` should behave the same way. Common options have
 conservative aliases (`-t`, `-d`, `-o`, `-f`); `--task-file`, `--stdout`,
 `--name`, and `--manifest` stay
@@ -452,6 +456,9 @@ handling.
 Markdown remains the primary artifact. The optional structured manifest is its
 public machine-fact sibling: evals and other consumers can inspect the same
 packet without parsing headings or templated prose.
+
+For pipelines that do not need artifacts, `--stdout=json` emits that same
+manifest directly and exclusively to stdout.
 
 Generate the manifest from the same internal packet object and save it next to
 the Markdown packet:

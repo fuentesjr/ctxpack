@@ -24,7 +24,11 @@ in either packet-producing form and any position MUST print full packet help to
 stdout and return success without discovering an application root, compiling a
 packet, writing files, or terminating the caller through `SystemExit`. Help
 MUST describe both command forms, every option, the `.ctxpack/` default, and
-examples of the direct and compatibility forms. **[fixed by spec]**
+examples of the direct and compatibility forms. It MUST also be sufficient for
+offline first use: name application-root discovery; distinguish the path bases
+for task input, output resolution, and displayed success paths; show task-file
+and JSON-stdout pipelines; and state the `--stdout` and `--out` conflicts.
+**[fixed by spec]**
 
 **CLI-1b.** `ctxpack --version` and `ctxpack -v`, when used as the sole
 top-level argument, MUST print `ctxpack VERSION` to stdout and return success
@@ -119,14 +123,17 @@ and manifest to the same path, including paths that differ only by extension
 case, the command MUST fail before compiling or writing either artifact and
 tell the user to choose a non-JSON Markdown output path. **[fixed by spec]**
 
-**CLI-10b.** `--stdout` emits exactly the fully rendered Markdown through the
-injected stdout stream and creates or writes nothing. It prints no saved path
-or reminder. It conflicts with explicitly supplied `--dir`, `--out`, `--name`,
-`--force`, and `--manifest`, but not with the implicit default directory or
-either task input. Conflicts fail before root discovery, task reads,
-compilation, or mutation. Rendering completes before stdout is written, so a
-compiler or renderer failure leaves stdout empty. Help still wins in any
-position. **[fixed by spec]**
+**CLI-10b.** Bare `--stdout` and explicit `--stdout=markdown` emit exactly the
+fully rendered Markdown through the injected stdout stream. `--stdout=json`
+emits exactly the MAN-2 JSON returned by `Ctxpack.render_manifest(packet)`.
+Other format values are rejected as option errors. Every stdout form creates
+or writes nothing and prints no saved path or reminder. Every form conflicts
+with explicitly supplied `--dir`, `--out`, `--name`, `--force`, and
+`--manifest`, but not with the implicit default directory or either task input.
+Conflicts fail before root discovery, task reads, compilation, or mutation.
+Compilation and rendering complete before stdout is written, so a compiler or
+renderer failure leaves stdout empty. Help still wins in any position.
+**[fixed by spec]**
 
 ## Output behavior
 
@@ -171,7 +178,7 @@ manifest path when `--manifest` was given). Artifact paths are printed one per
 line to stdout, relative to the invocation directory, so each line resolves
 directly from the directory where ctxpack was run. No reminder or other status
 text appears on success stdout. **[path base and stdout contract fixed by spec]**
-CLI-10b is the raw-Markdown exception to saved-path output.
+CLI-10b is the rendered-content exception to saved-path output.
 
 ## Failure behavior
 

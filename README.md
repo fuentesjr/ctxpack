@@ -82,21 +82,17 @@ A context packet is a small, point-in-time artifact for a specific coding task. 
 
 - the requested task
 - the exact Rails anchor
-- the git commit it was generated from, so staleness is detectable
+- the Git commit and dirty state when Git is available, so staleness is detectable
 - the likely entry point
 - files to inspect first
-- short snippets from those files
-- why each file was included
+- short, line-addressable snippets from the entry point
+- why every file and snippet was included
 - tests likely worth running
-- assumptions, uncertainty, and follow-up retrieval suggestions
+- specific follow-ups for assumptions, uncertainty, and omitted candidates
 
 The key property is **provenance**: every file needs a reason.
 
-## 🛤️ CLI
-
-```bash
-ctxpack accounts#upgrade -t "Implement billing upgrade"
-```
+## 🚀 Install and run
 
 ctxpack is **pre-release** (not on RubyGems yet). From a Rails app:
 
@@ -111,10 +107,47 @@ bundle binstubs ctxpack   # optional: bin/ctxpack next to bin/rails
 bundle exec ctxpack accounts#upgrade -t "Implement billing upgrade"
 ```
 
-It works from any subdirectory of the app: like `bin/rails`, it walks upward to
-find the application root (`config/application.rb`). Saved paths are printed
-relative to the directory where the command was invoked, so they can be opened
-or piped directly from there.
+Requires Ruby ≥ 3.4. The only runtime dependency is
+[`prism`](https://github.com/ruby/prism).
+
+The golden path is the anchor followed by options:
+
+```bash
+ctxpack accounts#upgrade -t "Implement billing upgrade"
+```
+
+The compatibility form also works:
+
+```bash
+ctxpack packet accounts#upgrade --task "Implement billing upgrade"
+```
+
+Like `bin/rails`, ctxpack works from any subdirectory by walking upward to find
+`config/application.rb`. Saved paths are printed relative to the directory
+where the command was invoked. Task-file paths are also invocation-relative;
+output destinations are relative to the discovered Rails application root.
+
+Use Rails to choose the exact anchor before generating a packet:
+
+```bash
+bin/rails routes -g upgrade
+bin/rails routes -c AccountsController
+```
+
+### Task input
+
+Use `--task` / `-t` for a short task. Long or multiline tasks can come from a
+file or standard input without shell quoting:
+
+```bash
+ctxpack accounts#upgrade --task-file issue.md
+gh issue view 123 --json body --jq .body |
+  ctxpack accounts#upgrade --task-file -
+```
+
+`--task` and `--task-file` are mutually exclusive.
+
+### Output modes
 
 By default, `ctxpack` writes a durable Markdown artifact under:
 
@@ -124,49 +157,161 @@ By default, `ctxpack` writes a durable Markdown artifact under:
 
 The directory is meant to be gitignored — committed packets go stale and become misleading context for future agents. When ctxpack creates the default directory, it asks Git whether `.ctxpack/` is already ignored and reminds only when needed. Committing a specific packet (e.g. to link from a PR) is opt-in, with `docs/ctxpack/` as the standard committed location: `--dir docs/ctxpack`.
 
-Long or multiline tasks can come from a file or pipeline without shell quoting:
+Choose one output shape:
 
-```bash
-ctxpack accounts#upgrade --task-file issue.md
-gh issue view 123 --json body --jq .body |
-  ctxpack accounts#upgrade --task-file -
-```
+| Goal | Command |
+|---|---|
+| Timestamped Markdown in `.ctxpack/` | `ctxpack accounts#upgrade -t "..."` |
+| Timestamped Markdown in another directory | `ctxpack accounts#upgrade -t "..." --dir docs/ctxpack` |
+| Exact Markdown path | `ctxpack accounts#upgrade -t "..." --out tmp/upgrade.md` |
+| Markdown plus a sibling JSON manifest | `ctxpack accounts#upgrade -t "..." --manifest` |
+| Raw Markdown on standard output, no files | `ctxpack accounts#upgrade -t "..." --stdout` |
+| Manifest v2 JSON on standard output, no files | `ctxpack accounts#upgrade -t "..." --stdout=json` |
 
-For a pipeline that does not need a durable artifact, emit raw Markdown only:
+For a pipeline that does not need a durable artifact, emit rendered content
+directly:
 
 ```bash
 ctxpack accounts#upgrade --task-file issue.md --stdout | your-agent
+ctxpack accounts#upgrade --task-file issue.md --stdout=json | jq .
 ```
 
-`--stdout` creates nothing and intentionally conflicts with artifact options
-such as `--out`, `--dir`, `--name`, `--force`, and `--manifest`.
+Bare `--stdout` (or `--stdout=markdown`) emits Markdown; `--stdout=json` emits
+the exact manifest v2 document. Every stdout form creates nothing and
+intentionally conflicts with artifact options such as `--out`, `--dir`,
+`--name`, `--force`, and `--manifest`.
 
-Markdown packets declare `Format: 2`: task bodies are blockquoted, files are
-listed once under `Inspect first`, snippet-bearing files expand under
-`Evidence` with source ranges, commands live under `Run`, and packet-specific
-uncertainty/omissions are deduplicated under `Follow-ups`. The optional
-manifest emits schema version 2 only; consumers should reject versions they do
-not support.
+An exact `--out` cannot be combined with `--dir` or `--name`. Existing output
+is never replaced implicitly: pass `--force` to replace the Markdown artifact
+or its sibling manifest.
 
-Use Rails for route discovery:
+### CLI reference
 
-```bash
-bin/rails routes -g upgrade
-bin/rails routes -c AccountsController
+| Option | Purpose |
+|---|---|
+| `-t`, `--task TASK` | Record the task and use it in the derived filename |
+| `--task-file PATH` | Read the task from a file, or from standard input with `-` |
+| `--name NAME` | Set the timestamped artifact name |
+| `-d`, `--dir DIR` | Set the timestamped output directory; default `.ctxpack/` |
+| `-o`, `--out PATH` | Write Markdown to an exact path |
+| `-f`, `--force` | Permit replacement of existing output |
+| `--manifest` | Also write a sibling Format 2 JSON manifest |
+| `--stdout[=FORMAT]` | Write Markdown (default) or `json` without creating artifacts |
+| `-h`, `--help` | Show descriptions, defaults, and examples |
+| `-v`, `--version` | Print the installed version; top-level only |
+
+Running `ctxpack` with no arguments shows self-contained help without requiring
+a Rails app. It includes both command forms, pipeline examples, path bases,
+output modes, and option conflicts.
+
+## 🧾 Packet Format 2
+
+Markdown packets are optimized for an agent to orient quickly without treating
+the packet as an exhaustive reading list. A generated packet has this shape:
+
+````markdown
+# ctxpack context packet
+
+## Task
+
+> Implement billing upgrade
+
+## How to use this packet
+
+- Otherwise, start with `app/controllers/accounts_controller.rb` and open the
+  other listed files only as the task touches them.
+
+## Anchor
+
+- Anchor: `accounts#upgrade`
+- Controller: `AccountsController`
+- Action: `upgrade`
+- Generated from: abc1234 (clean)
+- Format: 2
+- Scope: routes, superclass/concern callbacks, and locale files are not scanned…
+
+## Inspect first
+
+1. `app/controllers/accounts_controller.rb` — `controller_action`: action and applicable callbacks
+2. `app/services/billing/subscriptions.rb` — `referenced_constant`: `Billing::Subscriptions`
+3. `test/controllers/accounts_controller_test.rb` — `minitest_candidate`: conventional controller test path
+
+## Evidence
+
+### `app/controllers/accounts_controller.rb`
+
+`controller_action` — action `upgrade` · lines 10–15
+
+```ruby
+def upgrade
+  # …
+end
 ```
 
-Use `ctxpack` after choosing the exact Rails anchor.
+## Run
 
-The compatibility form `ctxpack packet accounts#upgrade [options]` also works.
-Common aliases are `-t`/`--task`, `-d`/`--dir`, `-o`/`--out`, and
-`-f`/`--force`; `--task-file`, `--stdout`, `--name`, and `--manifest` stay long-only. An exact `--out`
-cannot be combined with an explicit `--dir` or `--name`, and it never grants
-overwrite permission—pass `--force` when replacing either Markdown or its
-sibling manifest. Requires Ruby ≥ 3.4;
-the only runtime dependency is [`prism`](https://github.com/ruby/prism).
-Run `ctxpack` with no arguments, or use `--help` / `-h` in either command form,
-for descriptions, defaults, and examples. `ctxpack --version` and `ctxpack -v`
-print the installed version without requiring a Rails app.
+- `bin/rails test test/controllers/accounts_controller_test.rb`
+
+## Follow-ups
+
+- Verify convention-only constant match `Billing::Subscriptions` →
+  `app/services/billing/subscriptions.rb` if the task depends on it.
+````
+
+Important Format 2 properties:
+
+- every task line is blockquoted, so task-supplied Markdown cannot escape its section
+- each path appears once in the flat `Inspect first` map
+- only snippet-bearing files expand under `Evidence`, with visible 1-based ranges
+- test commands stay under `Run`, with inference labels beside the affected command
+- `Follow-ups` contains packet-specific uncertainty and omissions as actions
+- the repo stamp reports Git as unavailable when it cannot observe repository state
+
+`--manifest` writes the same packet facts as sibling JSON for tools that should
+not parse Markdown; `--stdout=json` streams those facts without creating either
+artifact. Version 2 is the only emitted schema:
+
+```json
+{
+  "version": 2,
+  "task": "Implement billing upgrade",
+  "anchor": "accounts#upgrade",
+  "repo": { "available": true, "commit": "…", "dirty": false },
+  "entrypoint": {
+    "file": "app/controllers/accounts_controller.rb",
+    "controller": "AccountsController",
+    "action": "upgrade"
+  },
+  "files": [
+    {
+      "path": "app/controllers/accounts_controller.rb",
+      "evidence": [
+        {
+          "reason_code": "controller_action",
+          "subject": "upgrade",
+          "snippet_ranges": [[10, 15]],
+          "truncated": false
+        }
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "path": "test/controllers/accounts_controller_test.rb",
+      "command": "bin/rails test test/controllers/accounts_controller_test.rb",
+      "reason_code": "minitest_candidate",
+      "rule": "conventional_controller_test"
+    }
+  ],
+  "follow_ups": [],
+  "omitted_candidates": [],
+  "no_test_candidates": false
+}
+```
+
+Manifest consumers should inspect `version` and reject schemas they do not
+support. The manifest preserves the raw task even though Markdown rendering
+normalizes and blockquotes its lines for safe display.
 
 ## 🧪 Evaluation philosophy
 
