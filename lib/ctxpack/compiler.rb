@@ -367,13 +367,15 @@ module Ctxpack
         omitted << OmittedCandidate.new(
           category: "snippets",
           subject: action_node.name.to_s,
-          reason: "action snippet exceeded max snippet lines per file"
+          reason: "action snippet exceeded max snippet lines per file",
+          limit_key: :max_snippet_lines_per_file
         )
         callback_nodes.each do |name, _callback_node|
           omitted << OmittedCandidate.new(
             category: "snippets",
             subject: name,
-            reason: "callback snippet exceeded remaining snippet lines per file"
+            reason: "callback snippet exceeded remaining snippet lines per file",
+            limit_key: :max_snippet_lines_per_file
           )
         end
         return [evidence_items, omitted]
@@ -405,7 +407,8 @@ module Ctxpack
           omitted << OmittedCandidate.new(
             category: "snippets",
             subject: name,
-            reason: "callback snippet exceeded remaining snippet lines per file"
+            reason: "callback snippet exceeded remaining snippet lines per file",
+            limit_key: :max_snippet_lines_per_file
           )
         end
       end
@@ -439,9 +442,10 @@ module Ctxpack
         )
       end
 
-      if included.any?
+      included.each do |path|
         packet.add_uncertainty(
           code: "view_inferred_by_convention",
+          subject: path,
           message: "view template matched by action-template convention"
         )
       end
@@ -450,7 +454,8 @@ module Ctxpack
         packet.omitted_candidates << OmittedCandidate.new(
           category: "view_files",
           subject: path,
-          reason: "max view files limit reached"
+          reason: "max view files limit reached",
+          limit_key: :max_view_files
         )
       end
     end
@@ -505,7 +510,8 @@ module Ctxpack
         packet.omitted_candidates << OmittedCandidate.new(
           category: "constant_files",
           subject: resolution.constant_name,
-          reason: "max constant files limit reached"
+          reason: "max constant files limit reached",
+          limit_key: :max_constant_files
         )
       end
     end
@@ -631,10 +637,12 @@ module Ctxpack
       end
 
       candidates.each_with_index.drop(included_count).each do |candidate, index|
+        limit_key = index < max_test_files ? :max_total_files : :max_test_files
         packet.omitted_candidates << OmittedCandidate.new(
           category: "test_files",
           subject: candidate.path,
-          reason: index < max_test_files ? "max total files limit reached" : "max test files limit reached"
+          reason: index < max_test_files ? "max total files limit reached" : "max test files limit reached",
+          limit_key: limit_key
         )
       end
     end
@@ -765,7 +773,8 @@ module Ctxpack
         packet.omitted_candidates << OmittedCandidate.new(
           category: omitted_category_for_entry(entry),
           subject: omitted_subject_for_entry(entry),
-          reason: "max total files limit reached"
+          reason: "max total files limit reached",
+          limit_key: :max_total_files
         )
       end
     end

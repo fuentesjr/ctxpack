@@ -34,7 +34,7 @@ module Ctxpack
 
   TestCandidate = Struct.new(:path, :command, :reason_code, :why, :rule, keyword_init: true)
   Uncertainty = Struct.new(:code, :subject, :message, keyword_init: true)
-  OmittedCandidate = Struct.new(:category, :subject, :reason, keyword_init: true)
+  OmittedCandidate = Struct.new(:category, :subject, :reason, :limit_key, keyword_init: true)
 
   class Packet
     attr_reader :version,
@@ -52,7 +52,7 @@ module Ctxpack
     attr_accessor :no_test_candidates, :test_framework
 
     def initialize(anchor:, task:, repo:, entrypoint:, app_root: nil)
-      @version = 1
+      @version = 2
       @app_root = app_root && File.expand_path(app_root)
       @anchor = anchor
       @task = task
@@ -93,8 +93,10 @@ module Ctxpack
     def to_h
       {
         "version" => version,
+        "task" => task,
         "anchor" => anchor,
         "repo" => {
+          "available" => !repo.commit.nil?,
           "commit" => repo.commit,
           "dirty" => repo.dirty
         },
@@ -103,27 +105,81 @@ module Ctxpack
           "controller" => entrypoint.controller,
           "action" => entrypoint.action
         },
-        "files" => files.flat_map { |entry| manifest_file_entries(entry) },
-        "tests" => tests.map do |test|
-          {
-            "command" => test.command,
-            "reason_code" => test.reason_code
-          }
-        end,
-        "uncertainty" => uncertainty.map { |note| { "code" => note.code } }
+        "files" => files.map { |entry| manifest_file_entry(entry) },
+        "tests" => tests.map { |test| manifest_test(test) },
+        "follow_ups" => manifest_follow_ups,
+        "omitted_candidates" => omitted_candidates.map { |candidate| manifest_omitted_candidate(candidate) },
+        "no_test_candidates" => no_test_candidates
       }
     end
 
     private
 
-    def manifest_file_entries(entry)
-      entry.evidence_items.map do |item|
+    def manifest_file_entry(entry)
+      {
+        "path" => entry.path,
+        "evidence" => entry.evidence_items.map do |item|
+          {
+            "reason_code" => item.reason_code,
+            "subject" => item.subject,
+            "snippet_ranges" => item.snippet_ranges,
+            "truncated" => item.truncated
+          }
+        end
+      }
+    end
+
+    def manifest_test(test)
+      {
+        "path" => test.path,
+        "command" => test.command,
+        "reason_code" => test.reason_code,
+        "rule" => test.rule
+      }
+    end
+
+    def manifest_follow_ups
+      facts = uncertainty.map do |item|
         {
-          "path" => entry.path,
-          "reason_code" => item.reason_code,
-          "snippet_ranges" => item.snippet_ranges
+          "code" => item.code,
+          "subject" => item.subject
         }
       end
+
+      facts.concat(convention_constant_matches.map do |match|
+        {
+          "code" => "convention_constant_match",
+          "subject" => match.constant_name,
+          "path" => match.path
+        }
+      end)
+
+      facts.concat(omitted_candidates.map do |candidate|
+        {
+          "code" => "omitted_candidate",
+          "subject" => candidate.subject,
+          "category" => candidate.category,
+          "limit_key" => candidate.limit_key.to_s
+        }
+      end)
+
+      if no_test_candidates
+        facts << {
+          "code" => "no_test_candidates",
+          "subject" => test_framework == "rspec" ? "spec/" : "test/"
+        }
+      end
+
+      facts.uniq
+    end
+
+    def manifest_omitted_candidate(candidate)
+      {
+        "category" => candidate.category,
+        "subject" => candidate.subject,
+        "reason" => candidate.reason,
+        "limit_key" => candidate.limit_key.to_s
+      }
     end
   end
 end

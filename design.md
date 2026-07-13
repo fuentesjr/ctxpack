@@ -197,7 +197,7 @@ The default artifact filename is the exception: it should use a Rails-migration-
 
 One repo-state stamp is allowed inside packet content: the git commit SHA at generation time, with a `dirty` marker when the working tree has uncommitted changes. Unlike a timestamp, the SHA is a function of repo state, so it preserves `same repo state + same inputs = same content` — and it makes staleness mechanically detectable whenever an old packet is read later. The dirty marker is honest rather than precise: the SHA cannot capture uncommitted changes, so a packet built from a dirty tree must say so.
 
-Stamp resolution uses normal git discovery from the application root (`git -C <app_root> rev-parse HEAD`), so an app living in a monorepo subdirectory stamps the enclosing repository's SHA. When the application root is not inside any git work tree, or the Git executable is unavailable, the stamp is the fixed string `unknown (not a git repository)` — still deterministic. One consequence for Tier 1 evals: the fixture trees live inside ctxpack's own repository, so their packets stamp whatever ctxpack's current SHA happens to be. Double-run determinism checks are unaffected (same repo state, same stamp), but golden-content assertions must normalize the stamp line, exactly as they normalize output paths.
+Stamp resolution uses normal git discovery from the application root (`git -C <app_root> rev-parse HEAD`), so an app living in a monorepo subdirectory stamps the enclosing repository's SHA. When Git state is unavailable — whether outside a work tree or because the Git executable is missing — the stamp is the fixed honest string `unknown (Git state unavailable)`. One consequence for Tier 1 evals: the fixture trees live inside ctxpack's own repository, so their packets stamp whatever ctxpack's current SHA happens to be. Double-run determinism checks are unaffected (same repo state, same stamp), but golden-content assertions must normalize the stamp line, exactly as they normalize output paths.
 
 Skills or sub-agents may consume the packet later, but they should not be responsible for constructing the canonical packet.
 
@@ -222,7 +222,7 @@ Use Prism for v0 parsing.
 v0 only needs to:
 
 - find the direct controller action method
-- collect `before_action` declarations in the same controller class and keep the ones that apply to the action (literal `only:`/`except:` filters only — arrays or single symbol/string literals; dynamic filter arguments become an uncertainty note instead of a guess)
+- collect `before_action` declarations in the same controller class and keep the ones that apply to the action (literal `only:`/`except:` filters only — arrays or single symbol/string literals; dynamic filter arguments become a packet-specific uncertainty fact and Follow-up instead of a guess)
 - extract stable snippets for the action and for applicable callback methods defined in the same file
 - collect obvious constants referenced inside the action body, applicable callback bodies, and same-file methods transitively called from the action through literal implicit-`self` or explicit-`self` method calls
 - map those constants to likely files using Rails/Zeitwerk naming conventions
@@ -236,7 +236,7 @@ calls are not expanded; callbacks contribute their own constants, and a
 callback that is also called by the action is traversed only because the
 action reaches it.
 
-Callbacks matter because in real controllers most of an action's preconditions — auth, scoping, record loading — live in `before_action`, not the action body. A packet that shows `def upgrade` using `@account` without showing `set_account` omits the actual entry behavior. Callback methods not defined in the controller file are out of v0 scope (consistent with anchor resolution): when an in-file declaration names such a method, the packet lists that name as unresolved rather than pretending it doesn't exist; declarations made entirely in superclasses or concerns are invisible to v0 and are covered by a standing uncertainty note.
+Callbacks matter because in real controllers most of an action's preconditions — auth, scoping, record loading — live in `before_action`, not the action body. A packet that shows `def upgrade` using `@account` without showing `set_account` omits the actual entry behavior. Callback methods not defined in the controller file are out of v0 scope (consistent with anchor resolution): when an in-file declaration names such a method, the packet lists that name as unresolved rather than pretending it doesn't exist; declarations made entirely in superclasses or concerns are invisible to v0 and are covered by the standing `Scope:` line.
 
 Rubydex is promising, but it should not be a required v0 dependency. It is a semantic indexer/graph and earns its keep later if deterministic evals show that convention-based constant resolution misses important context.
 
@@ -295,9 +295,10 @@ A v0 packet should include:
 - files resolved from those constants when Zeitwerk naming makes that cheap and exact
 - the action's conventional view template(s), when they exist on disk (list-only, no snippet)
 - likely Minitest or RSpec test candidates
-- tests to run
-- uncertainty notes
-- follow-up retrieval suggestions only when more context is needed
+- runnable test commands
+- one standing Scope statement for v0 boundaries
+- specific imperative Follow-ups only when packet facts need verification or
+  a limit omitted something
 
 Callback snippets are additional snippet ranges on the controller file, so they share the existing per-file snippet limit rather than needing a new one.
 
@@ -314,7 +315,12 @@ is selected. The selected family then applies two rules in order:
 1. Conventional controller test/spec: `test/controllers/<controller_path>_controller_test.rb` for Minitest, or `spec/controllers/<controller_path>_controller_spec.rb` for RSpec, included only if the file exists.
 2. Boundary-test path matches: Minitest checks `test/integration/*_test.rb`; RSpec checks `spec/requests/*_spec.rb`. The basename must contain the controller token and the action tokens as underscore-delimited tokens. Multiple matches are sorted lexicographically. `spec/system/` is intentionally out of v0 scope.
 
-The combined list is truncated at the max-test-files limit, with truncation reported in the omitted-candidates note. Minitest rules use `minitest_candidate`; RSpec rules use `rspec_candidate`; the packet's "Why" line states which rule matched. Rule 2 matches always carry the `test_inferred_by_path` uncertainty note.
+The combined list is truncated at the max-test-files limit, with truncation
+reported as an imperative Follow-up. Minitest rules use `minitest_candidate`;
+RSpec rules use `rspec_candidate`; the `Inspect first` inventory phrase states
+which rule matched. Rule 2 matches always carry the
+`test_inferred_by_path` uncertainty fact, shown beside the command and as a
+specific Follow-up.
 
 No test-content matching in v0 — path rules only, no grepping test bodies for routes or controller names. If the selected family matches nothing, the packet says so rather than guessing across another framework.
 
@@ -336,14 +342,14 @@ These should start as internal constants, not public CLI flags. Expose flags lat
 
 The designated real-usage evidence is packet-vs-diff coverage: compare the packet's file list against the diff of the completed task. Files the task touched but the packet omitted are recall misses; packet files the task never touched are precision misses. This is the post-v0 north-star metric for the limits (and for the reason-code heuristics generally); no telemetry gets built until real usage exists to measure.
 
-If a limit is hit, the packet should not silently omit context. It should include an explicit omitted-candidates or uncertainty note, for example:
+If a limit is hit, the packet should not silently omit context. It should
+include a specific imperative Follow-up whose numeric value comes from the
+compiler limit registry, for example:
 
 ```markdown
-## Omitted candidates
-- More constants were referenced than v0 includes.
-- Inspect manually if the task requires deeper behavior:
-  - Billing::Subscriptions
-  - SyncBillingAccountJob
+## Follow-ups
+
+- Inspect omitted constant `SyncBillingAccountJob`; the 4-constant limit was reached.
 ```
 
 The point of the limits is not to claim completeness. It is to prevent context dumping and preserve deterministic, reviewable packet size.
@@ -443,9 +449,12 @@ handling.
 
 ## Machine-readable manifest
 
-Markdown should be the main artifact. A structured manifest only earns its keep if it keeps evals simple.
+Markdown remains the primary artifact. The optional structured manifest is its
+public machine-fact sibling: evals and other consumers can inspect the same
+packet without parsing headings or templated prose.
 
-If needed, generate a small manifest from the same internal packet object and save it next to the Markdown packet:
+Generate the manifest from the same internal packet object and save it next to
+the Markdown packet:
 
 ```bash
 ctxpack accounts#upgrade \
@@ -461,15 +470,19 @@ writes:
 .ctxpack/20260527143015_billing_upgrade_accounts_upgrade.json
 ```
 
-The manifest is not a second product surface in v0. It exists so evals can assert stable fields without parsing Markdown prose.
+The manifest is a lossless machine-fact representation of the same packet
+object, not rendered Markdown prose. It exists so evals and other consumers
+can inspect stable fields without parsing headings or templated sentences.
 
 Example manifest fields:
 
 ```json
 {
-  "version": 1,
+  "version": 2,
+  "task": "Implement billing upgrade",
   "anchor": "accounts#upgrade",
   "repo": {
+    "available": true,
     "commit": "0f4b21c9e8d3a17650b2c44aa91d7e5f8c03d6ab",
     "dirty": false
   },
@@ -481,25 +494,42 @@ Example manifest fields:
   "files": [
     {
       "path": "app/controllers/accounts_controller.rb",
-      "reason_code": "controller_action",
-      "snippet_ranges": [[24, 39]]
+      "evidence": [
+        {
+          "reason_code": "controller_action",
+          "subject": "upgrade",
+          "snippet_ranges": [[24, 39]],
+          "truncated": false
+        }
+      ]
     }
   ],
   "tests": [
     {
+      "path": "test/integration/accounts_upgrade_test.rb",
       "command": "bin/rails test test/integration/accounts_upgrade_test.rb",
-      "reason_code": "minitest_candidate"
+      "reason_code": "minitest_candidate",
+      "rule": "integration_path_match"
     }
   ],
-  "uncertainty": [
+  "follow_ups": [
     {
-      "code": "test_inferred_by_path"
+      "code": "test_inferred_by_path",
+      "subject": "test/integration/accounts_upgrade_test.rb"
     }
-  ]
+  ],
+  "omitted_candidates": [],
+  "no_test_candidates": false
 }
 ```
 
-If evals can use the internal packet object directly, the public `--manifest` flag can wait.
+Manifest schema versions are breaking versions. v0 emits only the current
+schema; consumers inspect `version` and reject versions they do not support.
+Version 2 replaces version 1 without a compatibility flag because there are
+no external consumers to preserve yet. Omitted-candidate facts carry a
+semantic `limit_key` naming `Compiler::LIMITS`; neither the renderer nor a
+machine consumer needs to interpret category or reason prose to identify the
+limit that was reached.
 
 ## Simple v0 evals
 
@@ -609,7 +639,8 @@ The goal is to test whether Rails-aware structural context beats generic retriev
    Static Ruby analysis cannot reliably produce a complete call graph for a real Rails app. The tool should present shallow evidence, not pretend to know the entire execution path.
 
 7. **Uncertainty should be explicit**  
-   If a test file was guessed, a constant was matched by convention only, or multiple routes map to the action, the packet should say so.
+   Standing boundaries belong in one `Scope:` line; packet-specific guesses
+   become deduplicated imperative Follow-ups.
 
 ## Example packet shape
 
@@ -617,19 +648,34 @@ The goal is to test whether Rails-aware structural context beats generic retriev
 # ctxpack context packet
 
 ## Task
-Implement billing upgrade.
+
+> Implement billing upgrade.
+
+## How to use this packet
+
+- If the task already names a failing test, an error, or an exact location, start there and use this packet to verify coverage — not as a reading list.
+- Otherwise, start with `app/controllers/accounts_controller.rb` and open the other listed files only as the task touches them.
 
 ## Anchor
-- Action: `accounts#upgrade`
-- Controller: `AccountsController#upgrade`
-- File: `app/controllers/accounts_controller.rb`
-- Generated from: `0f4b21c` (clean)
 
-## Files to inspect first
+- Anchor: `accounts#upgrade`
+- Controller: `AccountsController`
+- Action: `upgrade`
+- File: `app/controllers/accounts_controller.rb`
+- Generated from: 0f4b21c (clean)
+- Format: 2
+- Scope: routes, superclass/concern callbacks, and locale files are not scanned by ctxpack v0; use `bin/rails routes -g upgrade` for endpoints, and check `config/locales/` if the task touches user-facing copy.
+
+## Inspect first
+
+1. `app/controllers/accounts_controller.rb` — `controller_action`: action and applicable callbacks
+2. `test/integration/accounts_upgrade_test.rb` — `minitest_candidate`: path-inferred; verify coverage
+
+## Evidence
 
 ### `app/controllers/accounts_controller.rb`
-Why: controller action for the requested anchor.
-Reason code: `controller_action`
+
+`controller_action` — action `upgrade` · lines 24–32
 
 ```ruby
 def upgrade
@@ -643,8 +689,7 @@ def upgrade
 end
 ```
 
-Why: `before_action :set_account` applies to `upgrade` and loads `@account`.
-Reason code: `before_action_callback`
+`before_action_callback` — callback `set_account` applies · lines 40–42
 
 ```ruby
 def set_account
@@ -652,23 +697,13 @@ def set_account
 end
 ```
 
-### `test/integration/accounts_upgrade_test.rb`
-Why: likely Minitest integration test for `accounts#upgrade`.
-Reason code: `minitest_candidate`
+## Run
 
-## Tests to run
-- `bin/rails test test/integration/accounts_upgrade_test.rb`
+- `bin/rails test test/integration/accounts_upgrade_test.rb` — path-inferred; verify coverage
 
-## Uncertainty
-- The Minitest file was inferred by path and should be verified.
-- Callbacks declared outside this controller file (superclass or concerns) were not resolved.
-- Route discovery is delegated to Rails; run `bin/rails routes -g upgrade` if the exact endpoint matters.
-- Locale files are not scanned; user-facing strings conventionally live in `config/locales/`. If the task adds or changes user-visible copy, add or update the matching locale key(s).
-- Billing package boundaries were not inspected in v0.
+## Follow-ups
 
-## Retrieve more only if needed
-- Billing public API files if the controller delegates to `Billing::*`.
-- Job implementation if the side effect behavior is part of the task.
+- Inspect `test/integration/accounts_upgrade_test.rb` to confirm the path-inferred candidate covers the task.
 ````
 
 ## Relationship to skills and sub-agents

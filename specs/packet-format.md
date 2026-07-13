@@ -11,50 +11,60 @@ primary readers; JSON is never the primary artifact (see MAN-1).
 
 **FMT-2.** Required sections, in order:
 
+Every `##` section heading is followed by one blank line before its content.
+
 1. `# ctxpack context packet` — title.
-2. `## Task` — the requested task text. When no `--task` was given, this
-   section states that no task was provided. **[fixed by spec]**
-3. `## Anchor` — the exact anchor, resolved controller class and action, the
-   controller file path, and the repo stamp line
-   (`Generated from: <short-sha> (clean|dirty)`).
-4. `## Files to inspect first` — one `###` subsection per included file
-   (FMT-4).
-5. `## Tests to run` — suggested test commands (TEST-6), or an explicit
-   statement that no candidates were found (TEST-5).
-6. `## Uncertainty` — see FMT-8.
+2. `## Task` — the requested task text, with every input line contained in a
+   Markdown blockquote. Blank input lines render as `>` lines so headings,
+   lists, thematic breaks, and fences in task text cannot create peer packet
+   sections. CRLF, bare-CR, and LF separators normalize to LF for Markdown
+   display only; the packet object and manifest preserve the raw task string.
+   When no `--task` was given, the blockquote states that no task was provided.
+   **[fixed by spec]**
+3. `## How to use this packet` — two fixed bullets: tasks that already name a
+   failing test, error, or exact location start there and use the packet to
+   verify coverage; otherwise start with the entrypoint and open other files
+   only as the task touches them.
+4. `## Anchor` — the exact anchor, resolved controller class and action,
+   controller path, repo stamp, `Format: 2`, and the FMT-8 `Scope:` line.
+5. `## Inspect first` — one flat DET-2-ordered inventory line per included
+   file, carrying its literal reason code and templated provenance (FMT-3).
+6. `## Evidence` — one `###` subsection per file that has at least one
+   snippet, in DET-2 order (FMT-4). Omitted when no snippets exist.
+7. `## Run` — suggested test commands (TEST-6), or the explicit TEST-5
+   no-candidate statement.
 
 Conditional sections:
 
-7. `## Omitted candidates` — required whenever any limit truncated candidates
-   (FMT-9); omitted otherwise.
-8. `## Retrieve more only if needed` — follow-up retrieval suggestions,
-   emitted as a pure function of the packet's uncertainty and omission state:
-   each uncertainty/omission code maps to one templated suggestion (e.g.
-   `unresolved_external_callbacks` → inspect the superclass/concerns; omitted
-   constants → inspect the named constants manually; no test candidates →
-   search `test/` by hand). When no codes are present, the section is
-   omitted. **[trigger rule fixed by spec]**
+8. **Withdrawn.** `## Retrieve more only if needed` was replaced by FMT-2 §9;
+   the code remains reserved and is not reused.
+9. `## Follow-ups` — one deduplicated imperative bullet per packet-specific
+   uncertainty, convention-only constant match, omitted candidate, or explicit
+   no-test-candidate state. Omitted when none exist. **[trigger rule fixed by
+   spec]**
 
 **FMT-3.** The defining property of a packet is provenance: every included
-file MUST carry a human-readable "Why" line and a machine-readable reason
-code. "Contains billing" is not a reason; `controller_action` is.
+file MUST carry a human-readable templated phrase and a literal
+machine-readable reason code on its `## Inspect first` inventory line.
+"Contains billing" is not a reason; `controller_action` is.
 
-**FMT-4.** Each file subsection contains, per included evidence item: a
-`Why:` line (templated text, not freeform — DET-3), a `Reason code:` line,
-and a fenced Ruby snippet when a snippet applies. A single file may carry
-multiple Why/reason/snippet blocks (e.g. the controller file carries the
-action snippet and each applicable callback snippet).
+**FMT-4.** `## Evidence` contains subsections only for files with snippets.
+Each evidence item renders one provenance line containing the reason code,
+subject, and FMT-5 ranges, followed by a fenced Ruby snippet. A single file
+may carry multiple evidence blocks (e.g. the action and each applicable
+callback). Pointer-only constant, view, and test files have no Evidence
+subsection.
 
-**FMT-4a.** The `view_candidate` Why line is templated as "Conventional view
-template for `<controller#action>`." — filled in with the resolved anchor
-(the same `controller#action` form used in `## Anchor`), e.g. "Conventional
-view template for `setup#index`." No snippet follows (VIEW-3).
+**FMT-4a.** The `view_candidate` inventory phrase is templated as
+`conventional template for <controller#action>` — filled in with the resolved
+anchor (the same form used in `## Anchor`). No snippet follows (VIEW-3).
 
-**FMT-5.** Snippets are extracted with stable ranges (the enclosing method
-definition), subject to the per-file line limit (LIM-1) and the allocation
-policy in LIM-4. A head-truncated action snippet ends with an explicit
-templated truncation marker line inside the fence (e.g.
-`# … truncated by ctxpack at 120 lines`).
+**FMT-5.** Snippets are extracted with stable 1-based inclusive ranges (the
+enclosing method definition), displayed on the evidence provenance line as
+`lines <start>–<end>` (multiple ranges comma-separated in stored order), and
+subject to the per-file line limit (LIM-1) and allocation policy in LIM-4. A
+head-truncated action snippet ends with an explicit templated truncation marker
+inside the fence (e.g. `# … truncated by ctxpack at 120 lines`).
 
 ## Reason codes
 
@@ -82,21 +92,24 @@ New codes require a spec update; freeform reason codes are prohibited.
 | `unresolved_external_callbacks` | An applicable in-file callback declaration names a method with no direct definition in the controller file (CB-4) **[name fixed by spec]** |
 | `around_callback_present` | An `around_action` applies to the action; named, not snippeted (CB-1a) **[name fixed by spec]** |
 | `block_callback_present` | An applicable callback was declared with an inline block, so there is no method to snippet (CB-1a) **[name fixed by spec]** |
-| `view_inferred_by_convention` | An included view file was matched by action→template convention, not confirmed against the action's actual render target (VIEW-4, VIEW-6) |
+| `view_inferred_by_convention` | An included view file was matched by action→template convention, not confirmed against the action's actual render target; emitted once per included view with that view path as subject (VIEW-4, VIEW-6) |
 
-**FMT-8.** The `## Uncertainty` section MUST state, in templated prose, at
-minimum: which test files were inferred by path; that callbacks outside the
-controller file were not resolved; that route discovery is delegated to Rails;
-any convention-only constant matches worth verifying; that included view
-templates were matched by convention and not confirmed against the action's
-actual render target (VIEW-4, VIEW-6); and that locale files are not scanned,
-so user-facing strings conventionally live in `config/locales/`. If a guess
-was made anywhere, it is named here — no false precision.
+**FMT-8.** Standing v0 boundaries appear exactly once in the templated
+`Scope:` line under `## Anchor`: routes, superclass/concern callbacks, and
+locale files are not scanned; the same line embeds the action-specific
+`bin/rails routes -g <action>` command and `config/locales/` pointer.
+Packet-specific uncertainty appears exactly once as an imperative FMT-2 §9
+follow-up: path-inferred tests, coded callback uncertainty, convention-only
+constant matches, and convention-inferred view templates are named
+specifically; each included convention-inferred view gets its own path-named
+Follow-up. If a guess was made anywhere, it is named — no false precision.
 
-**FMT-9.** The `## Omitted candidates` section names the specific candidates
-each limit excluded (constant files, test files, view files, and truncated
-snippets), so the reader can inspect manually. Truncation without this section
-is a bug (LIM-2).
+**FMT-9.** `## Follow-ups` names every candidate excluded by a limit (constant
+files, test files, view files, and truncated snippets) in an imperative bullet
+that includes the current applicable value from `Compiler::LIMITS`. Truncation
+facts carry the semantic limit key that selected that value; renderers MUST NOT
+infer it from category or reason prose. Truncation without such a bullet is a
+bug (LIM-2).
 
 ## Repo stamp
 
@@ -108,10 +121,10 @@ so.
 
 **FMT-11.** Stamp resolution uses normal git discovery from the application
 root (`git -C <app_root> rev-parse HEAD`), so an app in a monorepo
-subdirectory stamps the enclosing repository's SHA. Outside any git work
-tree, the stamp is the fixed string `unknown (not a git repository)` — still
-deterministic. If the Git executable is unavailable, stamp resolution uses the
-same unknown state instead of failing packet compilation.
+subdirectory stamps the enclosing repository's SHA. When Git state is
+unavailable — whether outside a work tree or because the Git executable is
+missing — the stamp is the fixed honest string `unknown (Git state
+unavailable)` rather than claiming an unobserved cause.
 
 **FMT-12.** Dirty means any non-empty `git status --porcelain` output from
 the application root — staged, unstaged, or untracked (gitignored files
@@ -136,8 +149,9 @@ lexicographic order (VIEW-2, VIEW-5, VIEW-7), then constant files in
 first-reference order (CONST-4), then test candidates in TEST-1 rule order.
 **[fixed by spec]**
 
-**DET-3.** All prose in the packet is templated: reason text, Why lines,
-uncertainty notes. No model-generated summaries anywhere.
+**DET-3.** All prose in the packet is templated: inventory provenance,
+evidence provenance, Scope text, Run annotations, and Follow-ups. No
+model-generated summaries anywhere.
 
 **DET-4.** No fuzzy or autonomous retrieval, and no hidden agent judgment, in
 packet construction. Skills or sub-agents may consume packets; they MUST NOT
@@ -150,19 +164,21 @@ permitted repo-state marker, allowed because it is a function of repo state.
 
 ## JSON manifest
 
-**MAN-1.** The manifest is optional (`--manifest`, CLI-10), generated from
-the same internal packet object as the Markdown, and written as a sibling
-`.json` file. It exists so evals can assert stable fields without parsing
-Markdown prose. It is not a second product surface in v0; if evals can use
-the internal packet object directly, the public flag can wait.
+**MAN-1.** The manifest is an optional public machine-fact representation
+(`--manifest`, CLI-10), generated from the same internal packet object as the
+primary Markdown artifact and written as a sibling `.json` file. Evals and
+other consumers use its stable facts without parsing Markdown prose; it never
+replaces Markdown as the primary human/agent surface.
 
-**MAN-2.** Manifest shape (`version: 1`):
+**MAN-2.** Manifest shape (`version: 2`):
 
 ```json
 {
-  "version": 1,
+  "version": 2,
+  "task": "Implement billing upgrade.",
   "anchor": "accounts#upgrade",
   "repo": {
+    "available": true,
     "commit": "0f4b21c9e8d3a17650b2c44aa91d7e5f8c03d6ab",
     "dirty": false
   },
@@ -174,26 +190,58 @@ the internal packet object directly, the public flag can wait.
   "files": [
     {
       "path": "app/controllers/accounts_controller.rb",
-      "reason_code": "controller_action",
-      "snippet_ranges": [[24, 39]]
+      "evidence": [
+        {
+          "reason_code": "controller_action",
+          "subject": "upgrade",
+          "snippet_ranges": [[24, 39]],
+          "truncated": false
+        }
+      ]
     }
   ],
   "tests": [
     {
+      "path": "test/integration/accounts_upgrade_test.rb",
       "command": "bin/rails test test/integration/accounts_upgrade_test.rb",
-      "reason_code": "minitest_candidate"
+      "reason_code": "minitest_candidate",
+      "rule": "integration_path_match"
     }
   ],
-  "uncertainty": [
-    { "code": "test_inferred_by_path" }
-  ]
+  "follow_ups": [
+    {
+      "code": "test_inferred_by_path",
+      "subject": "test/integration/accounts_upgrade_test.rb"
+    }
+  ],
+  "omitted_candidates": [],
+  "no_test_candidates": false
 }
 ```
 
-Field notes: `repo.commit` is the full SHA or `null` outside a git work tree
-**[null-outside-git fixed by spec]**; `snippet_ranges` are 1-based inclusive
-line ranges; `reason_code` and `uncertainty[].code` values come from the
-FMT-6 / FMT-7 registries.
+Field notes: `task` is the raw task string or `null`; `repo.available` is
+false exactly when `repo.commit` is `null`; `repo.commit` is the full SHA or
+`null` when Git state is unavailable **[null-outside-git fixed by spec]**.
+Files are grouped in DET-2 order and preserve every evidence item's subject,
+1-based inclusive ranges, and truncation state. Tests preserve path, command,
+FMT-6 reason code, and TEST-1 rule. `no_test_candidates` distinguishes an
+explicit no-candidate result from an empty list caused by another state.
+
+`follow_ups` contains facts, never rendered prose. FMT-7 uncertainty uses its
+registry code and subject; `view_inferred_by_convention` subjects are always
+the specific included view path, never `null`. Code-less packet facts use the manifest-only codes
+`convention_constant_match` (plus `path`), `omitted_candidate` (plus
+`category` and `limit_key`), and `no_test_candidates` (subject `test/` or
+`spec/`). Full omission facts also appear under `omitted_candidates` as
+`category`, `subject`, `reason`, and `limit_key`. `limit_key` names a key in
+`Compiler::LIMITS`, allowing consumers and renderers to reproduce the
+applicable limit statement without interpreting reason prose.
+
+Manifest versions are breaking schema versions. ctxpack emits only the current
+version; it does not retain compatibility modes before a real external
+consumer requires them. Consumers MUST inspect `version` and reject versions
+they do not support. Version 2 replaces version 1 rather than adding a v1
+emission flag.
 
 **MAN-3.** Manifest content follows the same determinism rules as the
 Markdown (DET-1..DET-5), including stable key order.

@@ -38,7 +38,7 @@ effect on **focused** tasks, and verify it pays off in your own workflow.
 You can, and for a one-file change that's often enough. ctxpack competes with the
 agent's *first two minutes*: it resolves callbacks, referenced constants, and the
 covering tests in one deterministic pass, and — crucially — it flags what it
-**guessed** in the Uncertainty section, which ad-hoc grepping doesn't. The
+**guessed** in Follow-ups, which ad-hoc grepping doesn't. The
 tradeoff is that ctxpack is deliberately narrow (see the limits and refusals
 below); it's a fast starting point, not a replacement for the agent reading code.
 
@@ -66,7 +66,7 @@ and anchor on the `controller#action` it prints.
 ## Which Rails versions and test frameworks are supported?
 
 ctxpack keys off conventional Rails file layout rather than a specific Rails
-version, and it requires **Ruby ≥ 3.2**. It detects **Minitest** (default) and
+version, and it requires **Ruby ≥ 3.4**. It detects **Minitest** (default) and
 **RSpec** test suites: RSpec is recognized when `spec/` plus
 `spec/rails_helper.rb` or `rspec-rails` is present, and the suggested commands
 switch to `bundle exec rspec` automatically. Controller and request/integration
@@ -78,7 +78,7 @@ Two likely reasons:
 
 1. **Limits.** The packet is capped (8 total files, 4 constants, 2 views, 2
    tests). When a cap truncates, the dropped candidates are named in the
-   `## Omitted candidates` section — check there first.
+   `## Follow-ups` section — check there first.
 2. **Resolution scope.** ctxpack follows an *intra-file* call graph: the action
    body, its applicable same-file callbacks, and same-file methods the action
    transitively calls. It does **not** chase cross-file call graphs, sibling
@@ -87,21 +87,21 @@ Two likely reasons:
    outside that scope won't appear — by design, to keep the packet small and
    precise.
 
-## Why is the "Tests to run" section empty?
+## Why does the "Run" section say no candidates were found?
 
 Because ctxpack found no test file matching its conventional or path-token rules.
 This is common on apps with legacy layouts (e.g. Rails' old `test/functional/`
 directory), which produce structurally zero candidates. It's expected behavior,
 not a bug — add or point the agent at the right test yourself.
 
-## Why is there an "Uncertainty" section? Can I trust the packet?
+## Why is there a "Follow-ups" section? Can I trust the packet?
 
-The Uncertainty section is the point: ctxpack names everything it inferred or
-deliberately left unresolved — path-guessed tests, convention-only constant
-matches, `around_action`/block callbacks it can't snippet, out-of-file
-callbacks, and the locale pointer. Trust the packet as a well-sourced *starting
-list*, and treat each uncertainty note as a "verify this if the task touches it"
-flag. It's engineered to avoid false precision, not to be the last word.
+The Follow-ups section is the point: ctxpack names every packet-specific fact
+it inferred or deliberately left unresolved — path-guessed tests,
+convention-only constant matches, callbacks it cannot snippet, and omissions.
+Standing route, superclass/concern callback, and locale boundaries appear once
+in the Anchor's `Scope:` line. Trust the packet as a well-sourced *starting
+list*, and treat each follow-up as a "verify this if the task touches it" flag.
 
 ## Does it handle namespaced controllers?
 
@@ -141,7 +141,7 @@ the fixture-eval suite, so packets are safe to diff, cache, or commit.
 No — the caps (8/4/2/2/120) are fixed with no flag to change them. The packet's
 value is being *small enough to actually read*; an uncapped "include everything"
 list would just recreate the exploration problem ctxpack exists to shrink. If the
-cap is hiding something you need, the `## Omitted candidates` section tells you
+cap is hiding something you need, the `## Follow-ups` section tells you
 what, so you can pull it in deliberately.
 
 ## Should I commit packets to the repo?

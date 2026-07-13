@@ -41,9 +41,9 @@ ruby eval/tier2/harness.rb status                     # Tier 2 grid state (offli
 
 - There is **no style linter and no typecheck**. `.rubocop.yml` exists only to
   scope `rake metz` to Metz cops — do not add style cops or a RuboCop gate.
-- CI (`.github/workflows/ci.yml`): `bundle exec rake test` on Ruby 3.2 (the
+- CI (`.github/workflows/ci.yml`): `bundle exec rake test` on Ruby 3.4 (the
   gemspec floor) plus a non-blocking metz step pinned to metz-scan 0.4.0.
-  Local dev may run newer Ruby; code must stay 3.2-compatible.
+  Local dev may run newer Ruby; code must stay 3.4-compatible.
 
 ### Required before claiming success
 
@@ -152,8 +152,8 @@ rule is checkable.
 12. **Committing without being asked.** Rule: ask before committing, pushing,
     or opening PRs; never commit `tmp/`, `.agents/` synced content, or
     anything under `tmp/tier2/claude-config/`.
-13. **Breaking Ruby 3.2 compatibility** because local Ruby is newer. Rule: no
-    syntax/stdlib features beyond 3.2; CI is the arbiter.
+13. **Breaking Ruby 3.4 compatibility** because local Ruby is newer. Rule: no
+    syntax/stdlib features beyond 3.4; CI is the arbiter.
 
 ## Quality bars (checkable)
 

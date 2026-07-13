@@ -16,7 +16,7 @@ the CLI wires both behind a command; fixture evals exercise the whole.
 | Spec | Covers | Requirement prefix |
 |---|---|---|
 | [`packet-compilation.md`](packet-compilation.md) | Anchor resolution, parsing, callbacks, constants, views, test candidates, limits | `ANCH`, `PARSE`, `CB`, `CONST`, `VIEW`, `TEST`, `LIM` |
-| [`packet-format.md`](packet-format.md) | Markdown packet structure, reason/uncertainty codes, repo stamp, determinism, JSON manifest | `FMT`, `DET`, `MAN` |
+| [`packet-format.md`](packet-format.md) | Markdown packet structure, reason/uncertainty codes, repo stamp, determinism, public machine-fact manifest | `FMT`, `DET`, `MAN` |
 | [`cli.md`](cli.md) | Command surface, flags, artifact naming and location | `CLI` |
 | [`fixture-evals.md`](fixture-evals.md) | Tier 1 deterministic regression evals (fixtures, YAML cases, runner) | `EVAL` |
 
@@ -29,8 +29,9 @@ implementation pass discovers them late:
 - **Internal packet object.** The central contract: compilation produces it,
   format renders it, the manifest serializes it (MAN-1), fixture evals assert
   on it (EVAL-5). The MAN-2 manifest shape is its de facto schema — everything
-  MAN-2 and FMT-2..FMT-9 need (entrypoint, snippet ranges, reason codes,
-  uncertainty codes, omitted candidates, repo stamp) must exist on the packet
+  MAN-2 and FMT-2..FMT-9 need (task, entrypoint, snippet subjects/ranges and
+  truncation state, test paths/rules, reason and uncertainty codes, omitted
+  candidates, no-candidate state, repo availability/stamp) must exist on the packet
   object when compilation finishes, even though those requirements live in
   `packet-format.md`.
 - **Reason and uncertainty codes.** Registered in FMT-6/FMT-7 but emitted by
@@ -63,8 +64,8 @@ implementation pass discovers them late:
 - **Anchor** — an exact `controller#action` reference in the shape shown by
   `bin/rails routes`, e.g. `accounts#upgrade`, `admin/accounts#upgrade`.
 - **Context packet** (or **packet**) — the compact Markdown artifact ctxpack
-  compiles from an anchor: task, anchor, entry point, files with snippets and
-  reasons, test candidates, uncertainty notes.
+  compiles from an anchor: task, anchor, entry point, Inspect-first map,
+  snippet evidence, test commands, and packet-specific Follow-ups.
 - **Application root** — the nearest ancestor of the current directory
   containing `config/application.rb`, discovered by upward search (CLI-3),
   matching `bin/rails`/Rake run-from-subdirectory ergonomics.
@@ -73,7 +74,8 @@ implementation pass discovers them late:
 - **Repo stamp** — the git commit SHA (plus dirty marker) embedded in packet
   content; the only repo-state marker allowed inside a packet.
 - **Manifest** — optional JSON sibling of the Markdown packet, generated from
-  the same internal packet object, for eval assertions.
+  the same internal packet object as a public machine-fact representation for
+  eval assertions and other consumers; Markdown remains the primary artifact.
 
 ## Scope
 

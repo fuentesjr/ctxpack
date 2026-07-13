@@ -4,6 +4,325 @@ require "json"
 require "tmpdir"
 
 class PacketFormatTest < Minitest::Test
+  def test_fmt_7_test_3_path_inference_rendering_uses_semantic_packet_uncertainty
+    packet = Ctxpack::Packet.new(
+      anchor: "accounts#upgrade",
+      task: "Check coverage",
+      repo: Ctxpack::RepoStamp.new(commit: nil, dirty: false),
+      entrypoint: Ctxpack::Entrypoint.new(
+        file: "app/controllers/accounts_controller.rb",
+        controller: "AccountsController",
+        action: "upgrade"
+      )
+    )
+    path = "test/integration/accounts_upgrade_test.rb"
+    packet.tests << Ctxpack::TestCandidate.new(
+      path: path,
+      command: "bin/rails test #{path}",
+      reason_code: "minitest_candidate",
+      why: "matched integration test path tokens",
+      rule: "future_semantic_rule_name"
+    )
+    packet.add_file(path).add_evidence(
+      Ctxpack::EvidenceItem.new(
+        reason_code: "minitest_candidate",
+        subject: path,
+        why: "matched integration test path tokens",
+        snippet_ranges: [],
+        truncated: false
+      )
+    )
+    packet.add_uncertainty(
+      code: "test_inferred_by_path",
+      subject: path,
+      message: "test candidate was inferred by path"
+    )
+
+    markdown = Ctxpack.render_markdown(packet)
+
+    assert_includes markdown, "`#{path}` — `minitest_candidate`: path-inferred; verify coverage"
+    assert_includes markdown, "- `bin/rails test #{path}` — path-inferred; verify coverage"
+  end
+
+  def test_fmt_2_blockquotes_every_task_line_so_multiline_markdown_cannot_create_sections
+    task = <<~TASK.chomp
+      ## Injected heading
+
+      - first item
+
+      ```ruby
+      puts "inside task"
+      ```
+    TASK
+    packet = Ctxpack.compile(
+      app_root: fixture_app("minitest_basic"),
+      anchor: "accounts#upgrade",
+      task: task
+    )
+
+    markdown = Ctxpack.render_markdown(packet)
+
+    assert_includes markdown, <<~MARKDOWN
+      ## Task
+
+      > ## Injected heading
+      >
+      > - first item
+      >
+      > ```ruby
+      > puts "inside task"
+      > ```
+    MARKDOWN
+    assert_equal ["## Task", "## How to use this packet", "## Anchor", "## Inspect first", "## Evidence", "## Run", "## Follow-ups"],
+                 markdown.lines.grep(/\A## /).map(&:chomp)
+
+    empty_task_packet = Ctxpack.compile(
+      app_root: fixture_app("minitest_basic"),
+      anchor: "accounts#upgrade",
+      task: ""
+    )
+    assert_includes Ctxpack.render_markdown(empty_task_packet), "## Task\n\n>\n\n"
+  end
+
+  def test_fmt_2_normalizes_bare_carriage_returns_for_display_but_preserves_raw_manifest_task
+    task = "First line\r## Injected heading\r- item"
+    packet = Ctxpack.compile(
+      app_root: fixture_app("minitest_basic"),
+      anchor: "accounts#upgrade",
+      task: task
+    )
+
+    markdown = Ctxpack.render_markdown(packet)
+
+    assert_includes markdown, "## Task\n\n> First line\n> ## Injected heading\n> - item\n\n"
+    refute_includes markdown, "\r"
+    assert_equal task, JSON.parse(Ctxpack.render_manifest(packet)).fetch("task")
+  end
+
+  def test_fmt_2_places_a_blank_line_after_every_level_two_heading
+    packet = Ctxpack.compile(
+      app_root: fixture_app("minitest_basic"),
+      anchor: "accounts#upgrade",
+      task: "Check formatting"
+    )
+
+    markdown = Ctxpack.render_markdown(packet)
+
+    assert_includes markdown, "## Task\n\n> Check formatting"
+    assert_includes markdown, "## Anchor\n\n- Anchor: `accounts#upgrade`"
+    assert_includes markdown, "## Run\n\n- `bin/rails test"
+    markdown.lines.grep(/\A## /).each do |heading|
+      assert_includes markdown, "#{heading}\n"
+    end
+  end
+
+  def test_fmt_2_pointer_only_packet_keeps_inspect_item_and_omits_evidence_section
+    packet = Ctxpack::Packet.new(
+      anchor: "accounts#upgrade",
+      task: "Inspect view",
+      repo: Ctxpack::RepoStamp.new(commit: nil, dirty: false),
+      entrypoint: Ctxpack::Entrypoint.new(
+        file: "app/controllers/accounts_controller.rb",
+        controller: "AccountsController",
+        action: "upgrade"
+      )
+    )
+    path = "app/views/accounts/upgrade.html.erb"
+    packet.add_file(path).add_evidence(
+      Ctxpack::EvidenceItem.new(
+        reason_code: "view_candidate",
+        subject: "accounts#upgrade",
+        why: "conventional view template for accounts#upgrade",
+        snippet_ranges: [],
+        truncated: false
+      )
+    )
+
+    markdown = Ctxpack.render_markdown(packet)
+
+    assert_includes markdown, "1. `#{path}` — `view_candidate`: conventional template for `accounts#upgrade`"
+    refute_includes markdown, "## Evidence"
+  end
+
+  def test_fmt_2_5_11_declares_format_ranges_and_honest_unavailable_git_state
+    packet = Ctxpack::Packet.new(
+      anchor: "accounts#upgrade",
+      task: "Check upgrade",
+      repo: Ctxpack::RepoStamp.new(commit: nil, dirty: false),
+      app_root: fixture_app("minitest_basic"),
+      entrypoint: Ctxpack::Entrypoint.new(
+        file: "app/controllers/accounts_controller.rb",
+        controller: "AccountsController",
+        action: "upgrade"
+      )
+    )
+    packet.add_file("app/controllers/accounts_controller.rb").add_evidence(
+      Ctxpack::EvidenceItem.new(
+        reason_code: "controller_action",
+        subject: "upgrade",
+        why: "controller action for requested anchor",
+        snippet_ranges: [[10, 15], [19, 20]],
+        truncated: false
+      )
+    )
+
+    markdown = Ctxpack.render_markdown(packet)
+
+    assert_includes markdown, "- Generated from: unknown (Git state unavailable)"
+    assert_includes markdown, "- Format: 2"
+    assert_includes markdown, "`controller_action` — action `upgrade` · lines 10–15, 19–20"
+  end
+
+  def test_fmt_2_3_4_4a_5_det_2_renders_map_snippet_evidence_and_runnable_tests
+    packet = Ctxpack.compile(
+      app_root: fixture_app("minitest_basic"),
+      anchor: "accounts#upgrade",
+      task: "Implement billing upgrade"
+    )
+
+    markdown = Ctxpack.render_markdown(packet)
+
+    assert_order markdown,
+                 "## Task",
+                 "## How to use this packet",
+                 "## Anchor",
+                 "## Inspect first",
+                 "## Evidence",
+                 "## Run"
+    assert_includes markdown, "- If the task already names a failing test, an error, or an exact location, start there and use this packet to verify coverage — not as a reading list."
+    assert_includes markdown, "- Otherwise, start with `app/controllers/accounts_controller.rb` and open the other listed files only as the task touches them."
+
+    inspect_first = markdown_section(markdown, "## Inspect first")
+    assert_equal packet.files.map(&:path), inspect_first.scan(/`([^`]+)` —/).flatten
+    assert_includes inspect_first, "`app/controllers/accounts_controller.rb` — `controller_action`: action and applicable callbacks"
+    assert_includes inspect_first, "`app/services/billing/subscriptions.rb` — `referenced_constant`: `Billing::Subscriptions`"
+    assert_includes inspect_first, "`test/integration/accounts_upgrade_test.rb` — `minitest_candidate`: path-inferred; verify coverage"
+
+    evidence = markdown_section(markdown, "## Evidence")
+    assert_includes evidence, "### `app/controllers/accounts_controller.rb`"
+    assert_includes evidence, "`controller_action` — action `upgrade` · lines 10–15"
+    refute_includes evidence, "### `app/services/billing/subscriptions.rb`"
+    refute_includes evidence, "### `test/controllers/accounts_controller_test.rb`"
+
+    run = markdown_section(markdown, "## Run")
+    assert_includes run, "- `bin/rails test test/controllers/accounts_controller_test.rb`"
+    assert_includes run, "- `bin/rails test test/integration/accounts_upgrade_test.rb` — path-inferred; verify coverage"
+  end
+
+  def test_fmt_2_8_9_renders_standing_scope_once_and_deduplicated_imperative_follow_ups
+    packet = Ctxpack.compile(
+      app_root: fixture_app("minitest_basic"),
+      anchor: "accounts#upgrade",
+      task: "Implement billing upgrade"
+    )
+
+    markdown = Ctxpack.render_markdown(packet)
+    follow_ups = markdown_section(markdown, "## Follow-ups")
+
+    assert_equal 1, markdown.scan("routes, superclass/concern callbacks, and locale files are not scanned by ctxpack v0").length
+    assert_equal 1, markdown.scan("bin/rails routes -g upgrade").length
+    assert_equal 1, markdown.scan("config/locales/").length
+    refute_includes markdown, "## Uncertainty"
+    refute_includes markdown, "## Omitted candidates"
+    refute_includes markdown, "## Retrieve more only if needed"
+    assert_equal follow_ups.lines.grep(/\A- /).uniq, follow_ups.lines.grep(/\A- /)
+    assert_includes follow_ups, "- Inspect `around_action` callback `with_billing_audit`; it applies but is not snippeted in v0."
+    assert_includes follow_ups, "- Inspect the inline `before_action` block; it applies but has no method snippet."
+    assert_includes follow_ups, "- Inspect `test/integration/accounts_upgrade_test.rb` to confirm the path-inferred candidate covers the task."
+    assert_includes follow_ups, "- Verify convention-only constant match `Billing::Subscriptions` → `app/services/billing/subscriptions.rb` if the task depends on it."
+
+    with_compiler_limits(max_constant_files: 1) do
+      limited_packet = Ctxpack.compile(
+        app_root: fixture_app("minitest_basic"),
+        anchor: "constant_limits#show"
+      )
+      limited_follow_ups = markdown_section(Ctxpack.render_markdown(limited_packet), "## Follow-ups")
+
+      assert_includes limited_follow_ups, "- Inspect omitted constant `BetaTwo`; the 1-constant limit was reached."
+      refute_includes limited_follow_ups, "the 4-constant limit"
+    end
+  end
+
+  def test_man_2_3_manifest_v2_serializes_complete_packet_facts_with_stable_key_order
+    packet = Ctxpack.compile(
+      app_root: fixture_app("minitest_basic"),
+      anchor: "accounts#upgrade",
+      task: "Implement\n\nbilling upgrade"
+    )
+
+    json = Ctxpack.render_manifest(packet)
+    manifest = JSON.parse(json)
+
+    assert_equal %w[version task anchor repo entrypoint files tests follow_ups omitted_candidates no_test_candidates],
+                 json.scan(/\n  "([^"]+)":/).flatten
+    assert_equal 2, manifest.fetch("version")
+    assert_equal "Implement\n\nbilling upgrade", manifest.fetch("task")
+    assert_equal true, manifest.fetch("repo").fetch("available")
+    assert_equal packet.repo.commit, manifest.fetch("repo").fetch("commit")
+
+    controller = manifest.fetch("files").first
+    assert_equal %w[path evidence], controller.keys
+    action = controller.fetch("evidence").first
+    assert_equal %w[reason_code subject snippet_ranges truncated], action.keys
+    assert_equal "upgrade", action.fetch("subject")
+    assert_equal [[10, 15]], action.fetch("snippet_ranges")
+    assert_equal false, action.fetch("truncated")
+
+    inferred_test = manifest.fetch("tests").find { |test| test.fetch("rule") == "integration_path_match" }
+    assert_equal %w[path command reason_code rule], inferred_test.keys
+    assert_equal "test/integration/accounts_upgrade_test.rb", inferred_test.fetch("path")
+    assert_includes manifest.fetch("follow_ups"), {
+      "code" => "test_inferred_by_path",
+      "subject" => "test/integration/accounts_upgrade_test.rb"
+    }
+    assert_includes manifest.fetch("follow_ups"), {
+      "code" => "convention_constant_match",
+      "subject" => "Billing::Subscriptions",
+      "path" => "app/services/billing/subscriptions.rb"
+    }
+    assert_equal false, manifest.fetch("no_test_candidates")
+
+    limited_manifest = Ctxpack.compile(
+      app_root: fixture_app("minitest_basic"),
+      anchor: "constant_limits#show"
+    ).to_h
+    assert_includes limited_manifest.fetch("omitted_candidates"), {
+      "category" => "constant_files",
+      "subject" => "EpsilonFive",
+      "reason" => "max constant files limit reached",
+      "limit_key" => "max_constant_files"
+    }
+    assert_includes limited_manifest.fetch("follow_ups"), {
+      "code" => "omitted_candidate",
+      "subject" => "EpsilonFive",
+      "category" => "constant_files",
+      "limit_key" => "max_constant_files"
+    }
+
+    unavailable = Ctxpack::Packet.new(
+      anchor: "accounts#upgrade",
+      task: nil,
+      repo: Ctxpack::RepoStamp.new(commit: nil, dirty: false),
+      entrypoint: Ctxpack::Entrypoint.new(
+        file: "app/controllers/accounts_controller.rb",
+        controller: "AccountsController",
+        action: "upgrade"
+      )
+    )
+    unavailable.no_test_candidates = true
+    unavailable_manifest = JSON.parse(Ctxpack.render_manifest(unavailable))
+
+    assert_nil unavailable_manifest.fetch("task")
+    assert_equal false, unavailable_manifest.fetch("repo").fetch("available")
+    assert_nil unavailable_manifest.fetch("repo").fetch("commit")
+    assert_equal [], unavailable_manifest.fetch("tests")
+    assert_equal true, unavailable_manifest.fetch("no_test_candidates")
+    assert_includes unavailable_manifest.fetch("follow_ups"), {
+      "code" => "no_test_candidates",
+      "subject" => "test/"
+    }
+  end
+
   def test_fmt_1_2_3_4_6_8_11_det_2_3_5_renders_markdown_packet_from_compiled_fixture
     packet = Ctxpack.compile(
       app_root: fixture_app("minitest_basic"),
@@ -17,26 +336,22 @@ class PacketFormatTest < Minitest::Test
     assert_order markdown,
                  "# ctxpack context packet",
                  "## Task",
+                 "## How to use this packet",
                  "## Anchor",
-                 "## Files to inspect first",
-                 "## Tests to run",
-                 "## Uncertainty",
-                 "## Retrieve more only if needed"
-    refute_includes markdown, "## Omitted candidates"
+                 "## Inspect first",
+                 "## Evidence",
+                 "## Run",
+                 "## Follow-ups"
 
-    assert_includes markdown, "## Task\nImplement billing upgrade\n\n"
+    assert_includes markdown, "## Task\n\n> Implement billing upgrade\n\n"
     assert_includes markdown, "- Anchor: `accounts#upgrade`"
     assert_includes markdown, "- Controller: `AccountsController`"
     assert_includes markdown, "- Action: `upgrade`"
     assert_includes markdown, "- File: `app/controllers/accounts_controller.rb`"
     assert_includes markdown, "- Generated from: #{packet.repo.commit[0, 7]} (#{packet.repo.dirty ? "dirty" : "clean"})"
 
-    assert_equal packet.files.map { |entry| "### `#{entry.path}`\n" },
-                 markdown.lines.grep(/\A### /)
-
     assert_includes markdown, <<~MARKDOWN
-      Why: controller action for requested anchor.
-      Reason code: `controller_action`
+      `controller_action` — action `upgrade` · lines 10–15
 
       ```ruby
         def upgrade
@@ -49,8 +364,7 @@ class PacketFormatTest < Minitest::Test
     MARKDOWN
 
     assert_includes markdown, <<~MARKDOWN
-      Why: callback `set_account` applies to the requested action.
-      Reason code: `before_action_callback`
+      `before_action_callback` — callback `set_account` applies · lines 23–25
 
       ```ruby
         def set_account
@@ -58,44 +372,21 @@ class PacketFormatTest < Minitest::Test
         end
       ```
     MARKDOWN
-
-    assert_includes markdown, <<~MARKDOWN
-      Why: constant `Billing::Subscriptions` was referenced by the action, an applicable callback, or a same-file method transitively called from the action.
-      Reason code: `referenced_constant`
-    MARKDOWN
-
-    assert_includes markdown, <<~MARKDOWN
-      Why: test file matched the conventional controller test path.
-      Reason code: `minitest_candidate`
-    MARKDOWN
-
-    assert_includes markdown, "- `bin/rails test test/controllers/accounts_controller_test.rb`"
-    assert_includes markdown, "- `bin/rails test test/integration/accounts_upgrade_test.rb`"
-
-    assert_includes markdown, "- Test file `test/integration/accounts_upgrade_test.rb` was inferred by path and should be verified."
-    assert_includes markdown, "- Callbacks declared outside this controller file, including superclasses and concerns, were not resolved."
-    assert_includes markdown, "- Route discovery is delegated to Rails; run `bin/rails routes -g upgrade` if the exact endpoint matters."
-    assert_includes markdown, "- Locale files are not scanned; user-facing strings conventionally live in `config/locales/`. If the task adds or changes user-visible copy, add or update the matching locale key(s)."
-    assert_includes markdown, "- Convention-only constant match `Billing::Subscriptions` resolved to `app/services/billing/subscriptions.rb`; verify it if the task depends on that behavior."
-
-    assert_includes markdown, "- Inspect test file `test/integration/accounts_upgrade_test.rb` to confirm the path-inferred Minitest candidate covers the task."
-    assert_includes markdown, "- Inspect applicable `around_action` behavior for `with_billing_audit` if it affects the task."
-    assert_includes markdown, "- Inspect inline callback block behavior for `before_action` if it affects the task."
     refute_match(/\b\d{4}-\d{2}-\d{2}\b/, markdown)
   end
 
-  def test_fmt_2_retrieve_more_uses_one_templated_suggestion_per_uncertainty_code
+  def test_fmt_2_follow_ups_name_each_uncertainty_subject_once
     packet = Ctxpack.compile(
       app_root: fixture_app("minitest_basic"),
       anchor: "callback_edges#upgrade"
     )
 
-    retrieve_more = markdown_section(Ctxpack.render_markdown(packet), "## Retrieve more only if needed")
+    follow_ups = markdown_section(Ctxpack.render_markdown(packet), "## Follow-ups")
 
-    assert_equal 1, retrieve_more.scan("dynamic callback arguments").length
-    assert_includes retrieve_more,
-                    "- Inspect callback declarations with dynamic callback arguments: `dynamic_skip_callback`, `dynamic_options_callback`, `before_action`, `conditional_callback`."
-    assert_includes retrieve_more, "- Inspect the superclass or concerns for callback `external_callback`."
+    %w[dynamic_skip_callback dynamic_options_callback before_action conditional_callback].each do |subject|
+      assert_equal 1, follow_ups.scan("callback declaration `#{subject}`").length
+    end
+    assert_includes follow_ups, "- Inspect the superclass or concerns for callback `external_callback`; it applies but is not defined in this controller file."
   end
 
   def test_fmt_6_8_test_3_renders_rspec_candidate_reason_and_uncertainty_text
@@ -106,16 +397,10 @@ class PacketFormatTest < Minitest::Test
 
     markdown = Ctxpack.render_markdown(packet)
 
-    assert_includes markdown, <<~MARKDOWN
-      Why: test file matched the conventional controller spec path.
-      Reason code: `rspec_candidate`
-    MARKDOWN
-    assert_includes markdown, <<~MARKDOWN
-      Why: test file matched request spec path tokens for the anchor.
-      Reason code: `rspec_candidate`
-    MARKDOWN
-    assert_includes markdown, "- `bundle exec rspec spec/requests/accounts_upgrade_spec.rb`"
-    assert_includes markdown, "- Inspect test file `spec/requests/accounts_upgrade_spec.rb` to confirm the path-inferred RSpec candidate covers the task."
+    assert_includes markdown, "`spec/controllers/accounts_controller_spec.rb` — `rspec_candidate`: conventional controller spec path"
+    assert_includes markdown, "`spec/requests/accounts_upgrade_spec.rb` — `rspec_candidate`: path-inferred; verify coverage"
+    assert_includes markdown, "- `bundle exec rspec spec/requests/accounts_upgrade_spec.rb` — path-inferred; verify coverage"
+    assert_includes markdown, "- Inspect `spec/requests/accounts_upgrade_spec.rb` to confirm the path-inferred candidate covers the task."
   end
 
   def test_fmt_2_11_test_5_renders_nil_task_unknown_repo_and_no_test_candidates
@@ -133,13 +418,13 @@ class PacketFormatTest < Minitest::Test
 
     markdown = Ctxpack.render_markdown(packet)
 
-    assert_includes markdown, "## Task\nNo task was provided.\n\n"
-    assert_includes markdown, "- Generated from: unknown (not a git repository)"
+    assert_includes markdown, "## Task\n\n> No task was provided.\n\n"
+    assert_includes markdown, "- Generated from: unknown (Git state unavailable)"
     assert_includes markdown, "No Minitest candidates were found by ctxpack's path rules."
-    assert_includes markdown, "## Retrieve more only if needed\n- Search `test/` by hand if the task needs test coverage."
+    assert_includes markdown, "## Follow-ups\n\n- Search `test/` by hand if the task needs test coverage."
   end
 
-  def test_fmt_2_retrieve_more_is_omitted_when_no_uncertainty_or_omission_codes_are_present
+  def test_fmt_2_follow_ups_is_omitted_when_no_packet_specific_findings_are_present
     packet = Ctxpack::Packet.new(
       anchor: "accounts#upgrade",
       task: "Check upgrade",
@@ -151,7 +436,7 @@ class PacketFormatTest < Minitest::Test
       )
     )
 
-    refute_includes Ctxpack.render_markdown(packet), "## Retrieve more only if needed"
+    refute_includes Ctxpack.render_markdown(packet), "## Follow-ups"
   end
 
   def test_fmt_5_truncated_snippet_marker_is_inside_the_ruby_fence
@@ -168,9 +453,8 @@ class PacketFormatTest < Minitest::Test
       ```
     MARKDOWN
     refute_includes markdown, "    touch 120"
-    assert_includes markdown, "Snippet `show` was omitted because action snippet exceeded max snippet lines per file."
-    assert_includes markdown, "Snippet `short_callback` was omitted because callback snippet exceeded remaining snippet lines per file."
-    assert_includes markdown, "Inspect omitted snippets manually: `show`, `short_callback`."
+    assert_includes markdown, "Inspect omitted snippet `show`; the 120-line per-file snippet limit was reached."
+    assert_includes markdown, "Inspect omitted snippet `short_callback`; the 120-line per-file snippet limit was reached."
   end
 
   def test_fmt_5_truncated_snippet_marker_uses_current_compiler_limit
@@ -211,7 +495,7 @@ class PacketFormatTest < Minitest::Test
     end
   end
 
-  def test_fmt_9_omitted_candidates_names_truncated_constants_and_tests
+  def test_fmt_9_follow_ups_name_omitted_constants_and_tests
     constants_packet = Ctxpack.compile(
       app_root: fixture_app("minitest_basic"),
       anchor: "constant_limits#show"
@@ -224,13 +508,11 @@ class PacketFormatTest < Minitest::Test
     constants_markdown = Ctxpack.render_markdown(constants_packet)
     tests_markdown = Ctxpack.render_markdown(tests_packet)
 
-    assert_includes constants_markdown, "## Omitted candidates"
-    assert_includes constants_markdown, "Constant `EpsilonFive` was omitted because max constant files limit reached."
-    assert_includes constants_markdown, "Inspect omitted constant `EpsilonFive` manually."
+    assert_includes constants_markdown, "## Follow-ups"
+    assert_includes constants_markdown, "Inspect omitted constant `EpsilonFive`; the 4-constant limit was reached."
 
-    assert_includes tests_markdown, "## Omitted candidates"
-    assert_includes tests_markdown, "Test file `test/integration/search_bulk_update_c_test.rb` was omitted because max test files limit reached."
-    assert_includes tests_markdown, "Inspect omitted test file `test/integration/search_bulk_update_c_test.rb` manually."
+    assert_includes tests_markdown, "## Follow-ups"
+    assert_includes tests_markdown, "Inspect omitted test file `test/integration/search_bulk_update_c_test.rb`; the 2-test limit was reached."
   end
 
   def test_man_2_3_render_manifest_uses_packet_hash_with_stable_key_order
@@ -244,7 +526,7 @@ class PacketFormatTest < Minitest::Test
     parsed = JSON.parse(json)
 
     assert_equal packet.to_h, parsed
-    assert_equal %w[version anchor repo entrypoint files tests uncertainty],
+    assert_equal %w[version task anchor repo entrypoint files tests follow_ups omitted_candidates no_test_candidates],
                  json.scan(/\n  "([^"]+)":/).flatten
     assert_equal packet.repo.commit, parsed.fetch("repo").fetch("commit")
     refute_includes json, "app_root"

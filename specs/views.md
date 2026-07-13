@@ -107,17 +107,14 @@ codes (views, mailers, …)". Two sub-decisions, both frozen:
    test match. `max_total_files` stays at 8 — it is NOT raised to
    `8 + max_view_files`.
 
-Views truncated by either limit MUST be named in the LIM-2 omitted-candidates
-note.
+Views truncated by either limit MUST be named in a LIM-2 Follow-up.
 
 **VIEW-6 (uncertainty).** View inclusion is convention-only evidence (like
 CONST-3, but the action→template default is stronger than constant guessing).
-The packet's `## Uncertainty` section MUST disclose that included views were
-matched by convention and not confirmed against the action's actual render
-target (VIEW-4), via a new uncertainty code `view_inferred_by_convention`. The
-`## Retrieve more only if needed` section (FMT-2 §8) maps that code to one
-templated suggestion (e.g. "confirm the action renders this template; it may
-redirect or render another").
+The packet's `## Follow-ups` section MUST disclose each included view path
+that was matched by convention and not confirmed against the action's actual
+render target (VIEW-4), via one `view_inferred_by_convention` uncertainty fact
+and one specific templated imperative suggestion per included path.
 
 **VIEW-7 (determinism & ordering).** View resolution is a pure function of the
 on-disk view directory and the anchor — no clocks, no globher ordering
@@ -138,8 +135,8 @@ contract in `specs/README.md`):
   LIM-1's "unreachable by construction" paragraph.
 - **`packet-format.md`** — added `view_candidate` to the FMT-6 reason-code
   registry; added `view_inferred_by_convention` to the FMT-7 uncertainty
-  registry; extended FMT-8's required uncertainty prose; extended DET-2 with
-  the view position; added a "Why" template line for `view_candidate`
+  registry; extended FMT-8's required Follow-up prose; extended DET-2 with
+  the view position; added an inventory provenance template for `view_candidate`
   (FMT-4a).
 - **`specs/README.md`** — added `VIEW` to the `packet-compilation.md`
   requirement-prefix row. (Views were never named in the `design.md`
@@ -180,5 +177,4 @@ resolver). Sequence them as the user prefers:
    *newly-added* keys (e.g. publify's `nickname`); a base-tree scan fires on
    none, and snippeting a truncated giant `en.yml` to move a file-level recall
    number would be metric-gaming a "small by construction" packet. Surface
-   "user-facing strings live in `config/locales/`" as templated Uncertainty /
-   "Retrieve more only if needed" prose instead.
+   `config/locales/` in the standing FMT-8 `Scope:` line instead.

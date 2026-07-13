@@ -75,6 +75,10 @@ expect:
   tests:
     - bin/rails test test/integration/accounts_upgrade_test.rb
 
+  manifest:
+    version: 2
+    task: Implement billing upgrade
+
   max_files: 8
 ```
 
@@ -84,6 +88,8 @@ present with the stated reason code; `exclude` paths must be absent; optional
 `file_order`, when present, must exactly match the packet's ordered file paths;
 optional `omitted` entries must match omitted-candidate category and subject,
 with `reason` checked when provided; `tests` commands must all be suggested;
+optional `manifest` names top-level keys whose values are compared exactly
+against `packet.to_h` (unspecified manifest keys are not compared);
 `max_files` bounds the packet's total file count.
 
 **EVAL-5.** Assertions SHOULD target stable fields (via the internal packet
@@ -99,6 +105,7 @@ object or the JSON manifest, MAN-1) rather than parsing Markdown prose.
 - exact file ordering when the case declares `file_order`
 - omitted candidates when the case declares `omitted`
 - expected test commands suggested
+- exact top-level packet/manifest facts when the case declares `manifest`
 - packet stays under file and snippet limits (LIM-1)
 
 **EVAL-7.** Determinism check: running the same command twice — with fixed

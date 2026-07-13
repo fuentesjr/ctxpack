@@ -1037,3 +1037,95 @@ Change type: bugfix. User task statement: “Ok proceed.”
 - Tier 0 is N/A. This changes repo-stamp collection only, not resolution,
   callbacks, constants, test candidates, limits, or per-anchor classification.
 - No dependency or lockfile change; no recorded experiment data changed.
+
+## Packet format v2 (2026-07-12)
+
+Change type: feature. User task statement: “include slice 4 because so far I'm
+the only person using/testing this tool so far”.
+
+- Markdown Format 2 blockquotes each task line, adds fixed How-to-use guidance,
+  renders one DET-2 flat file map, expands only snippet-bearing Evidence with
+  visible 1-based ranges, keeps path-inference beside Run commands, and folds
+  packet-specific uncertainty/omissions into deduplicated imperative Follow-ups.
+- Standing routes, superclass/concern callback, and locale boundaries appear
+  exactly once in Anchor's `Scope:` line. Unavailable Git renders the honest
+  observable state rather than an inferred cause.
+- Manifest v2 is the sole schema. It serializes raw task, repo availability,
+  grouped per-file evidence facts, complete test facts, raw follow-up facts,
+  omissions, and explicit no-test-candidate state. Public `render_*` interfaces
+  are unchanged.
+- Renderer red/green cycles: task containment failed because the raw `##`
+  heading escaped Task, then passed at 1 run / 3 assertions; hierarchy/map/
+  evidence/run failed with missing How-to-use, then passed at 1 / 24; Scope and
+  Follow-ups failed with missing Follow-ups, then passed at 1 / 22; manifest v2
+  failed on the v1 top-level key order, then passed at 1 / 24.
+- EVAL-9: Markdown containment is most honestly represented by the public
+  renderer test because EVAL-5 prefers stable packet/manifest fields over
+  parsing prose. The
+  stable manifest half is captured by `multiline_task_manifest_v2.yml`; replay
+  against version 1 failed at 1 run / 10 assertions (expected 2, actual 1), and
+  version 2 passed at 1 run / 31 assertions.
+- Frozen Tier 2 packet/prompt artifacts remain historical format-v1 evidence and
+  were not regenerated. No dependency or lockfile change. Tier 0 is N/A because
+  resolution, callbacks, constants, test candidates, limits, and per-anchor
+  classification do not change.
+
+### Strategic review closure (2026-07-13)
+
+The parent independently verified the initial implementation at `142 runs,
+1280 assertions, 0 failures, 0 errors, 0 skips`, then confirmed and fixed one
+bounded set of blockers. The final clean-context design review is clean with no
+findings.
+
+- Renderer test provenance now derives path inference from the semantic
+  `test_inferred_by_path` packet uncertainty instead of compiler rule strings.
+- Every `OmittedCandidate` carries a `limit_key`; all seven compiler creation
+  sites set it, manifest v2 serializes it, and renderer limit prose fetches the
+  corresponding `Compiler::LIMITS` value without interpreting category/reason
+  prose.
+- `view_inferred_by_convention` is emitted once per included view path; the
+  Markdown and manifest now name each path specifically.
+- Task rendering normalizes CRLF, bare CR, and LF for display only while raw
+  `packet.task`/manifest data remains unchanged. Every level-two heading now
+  has the proposal's blank line before content.
+- EVAL-4/EVAL-6 document optional exact top-level `expect.manifest` checks;
+  MAN-1 documents the approved public machine-fact role; active Format-1 terms
+  and examples were reconciled. The release-boundary harness rerun remains
+  pending explicit user sign-off and was not run.
+- Fix-round full suite: `147 runs, 1325 assertions, 0 failures, 0 errors, 0
+  skips`.
+- Strategic validator: slice-tests, merge-base red/green, and pending-comment
+  gate pass. The final clean-context reviewer returned `clean` with zero
+  findings and summarized that the public rendering interfaces remain narrow,
+  the packet carries the required semantic facts, and the earlier path,
+  omission-limit, and view-uncertainty leakage risks are resolved. Warnings
+  (verbatim):
+  - `rubocop run errored - Lint/Security gate skipped: Error: unrecognized cop or department Metz found in .rubocop.yml`
+  - `head metrics unavailable (rubocop run failed); deltas omitted`
+
+## Ruby 3.4 compatibility floor (2026-07-13)
+
+Change type: chore. User task statement: “Make Ruby 3.4 the new floor and I
+approve.”
+
+- `ctxpack.gemspec` now requires Ruby 3.4 or newer, and CI pins its single test
+  job to that exact floor.
+- The CI shape is otherwise unchanged: the full Minitest suite remains the
+  gate, and metz-scan remains version-pinned to 0.4.0 and non-blocking.
+- Active install, compatibility, proposal, operating-manual, and backlog text
+  now names Ruby 3.4. Historical records retain the Ruby versions that were
+  actually used at the time.
+- No production compiler behavior, dependency, lockfile, frozen experiment
+  data, or pre-registration changed. Tier 0 corpus re-scan is N/A.
+
+### Verification
+
+- `ruby -e` loaded `ctxpack.gemspec` and confirmed
+  `required_ruby_version=>= 3.4`.
+- `gem build ctxpack.gemspec --output /tmp/ctxpack-ruby-floor-check.gem`
+  successfully built ctxpack 0.1.0. RubyGems emitted only the existing
+  advisory license/homepage metadata warnings.
+- Workflow YAML loaded successfully; a semantic check confirmed Ruby 3.4,
+  `continue-on-error: true`, and metz-scan 0.4.0.
+- Full `bundle exec rake test`: `147 runs, 1325 assertions, 0 failures, 0
+  errors, 0 skips` (local Ruby 4.0.1; CI exercises the 3.4 floor after push).

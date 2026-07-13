@@ -56,6 +56,13 @@ class FixtureEvalsTest < Minitest::Test
         assert_includes packet.tests.map(&:command), command
       end
 
+      if expected["manifest"]
+        manifest = packet.to_h
+        expected.fetch("manifest").each do |key, value|
+          assert_equal value, manifest.fetch(key), "expected manifest #{key.inspect} to match"
+        end
+      end
+
       assert_operator packet.files.length, :<=, expected.fetch("max_files")
       assert_packet_within_limits(packet)
     end

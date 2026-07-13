@@ -154,7 +154,7 @@ class CLITest < Minitest::Test
       artifact = File.join(app_root, ".ctxpack", "20260527143015_implement_billing_upgrade_accounts_upgrade.md")
       assert_equal 0, result.status
       assert File.file?(artifact), "expected #{artifact} to be written"
-      assert_includes File.read(artifact), "## Task\nImplement billing upgrade\n\n"
+      assert_includes File.read(artifact), "## Task\n\n> Implement billing upgrade\n\n"
       refute_includes File.read(artifact), "20260527143015"
       assert_includes result.stdout, ".ctxpack/20260527143015_implement_billing_upgrade_accounts_upgrade.md"
       assert_equal "", result.stderr
@@ -172,7 +172,7 @@ class CLITest < Minitest::Test
       artifact = File.join(app_root, ".ctxpack", "20260527143015_implement_billing_upgrade_accounts_upgrade.md")
       assert_equal 0, result.status
       assert File.file?(artifact)
-      assert_includes File.read(artifact), "## Task\nImplement billing upgrade\n\n"
+      assert_includes File.read(artifact), "## Task\n\n> Implement billing upgrade\n\n"
       assert_equal [".ctxpack/20260527143015_implement_billing_upgrade_accounts_upgrade.md"], result.stdout.lines.map(&:chomp)
     end
   end
@@ -187,7 +187,7 @@ class CLITest < Minitest::Test
 
       assert_equal 0, result.status
       artifact = Dir[File.join(app_root, ".ctxpack", "*.md")].fetch(0)
-      assert_includes File.binread(artifact), "## Task\nFirst line\nSecond line\n\n"
+      assert_includes File.binread(artifact), "## Task\n\n> First line\n> Second line\n\n"
       assert_includes File.basename(artifact), "first_line_second_line_accounts_upgrade"
     end
   end
@@ -215,7 +215,7 @@ class CLITest < Minitest::Test
       result = run_cli(["accounts#upgrade", "--task-file", "task.md", "--out", "packet.md"], cwd: nested)
 
       assert_equal 0, result.status
-      assert_includes File.binread(File.join(app_root, "packet.md")), "## Task\nFirst\r\nSecond\r\n\n"
+      assert_includes File.binread(File.join(app_root, "packet.md")), "## Task\n\n> First\n> Second\n\n"
     end
   end
 
@@ -475,7 +475,7 @@ class CLITest < Minitest::Test
       assert_equal 0, result.status
       assert File.file?(artifact), "expected #{artifact} to be written"
       assert_includes result.stdout, ".ctxpack/20260527143015_admin_accounts_upgrade.md"
-      assert_includes File.read(artifact), "## Task\nNo task was provided.\n\n"
+      assert_includes File.read(artifact), "## Task\n\n> No task was provided.\n\n"
     end
   end
 

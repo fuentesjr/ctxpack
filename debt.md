@@ -1,0 +1,1 @@
+2026-07-12 | testing | item:strategic-validator-metz-config | task: validate packet format v2 | claim: the repository RuboCop configuration should load in the strategic validator's lint/security environment; the Metz department currently makes RuboCop abort and skips that gate

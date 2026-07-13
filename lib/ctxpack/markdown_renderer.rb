@@ -10,12 +10,12 @@ module Ctxpack
       lines = []
       append_title(lines)
       append_task(lines)
+      append_how_to_use(lines)
       append_anchor(lines)
-      append_files(lines)
-      append_tests(lines)
-      append_uncertainty(lines)
-      append_omitted_candidates(lines) if packet.omitted_candidates.any?
-      append_retrieve_more(lines)
+      append_inspect_first(lines)
+      append_evidence(lines) if snippet_entries.any?
+      append_run(lines)
+      append_follow_ups(lines) if follow_up_lines.any?
 
       lines.join("\n") + "\n"
     end
@@ -31,40 +31,112 @@ module Ctxpack
 
     def append_task(lines)
       lines << "## Task"
-      lines << (packet.task.nil? ? "No task was provided." : packet.task)
+      lines << ""
+      task = packet.task.nil? ? "No task was provided." : packet.task
+      task_lines = task.gsub(/\r\n?/, "\n").lines(chomp: true)
+      task_lines = [""] if task_lines.empty?
+      task_lines.each do |line|
+        lines << (line.empty? ? ">" : "> #{line}")
+      end
       lines << ""
     end
 
     def append_anchor(lines)
       lines << "## Anchor"
+      lines << ""
       lines << "- Anchor: `#{packet.anchor}`"
       lines << "- Controller: `#{packet.entrypoint.controller}`"
       lines << "- Action: `#{packet.entrypoint.action}`"
       lines << "- File: `#{packet.entrypoint.file}`"
       lines << "- Generated from: #{repo_stamp}"
+      lines << "- Format: 2"
+      lines << "- Scope: routes, superclass/concern callbacks, and locale files are not scanned by ctxpack v0; use `bin/rails routes -g #{packet.entrypoint.action}` for endpoints, and check `config/locales/` if the task touches user-facing copy."
+      lines << ""
+    end
+
+    def append_how_to_use(lines)
+      lines << "## How to use this packet"
+      lines << ""
+      lines << "- If the task already names a failing test, an error, or an exact location, start there and use this packet to verify coverage — not as a reading list."
+      lines << "- Otherwise, start with `#{packet.entrypoint.file}` and open the other listed files only as the task touches them."
       lines << ""
     end
 
     def repo_stamp
-      return "unknown (not a git repository)" unless packet.repo.commit
+      return "unknown (Git state unavailable)" unless packet.repo.commit
 
       "#{packet.repo.commit[0, 7]} (#{packet.repo.dirty ? "dirty" : "clean"})"
     end
 
-    def append_files(lines)
-      lines << "## Files to inspect first"
+    def append_inspect_first(lines)
+      lines << "## Inspect first"
       lines << ""
 
-      packet.files.each do |entry|
+      packet.files.each_with_index do |entry, index|
+        lines << "#{index + 1}. `#{entry.path}` — `#{inventory_reason_code(entry)}`: #{inventory_text(entry)}"
+      end
+      lines << ""
+    end
+
+    def inventory_reason_code(entry)
+      entry.evidence_items.first.reason_code
+    end
+
+    def inventory_text(entry)
+      item = entry.evidence_items.first
+
+      case item.reason_code
+      when "controller_action"
+        "action and applicable callbacks"
+      when "referenced_constant"
+        "`#{item.subject}`"
+      when "view_candidate"
+        "conventional template for `#{packet.anchor}`"
+      when "minitest_candidate", "rspec_candidate"
+        path_inferred_test?(item.subject) ? "path-inferred; verify coverage" : conventional_test_inventory_text(item)
+      else
+        why_text(item)
+      end
+    end
+
+    def conventional_test_inventory_text(item)
+      item.reason_code == "rspec_candidate" ? "conventional controller spec path" : "conventional controller test path"
+    end
+
+    def append_evidence(lines)
+      lines << "## Evidence"
+      lines << ""
+
+      snippet_entries.each do |entry|
         lines << "### `#{entry.path}`"
         lines << ""
-        entry.evidence_items.each do |item|
-          lines << "Why: #{why_text(item)}"
-          lines << "Reason code: `#{item.reason_code}`"
-          append_snippet(lines, entry.path, item) if item.snippet_ranges.any?
+        entry.evidence_items.select { |item| item.snippet_ranges.any? }.each do |item|
+          lines << evidence_provenance(item)
+          append_snippet(lines, entry.path, item)
           lines << ""
         end
       end
+    end
+
+    def snippet_entries
+      packet.files.select { |entry| entry.evidence_items.any? { |item| item.snippet_ranges.any? } }
+    end
+
+    def evidence_provenance(item)
+      subject = case item.reason_code
+                when "controller_action"
+                  "action `#{item.subject}`"
+                when "before_action_callback"
+                  "callback `#{item.subject}` applies"
+                else
+                  "`#{item.subject}`"
+                end
+      "`#{item.reason_code}` — #{subject}#{range_suffix(item)}"
+    end
+
+    def range_suffix(item)
+      ranges = item.snippet_ranges.map { |range| "#{range.first}–#{range.last}" }.join(", ")
+      " · lines #{ranges}"
     end
 
     def why_text(item)
@@ -121,149 +193,91 @@ module Ctxpack
       all_lines[(range.first - 1)..(range.last - 1)] || []
     end
 
-    def append_tests(lines)
-      lines << "## Tests to run"
+    def append_run(lines)
+      lines << "## Run"
+      lines << ""
       if packet.tests.any?
-        packet.tests.each { |test| lines << "- `#{test.command}`" }
+        packet.tests.each do |test|
+          suffix = path_inferred_test?(test.path) ? " — path-inferred; verify coverage" : ""
+          lines << "- `#{test.command}`#{suffix}"
+        end
       else
         lines << "No #{test_framework_label} candidates were found by ctxpack's path rules."
       end
       lines << ""
     end
 
-    def append_uncertainty(lines)
-      lines << "## Uncertainty"
-      uncertainty_notes.each { |note| lines << "- #{note}" }
+    def path_inferred_test?(path)
+      packet.uncertainty.any? do |item|
+        item.code == "test_inferred_by_path" && item.subject == path
+      end
+    end
+
+    def append_follow_ups(lines)
+      lines << "## Follow-ups"
+      lines << ""
+      follow_up_lines.each { |line| lines << "- #{line}" }
       lines << ""
     end
 
-    def uncertainty_notes
-      notes = packet.uncertainty.map { |item| uncertainty_text(item) }
-      notes << "Callbacks declared outside this controller file, including superclasses and concerns, were not resolved."
-      notes << "Route discovery is delegated to Rails; run `bin/rails routes -g #{packet.entrypoint.action}` if the exact endpoint matters."
-      notes << "Locale files are not scanned; user-facing strings conventionally live in `config/locales/`. If the task adds or changes user-visible copy, add or update the matching locale key(s)."
-      notes.concat(packet.convention_constant_matches.map { |match| convention_constant_text(match) })
-      notes
+    def follow_up_lines
+      lines = packet.uncertainty.map { |item| uncertainty_follow_up(item) }
+      lines.concat(packet.convention_constant_matches.map { |match| convention_constant_follow_up(match) })
+      lines.concat(packet.omitted_candidates.map { |candidate| omission_follow_up(candidate) })
+      lines << "Search `#{test_search_root}` by hand if the task needs test coverage." if packet.no_test_candidates
+      lines.compact.uniq
     end
 
-    def uncertainty_text(item)
+    def uncertainty_follow_up(item)
       case item.code
       when "test_inferred_by_path"
-        "Test file `#{item.subject}` was inferred by path and should be verified."
+        "Inspect `#{item.subject}` to confirm the path-inferred candidate covers the task."
       when "dynamic_callback_args"
-        "Callback declaration `#{item.subject}` used dynamic callback arguments and was not resolved precisely."
+        "Inspect callback declaration `#{item.subject}`; dynamic callback arguments prevented precise resolution."
       when "unresolved_external_callbacks"
-        "Callback `#{item.subject}` applies but was not defined in this controller file."
+        "Inspect the superclass or concerns for callback `#{item.subject}`; it applies but is not defined in this controller file."
       when "around_callback_present"
-        "`around_action` callback `#{item.subject}` applies and is not snippeted in v0."
+        "Inspect `around_action` callback `#{item.subject}`; it applies but is not snippeted in v0."
       when "block_callback_present"
-        "Inline `#{item.subject}` callback block applies and has no method snippet."
+        "Inspect the inline `#{item.subject}` block; it applies but has no method snippet."
       when "view_inferred_by_convention"
-        "Included view template(s) were matched by action->template convention and not confirmed against the action's actual render target."
+        "Confirm the action renders `#{item.subject}`; it was matched by convention."
       else
-        "#{item.code}: #{item.message}"
+        "Inspect `#{item.subject || item.code}`; #{item.message}."
       end
     end
 
-    def convention_constant_text(match)
-      "Convention-only constant match `#{match.constant_name}` resolved to `#{match.path}`; verify it if the task depends on that behavior."
+    def convention_constant_follow_up(match)
+      "Verify convention-only constant match `#{match.constant_name}` → `#{match.path}` if the task depends on it."
     end
 
-    def append_omitted_candidates(lines)
-      lines << "## Omitted candidates"
-      packet.omitted_candidates.each { |candidate| lines << "- #{omitted_candidate_text(candidate)}" }
-      lines << ""
-    end
-
-    def omitted_candidate_text(candidate)
-      case candidate.category
+    def omission_follow_up(candidate)
+      subject = case candidate.category
       when "constant_files"
-        "Constant `#{candidate.subject}` was omitted because #{candidate.reason}."
+        "constant `#{candidate.subject}`"
       when "test_files"
-        "Test file `#{candidate.subject}` was omitted because #{candidate.reason}."
+        "test file `#{candidate.subject}`"
       when "view_files"
-        "View `#{candidate.subject}` was omitted because #{candidate.reason}."
+        "view file `#{candidate.subject}`"
       when "snippets"
-        "Snippet `#{candidate.subject}` was omitted because #{candidate.reason}."
+        "snippet `#{candidate.subject}`"
       else
-        "#{candidate.category} `#{candidate.subject}` was omitted because #{candidate.reason}."
+        "#{candidate.category} `#{candidate.subject}`"
       end
+      "Inspect omitted #{subject}; #{omission_limit_text(candidate)}."
     end
 
-    def append_retrieve_more(lines)
-      suggestions = retrieval_suggestions
-      return if suggestions.empty?
-
-      lines << "## Retrieve more only if needed"
-      suggestions.each { |suggestion| lines << "- #{suggestion}" }
-      lines << ""
-    end
-
-    def retrieval_suggestions
-      suggestions = uncertainty_suggestions + omission_suggestions
-      suggestions << "Search `#{test_search_root}` by hand if the task needs test coverage." if packet.no_test_candidates
-      suggestions
-    end
-
-    def uncertainty_suggestions
-      by_code = packet.uncertainty.group_by(&:code)
-      packet.uncertainty.map(&:code).uniq.map do |code|
-        items = by_code.fetch(code)
-        subjects = items.map(&:subject).compact
-
-        case code
-        when "test_inferred_by_path"
-          if subjects.length == 1
-            "Inspect test file `#{subjects.first}` to confirm the path-inferred #{test_framework_label} candidate covers the task."
-          else
-            "Inspect path-inferred #{test_framework_label} candidates: #{inline_list(subjects)}."
-          end
-        when "dynamic_callback_args"
-          "Inspect callback declarations with dynamic callback arguments: #{inline_list(subjects)}."
-        when "unresolved_external_callbacks"
-          if subjects.length == 1
-            "Inspect the superclass or concerns for callback `#{subjects.first}`."
-          else
-            "Inspect the superclass or concerns for callbacks: #{inline_list(subjects)}."
-          end
-        when "around_callback_present"
-          if subjects.length == 1
-            "Inspect applicable `around_action` behavior for `#{subjects.first}` if it affects the task."
-          else
-            "Inspect applicable `around_action` behavior for: #{inline_list(subjects)}."
-          end
-        when "block_callback_present"
-          if subjects.length == 1
-            "Inspect inline callback block behavior for `#{subjects.first}` if it affects the task."
-          else
-            "Inspect inline callback block behavior for: #{inline_list(subjects)}."
-          end
-        when "view_inferred_by_convention"
-          "Confirm the action renders the included view template(s); it may redirect or render another."
-        end
-      end.compact
-    end
-
-    def omission_suggestions
-      by_category = packet.omitted_candidates.group_by(&:category)
-      packet.omitted_candidates.map(&:category).uniq.map do |category|
-        subjects = by_category.fetch(category).map(&:subject)
-
-        case category
-        when "constant_files"
-          subjects.length == 1 ? "Inspect omitted constant `#{subjects.first}` manually." : "Inspect omitted constants manually: #{inline_list(subjects)}."
-        when "test_files"
-          subjects.length == 1 ? "Inspect omitted test file `#{subjects.first}` manually." : "Inspect omitted test files manually: #{inline_list(subjects)}."
-        when "view_files"
-          "Inspect omitted view file(s) manually: #{inline_list(subjects)}."
-        when "snippets"
-          subjects.length == 1 ? "Inspect omitted snippet `#{subjects.first}` manually." : "Inspect omitted snippets manually: #{inline_list(subjects)}."
-        end
-      end.compact
-    end
-
-    def inline_list(values)
-      values.map { |value| "`#{value}`" }.join(", ")
+    def omission_limit_text(candidate)
+      value = Compiler::LIMITS.fetch(candidate.limit_key)
+      label = case candidate.limit_key
+              when :max_total_files then "file"
+              when :max_constant_files then "constant"
+              when :max_view_files then "view"
+              when :max_test_files then "test"
+              when :max_snippet_lines_per_file then "line per-file snippet"
+              else raise Error, "unknown omission limit key: #{candidate.limit_key.inspect}"
+              end
+      "the #{value}-#{label} limit was reached"
     end
 
     def test_framework_label

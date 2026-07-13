@@ -105,9 +105,9 @@ applicability; declaration order in the packet follows source order, with no
 attempt to model prepend reordering.
 
 **CB-1a.** `around_action` declarations applying to the action are NOT
-snippeted; their names are listed under Uncertainty. Inline block callbacks
-(`before_action { ... }`) yield a "block callback present" uncertainty note
-and no snippet. `after_action` is ignored (it cannot be a precondition).
+snippeted; their names are listed under Follow-ups. Inline block callbacks
+(`before_action { ... }`) yield a "block callback present" follow-up and no
+snippet. `after_action` is ignored (it cannot be a precondition).
 
 **CB-2.** Applicability is decided only from literal `only:` / `except:`
 filters (or their absence). A literal filter is an array of symbol or string
@@ -115,10 +115,11 @@ literals, or a single symbol or string literal — Rails treats `only: :upgrade`
 and `only: [:upgrade]` identically, and the single-literal form is the more
 common style in real controllers. A `before_action` with dynamic filter
 arguments (computed symbols, `if:`/`unless:` procs deciding inclusion, splats,
-etc.) MUST NOT be guessed at; it becomes an uncertainty note instead.
+etc.) MUST NOT be guessed at; it becomes an uncertainty fact and Follow-up
+instead.
 **[amended: originally arrays only; single literals admitted after
 implementation review showed the array-only rule would push the dominant
-Rails style into uncertainty notes]**
+Rails style into uncertainty facts]**
 
 **CB-2a.** `skip_before_action` declarations in the same controller class are
 honored under the same literalness rule: a callback skipped for the action via
@@ -140,8 +141,8 @@ declaration names a method with no direct definition in the same file, the
 packet MUST list that name as unresolved rather than omitting it.
 Declarations living entirely outside the controller file (superclass or
 concern `before_action`s) are invisible to v0 and cannot be named; they are
-covered by the Uncertainty section's standing note that callbacks outside the
-controller file were not resolved (FMT-8). **[amended: originally said
+covered by the FMT-8 standing `Scope:` line that superclass/concern callbacks
+are not scanned. **[amended: originally said
 "callbacks declared outside the controller file must be listed by name",
 which is unimplementable — v0 never reads the superclass or concerns, so
 those names cannot be known]**
@@ -184,8 +185,7 @@ only.
 **CONST-2.** Collected constants are mapped to files using Rails/Zeitwerk
 naming conventions only, and only when the mapping is cheap and exact — i.e.
 the conventionally derived path exists. A constant whose conventional file
-does not exist yields no file entry (it may still surface in the
-omitted-candidates or uncertainty notes).
+does not exist yields no file entry.
 
 **CONST-2a.** Namespace-relative references resolve lexically: candidate
 constant names are built from the innermost enclosing namespace outward (e.g.
@@ -204,7 +204,8 @@ configuration. (Post-v0: add opt-in `lib/` support for apps using
 `config.autoload_lib`.)
 
 **CONST-3.** Constant-to-file matches by convention are shallow evidence, not
-proof; the packet's uncertainty section reflects this (FMT-8).
+proof; the packet records a convention-only fact and renders a specific
+Follow-up for it (FMT-8).
 
 **CONST-2c.** When a candidate constant path has no file of its own, the
 resolver retries with trailing segments trimmed (`Order::PENDING` → `Order` →
@@ -220,7 +221,7 @@ same-file callee constants in BFS discovery order. Deduplication is by
 resolved file path across all three groups; first occurrence wins. This
 ordering decides both which files survive the max-constant-files limit
 (LIM-1) and their display order in the packet. Constants dropped by the limit
-are named in the omitted-candidates note (LIM-2). Because transitive callee
+are named in Follow-ups (LIM-2). Because transitive callee
 constants are appended last, they can add context under spare capacity but
 cannot evict constants referenced directly by the action or callbacks.
 
@@ -286,16 +287,14 @@ renders a different template or redirects. This is disclosed, not hidden
 (8) via a dedicated `max_view_files` sub-limit of 2. File ordering places the
 action view(s) ahead of constant files and test candidates within
 `max_total_files` — see LIM-1's priority rule. Views truncated by either
-limit MUST be named in the LIM-2 omitted-candidates note.
+limit MUST be named in a LIM-2 Follow-up.
 
 **VIEW-6.** View inclusion is convention-only evidence (like CONST-3, but the
 action→template default is stronger than constant guessing). The packet's
-`## Uncertainty` section MUST disclose that included views were matched by
-convention and not confirmed against the action's actual render target
-(VIEW-4), via the uncertainty code `view_inferred_by_convention` (FMT-7). The
-`## Retrieve more only if needed` section (FMT-2 §8) maps that code to one
-templated suggestion (e.g. "confirm the action renders this template; it may
-redirect or render another").
+`## Follow-ups` section MUST disclose each included view path that was matched
+by convention and not confirmed against the action's actual render target
+(VIEW-4), via one `view_inferred_by_convention` uncertainty fact and one
+specific templated imperative suggestion per path (FMT-7).
 
 **VIEW-7.** View resolution is a pure function of the on-disk view directory
 and the anchor — no clocks, no globbing-order ambiguity (lexicographic sort,
@@ -346,12 +345,12 @@ matches are sorted lexicographically.
 
 **TEST-2.** The selected family's combined list is truncated at the
 max-test-files limit (LIM-1); truncation MUST be reported in the
-omitted-candidates note.
+Follow-ups section.
 
 **TEST-3.** Minitest rules use the `minitest_candidate` reason code. RSpec
-rules use the `rspec_candidate` reason code. The packet's "Why" line states
-which family rule matched. Rule 2 matches in either family MUST always carry
-the `test_inferred_by_path` uncertainty note.
+rules use the `rspec_candidate` reason code. The `## Inspect first` inventory
+phrase states which family rule matched. Rule 2 matches in either family MUST
+always carry the `test_inferred_by_path` uncertainty fact.
 
 **TEST-4.** No test-content matching in v0: path rules only, no grepping test
 bodies for routes or controller names.
@@ -360,7 +359,7 @@ bodies for routes or controller names.
 explicitly rather than guessing from another framework or test directory.
 
 **TEST-6.** Each included test file yields a suggested command in the
-packet's "Tests to run" section: Minitest candidates use
+packet's `## Run` section: Minitest candidates use
 `bin/rails test <path>`; RSpec candidates use `bundle exec rspec <path>`.
 
 ## Limits
@@ -390,8 +389,8 @@ there. `max_total_files` itself stays at 8; it is not raised to
 `8 + max_view_files`.
 
 **LIM-2.** When any limit truncates candidates, the packet MUST include an
-explicit omitted-candidates note naming what was left out (FMT-9). Silent
-omission is a bug.
+explicit imperative Follow-up naming what was left out and which semantic
+limit was reached (FMT-9). Silent omission is a bug.
 
 **LIM-3.** The limits exist to prevent context dumping and to keep packets
 deterministic and reviewable — not to claim completeness. Whether these
@@ -403,4 +402,4 @@ is: the action snippet first — head-truncated at the budget, with an explicit
 truncation marker, if the method alone exceeds it — then applicable callbacks
 in declaration order, each included only if it fits whole in the remaining
 budget. Callback snippets are never cut mid-method. Every dropped or
-truncated snippet is named in the omitted-candidates note (LIM-2).
+truncated snippet is named in a Follow-up (LIM-2).

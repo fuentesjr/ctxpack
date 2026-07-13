@@ -24,7 +24,10 @@ class ViewResolutionTest < Minitest::Test
     manifest_view = packet.to_h.fetch("files").find do |entry|
       entry.fetch("path") == "app/views/admin/widgets/show.html.erb"
     end
-    assert_equal [], manifest_view.fetch("snippet_ranges")
+    manifest_evidence = manifest_view.fetch("evidence").find do |item|
+      item.fetch("reason_code") == "view_candidate"
+    end
+    assert_equal [], manifest_evidence.fetch("snippet_ranges")
   end
 
   def test_view_2_includes_all_format_variants_in_lexicographic_order
@@ -111,14 +114,21 @@ class ViewResolutionTest < Minitest::Test
     )
 
     markdown = Ctxpack.render_markdown(packet)
+    view_paths = [
+      "app/views/view_budgets/index.html.erb",
+      "app/views/view_budgets/index.json.jbuilder"
+    ]
 
-    assert_includes markdown, <<~MARKDOWN
-      Why: Conventional view template for `view_budgets#index`.
-      Reason code: `view_candidate`
-    MARKDOWN
-    assert_includes markdown, "- Included view template(s) were matched by action->template convention and not confirmed against the action's actual render target."
-    assert_includes markdown, "View `app/views/view_budgets/index.turbo_stream.erb` was omitted because max view files limit reached."
-    assert_includes markdown, "- Confirm the action renders the included view template(s); it may redirect or render another."
-    assert_includes markdown, "- Inspect omitted view file(s) manually: `app/views/view_budgets/index.turbo_stream.erb`."
+    assert_includes markdown, "`app/views/view_budgets/index.html.erb` — `view_candidate`: conventional template for `view_budgets#index`"
+    assert_equal view_paths,
+                 packet.uncertainty.select { |item| item.code == "view_inferred_by_convention" }.map(&:subject)
+    view_paths.each do |path|
+      assert_includes markdown, "- Confirm the action renders `#{path}`; it was matched by convention."
+      assert_includes packet.to_h.fetch("follow_ups"), {
+        "code" => "view_inferred_by_convention",
+        "subject" => path
+      }
+    end
+    assert_includes markdown, "- Inspect omitted view file `app/views/view_budgets/index.turbo_stream.erb`; the 2-view limit was reached."
   end
 end

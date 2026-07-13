@@ -141,6 +141,13 @@ ctxpack accounts#upgrade --task-file issue.md --stdout | your-agent
 `--stdout` creates nothing and intentionally conflicts with artifact options
 such as `--out`, `--dir`, `--name`, `--force`, and `--manifest`.
 
+Markdown packets declare `Format: 2`: task bodies are blockquoted, files are
+listed once under `Inspect first`, snippet-bearing files expand under
+`Evidence` with source ranges, commands live under `Run`, and packet-specific
+uncertainty/omissions are deduplicated under `Follow-ups`. The optional
+manifest emits schema version 2 only; consumers should reject versions they do
+not support.
+
 Use Rails for route discovery:
 
 ```bash
@@ -155,7 +162,7 @@ Common aliases are `-t`/`--task`, `-d`/`--dir`, `-o`/`--out`, and
 `-f`/`--force`; `--task-file`, `--stdout`, `--name`, and `--manifest` stay long-only. An exact `--out`
 cannot be combined with an explicit `--dir` or `--name`, and it never grants
 overwrite permission—pass `--force` when replacing either Markdown or its
-sibling manifest. Requires Ruby ≥ 3.2;
+sibling manifest. Requires Ruby ≥ 3.4;
 the only runtime dependency is [`prism`](https://github.com/ruby/prism).
 Run `ctxpack` with no arguments, or use `--help` / `-h` in either command form,
 for descriptions, defaults, and examples. `ctxpack --version` and `ctxpack -v`

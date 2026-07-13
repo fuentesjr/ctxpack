@@ -4,19 +4,18 @@ A hands-on tour for Rails developers. By the end you can generate a context
 packet for any `controller#action`, read every section, feed it to an AI coding
 agent, and know when ctxpack will (correctly) refuse.
 
-All packet output shown here is **real**, produced by the ctxpack CLI (tool
-commit `bcfed2f`) against a throwaway copy of the bundled fixture app. Output is
-byte-for-byte deterministic, so the same anchor + same tree always produces the
-same packet. (The `Generated from:` line inside a packet is the *target app's*
-git SHA, so the sample below shows a different short SHA than the tool commit.)
+Packet excerpts shown here follow the real deterministic Format 2 output from
+the bundled fixture app; explicit ellipses mark abridgement. The same anchor,
+task, and tree produce byte-identical packet content. The `Generated from:`
+line is the target app's Git state, not ctxpack's own revision.
 
 ## What ctxpack does, and when to reach for it
 
 Given a Rails anchor like `accounts#upgrade`, ctxpack **statically** (it never
 boots your app) compiles a short, ordered list of the files worth reading first:
 the controller action, its applicable callbacks, the constants it references,
-the conventional view template, and the test files that cover it — plus an
-honest **Uncertainty** section naming anything it guessed.
+the conventional view template, and the test files that cover it — plus
+deduplicated **Follow-ups** naming anything it guessed.
 
 Reach for it when you're about to hand a *focused* task (a bug fix, a
 behavior tweak, a small feature) to an AI coding agent and want it to land on
@@ -52,33 +51,49 @@ writes the packet to `.ctxpack/<utc-timestamp>_<name>.md`, and prints the path.
 When the new default directory is not ignored according to Git, the reminder is written to stderr; success stdout contains only artifact paths,
 one per line. Paths are relative to the directory where you invoked ctxpack, so
 they remain directly usable when you run from a nested app directory.
-Requires Ruby ≥ 3.2; its only runtime dependency is
+Requires Ruby ≥ 3.4; its only runtime dependency is
 [`prism`](https://github.com/ruby/prism), Ruby's own parser.
 
 ## Anatomy of a packet
 
-Here is the full packet for `accounts#upgrade`. Read it top to bottom, then see
+Here is an abridged packet for `accounts#upgrade`. Read it top to bottom, then see
 the section-by-section notes below.
 
 ````markdown
 # ctxpack context packet
 
 ## Task
-Add annual billing option to the upgrade flow
+
+> Add annual billing option to the upgrade flow
+
+## How to use this packet
+
+- If the task already names a failing test, an error, or an exact location, start there and use this packet to verify coverage — not as a reading list.
+- Otherwise, start with `app/controllers/accounts_controller.rb` and open the other listed files only as the task touches them.
 
 ## Anchor
+
 - Anchor: `accounts#upgrade`
 - Controller: `AccountsController`
 - Action: `upgrade`
 - File: `app/controllers/accounts_controller.rb`
 - Generated from: 49a4ea9 (clean)
+- Format: 2
+- Scope: routes, superclass/concern callbacks, and locale files are not scanned by ctxpack v0; use `bin/rails routes -g upgrade` for endpoints, and check `config/locales/` if the task touches user-facing copy.
 
-## Files to inspect first
+## Inspect first
+
+1. `app/controllers/accounts_controller.rb` — `controller_action`: action and applicable callbacks
+2. `app/services/billing/subscriptions.rb` — `referenced_constant`: `Billing::Subscriptions`
+3. `app/jobs/sync_billing_account_job.rb` — `referenced_constant`: `SyncBillingAccountJob`
+4. `test/controllers/accounts_controller_test.rb` — `minitest_candidate`: conventional controller test path
+5. `test/integration/accounts_upgrade_test.rb` — `minitest_candidate`: path-inferred; verify coverage
+
+## Evidence
 
 ### `app/controllers/accounts_controller.rb`
 
-Why: controller action for requested anchor.
-Reason code: `controller_action`
+`controller_action` — action `upgrade` · lines 10–15
 
 ```ruby
   def upgrade
@@ -89,8 +104,7 @@ Reason code: `controller_action`
   end
 ```
 
-Why: callback `set_account` applies to the requested action.
-Reason code: `before_action_callback`
+`before_action_callback` — callback `set_account` applies · lines 23–25
 
 ```ruby
   def set_account
@@ -98,78 +112,42 @@ Reason code: `before_action_callback`
   end
 ```
 
-… (the other applicable callbacks follow) …
+… (the other applicable callback evidence follows) …
 
-### `app/services/billing/subscriptions.rb`
+## Run
 
-Why: constant `Billing::Subscriptions` was referenced by the action, an applicable callback, or a same-file method transitively called from the action.
-Reason code: `referenced_constant`
-
-### `app/jobs/sync_billing_account_job.rb`
-
-Why: constant `SyncBillingAccountJob` was referenced by the action, an applicable callback, or a same-file method transitively called from the action.
-Reason code: `referenced_constant`
-
-### `test/controllers/accounts_controller_test.rb`
-
-Why: test file matched the conventional controller test path.
-Reason code: `minitest_candidate`
-
-### `test/integration/accounts_upgrade_test.rb`
-
-Why: test file matched integration path tokens for the anchor.
-Reason code: `minitest_candidate`
-
-## Tests to run
 - `bin/rails test test/controllers/accounts_controller_test.rb`
-- `bin/rails test test/integration/accounts_upgrade_test.rb`
+- `bin/rails test test/integration/accounts_upgrade_test.rb` — path-inferred; verify coverage
 
-## Uncertainty
-- `around_action` callback `with_billing_audit` applies and is not snippeted in v0.
-- Inline `before_action` callback block applies and has no method snippet.
-- Test file `test/integration/accounts_upgrade_test.rb` was inferred by path and should be verified.
-- Callbacks declared outside this controller file, including superclasses and concerns, were not resolved.
-- Route discovery is delegated to Rails; run `bin/rails routes -g upgrade` if the exact endpoint matters.
-- Locale files are not scanned; user-facing strings conventionally live in `config/locales/`. If the task adds or changes user-visible copy, add or update the matching locale key(s).
-- Convention-only constant match `Billing::Subscriptions` resolved to `app/services/billing/subscriptions.rb`; verify it if the task depends on that behavior.
-- Convention-only constant match `SyncBillingAccountJob` resolved to `app/jobs/sync_billing_account_job.rb`; verify it if the task depends on that behavior.
+## Follow-ups
 
-## Retrieve more only if needed
-- Inspect applicable `around_action` behavior for `with_billing_audit` if it affects the task.
-- Inspect inline callback block behavior for `before_action` if it affects the task.
-- Inspect test file `test/integration/accounts_upgrade_test.rb` to confirm the path-inferred Minitest candidate covers the task.
+- Inspect `around_action` callback `with_billing_audit`; it applies but is not snippeted in v0.
+- Inspect the inline `before_action` block; it applies but has no method snippet.
+- Inspect `test/integration/accounts_upgrade_test.rb` to confirm the path-inferred candidate covers the task.
+- Verify convention-only constant match `Billing::Subscriptions` → `app/services/billing/subscriptions.rb` if the task depends on it.
 ````
 
 Section by section:
 
-- **`## Task`** — the string you passed as `--task`, echoed so the packet is
-  self-describing when an agent reads it.
+- **`## Task`** — the string you passed as `--task`, contained in a blockquote
+  so issue-body Markdown cannot restructure the packet.
+- **`## How to use this packet`** — fixed guidance for starting from an exact
+  failing location when one exists, or from the entrypoint otherwise.
 - **`## Anchor`** — the resolved controller, action, and file. `Generated from:
   49a4ea9 (clean)` is a **repo stamp**: the short git SHA of the tree the packet
   was compiled against, plus `(clean)` or `(dirty)`. A `(dirty)` stamp means you
   generated from uncommitted changes — the packet reflects your working tree,
-  not a commit. Outside a git repo the line reads `unknown (not a git
-  repository)`.
-- **`## Files to inspect first`** — the ordered file list, by priority:
-  controller action → applicable callbacks → referenced constants → view
-  template → test candidates. Each entry has a plain-language **Why** and a
-  machine-readable **Reason code** (full table [below](#what-gets-included-and-why)).
-  Ruby files that were parsed carry a snippet; view and test files are listed
-  by path only (they point you at the file without quoting it).
-- **`## Tests to run`** — copy-pasteable commands for the test candidates, so the
+  not a commit. When Git state cannot be read, the line says `unknown (Git
+  state unavailable)`. `Format: 2` versions the Markdown shape; `Scope:` holds
+  standing v0 boundaries once.
+- **`## Inspect first`** — the flat DET-2-ordered file map. Every entry carries
+  a literal reason code and templated provenance.
+- **`## Evidence`** — snippet-bearing files only, with exact visible source
+  ranges. Pointer-only constant, view, and test files stay in the map.
+- **`## Run`** — copy-pasteable commands for the test candidates, so the
   first thing an agent does can be run the covering test.
-- **`## Uncertainty`** — everything ctxpack *guessed* or deliberately did not
-  resolve: path-inferred tests, convention-only constant matches, out-of-file
-  callbacks, the standing locale pointer, and route discovery. This section is
-  the point: ctxpack tells you where to double-check instead of pretending to
-  certainty.
-- **`## Retrieve more only if needed`** — a short, mechanical follow-up list
-  derived from the uncertainty/omission codes: the next files or checks to pull
-  in *only if* the task touches them.
-- **`## Omitted candidates`** — not shown above because nothing was omitted here.
-  When a limit truncates the file set (see [limits](#limits)), this section names
-  exactly which constants, tests, views, or snippets were dropped, so nothing
-  disappears silently.
+- **`## Follow-ups`** — packet-specific uncertainty and omissions, each once
+  as an imperative action. It is omitted when there is nothing to follow up.
 
 ## Choosing an anchor
 
@@ -202,7 +180,7 @@ text):
 1. Generate the packet for the anchor you're about to work on.
 2. Paste its contents (or attach the file) at the top of your task prompt.
 3. The agent opens the listed files first, runs the suggested test, and treats
-   the **Uncertainty** notes as things to verify rather than assume.
+   **Follow-ups** as things to verify rather than assume.
 
 For programmatic wiring, add `--manifest` to also emit a sibling JSON file with
 the same information in a stable, machine-readable shape:
@@ -215,21 +193,30 @@ $ bundle exec ctxpack accounts#upgrade -t "..." --manifest
 
 ```json
 {
-  "version": 1,
+  "version": 2,
+  "task": "...",
   "anchor": "accounts#upgrade",
+  "repo": { "available": true, "commit": "49a4ea9…", "dirty": false },
   "entrypoint": { "file": "app/controllers/accounts_controller.rb", "controller": "AccountsController", "action": "upgrade" },
   "files": [
-    { "path": "app/controllers/accounts_controller.rb", "reason_code": "controller_action", "snippet_ranges": [[10, 15]] },
-    { "path": "app/services/billing/subscriptions.rb", "reason_code": "referenced_constant", "snippet_ranges": [] }
+    { "path": "app/controllers/accounts_controller.rb", "evidence": [
+      { "reason_code": "controller_action", "subject": "upgrade", "snippet_ranges": [[10, 15]], "truncated": false }
+    ] }
   ],
   "tests": [
-    { "command": "bin/rails test test/controllers/accounts_controller_test.rb", "reason_code": "minitest_candidate" }
+    { "path": "test/controllers/accounts_controller_test.rb", "command": "bin/rails test test/controllers/accounts_controller_test.rb", "reason_code": "minitest_candidate", "rule": "conventional_controller_test" }
   ],
-  "uncertainty": [ { "code": "around_callback_present" }, { "code": "test_inferred_by_path" } ]
+  "follow_ups": [ { "code": "around_callback_present", "subject": "with_billing_audit" } ],
+  "omitted_candidates": [],
+  "no_test_candidates": false
 }
 ```
 
 (Trimmed for brevity — the real manifest lists every file and code.)
+When a limit omits a candidate, both its `follow_ups` fact and full
+`omitted_candidates` record carry a semantic `limit_key` such as
+`max_constant_files`; consumers do not need to interpret prose to identify the
+limit.
 
 Why this beats letting the agent grep or `@`-mention files itself is covered in
 the [FAQ](faq.md#why-not-just-let-the-agent-grep).
@@ -283,7 +270,7 @@ Notes you'll hit in practice:
 
 ## What gets included, and why
 
-**Reason codes** (every file in `## Files to inspect first` carries one):
+**Reason codes** (every file in `## Inspect first` carries one):
 
 | Reason code | Meaning |
 |---|---|
@@ -294,8 +281,8 @@ Notes you'll hit in practice:
 | `minitest_candidate` | A Minitest file matched by the conventional/path rules |
 | `rspec_candidate` | A spec file matched by the conventional/path rules |
 
-**Uncertainty codes** (machine-readable, in the manifest; prose in
-`## Uncertainty`):
+**Uncertainty codes** (machine-readable in manifest `follow_ups`; imperative
+prose in `## Follow-ups`):
 
 | Uncertainty code | Emitted when |
 |---|---|
@@ -318,7 +305,7 @@ ctxpack caps the packet so it stays small enough to actually read:
 | Test candidates | 2 |
 | Snippet lines per file | 120 |
 
-When a cap truncates something, it is named in `## Omitted candidates` and, if a
+When a cap truncates something, it is named in `## Follow-ups` and, if a
 snippet is head-truncated, the fence ends with an explicit
 `# … truncated by ctxpack at 120 lines` marker. There is no flag to raise the
 limits — see [the FAQ](faq.md#can-i-raise-the-limits).
@@ -352,10 +339,11 @@ In both cases the fix is to find the real `controller#action` (via
 
 **RSpec projects.** When ctxpack detects an RSpec suite (a `spec/` directory
 with `spec/rails_helper.rb` or `rspec-rails`), the test candidates and
-`## Tests to run` switch to specs and `bundle exec rspec` automatically:
+`## Run` switches to specs and `bundle exec rspec` automatically:
 
 ```markdown
-## Tests to run
+## Run
+
 - `bundle exec rspec spec/controllers/accounts_controller_spec.rb`
 - `bundle exec rspec spec/requests/accounts_upgrade_spec.rb`
 ```
@@ -365,15 +353,16 @@ conventional path is included (up to the 2-view limit), each as its own
 `view_candidate`:
 
 ```markdown
-### `app/views/view_budgets/index.html.erb`
+## Inspect first
 
-Why: Conventional view template for `view_budgets#index`.
-Reason code: `view_candidate`
+1. `app/controllers/view_budgets_controller.rb` — `controller_action`: action and applicable callbacks
+2. `app/views/view_budgets/index.html.erb` — `view_candidate`: conventional template for `view_budgets#index`
+3. `app/views/view_budgets/index.json.jbuilder` — `view_candidate`: conventional template for `view_budgets#index`
 
-### `app/views/view_budgets/index.json.jbuilder`
+## Follow-ups
 
-Why: Conventional view template for `view_budgets#index`.
-Reason code: `view_candidate`
+- Confirm the action renders `app/views/view_budgets/index.html.erb`; it was matched by convention.
+- Confirm the action renders `app/views/view_budgets/index.json.jbuilder`; it was matched by convention.
 ```
 
 **API-only actions with no view.** No view entry is added and resolution does

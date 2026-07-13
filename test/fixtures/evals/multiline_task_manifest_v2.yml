@@ -1,0 +1,31 @@
+name: multiline_task_manifest_v2
+command:
+  anchor: accounts#upgrade
+  task: |-
+    ## Acceptance criteria
+
+    - Preserve raw task Markdown.
+
+expect:
+  entrypoint:
+    file: app/controllers/accounts_controller.rb
+    action: upgrade
+
+  include:
+    - path: app/controllers/accounts_controller.rb
+      reason_code: controller_action
+
+  exclude: []
+
+  tests:
+    - bin/rails test test/controllers/accounts_controller_test.rb
+    - bin/rails test test/integration/accounts_upgrade_test.rb
+
+  manifest:
+    version: 2
+    task: |-
+      ## Acceptance criteria
+
+      - Preserve raw task Markdown.
+
+  max_files: 8

@@ -79,12 +79,27 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Written 2026-07-12 after the CLI developer-happiness follow-on. This is the
+Written 2026-07-12 after the packet-format v2 implementation. This is the
 authoritative work order for a fresh "Continue from PROJECT_TRACKER.md"
 session; the summary under "Next steps" must agree with it.
 
-**Context — a second CLI developer-happiness follow-on is complete locally,
-parent-verified, and UNCOMMITTED.** It preserves the committed
+**Context — packet format v2 is complete locally, parent-verified, and
+UNCOMMITTED.** All four
+accepted slices in `docs/packet-format-proposal.md` landed: blockquoted tasks,
+visible ranges, honest Git-unavailable wording, Markdown Format 2, How-to-use,
+the flat Inspect-first map, snippet-only Evidence, Run, deduplicated Follow-ups,
+single Scope line, and lossless manifest v2 as the only emitted schema. The
+public render interfaces are unchanged. A multiline-task YAML fixture now
+asserts raw manifest task/version facts; renderer containment remains covered
+through the public Markdown API because EVAL-5 prefers stable fields over
+Markdown parsing. The final full suite is **147 runs / 1325 assertions**, zero
+failures or errors. Strategic validation passed its slice, red/green, and
+pending-comment gates; after the bounded blocker-fix round, the final
+clean-context design review was clean with no findings.
+No compiler retrieval behavior, dependencies, or recorded experiment data
+changed; Tier 0 is N/A.
+
+The work preserves the committed
 CLI ergonomics pass (`b8c2dc8`) and adds multiline task files from files or
 standard input, mutation-free Markdown stdout, tailored syntactic Rails-input
 recovery, and a Git-aware default-directory reminder. A bounded closure also
@@ -118,8 +133,12 @@ red/green behaviors passed; two non-gating RuboCop/Metz-configuration warnings
 are recorded in the implementation notes. Tier 0 is N/A because compiler
 behavior did not change.
 
-**Next work order:** obtain user direction before committing or pushing. Do not
-commit or push without explicit user approval.
+**Next work order:** obtain explicit user sign-off before the pending
+release-boundary three-app harness rerun (~50M subject tokens), and obtain
+separate direction before committing or pushing the completed local changes.
+GitHub issue [#5](https://github.com/fuentesjr/ctxpack/issues/5) tracks the
+approved in-depth RubricLLM spike; it does not authorize dependency adoption or
+paid evaluation calls.
 
 ## Status
 
@@ -131,7 +150,9 @@ commit or push without explicit user approval.
 | CLI ergonomics | [`cli.md`](specs/cli.md) | **Done — verified, COMMITTED (`b8c2dc8`)** (2026-07-12) | Agenticons implementation + edge-case review; CLI-1a/8a/10a/14/15/17 reconciled. Clean-HEAD red proof; focused CLI **24 runs / 148 assertions** and full suite **102 runs / 912 assertions**, zero failures. Tier 0 N/A (no compiler behavior). |
 | CLI developer happiness follow-on | [`cli.md`](specs/cli.md) | **Done locally — verified, UNCOMMITTED** (2026-07-12) | Agenticons pass: direct-anchor golden path, descriptive help/version, short aliases, explicit output-option conflicts, force-only overwrite permission, concise filesystem errors, non-file destination preflight, and typo suggestion. Focused CLI **38 runs / 241 assertions**; full suite **116 runs / 1005 assertions**, zero failures; final design review clean. No compiler behavior or dependencies; Tier 0 N/A. |
 | CLI pipelines and Rails-aware recovery | [`cli.md`](specs/cli.md) | **Done locally — parent-verified, UNCOMMITTED** (2026-07-12) | `--task-file`, `--stdout`, syntactic Rails-aware recovery, Git-aware reminder, and unavailable-Git repo-stamp fallback; CLI-4a/10b/14a/17c and FMT-11. Parent full suite **135/1190**, green; strategic gates passed. No dependencies. Tier 0 N/A because classifier behavior is unchanged. |
-| 4 | [`fixture-evals.md`](specs/fixture-evals.md) | **Done** (2026-07-05) | `FixtureEvalsTest` generates packet-expectation + CLI-determinism tests from `test/fixtures/evals/*.yml`; CI (`.github/workflows/ci.yml`) runs the suite on Ruby 3.2 plus a non-blocking pinned metz step. One review fix round (empty-glob guard, manifest-inclusive determinism, CI Ruby floor). 49 tests / 311 assertions green. |
+| Packet format v2 | [`packet-format.md`](specs/packet-format.md) | **Done locally — parent-verified, UNCOMMITTED** (2026-07-13) | Agenticons implementation of all four accepted slices plus one bounded blocker-fix round. Final full suite **147/1325**, green; strategic gates passed and the final clean-context design review was clean with no findings. No compiler selection/order/limit behavior or dependencies; Tier 0 N/A. |
+| Ruby 3.4 floor | `ctxpack.gemspec`, [CI](.github/workflows/ci.yml) | **Done locally — verified, UNCOMMITTED** (2026-07-13) | User-authorized compatibility-floor change: gem requires Ruby ≥ 3.4 and CI exercises exactly that floor; current docs and the open floor-plus-current backlog item are reconciled. Gemspec load/build and workflow checks passed; full suite **147/1325**, green. No dependency or lockfile change; historical run records retain their actual Ruby versions. |
+| 4 | [`fixture-evals.md`](specs/fixture-evals.md) | **Done** (2026-07-05) | `FixtureEvalsTest` generates packet-expectation + CLI-determinism tests from `test/fixtures/evals/*.yml`; CI (`.github/workflows/ci.yml`) runs the suite at the current Ruby 3.4 floor plus a non-blocking pinned metz step. One review fix round (empty-glob guard, manifest-inclusive determinism, CI Ruby floor). 49 tests / 311 assertions green. |
 | View resolution | [`views.md`](specs/views.md), [`packet-compilation.md`](specs/packet-compilation.md), [`packet-format.md`](specs/packet-format.md) | **Done — gate-passed, COMMITTED (`6688ff9`) + PUSHED** (2026-07-08; rescan re-verified + pushed 2026-07-09) | VIEW-1..VIEW-7 frozen + folded; `add_view_candidates` between controller and constants; `view_candidate` (list-only) + `view_inferred_by_convention`; `max_view_files = 2`; `max_total_files` truncates by priority. Red-then-green fixture evals + `ViewResolutionTest` (independently re-verified 6/7 red with `lib/` reverted). Suite green **74 runs / 621 assertions**. **Mandatory Tier 0 re-scan PASSED and RE-VERIFIED 2026-07-09** — classifier output byte-identical to the post-amendment baseline, zero per-anchor change, zero crashes across 1,967 pairs (addendum + re-verification note in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md)). Remaining: push (user go) + optional release-boundary Tier 2 validation (needs a `--dangerously-skip-permissions` session). |
 | CONST-1 widening (companion) | [`packet-compilation.md`](specs/packet-compilation.md) | **Done — gate-passed, COMMITTED (`ab72137`) + PUSHED** (2026-07-09) | Codex-implemented (fable-frozen), intra-file action call graph: constant scan now covers action body + applicable same-file callbacks + same-file methods **transitively called from the action** (BFS, nil/`self` receiver + direct-method-name only; dynamic dispatch out). CONST-4 three-group order (action → callbacks → callees appended LAST) makes it **strictly additive under the 4-cap** (no eviction). CONST-1/1a/4 amended, `design.md` reconciled; new `file_order`/`omitted` fixture-eval DSL. 5 red-then-green fixtures + `constants_test` cases (independently re-verified red with `lib/` reverted). Suite green **89 runs / 815 assertions**. **Mandatory Tier 0 re-scan PASSED** — zero per-anchor change, zero crashes across 1,967 pairs (also a crash-stress test of the new call-graph code). |
 | Locale pointer (companion) | [`packet-format.md`](specs/packet-format.md) FMT-8, [`views.md`](specs/views.md) | **Done — COMMITTED + PUSHED** (2026-07-09) | coding-worker-implemented (fable-frozen), targets the locale half of the P06/P20 ding. An **unconditional standing uncertainty note** ("Locale files are not scanned; user-facing strings conventionally live in `config/locales/`…") in `markdown_renderer.rb#uncertainty_notes` — chosen over a view-gated coded uncertainty because the gap is *newly-added keys* (orthogonal to view presence) and it mirrors the two existing standing notes. **No** retrieve-more suggestion (FMT-2 §8: code-less note ⇒ no suggestion; action embedded in the note). FMT-8 amended, `design.md` reconciled; no FMT-7/manifest change. Red-then-green in `packet_format_test.rb` (independently re-verified). Suite green **89 runs / 817 assertions**. **Tier 0 rescan N/A** — prose-only renderer change, no resolution/manifest behavior touched. |
@@ -148,16 +169,41 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Next steps
 
-1. **CLI pipelines/recovery and unavailable-Git closure are complete locally,
-   parent-verified, and uncommitted.** Await user direction before committing or
-   pushing.
-2. **Real-usage dogfooding remains discretionary.** Exercise LIM-1 against
+1. **Packet format v2 and the preceding CLI follow-ons are complete locally and
+   uncommitted.** Parent verification and the final clean-context review are
+   complete; do not commit or push without user approval.
+2. **The release-boundary three-app harness rerun awaits explicit user
+   sign-off.** Do not spend its ~50M subject tokens implicitly.
+3. **RubricLLM investigation is tracked in GitHub issue #5.** The spike must
+   establish measurable incremental value before any adoption proposal; it
+   does not authorize a dependency or paid calls.
+4. **Real-usage dogfooding remains discretionary.** Exercise LIM-1 against
    packet-vs-diff coverage on live work.
-3. **Tier 3 Rubydex remains deferred.** Revisit only if a corpus makes the
+5. **Tier 3 Rubydex remains deferred.** Revisit only if a corpus makes the
    halved-precision tradeoff worthwhile.
 
 ## Decision log
 
+- **2026-07-13** — Opened GitHub issue
+  [#5](https://github.com/fuentesjr/ctxpack/issues/5) for an in-depth,
+  evidence-gated RubricLLM spike. The issue requires measuring incremental
+  value against ctxpack's existing deterministic and human-scored evaluation
+  layers before proposing adoption; no dependency or paid call is authorized.
+- **2026-07-13** — Raised ctxpack's supported Ruby floor from 3.2 to 3.4 with
+  explicit user approval. The gemspec and CI remain coupled at the floor; CI
+  still runs only the full suite plus the version-pinned, non-blocking metz
+  step. Active install/compatibility docs and the open floor-plus-current CI
+  backlog item now use 3.4. Historical notes retain older Ruby versions when
+  they describe the environment in which recorded work actually ran.
+- **2026-07-12** — Accepted and implemented all four packet-format v2 slices
+  atomically because the user is the only current consumer. Manifest v2
+  replaces v1 without a compatibility flag; consumers must inspect and reject
+  unsupported versions. Markdown task containment is tested through the public
+  renderer (EVAL-5 prefers stable fields over parsing prose), while a new YAML
+  eval constrains the raw multiline task and manifest version facts. Historical
+  format-v1 Tier 2 packets/prompts remain frozen and untouched. Tier 0 is N/A:
+  no resolution, callback, constant, test-candidate, limit, or per-anchor
+  classifier behavior changed.
 - **2026-07-12** — CLI pipelines and Rails-aware recovery implemented locally
   with Agenticons orchestration. Added invocation-relative/injected multiline
   task input, artifact-free raw Markdown stdout, narrow pre-discovery recovery

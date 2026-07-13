@@ -93,7 +93,7 @@ prompts below assume the agent reads it first.
   > extraction, test-candidate rules). Invariants: no test edits, `bundle
   > exec rake test` green, `Ctxpack.compile` signature and Packet#to_h output
   > byte-identical for the existing fixtures, prism stays the only runtime
-  > dependency, Ruby 3.2 compatible. Record the split in
+  > dependency, Ruby 3.4 compatible. Record the split in
   > implementation-notes.md. Report which methods moved where and the test
   > summary. Do not commit. Note: session-side corpus re-scan happens after
   > your hand-back.
@@ -186,13 +186,13 @@ prompts below assume the agent reads it first.
 
 ## 5. CI Ruby matrix: floor + current
 
-- **Why it matters:** CI pins Ruby 3.2 (the gemspec floor) while local dev
-  runs 4.0.1 — the suite is never exercised on a modern Ruby in CI, so
+- **Why it matters:** CI pins Ruby 3.4 (the gemspec floor) while local dev
+  runs 4.0.1 — the suite is not exercised on the current Ruby line in CI, so
   floor-vs-current drift is only caught by accident. A two-entry matrix
   closes the gap for one workflow-file change.
 - **Recommended driver:** Either (mechanical; a fast/cheap agent is fine).
 - **Scope:** `.github/workflows/ci.yml` only: matrix over `ruby-version:
-  ["3.2", "3.4"]` (or current stable), metz step unchanged
+  ["3.4", "4.0"]` (or current stable), metz step unchanged
   (`continue-on-error: true`, pinned 0.4.0) and running on one matrix entry
   only to avoid duplicate advisory noise.
 - **Definition of done:** workflow YAML parses; suite passes locally on the
@@ -205,14 +205,14 @@ prompts below assume the agent reads it first.
   explicit note that green CI is verified only post-push.
 - **Claude Code prompt:**
   > Read AGENTS.md. Edit .github/workflows/ci.yml only: run the test job on
-  > a Ruby matrix of the gemspec floor "3.2" plus a current stable Ruby.
+  > a Ruby matrix of the gemspec floor "3.4" plus a current stable Ruby.
   > Keep the advisory metz step pinned to 0.4.0 with continue-on-error, and
   > make it run on only one matrix entry. Verify the YAML parses and run
   > `bundle exec rake test` locally. State clearly that CI green can only be
   > confirmed after push, and do not push or commit.
 - **Codex prompt:**
   > Read AGENTS.md. Single-file change: .github/workflows/ci.yml. Add a
-  > strategy matrix so `bundle exec rake test` runs on Ruby "3.2" (gemspec
+  > strategy matrix so `bundle exec rake test` runs on Ruby "3.4" (gemspec
   > floor — keep) and one current stable Ruby. The advisory metz step
   > (gem install metz-scan -v 0.4.0; continue-on-error) must run on exactly
   > one matrix entry. Validate the YAML loads, run the suite locally, and
