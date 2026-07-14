@@ -34,14 +34,11 @@ Roles the main session coordinates. All of this is Claude Code harness
 machinery — subagent types and the `--advisor` flag don't exist for Codex or
 other agents, which is why it lives here and not in `AGENTS.md`.
 
+Invariant across every profile below:
+
 - **Orchestrator (this session).** Plans, coordinates, verifies, owns the
   "Proof before claiming success" bar below, and relays to the user.
   Subagents never talk to the user directly.
-- **Heavy / substantial implementation → Codex** via the `codex-spec-pass`
-  loop (mechanics in the next section). Prefer this over local writable
-  workers for anything spec-pass-sized or otherwise nontrivial.
-- **Lighter edits → local writable workers:** `coding-worker` for
-  normal-scope changes, `fast-coding-worker` for small/mechanical ones.
 - **Judgment calls → the advisor**, configured at launch via
   `--advisor <model>` (currently `fable`). Guidance-only: it returns exactly
   one of a plan, a correction, or a stop signal — never a patch, never
@@ -49,9 +46,25 @@ other agents, which is why it lives here and not in `AGENTS.md`.
   advisory pattern) and the orchestrator; the caller still owns the decision
   and the execution. Consult it on genuine forks or hard-to-reverse calls,
   not for things settleable from the code or sensible defaults.
+- Verification gates (proof bar, Tier 0 rescan, commit/push rules) never
+  vary by profile — only who implements does.
 
 Escalation thresholds (two failed attempts, spec↔design conflicts, new deps,
 etc.) are in `AGENTS.md` "Escalation rules" and apply to every role.
+
+## Delegation profiles
+
+Who implements is a per-work-order choice among named profiles. Selection
+order: an explicit user instruction in-session > the profile named in the
+tracker's "Next step: execution plan" > the default. **Default: `grok-loop`.**
+State the active profile when starting implementation work.
+
+| Profile | Implementer | When | Mechanics |
+|---|---|---|---|
+| `grok-loop` | Grok Build via the grok plugin | Default for heavy / spec-pass-sized implementation | Same loop shape as `codex-spec-pass` (dispatch → background poll → session-side verify → resume fix rounds), using the grok companion: `~/.claude/plugins/cache/grok/grok/<version>/scripts/grok-companion.mjs` (newest version dir) — `task --background --write [--resume]` / `status` / `result` / `cancel`. Forwarder agent: `grok:grok-rescue`. Always dispatch with the companion's own `--background` flag (same foreground-reap wedge risk as codex). |
+| `codex-loop` | Codex via the codex plugin | Heavy implementation when Codex is preferred or grok is unavailable | `codex-spec-pass` skill + "Codex delegation notes" below. |
+| `local-fleet` | Local writable subagents | Multi-role local work: recon/plan → implement → review/QA without an external delegate | `planner` / `helper-worker` → `coding-worker` (normal scope) or `fast-coding-worker` (small/mechanical) → `reviewer` / `qa-engineer` / `edge-case-analyst`. The `autobots` skill covers dispatch recipes. |
+| `frugal` | `fast-coding-worker` + advisor | Small, well-scoped changes where cost matters more than depth | Cheap executor implements; blocking decisions route to the advisor (plan / correction / stop only); orchestrator verifies as usual. |
 
 ## Codex delegation notes (Claude-side mechanics)
 

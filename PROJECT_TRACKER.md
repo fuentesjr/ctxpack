@@ -19,10 +19,12 @@ mechanics, and the execution plan carries only pass-specific content.
 ## Working process
 
 Each spec is implemented in its own pass, in the dependency order from
-[`specs/README.md`](specs/README.md): implementation is delegated to Codex
-(via the codex plugin), then reviewed requirement-by-requirement by Claude,
-confirmed defects are routed back to the same Codex session, and the result is
-re-verified before acceptance. Spec bugs discovered during implementation are
+[`specs/README.md`](specs/README.md): implementation is delegated to the
+active delegation profile's implementer (see `CLAUDE.md` "Delegation
+profiles"; default `grok-loop`, with `codex-loop` mechanics below serving as
+the loop's reference shape), then reviewed requirement-by-requirement by
+Claude, confirmed defects are routed back to the same delegate session, and
+the result is re-verified before acceptance. Spec bugs discovered during implementation are
 amended in the spec *and* reconciled with `design.md` in the same change.
 
 Codex plugin mechanics (learned in pass 1): the `codex:codex-rescue` agent is
