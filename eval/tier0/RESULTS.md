@@ -221,3 +221,8 @@ Anchor resolution path unchanged; new seeds are separate recipes.
 
 **Zero per-anchor change** — result JSONs byte-identical to `post_amendment/`;
 0 crashes / 1,967 pairs.
+
+## Phase 3–4 error + multi-seed rescan (2026-07-13)
+
+Mandatory re-scan after `--from-error` and multi-seed merge. Anchor single-seed
+path still byte-identical to `post_amendment/`; 0 crashes / 1,967 pairs.

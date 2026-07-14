@@ -1,0 +1,27 @@
+name: multi_seed_test_and_anchor
+command:
+  seeds:
+    - kind: test
+      evidence: test/controllers/accounts_controller_test.rb
+    - kind: anchor
+      evidence: accounts#upgrade
+  task: Fix upgrade with both seeds
+
+expect:
+  entrypoint:
+    file: app/controllers/accounts_controller.rb
+    action: upgrade
+
+  include:
+    - path: app/controllers/accounts_controller.rb
+      reason_code: controller_action
+    - path: test/controllers/accounts_controller_test.rb
+      reason_code: test_seed_primary
+
+  exclude:
+    - app/controllers/admin/accounts_controller.rb
+
+  tests:
+    - bin/rails test test/controllers/accounts_controller_test.rb
+
+  max_files: 8

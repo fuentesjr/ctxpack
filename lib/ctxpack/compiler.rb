@@ -30,19 +30,69 @@ module Ctxpack
     end
 
     def compile
-      # Phase 2: single seed (anchor | test | files). Phase 4 enables multi-seed.
-      if @seeds.length > 1
-        raise Error, "multi-seed compilation is not enabled until Phase 4; got #{@seeds.length} seeds"
-      end
+      packets = @seeds.map { |seed| resolve_one_seed(seed) }
+      return packets.first if packets.length == 1
 
-      seed = @seeds.first
+      merge_packets(packets)
+    end
+
+    def resolve_one_seed(seed)
       case seed.kind
       when "anchor" then resolve_anchor_seed(seed)
       when "test" then resolve_test_seed(seed)
       when "files" then resolve_files_seed(seed)
+      when "error" then resolve_error_seed(seed)
       else
         raise Error, "unsupported seed kind #{seed.kind.inspect}"
       end
+    end
+
+    def merge_packets(packets)
+      # MERGE-2..5: union files in seed order, merge evidence, apply budgets once.
+      first = packets.first
+      merged = Packet.new(
+        anchor: packets.map(&:anchor).compact.first,
+        seeds: @seeds,
+        task: @task,
+        repo: first.repo,
+        app_root: @app_root,
+        entrypoint: packets.map(&:entrypoint).compact.first,
+        version: 3
+      )
+
+      packets.each do |packet|
+        packet.files.each do |entry|
+          target = merged.add_file(entry.path)
+          entry.evidence_items.each do |item|
+            next if target.evidence_items.any? { |e| e.reason_code == item.reason_code && e.subject == item.subject }
+
+            target.add_evidence(item)
+          end
+        end
+        packet.tests.each do |test|
+          next if merged.tests.any? { |t| t.path == test.path }
+
+          merged.tests << test
+        end
+        packet.uncertainty.each do |note|
+          merged.add_uncertainty(code: note.code, subject: note.subject, message: note.message)
+        end
+        packet.omitted_candidates.each do |om|
+          next if merged.omitted_candidates.any? { |o| o.subject == om.subject && o.category == om.category }
+
+          merged.omitted_candidates << om
+        end
+        packet.convention_constant_matches.each do |m|
+          merged.convention_constant_matches << m unless merged.convention_constant_matches.include?(m)
+        end
+      end
+
+      merged.no_test_candidates = merged.tests.empty?
+      merged.test_framework = packets.map(&:test_framework).compact.first || detected_test_framework.to_s
+      enforce_total_file_limit(merged)
+      # Prefer not dropping primaries: if over limit, enforce_total_file_limit already truncated;
+      # ensure any dropped primary is named (already via omitted when possible).
+      merged
     end
 
     private
@@ -210,6 +260,47 @@ module Ctxpack
         lexical_namespace: []
       )
       resolution&.path
+    end
+
+    def resolve_error_seed(seed)
+      frames = seed.error_frames
+      packet = blank_packet(seed: seed)
+      frames.each do |frame|
+        path, line_s = frame.split(":", 2)
+        line = line_s.to_i
+        next unless File.file?(File.join(@app_root, path))
+
+        entry = packet.add_file(path)
+        range = error_frame_range(path, line)
+        entry.add_evidence(
+          EvidenceItem.new(
+            reason_code: "error_seed_frame",
+            subject: frame,
+            why: "application stack frame from error seed",
+            snippet_ranges: [range],
+            truncated: false
+          )
+        )
+      end
+
+      if packet.files.empty?
+        raise Error, "error seed produced no application frames under app/, lib/, or config/"
+      end
+
+      packet.no_test_candidates = true
+      packet.test_framework = detected_test_framework.to_s
+      enforce_total_file_limit(packet)
+      packet
+    end
+
+    def error_frame_range(path, line)
+      abs = File.join(@app_root, path)
+      total = File.foreach(abs).count
+      window = 15
+      start_line = [1, line - window].max
+      end_line = [total, line + window].min
+      end_line = start_line if end_line < start_line
+      [start_line, end_line]
     end
 
     def resolve_files_seed(seed)

@@ -16,6 +16,7 @@ module Ctxpack
         ctxpack <anchor> [options]
         ctxpack --from-test PATH[:LINE] [options]
         ctxpack --from-files PATH… [options]
+        ctxpack --from-error - [options]
         ctxpack packet <anchor> [options]
     TEXT
     EXPLICIT_NAME_PATTERN = /\A[A-Za-z0-9_]+\z/
@@ -68,12 +69,14 @@ module Ctxpack
 
       options[:task] = resolve_task(options)
       app_root = discover_app_root
-      seed = resolve_seed!(options, remaining, app_root)
-      @last_seed_token = seed.anchor? ? seed.evidence : seed.identity
-      identity = seed.identity
+      seeds = resolve_seeds!(options, remaining, app_root)
+      primary = seeds.first
+      @last_seed_token = primary.anchor? ? primary.evidence : primary.identity
+      identity = seeds.map(&:identity).join("_")
+      identity = identity[-80, 80] if identity.length > 80
 
       if (stdout_format = options.fetch(:stdout))
-        packet = Ctxpack.compile(app_root: app_root, seeds: [seed], task: options.fetch(:task))
+        packet = Ctxpack.compile(app_root: app_root, seeds: seeds, task: options.fetch(:task))
         rendered = if stdout_format == :json
           Ctxpack.render_manifest(packet)
         else
@@ -92,7 +95,7 @@ module Ctxpack
 
       protect_outputs!([markdown_path, manifest_path].compact, options)
 
-      packet = Ctxpack.compile(app_root: app_root, seeds: [seed], task: options.fetch(:task))
+      packet = Ctxpack.compile(app_root: app_root, seeds: seeds, task: options.fetch(:task))
       markdown = Ctxpack.render_markdown(packet)
       manifest = Ctxpack.render_manifest(packet) if manifest_path
 
@@ -144,7 +147,7 @@ module Ctxpack
     end
 
     def no_explicit_from_seed?(options)
-      options[:from_anchor].nil? && options[:from_test].nil? && options[:from_files].empty?
+      options[:from_anchor].nil? && options[:from_test].nil? && options[:from_files].empty? && options[:from_error].nil?
     end
 
     def parse_packet_args(args)
@@ -162,7 +165,8 @@ module Ctxpack
         help: false,
         from_anchor: nil,
         from_test: nil,
-        from_files: []
+        from_files: [],
+        from_error: nil
       }
 
       parser = packet_parser(options)
@@ -201,6 +205,9 @@ module Ctxpack
         parser.on("--from-files PATHS", Array, "Compile from one or more file paths (comma-separated)") do |paths|
           options[:from_files].concat(Array(paths))
         end
+        parser.on("--from-error PASTE", "Compile from a stack/log paste; use - to read stdin (PII-safe frames only)") do |v|
+          options[:from_error] = v
+        end
         parser.on("--name NAME", "Set the timestamped artifact name") { |name| options[:name] = name }
         parser.on("-d DIR", "--dir DIR", "Set the timestamped output directory. Default: .ctxpack/") do |dir|
           options[:dir] = dir
@@ -217,8 +224,8 @@ module Ctxpack
         parser.on("-h", "--help", "Show this help") { options[:help] = true }
         parser.separator("    -v, --version                    Show the ctxpack version (top-level only)")
         parser.separator("")
-        parser.separator("Seeds (exactly one per invocation until multi-seed ships):")
-        parser.separator("  Positional controller#action, path, or --from-anchor/--from-test/--from-files.")
+        parser.separator("Seeds (one or more --from-* flags; positional sugar is also a seed):")
+        parser.separator("  controller#action, path, --from-anchor/--from-test/--from-files/--from-error.")
         parser.separator("Paths and output:")
         parser.separator("  Run from any Rails app subdirectory; ctxpack discovers the application root.")
         parser.separator("  Task-file paths are relative to the invocation directory.")
@@ -236,6 +243,9 @@ module Ctxpack
       if options.fetch(:task_explicit) && options.fetch(:task_file)
         raise ArgumentError, "--task cannot be combined with --task-file"
       end
+      if options[:from_error] == "-" && options.fetch(:task_file) == "-"
+        raise ArgumentError, "--from-error - cannot be combined with --task-file - (stdin is single-occupancy)"
+      end
       if options.fetch(:stdout)
         conflicts = []
         conflicts << "--dir" if options.fetch(:dir_explicit)
@@ -252,35 +262,32 @@ module Ctxpack
       raise ArgumentError, "--out cannot be combined with --name" if options.fetch(:name)
     end
 
-    def resolve_seed!(options, remaining, app_root)
+    def resolve_seeds!(options, remaining, app_root)
       remaining = Array(remaining)
       explicit = []
       explicit << :anchor if options[:from_anchor]
       explicit << :test if options[:from_test]
       explicit << :files if options[:from_files].any?
+      explicit << :error if options[:from_error]
 
-      if explicit.size > 1
-        raise ArgumentError, "multiple --from-* seeds are not enabled yet; pass a single seed"
-      end
-      if explicit.any? && remaining.any?
-        raise ArgumentError, "positional seed cannot be combined with --from-* flags"
-      end
-
-      if options[:from_anchor]
-        return Seed.anchor(options[:from_anchor])
-      end
-      if options[:from_test]
-        return seed_from_test_evidence(options[:from_test], app_root)
-      end
+      seeds = []
+      seeds << Seed.anchor(options[:from_anchor]) if options[:from_anchor]
+      seeds << seed_from_test_evidence(options[:from_test], app_root) if options[:from_test]
       if options[:from_files].any?
         paths = options[:from_files].flat_map { |p| p.to_s.split(",") }.map(&:strip).reject(&:empty?)
-        return seed_from_files_evidence(paths, app_root)
+        seeds << seed_from_files_evidence(paths, app_root)
+      end
+      seeds << seed_from_error_paste(options[:from_error], app_root) if options[:from_error]
+
+      if remaining.any?
+        raise ArgumentError, "too many positional arguments: #{remaining[1..].join(" ")}" if remaining.length > 1
+
+        seeds << classify_positional_seed!(remaining.first, app_root)
       end
 
-      raise ArgumentError, "missing seed; pass controller#action, a path, or --from-test/--from-files/--from-anchor" if remaining.empty?
-      raise ArgumentError, "too many arguments: #{remaining[1..].join(" ")}" if remaining.length > 1
+      raise ArgumentError, "missing seed; pass controller#action, a path, or --from-test/--from-files/--from-anchor/--from-error" if seeds.empty?
 
-      classify_positional_seed!(remaining.first, app_root)
+      seeds
     end
 
     def classify_positional_seed!(token, app_root)
@@ -334,6 +341,58 @@ module Ctxpack
         end
       end
       Seed.files(paths)
+    end
+
+    def seed_from_error_paste(value, app_root)
+      paste =
+        if value == "-"
+          begin
+            @stdin.read
+          rescue IOError => error
+            raise TaskInputError, "could not read error paste from stdin: #{error.message}"
+          end
+        else
+          value
+        end
+      frames = normalize_error_frames(paste, app_root)
+      raise ArgumentError, "error seed found no application frames under app/, lib/, or config/" if frames.empty?
+
+      Seed.error(frames)
+    end
+
+    def normalize_error_frames(paste, app_root)
+      frames = []
+      paste.to_s.each_line do |line|
+        path = nil
+        line_no = nil
+        if (m = line.match(%r{(?:from\s+)?([^\s:]+?\.(?:rb|rake)):(\d+)}))
+          path = m[1]
+          line_no = m[2].to_i
+        elsif (m = line.match(/"file"\s*:\s*"([^"]+)"\s*,\s*"line"\s*:\s*(\d+)/))
+          path = m[1]
+          line_no = m[2].to_i
+        end
+        next unless path
+
+        rel = relativize_app_path(path, app_root)
+        next unless rel
+        next unless rel.match?(%r{\A(app|lib|config)/})
+        next if rel.split("/").any? { |s| %w[vendor node_modules gems bundler].include?(s) }
+
+        frames << "#{rel}:#{line_no}"
+      end
+      frames.uniq
+    end
+
+    def relativize_app_path(path, app_root)
+      root = File.expand_path(app_root)
+      abs = File.expand_path(path, root)
+      return nil unless abs == root || abs.start_with?(root + File::SEPARATOR)
+      return nil unless File.file?(abs)
+
+      abs.delete_prefix(root + File::SEPARATOR).tr(File::SEPARATOR, "/")
+    rescue ArgumentError
+      nil
     end
 
     def resolve_task(options)

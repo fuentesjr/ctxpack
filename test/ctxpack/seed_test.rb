@@ -75,4 +75,35 @@ class SeedTest < Minitest::Test
       "expected a test neighbor"
     )
   end
+
+  def test_phase3_error_seed_persists_only_app_frames
+    frames = ["app/controllers/accounts_controller.rb:10"]
+    packet = Ctxpack.compile(
+      app_root: fixture_app("minitest_basic"),
+      seeds: [Ctxpack::Seed.error(frames)],
+      task: "Investigate production error"
+    )
+    assert_equal "error", packet.seeds.first.kind
+    assert_equal frames.join("\n"), packet.seeds.first.evidence
+    entry = packet.file("app/controllers/accounts_controller.rb")
+    refute_nil entry
+    assert_includes entry.reason_codes, "error_seed_frame"
+    refute_includes packet.seeds.first.evidence, "password"
+  end
+
+  def test_phase4_multi_seed_merges_focus_and_seeds_array
+    packet = Ctxpack.compile(
+      app_root: fixture_app("minitest_basic"),
+      seeds: [
+        Ctxpack::Seed.test("test/controllers/accounts_controller_test.rb"),
+        Ctxpack::Seed.anchor("accounts#upgrade")
+      ],
+      task: "Fix upgrade with test emphasis"
+    )
+    assert_equal %w[test anchor], packet.seeds.map(&:kind)
+    assert_equal "accounts#upgrade", packet.anchor
+    assert packet.file("test/controllers/accounts_controller_test.rb")
+    assert packet.file("app/controllers/accounts_controller.rb")
+    assert_equal 3, packet.version
+  end
 end

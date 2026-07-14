@@ -1,3 +1,5 @@
+require "digest"
+
 module Ctxpack
   # Internal seed: evidence + kind. Expansion recipes live in Compiler.
   Seed = Struct.new(:kind, :evidence, :identity, keyword_init: true) do
@@ -34,6 +36,19 @@ module Ctxpack
       )
     end
 
+    def self.error(frames)
+      # frames: array of "path:line" relative to app root — never raw paste
+      list = Array(frames).map(&:to_s).reject(&:empty?)
+      raise ArgumentError, "error seed requires at least one application frame" if list.empty?
+
+      digest = Digest::SHA256.hexdigest(list.join("|"))[0, 8]
+      new(
+        kind: "error",
+        evidence: list.join("\n"),
+        identity: "error_#{digest}"
+      )
+    end
+
     def self.identity_for_anchor(anchor)
       sanitize(anchor.to_s)
     end
@@ -62,8 +77,18 @@ module Ctxpack
       kind == "files"
     end
 
+    def error?
+      kind == "error"
+    end
+
     def files_paths
       return [] unless files?
+
+      evidence.to_s.split("\n").reject(&:empty?)
+    end
+
+    def error_frames
+      return [] unless error?
 
       evidence.to_s.split("\n").reject(&:empty?)
     end

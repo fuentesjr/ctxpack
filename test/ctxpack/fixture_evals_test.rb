@@ -120,6 +120,7 @@ class FixtureEvalsTest < Minitest::Test
     when "anchor" then Ctxpack::Seed.anchor(spec.fetch("evidence"))
     when "test" then Ctxpack::Seed.test(spec.fetch("evidence"))
     when "files" then Ctxpack::Seed.files(Array(spec.fetch("evidence")))
+    when "error" then Ctxpack::Seed.error(Array(spec.fetch("evidence")))
     else
       raise "unknown seed kind #{spec.fetch("kind")}"
     end
@@ -161,7 +162,26 @@ class FixtureEvalsTest < Minitest::Test
   def cli_args(eval_case, out_path)
     command = eval_case.command
     args =
-      if command["from_test"]
+      if command["seeds"]
+        # Multi-seed / error cases: compile-only via API determinism still
+        # covered by packet expectations; CLI determinism uses primary seed.
+        primary = command.fetch("seeds").first
+        case primary.fetch("kind")
+        when "anchor"
+          ["packet", primary.fetch("evidence"), "--out", out_path, "--force", "--manifest"]
+        when "test"
+          ["--from-test", primary.fetch("evidence"), "--out", out_path, "--force", "--manifest"]
+        when "files"
+          ["--from-files", Array(primary.fetch("evidence")).join(","), "--out", out_path, "--force", "--manifest"]
+        when "error"
+          # CLI needs paste; use --from-files of the frame path as a stand-in for
+          # artifact determinism (error paste identity is hash-stable separately).
+          frame_path = Array(primary.fetch("evidence")).first.split(":", 2).first
+          ["--from-files", frame_path, "--out", out_path, "--force", "--manifest"]
+        else
+          raise "unsupported seed for CLI eval #{primary.fetch("kind")}"
+        end
+      elsif command["from_test"]
         ["--from-test", command.fetch("from_test"), "--out", out_path, "--force", "--manifest"]
       elsif command["from_files"]
         files = Array(command.fetch("from_files")).join(",")

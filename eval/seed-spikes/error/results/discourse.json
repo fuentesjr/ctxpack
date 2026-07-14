@@ -1,0 +1,533 @@
+{
+  "app": "discourse",
+  "rows": [
+    {
+      "file": "app/controllers/about_controller.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/controllers/about_controller.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/controllers/admin/problem_checks_controller.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/controllers/admin/problem_checks_controller.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/controllers/dev_mode_controller.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/controllers/dev_mode_controller.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/controllers/post_action_users_controller.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/controllers/post_action_users_controller.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/controllers/theme_javascripts_controller.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/controllers/theme_javascripts_controller.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/jobs/concerns/skippable.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/jobs/concerns/skippable.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/jobs/onceoff/retro_recent_time_read.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/jobs/onceoff/retro_recent_time_read.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/jobs/regular/download_backup_email.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/jobs/regular/download_backup_email.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/jobs/regular/process_localized_cooked.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/jobs/regular/process_localized_cooked.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/jobs/regular/update_gravatar.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/jobs/regular/update_gravatar.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/jobs/scheduled/clean_up_drafts.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/jobs/scheduled/clean_up_drafts.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/jobs/scheduled/directory_refresh.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/jobs/scheduled/directory_refresh.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/jobs/scheduled/purge_expired_ignored_users.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/jobs/scheduled/purge_expired_ignored_users.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/about.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/models/about.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/browser_pageview_session_engagement.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/models/browser_pageview_session_engagement.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/concerns/has_custom_fields.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/models/concerns/has_custom_fields.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/concerns/reports/notify_user_private_messages.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/models/concerns/reports/notify_user_private_messages.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/concerns/reports/users_by_trust_level.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/models/concerns/reports/users_by_trust_level.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/embeddable_host.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/models/embeddable_host.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/invite_redeemer.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/models/invite_redeemer.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/post_detail.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/models/post_detail.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/reviewable_score.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/models/reviewable_score.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/tag_search_data.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/models/tag_search_data.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/topic_poster.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/models/topic_poster.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/user_avatar.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/models/user_avatar.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/watched_word_group.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/models/watched_word_group.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/serializers/badge_grouping_serializer.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/serializers/badge_grouping_serializer.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/serializers/concerns/basic_category_attributes.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/serializers/concerns/basic_category_attributes.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/serializers/form_template_serializer.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/serializers/form_template_serializer.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/serializers/post_item_excerpt.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/serializers/post_item_excerpt.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/serializers/reviewable_serializer.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/serializers/reviewable_serializer.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/serializers/theme_serializer.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/serializers/theme_serializer.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/serializers/user_export_serializer.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/serializers/user_export_serializer.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/serializers/wizard_step_serializer.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/serializers/wizard_step_serializer.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/services/email_login_code/request.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/services/email_login_code/request.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/services/notifications/consolidation_planner.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/services/notifications/consolidation_planner.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/services/problem_check/ram.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/services/problem_check/ram.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/services/site_settings_task.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/services/site_settings_task.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/services/user/action/create_from_verified_email.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/services/user/action/create_from_verified_email.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/services/user_api_key/expiry.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/services/user_api_key/expiry.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    }
+  ],
+  "summary": {
+    "n": 40,
+    "precision": 1.0,
+    "recall": 1.0,
+    "tp": 40,
+    "fp": 0,
+    "fn": 0
+  }
+}

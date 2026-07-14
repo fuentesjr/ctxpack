@@ -1,0 +1,31 @@
+{
+  "apps": {
+    "mastodon": {
+      "n": 39,
+      "precision": 1.0,
+      "recall": 1.0,
+      "tp": 39,
+      "fp": 0,
+      "fn": 0
+    },
+    "discourse": {
+      "n": 40,
+      "precision": 1.0,
+      "recall": 1.0,
+      "tp": 40,
+      "fp": 0,
+      "fn": 0
+    },
+    "zammad": {
+      "n": 40,
+      "precision": 1.0,
+      "recall": 1.0,
+      "tp": 40,
+      "fp": 0,
+      "fn": 0
+    }
+  },
+  "average_precision": 1.0,
+  "average_recall": 1.0,
+  "gate_pass": true
+}

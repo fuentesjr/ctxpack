@@ -1,0 +1,520 @@
+{
+  "app": "mastodon",
+  "rows": [
+    {
+      "file": "app/chewy/accounts_index.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/chewy/accounts_index.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/controllers/admin/custom_emojis_controller.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/controllers/admin/custom_emojis_controller.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/controllers/admin/settings/branding_controller.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/controllers/admin/settings/branding_controller.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/controllers/api/fasp/registrations_controller.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/controllers/api/fasp/registrations_controller.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/controllers/api/v1/admin/trends/tags_controller.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/controllers/api/v1/admin/trends/tags_controller.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/controllers/api/v1/instances/rules_controller.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/controllers/api/v1/instances/rules_controller.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/controllers/api/v1/statuses/quotes_controller.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/controllers/api/v1/statuses/quotes_controller.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/controllers/api/web/embeds_controller.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/controllers/api/web/embeds_controller.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/controllers/concerns/authorization.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/controllers/concerns/authorization.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/controllers/oauth/authorized_applications_controller.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/controllers/oauth/authorized_applications_controller.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/controllers/settings/preferences/posting_defaults_controller.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/controllers/settings/preferences/posting_defaults_controller.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/helpers/admin/filter_helper.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/helpers/admin/filter_helper.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/lib/access_token_extension.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/lib/access_token_extension.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/lib/activitypub/serializer.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/lib/activitypub/serializer.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/lib/admin/metrics/measure/tag_uses_measure.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/lib/admin/metrics/measure/tag_uses_measure.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/lib/fast_geometry_parser.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/lib/fast_geometry_parser.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/lib/rss/media_content.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/lib/rss/media_content.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/lib/web_push_request.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/lib/web_push_request.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/account_summary.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/models/account_summary.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/concerns/account/associations.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/models/concerns/account/associations.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/concerns/ranked_trend.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/models/concerns/ranked_trend.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/email_domain_block.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/models/email_domain_block.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/form/status_filter_batch_action.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/models/form/status_filter_batch_action.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/preview_cards_status.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/models/preview_cards_status.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/tombstone.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/models/tombstone.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/webhook.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/models/webhook.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/policies/preview_card_provider_policy.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/policies/preview_card_provider_policy.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/serializers/activitypub/accept_follow_serializer.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/serializers/activitypub/accept_follow_serializer.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/serializers/activitypub/reject_feature_request_serializer.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/serializers/activitypub/reject_feature_request_serializer.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/serializers/rest/admin/domain_block_serializer.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/serializers/rest/admin/domain_block_serializer.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/serializers/rest/featured_tag_serializer.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/serializers/rest/featured_tag_serializer.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/serializers/rest/status_edit_serializer.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/serializers/rest/status_edit_serializer.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/services/activitypub/process_featured_collection_service.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/services/activitypub/process_featured_collection_service.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/services/fan_out_on_write_service.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/services/fan_out_on_write_service.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/services/statuses_search_service.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/services/statuses_search_service.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/validators/status_length_validator.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/validators/status_length_validator.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/workers/activitypub/synchronize_featured_collections_collection_worker.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/workers/activitypub/synchronize_featured_collections_collection_worker.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/workers/fasp/base_worker.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/workers/fasp/base_worker.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/workers/scheduler/auto_close_registrations_scheduler.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/workers/scheduler/auto_close_registrations_scheduler.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    }
+  ],
+  "summary": {
+    "n": 39,
+    "precision": 1.0,
+    "recall": 1.0,
+    "tp": 39,
+    "fp": 0,
+    "fn": 0
+  }
+}

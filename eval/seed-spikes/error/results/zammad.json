@@ -1,0 +1,533 @@
+{
+  "app": "zammad",
+  "rows": [
+    {
+      "file": "app/channels/application_cable/channel.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/channels/application_cable/channel.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/controllers/checklist_items_controller.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/controllers/checklist_items_controller.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/controllers/integration/sipgate_controller.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/controllers/integration/sipgate_controller.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/controllers/settings_controller.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/controllers/settings_controller.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/graphql/gql/concerns/handles_password_revalidation_token.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/graphql/gql/concerns/handles_password_revalidation_token.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/graphql/gql/mutations/organization/note_update.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/graphql/gql/mutations/organization/note_update.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/graphql/gql/mutations/ticket/shared_draft/zoom/delete.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/graphql/gql/mutations/ticket/shared_draft/zoom/delete.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/graphql/gql/mutations/user/signup.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/graphql/gql/mutations/user/signup.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/graphql/gql/queries/ticket/ai/related_knowledge_base_answers.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/graphql/gql/queries/ticket/ai/related_knowledge_base_answers.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/graphql/gql/subscriptions/app_maintenance.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/graphql/gql/subscriptions/app_maintenance.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/graphql/gql/types/authorization_type.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/graphql/gql/types/authorization_type.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/graphql/gql/types/enum/appearance_theme_type.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/graphql/gql/types/enum/appearance_theme_type.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/graphql/gql/types/history_record_event_type.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/graphql/gql/types/history_record_event_type.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/graphql/gql/types/input/ticket/external_references/idoit_object_list_input_type.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/graphql/gql/types/input/ticket/external_references/idoit_object_list_input_type.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/graphql/gql/types/non_empty_string_type.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/graphql/gql/types/non_empty_string_type.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/graphql/gql/types/ticket/cached/count_by_overview_type.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/graphql/gql/types/ticket/cached/count_by_overview_type.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/graphql/gql/types/user/taskbar_item_type.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/graphql/gql/types/user/taskbar_item_type.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/jobs/reset_notifications_preferences_job.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/jobs/reset_notifications_preferences_job.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/ai/agent/type/ticket_tagger.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/models/ai/agent/type/ticket_tagger.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/authorization/provider/twitter.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/models/authorization/provider/twitter.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/channel/filter/follow_up_assignment.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/models/channel/filter/follow_up_assignment.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/concerns/can_clone_attachments.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/models/concerns/can_clone_attachments.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/concerns/has_rich_text.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/models/concerns/has_rich_text.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/core_workflow/condition/is.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/models/core_workflow/condition/is.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/core_workflow/result/hide.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/models/core_workflow/result/hide.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/form_updater/concerns/provides_initial_values.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/models/form_updater/concerns/provides_initial_values.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/history/attribute.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/models/history/attribute.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/online_notification_standalone.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/models/online_notification_standalone.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/signature.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/models/signature.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/taskbar/init/backend.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/models/taskbar/init/backend.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/ticket/number.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/models/ticket/number.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/models/trigger.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/models/trigger.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/policies/controllers/ai_agents_controller_policy.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/policies/controllers/ai_agents_controller_policy.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/policies/controllers/knowledge_base/base_controller_policy.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/policies/controllers/knowledge_base/base_controller_policy.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/policies/controllers/tickets_shared_draft_starts_controller_policy.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/policies/controllers/tickets_shared_draft_starts_controller_policy.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/policies/signature_policy.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/policies/signature_policy.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/services/service/ai/analytics/generate_report/errors.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/services/service/ai/analytics/generate_report/errors.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/services/service/channel/whatsapp/preload.rb",
+      "format": 1,
+      "kept": [
+        {
+          "path": "app/services/service/channel/whatsapp/preload.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/services/service/template/interpolation/interpolator/webhook/track/notification.rb",
+      "format": 2,
+      "kept": [
+        {
+          "path": "app/services/service/template/interpolation/interpolator/webhook/track/notification.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "file": "app/services/service/translation/search/collector/overview.rb",
+      "format": 0,
+      "kept": [
+        {
+          "path": "app/services/service/translation/search/collector/overview.rb",
+          "line": 10
+        }
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    }
+  ],
+  "summary": {
+    "n": 40,
+    "precision": 1.0,
+    "recall": 1.0,
+    "tp": 40,
+    "fp": 0,
+    "fn": 0
+  }
+}

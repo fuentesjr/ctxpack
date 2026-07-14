@@ -1248,3 +1248,21 @@ explicitly deferred.
 ### Verification
 - Full suite: `161 runs, 1455 assertions, 0 failures, 0 errors`.
 - Tier 0 rescan: byte-identical to post_amendment, 0 crashes.
+
+## Pass: Phase 3 error seed + Phase 4 multi-seed (2026-07-13)
+
+### Scope
+- Error spike pre-reg + RESULTS: P=1.0 R=1.0 → ship `--from-error`.
+- Normalize paste to app/lib/config `path:line` only (SEED-20); never raw paste.
+- Multi-seed: `Compiler#merge_packets`, CLI accepts multiple `--from-*` (+ positional).
+- Fixture evals: `error_seed_accounts_frame`, `multi_seed_test_and_anchor`.
+
+### Decisions
+- Stdin single-occupancy: `--from-error -` vs `--task-file -`.
+- Multi-seed identity for filenames: join seed identities with `_`, cap 80.
+- CLI determinism evals for error/multi still use a primary-seed CLI path;
+  full merge is asserted via `Ctxpack.compile` packet expectations.
+
+### Verification
+- Full suite: `167 runs, 1530 assertions, 0 failures, 0 errors`.
+- Tier 0: byte-identical to post_amendment, 0 crashes.

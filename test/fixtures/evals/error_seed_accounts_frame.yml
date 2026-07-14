@@ -1,0 +1,19 @@
+name: error_seed_accounts_frame
+command:
+  seeds:
+    - kind: error
+      evidence:
+        - app/controllers/accounts_controller.rb:12
+  task: Investigate stack frame on upgrade
+
+expect:
+  include:
+    - path: app/controllers/accounts_controller.rb
+      reason_code: error_seed_frame
+
+  exclude:
+    - app/controllers/admin/accounts_controller.rb
+
+  tests: []
+
+  max_files: 8
