@@ -79,48 +79,61 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Written 2026-07-13 after the Grok run-to-completion campaign landed Phases
-0–4 locally (not pushed). **This plan is the authoritative work order for
-the next session**; "Next steps" must agree with it.
+Updated 2026-07-13 after the Grok campaign finished Phases 0–4 and the user
+reconfirmed: **commit locally yes; push only after explicit push approval**
+(phases complete is necessary but not sufficient). **This plan is the
+authoritative work order for the next session**; "Next steps" must agree.
 
-**Context.** Seed ontology is now normative (`specs/seeds.md` + amended
-compilation/format/cli specs + `design.md` product rewrite). Implementation
-through Phase 4 is committed on `main` ahead of `origin/main`:
+### Campaign status (ground truth)
 
-| Phase | What landed | Gate |
-|---|---|---|
-| 0 | Specs + design reconciliation | docs-only |
-| 1 | Internal `Seed` wrap, format v2 still | Tier 0 byte-identical |
-| 2 | `--from-test`/`--from-files`, format **v3**, classifier, work-start corpus | test 78.2% / files neighbors 80.3% |
-| 3 | `--from-error` (PII-safe frames only) | error spike P=1.0 R=1.0 |
-| 4 | Multi-seed merge (MERGE-*) | suite + Tier 0 clean |
+- **HEAD:** `de587a1` — Phase 3–4 error seed + multi-seed merge  
+- **Branch:** `main` is **6 commits ahead of `origin/main`**, working tree
+  clean, **nothing pushed** from this campaign  
+- **Suite at HEAD (re-verified):** `167 runs, 1530 assertions, 0 failures,
+  0 errors`  
+- **Product:** task + seeds → deterministic packet; format **v3**; P0 seeds
+  `anchor` / `test` / `files` / `error`; multi-seed enabled  
+- **Normative surface:** [`specs/seeds.md`](specs/seeds.md) + amended
+  compilation/format/cli specs + [`design.md`](design.md) product rewrite  
+- **Spike evidence:** [`eval/seed-spikes/`](eval/seed-spikes/)  
+- **Tier 0** at Phases 1 / 2 / 3–4: **zero per-anchor change**, 0 crashes /
+  1,967 pairs vs [`eval/tier0/results/post_amendment/`](eval/tier0/results/post_amendment/)
 
-Spike evidence under [`eval/seed-spikes/`](eval/seed-spikes/). Tier 0
-rescans at Phases 1/2/3–4: **zero per-anchor change**, 0 crashes / 1,967
-pairs vs `eval/tier0/results/post_amendment/`.
+| Phase | Commit | What landed | Gate |
+|---|---|---|---|
+| (pre) | `73aaa58` | Seed proposal accepted as north star | docs |
+| 0 | `93f2b07` | Specs + design reconciliation | docs-only |
+| 1 | `ce9e9cd` | Internal `Seed` wrap (format still v2 at land) | Tier 0 byte-identical |
+| 2 gates | `ea0a2a6` | test/files viability spikes pre-reg + results | test 78.2% / files 80.3% |
+| 2 | `564fa11` | `--from-test` / `--from-files`, format **v3**, classifier, corpus | suite + Tier 0 clean |
+| 3–4 | `de587a1` | `--from-error` + multi-seed merge; tracker next-plan | error P=1.0 R=1.0; suite 167/1530 |
 
-**What the next session should do (Phase 5/6 planning — not implementation
-unless the user expands scope):**
+### Next session work order
 
-1. **User review + push** the local commit stack (campaign was commit-yes /
-   push-no). Confirm suite at HEAD: `bundle exec rake test`.
-2. **Plan Phase 5** (`method` / `diff` / `route`) with per-kind §3.3 spikes
-   before any ship; route seed still carries Front B baseline condition from
-   the acquisition re-scope. Do not start implementation without an explicit
-   work order.
-3. **Plan Phase 6** (marketing / README lead with task+seed) as a docs-only
-   pass after Phase 5 or when the user wants product framing updated.
-4. **Leave gated:** ~50M-token three-app Tier 2 harness rerun; RubricLLM
+1. **Push only on explicit user go** (“push these” / “you have push approval”).
+   Until then: review the six local commits; do not `git push`. Re-confirm
+   suite with `bundle exec rake test` if the tree has moved.
+2. **Do not start Phase 5 or 6 implementation** without a new written work
+   order. Planning is fine; shipping `method` / `diff` / `route` or marketing
+   rewrites is not automatic.
+3. **When planning Phase 5** (`method` / `diff` / `route`): each kind needs a
+   §3.3 viability spike before ship; route seed still carries Front B baseline
+   from the acquisition re-scope (`docs/anchor-acquisition-proposal.md` §12a).
+4. **When planning Phase 6** (marketing): README/examples/FAQ lead with
+   task+seed (currently still partly anchor-led by design — out of campaign
+   scope).
+5. **Leave gated:** ~50M-token three-app Tier 2 harness rerun; RubricLLM
    issue [#5](https://github.com/fuentesjr/ctxpack/issues/5); new runtime
-   dependencies.
+   dependencies (prism-only stands).
 
-**Known follow-ups (non-blocking):**
+### Known follow-ups (non-blocking)
 
-- Multi-seed CLI determinism in fixture evals currently exercises the primary
-  seed only for error/multi cases (packet expectations cover full merge via
-  `Ctxpack.compile`).
-- `method` TestClass#method sugar still coaches "use --from-test PATH".
-- Examples/FAQ still anchor-led (Phase 6).
+- Multi-seed CLI determinism in fixture evals currently exercises a primary
+  seed for error/multi cases; full merge is asserted via `Ctxpack.compile`
+  packet expectations.
+- `TestClass#method` sugar still coaches “use `--from-test PATH`” (method
+  seed is Phase 5).
+- Examples/FAQ marketing shift is Phase 6.
 
 ## Status
 
@@ -139,11 +152,12 @@ unless the user expands scope):**
 | View resolution | [`views.md`](specs/views.md), [`packet-compilation.md`](specs/packet-compilation.md), [`packet-format.md`](specs/packet-format.md) | **Done — gate-passed, COMMITTED (`6688ff9`) + PUSHED** (2026-07-08; rescan re-verified + pushed 2026-07-09) | VIEW-1..VIEW-7 frozen + folded; `add_view_candidates` between controller and constants; `view_candidate` (list-only) + `view_inferred_by_convention`; `max_view_files = 2`; `max_total_files` truncates by priority. Red-then-green fixture evals + `ViewResolutionTest` (independently re-verified 6/7 red with `lib/` reverted). Suite green **74 runs / 621 assertions**. **Mandatory Tier 0 re-scan PASSED and RE-VERIFIED 2026-07-09** — classifier output byte-identical to the post-amendment baseline, zero per-anchor change, zero crashes across 1,967 pairs (addendum + re-verification note in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md)). Remaining: push (user go) + optional release-boundary Tier 2 validation (needs a `--dangerously-skip-permissions` session). |
 | CONST-1 widening (companion) | [`packet-compilation.md`](specs/packet-compilation.md) | **Done — gate-passed, COMMITTED (`ab72137`) + PUSHED** (2026-07-09) | Codex-implemented (fable-frozen), intra-file action call graph: constant scan now covers action body + applicable same-file callbacks + same-file methods **transitively called from the action** (BFS, nil/`self` receiver + direct-method-name only; dynamic dispatch out). CONST-4 three-group order (action → callbacks → callees appended LAST) makes it **strictly additive under the 4-cap** (no eviction). CONST-1/1a/4 amended, `design.md` reconciled; new `file_order`/`omitted` fixture-eval DSL. 5 red-then-green fixtures + `constants_test` cases (independently re-verified red with `lib/` reverted). Suite green **89 runs / 815 assertions**. **Mandatory Tier 0 re-scan PASSED** — zero per-anchor change, zero crashes across 1,967 pairs (also a crash-stress test of the new call-graph code). |
 | Locale pointer (companion) | [`packet-format.md`](specs/packet-format.md) FMT-8, [`views.md`](specs/views.md) | **Done — COMMITTED + PUSHED** (2026-07-09) | coding-worker-implemented (fable-frozen), targets the locale half of the P06/P20 ding. An **unconditional standing uncertainty note** ("Locale files are not scanned; user-facing strings conventionally live in `config/locales/`…") in `markdown_renderer.rb#uncertainty_notes` — chosen over a view-gated coded uncertainty because the gap is *newly-added keys* (orthogonal to view presence) and it mirrors the two existing standing notes. **No** retrieve-more suggestion (FMT-2 §8: code-less note ⇒ no suggestion; action embedded in the note). FMT-8 amended, `design.md` reconciled; no FMT-7/manifest change. Red-then-green in `packet_format_test.rb` (independently re-verified). Suite green **89 runs / 817 assertions**. **Tier 0 rescan N/A** — prose-only renderer change, no resolution/manifest behavior touched. |
-| Seed Phase 0 (specs) | [`seeds.md`](specs/seeds.md) + amended specs/`design.md` | **Done — COMMITTED, not pushed** (2026-07-13) | Grok campaign: normative seed ontology. |
-| Seed Phase 1 (wrap) | compiler Seed types | **Done — COMMITTED, not pushed** (2026-07-13) | Internal wrap; Tier 0 byte-identical. |
-| Seed Phase 2 (test/files + v3) | seeds + format v3 + CLI | **Done — COMMITTED, not pushed** (2026-07-13) | Gates passed; suite **161/1455**. |
-| Seed Phase 3 (error) | `--from-error` | **Done — COMMITTED, not pushed** (2026-07-13) | Spike P=1.0 R=1.0; PII-safe frames. |
-| Seed Phase 4 (multi-seed) | MERGE-* | **Done — COMMITTED, not pushed** (2026-07-13) | Multi-seed merge; suite **167/1530**; Tier 0 clean. |
+| Seed Phase 0 (specs) | [`seeds.md`](specs/seeds.md) + amended specs/`design.md` | **Done — COMMITTED (`93f2b07`), not pushed** (2026-07-13) | Grok campaign: normative seed ontology + `design.md` product rewrite. |
+| Seed Phase 1 (wrap) | `Seed` / compiler wrap | **Done — COMMITTED (`ce9e9cd`), not pushed** (2026-07-13) | Internal wrap; format v2 at land; Tier 0 byte-identical. |
+| Seed Phase 2 gates | [`eval/seed-spikes/`](eval/seed-spikes/) test + files | **Done — COMMITTED (`ea0a2a6`), not pushed** (2026-07-13) | Pre-reg then measure; test 78.2% (≥70%), files neighbors 80.3% (≥40%). |
+| Seed Phase 2 (test/files + v3) | seeds + format v3 + CLI | **Done — COMMITTED (`564fa11`), not pushed** (2026-07-13) | `--from-test`/`--from-files`, SEED-10 classifier, work-start corpus; suite **161/1455** at land; Tier 0 clean. |
+| Seed Phase 3 (error) | `--from-error` | **Done — COMMITTED (`de587a1` w/ Phase 4), not pushed** (2026-07-13) | Spike P=1.0 R=1.0; PII-safe app frames only (SEED-20). |
+| Seed Phase 4 (multi-seed) | MERGE-* | **Done — COMMITTED (`de587a1`), not pushed** (2026-07-13) | Multi-seed merge + multi `--from-*`; final suite **167/1530**; Tier 0 clean. **Campaign complete through Phase 4.** |
 
 Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
@@ -154,34 +168,40 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 | Tier 3 Rubydex offline probe | **Done — DEFER Rubydex, build view layer** (2026-07-08) | Gate PASSED (Rubydex indexes all 3 pinned apps offline <1s). Four-column offline recompute over the committed diffs ([`eval/tier3-rubydex/RESULTS.md`](eval/tier3-rubydex/RESULTS.md)): feature control prod-recall convention 0.685 → +view **0.815** (+0.130R/−0.097P) vs +rubydex 0.769 (+0.083R/**−0.312P**, halves precision; recall gain = 1 file, convention-reachable). Verdict: build a Rails view path-convention layer + widen the constant-scan to the whole controller file (dependency-free); locale = a pointer; **defer Rubydex** (native dep unjustified); **no new grid**. Fable advised (caught a GATE error + measured harm P06/P20). Bug caught + fixed: Rubydex resolution is cwd-dependent. Uncommitted. |
 | Tier 2 expansion | **Done — SUPPORT / generalizes** (2026-07-08) | Grid complete (72 sessions + 6 pilots), verdict in [`eval/tier2-expansion/RESULTS.md`](eval/tier2-expansion/RESULTS.md): the packet meets the ≥30%-exploration-reduction bar on **3/3 apps across both frameworks**; multi-file features help (Tier 2 scare refuted); wins don't depend on the test pointer (code content is the driver); the bug task is the sole non-meeter (failing test already localizes). `task_success` saturated 71/72. **Both confirmatory passes now landed** (2026-07-08 eve): blind diff-quality 0–8 = control 7.94 / treatment 7.94 (no regression, gate closed); packet-vs-diff coverage (LIM-1 north-star) = control prod recall 0.80 / precision 0.63, recall gap concentrated in feature tasks and near-orthogonal to the exploration wins. Tier 3 (Rubydex) drafted (not frozen). [`eval/tier2-expansion/PREREGISTRATION.md`](eval/tier2-expansion/PREREGISTRATION.md) signed off. Adds Campfire (Minitest) + Lobsters + Publify (RSpec), 4 tasks/app (feature-weighted), test-pointer sub-analysis. P1 (RSpec rules, `21505b0`) + P2 (harness per-app config) landed. **Campfire** (`v1.4.3`, SQLite/Minitest) 4/4 test-candidate. **Lobsters** (`430d864b`, RSpec/MariaDB) within-app **2/2** split (the sharp sub-analysis contrast). **Publify** (`publify_core` **engine** v10.0.3 `80ede867`, RSpec/SQLite, Ruby 3.1.7) 4/4: anchors frozen (bug=`articles#preview`, behavior=`admin/users#destroy`, features=`setup#index`/`tags#index`), 4 tasks + hidden RSpec request specs authored (Codex) and **verified red-then-green session-side**, config wired, golden captured, `verify` OK, 2-session pilot green (both arms `complete`/`success`, minimal single-file fixes, no `spec/` edits, no amendments). Publify pins the `publify_core` ENGINE (the deploy app is a controller-less shell); bridged with a benchmark-only stub `config/application.rb` + `concurrent-ruby 1.3.4` pin + `spec/dummy` route extraction — no ctxpack compiler behavior touched. Grid ran 72 sessions + 6 pilots; verdict SUPPORT/generalizes. |
 | View-pass release-boundary validation | **Done — coverage confirmed** (2026-07-09) | Packet-coverage check of view + CONST-1 + locale on publify ([`eval/tier2-expansion/VIEW_PASS_VALIDATION.md`](eval/tier2-expansion/VIEW_PASS_VALIDATION.md)): regenerated t1/t3 packets at the new lib (`c7a4ae3`) vs the frozen-grid packets. **t1 `setup#index` now surfaces the setup view + locale pointer** — the two-part P06/P20 omission — while **t3 `articles#preview` is byte-identical** (no view exists → no added distraction surface). Both watch-items pass. Per user decision the coverage confirmation is sufficient; subject-session behavioral re-run not spent (established prior + would risk frozen provenance). Frozen grid `runs.jsonl`/`packets/` untouched. |
+| Seed test/files viability spikes | **Done — SUPPORT** (2026-07-13) | Pre-registered under [`eval/seed-spikes/test/`](eval/seed-spikes/test/) and [`files/`](eval/seed-spikes/files/); both gates passed (test avg 78.2%, files neighbor avg 80.3%). Committed `ea0a2a6`. |
+| Seed error viability spike | **Done — SUPPORT / ship** (2026-07-13) | Pre-registered under [`eval/seed-spikes/error/`](eval/seed-spikes/error/); precision 1.0 / recall 1.0 → shipped `--from-error` in `de587a1`. |
 
 ## Next steps
 
-1. **User review + push** the local Grok campaign commits (Phases 0–4 seed
-   interface). Do not push from an agent session without explicit go.
+1. **Push the local campaign stack only after explicit user push approval.**
+   HEAD `de587a1` (+ tracker refresh commits); `main` ahead of `origin/main`.
+   Do not push without “push these” / equivalent.
 2. **Plan Phase 5** (`method` / `diff` / `route`) with per-kind viability
-   spikes before shipping; **Phase 6** marketing docs when product framing
-   should lead with task+seed.
-3. **The release-boundary three-app harness rerun awaits explicit user
+   spikes before any ship — planning only until a new work order.
+3. **Plan Phase 6** (marketing: README/examples lead with task+seed) when
+   product framing should update — docs-only, separate order.
+4. **The release-boundary three-app harness rerun awaits explicit user
    sign-off.** Do not spend its ~50M subject tokens implicitly.
-4. **RubricLLM investigation is tracked in GitHub issue #5.** The spike must
-   establish measurable incremental value before any adoption proposal; it
-   does not authorize a dependency or paid calls.
-5. **Real-usage dogfooding remains discretionary.** Exercise LIM-1 against
+5. **RubricLLM investigation is tracked in GitHub issue #5.** No dependency
+   or paid calls authorized.
+6. **Real-usage dogfooding remains discretionary.** Exercise LIM-1 against
    packet-vs-diff coverage on live work.
-6. **Tier 3 Rubydex remains deferred.** Revisit only if a corpus makes the
-   halved-precision tradeoff worthwhile.
+7. **Tier 3 Rubydex remains deferred.**
 
 ## Decision log
 
+- **2026-07-13** — Tracker refreshed post-campaign for session resume: Status
+  rows carry exact SHAs (`93f2b07`…`de587a1`); execution plan lists the
+  six-commit stack, suite re-verify **167/1530**, and push still blocked
+  without explicit approval. User reconfirmed: commit-after-phase yes; push
+  only after phases complete **and** explicit push go.
 - **2026-07-13** — Grok run-to-completion campaign **completed Phases 0–4
-  locally** (never pushed). Phase 0 specs; Phase 1 Seed wrap; Phase 2
-  `--from-test`/`--from-files` + format v3 after spikes (test 78.2%, files
-  neighbors 80.3%); Phase 3 `--from-error` after spike P=1.0/R=1.0; Phase 4
-  multi-seed merge. All compiler-boundary Tier 0 rescans byte-identical to
-  `post_amendment` (1,967 pairs, 0 crashes). Final suite
-  **167 runs / 1530 assertions, 0 failures**. Next plan is user push +
-  Phase 5/6 planning only.
+  locally** (never pushed). Commits: `93f2b07` (Phase 0 specs), `ce9e9cd`
+  (Phase 1 wrap), `ea0a2a6` (Phase 2 gates), `564fa11` (Phase 2 ship),
+  `de587a1` (Phase 3–4 error + multi-seed). Spikes: test 78.2%, files
+  neighbors 80.3%, error P=1.0/R=1.0. All compiler-boundary Tier 0 rescans
+  byte-identical to `post_amendment` (1,967 pairs, 0 crashes). Final suite
+  **167 runs / 1530 assertions, 0 failures**. Phase 5/6 out of scope.
 - **2026-07-13** — Authorized the seed-interface implementation as a **Grok
   run-to-completion campaign** (user decisions, recorded via four explicit
   answers): (1) evidence gates honored **autonomously** — spikes run inside
