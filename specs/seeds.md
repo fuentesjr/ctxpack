@@ -52,7 +52,7 @@ derivation uses seed identity alone.
 | `test` | P0 | Ships Phase 2 behind viability spike |
 | `files` | P0 | Ships Phase 2 behind neighbor-rule spike |
 | `error` | P0 (gated) | Phase 3 go/no-go; demotion to P1 is the stated fallback |
-| `method` | P1 | Out of campaign scope (Phase 5) |
+| `method` | P1 | Ships Phase 5a (test-candidate leg demoted by spike — see Method seed) |
 | `diff` | P1 | Out of campaign scope (Phase 5) |
 | `route` | P1 | Out of campaign scope (Phase 5) |
 | `area` | P2 | Not scheduled |
@@ -112,8 +112,8 @@ seed kind). Rules, in order:
    (`admin/accounts#suspend`). It coaches and never silently compiles. It is
    **never** routed to the method seed.
 4. Any other token containing `::` or CamelCase before `#`
-   (`Billing::Upgrade#call`) → **method** seed; until `method` ships, rejected
-   with a coaching rewrite — never silently treated as an anchor.
+   (`Billing::Upgrade#call`) → **method** seed (Phase 5a). Never silently
+   treated as an anchor.
 5. Existing path under `test/` or `spec/`, optionally with `:line` → **test**
    seed.
 6. Any other existing path → **files** seed. `:line` on a non-test path is
@@ -194,6 +194,39 @@ Reason codes remain those in FMT-6.
    taxonomy; default is fail with coaching unless the spike says otherwise.
 5. Reason code `error_seed_frame`.
 
+### Method seed
+
+**SEED-25.** The `method` recipe (ships Phase 5a after the viability spike;
+gate evidence: `eval/seed-spikes/method/PREREGISTRATION.md` and
+`eval/seed-spikes/method/RESULTS.md`):
+
+1. **Resolve the exact evidence constant** via CONST-2b probing only — no
+   segment trimming (CONST-2c does not apply to the evidence constant). Snake-
+   case the fully-qualified constant per Zeitwerk inflection, then probe every
+   direct `app/` subdirectory except `assets`, `views`, and `javascript`, in
+   plain lexicographic order; the first existing `app/<dir>/<path>.rb` wins.
+   The evidence constant is exact: a miss is a miss.
+2. **Success** requires an instance `def <method>` in the resolved file whose
+   enclosing constant's fully-qualified name equals the evidence constant
+   (compact `class Foo::Bar` and nested `module Foo; class Bar` are equivalent
+   iff the resulting FQN is equal). `def self.` and metaprogrammed methods do
+   not match. Otherwise **fail closed** with a coaching message naming what
+   was tried (no conventional file / file without matching instance def).
+3. **Primary inclusion:** the resolved file with a snippet of the method def
+   (Prism enclosing-def range), reason code `method_seed_primary` (FMT-6).
+4. **Same-file expansion:** CONST-1a-style BFS from the method def — only
+   nil/`self` receiver calls to same-constant same-file instance defs. Constant
+   scan over the target method body plus BFS callees feeds the existing
+   `referenced_constant` machinery under `max_constant_files` with CONST-4
+   append-last semantics (no eviction of the primary or of earlier constant
+   groups by later callee constants).
+5. **No test-candidate leg.** The pre-registered spike's test-leg precision
+   gate failed (unweighted 3-app average 0.6996 < 0.70; failure mode: generic
+   demodulized tokens, especially on Zammad). Demotion is recorded here with
+   pointer to `eval/seed-spikes/method/RESULTS.md`. Re-promoting the test leg
+   requires a new pre-registered spike with a better-than-token matching rule.
+6. MUST NOT boot Rails. MUST NOT use embeddings. No new dependencies.
+
 ## Multi-seed merge
 
 **MERGE-1.** Multi-seed is admitted in the model from day one; the CLI ships
@@ -214,8 +247,8 @@ in seed order without duplicates).
 
 1. Prefer explicit seed primaries over inferred neighbors.
 2. Never drop a user-named file (anchor controller, test primary, files
-   primary, error-frame file) without recording an omitted-candidate follow-up
-   that names the path and limit key.
+   primary, error-frame file, method-seed primary) without recording an
+   omitted-candidate follow-up that names the path and limit key.
 3. When budget still conflicts among primaries, keep earlier seeds’ primaries
    (CLI order) and omit later ones with follow-ups.
 
@@ -287,6 +320,7 @@ Pre-registration documents scoring before any measurement. Outcomes:
 | `test` | 2 | Do not ship `--from-test`; stop Phase 2 non-anchor work for that kind and report |
 | `files` (neighbors) | 2 | Same for neighbor rules; bare named-files-only may still ship if pre-reg allows |
 | `error` | 3 | **Demote to P1**, record demotion in the proposal + tracker, continue to Phase 4 without `--from-error` |
+| `method` | 5a | Resolution fail → do not ship `--from-method`. Resolution pass + test-leg fail → ship without test-candidate leg (applied 2026-07-14; see SEED-25) |
 
 **SEED-23.** Seed work MUST NOT change anchor-resolution classification on the
 Tier 0 corpus. Every compiler-behavior boundary re-runs the Tier 0 corpus

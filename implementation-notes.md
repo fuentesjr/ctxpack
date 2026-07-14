@@ -1266,3 +1266,57 @@ explicitly deferred.
 ### Verification
 - Full suite: `167 runs, 1530 assertions, 0 failures, 0 errors`.
 - Tier 0: byte-identical to post_amendment, 0 crashes.
+
+## Pass: Phase 5a method seed (2026-07-14)
+
+### Scope
+- Gate evidence (frozen): `eval/seed-spikes/method/PREREGISTRATION.md` +
+  `RESULTS.md` — resolution PASS (82.1%), test-leg precision FAIL (0.6996).
+- Ship `--from-method` / SEED-10 rule-4 positional sugar **without** a
+  test-candidate expansion leg (SEED-25 demotion).
+- Spec amendments: SEED-4 row, SEED-10 rule 4, SEED-25 recipe, SEED-22 table,
+  MERGE-4 user-named list, FMT-6 `method_seed_primary`, CLI-1/2/4b/8a, design.md.
+- No new FMT-7 uncertainty code (fail-closed resolution does not need one).
+- No new LIMITS keys; reuses `max_constant_files` / `max_snippet_lines_per_file` /
+  `max_total_files`.
+
+### Implementation
+- `Seed.method` factory (singleton; deliberately shadows `Object#method` for
+  this class), `method?`, `method_const_and_name`.
+- `DefaultConstantResolver#resolve_exact` — CONST-2b path probe with **no**
+  segment trimming (evidence constant only).
+- `Compiler#resolve_method_seed`: exact resolve → FQN-matched instance def →
+  primary snippet (`method_seed_primary`) → CONST-1a-style same-file BFS →
+  `referenced_constant` under append-last cap; `no_test_candidates = true`.
+- CLI: `--from-method`, SEED-10 rule 4 dispatches method-shaped tokens;
+  `*Controller#action` / Test/Spec rules unchanged.
+- Markdown inventory for `method_seed_primary`; manifest seeds[] via existing
+  `Seed#manifest_hash`.
+- Fixtures: `app/services/billing/upgrade_service.rb`,
+  `app/models/admin/compact_report.rb`.
+- Evals: `method_seed_billing_upgrade`, `method_seed_call_graph_cap`,
+  `multi_seed_method_and_anchor`.
+- Unit: `test/ctxpack/method_seed_test.rb` (happy path, compact nesting, no
+  trimming, fail-closed, `def self.` rejection, BFS cap, CLI flag + sugar).
+
+### Decisions / tradeoffs
+- **No test leg** — spike outcome applied without renegotiation; re-promotion
+  needs a new pre-reg with better-than-token matching.
+- Evidence constant resolution is exact-only; body constants still use the
+  normal resolver (with CONST-2c trimming) so expansion matches anchor
+  constant behavior.
+- Fail closed with coaching messages naming constant/path/def tried — no
+  uncertainty code for resolution miss.
+- Primary is never counted against `max_constant_files`; callee constants
+  append last and cannot evict target-method constants.
+
+### Scope boundaries
+- No Tier 0 rescan run in this pass (compiler behavior for anchor path is
+  unchanged; method is a new seed branch). Orchestrator may still run the
+  corpus re-scan as a pass-boundary gate.
+- Did not touch `eval/seed-spikes/`, `eval/tier0/`, or existing anchor
+  goldens.
+- Did not commit.
+
+### Verification
+- Full suite (this session): `185 runs, 1704 assertions, 0 failures, 0 errors`.

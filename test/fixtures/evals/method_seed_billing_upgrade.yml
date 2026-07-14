@@ -1,0 +1,25 @@
+name: method_seed_billing_upgrade
+command:
+  seeds:
+    - kind: method
+      evidence: Billing::Subscriptions#upgrade!
+  task: Inspect upgrade! on billing subscriptions
+
+expect:
+  include:
+    - path: app/services/billing/subscriptions.rb
+      reason_code: method_seed_primary
+
+  exclude:
+    - app/controllers/accounts_controller.rb
+    - app/services/subscriptions.rb
+
+  tests: []
+
+  max_files: 8
+
+  manifest:
+    seeds:
+      - kind: method
+        identity: billing_subscriptions_upgrade
+        evidence: Billing::Subscriptions#upgrade!

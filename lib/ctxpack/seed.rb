@@ -49,6 +49,19 @@ module Ctxpack
       )
     end
 
+    # Named `method` factory intentionally shadows Object#method on this class.
+    def self.method(evidence)
+      normalized = evidence.to_s
+      constant, method_name = split_const_method(normalized)
+      raise ArgumentError, "method seed requires Constant#method evidence (got #{evidence.inspect})" if constant.nil? || method_name.nil? || method_name.empty?
+
+      new(
+        kind: "method",
+        evidence: "#{constant}##{method_name}",
+        identity: sanitize("#{constant}##{method_name}")
+      )
+    end
+
     def self.identity_for_anchor(anchor)
       sanitize(anchor.to_s)
     end
@@ -63,6 +76,13 @@ module Ctxpack
       else
         [value, nil]
       end
+    end
+
+    def self.split_const_method(value)
+      return [nil, nil] unless value.include?("#")
+
+      constant, method_name = value.split("#", 2)
+      [constant, method_name]
     end
 
     def anchor?
@@ -81,6 +101,10 @@ module Ctxpack
       kind == "error"
     end
 
+    def method?
+      kind == "method"
+    end
+
     def files_paths
       return [] unless files?
 
@@ -97,6 +121,12 @@ module Ctxpack
       return [nil, nil] unless test?
 
       self.class.split_path_line(evidence)
+    end
+
+    def method_const_and_name
+      return [nil, nil] unless method?
+
+      self.class.split_const_method(evidence)
     end
 
     def manifest_hash

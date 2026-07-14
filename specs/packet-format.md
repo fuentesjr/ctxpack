@@ -109,6 +109,7 @@ the phase that ships the kind):
 | `files_seed_primary` | User-named file from a `files` seed | Phase 2 |
 | `files_seed_neighbor` | Neighbor inferred by the files recipe | Phase 2 |
 | `error_seed_frame` | Application frame file from an `error` seed | Phase 3 |
+| `method_seed_primary` | User-named method def file from a `method` seed | Phase 5a |
 
 New codes require a spec update; freeform reason codes are prohibited.
 

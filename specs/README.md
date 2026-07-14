@@ -104,8 +104,9 @@ Out of scope:
   They gather evidence about whether ctxpack is worth building; they are not
   conformance requirements and have no spec here. Per-kind seed viability
   spikes (SEED-5) follow the same offline pattern under `eval/`.
-- **P1/P2 seed kinds** (`method`, `diff`, `route`, `area`) — admitted in the
-  model; ship only after their own spikes and a later plan.
+- **P1/P2 seed kinds** — `method` ships Phase 5a (no test-candidate leg;
+  SEED-25). Remaining (`diff`, `route`, `area`) ship only after their own
+  spikes and a later plan.
 - **v0 non-goals** — the full list lives in `design.md` ("Non-goals for v0").
   Highlights that shape these specs: no embeddings or generic RAG, no route
   browsing as silent compile input, no inherited/concern/metaprogrammed action

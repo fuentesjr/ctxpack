@@ -118,6 +118,8 @@ module Ctxpack
         "neighbor of files seed"
       when "error_seed_frame"
         "application stack frame"
+      when "method_seed_primary"
+        "user-named method seed"
       else
         why_text(item)
       end

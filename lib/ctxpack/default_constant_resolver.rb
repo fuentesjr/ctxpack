@@ -29,6 +29,20 @@ module Ctxpack
       nil
     end
 
+    # Exact constant → conventional path only (no segment trimming). Used by
+    # the method seed for evidence-constant resolution (SEED method recipe).
+    def resolve_exact(constant_name)
+      name = constant_name.to_s.delete_prefix("::")
+      path = conventional_path(name)
+      return nil unless path
+
+      ConstantResolution.new(
+        original_name: name,
+        constant_name: name,
+        path: path
+      )
+    end
+
     private
 
     def candidate_names(reference, lexical_namespace)

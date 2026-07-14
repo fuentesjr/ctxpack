@@ -1,0 +1,38 @@
+name: method_seed_call_graph_cap
+command:
+  seeds:
+    - kind: method
+      evidence: Billing::UpgradeService#call
+  task: Same-file BFS constants append-last under cap
+
+expect:
+  include:
+    - path: app/services/billing/upgrade_service.rb
+      reason_code: method_seed_primary
+    - path: app/models/direct_alpha.rb
+      reason_code: referenced_constant
+    - path: app/models/direct_beta.rb
+      reason_code: referenced_constant
+    - path: app/models/direct_gamma.rb
+      reason_code: referenced_constant
+    - path: app/models/direct_delta.rb
+      reason_code: referenced_constant
+
+  exclude:
+    - app/models/transitive_epsilon.rb
+
+  file_order:
+    - app/services/billing/upgrade_service.rb
+    - app/models/direct_alpha.rb
+    - app/models/direct_beta.rb
+    - app/models/direct_gamma.rb
+    - app/models/direct_delta.rb
+
+  omitted:
+    - category: constant_files
+      subject: TransitiveEpsilon
+      reason: max constant files limit reached
+
+  tests: []
+
+  max_files: 8

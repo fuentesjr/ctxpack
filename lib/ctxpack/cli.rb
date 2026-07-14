@@ -17,6 +17,7 @@ module Ctxpack
         ctxpack --from-test PATH[:LINE] [options]
         ctxpack --from-files PATH… [options]
         ctxpack --from-error - [options]
+        ctxpack --from-method CONST#METHOD [options]
         ctxpack packet <anchor> [options]
     TEXT
     EXPLICIT_NAME_PATTERN = /\A[A-Za-z0-9_]+\z/
@@ -147,7 +148,11 @@ module Ctxpack
     end
 
     def no_explicit_from_seed?(options)
-      options[:from_anchor].nil? && options[:from_test].nil? && options[:from_files].empty? && options[:from_error].nil?
+      options[:from_anchor].nil? &&
+        options[:from_test].nil? &&
+        options[:from_files].empty? &&
+        options[:from_error].nil? &&
+        options[:from_method].nil?
     end
 
     def parse_packet_args(args)
@@ -166,7 +171,8 @@ module Ctxpack
         from_anchor: nil,
         from_test: nil,
         from_files: [],
-        from_error: nil
+        from_error: nil,
+        from_method: nil
       }
 
       parser = packet_parser(options)
@@ -189,6 +195,7 @@ module Ctxpack
             ctxpack accounts#upgrade -t "Implement billing upgrade"
             ctxpack --from-test test/controllers/accounts_controller_test.rb:10 -t "Fix upgrade"
             ctxpack --from-files app/models/account.rb -t "Inspect account"
+            ctxpack --from-method Billing::Subscriptions#upgrade! -t "Inspect upgrade!"
             ctxpack packet accounts#upgrade --task "Implement billing upgrade"
             cat issue.md | ctxpack accounts#upgrade --task-file - --stdout
             ctxpack accounts#upgrade --stdout=json | jq .
@@ -208,6 +215,7 @@ module Ctxpack
         parser.on("--from-error PASTE", "Compile from a stack/log paste; use - to read stdin (PII-safe frames only)") do |v|
           options[:from_error] = v
         end
+        parser.on("--from-method EVIDENCE", "Compile from a Namespace::Class#method seed (non-controller)") { |v| options[:from_method] = v }
         parser.on("--name NAME", "Set the timestamped artifact name") { |name| options[:name] = name }
         parser.on("-d DIR", "--dir DIR", "Set the timestamped output directory. Default: .ctxpack/") do |dir|
           options[:dir] = dir
@@ -225,7 +233,7 @@ module Ctxpack
         parser.separator("    -v, --version                    Show the ctxpack version (top-level only)")
         parser.separator("")
         parser.separator("Seeds (one or more --from-* flags; positional sugar is also a seed):")
-        parser.separator("  controller#action, path, --from-anchor/--from-test/--from-files/--from-error.")
+        parser.separator("  controller#action, path, CONST#method, --from-anchor/--from-test/--from-files/--from-error/--from-method.")
         parser.separator("Paths and output:")
         parser.separator("  Run from any Rails app subdirectory; ctxpack discovers the application root.")
         parser.separator("  Task-file paths are relative to the invocation directory.")
@@ -269,6 +277,7 @@ module Ctxpack
       explicit << :test if options[:from_test]
       explicit << :files if options[:from_files].any?
       explicit << :error if options[:from_error]
+      explicit << :method if options[:from_method]
 
       seeds = []
       seeds << Seed.anchor(options[:from_anchor]) if options[:from_anchor]
@@ -278,6 +287,7 @@ module Ctxpack
         seeds << seed_from_files_evidence(paths, app_root)
       end
       seeds << seed_from_error_paste(options[:from_error], app_root) if options[:from_error]
+      seeds << seed_from_method_evidence(options[:from_method]) if options[:from_method]
 
       if remaining.any?
         raise ArgumentError, "too many positional arguments: #{remaining[1..].join(" ")}" if remaining.length > 1
@@ -285,7 +295,7 @@ module Ctxpack
         seeds << classify_positional_seed!(remaining.first, app_root)
       end
 
-      raise ArgumentError, "missing seed; pass controller#action, a path, or --from-test/--from-files/--from-anchor/--from-error" if seeds.empty?
+      raise ArgumentError, "missing seed; pass controller#action, a path, CONST#method, or a --from-* flag" if seeds.empty?
 
       seeds
     end
@@ -305,7 +315,7 @@ module Ctxpack
           raise ArgumentError, "class-style controller references are suggest-only; rewrite to the underscore anchor (e.g. admin/accounts#suspend)"
         end
         if left.include?("::") || left.match?(/[A-Z]/)
-          raise ArgumentError, "method seeds are not shipped yet; pass --from-files or an anchor (got #{token.inspect})"
+          return seed_from_method_evidence(token)
         end
         # Malformed snake_case#… still goes through the anchor resolver so ANCH-1 errors surface.
         return Seed.anchor(token)
@@ -358,6 +368,12 @@ module Ctxpack
       raise ArgumentError, "error seed found no application frames under app/, lib/, or config/" if frames.empty?
 
       Seed.error(frames)
+    end
+
+    def seed_from_method_evidence(evidence)
+      Seed.method(evidence)
+    rescue ArgumentError
+      raise ArgumentError, "invalid method seed evidence #{evidence.inspect}; expected Namespace::Class#method"
     end
 
     def normalize_error_frames(paste, app_root)

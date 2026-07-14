@@ -161,12 +161,19 @@ ctxpack accounts#upgrade -t "Implement billing upgrade"
 ctxpack --from-anchor accounts#upgrade -t "…"
 ctxpack --from-test test/controllers/accounts_controller_test.rb:10 -t "…"
 ctxpack --from-files app/models/account.rb -t "…"
+# Phase 5a:
+ctxpack --from-method Billing::Subscriptions#upgrade! -t "…"
+ctxpack Billing::Subscriptions#upgrade! -t "…"   # positional sugar (SEED-10 rule 4)
 ```
 
 The original `ctxpack packet accounts#upgrade --task "…"` form remains a
 compatibility path. Positional sugar classifies argv by SEED-10 (specs/seeds.md);
 `*Controller#action` stays suggest-only rewrite to the underscore anchor, never
-the method seed.
+the method seed. Method-shaped tokens (`Billing::Upgrade#call`) dispatch to the
+method seed (Phase 5a): exact CONST-2b path resolution with no segment trimming,
+instance-def FQN match, same-file callee BFS + constant scan under existing
+budgets, **no test-candidate leg** (spike test-leg precision failed — see
+`eval/seed-spikes/method/RESULTS.md` and SEED-25).
 
 Long task descriptions can come from `--task-file PATH`, or from injected
 stdin with `--task-file -`; this keeps issue bodies and agent pipelines out of

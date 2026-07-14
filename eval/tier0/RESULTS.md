@@ -226,3 +226,12 @@ Anchor resolution path unchanged; new seeds are separate recipes.
 
 Mandatory re-scan after `--from-error` and multi-seed merge. Anchor single-seed
 path still byte-identical to `post_amendment/`; 0 crashes / 1,967 pairs.
+
+## Phase 5a method-seed rescan (2026-07-14)
+
+Mandatory re-scan after `--from-method` (SEED-25: exact CONST-2b resolution,
+same-file BFS, no test leg). Anchor path is strictly additive-branch code;
+classifier output byte-identical to `post_amendment/` on all three apps
+(Mastodon 584/616, Discourse 728/755, Zammad 539/596); 0 crashes / 1,967
+pairs. Checkouts verified clean at the pinned SHAs (history deepened for the
+Phase 5b diff spike; worktrees untouched).

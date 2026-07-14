@@ -42,6 +42,7 @@ module Ctxpack
       when "test" then resolve_test_seed(seed)
       when "files" then resolve_files_seed(seed)
       when "error" then resolve_error_seed(seed)
+      when "method" then resolve_method_seed(seed)
       else
         raise Error, "unsupported seed kind #{seed.kind.inspect}"
       end
@@ -291,6 +292,120 @@ module Ctxpack
       packet.test_framework = detected_test_framework.to_s
       enforce_total_file_limit(packet)
       packet
+    end
+
+    def resolve_method_seed(seed)
+      constant_name, method_name = seed.method_const_and_name
+      if constant_name.nil? || method_name.nil? || method_name.empty?
+        raise Error, "invalid method seed evidence #{seed.evidence.inspect}; expected Namespace::Class#method"
+      end
+
+      resolution = @constant_resolver.resolve_exact(constant_name)
+      unless resolution
+        raise Error,
+              "method seed could not resolve constant #{constant_name}: " \
+              "no conventional file under app/ for #{constant_name}"
+      end
+
+      relative_path = resolution.path
+      absolute_path = File.join(@app_root, relative_path)
+      source = File.read(absolute_path, encoding: "UTF-8")
+      program = parse_ruby(source, relative_path)
+      class_info = find_classes(program).find { |info| info.fetch(:name).delete_prefix("::") == constant_name.delete_prefix("::") }
+      methods = class_info ? direct_methods(class_info.fetch(:node)) : {}
+      method_node = methods[method_name]
+
+      unless method_node
+        raise Error,
+              "method seed resolved #{relative_path} but found no instance def #{method_name} " \
+              "whose enclosing constant is #{constant_name}"
+      end
+
+      packet = blank_packet(seed: seed)
+      entry = packet.add_file(relative_path)
+      method_range = node_range(method_node)
+      remaining = LIMITS.fetch(:max_snippet_lines_per_file)
+      method_length = range_length(method_range)
+      if method_length > remaining
+        truncated_range = [method_range.first, method_range.first + remaining - 1]
+        entry.add_evidence(
+          EvidenceItem.new(
+            reason_code: "method_seed_primary",
+            subject: method_name,
+            why: "user-named method seed",
+            snippet_ranges: [truncated_range],
+            truncated: true
+          )
+        )
+        packet.omitted_candidates << OmittedCandidate.new(
+          category: "snippets",
+          subject: method_name,
+          reason: "method snippet exceeded max snippet lines per file",
+          limit_key: :max_snippet_lines_per_file
+        )
+      else
+        entry.add_evidence(
+          EvidenceItem.new(
+            reason_code: "method_seed_primary",
+            subject: method_name,
+            why: "user-named method seed",
+            snippet_ranges: [method_range],
+            truncated: false
+          )
+        )
+      end
+
+      # Same-file BFS expansion + constant scan; no test-candidate leg
+      # (demoted by eval/seed-spikes/method/RESULTS.md — test-leg precision failed).
+      add_method_seed_constant_evidence(packet, method_node, methods, constant_name, primary_path: relative_path)
+      packet.no_test_candidates = true
+      packet.test_framework = detected_test_framework.to_s
+      enforce_total_file_limit(packet)
+      packet
+    end
+
+    def add_method_seed_constant_evidence(packet, method_node, methods, constant_name, primary_path:)
+      lexical_namespace = constant_name.delete_prefix("::").split("::")[0...-1]
+      scan_nodes = [method_node] + transitive_action_callee_nodes(method_node, methods)
+      resolved_by_path = { primary_path => true }
+      ordered_resolutions = []
+
+      scan_nodes.each do |node|
+        collect_constants(node.body).each do |reference|
+          resolution = @constant_resolver.resolve(reference, lexical_namespace: lexical_namespace)
+          next unless resolution
+          next if resolved_by_path.key?(resolution.path)
+
+          resolved_by_path[resolution.path] = true
+          ordered_resolutions << resolution
+        end
+      end
+
+      included = ordered_resolutions.first(LIMITS.fetch(:max_constant_files))
+      omitted = ordered_resolutions.drop(LIMITS.fetch(:max_constant_files))
+
+      included.each do |resolution|
+        entry = packet.add_file(resolution.path)
+        entry.add_evidence(
+          EvidenceItem.new(
+            reason_code: "referenced_constant",
+            subject: resolution.constant_name,
+            why: "constant #{resolution.constant_name} was referenced by the method or a same-file method transitively called from it",
+            snippet_ranges: [],
+            truncated: false
+          )
+        )
+        packet.convention_constant_matches << resolution
+      end
+
+      omitted.each do |resolution|
+        packet.omitted_candidates << OmittedCandidate.new(
+          category: "constant_files",
+          subject: resolution.constant_name,
+          reason: "max constant files limit reached",
+          limit_key: :max_constant_files
+        )
+      end
     end
 
     def error_frame_range(path, line)

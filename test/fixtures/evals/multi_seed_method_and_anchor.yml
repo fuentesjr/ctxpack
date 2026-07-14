@@ -1,0 +1,27 @@
+name: multi_seed_method_and_anchor
+command:
+  seeds:
+    - kind: method
+      evidence: Billing::Subscriptions#upgrade!
+    - kind: anchor
+      evidence: accounts#upgrade
+  task: Method primary plus anchor seed
+
+expect:
+  entrypoint:
+    file: app/controllers/accounts_controller.rb
+    action: upgrade
+
+  include:
+    - path: app/services/billing/subscriptions.rb
+      reason_code: method_seed_primary
+    - path: app/controllers/accounts_controller.rb
+      reason_code: controller_action
+
+  exclude:
+    - app/controllers/admin/accounts_controller.rb
+
+  tests:
+    - bin/rails test test/controllers/accounts_controller_test.rb
+
+  max_files: 8

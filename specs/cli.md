@@ -15,6 +15,7 @@ ctxpack <anchor> [options]                 # Phase 1+: anchor sugar
 ctxpack --from-test <path[:line]> …        # Phase 2+
 ctxpack --from-files <path>… …             # Phase 2+
 ctxpack --from-error <paste|- > …          # Phase 3+ (if spike passes)
+ctxpack --from-method <Const#method> …     # Phase 5a (no test-candidate leg)
 ctxpack --from-anchor <anchor> …           # Phase 2+ explicit form
 ```
 
@@ -23,7 +24,8 @@ compatibility. Through Phase 1 only the positional/compatibility anchor forms
 exist (no new flags). Phase 2 adds `--from-test`, `--from-files`,
 `--from-anchor`, and the full SEED-10 argv classifier. Phase 3 adds
 `--from-error` if its spike passes. Phase 4 allows multiple `--from-*` seeds
-per invocation.
+per invocation. Phase 5a adds `--from-method` (resolution + same-file
+expansion only; test-candidate leg demoted by spike).
 
 Non-normative: inside a Rails app the executable is typically reached via
 `bundle exec ctxpack` or a binstub (`bundle binstubs ctxpack` → `bin/ctxpack`
@@ -63,11 +65,12 @@ without discovering an application root. **[fixed by spec]**
 `controller#action` anchor (ANCH-1). From Phase 2, the positional argument is
 classified by SEED-10 (argv dispatch): snake_case `#` → anchor; Test/Spec `#`
 → test; `*Controller#action` → CLI-17c suggest-only rewrite (never method);
-other method shapes → coaching reject until `method` ships; existing test/spec
-paths → test; other existing paths → files; else fail with candidates. Route
-strings (`POST /accounts/:id/upgrade`) and route helpers (`upgrade_account`)
-MUST NOT silently compile; they receive CLI-17c (or successor) guidance, never
-resolution, unless a future `route` seed (Phase 5) is explicitly invoked.
+other method-shaped tokens (`Billing::Upgrade#call`) → method seed (Phase 5a);
+existing test/spec paths → test; other existing paths → files; else fail with
+candidates. Route strings (`POST /accounts/:id/upgrade`) and route helpers
+(`upgrade_account`) MUST NOT silently compile; they receive CLI-17c (or
+successor) guidance, never resolution, unless a future `route` seed is
+explicitly invoked.
 
 **CLI-3.** ctxpack discovers the application root the way Rails tooling does:
 starting from the current directory, it walks upward to the nearest ancestor
@@ -107,6 +110,7 @@ while reading injected stdin uses stdin-specific wording rather than describing
 | `--from-test PATH[:LINE]` | 2 | test/spec path, optional line |
 | `--from-files PATH…` | 2 | one or more existing paths |
 | `--from-error PASTE\|-` | 3 (gated) | paste text or stdin |
+| `--from-method CONST#METHOD` | 5a | non-controller `Namespace::Class#method` |
 
 Flag spelling is locked as `--from-<kind>` (SEED-6). Short aliases are not
 required in v0 for seed flags.
@@ -150,6 +154,7 @@ Seed identity by kind:
 | `test` | basename of the test path without extension, plus optional `_L<line>` | `accounts_controller_test_L42` |
 | `files` | basename stem of the first file path | `upgrade` for `app/services/billing/upgrade.rb` |
 | `error` | fixed stem `error` plus a short stable hash of the normalized frame list (hex, 8 chars) | `error_a1b2c3d4` |
+| `method` | sanitized `Constant#method` evidence (`Billing::Subscriptions#upgrade!` → `billing_subscriptions_upgrade`) | same CLI-8a rules |
 
 Multi-seed (Phase 4): join seed identities with `_` in seed order, then apply
 the same 80-character suffix-preserving cap.
