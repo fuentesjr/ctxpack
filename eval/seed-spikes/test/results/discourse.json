@@ -1,0 +1,778 @@
+{
+  "app": "discourse",
+  "population": 153,
+  "success": 140,
+  "rate": 0.9150326797385621,
+  "by_label": {
+    "resolved_constant": 124,
+    "no_surface": 13,
+    "resolved_request_token": 16
+  },
+  "results": [
+    {
+      "path": "spec/requests/about_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/about_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/admin_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/admin_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/api_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/api_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/backups_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/backups_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/badges_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/badges_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/color_schemes_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/color_schemes_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/config/about_controller_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/admin/config/color_palettes_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/config/color_palettes_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/config/customize_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/config/customize_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/config/discourse_id_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/config/discourse_id_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/config/fonts_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/config/fonts_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/config/logo_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/config/logo_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/config/site_settings_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/config/site_settings_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/config/upcoming_changes_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/config/upcoming_changes_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/config/welcome_banner_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/config/welcome_banner_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/dashboard_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/dashboard_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/email_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/email_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/email_logs_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/email_logs_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/email_styles_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/email_styles_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/email_templates_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/email_templates_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/embeddable_hosts_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/embeddable_hosts_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/embedding_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/embedding_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/emojis_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/emoji_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/form_templates_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/form_templates_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/groups_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/groups_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/impersonate_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/impersonate_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/permalinks_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/permalinks_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/plugins_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/plugins_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/problem_checks_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/problem_checks_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/reports_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/reports_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/robots_txt_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/robots_txt_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/screened_emails_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/screened_emails_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/screened_ip_addresses_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/screened_ip_addresses_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/screened_urls_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/screened_urls_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/search_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/search_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/search_logs_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/admin/search_logs_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/site_settings_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/site_settings_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/site_texts_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/site_texts_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/staff_action_logs_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/staff_action_logs_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/themes_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/themes_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/unknown_reviewables_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/unknown_reviewables_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/user_fields_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/user_fields_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/users_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/users_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/versions_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/versions_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/watched_words_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/watched_words_controller.rb"
+    },
+    {
+      "path": "spec/requests/admin/web_hooks_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/admin/web_hooks_controller.rb"
+    },
+    {
+      "path": "spec/requests/anonymous_actions_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/anonymous_actions_controller.rb"
+    },
+    {
+      "path": "spec/requests/api/backups_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/admin/backups_controller.rb"
+    },
+    {
+      "path": "spec/requests/api/badges_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/admin/badges_controller.rb"
+    },
+    {
+      "path": "spec/requests/api/categories_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/categories_controller.rb"
+    },
+    {
+      "path": "spec/requests/api/groups_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/admin/groups_controller.rb"
+    },
+    {
+      "path": "spec/requests/api/invites_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/invites_controller.rb"
+    },
+    {
+      "path": "spec/requests/api/multiple_invites_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/invites_controller.rb"
+    },
+    {
+      "path": "spec/requests/api/notifications_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/notifications_controller.rb"
+    },
+    {
+      "path": "spec/requests/api/posts_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/posts_controller.rb"
+    },
+    {
+      "path": "spec/requests/api/private_messages_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/api/rate_limits_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/api/search_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/admin/search_controller.rb"
+    },
+    {
+      "path": "spec/requests/api/site_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/site_controller.rb"
+    },
+    {
+      "path": "spec/requests/api/tags_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/tags_controller.rb"
+    },
+    {
+      "path": "spec/requests/api/topics_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/topics_controller.rb"
+    },
+    {
+      "path": "spec/requests/api/uploads_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/uploads_controller.rb"
+    },
+    {
+      "path": "spec/requests/api/user_badges_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/user_badges_controller.rb"
+    },
+    {
+      "path": "spec/requests/api/users_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/admin/users_controller.rb"
+    },
+    {
+      "path": "spec/requests/application_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/application_controller.rb"
+    },
+    {
+      "path": "spec/requests/associate_accounts_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/users/associate_accounts_controller.rb"
+    },
+    {
+      "path": "spec/requests/badges_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/badges_controller.rb"
+    },
+    {
+      "path": "spec/requests/bookmarks_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/bookmarks_controller.rb"
+    },
+    {
+      "path": "spec/requests/calendar_subscriptions_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/calendar_subscriptions_controller.rb"
+    },
+    {
+      "path": "spec/requests/categories_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/categories_controller.rb"
+    },
+    {
+      "path": "spec/requests/clicks_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/clicks_controller.rb"
+    },
+    {
+      "path": "spec/requests/composer_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/composer_controller.rb"
+    },
+    {
+      "path": "spec/requests/composer_messages_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/composer_messages_controller.rb"
+    },
+    {
+      "path": "spec/requests/crawler_hreflang_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/default_headers_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/dev_mode_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/dev_mode_controller.rb"
+    },
+    {
+      "path": "spec/requests/directory_columns_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/directory_columns_controller.rb"
+    },
+    {
+      "path": "spec/requests/directory_items_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/directory_items_controller.rb"
+    },
+    {
+      "path": "spec/requests/discourse_id_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/users/discourse_id_controller.rb"
+    },
+    {
+      "path": "spec/requests/do_not_disturb_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/do_not_disturb_controller.rb"
+    },
+    {
+      "path": "spec/requests/drafts_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/drafts_controller.rb"
+    },
+    {
+      "path": "spec/requests/edit_directory_columns_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/edit_directory_columns_controller.rb"
+    },
+    {
+      "path": "spec/requests/email_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/email_controller.rb"
+    },
+    {
+      "path": "spec/requests/embed_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/embed_controller.rb"
+    },
+    {
+      "path": "spec/requests/emojis_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/emojis_controller.rb"
+    },
+    {
+      "path": "spec/requests/exceptions_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/exceptions_controller.rb"
+    },
+    {
+      "path": "spec/requests/export_csv_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/export_csv_controller.rb"
+    },
+    {
+      "path": "spec/requests/extra_locales_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/extra_locales_controller.rb"
+    },
+    {
+      "path": "spec/requests/finish_installation_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/finish_installation_controller.rb"
+    },
+    {
+      "path": "spec/requests/form_templates_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/form_templates_controller.rb"
+    },
+    {
+      "path": "spec/requests/forums_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/forums_controller.rb"
+    },
+    {
+      "path": "spec/requests/groups_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/groups_controller.rb"
+    },
+    {
+      "path": "spec/requests/hashtags_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/hashtags_controller.rb"
+    },
+    {
+      "path": "spec/requests/highlightjs_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/highlight_js_controller.rb"
+    },
+    {
+      "path": "spec/requests/home_page_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/home_page_controller.rb"
+    },
+    {
+      "path": "spec/requests/inline_onebox_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/inline_onebox_controller.rb"
+    },
+    {
+      "path": "spec/requests/invites_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/invites_controller.rb"
+    },
+    {
+      "path": "spec/requests/list_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/list_controller.rb"
+    },
+    {
+      "path": "spec/requests/metadata_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/metadata_controller.rb"
+    },
+    {
+      "path": "spec/requests/nested_topics_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/nested_topics_controller.rb"
+    },
+    {
+      "path": "spec/requests/net_http_header_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/net_http_timeout_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/noscript_escape_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/notifications_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/notifications_controller.rb"
+    },
+    {
+      "path": "spec/requests/offline_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/offline_controller.rb"
+    },
+    {
+      "path": "spec/requests/omniauth_callbacks_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/users/omniauth_callbacks_controller.rb"
+    },
+    {
+      "path": "spec/requests/onebox_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/onebox_controller.rb"
+    },
+    {
+      "path": "spec/requests/permalinks_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/permalinks_controller.rb"
+    },
+    {
+      "path": "spec/requests/post_action_users_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/post_action_users_controller.rb"
+    },
+    {
+      "path": "spec/requests/post_actions_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/post_actions_controller.rb"
+    },
+    {
+      "path": "spec/requests/post_localizations_controller_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/post_readers_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/post_readers_controller.rb"
+    },
+    {
+      "path": "spec/requests/posts_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/posts_controller.rb"
+    },
+    {
+      "path": "spec/requests/presence_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/presence_controller.rb"
+    },
+    {
+      "path": "spec/requests/published_pages_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/published_pages_controller.rb"
+    },
+    {
+      "path": "spec/requests/push_notification_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/push_notification_controller.rb"
+    },
+    {
+      "path": "spec/requests/qunit_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/qunit_controller.rb"
+    },
+    {
+      "path": "spec/requests/reviewable_claimed_topics_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/reviewable_claimed_topics_controller.rb"
+    },
+    {
+      "path": "spec/requests/reviewable_notes_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/reviewable_notes_controller.rb"
+    },
+    {
+      "path": "spec/requests/reviewables_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/reviewables_controller.rb"
+    },
+    {
+      "path": "spec/requests/robots_txt_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/robots_txt_controller.rb"
+    },
+    {
+      "path": "spec/requests/safe_mode_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/safe_mode_controller.rb"
+    },
+    {
+      "path": "spec/requests/search_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/search_controller.rb"
+    },
+    {
+      "path": "spec/requests/session_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/session_controller.rb"
+    },
+    {
+      "path": "spec/requests/sidebar_sections_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/sidebar_sections_controller.rb"
+    },
+    {
+      "path": "spec/requests/similar_topics_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/similar_topics_controller.rb"
+    },
+    {
+      "path": "spec/requests/site_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/site_controller.rb"
+    },
+    {
+      "path": "spec/requests/sitemap_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/sitemap_controller.rb"
+    },
+    {
+      "path": "spec/requests/slugs_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/slugs_controller.rb"
+    },
+    {
+      "path": "spec/requests/static_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/static_controller.rb"
+    },
+    {
+      "path": "spec/requests/steps_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/steps_controller.rb"
+    },
+    {
+      "path": "spec/requests/stylesheets_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/stylesheets_controller.rb"
+    },
+    {
+      "path": "spec/requests/svg_sprite_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/svg_sprite_controller.rb"
+    },
+    {
+      "path": "spec/requests/tag_groups_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/tag_groups_controller.rb"
+    },
+    {
+      "path": "spec/requests/tag_localizations_controller_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/tags_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/tags_controller.rb"
+    },
+    {
+      "path": "spec/requests/theme_import_map_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/theme_javascripts_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/theme_javascripts_controller.rb"
+    },
+    {
+      "path": "spec/requests/topic_localizations_controller_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/topic_view_stats_controller_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/topics_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/topics_controller.rb"
+    },
+    {
+      "path": "spec/requests/uploads_controller_multisite_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/uploads_controller.rb"
+    },
+    {
+      "path": "spec/requests/uploads_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/uploads_controller.rb"
+    },
+    {
+      "path": "spec/requests/user_actions_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/user_actions_controller.rb"
+    },
+    {
+      "path": "spec/requests/user_api_key_clients_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/user_api_key_clients_controller.rb"
+    },
+    {
+      "path": "spec/requests/user_api_keys_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/user_api_keys_controller.rb"
+    },
+    {
+      "path": "spec/requests/user_avatars_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/user_avatars_controller.rb"
+    },
+    {
+      "path": "spec/requests/user_badges_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/user_badges_controller.rb"
+    },
+    {
+      "path": "spec/requests/user_status_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/user_status_controller.rb"
+    },
+    {
+      "path": "spec/requests/users_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/users_controller.rb"
+    },
+    {
+      "path": "spec/requests/users_email_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/users_email_controller.rb"
+    },
+    {
+      "path": "spec/requests/webhooks_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/webhooks_controller.rb"
+    },
+    {
+      "path": "spec/requests/wizard_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/wizard_controller.rb"
+    }
+  ]
+}

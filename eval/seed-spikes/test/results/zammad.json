@@ -1,0 +1,643 @@
+{
+  "app": "zammad",
+  "population": 126,
+  "success": 65,
+  "rate": 0.5158730158730159,
+  "by_label": {
+    "resolved_constant": 10,
+    "no_surface": 61,
+    "resolved_request_token": 55
+  },
+  "results": [
+    {
+      "path": "spec/controllers/application_controller/has_download/download_file_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/application_controller/has_download/download_file.rb"
+    },
+    {
+      "path": "spec/controllers/application_controller/has_user_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/application_controller/has_user.rb"
+    },
+    {
+      "path": "spec/controllers/can_paginate/pagination_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/concerns/can_paginate/pagination.rb"
+    },
+    {
+      "path": "spec/controllers/integration/exchange_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/admin/knowledge_base/public_menu_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/ai/analytics/downloads_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/ai/analytics/downloads_controller.rb"
+    },
+    {
+      "path": "spec/requests/ai/analytics/usages_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/ai/analytics/usages_controller.rb"
+    },
+    {
+      "path": "spec/requests/ai_agent_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/ai_assistance_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/ai_assistance_controller.rb"
+    },
+    {
+      "path": "spec/requests/ai_text_tool_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/api_auth_from_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/api_auth_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/attachments_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/attachments_controller.rb"
+    },
+    {
+      "path": "spec/requests/calendar_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/calendar_subscriptions_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/calendar_subscriptions_controller.rb"
+    },
+    {
+      "path": "spec/requests/channel_admin/microsoft_graph_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/channels_admin/microsoft_graph_controller.rb"
+    },
+    {
+      "path": "spec/requests/channel_admin/whatsapp_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/channels_admin/whatsapp_controller.rb"
+    },
+    {
+      "path": "spec/requests/channels_email_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/channels_email_controller.rb"
+    },
+    {
+      "path": "spec/requests/channels_google_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/channels_google_controller.rb"
+    },
+    {
+      "path": "spec/requests/channels_microsoft365_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/channels_microsoft365_controller.rb"
+    },
+    {
+      "path": "spec/requests/channels_whatsapp_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/channels_whatsapp_controller.rb"
+    },
+    {
+      "path": "spec/requests/checklist_item_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/checklist_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/checklist_templates_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/checklist_templates_controller.rb"
+    },
+    {
+      "path": "spec/requests/cors_preflight_check_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/error_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/external_credentials_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/external_credentials_controller.rb"
+    },
+    {
+      "path": "spec/requests/external_data_source_controller_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/form_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/form_controller.rb"
+    },
+    {
+      "path": "spec/requests/getting_started_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/getting_started_controller.rb"
+    },
+    {
+      "path": "spec/requests/graphql_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/graphql_controller.rb"
+    },
+    {
+      "path": "spec/requests/group_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/http_logs_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/http_logs_controller.rb"
+    },
+    {
+      "path": "spec/requests/import_freshdesk_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/import_freshdesk_controller.rb"
+    },
+    {
+      "path": "spec/requests/import_kayako_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/import_kayako_controller.rb"
+    },
+    {
+      "path": "spec/requests/import_otrs_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/import_otrs_controller.rb"
+    },
+    {
+      "path": "spec/requests/import_zendesk_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/import_zendesk_controller.rb"
+    },
+    {
+      "path": "spec/requests/integration/check_mk_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/integration/check_mk_controller.rb"
+    },
+    {
+      "path": "spec/requests/integration/cti_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/cti_controller.rb"
+    },
+    {
+      "path": "spec/requests/integration/exchange_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/integration/exchange_controller.rb"
+    },
+    {
+      "path": "spec/requests/integration/github_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/integration/github_controller.rb"
+    },
+    {
+      "path": "spec/requests/integration/gitlab_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/integration/gitlab_controller.rb"
+    },
+    {
+      "path": "spec/requests/integration/idoit_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/integration/idoit_controller.rb"
+    },
+    {
+      "path": "spec/requests/integration/ldap_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/integration/ldap_controller.rb"
+    },
+    {
+      "path": "spec/requests/integration/message_bird_sms_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/integration/monitoring_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/monitoring_controller.rb"
+    },
+    {
+      "path": "spec/requests/integration/object_manager_attributes_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/object_manager_attributes_controller.rb"
+    },
+    {
+      "path": "spec/requests/integration/pgp_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/integration/pgp_controller.rb"
+    },
+    {
+      "path": "spec/requests/integration/placetel_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/integration/placetel_controller.rb"
+    },
+    {
+      "path": "spec/requests/integration/sipgate_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/integration/sipgate_controller.rb"
+    },
+    {
+      "path": "spec/requests/integration/smime_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/integration/smime_controller.rb"
+    },
+    {
+      "path": "spec/requests/integration/telegram_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/integration/twilio_sms_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/integration/user_device_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/knowledge_base/answer_attachments_cloning_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/knowledge_base/answer_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/knowledge_base/attachments_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/attachments_controller.rb"
+    },
+    {
+      "path": "spec/requests/knowledge_base/feed_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/knowledge_base/feed_tokens_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/knowledge_base/feed_tokens_controller.rb"
+    },
+    {
+      "path": "spec/requests/knowledge_base/loading_initial_data_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/knowledge_base/permissions_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/knowledge_base/permissions_controller.rb"
+    },
+    {
+      "path": "spec/requests/knowledge_base/preview_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/knowledge_base/search_with_details_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/knowledge_base/translation_update_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/knowledge_base_public/answers_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/knowledge_base/answers_controller.rb"
+    },
+    {
+      "path": "spec/requests/knowledge_base_public/custom_path_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/knowledge_base_public/feed_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/ldap_sources_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/ldap_sources_controller.rb"
+    },
+    {
+      "path": "spec/requests/links_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/links_controller.rb"
+    },
+    {
+      "path": "spec/requests/long_polling_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/long_polling_controller.rb"
+    },
+    {
+      "path": "spec/requests/macro_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/mention_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/monitoring_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/monitoring_controller.rb"
+    },
+    {
+      "path": "spec/requests/o_auth_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/online_notifications_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/online_notifications_controller.rb"
+    },
+    {
+      "path": "spec/requests/organization_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/overview_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/package_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/proxy_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/proxy_controller.rb"
+    },
+    {
+      "path": "spec/requests/public_links_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/public_links_controller.rb"
+    },
+    {
+      "path": "spec/requests/report_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/robots_txt_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/robots_txt_controller.rb"
+    },
+    {
+      "path": "spec/requests/search_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/knowledge_base/search_controller.rb"
+    },
+    {
+      "path": "spec/requests/selector_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/session_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/settings/ticket_agent_default_notifications_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/settings/ticket_agent_default_notifications_controller.rb"
+    },
+    {
+      "path": "spec/requests/settings_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/settings_controller.rb"
+    },
+    {
+      "path": "spec/requests/sla_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/ssl_certificate_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/system_assets_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/system_assets_controller.rb"
+    },
+    {
+      "path": "spec/requests/system_report_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/system_report_controller.rb"
+    },
+    {
+      "path": "spec/requests/tag_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/models/tag.rb"
+    },
+    {
+      "path": "spec/requests/taskbar_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/taskbar_controller.rb"
+    },
+    {
+      "path": "spec/requests/template_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/models/template.rb"
+    },
+    {
+      "path": "spec/requests/text_module_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/ticket/ai/related_knowledge_base_answers_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/ticket/related_knowledge_base_answers_controller.rb"
+    },
+    {
+      "path": "spec/requests/ticket/ai_assistance/knowledge_base_answers_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/ticket/knowledge_base_answers_controller.rb"
+    },
+    {
+      "path": "spec/requests/ticket/article/time_accounting_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/ticket/article_attachments_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/attachments_controller.rb"
+    },
+    {
+      "path": "spec/requests/ticket/article_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/ticket/escalation_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/ticket/group_restriction_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/ticket/shared_draft/starts_controller_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/ticket/shared_draft/zoom_controller_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/ticket/summarize_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/ticket/summarize_controller.rb"
+    },
+    {
+      "path": "spec/requests/ticket/tag_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/ticket/time_accounting_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/ticket_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/tickets_mass_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/tickets_mass_controller.rb"
+    },
+    {
+      "path": "spec/requests/time_accounting_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/translations_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/translations_controller.rb"
+    },
+    {
+      "path": "spec/requests/upload_cache_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/user/access_token_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/user/admin_password_auth_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/user/admin_two_factor_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/user/after_auth_spec.rb",
+      "label": "resolved_request_token",
+      "surface": "app/controllers/user/after_auth_controller.rb"
+    },
+    {
+      "path": "spec/requests/user/email_verify_send_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/user/email_verify_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/user/organization_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/user/overview_sorting_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/user/password_reset_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/user/password_reset_verify_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/user/permission_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/user/two_factor_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/user_spec.rb",
+      "label": "no_surface",
+      "surface": null
+    },
+    {
+      "path": "spec/requests/webhooks_controller_spec.rb",
+      "label": "resolved_constant",
+      "surface": "app/controllers/webhooks_controller.rb"
+    }
+  ]
+}

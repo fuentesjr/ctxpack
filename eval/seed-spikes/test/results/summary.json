@@ -1,0 +1,38 @@
+{
+  "apps": {
+    "mastodon": {
+      "population": 296,
+      "success": 271,
+      "rate": 0.9155405405405406,
+      "by_label": {
+        "resolved_controller_path": 22,
+        "resolved_constant": 11,
+        "no_surface": 25,
+        "resolved_request_token": 238
+      }
+    },
+    "discourse": {
+      "population": 153,
+      "success": 140,
+      "rate": 0.9150326797385621,
+      "by_label": {
+        "resolved_constant": 124,
+        "no_surface": 13,
+        "resolved_request_token": 16
+      }
+    },
+    "zammad": {
+      "population": 126,
+      "success": 65,
+      "rate": 0.5158730158730159,
+      "by_label": {
+        "resolved_constant": 10,
+        "no_surface": 61,
+        "resolved_request_token": 55
+      }
+    }
+  },
+  "average_rate": 0.7821487453840396,
+  "gate": 0.7,
+  "pass": true
+}

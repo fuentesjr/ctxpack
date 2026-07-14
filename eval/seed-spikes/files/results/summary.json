@@ -1,0 +1,22 @@
+{
+  "apps": {
+    "mastodon": {
+      "controller_primaries": 78,
+      "controller_neighbor_hits": 72,
+      "rate": 0.9230769230769231
+    },
+    "discourse": {
+      "controller_primaries": 69,
+      "controller_neighbor_hits": 65,
+      "rate": 0.9420289855072463
+    },
+    "zammad": {
+      "controller_primaries": 68,
+      "controller_neighbor_hits": 37,
+      "rate": 0.5441176470588235
+    }
+  },
+  "average_controller_neighbor_rate": 0.8030745185476643,
+  "gate": 0.4,
+  "pass": true
+}

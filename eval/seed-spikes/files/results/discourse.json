@@ -1,0 +1,1242 @@
+{
+  "app": "discourse",
+  "sampled_total": 69,
+  "controller_primaries": 69,
+  "controller_neighbor_hits": 65,
+  "controller_neighbor_rate": 0.9420289855072463,
+  "results": [
+    {
+      "path": "app/controllers/about_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test",
+        "has_views"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/about_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/config/about_controller_spec.rb"
+        },
+        {
+          "label": "has_views",
+          "path": "app/views/about"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/admin/admin_notices_controller.rb",
+      "controller": true,
+      "labels": [
+        "no_neighbor"
+      ],
+      "neighbors": []
+    },
+    {
+      "path": "app/controllers/admin/backups_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test",
+        "has_views"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/backups_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/backups_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/schemas/json/backups_create_request.json"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/schemas/json/backups_list_response.json"
+        },
+        {
+          "label": "has_views",
+          "path": "app/views/admin/backups"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/admin/color_schemes_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/color_schemes_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/admin/config/color_palettes_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/config/color_palettes_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/admin/config/discourse_id_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/config/discourse_id_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/discourse_id_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/admin/config/fonts_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/config/fonts_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/admin/config/site_settings_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/config/site_settings_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/site_settings_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/admin/config/welcome_banner_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/config/welcome_banner_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/admin/email_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/email_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/email_logs_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/email_styles_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/email_templates_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/screened_emails_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/schemas/json/user_emails_response.json"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/schemas/json/user_update_email_request.json"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/email_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/users_email_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/admin/email_styles_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/email_styles_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/admin/embeddable_hosts_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/embeddable_hosts_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/admin/emoji_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/emojis_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/emojis_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/admin/groups_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/groups_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/groups_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/schemas/json/groups_list_response.json"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/schemas/json/tag_groups_list_response.json"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/groups_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/tag_groups_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/admin/permalinks_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/permalinks_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/permalinks_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/admin/problem_checks_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/problem_checks_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/admin/robots_txt_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/robots_txt_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/robots_txt_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/admin/screened_ip_addresses_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/screened_ip_addresses_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/admin/search_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/search_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/search_logs_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/schemas/json/search_response.json"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/search_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/search_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/admin/section_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/sidebar_sections_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/admin/site_texts_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/site_texts_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/admin/staff_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/staff_action_logs_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/admin/unknown_reviewables_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/unknown_reviewables_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/admin/users_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/users_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/schemas/json/users_public_list_response.json"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/users_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/post_action_users_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/users_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/users_email_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/admin/watched_words_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/watched_words_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/anonymous_actions_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/anonymous_actions_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/associated_groups_controller.rb",
+      "controller": true,
+      "labels": [
+        "no_neighbor"
+      ],
+      "neighbors": []
+    },
+    {
+      "path": "app/controllers/bookmarks_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/bookmarks_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/categories_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test",
+        "has_views"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/categories_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/categories_controller_spec.rb"
+        },
+        {
+          "label": "has_views",
+          "path": "app/views/categories"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/composer_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/composer_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/composer_messages_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/dev_mode_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test",
+        "has_views"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/dev_mode_controller_spec.rb"
+        },
+        {
+          "label": "has_views",
+          "path": "app/views/dev_mode"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/directory_items_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/directory_items_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/drafts_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/drafts_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/email_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test",
+        "has_views"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/email_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/email_logs_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/email_styles_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/email_templates_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/screened_emails_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/schemas/json/user_emails_response.json"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/schemas/json/user_update_email_request.json"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/email_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/users_email_controller_spec.rb"
+        },
+        {
+          "label": "has_views",
+          "path": "app/views/email"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/emojis_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/emojis_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/emojis_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/export_csv_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/export_csv_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/finish_installation_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test",
+        "has_views"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/finish_installation_controller_spec.rb"
+        },
+        {
+          "label": "has_views",
+          "path": "app/views/finish_installation"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/forums_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/forums_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/hashtags_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/hashtags_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/home_page_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test",
+        "has_views"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/home_page_controller_spec.rb"
+        },
+        {
+          "label": "has_views",
+          "path": "app/views/home_page"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/invites_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test",
+        "has_views"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/invites_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/multiple_invites_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/invites_controller_spec.rb"
+        },
+        {
+          "label": "has_views",
+          "path": "app/views/invites"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/metadata_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test",
+        "has_views"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/metadata_controller_spec.rb"
+        },
+        {
+          "label": "has_views",
+          "path": "app/views/metadata"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/new_invite_controller.rb",
+      "controller": true,
+      "labels": [
+        "no_neighbor"
+      ],
+      "neighbors": []
+    },
+    {
+      "path": "app/controllers/notifications_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/notifications_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/notifications_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/onebox_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/inline_onebox_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/onebox_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/post_action_users_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/post_action_users_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/post_localizations_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/post_localizations_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/posts_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test",
+        "has_views"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/posts_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/schemas/json/latest_posts_response.json"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/posts_controller_spec.rb"
+        },
+        {
+          "label": "has_views",
+          "path": "app/views/posts"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/published_pages_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test",
+        "has_views"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/published_pages_controller_spec.rb"
+        },
+        {
+          "label": "has_views",
+          "path": "app/views/published_pages"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/qunit_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test",
+        "has_views"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/qunit_controller_spec.rb"
+        },
+        {
+          "label": "has_views",
+          "path": "app/views/qunit"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/reviewable_notes_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/reviewable_notes_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/robots_txt_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test",
+        "has_views"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/robots_txt_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/robots_txt_controller_spec.rb"
+        },
+        {
+          "label": "has_views",
+          "path": "app/views/robots_txt"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/search_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test",
+        "has_views"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/search_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/search_logs_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/schemas/json/search_response.json"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/search_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/search_controller_spec.rb"
+        },
+        {
+          "label": "has_views",
+          "path": "app/views/search"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/sidebar_sections_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/sidebar_sections_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/site_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/config/site_settings_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/site_settings_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/admin/site_texts_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/schemas/json/site_basic_info_response.json"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/schemas/json/site_response.json"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/site_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/site_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/sitemap_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/uploads_controller_multisite_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/slugs_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/slugs_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/steps_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/steps_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/svg_sprite_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/svg_sprite_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/tag_localizations_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/tag_localizations_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/test_requests_controller.rb",
+      "controller": true,
+      "labels": [
+        "no_neighbor"
+      ],
+      "neighbors": []
+    },
+    {
+      "path": "app/controllers/topic_localizations_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/topic_localizations_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/topics_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test",
+        "has_views"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/schemas/json/category_topics_response.json"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/topics_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/nested_topics_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/reviewable_claimed_topics_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/similar_topics_controller_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/topics_controller_spec.rb"
+        },
+        {
+          "label": "has_views",
+          "path": "app/views/topics"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/user_actions_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/schemas/json/user_actions_response.json"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/user_actions_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/user_api_keys_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/user_api_keys_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/user_badges_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/schemas/json/user_badges_response.json"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/api/user_badges_spec.rb"
+        },
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/user_badges_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/users/associate_accounts_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/associate_accounts_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/users/omniauth_callbacks_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test",
+        "has_views"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/omniauth_callbacks_controller_spec.rb"
+        },
+        {
+          "label": "has_views",
+          "path": "app/views/users/omniauth_callbacks"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/users_email_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/users_email_controller_spec.rb"
+        }
+      ]
+    },
+    {
+      "path": "app/controllers/wizard_controller.rb",
+      "controller": true,
+      "labels": [
+        "has_request_test"
+      ],
+      "neighbors": [
+        {
+          "label": "has_request_test",
+          "path": "spec/requests/wizard_controller_spec.rb"
+        }
+      ]
+    }
+  ]
+}
