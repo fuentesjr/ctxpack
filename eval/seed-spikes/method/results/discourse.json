@@ -1,0 +1,1040 @@
+{
+  "app": "discourse",
+  "population": 4994,
+  "success": 4190,
+  "rate": 0.8390068081698038,
+  "by_label": {
+    "resolved_direct": 4190,
+    "no_file": 545,
+    "no_file_concern": 259
+  },
+  "test_leg": {
+    "matched": 1720,
+    "lenient_true": 1423,
+    "strict_true": 1396,
+    "precision": 0.8273255813953488,
+    "strict_share_of_true": 0.9810260014054814,
+    "false_samples": [
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/jobs/notify_mailing_list_subscribers_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/lib/i18n/fallback_locale_list_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/lib/onebox/engine/allowlisted_generic_onebox_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/lib/topic_query/private_message_lists_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/lib/validators/host_list_setting_validator_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/lib/validators/regexp_list_validator_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/lib/validators/unicode_username_allowlist_validator_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/models/access_control_list_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/models/category_list_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/models/mailing_list_mode_site_setting_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/models/topic_list_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/models/user_bookmark_list_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/queries/reports/list_query_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/requests/list_controller_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/serializers/admin_user_list_serializer_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/serializers/listable_topic_serializer_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/serializers/topic_list_item_serializer_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/serializers/topic_list_serializer_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/serializers/user_bookmark_list_serializer_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/services/access_control_list_manager_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/services/nested_topic/list_children_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/services/nested_topic/list_roots_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/system/admin_groups_list_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/system/admin_site_setting_tag_list_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/system/admin_site_setting_value_list_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/system/admin_users_list_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/system/discovery_list_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/system/emojis/emoji_deny_list_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/system/nested_topic_list_dot_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/system/topic_list_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/system/unified_new_topic_list_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Search::List",
+        "test": "spec/views/list/list.erb_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AdminNotice",
+        "test": "spec/system/admin_notices_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AdminNotices::Dismiss",
+        "test": "spec/jobs/clean_dismissed_topic_users_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AdminNotices::Dismiss",
+        "test": "spec/system/dismissing_new_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "BasicCategorySerializer",
+        "test": "spec/serializers/nested_replies_basic_category_serializer_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Categories::Configure",
+        "test": "spec/services/categories/unconfigure_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Category",
+        "test": "spec/system/edit_category_topic_template_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "CategorySetting",
+        "test": "spec/system/edit_category_settings_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "EmailLog",
+        "test": "spec/system/admin_email_login_readonly_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "EmailLoginCode::Redeem",
+        "test": "spec/models/invite_redeemer_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "EmailLoginCode::Request",
+        "test": "spec/integration/invalid_request_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "EmailLoginCode::Request",
+        "test": "spec/integration/request_tracker_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "EmailLoginCode::Request",
+        "test": "spec/jobs/clean_up_email_change_requests_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "EmailLoginCode::Request",
+        "test": "spec/lib/middleware/processing_request_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "EmailLoginCode::Request",
+        "test": "spec/lib/middleware/request_tracker_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "EmailLoginCode::Request",
+        "test": "spec/models/application_request_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "EmailLoginCode::Request",
+        "test": "spec/models/email_change_request_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "EmailLoginCode::Request",
+        "test": "spec/models/group_request_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "EmailLoginCode::Request",
+        "test": "spec/models/web_crawler_request_spec.rb",
+        "lenient": false
+      }
+    ]
+  },
+  "fan_out": {
+    "callees": {
+      "median": 0,
+      "p90": 2,
+      "max": 46
+    },
+    "constants": {
+      "median": 1,
+      "p90": 4,
+      "max": 42
+    }
+  },
+  "label_samples": {
+    "resolved_direct": [
+      {
+        "constant": "ApplicationHelper",
+        "method": "discourse_config_environment",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "google_universal_analytics_json",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "ga_universal_json",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "google_tag_manager_json",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "csp_nonce_placeholder",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "track_view_session_id_placeholder",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "shared_session_key",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "is_brotli_req?",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "is_gzip_req?",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "generate_import_map",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "script_asset_path",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "preload_script",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "module_preloads_for",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "preload_script_url",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "add_resource_preload_list",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "discourse_csrf_tags",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "html_classes",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "body_classes",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "text_size_class",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "escape_unicode",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "format_topic_title",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "with_format",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "age_words",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "short_date",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "guardian",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "admin?",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "moderator?",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "staff?",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "rtl?",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "html_lang",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "title_content",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "description_content",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "is_crawler_homepage?",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "crawlable_meta_data",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "generate_twitter_card_metadata",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "render_sitelinks_search_tag",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "discourse_pageview_tracking_meta_tags",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "gsub_emoji_to_unicode",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "application_logo_url",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "application_logo_dark_url",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "waving_hand_url",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "login_path",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "mobile_device?",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "crawler_layout?",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "include_crawler_content?",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "modern_mobile_device?",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "customization_disabled?",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "include_ios_native_app_banner?",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "ios_app_argument",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "custom_splash_screen_enabled?",
+        "file": "app/helpers/application_helper.rb"
+      }
+    ],
+    "no_file": [
+      {
+        "constant": "TopicPostBookmarkableHelper::ClassMethods",
+        "method": "sync_topic_user_bookmarked",
+        "file": "app/helpers/topic_post_bookmarkable_helper.rb"
+      },
+      {
+        "constant": "Jobs::Base::JobInstrumenter",
+        "method": "initialize",
+        "file": "app/jobs/base.rb"
+      },
+      {
+        "constant": "Jobs::Base::JobInstrumenter",
+        "method": "stop",
+        "file": "app/jobs/base.rb"
+      },
+      {
+        "constant": "Jobs::Base::JobInstrumenter",
+        "method": "current_duration",
+        "file": "app/jobs/base.rb"
+      },
+      {
+        "constant": "Jobs::Base::JobInstrumenter",
+        "method": "write_to_log",
+        "file": "app/jobs/base.rb"
+      },
+      {
+        "constant": "Jobs::Base::JobInstrumenter",
+        "method": "enabled?",
+        "file": "app/jobs/base.rb"
+      },
+      {
+        "constant": "Jobs::Base",
+        "method": "log",
+        "file": "app/jobs/base.rb"
+      },
+      {
+        "constant": "Jobs::Base",
+        "method": "error_context",
+        "file": "app/jobs/base.rb"
+      },
+      {
+        "constant": "Jobs::Base",
+        "method": "execute",
+        "file": "app/jobs/base.rb"
+      },
+      {
+        "constant": "Jobs::Base",
+        "method": "last_db_duration",
+        "file": "app/jobs/base.rb"
+      },
+      {
+        "constant": "Jobs::Base",
+        "method": "perform_immediately",
+        "file": "app/jobs/base.rb"
+      },
+      {
+        "constant": "Jobs::Base",
+        "method": "perform",
+        "file": "app/jobs/base.rb"
+      },
+      {
+        "constant": "Jobs::HandledExceptionWrapper",
+        "method": "initialize",
+        "file": "app/jobs/base.rb"
+      },
+      {
+        "constant": "Jobs::Scheduled",
+        "method": "perform",
+        "file": "app/jobs/base.rb"
+      },
+      {
+        "constant": "Jobs::CleanUpPostTimings",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/clean_up_post_timings.rb"
+      },
+      {
+        "constant": "Jobs::CleanUpSidekiqStatistic",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/clean_up_sidekiq_statistic.rb"
+      },
+      {
+        "constant": "Jobs::CleanUpUserExportTopics",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/clean_up_user_export_topics.rb"
+      },
+      {
+        "constant": "Jobs::ClearWidthAndHeight",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/clear_width_and_height.rb"
+      },
+      {
+        "constant": "Jobs::CorrectMissingDualstackUrls",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/correct_missing_dualstack_urls.rb"
+      },
+      {
+        "constant": "Jobs::CreateTagsSearchIndex",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/create_tags_search_index.rb"
+      },
+      {
+        "constant": "Jobs::FixEncodedCategorySlugs",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/fix_encoded_category_slugs.rb"
+      },
+      {
+        "constant": "Jobs::FixEncodedTopicSlugs",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/fix_encoded_topic_slugs.rb"
+      },
+      {
+        "constant": "Jobs::FixFeaturedLinkForTopics",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/fix_featured_link_for_topics.rb"
+      },
+      {
+        "constant": "Jobs::FixInvalidGravatarUploads",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/fix_invalid_gravatar_uploads.rb"
+      },
+      {
+        "constant": "Jobs::FixOutOfSyncUserUploadedAvatar",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/fix_out_of_sync_user_uploaded_avatar.rb"
+      },
+      {
+        "constant": "Jobs::FixPostSearchDataAfterDefaultLocaleRename",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/fix_post_search_data_after_default_locale_rename.rb"
+      },
+      {
+        "constant": "Jobs::FixPostsRead",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/fix_posts_read.rb"
+      },
+      {
+        "constant": "Jobs::FixPrimaryEmailsForStagedUsers",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/fix_primary_emails_for_staged_users.rb"
+      },
+      {
+        "constant": "Jobs::FixRetroAnniversary",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/fix_retro_anniversary.rb"
+      },
+      {
+        "constant": "Jobs::FixS3Etags",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/fix_s3_etags.rb"
+      },
+      {
+        "constant": "Jobs::GrantEmoji",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/grant_emoji.rb"
+      },
+      {
+        "constant": "Jobs::GrantEmoji",
+        "method": "badge",
+        "file": "app/jobs/onceoff/grant_emoji.rb"
+      },
+      {
+        "constant": "Jobs::GrantFirstReplyByEmail",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/grant_first_reply_by_email.rb"
+      },
+      {
+        "constant": "Jobs::GrantFirstReplyByEmail",
+        "method": "badge",
+        "file": "app/jobs/onceoff/grant_first_reply_by_email.rb"
+      },
+      {
+        "constant": "Jobs::GrantOnebox",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/grant_onebox.rb"
+      },
+      {
+        "constant": "Jobs::GrantOnebox",
+        "method": "badge",
+        "file": "app/jobs/onceoff/grant_onebox.rb"
+      },
+      {
+        "constant": "Jobs::InitCategoryTagStats",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/init_category_tag_stats.rb"
+      },
+      {
+        "constant": "Jobs::MigrateCensoredWords",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/migrate_censored_words.rb"
+      },
+      {
+        "constant": "Jobs::MigrateCustomEmojis",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/migrate_custom_emojis.rb"
+      },
+      {
+        "constant": "Jobs::MigrateCustomEmojis",
+        "method": "warn",
+        "file": "app/jobs/onceoff/migrate_custom_emojis.rb"
+      },
+      {
+        "constant": "Jobs::MigrateFeaturedLinks",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/migrate_featured_links.rb"
+      },
+      {
+        "constant": "Jobs::MigrateTaggingPlugin",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/migrate_tagging_plugin.rb"
+      },
+      {
+        "constant": "Jobs::MigrateUploadExtensions",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/migrate_upload_extensions.rb"
+      },
+      {
+        "constant": "Jobs::Onceoff",
+        "method": "running_key_name",
+        "file": "app/jobs/onceoff/onceoff.rb"
+      },
+      {
+        "constant": "Jobs::Onceoff",
+        "method": "execute",
+        "file": "app/jobs/onceoff/onceoff.rb"
+      },
+      {
+        "constant": "Jobs::PostUploadsRecovery",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/post_uploads_recovery.rb"
+      },
+      {
+        "constant": "Jobs::PostUploadsRecovery",
+        "method": "grace_period",
+        "file": "app/jobs/onceoff/post_uploads_recovery.rb"
+      },
+      {
+        "constant": "Jobs::RemoveOldAutoCloseJobs",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/remove_old_auto_close_jobs.rb"
+      },
+      {
+        "constant": "Jobs::RetroGrantAnniversary",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/retro_grant_anniversary.rb"
+      },
+      {
+        "constant": "Jobs::RetroRecentTimeRead",
+        "method": "execute_onceoff",
+        "file": "app/jobs/onceoff/retro_recent_time_read.rb"
+      }
+    ],
+    "no_file_concern": [
+      {
+        "constant": "Skippable",
+        "method": "create_skipped_email_log",
+        "file": "app/jobs/concerns/skippable.rb"
+      },
+      {
+        "constant": "AclTarget",
+        "method": "reload",
+        "file": "app/models/concerns/acl_target.rb"
+      },
+      {
+        "constant": "AclTarget",
+        "method": "permission_acl",
+        "file": "app/models/concerns/acl_target.rb"
+      },
+      {
+        "constant": "AclTarget",
+        "method": "acl_target_key",
+        "file": "app/models/concerns/acl_target.rb"
+      },
+      {
+        "constant": "AclTarget",
+        "method": "has_mandatory_acl?",
+        "file": "app/models/concerns/acl_target.rb"
+      },
+      {
+        "constant": "AclTarget",
+        "method": "acl_is_mandatory?",
+        "file": "app/models/concerns/acl_target.rb"
+      },
+      {
+        "constant": "AclTarget",
+        "method": "has_banned_acl?",
+        "file": "app/models/concerns/acl_target.rb"
+      },
+      {
+        "constant": "AclTarget",
+        "method": "acl_is_banned?",
+        "file": "app/models/concerns/acl_target.rb"
+      },
+      {
+        "constant": "CachedCounting",
+        "method": "perform_increment!",
+        "file": "app/models/concerns/cached_counting.rb"
+      },
+      {
+        "constant": "CachedCounting",
+        "method": "write_cache!",
+        "file": "app/models/concerns/cached_counting.rb"
+      },
+      {
+        "constant": "CategoryHashtag",
+        "method": "query_loaded_from_slugs",
+        "file": "app/models/concerns/category_hashtag.rb"
+      },
+      {
+        "constant": "CategoryHashtag",
+        "method": "split_slug_path",
+        "file": "app/models/concerns/category_hashtag.rb"
+      },
+      {
+        "constant": "CustomField",
+        "method": "true_fields",
+        "file": "app/models/concerns/custom_field.rb"
+      },
+      {
+        "constant": "HasCustomFields::FieldDescriptor",
+        "method": "append_field",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields::FieldDescriptor",
+        "method": "array_type?",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields::FieldDescriptor",
+        "method": "validate",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields::FieldDescriptor",
+        "method": "serialize",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields::FieldDescriptor",
+        "method": "deserialize",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields::FieldDescriptor",
+        "method": "parse_json_value",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields",
+        "method": "custom_fields_for_ids",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields",
+        "method": "append_custom_field",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields",
+        "method": "register_custom_field_type",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields",
+        "method": "get_custom_field_descriptor",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields",
+        "method": "preload_custom_fields",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields",
+        "method": "custom_field_meta_data",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields",
+        "method": "custom_fields_fk",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields",
+        "method": "reload",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields",
+        "method": "on_custom_fields_change",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields",
+        "method": "custom_fields_preloaded?",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields",
+        "method": "custom_field_preloaded?",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields",
+        "method": "clear_custom_fields",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields::PreloadedProxy",
+        "method": "initialize",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields::PreloadedProxy",
+        "method": "[]",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields",
+        "method": "set_preloaded_custom_fields",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields",
+        "method": "custom_fields",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields",
+        "method": "custom_fields=",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields",
+        "method": "custom_fields_clean?",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields",
+        "method": "upsert_custom_fields",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields",
+        "method": "save_custom_fields",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields",
+        "method": "create_singular",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields",
+        "method": "refresh_custom_fields_from_db",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields",
+        "method": "custom_fields_max_items",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasCustomFields",
+        "method": "custom_fields_value_length",
+        "file": "app/models/concerns/has_custom_fields.rb"
+      },
+      {
+        "constant": "HasDeprecatedColumns",
+        "method": "deprecate_column",
+        "file": "app/models/concerns/has_deprecated_columns.rb"
+      },
+      {
+        "constant": "HasDestroyedWebHook",
+        "method": "enqueue_destroyed_web_hook",
+        "file": "app/models/concerns/has_destroyed_web_hook.rb"
+      },
+      {
+        "constant": "HasNestedReplyStats",
+        "method": "nested_replies_apply_reparent",
+        "file": "app/models/concerns/has_nested_reply_stats.rb"
+      },
+      {
+        "constant": "HasNestedReplyStats",
+        "method": "nested_replies_increment_stats",
+        "file": "app/models/concerns/has_nested_reply_stats.rb"
+      },
+      {
+        "constant": "HasNestedReplyStats",
+        "method": "nested_replies_decrement_stats",
+        "file": "app/models/concerns/has_nested_reply_stats.rb"
+      },
+      {
+        "constant": "HasNestedReplyStats",
+        "method": "nested_replies_subtree_sizes",
+        "file": "app/models/concerns/has_nested_reply_stats.rb"
+      },
+      {
+        "constant": "HasNestedReplyStats",
+        "method": "nested_replies_walk",
+        "file": "app/models/concerns/has_nested_reply_stats.rb"
+      }
+    ]
+  }
+}

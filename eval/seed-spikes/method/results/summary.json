@@ -1,0 +1,857 @@
+{
+  "apps": {
+    "mastodon": {
+      "app": "mastodon",
+      "population": 4750,
+      "success": 3445,
+      "rate": 0.7252631578947368,
+      "by_label": {
+        "no_file_concern": 246,
+        "resolved_direct": 3445,
+        "no_file": 1059
+      },
+      "test_leg": {
+        "matched": 1517,
+        "lenient_true": 1209,
+        "strict_true": 1150,
+        "precision": 0.7969676994067239,
+        "strict_share_of_true": 0.9511993382961125,
+        "false_samples": [
+          {
+            "constant": "Account",
+            "test": "spec/requests/account_show_page_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Account",
+            "test": "spec/routing/accounts_routing_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AccountSuggestions::Source",
+            "test": "spec/lib/admin/metrics/dimension/sources_dimension_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AccountSuggestions::Source",
+            "test": "spec/lib/domain_resource_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AccountSuggestions::Source",
+            "test": "spec/lib/webfinger_resource_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AccountSuggestions::Source",
+            "test": "spec/models/account_suggestions/fasp_source_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AccountSuggestions::Source",
+            "test": "spec/models/account_suggestions/friends_of_friends_source_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AccountSuggestions::Source",
+            "test": "spec/requests/api/v1/statuses/sources_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AccountSuggestions::Source",
+            "test": "spec/services/fetch_resource_service_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::AccountAction",
+            "test": "spec/requests/admin/account_actions_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::AccountAction",
+            "test": "spec/requests/api/v1/admin/account_actions_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::AccountAction",
+            "test": "spec/system/admin/account_actions_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::ActionLog",
+            "test": "spec/system/admin/action_logs_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Fasp::ProviderPolicy",
+            "test": "spec/policies/preview_card_provider_policy_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Import",
+            "test": "spec/controllers/settings/imports_controller_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Import",
+            "test": "spec/lib/importer/accounts_index_importer_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Import",
+            "test": "spec/lib/importer/base_importer_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Import",
+            "test": "spec/lib/importer/public_statuses_index_importer_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Import",
+            "test": "spec/lib/importer/statuses_index_importer_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Import",
+            "test": "spec/lib/importer/tags_index_importer_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Import",
+            "test": "spec/lib/vacuum/imports_vacuum_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Import",
+            "test": "spec/models/bulk_import_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Import",
+            "test": "spec/requests/settings/imports_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Import",
+            "test": "spec/services/bulk_import_row_service_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Import",
+            "test": "spec/workers/bulk_import_worker_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Metrics::Dimension::LanguagesDimension",
+            "test": "spec/lib/admin/metrics/dimension/instance_languages_dimension_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Metrics::Dimension::LanguagesDimension",
+            "test": "spec/lib/admin/metrics/dimension/tag_languages_dimension_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Metrics::Dimension::ServersDimension",
+            "test": "spec/lib/admin/metrics/dimension/tag_servers_dimension_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Metrics::Retention",
+            "test": "spec/system/admin/settings/content_retention_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::StatusFilter",
+            "test": "spec/models/form/status_filter_batch_action_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AnnualReport::Source",
+            "test": "spec/lib/admin/metrics/dimension/sources_dimension_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AnnualReport::Source",
+            "test": "spec/lib/domain_resource_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AnnualReport::Source",
+            "test": "spec/lib/webfinger_resource_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AnnualReport::Source",
+            "test": "spec/models/account_suggestions/fasp_source_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AnnualReport::Source",
+            "test": "spec/models/account_suggestions/friends_of_friends_source_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AnnualReport::Source",
+            "test": "spec/requests/api/v1/statuses/sources_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AnnualReport::Source",
+            "test": "spec/services/fetch_resource_service_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Block",
+            "test": "spec/requests/api/v1/domain_blocks_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Block",
+            "test": "spec/services/unblock_domain_service_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Block",
+            "test": "spec/services/unblock_service_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "BlockDomainService",
+            "test": "spec/services/unblock_domain_service_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "BlockService",
+            "test": "spec/services/unblock_service_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "ContentSecurityPolicy",
+            "test": "spec/requests/content_security_policy_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "CustomEmoji",
+            "test": "spec/requests/admin/custom_emojis_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "CustomEmoji",
+            "test": "spec/requests/api/v1/custom_emojis_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "DomainAllow",
+            "test": "spec/requests/admin/domain_allows_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "DomainAllow",
+            "test": "spec/requests/admin/export_domain_allows_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "DomainBlock",
+            "test": "spec/requests/admin/domain_blocks_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "DomainBlock",
+            "test": "spec/requests/admin/email_domain_blocks_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "DomainBlock",
+            "test": "spec/requests/admin/export_domain_blocks_spec.rb",
+            "lenient": false
+          }
+        ]
+      },
+      "fan_out": {
+        "callees": {
+          "median": 0,
+          "p90": 3,
+          "max": 29
+        },
+        "constants": {
+          "median": 1,
+          "p90": 4,
+          "max": 28
+        }
+      }
+    },
+    "discourse": {
+      "app": "discourse",
+      "population": 4994,
+      "success": 4190,
+      "rate": 0.8390068081698038,
+      "by_label": {
+        "resolved_direct": 4190,
+        "no_file": 545,
+        "no_file_concern": 259
+      },
+      "test_leg": {
+        "matched": 1720,
+        "lenient_true": 1423,
+        "strict_true": 1396,
+        "precision": 0.8273255813953488,
+        "strict_share_of_true": 0.9810260014054814,
+        "false_samples": [
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/jobs/notify_mailing_list_subscribers_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/lib/i18n/fallback_locale_list_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/lib/onebox/engine/allowlisted_generic_onebox_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/lib/topic_query/private_message_lists_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/lib/validators/host_list_setting_validator_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/lib/validators/regexp_list_validator_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/lib/validators/unicode_username_allowlist_validator_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/models/access_control_list_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/models/category_list_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/models/mailing_list_mode_site_setting_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/models/topic_list_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/models/user_bookmark_list_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/queries/reports/list_query_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/requests/list_controller_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/serializers/admin_user_list_serializer_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/serializers/listable_topic_serializer_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/serializers/topic_list_item_serializer_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/serializers/topic_list_serializer_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/serializers/user_bookmark_list_serializer_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/services/access_control_list_manager_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/services/nested_topic/list_children_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/services/nested_topic/list_roots_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/system/admin_groups_list_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/system/admin_site_setting_tag_list_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/system/admin_site_setting_value_list_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/system/admin_users_list_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/system/discovery_list_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/system/emojis/emoji_deny_list_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/system/nested_topic_list_dot_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/system/topic_list_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/system/unified_new_topic_list_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Admin::Search::List",
+            "test": "spec/views/list/list.erb_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AdminNotice",
+            "test": "spec/system/admin_notices_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AdminNotices::Dismiss",
+            "test": "spec/jobs/clean_dismissed_topic_users_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AdminNotices::Dismiss",
+            "test": "spec/system/dismissing_new_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "BasicCategorySerializer",
+            "test": "spec/serializers/nested_replies_basic_category_serializer_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Categories::Configure",
+            "test": "spec/services/categories/unconfigure_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "Category",
+            "test": "spec/system/edit_category_topic_template_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "CategorySetting",
+            "test": "spec/system/edit_category_settings_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "EmailLog",
+            "test": "spec/system/admin_email_login_readonly_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "EmailLoginCode::Redeem",
+            "test": "spec/models/invite_redeemer_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "EmailLoginCode::Request",
+            "test": "spec/integration/invalid_request_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "EmailLoginCode::Request",
+            "test": "spec/integration/request_tracker_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "EmailLoginCode::Request",
+            "test": "spec/jobs/clean_up_email_change_requests_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "EmailLoginCode::Request",
+            "test": "spec/lib/middleware/processing_request_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "EmailLoginCode::Request",
+            "test": "spec/lib/middleware/request_tracker_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "EmailLoginCode::Request",
+            "test": "spec/models/application_request_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "EmailLoginCode::Request",
+            "test": "spec/models/email_change_request_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "EmailLoginCode::Request",
+            "test": "spec/models/group_request_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "EmailLoginCode::Request",
+            "test": "spec/models/web_crawler_request_spec.rb",
+            "lenient": false
+          }
+        ]
+      },
+      "fan_out": {
+        "callees": {
+          "median": 0,
+          "p90": 2,
+          "max": 46
+        },
+        "constants": {
+          "median": 1,
+          "p90": 4,
+          "max": 42
+        }
+      }
+    },
+    "zammad": {
+      "app": "zammad",
+      "population": 3904,
+      "success": 3507,
+      "rate": 0.8983094262295082,
+      "by_label": {
+        "resolved_direct": 3507,
+        "no_file": 88,
+        "no_file_concern": 307,
+        "file_no_def": 2
+      },
+      "test_leg": {
+        "matched": 8278,
+        "lenient_true": 3927,
+        "strict_true": 1226,
+        "precision": 0.474389949263107,
+        "strict_share_of_true": 0.3121976063152534,
+        "false_samples": [
+          {
+            "constant": "AI::Agent",
+            "test": "spec/lib/sessions/event/chat_agent_state_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent",
+            "test": "spec/lib/user_agent_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent",
+            "test": "spec/requests/settings/ticket_agent_default_notifications_controller_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent",
+            "test": "test/browser/agent_navigation_and_title_test.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent",
+            "test": "test/browser/agent_organization_profile_test.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent",
+            "test": "test/browser/agent_ticket_attachment_test.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent",
+            "test": "test/browser/agent_ticket_create_attachment_missing_after_reload_test.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent",
+            "test": "test/browser/agent_ticket_create_available_types_test.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent",
+            "test": "test/browser/agent_ticket_create_cc_tokenizer_test.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent",
+            "test": "test/browser/agent_ticket_create_default_type_test.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent",
+            "test": "test/browser/agent_ticket_create_reset_customer_selection_test.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent",
+            "test": "test/browser/agent_ticket_email_signature_test.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent",
+            "test": "test/browser/agent_ticket_link_test.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent",
+            "test": "test/browser/agent_ticket_macro_test.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent",
+            "test": "test/browser/agent_ticket_merge_test.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent",
+            "test": "test/browser/agent_ticket_online_notification_test.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent",
+            "test": "test/browser/agent_ticket_overview_tab_test.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent",
+            "test": "test/browser/agent_ticket_tag_test.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent",
+            "test": "test/browser/agent_ticket_text_module_test.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent",
+            "test": "test/browser/agent_ticket_update_and_reload_test.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent",
+            "test": "test/browser/agent_ticket_update_with_attachment_refresh_test.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent",
+            "test": "test/browser/agent_ticket_zoom_hide_test.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent",
+            "test": "test/browser/agent_user_manage_test.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent",
+            "test": "test/browser/agent_user_profile_test.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent::Assets",
+            "test": "spec/lib/knowledge_base/internal_assets_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent::Assets",
+            "test": "spec/lib/service/system_assets_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent::Assets",
+            "test": "spec/models/ticket/assets_all_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent::Type",
+            "test": "spec/db/migrate/checklist_tables_wrong_column_type_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent::Type",
+            "test": "spec/db/migrate/issue_5409_wrong_db_column_array_type_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent::Type",
+            "test": "spec/db/migrate/password_settings_change_type_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent::Type",
+            "test": "spec/graphql/gql/queries/autocomplete_search/idoit_object_types_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent::Type",
+            "test": "spec/graphql/gql/types/binary_string_type_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent::Type",
+            "test": "spec/graphql/gql/types/email_address_parsed_type_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent::Type",
+            "test": "spec/graphql/gql/types/group_type_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent::Type",
+            "test": "spec/graphql/gql/types/ticket/shared_draft_start_type_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent::Type",
+            "test": "spec/graphql/gql/types/ticket_type_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent::Type",
+            "test": "spec/graphql/gql/types/user/taskbar_item_type_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent::Type",
+            "test": "spec/lib/validations/object_manager/attribute_validator/data_types_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent::Type",
+            "test": "spec/models/ticket/state_type_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent::Type",
+            "test": "spec/models/type_lookup_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent::Type",
+            "test": "test/browser/agent_ticket_create_available_types_test.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Agent::Type",
+            "test": "test/browser/agent_ticket_create_default_type_test.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Analytics::Run",
+            "test": "spec/db/migrate/create_ai_analytics_runs_and_usages_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Analytics::Run",
+            "test": "spec/db/migrate/issue_5908_cleanup_ticket_ai_agent_running_falgs_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Analytics::Run",
+            "test": "spec/graphql/gql/mutations/system/setup/run_auto_wizard_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Analytics::Run",
+            "test": "spec/rubocop/cop/zammad/migration_scheduler_last_run_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Analytics::Usage",
+            "test": "spec/db/migrate/create_ai_analytics_runs_and_usages_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Analytics::Usage",
+            "test": "spec/services/service/ai/analytics/generate_report/with_usages_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::Analytics::Usage",
+            "test": "spec/services/service/ai/analytics/upsert_usage_spec.rb",
+            "lenient": false
+          },
+          {
+            "constant": "AI::TextToolPolicy::Scope",
+            "test": "spec/policies/application_policy/field_scope_spec.rb",
+            "lenient": false
+          }
+        ]
+      },
+      "fan_out": {
+        "callees": {
+          "median": 0,
+          "p90": 3,
+          "max": 36
+        },
+        "constants": {
+          "median": 1,
+          "p90": 3,
+          "max": 25
+        }
+      }
+    }
+  },
+  "average_rate": 0.8208597974313495,
+  "resolution_gate": 0.7,
+  "resolution_pass": true,
+  "average_test_leg_precision": 0.6995610766883932,
+  "test_leg_gate": 0.7,
+  "test_leg_pass": false
+}

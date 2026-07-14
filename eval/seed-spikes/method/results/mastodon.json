@@ -1,0 +1,1040 @@
+{
+  "app": "mastodon",
+  "population": 4750,
+  "success": 3445,
+  "rate": 0.7252631578947368,
+  "by_label": {
+    "no_file_concern": 246,
+    "resolved_direct": 3445,
+    "no_file": 1059
+  },
+  "test_leg": {
+    "matched": 1517,
+    "lenient_true": 1209,
+    "strict_true": 1150,
+    "precision": 0.7969676994067239,
+    "strict_share_of_true": 0.9511993382961125,
+    "false_samples": [
+      {
+        "constant": "Account",
+        "test": "spec/requests/account_show_page_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Account",
+        "test": "spec/routing/accounts_routing_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AccountSuggestions::Source",
+        "test": "spec/lib/admin/metrics/dimension/sources_dimension_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AccountSuggestions::Source",
+        "test": "spec/lib/domain_resource_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AccountSuggestions::Source",
+        "test": "spec/lib/webfinger_resource_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AccountSuggestions::Source",
+        "test": "spec/models/account_suggestions/fasp_source_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AccountSuggestions::Source",
+        "test": "spec/models/account_suggestions/friends_of_friends_source_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AccountSuggestions::Source",
+        "test": "spec/requests/api/v1/statuses/sources_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AccountSuggestions::Source",
+        "test": "spec/services/fetch_resource_service_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::AccountAction",
+        "test": "spec/requests/admin/account_actions_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::AccountAction",
+        "test": "spec/requests/api/v1/admin/account_actions_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::AccountAction",
+        "test": "spec/system/admin/account_actions_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::ActionLog",
+        "test": "spec/system/admin/action_logs_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Fasp::ProviderPolicy",
+        "test": "spec/policies/preview_card_provider_policy_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Import",
+        "test": "spec/controllers/settings/imports_controller_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Import",
+        "test": "spec/lib/importer/accounts_index_importer_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Import",
+        "test": "spec/lib/importer/base_importer_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Import",
+        "test": "spec/lib/importer/public_statuses_index_importer_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Import",
+        "test": "spec/lib/importer/statuses_index_importer_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Import",
+        "test": "spec/lib/importer/tags_index_importer_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Import",
+        "test": "spec/lib/vacuum/imports_vacuum_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Import",
+        "test": "spec/models/bulk_import_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Import",
+        "test": "spec/requests/settings/imports_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Import",
+        "test": "spec/services/bulk_import_row_service_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Import",
+        "test": "spec/workers/bulk_import_worker_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Metrics::Dimension::LanguagesDimension",
+        "test": "spec/lib/admin/metrics/dimension/instance_languages_dimension_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Metrics::Dimension::LanguagesDimension",
+        "test": "spec/lib/admin/metrics/dimension/tag_languages_dimension_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Metrics::Dimension::ServersDimension",
+        "test": "spec/lib/admin/metrics/dimension/tag_servers_dimension_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::Metrics::Retention",
+        "test": "spec/system/admin/settings/content_retention_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Admin::StatusFilter",
+        "test": "spec/models/form/status_filter_batch_action_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AnnualReport::Source",
+        "test": "spec/lib/admin/metrics/dimension/sources_dimension_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AnnualReport::Source",
+        "test": "spec/lib/domain_resource_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AnnualReport::Source",
+        "test": "spec/lib/webfinger_resource_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AnnualReport::Source",
+        "test": "spec/models/account_suggestions/fasp_source_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AnnualReport::Source",
+        "test": "spec/models/account_suggestions/friends_of_friends_source_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AnnualReport::Source",
+        "test": "spec/requests/api/v1/statuses/sources_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AnnualReport::Source",
+        "test": "spec/services/fetch_resource_service_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Block",
+        "test": "spec/requests/api/v1/domain_blocks_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Block",
+        "test": "spec/services/unblock_domain_service_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "Block",
+        "test": "spec/services/unblock_service_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "BlockDomainService",
+        "test": "spec/services/unblock_domain_service_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "BlockService",
+        "test": "spec/services/unblock_service_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "ContentSecurityPolicy",
+        "test": "spec/requests/content_security_policy_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "CustomEmoji",
+        "test": "spec/requests/admin/custom_emojis_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "CustomEmoji",
+        "test": "spec/requests/api/v1/custom_emojis_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "DomainAllow",
+        "test": "spec/requests/admin/domain_allows_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "DomainAllow",
+        "test": "spec/requests/admin/export_domain_allows_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "DomainBlock",
+        "test": "spec/requests/admin/domain_blocks_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "DomainBlock",
+        "test": "spec/requests/admin/email_domain_blocks_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "DomainBlock",
+        "test": "spec/requests/admin/export_domain_blocks_spec.rb",
+        "lenient": false
+      }
+    ]
+  },
+  "fan_out": {
+    "callees": {
+      "median": 0,
+      "p90": 3,
+      "max": 29
+    },
+    "constants": {
+      "median": 1,
+      "p90": 4,
+      "max": 28
+    }
+  },
+  "label_samples": {
+    "no_file_concern": [
+      {
+        "constant": "DatetimeClampingConcern",
+        "method": "clamp_date",
+        "file": "app/chewy/concerns/datetime_clamping_concern.rb"
+      },
+      {
+        "constant": "BulkMailSettingsConcern",
+        "method": "use_bulk_mail_delivery_settings",
+        "file": "app/mailers/concerns/bulk_mail_settings_concern.rb"
+      },
+      {
+        "constant": "BulkMailSettingsConcern",
+        "method": "bulk_mail_configuration",
+        "file": "app/mailers/concerns/bulk_mail_settings_concern.rb"
+      },
+      {
+        "constant": "Account::AttributionDomains",
+        "method": "can_be_attributed_from?",
+        "file": "app/models/concerns/account/attribution_domains.rb"
+      },
+      {
+        "constant": "Account::Avatar",
+        "method": "avatar_styles",
+        "file": "app/models/concerns/account/avatar.rb"
+      },
+      {
+        "constant": "Account::Avatar",
+        "method": "avatar_original_url",
+        "file": "app/models/concerns/account/avatar.rb"
+      },
+      {
+        "constant": "Account::Avatar",
+        "method": "avatar_static_url",
+        "file": "app/models/concerns/account/avatar.rb"
+      },
+      {
+        "constant": "Account::Counters",
+        "method": "increment_count!",
+        "file": "app/models/concerns/account/counters.rb"
+      },
+      {
+        "constant": "Account::Counters",
+        "method": "decrement_count!",
+        "file": "app/models/concerns/account/counters.rb"
+      },
+      {
+        "constant": "Account::Counters",
+        "method": "update_count!",
+        "file": "app/models/concerns/account/counters.rb"
+      },
+      {
+        "constant": "Account::Counters",
+        "method": "account_stat",
+        "file": "app/models/concerns/account/counters.rb"
+      },
+      {
+        "constant": "Account::Counters",
+        "method": "updated_account_stat",
+        "file": "app/models/concerns/account/counters.rb"
+      },
+      {
+        "constant": "Account::Counters",
+        "method": "initial_values",
+        "file": "app/models/concerns/account/counters.rb"
+      },
+      {
+        "constant": "Account::Counters",
+        "method": "duplicate_values",
+        "file": "app/models/concerns/account/counters.rb"
+      },
+      {
+        "constant": "Account::Counters",
+        "method": "save_account_stat",
+        "file": "app/models/concerns/account/counters.rb"
+      },
+      {
+        "constant": "Account::FaspConcern",
+        "method": "announce_new_account_to_subscribed_fasp",
+        "file": "app/models/concerns/account/fasp_concern.rb"
+      },
+      {
+        "constant": "Account::FaspConcern",
+        "method": "announce_updated_account_to_subscribed_fasp",
+        "file": "app/models/concerns/account/fasp_concern.rb"
+      },
+      {
+        "constant": "Account::FaspConcern",
+        "method": "announce_deleted_account_to_subscribed_fasp",
+        "file": "app/models/concerns/account/fasp_concern.rb"
+      },
+      {
+        "constant": "Account::FinderConcern",
+        "method": "find_local!",
+        "file": "app/models/concerns/account/finder_concern.rb"
+      },
+      {
+        "constant": "Account::FinderConcern",
+        "method": "find_remote!",
+        "file": "app/models/concerns/account/finder_concern.rb"
+      },
+      {
+        "constant": "Account::FinderConcern",
+        "method": "representative",
+        "file": "app/models/concerns/account/finder_concern.rb"
+      },
+      {
+        "constant": "Account::FinderConcern",
+        "method": "find_local",
+        "file": "app/models/concerns/account/finder_concern.rb"
+      },
+      {
+        "constant": "Account::FinderConcern",
+        "method": "find_remote",
+        "file": "app/models/concerns/account/finder_concern.rb"
+      },
+      {
+        "constant": "Account::Header",
+        "method": "header_styles",
+        "file": "app/models/concerns/account/header.rb"
+      },
+      {
+        "constant": "Account::Header",
+        "method": "header_original_url",
+        "file": "app/models/concerns/account/header.rb"
+      },
+      {
+        "constant": "Account::Header",
+        "method": "header_static_url",
+        "file": "app/models/concerns/account/header.rb"
+      },
+      {
+        "constant": "Account::InteractionPolicyConcern",
+        "method": "feature_policy_as_keys",
+        "file": "app/models/concerns/account/interaction_policy_concern.rb"
+      },
+      {
+        "constant": "Account::InteractionPolicyConcern",
+        "method": "feature_policy_for_account",
+        "file": "app/models/concerns/account/interaction_policy_concern.rb"
+      },
+      {
+        "constant": "Account::InteractionPolicyConcern",
+        "method": "local_feature_policy",
+        "file": "app/models/concerns/account/interaction_policy_concern.rb"
+      },
+      {
+        "constant": "Account::Interactions",
+        "method": "follow!",
+        "file": "app/models/concerns/account/interactions.rb"
+      },
+      {
+        "constant": "Account::Interactions",
+        "method": "request_follow!",
+        "file": "app/models/concerns/account/interactions.rb"
+      },
+      {
+        "constant": "Account::Interactions",
+        "method": "block!",
+        "file": "app/models/concerns/account/interactions.rb"
+      },
+      {
+        "constant": "Account::Interactions",
+        "method": "mute!",
+        "file": "app/models/concerns/account/interactions.rb"
+      },
+      {
+        "constant": "Account::Interactions",
+        "method": "mute_conversation!",
+        "file": "app/models/concerns/account/interactions.rb"
+      },
+      {
+        "constant": "Account::Interactions",
+        "method": "block_domain!",
+        "file": "app/models/concerns/account/interactions.rb"
+      },
+      {
+        "constant": "Account::Interactions",
+        "method": "unfollow!",
+        "file": "app/models/concerns/account/interactions.rb"
+      },
+      {
+        "constant": "Account::Interactions",
+        "method": "unblock!",
+        "file": "app/models/concerns/account/interactions.rb"
+      },
+      {
+        "constant": "Account::Interactions",
+        "method": "unmute!",
+        "file": "app/models/concerns/account/interactions.rb"
+      },
+      {
+        "constant": "Account::Interactions",
+        "method": "unmute_conversation!",
+        "file": "app/models/concerns/account/interactions.rb"
+      },
+      {
+        "constant": "Account::Interactions",
+        "method": "unblock_domain!",
+        "file": "app/models/concerns/account/interactions.rb"
+      },
+      {
+        "constant": "Account::Interactions",
+        "method": "following?",
+        "file": "app/models/concerns/account/interactions.rb"
+      },
+      {
+        "constant": "Account::Interactions",
+        "method": "following_anyone?",
+        "file": "app/models/concerns/account/interactions.rb"
+      },
+      {
+        "constant": "Account::Interactions",
+        "method": "not_following_anyone?",
+        "file": "app/models/concerns/account/interactions.rb"
+      },
+      {
+        "constant": "Account::Interactions",
+        "method": "followed_by?",
+        "file": "app/models/concerns/account/interactions.rb"
+      },
+      {
+        "constant": "Account::Interactions",
+        "method": "blocking?",
+        "file": "app/models/concerns/account/interactions.rb"
+      },
+      {
+        "constant": "Account::Interactions",
+        "method": "blocked_by?",
+        "file": "app/models/concerns/account/interactions.rb"
+      },
+      {
+        "constant": "Account::Interactions",
+        "method": "domain_blocking?",
+        "file": "app/models/concerns/account/interactions.rb"
+      },
+      {
+        "constant": "Account::Interactions",
+        "method": "blocking_or_domain_blocking?",
+        "file": "app/models/concerns/account/interactions.rb"
+      },
+      {
+        "constant": "Account::Interactions",
+        "method": "muting?",
+        "file": "app/models/concerns/account/interactions.rb"
+      },
+      {
+        "constant": "Account::Interactions",
+        "method": "muting_conversation?",
+        "file": "app/models/concerns/account/interactions.rb"
+      }
+    ],
+    "resolved_direct": [
+      {
+        "constant": "AccountsHelper",
+        "method": "display_name",
+        "file": "app/helpers/accounts_helper.rb"
+      },
+      {
+        "constant": "AccountsHelper",
+        "method": "acct",
+        "file": "app/helpers/accounts_helper.rb"
+      },
+      {
+        "constant": "AccountsHelper",
+        "method": "account_formatted_stat",
+        "file": "app/helpers/accounts_helper.rb"
+      },
+      {
+        "constant": "AccountsHelper",
+        "method": "account_description",
+        "file": "app/helpers/accounts_helper.rb"
+      },
+      {
+        "constant": "Admin::AccountActionsHelper",
+        "method": "account_action_type_label",
+        "file": "app/helpers/admin/account_actions_helper.rb"
+      },
+      {
+        "constant": "Admin::AccountModerationNotesHelper",
+        "method": "admin_account_link_to",
+        "file": "app/helpers/admin/account_moderation_notes_helper.rb"
+      },
+      {
+        "constant": "Admin::AccountModerationNotesHelper",
+        "method": "admin_account_inline_link_to",
+        "file": "app/helpers/admin/account_moderation_notes_helper.rb"
+      },
+      {
+        "constant": "Admin::AccountModerationNotesHelper",
+        "method": "labeled_account_avatar",
+        "file": "app/helpers/admin/account_moderation_notes_helper.rb"
+      },
+      {
+        "constant": "Admin::AccountModerationNotesHelper",
+        "method": "account_inline_text",
+        "file": "app/helpers/admin/account_moderation_notes_helper.rb"
+      },
+      {
+        "constant": "Admin::AccountModerationNotesHelper",
+        "method": "suspended_account?",
+        "file": "app/helpers/admin/account_moderation_notes_helper.rb"
+      },
+      {
+        "constant": "Admin::AccountsHelper",
+        "method": "admin_accounts_moderation_options",
+        "file": "app/helpers/admin/accounts_helper.rb"
+      },
+      {
+        "constant": "Admin::AccountsHelper",
+        "method": "pending_user_count_label",
+        "file": "app/helpers/admin/accounts_helper.rb"
+      },
+      {
+        "constant": "Admin::ActionLogsHelper",
+        "method": "log_target",
+        "file": "app/helpers/admin/action_logs_helper.rb"
+      },
+      {
+        "constant": "Admin::ActionLogsHelper",
+        "method": "chain_multiple_translations",
+        "file": "app/helpers/admin/action_logs_helper.rb"
+      },
+      {
+        "constant": "Admin::ActionLogsHelper",
+        "method": "permutation_of_key",
+        "file": "app/helpers/admin/action_logs_helper.rb"
+      },
+      {
+        "constant": "Admin::ActionLogsHelper",
+        "method": "sorted_action_log_types",
+        "file": "app/helpers/admin/action_logs_helper.rb"
+      },
+      {
+        "constant": "Admin::AnnouncementsHelper",
+        "method": "datetime_pattern",
+        "file": "app/helpers/admin/announcements_helper.rb"
+      },
+      {
+        "constant": "Admin::AnnouncementsHelper",
+        "method": "datetime_placeholder",
+        "file": "app/helpers/admin/announcements_helper.rb"
+      },
+      {
+        "constant": "Admin::ContentPoliciesHelper",
+        "method": "policy_list",
+        "file": "app/helpers/admin/content_policies_helper.rb"
+      },
+      {
+        "constant": "Admin::DashboardHelper",
+        "method": "relevant_account_ip",
+        "file": "app/helpers/admin/dashboard_helper.rb"
+      },
+      {
+        "constant": "Admin::DashboardHelper",
+        "method": "date_range",
+        "file": "app/helpers/admin/dashboard_helper.rb"
+      },
+      {
+        "constant": "Admin::DashboardHelper",
+        "method": "relevant_account_timestamp",
+        "file": "app/helpers/admin/dashboard_helper.rb"
+      },
+      {
+        "constant": "Admin::DisputesHelper",
+        "method": "strike_action_label",
+        "file": "app/helpers/admin/disputes_helper.rb"
+      },
+      {
+        "constant": "Admin::DisputesHelper",
+        "method": "key_for_action",
+        "file": "app/helpers/admin/disputes_helper.rb"
+      },
+      {
+        "constant": "Admin::FilterHelper",
+        "method": "filter_link_to",
+        "file": "app/helpers/admin/filter_helper.rb"
+      },
+      {
+        "constant": "Admin::FilterHelper",
+        "method": "table_link_to",
+        "file": "app/helpers/admin/filter_helper.rb"
+      },
+      {
+        "constant": "Admin::FilterHelper",
+        "method": "selected?",
+        "file": "app/helpers/admin/filter_helper.rb"
+      },
+      {
+        "constant": "Admin::FilterHelper",
+        "method": "filter_params",
+        "file": "app/helpers/admin/filter_helper.rb"
+      },
+      {
+        "constant": "Admin::FilterHelper",
+        "method": "filter_link_class",
+        "file": "app/helpers/admin/filter_helper.rb"
+      },
+      {
+        "constant": "Admin::FilterHelper",
+        "method": "filtered_url_for",
+        "file": "app/helpers/admin/filter_helper.rb"
+      },
+      {
+        "constant": "Admin::FilterHelper",
+        "method": "controller_request_params",
+        "file": "app/helpers/admin/filter_helper.rb"
+      },
+      {
+        "constant": "Admin::IpBlocksHelper",
+        "method": "ip_blocks_severity_label",
+        "file": "app/helpers/admin/ip_blocks_helper.rb"
+      },
+      {
+        "constant": "Admin::RolesHelper",
+        "method": "privilege_label",
+        "file": "app/helpers/admin/roles_helper.rb"
+      },
+      {
+        "constant": "Admin::RolesHelper",
+        "method": "disable_permissions?",
+        "file": "app/helpers/admin/roles_helper.rb"
+      },
+      {
+        "constant": "Admin::RolesHelper",
+        "method": "role_flag_value",
+        "file": "app/helpers/admin/roles_helper.rb"
+      },
+      {
+        "constant": "Admin::Settings::DiscoveryHelper",
+        "method": "discovery_warning_hint_text",
+        "file": "app/helpers/admin/settings/discovery_helper.rb"
+      },
+      {
+        "constant": "Admin::Settings::DiscoveryHelper",
+        "method": "discovery_hint_text",
+        "file": "app/helpers/admin/settings/discovery_helper.rb"
+      },
+      {
+        "constant": "Admin::Settings::DiscoveryHelper",
+        "method": "discovery_recommended_value",
+        "file": "app/helpers/admin/settings/discovery_helper.rb"
+      },
+      {
+        "constant": "Admin::SettingsHelper",
+        "method": "captcha_available?",
+        "file": "app/helpers/admin/settings_helper.rb"
+      },
+      {
+        "constant": "Admin::SettingsHelper",
+        "method": "login_activity_title",
+        "file": "app/helpers/admin/settings_helper.rb"
+      },
+      {
+        "constant": "Admin::SettingsHelper",
+        "method": "login_activity_key",
+        "file": "app/helpers/admin/settings_helper.rb"
+      },
+      {
+        "constant": "Admin::SettingsHelper",
+        "method": "login_activity_method",
+        "file": "app/helpers/admin/settings_helper.rb"
+      },
+      {
+        "constant": "Admin::SettingsHelper",
+        "method": "login_activity_ip",
+        "file": "app/helpers/admin/settings_helper.rb"
+      },
+      {
+        "constant": "Admin::SettingsHelper",
+        "method": "login_activity_browser",
+        "file": "app/helpers/admin/settings_helper.rb"
+      },
+      {
+        "constant": "Admin::SettingsHelper",
+        "method": "login_activity_method_string",
+        "file": "app/helpers/admin/settings_helper.rb"
+      },
+      {
+        "constant": "Admin::SettingsHelper",
+        "method": "login_activity_browser_description",
+        "file": "app/helpers/admin/settings_helper.rb"
+      },
+      {
+        "constant": "Admin::TagsHelper",
+        "method": "admin_tags_moderation_options",
+        "file": "app/helpers/admin/tags_helper.rb"
+      },
+      {
+        "constant": "Admin::Trends::StatusesHelper",
+        "method": "one_line_preview",
+        "file": "app/helpers/admin/trends/statuses_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "friendly_number_to_human",
+        "file": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "open_registrations?",
+        "file": "app/helpers/application_helper.rb"
+      }
+    ],
+    "no_file": [
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "initialize",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "perform",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "status_from_uri",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "account_from_uri",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "collection_from_uri",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "object_uri",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "unsupported_object_type?",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "supported_object_type?",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "converted_object_type?",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "delete_arrived_first?",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "delete_later!",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "status_from_object",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "quote_from_request_json",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "dereference_object!",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "signed_fetch_actor",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "first_mentioned_local_account",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "first_local_follower",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "follow_request_from_object",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "quote_request_from_object",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "follow_from_object",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "feature_request_from_object",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "fetch_remote_original_status",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "fetch?",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "followed_by_local_accounts?",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "requested_through_relay?",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity",
+        "method": "reject_payload!",
+        "file": "app/lib/activitypub/activity.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity::Accept",
+        "method": "perform",
+        "file": "app/lib/activitypub/activity/accept.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity::Accept",
+        "method": "accept_embedded_follow",
+        "file": "app/lib/activitypub/activity/accept.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity::Accept",
+        "method": "accept_follow!",
+        "file": "app/lib/activitypub/activity/accept.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity::Accept",
+        "method": "accept_embedded_quote_request",
+        "file": "app/lib/activitypub/activity/accept.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity::Accept",
+        "method": "accept_feature_request!",
+        "file": "app/lib/activitypub/activity/accept.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity::Accept",
+        "method": "accept_quote!",
+        "file": "app/lib/activitypub/activity/accept.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity::Accept",
+        "method": "accept_follow_for_relay",
+        "file": "app/lib/activitypub/activity/accept.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity::Accept",
+        "method": "relay",
+        "file": "app/lib/activitypub/activity/accept.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity::Accept",
+        "method": "relay_follow?",
+        "file": "app/lib/activitypub/activity/accept.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity::Accept",
+        "method": "target_uri",
+        "file": "app/lib/activitypub/activity/accept.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity::Add",
+        "method": "perform",
+        "file": "app/lib/activitypub/activity/add.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity::Add",
+        "method": "add_featured",
+        "file": "app/lib/activitypub/activity/add.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity::Add",
+        "method": "add_featured_tags",
+        "file": "app/lib/activitypub/activity/add.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity::Add",
+        "method": "add_collection",
+        "file": "app/lib/activitypub/activity/add.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity::Add",
+        "method": "add_collection_item",
+        "file": "app/lib/activitypub/activity/add.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity::Announce",
+        "method": "perform",
+        "file": "app/lib/activitypub/activity/announce.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity::Announce",
+        "method": "distribute",
+        "file": "app/lib/activitypub/activity/announce.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity::Announce",
+        "method": "reblog_of_local_account?",
+        "file": "app/lib/activitypub/activity/announce.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity::Announce",
+        "method": "reblog_by_following_group_account?",
+        "file": "app/lib/activitypub/activity/announce.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity::Announce",
+        "method": "audience_to",
+        "file": "app/lib/activitypub/activity/announce.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity::Announce",
+        "method": "audience_cc",
+        "file": "app/lib/activitypub/activity/announce.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity::Announce",
+        "method": "visibility_from_audience",
+        "file": "app/lib/activitypub/activity/announce.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity::Announce",
+        "method": "announceable?",
+        "file": "app/lib/activitypub/activity/announce.rb"
+      },
+      {
+        "constant": "ActivityPub::Activity::Announce",
+        "method": "related_to_local_activity?",
+        "file": "app/lib/activitypub/activity/announce.rb"
+      }
+    ]
+  }
+}

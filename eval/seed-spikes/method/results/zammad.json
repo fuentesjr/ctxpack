@@ -1,0 +1,1053 @@
+{
+  "app": "zammad",
+  "population": 3904,
+  "success": 3507,
+  "rate": 0.8983094262295082,
+  "by_label": {
+    "resolved_direct": 3507,
+    "no_file": 88,
+    "no_file_concern": 307,
+    "file_no_def": 2
+  },
+  "test_leg": {
+    "matched": 8278,
+    "lenient_true": 3927,
+    "strict_true": 1226,
+    "precision": 0.474389949263107,
+    "strict_share_of_true": 0.3121976063152534,
+    "false_samples": [
+      {
+        "constant": "AI::Agent",
+        "test": "spec/lib/sessions/event/chat_agent_state_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent",
+        "test": "spec/lib/user_agent_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent",
+        "test": "spec/requests/settings/ticket_agent_default_notifications_controller_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent",
+        "test": "test/browser/agent_navigation_and_title_test.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent",
+        "test": "test/browser/agent_organization_profile_test.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent",
+        "test": "test/browser/agent_ticket_attachment_test.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent",
+        "test": "test/browser/agent_ticket_create_attachment_missing_after_reload_test.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent",
+        "test": "test/browser/agent_ticket_create_available_types_test.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent",
+        "test": "test/browser/agent_ticket_create_cc_tokenizer_test.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent",
+        "test": "test/browser/agent_ticket_create_default_type_test.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent",
+        "test": "test/browser/agent_ticket_create_reset_customer_selection_test.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent",
+        "test": "test/browser/agent_ticket_email_signature_test.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent",
+        "test": "test/browser/agent_ticket_link_test.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent",
+        "test": "test/browser/agent_ticket_macro_test.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent",
+        "test": "test/browser/agent_ticket_merge_test.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent",
+        "test": "test/browser/agent_ticket_online_notification_test.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent",
+        "test": "test/browser/agent_ticket_overview_tab_test.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent",
+        "test": "test/browser/agent_ticket_tag_test.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent",
+        "test": "test/browser/agent_ticket_text_module_test.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent",
+        "test": "test/browser/agent_ticket_update_and_reload_test.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent",
+        "test": "test/browser/agent_ticket_update_with_attachment_refresh_test.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent",
+        "test": "test/browser/agent_ticket_zoom_hide_test.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent",
+        "test": "test/browser/agent_user_manage_test.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent",
+        "test": "test/browser/agent_user_profile_test.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent::Assets",
+        "test": "spec/lib/knowledge_base/internal_assets_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent::Assets",
+        "test": "spec/lib/service/system_assets_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent::Assets",
+        "test": "spec/models/ticket/assets_all_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent::Type",
+        "test": "spec/db/migrate/checklist_tables_wrong_column_type_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent::Type",
+        "test": "spec/db/migrate/issue_5409_wrong_db_column_array_type_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent::Type",
+        "test": "spec/db/migrate/password_settings_change_type_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent::Type",
+        "test": "spec/graphql/gql/queries/autocomplete_search/idoit_object_types_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent::Type",
+        "test": "spec/graphql/gql/types/binary_string_type_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent::Type",
+        "test": "spec/graphql/gql/types/email_address_parsed_type_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent::Type",
+        "test": "spec/graphql/gql/types/group_type_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent::Type",
+        "test": "spec/graphql/gql/types/ticket/shared_draft_start_type_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent::Type",
+        "test": "spec/graphql/gql/types/ticket_type_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent::Type",
+        "test": "spec/graphql/gql/types/user/taskbar_item_type_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent::Type",
+        "test": "spec/lib/validations/object_manager/attribute_validator/data_types_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent::Type",
+        "test": "spec/models/ticket/state_type_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent::Type",
+        "test": "spec/models/type_lookup_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent::Type",
+        "test": "test/browser/agent_ticket_create_available_types_test.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Agent::Type",
+        "test": "test/browser/agent_ticket_create_default_type_test.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Analytics::Run",
+        "test": "spec/db/migrate/create_ai_analytics_runs_and_usages_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Analytics::Run",
+        "test": "spec/db/migrate/issue_5908_cleanup_ticket_ai_agent_running_falgs_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Analytics::Run",
+        "test": "spec/graphql/gql/mutations/system/setup/run_auto_wizard_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Analytics::Run",
+        "test": "spec/rubocop/cop/zammad/migration_scheduler_last_run_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Analytics::Usage",
+        "test": "spec/db/migrate/create_ai_analytics_runs_and_usages_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Analytics::Usage",
+        "test": "spec/services/service/ai/analytics/generate_report/with_usages_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::Analytics::Usage",
+        "test": "spec/services/service/ai/analytics/upsert_usage_spec.rb",
+        "lenient": false
+      },
+      {
+        "constant": "AI::TextToolPolicy::Scope",
+        "test": "spec/policies/application_policy/field_scope_spec.rb",
+        "lenient": false
+      }
+    ]
+  },
+  "fan_out": {
+    "callees": {
+      "median": 0,
+      "p90": 3,
+      "max": 36
+    },
+    "constants": {
+      "median": 1,
+      "p90": 3,
+      "max": 25
+    }
+  },
+  "label_samples": {
+    "resolved_direct": [
+      {
+        "constant": "ApplicationCable::Connection",
+        "method": "connect",
+        "file": "app/channels/application_cable/connection.rb"
+      },
+      {
+        "constant": "ApplicationCable::Connection",
+        "method": "find_verified_user",
+        "file": "app/channels/application_cable/connection.rb"
+      },
+      {
+        "constant": "ApplicationCable::Connection",
+        "method": "session_id",
+        "file": "app/channels/application_cable/connection.rb"
+      },
+      {
+        "constant": "GraphqlChannel",
+        "method": "subscribed",
+        "file": "app/channels/graphql_channel.rb"
+      },
+      {
+        "constant": "GraphqlChannel",
+        "method": "execute",
+        "file": "app/channels/graphql_channel.rb"
+      },
+      {
+        "constant": "GraphqlChannel",
+        "method": "unsubscribed",
+        "file": "app/channels/graphql_channel.rb"
+      },
+      {
+        "constant": "GraphqlChannel",
+        "method": "ensure_hash",
+        "file": "app/channels/graphql_channel.rb"
+      },
+      {
+        "constant": "Gql::Concerns::HandlesAuthorization",
+        "method": "pundit_authorize!",
+        "file": "app/graphql/gql/concerns/handles_authorization.rb"
+      },
+      {
+        "constant": "Gql::Concerns::HandlesAuthorization",
+        "method": "pundit_authorized?",
+        "file": "app/graphql/gql/concerns/handles_authorization.rb"
+      },
+      {
+        "constant": "Gql::Concerns::HandlesAuthorization",
+        "method": "requires_permission",
+        "file": "app/graphql/gql/concerns/handles_authorization.rb"
+      },
+      {
+        "constant": "Gql::Concerns::HandlesAuthorization",
+        "method": "requires_authentication",
+        "file": "app/graphql/gql/concerns/handles_authorization.rb"
+      },
+      {
+        "constant": "Gql::Concerns::HandlesAuthorization",
+        "method": "allow_public_access!",
+        "file": "app/graphql/gql/concerns/handles_authorization.rb"
+      },
+      {
+        "constant": "Gql::Concerns::HandlesAuthorization",
+        "method": "evaluate_require_authentication",
+        "file": "app/graphql/gql/concerns/handles_authorization.rb"
+      },
+      {
+        "constant": "Gql::Concerns::HandlesAuthorization",
+        "method": "validate_user",
+        "file": "app/graphql/gql/concerns/handles_authorization.rb"
+      },
+      {
+        "constant": "Gql::Concerns::HandlesAuthorization",
+        "method": "validate_permissions",
+        "file": "app/graphql/gql/concerns/handles_authorization.rb"
+      },
+      {
+        "constant": "Gql::Concerns::HandlesLinkObjects",
+        "method": "fetch_authorized_link_object",
+        "file": "app/graphql/gql/concerns/handles_link_objects.rb"
+      },
+      {
+        "constant": "Gql::Concerns::HandlesLinkObjects",
+        "method": "fetch_visible_link_object",
+        "file": "app/graphql/gql/concerns/handles_link_objects.rb"
+      },
+      {
+        "constant": "Gql::Concerns::HandlesLinkObjects",
+        "method": "fetch_link_object",
+        "file": "app/graphql/gql/concerns/handles_link_objects.rb"
+      },
+      {
+        "constant": "Gql::Concerns::HandlesOverviewCaching",
+        "method": "object_cache_key",
+        "file": "app/graphql/gql/concerns/handles_overview_caching.rb"
+      },
+      {
+        "constant": "Gql::Concerns::HandlesOverviewCaching",
+        "method": "overview_is_personalized?",
+        "file": "app/graphql/gql/concerns/handles_overview_caching.rb"
+      },
+      {
+        "constant": "Gql::Concerns::HandlesPasswordRevalidationToken",
+        "method": "verify_token!",
+        "file": "app/graphql/gql/concerns/handles_password_revalidation_token.rb"
+      },
+      {
+        "constant": "Gql::Concerns::HandlesSettingCheck",
+        "method": "requires_enabled_setting",
+        "file": "app/graphql/gql/concerns/handles_setting_check.rb"
+      },
+      {
+        "constant": "Gql::Concerns::HandlesSettingCheck",
+        "method": "requires_disabled_setting",
+        "file": "app/graphql/gql/concerns/handles_setting_check.rb"
+      },
+      {
+        "constant": "Gql::Concerns::HandlesSettingCheck",
+        "method": "ready?",
+        "file": "app/graphql/gql/concerns/handles_setting_check.rb"
+      },
+      {
+        "constant": "Gql::Concerns::HandlesSettingCheck",
+        "method": "validate_settings",
+        "file": "app/graphql/gql/concerns/handles_setting_check.rb"
+      },
+      {
+        "constant": "Gql::Concerns::HandlesThrottling",
+        "method": "throttle!",
+        "file": "app/graphql/gql/concerns/handles_throttling.rb"
+      },
+      {
+        "constant": "Gql::Context::CurrentUserAware",
+        "method": "current_user",
+        "file": "app/graphql/gql/context/current_user_aware.rb"
+      },
+      {
+        "constant": "Gql::Context::CurrentUserAware",
+        "method": "current_user?",
+        "file": "app/graphql/gql/context/current_user_aware.rb"
+      },
+      {
+        "constant": "Gql::Fields::BaseField",
+        "method": "initialize",
+        "file": "app/graphql/gql/fields/base_field.rb"
+      },
+      {
+        "constant": "Gql::Fields::InternalField",
+        "method": "resolve",
+        "file": "app/graphql/gql/fields/internal_field.rb"
+      },
+      {
+        "constant": "Gql::Fields::InternalField",
+        "method": "authorize_field",
+        "file": "app/graphql/gql/fields/internal_field.rb"
+      },
+      {
+        "constant": "Gql::Fields::ScopedField",
+        "method": "initialize",
+        "file": "app/graphql/gql/fields/scoped_field.rb"
+      },
+      {
+        "constant": "Gql::Fields::ScopedField",
+        "method": "resolve",
+        "file": "app/graphql/gql/fields/scoped_field.rb"
+      },
+      {
+        "constant": "Gql::Fields::ScopedField",
+        "method": "field_authorized?",
+        "file": "app/graphql/gql/fields/scoped_field.rb"
+      },
+      {
+        "constant": "Gql::Mutations::AdminPasswordAuthSend",
+        "method": "throttle_if_needed!",
+        "file": "app/graphql/gql/mutations/admin_password_auth_send.rb"
+      },
+      {
+        "constant": "Gql::Mutations::AdminPasswordAuthSend",
+        "method": "resolve",
+        "file": "app/graphql/gql/mutations/admin_password_auth_send.rb"
+      },
+      {
+        "constant": "Gql::Mutations::AdminPasswordAuthVerify",
+        "method": "resolve",
+        "file": "app/graphql/gql/mutations/admin_password_auth_verify.rb"
+      },
+      {
+        "constant": "Gql::Mutations::AIAnalytics::Usage",
+        "method": "resolve",
+        "file": "app/graphql/gql/mutations/ai_analytics/usage.rb"
+      },
+      {
+        "constant": "Gql::Mutations::AIAssistance::TextTools::Run",
+        "method": "resolve",
+        "file": "app/graphql/gql/mutations/ai_assistance/text_tools/run.rb"
+      },
+      {
+        "constant": "Gql::Mutations::BaseMutation",
+        "method": "ready?",
+        "file": "app/graphql/gql/mutations/base_mutation.rb"
+      },
+      {
+        "constant": "Gql::Mutations::BaseMutation",
+        "method": "throttle_if_needed!",
+        "file": "app/graphql/gql/mutations/base_mutation.rb"
+      },
+      {
+        "constant": "Gql::Mutations::BaseMutation",
+        "method": "verify_csrf_token_if_needed!",
+        "file": "app/graphql/gql/mutations/base_mutation.rb"
+      },
+      {
+        "constant": "Gql::Mutations::BaseMutation",
+        "method": "verify_csrf_token!",
+        "file": "app/graphql/gql/mutations/base_mutation.rb"
+      },
+      {
+        "constant": "Gql::Mutations::BaseMutation",
+        "method": "error_response",
+        "file": "app/graphql/gql/mutations/base_mutation.rb"
+      },
+      {
+        "constant": "Gql::Mutations::BetaUi::SendFeedback",
+        "method": "resolve",
+        "file": "app/graphql/gql/mutations/beta_ui/send_feedback.rb"
+      },
+      {
+        "constant": "Gql::Mutations::Channel::Email::Add",
+        "method": "resolve",
+        "file": "app/graphql/gql/mutations/channel/email/add.rb"
+      },
+      {
+        "constant": "Gql::Mutations::Channel::Email::BaseConfiguration",
+        "method": "map_type_to_config",
+        "file": "app/graphql/gql/mutations/channel/email/base_configuration.rb"
+      },
+      {
+        "constant": "Gql::Mutations::Channel::Email::BaseConfiguration",
+        "method": "map_probe_result",
+        "file": "app/graphql/gql/mutations/channel/email/base_configuration.rb"
+      },
+      {
+        "constant": "Gql::Mutations::Channel::Email::BaseConfiguration",
+        "method": "map_probe_errors_to_user_errors",
+        "file": "app/graphql/gql/mutations/channel/email/base_configuration.rb"
+      },
+      {
+        "constant": "Gql::Mutations::Channel::Email::GuessConfiguration",
+        "method": "resolve",
+        "file": "app/graphql/gql/mutations/channel/email/guess_configuration.rb"
+      }
+    ],
+    "no_file": [
+      {
+        "constant": "Gql::Fields::BaseField::DependentFieldExension",
+        "method": "resolve",
+        "file": "app/graphql/gql/fields/base_field.rb"
+      },
+      {
+        "constant": "GraphQL::Schema::Member::HasFields",
+        "method": "scoped_fields",
+        "file": "app/graphql/gql/fields/base_field.rb"
+      },
+      {
+        "constant": "GraphQL::Schema::Member::HasFields",
+        "method": "internal_fields",
+        "file": "app/graphql/gql/fields/base_field.rb"
+      },
+      {
+        "constant": "GraphQL::Schema::Member::HasFields",
+        "method": "fields_with_class",
+        "file": "app/graphql/gql/fields/base_field.rb"
+      },
+      {
+        "constant": "Gql::Types::AI::Analytics",
+        "method": "user_has_provided_feedback",
+        "file": "app/graphql/gql/types/ai/analytics/usage_type.rb"
+      },
+      {
+        "constant": "Gql::Types",
+        "method": "resolve_object",
+        "file": "app/graphql/gql/types/history_record_event_type.rb"
+      },
+      {
+        "constant": "Authorization::Provider::AccountError",
+        "method": "initialize",
+        "file": "app/models/authorization/provider.rb"
+      },
+      {
+        "constant": "Channel::DeliveryError",
+        "method": "initialize",
+        "file": "app/models/channel.rb"
+      },
+      {
+        "constant": "Channel::DeliveryError",
+        "method": "retryable?",
+        "file": "app/models/channel.rb"
+      },
+      {
+        "constant": "Channel::Driver::MicrosoftGraphOutbound::MicrosoftGraphOutboundClient",
+        "method": "initialize",
+        "file": "app/models/channel/driver/microsoft_graph_outbound.rb"
+      },
+      {
+        "constant": "Channel::Driver::MicrosoftGraphOutbound::MicrosoftGraphOutboundClient",
+        "method": "deliver!",
+        "file": "app/models/channel/driver/microsoft_graph_outbound.rb"
+      },
+      {
+        "constant": "Mail::Field",
+        "method": "raw_value",
+        "file": "app/models/channel/email_parser/headers_parser.rb"
+      },
+      {
+        "constant": "Mail::Body",
+        "method": "decoded",
+        "file": "app/models/channel/email_parser/headers_parser.rb"
+      },
+      {
+        "constant": "Translation::SynchronizesFromPo::TranslationEntry",
+        "method": "skip_sync?",
+        "file": "app/models/translation/synchronizes_from_po.rb"
+      },
+      {
+        "constant": "Translation::SynchronizesFromPo::TranslationEntry",
+        "method": "initialize",
+        "file": "app/models/translation/synchronizes_from_po.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Available",
+        "method": "initialize",
+        "file": "app/services/service/ai/vectordb/available.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Available",
+        "method": "execute",
+        "file": "app/services/service/ai/vectordb/available.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Base",
+        "method": "ai_vector_db",
+        "file": "app/services/service/ai/vectordb/base.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Base",
+        "method": "ensure_ai_provider_configured!",
+        "file": "app/services/service/ai/vectordb/base.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Content::Chunks",
+        "method": "initialize",
+        "file": "app/services/service/ai/vectordb/content/chunks.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Content::Chunks",
+        "method": "execute",
+        "file": "app/services/service/ai/vectordb/content/chunks.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Content::Chunks",
+        "method": "strategy_class",
+        "file": "app/services/service/ai/vectordb/content/chunks.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Content::Chunks::Strategy::Base",
+        "method": "initialize",
+        "file": "app/services/service/ai/vectordb/content/chunks/strategy/base.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Content::Chunks::Strategy::Base",
+        "method": "execute",
+        "file": "app/services/service/ai/vectordb/content/chunks/strategy/base.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Content::Chunks::Strategy::Base",
+        "method": "resolved_max_tokens",
+        "file": "app/services/service/ai/vectordb/content/chunks/strategy/base.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Content::Chunks::Strategy::Base",
+        "method": "resolved_overlap_tokens",
+        "file": "app/services/service/ai/vectordb/content/chunks/strategy/base.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Content::Chunks::Strategy::BaseText",
+        "method": "split_oversized",
+        "file": "app/services/service/ai/vectordb/content/chunks/strategy/base_text.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Content::Chunks::Strategy::BaseText",
+        "method": "split_by_words",
+        "file": "app/services/service/ai/vectordb/content/chunks/strategy/base_text.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Content::Chunks::Strategy::BaseText",
+        "method": "split_by_characters",
+        "file": "app/services/service/ai/vectordb/content/chunks/strategy/base_text.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Content::Chunks::Strategy::BaseText",
+        "method": "pack_pieces",
+        "file": "app/services/service/ai/vectordb/content/chunks/strategy/base_text.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Content::Chunks::Strategy::BaseText",
+        "method": "format_chunk",
+        "file": "app/services/service/ai/vectordb/content/chunks/strategy/base_text.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Content::Chunks::Strategy::Recursive",
+        "method": "execute",
+        "file": "app/services/service/ai/vectordb/content/chunks/strategy/recursive.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Content::Chunks::Strategy::Recursive",
+        "method": "atomic_units",
+        "file": "app/services/service/ai/vectordb/content/chunks/strategy/recursive.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Content::Chunks::Strategy::Recursive",
+        "method": "pack",
+        "file": "app/services/service/ai/vectordb/content/chunks/strategy/recursive.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Content::Chunks::Strategy::Recursive",
+        "method": "overlap_tail",
+        "file": "app/services/service/ai/vectordb/content/chunks/strategy/recursive.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Content::Chunks::Strategy::Recursive",
+        "method": "enforce_max_tokens",
+        "file": "app/services/service/ai/vectordb/content/chunks/strategy/recursive.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Content::Chunks::Strategy::Sentence",
+        "method": "execute",
+        "file": "app/services/service/ai/vectordb/content/chunks/strategy/sentence.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Content::Chunks::Strategy::Sentence",
+        "method": "split_sentences",
+        "file": "app/services/service/ai/vectordb/content/chunks/strategy/sentence.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Content::Chunks::Strategy::Sentence",
+        "method": "enforce_max_tokens",
+        "file": "app/services/service/ai/vectordb/content/chunks/strategy/sentence.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Content::Chunks::Strategy::Sentence",
+        "method": "build_chunks",
+        "file": "app/services/service/ai/vectordb/content/chunks/strategy/sentence.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Content::Chunks::Strategy::Sentence",
+        "method": "trailing_overlap",
+        "file": "app/services/service/ai/vectordb/content/chunks/strategy/sentence.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Content::Chunks::Strategy::Sentence",
+        "method": "join_sentences",
+        "file": "app/services/service/ai/vectordb/content/chunks/strategy/sentence.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::CreateTable",
+        "method": "execute",
+        "file": "app/services/service/ai/vectordb/create_table.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::CreateTable",
+        "method": "embedding_size",
+        "file": "app/services/service/ai/vectordb/create_table.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Document::Destroy",
+        "method": "initialize",
+        "file": "app/services/service/ai/vectordb/document/destroy.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Document::Destroy",
+        "method": "execute",
+        "file": "app/services/service/ai/vectordb/document/destroy.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Document::UpdateMetadata",
+        "method": "initialize",
+        "file": "app/services/service/ai/vectordb/document/update_metadata.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Document::UpdateMetadata",
+        "method": "execute",
+        "file": "app/services/service/ai/vectordb/document/update_metadata.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Document::Upsert",
+        "method": "initialize",
+        "file": "app/services/service/ai/vectordb/document/upsert.rb"
+      },
+      {
+        "constant": "Service::AI::VectorDB::Document::Upsert",
+        "method": "execute",
+        "file": "app/services/service/ai/vectordb/document/upsert.rb"
+      }
+    ],
+    "no_file_concern": [
+      {
+        "constant": "HasActiveJobLock",
+        "method": "lock_key",
+        "file": "app/jobs/concerns/has_active_job_lock.rb"
+      },
+      {
+        "constant": "HasActiveJobLock",
+        "method": "safe_lock_key",
+        "file": "app/jobs/concerns/has_active_job_lock.rb"
+      },
+      {
+        "constant": "HasActiveJobLock",
+        "method": "mark_active_job_lock_as_started",
+        "file": "app/jobs/concerns/has_active_job_lock.rb"
+      },
+      {
+        "constant": "HasActiveJobLock",
+        "method": "ensure_active_job_lock_for_enqueue!",
+        "file": "app/jobs/concerns/has_active_job_lock.rb"
+      },
+      {
+        "constant": "HasActiveJobLock",
+        "method": "release_active_job_lock!",
+        "file": "app/jobs/concerns/has_active_job_lock.rb"
+      },
+      {
+        "constant": "HasActiveJobLock",
+        "method": "in_active_job_lock_transaction",
+        "file": "app/jobs/concerns/has_active_job_lock.rb"
+      },
+      {
+        "constant": "HasActiveJobLock",
+        "method": "active_job_lock_for_enqueue!",
+        "file": "app/jobs/concerns/has_active_job_lock.rb"
+      },
+      {
+        "constant": "HasActiveJobLock",
+        "method": "active_job_lock",
+        "file": "app/jobs/concerns/has_active_job_lock.rb"
+      },
+      {
+        "constant": "HasActiveJobLock",
+        "method": "release_active_job_lock_cache",
+        "file": "app/jobs/concerns/has_active_job_lock.rb"
+      },
+      {
+        "constant": "HasActiveJobLock",
+        "method": "existing_active_job_lock!",
+        "file": "app/jobs/concerns/has_active_job_lock.rb"
+      },
+      {
+        "constant": "CanBeImported",
+        "method": "importable?",
+        "file": "app/models/concerns/can_be_imported.rb"
+      },
+      {
+        "constant": "CanBePublished",
+        "method": "can_be_published_aasm",
+        "file": "app/models/concerns/can_be_published.rb"
+      },
+      {
+        "constant": "CanBePublished",
+        "method": "visible?",
+        "file": "app/models/concerns/can_be_published.rb"
+      },
+      {
+        "constant": "CanBePublished",
+        "method": "visible_internally?",
+        "file": "app/models/concerns/can_be_published.rb"
+      },
+      {
+        "constant": "CanBePublished",
+        "method": "inverse_relation_name",
+        "file": "app/models/concerns/can_be_published.rb"
+      },
+      {
+        "constant": "CanBePublished",
+        "method": "update_user_references",
+        "file": "app/models/concerns/can_be_published.rb"
+      },
+      {
+        "constant": "CanBePublished",
+        "method": "update_user_reference_item",
+        "file": "app/models/concerns/can_be_published.rb"
+      },
+      {
+        "constant": "CanBePublished",
+        "method": "archived_after_internal",
+        "file": "app/models/concerns/can_be_published.rb"
+      },
+      {
+        "constant": "CanBePublished",
+        "method": "archived_after_published",
+        "file": "app/models/concerns/can_be_published.rb"
+      },
+      {
+        "constant": "CanBePublished",
+        "method": "published_after_internal",
+        "file": "app/models/concerns/can_be_published.rb"
+      },
+      {
+        "constant": "CanBePublished",
+        "method": "schedule_touch_for",
+        "file": "app/models/concerns/can_be_published.rb"
+      },
+      {
+        "constant": "CanBePublished",
+        "method": "schedule_touch",
+        "file": "app/models/concerns/can_be_published.rb"
+      },
+      {
+        "constant": "CanBePublished",
+        "method": "update_active_publicly",
+        "file": "app/models/concerns/can_be_published.rb"
+      },
+      {
+        "constant": "CanChecklistSortedItems",
+        "method": "sorted_items",
+        "file": "app/models/concerns/can_checklist_sorted_items.rb"
+      },
+      {
+        "constant": "CanChecklistSortedItems",
+        "method": "default_sorted_item_ids",
+        "file": "app/models/concerns/can_checklist_sorted_items.rb"
+      },
+      {
+        "constant": "CanCloneAttachments",
+        "method": "clone_attachments",
+        "file": "app/models/concerns/can_clone_attachments.rb"
+      },
+      {
+        "constant": "CanCloneAttachments",
+        "method": "attach_upload_cache",
+        "file": "app/models/concerns/can_clone_attachments.rb"
+      },
+      {
+        "constant": "CanCsvImport",
+        "method": "csv_import",
+        "file": "app/models/concerns/can_csv_import.rb"
+      },
+      {
+        "constant": "CanCsvImport",
+        "method": "csv_verify_attributes",
+        "file": "app/models/concerns/can_csv_import.rb"
+      },
+      {
+        "constant": "CanCsvImport",
+        "method": "csv_example",
+        "file": "app/models/concerns/can_csv_import.rb"
+      },
+      {
+        "constant": "CanCsvImport",
+        "method": "csv_object_ids_ignored",
+        "file": "app/models/concerns/can_csv_import.rb"
+      },
+      {
+        "constant": "CanCsvImport",
+        "method": "csv_attributes_ignored",
+        "file": "app/models/concerns/can_csv_import.rb"
+      },
+      {
+        "constant": "CanCsvImport",
+        "method": "csv_delete_possible",
+        "file": "app/models/concerns/can_csv_import.rb"
+      },
+      {
+        "constant": "CanLookupSearchIndexAttributesWithAttachments",
+        "method": "search_index_attachments_lookup",
+        "file": "app/models/concerns/can_lookup_search_index_attributes_with_attachments.rb"
+      },
+      {
+        "constant": "CanLookupSearchIndexAttributesWithAttachments",
+        "method": "search_index_attachment_indexable?",
+        "file": "app/models/concerns/can_lookup_search_index_attributes_with_attachments.rb"
+      },
+      {
+        "constant": "CanLookupSearchIndexAttributesWithAttachments",
+        "method": "search_index_attachment_log",
+        "file": "app/models/concerns/can_lookup_search_index_attributes_with_attachments.rb"
+      },
+      {
+        "constant": "CanPerformChanges",
+        "method": "perform_changes",
+        "file": "app/models/concerns/can_perform_changes.rb"
+      },
+      {
+        "constant": "CanPerformChanges",
+        "method": "available_perform_change_actions",
+        "file": "app/models/concerns/can_perform_changes.rb"
+      },
+      {
+        "constant": "CanPerformChanges",
+        "method": "execute?",
+        "file": "app/models/concerns/can_perform_changes.rb"
+      },
+      {
+        "constant": "CanPerformChanges",
+        "method": "execute",
+        "file": "app/models/concerns/can_perform_changes.rb"
+      },
+      {
+        "constant": "CanPerformChanges",
+        "method": "execute_before_save",
+        "file": "app/models/concerns/can_perform_changes.rb"
+      },
+      {
+        "constant": "CanPerformChanges",
+        "method": "prepare_actions",
+        "file": "app/models/concerns/can_perform_changes.rb"
+      },
+      {
+        "constant": "CanPerformChanges",
+        "method": "notification_action",
+        "file": "app/models/concerns/can_perform_changes.rb"
+      },
+      {
+        "constant": "CanPerformChanges",
+        "method": "ai_action",
+        "file": "app/models/concerns/can_perform_changes.rb"
+      },
+      {
+        "constant": "CanPerformChanges",
+        "method": "additional_object_action",
+        "file": "app/models/concerns/can_perform_changes.rb"
+      },
+      {
+        "constant": "CanPerformChanges",
+        "method": "object_action",
+        "file": "app/models/concerns/can_perform_changes.rb"
+      },
+      {
+        "constant": "CanPerformChanges",
+        "method": "attribute_update_action",
+        "file": "app/models/concerns/can_perform_changes.rb"
+      },
+      {
+        "constant": "CanPerformChanges",
+        "method": "create_action_instance",
+        "file": "app/models/concerns/can_perform_changes.rb"
+      },
+      {
+        "constant": "CanPriorization",
+        "method": "rearrangement",
+        "file": "app/models/concerns/can_priorization.rb"
+      },
+      {
+        "constant": "CanPriorization",
+        "method": "fill_prio",
+        "file": "app/models/concerns/can_priorization.rb"
+      }
+    ],
+    "file_no_def": [
+      {
+        "constant": "CoreWorkflow",
+        "method": "assets_object",
+        "file": "app/models/core_workflow/assets.rb"
+      },
+      {
+        "constant": "CoreWorkflow",
+        "method": "assets_user",
+        "file": "app/models/core_workflow/assets.rb"
+      }
+    ]
+  }
+}
