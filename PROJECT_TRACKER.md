@@ -82,52 +82,81 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Updated 2026-07-13 after the Grok campaign finished Phases 0–4 and the user
-reconfirmed: **commit locally yes; push only after explicit push approval**
-(phases complete is necessary but not sufficient). **This plan is the
-authoritative work order for the next session**; "Next steps" must agree.
+Updated 2026-07-14 by a planning-only session that staged the Phase 5 plan
+below. Standing rule unchanged: **commit locally yes; push only after
+explicit push approval**. **This plan is the authoritative work order for the
+next session**; "Next steps" must agree. **Phase 5 implementation remains
+gated on an explicit user go** — this section stages the plan; it is not
+itself the written work order the 2026-07-13 gate requires.
 
-### Campaign status (ground truth)
+### State (ground truth, re-verified 2026-07-14)
 
-- **HEAD:** `de587a1` — Phase 3–4 error seed + multi-seed merge  
-- **Branch:** `main` in sync with `origin/main` at `5e1e87e` (campaign stack
-  **pushed** 2026-07-13)
-- **Suite at HEAD (re-verified):** `167 runs, 1530 assertions, 0 failures,
-  0 errors`  
-- **Product:** task + seeds → deterministic packet; format **v3**; P0 seeds
-  `anchor` / `test` / `files` / `error`; multi-seed enabled  
-- **Normative surface:** [`specs/seeds.md`](specs/seeds.md) + amended
-  compilation/format/cli specs + [`design.md`](design.md) product rewrite  
-- **Spike evidence:** [`eval/seed-spikes/`](eval/seed-spikes/)  
-- **Tier 0** at Phases 1 / 2 / 3–4: **zero per-anchor change**, 0 crashes /
-  1,967 pairs vs [`eval/tier0/results/post_amendment/`](eval/tier0/results/post_amendment/)
+- **HEAD:** `7228efe` — two local doc commits (delegation profiles, plugin
+  companion paths) ahead of `origin/main`; unpushed, awaiting push approval.
+- **Suite at HEAD:** `bundle exec rake test` → **167 runs, 0 failures**.
+- **Campaign stack through Phase 4 is on `origin/main`** (pushed 2026-07-13;
+  per-phase SHAs in the Status table).
 
-| Phase | Commit | What landed | Gate |
-|---|---|---|---|
-| (pre) | `73aaa58` | Seed proposal accepted as north star | docs |
-| 0 | `93f2b07` | Specs + design reconciliation | docs-only |
-| 1 | `ce9e9cd` | Internal `Seed` wrap (format still v2 at land) | Tier 0 byte-identical |
-| 2 gates | `ea0a2a6` | test/files viability spikes pre-reg + results | test 78.2% / files 80.3% |
-| 2 | `564fa11` | `--from-test` / `--from-files`, format **v3**, classifier, corpus | suite + Tier 0 clean |
-| 3–4 | `de587a1` | `--from-error` + multi-seed merge; tracker next-plan | error P=1.0 R=1.0; suite 167/1530 |
+### Phase 5 plan (staged; needs user go to execute)
+
+The three P1 seed kinds, one sub-pass each, in this order, each behind its
+SEED-5 viability spike — pre-registration frozen before measurement (shape:
+[`eval/seed-spikes/test/PREREGISTRATION.md`](eval/seed-spikes/test/PREREGISTRATION.md)),
+failure taxonomy recorded, work-start corpus re-scored at each gate
+(SEED-24). Ordering rationale: method is the only purely static recipe;
+diff reuses the established git shell-out pattern; route is double-gated
+and may legitimately not ship.
+
+**5a — `method` seed.** Evidence `Namespace::Class#method`, non-controller
+constants only (SEED-7); shipping it activates SEED-10 rule 4 (today a
+coaching rejection). Recipe sketch (proposal §3): Zeitwerk-resolve the
+constant → Prism-locate the method def → method body plus the same narrow
+same-file literal-call expansion `design.md` already permits (no cross-file
+dispatch) → tests naming the symbol by path/token convention. Spike on the
+pinned Tier 0 apps with **two pre-registered metrics**: resolution rate
+(standing ≥70% bar) **and** false-inclusion precision of the same-file
+expansion — the proposal explicitly requires measuring false inclusion, not
+just recall; the precision bar is frozen in the pre-reg. On fail: don't
+ship, record taxonomy, continue to 5b.
+
+**5b — `diff` seed.** Evidence: range ref (`HEAD~1`, `main...HEAD`) or patch
+path. Recipe sketch: changed hunks → enclosing defs (Prism) → files plus
+paired tests by the existing path/token conventions; git shell-out follows
+the FMT-11 pattern (unavailable git fails closed with coaching, never
+crashes). Spec must state determinism as *given repo state + range*, with
+seed identity derived from the resolved range. Spike: sample real
+commits/ranges from the pinned apps' history; measure how often the
+hunk→def→paired-test expansion names existing correct surfaces; classify
+misses.
+
+**5c — `route` seed (double-gated, last).** Evidence: helper, path, or
+`VERB /path`. Beyond its §3.3 spike it inherits the acquisition §12a Front B
+gate: route resolution ships **only if it beats the pre-registered
+"ritual-only" baseline** (agent runs `bin/rails routes -g TOKEN` itself) by
+a pre-registered margin. Cache-first with documented fallback;
+`design.md`'s no-boot sentence already scopes booting to non-static recipes
+only. A recorded-up-front valid outcome: 5c doesn't ship and route stays
+coaching-only.
+
+**Common per-sub-pass gates (campaign discipline, unchanged):** spec
+amendment (seeds.md recipe codes + FMT-6 reason codes + SEED-10 dispatch)
+in the same change as implementation; red-then-green fixture evals; full
+suite; Tier 0 rescan at every compiler-behavior boundary (SEED-23, expect
+zero per-anchor change); commit locally per sub-pass; no push without
+approval. Delegation profile per `CLAUDE.md` (default `grok-loop`) unless
+the go order names another.
 
 ### Next session work order
 
-1. **Campaign stack is on `origin/main`** (pushed 2026-07-13). No pending
-   campaign push. Re-confirm suite with `bundle exec rake test` if the tree
-   has moved before further work.
-2. **Do not start Phase 5 or 6 implementation** without a new written work
-   order. Planning is fine; shipping `method` / `diff` / `route` or marketing
-   rewrites is not automatic.
-3. **When planning Phase 5** (`method` / `diff` / `route`): each kind needs a
-   §3.3 viability spike before ship; route seed still carries Front B baseline
-   from the acquisition re-scope (`docs/anchor-acquisition-proposal.md` §12a).
-4. **When planning Phase 6** (marketing): README/examples/FAQ lead with
-   task+seed (currently still partly anchor-led by design — out of campaign
-   scope).
-5. **Leave gated:** ~50M-token three-app Tier 2 harness rerun; RubricLLM
+1. **If the user has issued a Phase 5 go:** execute 5a per the plan above,
+   freezing the method-seed pre-registration before any measurement.
+2. **Without a go:** nothing to execute — Phase 6 (marketing) planning or
+   discretionary dogfooding only.
+3. **Leave gated:** ~50M-token three-app Tier 2 harness rerun; RubricLLM
    issue [#5](https://github.com/fuentesjr/ctxpack/issues/5); new runtime
    dependencies (prism-only stands).
+4. Final step of any executing session: rewrite this section for the work
+   that follows.
 
 ### Known follow-ups (non-blocking)
 
@@ -176,11 +205,10 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Next steps
 
-1. **Campaign stack is on `origin/main`** (pushed through `5e1e87e` + this
-   tracker push note). Next work is Phase 5/6 planning, not a pending push.
-2. **Plan Phase 5** (`method` / `diff` / `route`) with per-kind viability
-   spikes before any ship — planning only until a new work order.
-3. **Plan Phase 6** (marketing: README/examples lead with task+seed) when
+1. **Phase 5 plan is staged** (execution-plan section above: method → diff →
+   route, per-kind SEED-5 spikes, route double-gated on the §12a Front B
+   baseline). **Implementation awaits an explicit user go.**
+2. **Plan Phase 6** (marketing: README/examples lead with task+seed) when
    product framing should update — docs-only, separate order.
 4. **The release-boundary three-app harness rerun awaits explicit user
    sign-off.** Do not spend its ~50M subject tokens implicitly.
@@ -192,6 +220,15 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Decision log
 
+- **2026-07-14** — Planning-only session staged the Phase 5 plan (method →
+  diff → route, one sub-pass each, per-kind SEED-5 spikes with frozen
+  pre-registrations; method spike measures false-inclusion precision in
+  addition to the ≥70% resolution bar; route double-gated on the acquisition
+  §12a Front B ritual-only baseline and may validly not ship; work-start
+  corpus re-scored at each gate per SEED-24). Implementation stays gated on
+  an explicit user go per the 2026-07-13 work order. Ground truth
+  re-verified: suite 167 runs / 0 failures at `7228efe`, tree clean, two
+  local doc commits unpushed pending push approval.
 - **2026-07-13** — User explicit **push approval**; campaign stack pushed
   `b71af62..5e1e87e` to `origin/main`. Tracker Status/execution plan marked
   PUSHED / in sync.
