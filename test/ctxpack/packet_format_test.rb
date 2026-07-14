@@ -73,7 +73,7 @@ class PacketFormatTest < Minitest::Test
       > puts "inside task"
       > ```
     MARKDOWN
-    assert_equal ["## Task", "## How to use this packet", "## Anchor", "## Inspect first", "## Evidence", "## Run", "## Follow-ups"],
+    assert_equal ["## Task", "## How to use this packet", "## Seeds", "## Anchor", "## Inspect first", "## Evidence", "## Run", "## Follow-ups"],
                  markdown.lines.grep(/\A## /).map(&:chomp)
 
     empty_task_packet = Ctxpack.compile(
@@ -169,7 +169,7 @@ class PacketFormatTest < Minitest::Test
     markdown = Ctxpack.render_markdown(packet)
 
     assert_includes markdown, "- Generated from: unknown (Git state unavailable)"
-    assert_includes markdown, "- Format: 2"
+    assert_includes markdown, "- Format: 3"
     assert_includes markdown, "`controller_action` — action `upgrade` · lines 10–15, 19–20"
   end
 
@@ -243,7 +243,7 @@ class PacketFormatTest < Minitest::Test
     end
   end
 
-  def test_man_2_3_manifest_v2_serializes_complete_packet_facts_with_stable_key_order
+  def test_man_2_3_manifest_v3_serializes_complete_packet_facts_with_stable_key_order
     packet = Ctxpack.compile(
       app_root: fixture_app("minitest_basic"),
       anchor: "accounts#upgrade",
@@ -253,9 +253,10 @@ class PacketFormatTest < Minitest::Test
     json = Ctxpack.render_manifest(packet)
     manifest = JSON.parse(json)
 
-    assert_equal %w[version task anchor repo entrypoint files tests follow_ups omitted_candidates no_test_candidates],
+    assert_equal %w[version task seeds anchor repo entrypoint files tests follow_ups omitted_candidates no_test_candidates],
                  json.scan(/\n  "([^"]+)":/).flatten
-    assert_equal 2, manifest.fetch("version")
+    assert_equal 3, manifest.fetch("version")
+    assert_equal "anchor", manifest.fetch("seeds").first.fetch("kind")
     assert_equal "Implement\n\nbilling upgrade", manifest.fetch("task")
     assert_equal true, manifest.fetch("repo").fetch("available")
     assert_equal packet.repo.commit, manifest.fetch("repo").fetch("commit")
@@ -526,7 +527,7 @@ class PacketFormatTest < Minitest::Test
     parsed = JSON.parse(json)
 
     assert_equal packet.to_h, parsed
-    assert_equal %w[version task anchor repo entrypoint files tests follow_ups omitted_candidates no_test_candidates],
+    assert_equal %w[version task seeds anchor repo entrypoint files tests follow_ups omitted_candidates no_test_candidates],
                  json.scan(/\n  "([^"]+)":/).flatten
     assert_equal packet.repo.commit, parsed.fetch("repo").fetch("commit")
     refute_includes json, "app_root"

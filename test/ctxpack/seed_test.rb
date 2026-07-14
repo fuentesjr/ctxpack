@@ -20,7 +20,7 @@ class SeedTest < Minitest::Test
     )
 
     assert_equal via_anchor.to_h, via_seeds.to_h
-    assert_equal 2, via_seeds.version
+    assert_equal 3, via_seeds.version
     assert_equal ["anchor"], via_seeds.seeds.map(&:kind)
     assert_equal "accounts#upgrade", via_seeds.seeds.first.evidence
   end
@@ -32,7 +32,7 @@ class SeedTest < Minitest::Test
     assert_match(/seed|anchor/i, error.message)
   end
 
-  def test_phase1_markdown_byte_identical_for_anchor_golden_path
+  def test_phase2_anchor_packet_is_format_v3_with_seeds_and_anchor
     app_root = fixture_app("minitest_basic")
     packet = Ctxpack.compile(
       app_root: app_root,
@@ -42,10 +42,37 @@ class SeedTest < Minitest::Test
     markdown = Ctxpack.render_markdown(packet)
     manifest = JSON.parse(Ctxpack.render_manifest(packet))
 
-    assert_equal 2, manifest.fetch("version")
-    refute manifest.key?("seeds")
-    assert_includes markdown, "Format: 2"
+    assert_equal 3, manifest.fetch("version")
+    assert_equal "anchor", manifest.fetch("seeds").first.fetch("kind")
+    assert_includes markdown, "Format: 3"
     assert_includes markdown, "## Anchor"
-    refute_includes markdown, "## Seeds"
+    assert_includes markdown, "## Seeds"
+  end
+
+  def test_phase2_test_seed_includes_primary_and_surface
+    packet = Ctxpack.compile(
+      app_root: fixture_app("minitest_basic"),
+      seeds: [Ctxpack::Seed.test("test/controllers/accounts_controller_test.rb")],
+      task: "Fix upgrade"
+    )
+    assert_equal "test", packet.seeds.first.kind
+    assert packet.file("test/controllers/accounts_controller_test.rb")
+    assert packet.file("app/controllers/accounts_controller.rb")
+    assert_nil packet.anchor
+  end
+
+  def test_phase2_files_seed_includes_named_file_and_neighbor_test
+    packet = Ctxpack.compile(
+      app_root: fixture_app("minitest_basic"),
+      seeds: [Ctxpack::Seed.files(["app/controllers/accounts_controller.rb"])],
+      task: "Inspect accounts"
+    )
+    assert_equal "files", packet.seeds.first.kind
+    assert packet.file("app/controllers/accounts_controller.rb")
+    assert(
+      packet.file("test/controllers/accounts_controller_test.rb") ||
+        packet.files.any? { |f| f.path.start_with?("test/") },
+      "expected a test neighbor"
+    )
   end
 end

@@ -11,7 +11,8 @@ module Ctxpack
       append_title(lines)
       append_task(lines)
       append_how_to_use(lines)
-      append_anchor(lines)
+      append_seeds(lines)
+      append_anchor(lines) if packet.anchor
       append_inspect_first(lines)
       append_evidence(lines) if snippet_entries.any?
       append_run(lines)
@@ -41,6 +42,20 @@ module Ctxpack
       lines << ""
     end
 
+    def append_seeds(lines)
+      lines << "## Seeds"
+      lines << ""
+      packet.seeds.each do |seed|
+        lines << "- #{seed.kind}: `#{seed.evidence.to_s.split("\n").first}`"
+      end
+      unless packet.anchor
+        lines << "- Generated from: #{repo_stamp}"
+        lines << "- Format: #{packet.version}"
+        lines << "- Scope: routes, superclass/concern callbacks, and locale files are not scanned by ctxpack; expand from the listed seeds only."
+      end
+      lines << ""
+    end
+
     def append_anchor(lines)
       lines << "## Anchor"
       lines << ""
@@ -49,7 +64,7 @@ module Ctxpack
       lines << "- Action: `#{packet.entrypoint.action}`"
       lines << "- File: `#{packet.entrypoint.file}`"
       lines << "- Generated from: #{repo_stamp}"
-      lines << "- Format: 2"
+      lines << "- Format: #{packet.version}"
       lines << "- Scope: routes, superclass/concern callbacks, and locale files are not scanned by ctxpack v0; use `bin/rails routes -g #{packet.entrypoint.action}` for endpoints, and check `config/locales/` if the task touches user-facing copy."
       lines << ""
     end
@@ -58,7 +73,8 @@ module Ctxpack
       lines << "## How to use this packet"
       lines << ""
       lines << "- If the task already names a failing test, an error, or an exact location, start there and use this packet to verify coverage — not as a reading list."
-      lines << "- Otherwise, start with `#{packet.entrypoint.file}` and open the other listed files only as the task touches them."
+      start = packet.entrypoint&.file || packet.files.first&.path || "the listed focus files"
+      lines << "- Otherwise, start with `#{start}` and open the other listed files only as the task touches them."
       lines << ""
     end
 
@@ -94,6 +110,12 @@ module Ctxpack
         "conventional template for `#{packet.anchor}`"
       when "minitest_candidate", "rspec_candidate"
         path_inferred_test?(item.subject) ? "path-inferred; verify coverage" : conventional_test_inventory_text(item)
+      when "test_seed_primary"
+        "user-named test seed"
+      when "files_seed_primary"
+        "user-named files seed"
+      when "files_seed_neighbor"
+        "neighbor of files seed"
       else
         why_text(item)
       end

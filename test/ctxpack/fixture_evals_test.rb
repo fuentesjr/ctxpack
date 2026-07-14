@@ -30,8 +30,10 @@ class FixtureEvalsTest < Minitest::Test
       packet = compile_case(eval_case)
       expected = eval_case.expectation
 
-      assert_equal expected.fetch("entrypoint").fetch("file"), packet.entrypoint.file
-      assert_equal expected.fetch("entrypoint").fetch("action"), packet.entrypoint.action
+      if expected["entrypoint"]
+        assert_equal expected.fetch("entrypoint").fetch("file"), packet.entrypoint.file
+        assert_equal expected.fetch("entrypoint").fetch("action"), packet.entrypoint.action
+      end
 
       expected.fetch("include").each do |file|
         packet_file = packet.file(file.fetch("path"))
@@ -96,11 +98,31 @@ class FixtureEvalsTest < Minitest::Test
   private
 
   def compile_case(eval_case)
-    Ctxpack.compile(
+    command = eval_case.command
+    kwargs = {
       app_root: fixture_app(eval_case.app),
-      anchor: eval_case.command.fetch("anchor"),
-      task: eval_case.command.fetch("task")
-    )
+      task: command.fetch("task")
+    }
+    if command["seeds"]
+      kwargs[:seeds] = command.fetch("seeds").map { |s| seed_from_yaml(s) }
+    elsif command["from_test"]
+      kwargs[:seeds] = [Ctxpack::Seed.test(command.fetch("from_test"))]
+    elsif command["from_files"]
+      kwargs[:seeds] = [Ctxpack::Seed.files(Array(command.fetch("from_files")))]
+    else
+      kwargs[:anchor] = command.fetch("anchor")
+    end
+    Ctxpack.compile(**kwargs)
+  end
+
+  def seed_from_yaml(spec)
+    case spec.fetch("kind")
+    when "anchor" then Ctxpack::Seed.anchor(spec.fetch("evidence"))
+    when "test" then Ctxpack::Seed.test(spec.fetch("evidence"))
+    when "files" then Ctxpack::Seed.files(Array(spec.fetch("evidence")))
+    else
+      raise "unknown seed kind #{spec.fetch("kind")}"
+    end
   end
 
   def assert_packet_within_limits(packet)
@@ -137,8 +159,17 @@ class FixtureEvalsTest < Minitest::Test
   end
 
   def cli_args(eval_case, out_path)
-    args = ["packet", eval_case.command.fetch("anchor"), "--out", out_path, "--force", "--manifest"]
-    task = eval_case.command["task"]
+    command = eval_case.command
+    args =
+      if command["from_test"]
+        ["--from-test", command.fetch("from_test"), "--out", out_path, "--force", "--manifest"]
+      elsif command["from_files"]
+        files = Array(command.fetch("from_files")).join(",")
+        ["--from-files", files, "--out", out_path, "--force", "--manifest"]
+      else
+        ["packet", command.fetch("anchor"), "--out", out_path, "--force", "--manifest"]
+      end
+    task = command["task"]
     args.concat(["--task", task]) if task
     args
   end

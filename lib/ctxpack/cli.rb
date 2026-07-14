@@ -14,10 +14,13 @@ module Ctxpack
     USAGE = <<~TEXT.freeze
       Usage:
         ctxpack <anchor> [options]
+        ctxpack --from-test PATH[:LINE] [options]
+        ctxpack --from-files PATH… [options]
         ctxpack packet <anchor> [options]
     TEXT
     EXPLICIT_NAME_PATTERN = /\A[A-Za-z0-9_]+\z/
     ROUTE_HINT_ANCHOR_PATTERN = /\A(?<controller>[a-z][a-z0-9_]*(?:\/[a-z][a-z0-9_]*)*)#(?<action>_?[a-z][a-z0-9_]*)\z/
+    ANCHOR_SEED_PATTERN = /\A[a-z][a-z0-9_]*(?:\/[a-z][a-z0-9_]*)*#_?[a-z][a-z0-9_]*[?!]?\z/
 
     def initialize(stdout: $stdout, stderr: $stderr, stdin: $stdin, cwd: Dir.pwd, clock: Time)
       @stdout = stdout
@@ -39,7 +42,7 @@ module Ctxpack
       end
 
       command, args = argv[0], argv[1..] || []
-      if command&.include?("#")
+      if seed_flag?(command) || path_like_positional?(command) || command&.include?("#")
         args = argv
       elsif command != "packet"
         return 1 if print_syntactic_input_diagnostic(argv)
@@ -47,18 +50,30 @@ module Ctxpack
       end
       return 1 if print_syntactic_input_diagnostic(args, route_only: true)
 
-      options, anchor = parse_packet_args(args)
+      options, remaining = parse_packet_args(args)
+      @last_seed_token = Array(remaining).first
       if options.fetch(:help)
         @stdout.write(packet_parser({}).to_s)
         return 0
       end
       validate_options!(options)
-      return 1 if print_syntactic_input_diagnostic([anchor])
+
+      # CLI-17c: common Rails-shaped non-seeds fail before root discovery.
+      if no_explicit_from_seed?(options) && remaining.is_a?(Array) && remaining.length == 1
+        token = remaining.first
+        unless token.match?(ANCHOR_SEED_PATTERN) || path_like_positional?(token)
+          return 1 if print_syntactic_input_diagnostic([token])
+        end
+      end
 
       options[:task] = resolve_task(options)
       app_root = discover_app_root
+      seed = resolve_seed!(options, remaining, app_root)
+      @last_seed_token = seed.anchor? ? seed.evidence : seed.identity
+      identity = seed.identity
+
       if (stdout_format = options.fetch(:stdout))
-        packet = Ctxpack.compile(app_root: app_root, anchor: anchor, task: options.fetch(:task))
+        packet = Ctxpack.compile(app_root: app_root, seeds: [seed], task: options.fetch(:task))
         rendered = if stdout_format == :json
           Ctxpack.render_manifest(packet)
         else
@@ -68,7 +83,7 @@ module Ctxpack
         return 0
       end
 
-      name = artifact_name(options.fetch(:name), options.fetch(:task), anchor)
+      name = artifact_name(options.fetch(:name), options.fetch(:task), identity)
       markdown_path = markdown_path(app_root, options, name)
       manifest_path = sibling_manifest_path(markdown_path) if options.fetch(:manifest)
       if manifest_path&.casecmp?(markdown_path)
@@ -77,7 +92,7 @@ module Ctxpack
 
       protect_outputs!([markdown_path, manifest_path].compact, options)
 
-      packet = Ctxpack.compile(app_root: app_root, anchor: anchor, task: options.fetch(:task))
+      packet = Ctxpack.compile(app_root: app_root, seeds: [seed], task: options.fetch(:task))
       markdown = Ctxpack.render_markdown(packet)
       manifest = Ctxpack.render_manifest(packet) if manifest_path
 
@@ -96,7 +111,7 @@ module Ctxpack
       1
     rescue Ctxpack::Error => error
       @stderr.puts("ctxpack: #{error.message}")
-      @stderr.puts(route_discovery_hint(anchor))
+      @stderr.puts(route_discovery_hint(@last_seed_token))
       1
     rescue FileOperationError => error
       @stderr.puts("ctxpack: #{error.message}")
@@ -116,6 +131,22 @@ module Ctxpack
       argv.any? { |argument| ["--help", "-h"].include?(argument) }
     end
 
+    def seed_flag?(token)
+      token.is_a?(String) && token.start_with?("--from-")
+    end
+
+    def path_like_positional?(token)
+      return false unless token.is_a?(String)
+
+      token.end_with?(".rb") ||
+        token.include?(".rb:") ||
+        token.start_with?("test/", "spec/", "app/", "lib/", "config/")
+    end
+
+    def no_explicit_from_seed?(options)
+      options[:from_anchor].nil? && options[:from_test].nil? && options[:from_files].empty?
+    end
+
     def parse_packet_args(args)
       options = {
         task: nil,
@@ -128,7 +159,10 @@ module Ctxpack
         force: false,
         manifest: false,
         stdout: nil,
-        help: false
+        help: false,
+        from_anchor: nil,
+        from_test: nil,
+        from_files: []
       }
 
       parser = packet_parser(options)
@@ -137,10 +171,7 @@ module Ctxpack
       parser.parse!(remaining)
       return [options, nil] if options.fetch(:help)
 
-      raise ArgumentError, "missing anchor; expected controller#action" if remaining.empty?
-      raise ArgumentError, "too many arguments: #{remaining[1..].join(" ")}" if remaining.length > 1
-
-      [options, remaining.first]
+      [options, remaining]
     end
 
     def packet_parser(options)
@@ -152,6 +183,8 @@ module Ctxpack
 
           Examples:
             ctxpack accounts#upgrade -t "Implement billing upgrade"
+            ctxpack --from-test test/controllers/accounts_controller_test.rb:10 -t "Fix upgrade"
+            ctxpack --from-files app/models/account.rb -t "Inspect account"
             ctxpack packet accounts#upgrade --task "Implement billing upgrade"
             cat issue.md | ctxpack accounts#upgrade --task-file - --stdout
             ctxpack accounts#upgrade --stdout=json | jq .
@@ -163,6 +196,11 @@ module Ctxpack
           options[:task_explicit] = true
         end
         parser.on("--task-file PATH", "Read the task from PATH, or from standard input with -") { |path| options[:task_file] = path }
+        parser.on("--from-anchor ANCHOR", "Compile from a controller#action anchor seed") { |v| options[:from_anchor] = v }
+        parser.on("--from-test PATH", "Compile from a test/spec path seed (optional :line)") { |v| options[:from_test] = v }
+        parser.on("--from-files PATHS", Array, "Compile from one or more file paths (comma-separated)") do |paths|
+          options[:from_files].concat(Array(paths))
+        end
         parser.on("--name NAME", "Set the timestamped artifact name") { |name| options[:name] = name }
         parser.on("-d DIR", "--dir DIR", "Set the timestamped output directory. Default: .ctxpack/") do |dir|
           options[:dir] = dir
@@ -179,10 +217,13 @@ module Ctxpack
         parser.on("-h", "--help", "Show this help") { options[:help] = true }
         parser.separator("    -v, --version                    Show the ctxpack version (top-level only)")
         parser.separator("")
+        parser.separator("Seeds (exactly one per invocation until multi-seed ships):")
+        parser.separator("  Positional controller#action, path, or --from-anchor/--from-test/--from-files.")
         parser.separator("Paths and output:")
         parser.separator("  Run from any Rails app subdirectory; ctxpack discovers the application root.")
         parser.separator("  Task-file paths are relative to the invocation directory.")
         parser.separator("  Output destinations are relative to the Rails application root.")
+        parser.separator("  Seed paths are relative to the Rails application root.")
         parser.separator("  Saved paths are printed relative to the invocation directory.")
         parser.separator("  Default output is timestamped Markdown under .ctxpack/.")
         parser.separator("  --manifest also saves sibling JSON; --stdout writes Markdown or JSON and saves nothing.")
@@ -209,6 +250,90 @@ module Ctxpack
 
       raise ArgumentError, "--out cannot be combined with --dir" if options.fetch(:dir_explicit)
       raise ArgumentError, "--out cannot be combined with --name" if options.fetch(:name)
+    end
+
+    def resolve_seed!(options, remaining, app_root)
+      remaining = Array(remaining)
+      explicit = []
+      explicit << :anchor if options[:from_anchor]
+      explicit << :test if options[:from_test]
+      explicit << :files if options[:from_files].any?
+
+      if explicit.size > 1
+        raise ArgumentError, "multiple --from-* seeds are not enabled yet; pass a single seed"
+      end
+      if explicit.any? && remaining.any?
+        raise ArgumentError, "positional seed cannot be combined with --from-* flags"
+      end
+
+      if options[:from_anchor]
+        return Seed.anchor(options[:from_anchor])
+      end
+      if options[:from_test]
+        return seed_from_test_evidence(options[:from_test], app_root)
+      end
+      if options[:from_files].any?
+        paths = options[:from_files].flat_map { |p| p.to_s.split(",") }.map(&:strip).reject(&:empty?)
+        return seed_from_files_evidence(paths, app_root)
+      end
+
+      raise ArgumentError, "missing seed; pass controller#action, a path, or --from-test/--from-files/--from-anchor" if remaining.empty?
+      raise ArgumentError, "too many arguments: #{remaining[1..].join(" ")}" if remaining.length > 1
+
+      classify_positional_seed!(remaining.first, app_root)
+    end
+
+    def classify_positional_seed!(token, app_root)
+      # SEED-10 dispatch
+      if token.match?(ANCHOR_SEED_PATTERN)
+        return Seed.anchor(token)
+      end
+
+      if token.include?("#")
+        left = token.split("#", 2).first
+        if left.match?(/Test\z|Spec\z/)
+          raise ArgumentError, "TestClass#method sugar is not implemented yet; pass --from-test PATH instead"
+        end
+        if left.split("::").last&.end_with?("Controller")
+          raise ArgumentError, "class-style controller references are suggest-only; rewrite to the underscore anchor (e.g. admin/accounts#suspend)"
+        end
+        if left.include?("::") || left.match?(/[A-Z]/)
+          raise ArgumentError, "method seeds are not shipped yet; pass --from-files or an anchor (got #{token.inspect})"
+        end
+        # Malformed snake_case#… still goes through the anchor resolver so ANCH-1 errors surface.
+        return Seed.anchor(token)
+      end
+
+      path_part, line = Seed.split_path_line(token)
+      abs = File.join(app_root, path_part)
+      if File.file?(abs)
+        if path_part.start_with?("test/", "spec/")
+          return seed_from_test_evidence(token, app_root)
+        end
+        if line
+          raise ArgumentError, "line numbers on non-test paths are not accepted; strip :#{line} or use --from-files"
+        end
+        return seed_from_files_evidence([path_part], app_root)
+      end
+
+      raise ArgumentError, "unrecognized seed #{token.inspect}; expected controller#action or an existing app path"
+    end
+
+    def seed_from_test_evidence(evidence, app_root)
+      path, = Seed.split_path_line(evidence)
+      unless File.file?(File.join(app_root, path))
+        raise ArgumentError, "test seed path does not exist: #{path}"
+      end
+      Seed.test(evidence)
+    end
+
+    def seed_from_files_evidence(paths, app_root)
+      paths.each do |path|
+        unless File.file?(File.join(app_root, path))
+          raise ArgumentError, "files seed path does not exist: #{path}"
+        end
+      end
+      Seed.files(paths)
     end
 
     def resolve_task(options)

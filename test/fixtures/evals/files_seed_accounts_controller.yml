@@ -1,0 +1,20 @@
+name: files_seed_accounts_controller
+command:
+  from_files:
+    - app/controllers/accounts_controller.rb
+  task: Inspect accounts controller via files seed
+
+expect:
+  include:
+    - path: app/controllers/accounts_controller.rb
+      reason_code: files_seed_primary
+    - path: test/controllers/accounts_controller_test.rb
+      reason_code: files_seed_neighbor
+
+  exclude:
+    - app/controllers/admin/accounts_controller.rb
+
+  tests:
+    - bin/rails test test/controllers/accounts_controller_test.rb
+
+  max_files: 8

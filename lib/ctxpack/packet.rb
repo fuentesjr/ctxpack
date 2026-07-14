@@ -52,8 +52,8 @@ module Ctxpack
 
     attr_accessor :no_test_candidates, :test_framework
 
-    def initialize(anchor:, task:, repo:, entrypoint:, app_root: nil, seeds: nil)
-      @version = 2
+    def initialize(anchor:, task:, repo:, entrypoint:, app_root: nil, seeds: nil, version: 3)
+      @version = version
       @app_root = app_root && File.expand_path(app_root)
       @anchor = anchor
       @seeds = seeds || (anchor ? [Seed.anchor(anchor)] : [])
@@ -93,25 +93,33 @@ module Ctxpack
     end
 
     def to_h
-      {
+      hash = {
         "version" => version,
         "task" => task,
+        "seeds" => seeds.map(&:manifest_hash),
         "anchor" => anchor,
         "repo" => {
           "available" => !repo.commit.nil?,
           "commit" => repo.commit,
           "dirty" => repo.dirty
         },
-        "entrypoint" => {
-          "file" => entrypoint.file,
-          "controller" => entrypoint.controller,
-          "action" => entrypoint.action
-        },
+        "entrypoint" => entrypoint_hash,
         "files" => files.map { |entry| manifest_file_entry(entry) },
         "tests" => tests.map { |test| manifest_test(test) },
         "follow_ups" => manifest_follow_ups,
         "omitted_candidates" => omitted_candidates.map { |candidate| manifest_omitted_candidate(candidate) },
         "no_test_candidates" => no_test_candidates
+      }
+      hash
+    end
+
+    def entrypoint_hash
+      return nil unless entrypoint
+
+      {
+        "file" => entrypoint.file,
+        "controller" => entrypoint.controller,
+        "action" => entrypoint.action
       }
     end
 

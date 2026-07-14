@@ -30,13 +30,19 @@ module Ctxpack
     end
 
     def compile
-      # Phase 1: single anchor seed only. Later phases dispatch by kind.
-      seed = @seeds.first
-      unless seed&.anchor?
-        raise Error, "Phase 1 supports only the anchor seed; got #{seed&.kind.inspect}"
+      # Phase 2: single seed (anchor | test | files). Phase 4 enables multi-seed.
+      if @seeds.length > 1
+        raise Error, "multi-seed compilation is not enabled until Phase 4; got #{@seeds.length} seeds"
       end
 
-      resolve_anchor_seed(seed)
+      seed = @seeds.first
+      case seed.kind
+      when "anchor" then resolve_anchor_seed(seed)
+      when "test" then resolve_test_seed(seed)
+      when "files" then resolve_files_seed(seed)
+      else
+        raise Error, "unsupported seed kind #{seed.kind.inspect}"
+      end
     end
 
     private
@@ -58,6 +64,253 @@ module Ctxpack
       raise ArgumentError, "compile requires at least one seed" if list.empty?
 
       list
+    end
+
+    def blank_packet(seed:, anchor: nil, entrypoint: nil)
+      Packet.new(
+        anchor: anchor,
+        seeds: [seed],
+        task: @task,
+        repo: repo_stamp,
+        app_root: @app_root,
+        entrypoint: entrypoint,
+        version: 3
+      )
+    end
+
+    def resolve_test_seed(seed)
+      path, line = seed.test_path_and_line
+      abs = File.join(@app_root, path)
+      unless File.file?(abs)
+        raise Error, "test seed path does not exist: #{path}"
+      end
+      unless path.start_with?("test/", "spec/")
+        raise Error, "test seed path must be under test/ or spec/: #{path}"
+      end
+
+      packet = blank_packet(seed: seed)
+      entry = packet.add_file(path)
+      entry.add_evidence(
+        EvidenceItem.new(
+          reason_code: "test_seed_primary",
+          subject: line ? "#{path}:#{line}" : path,
+          why: "user-named test seed",
+          snippet_ranges: [],
+          truncated: false
+        )
+      )
+
+      surfaces = test_seed_surfaces(path)
+      if surfaces.empty?
+        packet.add_uncertainty(
+          code: "test_seed_surface_uncertain",
+          subject: path,
+          message: "could not resolve a production surface for the test seed"
+        )
+      else
+        surfaces.first(LIMITS.fetch(:max_constant_files)).each do |surface|
+          se = packet.add_file(surface.fetch(:path))
+          se.add_evidence(
+            EvidenceItem.new(
+              reason_code: surface.fetch(:reason_code),
+              subject: surface.fetch(:subject),
+              why: surface.fetch(:why),
+              snippet_ranges: [],
+              truncated: false
+            )
+          )
+        end
+      end
+
+      # Suggest running the named test
+      command =
+        if path.start_with?("spec/")
+          "bundle exec rspec #{path}"
+        else
+          "bin/rails test #{path}"
+        end
+      packet.tests << TestCandidate.new(
+        path: path,
+        command: command,
+        reason_code: path.start_with?("spec/") ? "rspec_candidate" : "minitest_candidate",
+        why: "user-named test seed",
+        rule: "test_seed_primary"
+      )
+      packet.test_framework = path.start_with?("spec/") ? "rspec" : "minitest"
+      enforce_total_file_limit(packet)
+      packet
+    end
+
+    def test_seed_surfaces(rel)
+      surfaces = []
+      if (ctrl = controller_path_from_test(rel))
+        surfaces << {
+          path: ctrl,
+          reason_code: "referenced_constant",
+          subject: File.basename(ctrl, ".rb"),
+          why: "production surface from test path convention"
+        }
+      end
+      if surfaces.empty? && (token = request_token_controller(rel))
+        surfaces << {
+          path: token,
+          reason_code: "referenced_constant",
+          subject: File.basename(token, ".rb"),
+          why: "production surface from request/integration path token"
+        }
+      end
+      if surfaces.empty? && (const_path = constant_surface_from_test(rel))
+        surfaces << {
+          path: const_path,
+          reason_code: "referenced_constant",
+          subject: File.basename(const_path, ".rb"),
+          why: "production surface from described_class/constant heuristic"
+        }
+      end
+      surfaces
+    end
+
+    def controller_path_from_test(rel)
+      case rel
+      when %r{\Aspec/controllers/(.+)_controller_spec\.rb\z}
+        candidate = "app/controllers/#{$1}_controller.rb"
+      when %r{\Atest/controllers/(.+)_controller_test\.rb\z}
+        candidate = "app/controllers/#{$1}_controller.rb"
+      else
+        return nil
+      end
+      File.file?(File.join(@app_root, candidate)) ? candidate : nil
+    end
+
+    def request_token_controller(rel)
+      return nil unless rel.match?(%r{\A(?:spec/requests|test/integration)/})
+
+      base = File.basename(rel).sub(/_(spec|test)\.rb\z/, "")
+      tokens = base.split("_")
+      candidates = []
+      tokens.size.times do |i|
+        slice = tokens[i..].join("_")
+        next if slice.empty?
+
+        Dir.glob(File.join(@app_root, "app/controllers/**/#{slice}_controller.rb")).each do |abs|
+          candidates << abs.delete_prefix(@app_root + File::SEPARATOR).tr(File::SEPARATOR, "/")
+        end
+      end
+      candidates.find { |c| File.file?(File.join(@app_root, c)) }
+    end
+
+    def constant_surface_from_test(rel)
+      source = File.read(File.join(@app_root, rel), encoding: "UTF-8")
+      const = source[/RSpec\.describe\s+([A-Z][A-Za-z0-9_:]*)/, 1]
+      const ||= source[/class\s+([A-Z][A-Za-z0-9_:]*)\s*</, 1]
+      return nil if const.nil? || const.end_with?("Test", "Spec")
+
+      resolution = @constant_resolver.resolve(
+        ConstantReference.new(name: const, root: true, line: 1),
+        lexical_namespace: []
+      )
+      resolution&.path
+    end
+
+    def resolve_files_seed(seed)
+      paths = seed.files_paths
+      paths.each do |path|
+        unless File.file?(File.join(@app_root, path))
+          raise Error, "files seed path does not exist: #{path}"
+        end
+      end
+
+      packet = blank_packet(seed: seed)
+      paths.each do |path|
+        entry = packet.add_file(path)
+        entry.add_evidence(
+          EvidenceItem.new(
+            reason_code: "files_seed_primary",
+            subject: path,
+            why: "user-named files seed",
+            snippet_ranges: [],
+            truncated: false
+          )
+        )
+      end
+
+      neighbors = files_seed_neighbors(paths)
+      neighbors.each do |neighbor|
+        break if packet.files.size >= LIMITS.fetch(:max_total_files)
+
+        entry = packet.add_file(neighbor.fetch(:path))
+        next if entry.evidence_items.any?
+
+        entry.add_evidence(
+          EvidenceItem.new(
+            reason_code: "files_seed_neighbor",
+            subject: neighbor.fetch(:subject),
+            why: neighbor.fetch(:why),
+            snippet_ranges: [],
+            truncated: false
+          )
+        )
+      end
+
+      # Collect test neighbors into Run section when they look like tests
+      packet.files.each do |entry|
+        path = entry.path
+        next unless path.start_with?("test/", "spec/")
+        next if packet.tests.any? { |t| t.path == path }
+
+        command = path.start_with?("spec/") ? "bundle exec rspec #{path}" : "bin/rails test #{path}"
+        packet.tests << TestCandidate.new(
+          path: path,
+          command: command,
+          reason_code: path.start_with?("spec/") ? "rspec_candidate" : "minitest_candidate",
+          why: "files seed neighbor or primary test",
+          rule: "files_seed"
+        )
+      end
+      packet.no_test_candidates = packet.tests.empty?
+      packet.test_framework = detected_test_framework.to_s if packet.tests.empty?
+      enforce_total_file_limit(packet)
+      packet
+    end
+
+    def files_seed_neighbors(primaries)
+      found = []
+      primaries.each do |primary|
+        if primary =~ %r{\Aapp/controllers/(.+)_controller\.rb\z}
+          path = $1
+          [
+            "test/controllers/#{path}_controller_test.rb",
+            "spec/controllers/#{path}_controller_spec.rb"
+          ].each do |cand|
+            next unless File.file?(File.join(@app_root, cand))
+
+            found << { path: cand, subject: cand, why: "conventional controller test neighbor" }
+          end
+          view_dir = File.join(@app_root, "app/views", path)
+          if Dir.exist?(view_dir)
+            Dir.children(view_dir).sort.each do |name|
+              abs = File.join(view_dir, name)
+              next unless File.file?(abs)
+
+              rel = "app/views/#{path}/#{name}"
+              found << { path: rel, subject: rel, why: "same-prefix view neighbor" }
+            end
+          end
+        else
+          base = File.basename(primary, ".rb")
+          %w[test spec].each do |dir|
+            next unless Dir.exist?(File.join(@app_root, dir))
+
+            Dir.glob(File.join(@app_root, dir, "**/*#{base}*")).sort.each do |abs|
+              next unless File.file?(abs)
+
+              rel = abs.delete_prefix(@app_root + File::SEPARATOR).tr(File::SEPARATOR, "/")
+              found << { path: rel, subject: rel, why: "basename test neighbor" }
+            end
+          end
+        end
+      end
+      found.uniq { |n| n[:path] }
     end
 
     def resolve_anchor_seed(seed)
@@ -82,12 +335,9 @@ module Ctxpack
         raise Error, "action #{parsed_anchor.action} was not directly defined in #{controller_relative_path}; inherited, concern-defined, and metaprogrammed actions are unsupported in v0"
       end
 
-      packet = Packet.new(
+      packet = blank_packet(
+        seed: seed,
         anchor: anchor,
-        seeds: [seed],
-        task: @task,
-        repo: repo_stamp,
-        app_root: @app_root,
         entrypoint: Entrypoint.new(
           file: controller_relative_path,
           controller: controller_name,

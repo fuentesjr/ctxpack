@@ -1,4 +1,4 @@
-name: multiline_task_manifest_v2
+name: multiline_task_manifest_v3
 command:
   anchor: accounts#upgrade
   task: |-
@@ -22,7 +22,7 @@ expect:
     - bin/rails test test/integration/accounts_upgrade_test.rb
 
   manifest:
-    version: 2
+    version: 3
     task: |-
       ## Acceptance criteria
 

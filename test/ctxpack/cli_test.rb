@@ -326,7 +326,7 @@ class CLITest < Minitest::Test
       assert_equal 0, result.status
       expected = Ctxpack.render_manifest(Ctxpack.compile(app_root: app_root, anchor: "accounts#upgrade", task: "Ship it"))
       assert_equal expected, result.stdout
-      assert_equal 2, JSON.parse(result.stdout).fetch("version")
+      assert_equal 3, JSON.parse(result.stdout).fetch("version")
       assert_equal "", result.stderr
       refute Dir.exist?(File.join(app_root, ".ctxpack"))
     end

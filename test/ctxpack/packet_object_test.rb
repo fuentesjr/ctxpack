@@ -34,7 +34,7 @@ class PacketObjectTest < Minitest::Test
     ], packet.files.map(&:path)
 
     manifest = packet.to_h
-    assert_equal 2, manifest.fetch("version")
+    assert_equal 3, manifest.fetch("version")
     assert_equal "Implement billing upgrade", manifest.fetch("task")
     assert_equal "accounts#upgrade", manifest.fetch("anchor")
     assert_equal({

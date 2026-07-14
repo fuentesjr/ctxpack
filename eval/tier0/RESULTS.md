@@ -207,3 +207,17 @@ apps at the pinned SHAs, committed route tables only.
 0 compile crashes across all 1,967 pairs. Expected: Phase 1 is a wrap, not a
 recipe change. Scratch outputs under `tmp/tier0-rescan/` (gitignored); no new
 baseline written.
+
+## Phase 2 seed implementation rescan (2026-07-13)
+
+Mandatory re-scan after shipping `--from-test` / `--from-files` and format v3.
+Anchor resolution path unchanged; new seeds are separate recipes.
+
+| App | Rate | Δ vs post_amendment |
+|---|---|---|
+| Mastodon | 94.8% | 0 |
+| Discourse | 96.4% | 0 |
+| Zammad | 90.4% | 0 |
+
+**Zero per-anchor change** — result JSONs byte-identical to `post_amendment/`;
+0 crashes / 1,967 pairs.

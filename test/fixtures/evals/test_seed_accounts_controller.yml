@@ -1,0 +1,19 @@
+name: test_seed_accounts_controller
+command:
+  from_test: test/controllers/accounts_controller_test.rb
+  task: Fix accounts controller from the red test
+
+expect:
+  include:
+    - path: test/controllers/accounts_controller_test.rb
+      reason_code: test_seed_primary
+    - path: app/controllers/accounts_controller.rb
+      reason_code: referenced_constant
+
+  exclude:
+    - app/controllers/admin/accounts_controller.rb
+
+  tests:
+    - bin/rails test test/controllers/accounts_controller_test.rb
+
+  max_files: 8

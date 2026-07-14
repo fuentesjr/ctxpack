@@ -1225,3 +1225,26 @@ explicitly deferred.
 - Full suite: `155 runs, 1383 assertions, 0 failures, 0 errors`.
 - Tier 0 rescan: byte-identical to `post_amendment` on all three apps
   (1,967 pairs, 0 crashes) — see `eval/tier0/RESULTS.md` Phase 1 addendum.
+
+## Pass: Phase 2 test/files seeds + format v3 (2026-07-13)
+
+### Scope
+- Gates: test-seed spike 78.2% (≥70%), files neighbor spike 80.3% (≥40%).
+- Format v3 replaces v2: `seeds[]`, `Format: 3`, `## Seeds` + anchor heading
+  preserved for anchor seeds.
+- `--from-test`, `--from-files`, `--from-anchor`; SEED-10 positional classifier.
+- Artifact names use seed identity (CLI-8a).
+- Fixture evals: `test_seed_accounts_controller`, `files_seed_accounts_controller`;
+  multiline manifest eval rebaselined to v3.
+- Work-start corpus authored under `eval/seed-spikes/work-start-corpus.md`.
+
+### Decisions
+- Single seed only until Phase 4.
+- Test surface heuristics match the pre-registered spike (path → request token →
+  constant).
+- Files neighbors are existence-gated only.
+- CLI-17c still runs before root discovery for non-path, non-anchor tokens.
+
+### Verification
+- Full suite: `161 runs, 1455 assertions, 0 failures, 0 errors`.
+- Tier 0 rescan: byte-identical to post_amendment, 0 crashes.
