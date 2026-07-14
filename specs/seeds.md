@@ -53,7 +53,7 @@ derivation uses seed identity alone.
 | `files` | P0 | Ships Phase 2 behind neighbor-rule spike |
 | `error` | P0 (gated) | Phase 3 go/no-go; demotion to P1 is the stated fallback |
 | `method` | P1 | Ships Phase 5a (test-candidate leg demoted by spike — see Method seed) |
-| `diff` | P1 | Out of campaign scope (Phase 5) |
+| `diff` | P1 | Ships Phase 5b (paired-test mirror leg ships — see Diff seed) |
 | `route` | P1 | Out of campaign scope (Phase 5) |
 | `area` | P2 | Not scheduled |
 | task-only | Skill-only | Gem refuses (SEED-2) |
@@ -78,7 +78,7 @@ and never substitute for the spike. **[from seed proposal §3.3]**
 | `files` | One or more existing relative file paths | Paths relative to application root; multi-file order is user order then stable re-sort only as MERGE rules require |
 | `error` | Stack/log paste (flag value or stdin `-`) | Normalized to filtered application frames only (SEED-20); raw paste is never stored |
 | `method` | `Namespace::Class#method` for **non-controller** constants | `*Controller#action` is never method evidence (SEED-10) |
-| `diff` | Range ref or patch path | P1 |
+| `diff` | Git range ref (`HEAD~1`, `main...HEAD`, `<sha>..<sha>`) or a patch file path relative to the application root | Explicit `--from-diff` only in v1 (no stdin; no positional sugar — SEED-10 rule 6 keeps existing `.patch` paths on the files seed) |
 | `route` | Helper, path, or `VERB /path` | P1; may require Rails for resolution |
 
 **SEED-8.** Path normalization for every path-bearing seed:
@@ -119,6 +119,9 @@ seed kind). Rules, in order:
 6. Any other existing path → **files** seed. `:line` on a non-test path is
    rejected with coaching (“strip the line, or use `--from-files`”);
    line-focused file seeds stay open in the model but out of v1 sugar.
+   Existing `.patch` / `.diff` paths are **files** seeds under this rule —
+   the diff seed is explicit-flag-only (`--from-diff`) in v1 so the SEED-11
+   single-occupancy matrix does not grow a stdin form.
 7. Anything else → fail with labeled input kind and candidates/coaching.
 
 **SEED-11.** Stdin is single-occupancy: `--from-error -` conflicts with
@@ -227,6 +230,55 @@ gate evidence: `eval/seed-spikes/method/PREREGISTRATION.md` and
    requires a new pre-registered spike with a better-than-token matching rule.
 6. MUST NOT boot Rails. MUST NOT use embeddings. No new dependencies.
 
+### Diff seed
+
+**SEED-26.** The `diff` recipe (ships Phase 5b after the viability spike;
+gate evidence: `eval/seed-spikes/diff/PREREGISTRATION.md` and
+`eval/seed-spikes/diff/RESULTS.md` — paired-test agreement 0.810 ≥ 0.70 PASS
+→ ship with the paired-test mirror leg):
+
+1. **Evidence:** a git range ref (`HEAD~1`, `main...HEAD`, `<sha>..<sha>`) or
+   a patch file path relative to the application root. No stdin form in v1
+   (avoids growing the SEED-11 single-occupancy matrix). No positional sugar —
+   SEED-10 rule 6 routes existing paths (including `.patch` files) to the
+   files seed and that stays unchanged. `--from-diff` is explicit-flag-only.
+2. **Enumerate changed files** deterministically:
+   - Range: `git diff --name-status -M <range>` shell-out following the FMT-11
+     degradation pattern — unavailable git / not a repo / unresolvable range
+     **fails closed** with a coaching message (never crashes, never guesses).
+   - Patch path: parse with `git apply --numstat --summary <path>` (still git,
+     but repo-independent); unparseable or missing patch fails closed.
+3. **Primaries:** changed files that exist in the **current working tree**
+   under the app root, in git's output order, reason code `diff_seed_primary`
+   (FMT-6). Deleted or renamed-away old paths are excluded from primaries,
+   each recorded as an omitted-candidate follow-up naming the path (spike
+   file survival ≈ 99.8% — thin but real). Budget: `max_total_files` via
+   MERGE-4 semantics (keep earlier files in diff order, omit later with
+   follow-ups).
+4. **Snippets** for `.rb` primaries: post-image hunk line ranges; when a
+   changed line sits inside a Prism-locatable def, snippet the enclosing def
+   range; otherwise a fixed window matching the SEED-16 error-frame pattern
+   (`Compiler` snippet window helper). Respect `max_snippet_lines_per_file`
+   with truncation + omitted-candidate, as the method seed does.
+5. **Paired-test leg** for production primaries (`app/**/*.rb`): mirror
+   conventions ONLY, existing on disk — no basename token matching (the 5a
+   spike showed token matching floods on generic names):
+   - `app/controllers/<p>_controller.rb` →
+     `test/controllers/<p>_controller_test.rb`,
+     `spec/controllers/<p>_controller_spec.rb`,
+     `spec/requests/<p>_spec.rb`,
+     `spec/requests/<p>_controller_spec.rb`
+   - `app/<dir>/<p>.rb` → `test/<dir>/<p>_test.rb`, `spec/<dir>/<p>_spec.rb`
+   - `lib/<p>.rb` → `test/lib/<p>_test.rb`, `spec/lib/<p>_spec.rb`
+   Include via the packet's test-candidate surface with reason code
+   `diff_seed_paired_test` (FMT-6), under the existing `max_test_files` /
+   remaining `max_total_files` budget.
+6. **Determinism:** the packet is deterministic *given repo state + range*
+   (or patch bytes). Seed identity derives from the resolved range (short-SHA
+   form, sanitized per CLI-8a) or the patch basename stem.
+7. MUST NOT boot Rails. Git shell-out only. No new dependencies. MUST NOT use
+   embeddings.
+
 ## Multi-seed merge
 
 **MERGE-1.** Multi-seed is admitted in the model from day one; the CLI ships
@@ -247,8 +299,8 @@ in seed order without duplicates).
 
 1. Prefer explicit seed primaries over inferred neighbors.
 2. Never drop a user-named file (anchor controller, test primary, files
-   primary, error-frame file, method-seed primary) without recording an
-   omitted-candidate follow-up that names the path and limit key.
+   primary, error-frame file, method-seed primary, diff-seed primary) without
+   recording an omitted-candidate follow-up that names the path and limit key.
 3. When budget still conflicts among primaries, keep earlier seeds’ primaries
    (CLI order) and omit later ones with follow-ups.
 
@@ -321,6 +373,7 @@ Pre-registration documents scoring before any measurement. Outcomes:
 | `files` (neighbors) | 2 | Same for neighbor rules; bare named-files-only may still ship if pre-reg allows |
 | `error` | 3 | **Demote to P1**, record demotion in the proposal + tracker, continue to Phase 4 without `--from-error` |
 | `method` | 5a | Resolution fail → do not ship `--from-method`. Resolution pass + test-leg fail → ship without test-candidate leg (applied 2026-07-14; see SEED-25) |
+| `diff` | 5b | Agreement fail → ship without paired-test leg. Agreement pass → ship with paired-test mirror leg (applied 2026-07-14; see SEED-26). Literal changed-file primaries ship either way |
 
 **SEED-23.** Seed work MUST NOT change anchor-resolution classification on the
 Tier 0 corpus. Every compiler-behavior boundary re-runs the Tier 0 corpus

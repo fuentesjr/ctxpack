@@ -110,6 +110,8 @@ the phase that ships the kind):
 | `files_seed_neighbor` | Neighbor inferred by the files recipe | Phase 2 |
 | `error_seed_frame` | Application frame file from an `error` seed | Phase 3 |
 | `method_seed_primary` | User-named method def file from a `method` seed | Phase 5a |
+| `diff_seed_primary` | Changed file from a `diff` seed that exists in the working tree | Phase 5b |
+| `diff_seed_paired_test` | Conventional mirror test/spec for a production diff primary | Phase 5b |
 
 New codes require a spec update; freeform reason codes are prohibited.
 

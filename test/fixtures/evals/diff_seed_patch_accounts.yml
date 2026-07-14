@@ -1,0 +1,27 @@
+name: diff_seed_patch_accounts
+command:
+  seeds:
+    - kind: diff
+      evidence: patches/upgrade_accounts.patch
+  task: Review accounts controller from patch
+
+expect:
+  include:
+    - path: app/controllers/accounts_controller.rb
+      reason_code: diff_seed_primary
+    - path: test/controllers/accounts_controller_test.rb
+      reason_code: diff_seed_paired_test
+
+  exclude:
+    - app/controllers/admin/accounts_controller.rb
+
+  tests:
+    - bin/rails test test/controllers/accounts_controller_test.rb
+
+  max_files: 8
+
+  manifest:
+    seeds:
+      - kind: diff
+        identity: upgrade_accounts
+        evidence: patches/upgrade_accounts.patch

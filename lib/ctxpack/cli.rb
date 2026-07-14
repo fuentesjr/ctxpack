@@ -18,6 +18,7 @@ module Ctxpack
         ctxpack --from-files PATH… [options]
         ctxpack --from-error - [options]
         ctxpack --from-method CONST#METHOD [options]
+        ctxpack --from-diff RANGE|PATCH [options]
         ctxpack packet <anchor> [options]
     TEXT
     EXPLICIT_NAME_PATTERN = /\A[A-Za-z0-9_]+\z/
@@ -142,7 +143,7 @@ module Ctxpack
     def path_like_positional?(token)
       return false unless token.is_a?(String)
 
-      token.end_with?(".rb") ||
+      token.end_with?(".rb", ".patch", ".diff") ||
         token.include?(".rb:") ||
         token.start_with?("test/", "spec/", "app/", "lib/", "config/")
     end
@@ -152,7 +153,8 @@ module Ctxpack
         options[:from_test].nil? &&
         options[:from_files].empty? &&
         options[:from_error].nil? &&
-        options[:from_method].nil?
+        options[:from_method].nil? &&
+        options[:from_diff].nil?
     end
 
     def parse_packet_args(args)
@@ -172,7 +174,8 @@ module Ctxpack
         from_test: nil,
         from_files: [],
         from_error: nil,
-        from_method: nil
+        from_method: nil,
+        from_diff: nil
       }
 
       parser = packet_parser(options)
@@ -196,6 +199,7 @@ module Ctxpack
             ctxpack --from-test test/controllers/accounts_controller_test.rb:10 -t "Fix upgrade"
             ctxpack --from-files app/models/account.rb -t "Inspect account"
             ctxpack --from-method Billing::Subscriptions#upgrade! -t "Inspect upgrade!"
+            ctxpack --from-diff main...HEAD -t "Review branch changes"
             ctxpack packet accounts#upgrade --task "Implement billing upgrade"
             cat issue.md | ctxpack accounts#upgrade --task-file - --stdout
             ctxpack accounts#upgrade --stdout=json | jq .
@@ -216,6 +220,7 @@ module Ctxpack
           options[:from_error] = v
         end
         parser.on("--from-method EVIDENCE", "Compile from a Namespace::Class#method seed (non-controller)") { |v| options[:from_method] = v }
+        parser.on("--from-diff RANGE_OR_PATCH", "Compile from a git range or patch file path (explicit flag only)") { |v| options[:from_diff] = v }
         parser.on("--name NAME", "Set the timestamped artifact name") { |name| options[:name] = name }
         parser.on("-d DIR", "--dir DIR", "Set the timestamped output directory. Default: .ctxpack/") do |dir|
           options[:dir] = dir
@@ -233,7 +238,8 @@ module Ctxpack
         parser.separator("    -v, --version                    Show the ctxpack version (top-level only)")
         parser.separator("")
         parser.separator("Seeds (one or more --from-* flags; positional sugar is also a seed):")
-        parser.separator("  controller#action, path, CONST#method, --from-anchor/--from-test/--from-files/--from-error/--from-method.")
+        parser.separator("  controller#action, path, CONST#method, --from-anchor/--from-test/--from-files/--from-error/--from-method/--from-diff.")
+        parser.separator("  --from-diff is flag-only (ranges/patches are not positional sugar; existing .patch paths are files seeds).")
         parser.separator("Paths and output:")
         parser.separator("  Run from any Rails app subdirectory; ctxpack discovers the application root.")
         parser.separator("  Task-file paths are relative to the invocation directory.")
@@ -278,6 +284,7 @@ module Ctxpack
       explicit << :files if options[:from_files].any?
       explicit << :error if options[:from_error]
       explicit << :method if options[:from_method]
+      explicit << :diff if options[:from_diff]
 
       seeds = []
       seeds << Seed.anchor(options[:from_anchor]) if options[:from_anchor]
@@ -288,6 +295,7 @@ module Ctxpack
       end
       seeds << seed_from_error_paste(options[:from_error], app_root) if options[:from_error]
       seeds << seed_from_method_evidence(options[:from_method]) if options[:from_method]
+      seeds << seed_from_diff_evidence(options[:from_diff], app_root) if options[:from_diff]
 
       if remaining.any?
         raise ArgumentError, "too many positional arguments: #{remaining[1..].join(" ")}" if remaining.length > 1
@@ -374,6 +382,57 @@ module Ctxpack
       Seed.method(evidence)
     rescue ArgumentError
       raise ArgumentError, "invalid method seed evidence #{evidence.inspect}; expected Namespace::Class#method"
+    end
+
+    def seed_from_diff_evidence(evidence, app_root)
+      normalized = evidence.to_s
+      raise ArgumentError, "diff seed requires a git range or patch path" if normalized.empty?
+
+      if diff_patch_path?(normalized, app_root)
+        abs = File.file?(File.join(app_root, normalized)) ? File.join(app_root, normalized) : File.expand_path(normalized, app_root)
+        unless File.file?(abs)
+          raise ArgumentError, "diff seed patch path does not exist: #{normalized}"
+        end
+        return Seed.diff(normalized, identity: Seed.sanitize(File.basename(normalized, ".*")))
+      end
+
+      identity = resolve_diff_range_identity(normalized, app_root)
+      Seed.diff(normalized, identity: identity)
+    end
+
+    def diff_patch_path?(evidence, app_root)
+      path = evidence.to_s
+      return true if path.end_with?(".patch", ".diff")
+      return true if File.file?(File.join(app_root, path))
+      return true if !path.include?("..") && path.include?("/") && File.file?(File.expand_path(path, app_root))
+
+      false
+    end
+
+    def resolve_diff_range_identity(range, app_root)
+      resolved =
+        if range.include?("...")
+          left, right = range.split("...", 2)
+          "#{short_git_ref(left, app_root)}...#{short_git_ref(right, app_root)}"
+        elsif range.include?("..")
+          left, right = range.split("..", 2)
+          "#{short_git_ref(left, app_root)}..#{short_git_ref(right, app_root)}"
+        else
+          short_git_ref(range, app_root)
+        end
+      Seed.sanitize(resolved)
+    rescue Ctxpack::Error
+      # Identity resolution is best-effort at CLI parse; compiler fail-closes on the range.
+      Seed.sanitize(range)
+    end
+
+    def short_git_ref(ref, app_root)
+      out, err, status = Open3.capture3("git", "-C", app_root, "rev-parse", "--short", ref)
+      return out.strip if status.success? && !out.strip.empty?
+
+      raise Ctxpack::Error, "diff seed could not resolve range ref #{ref.inspect}: #{err.strip}"
+    rescue Errno::ENOENT
+      raise Ctxpack::Error, "diff seed requires git; git is not available on PATH"
     end
 
     def normalize_error_frames(paste, app_root)

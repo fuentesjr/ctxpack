@@ -16,6 +16,7 @@ ctxpack --from-test <path[:line]> …        # Phase 2+
 ctxpack --from-files <path>… …             # Phase 2+
 ctxpack --from-error <paste|- > …          # Phase 3+ (if spike passes)
 ctxpack --from-method <Const#method> …     # Phase 5a (no test-candidate leg)
+ctxpack --from-diff <range|patch> …        # Phase 5b (paired-test mirror leg)
 ctxpack --from-anchor <anchor> …           # Phase 2+ explicit form
 ```
 
@@ -25,7 +26,8 @@ exist (no new flags). Phase 2 adds `--from-test`, `--from-files`,
 `--from-anchor`, and the full SEED-10 argv classifier. Phase 3 adds
 `--from-error` if its spike passes. Phase 4 allows multiple `--from-*` seeds
 per invocation. Phase 5a adds `--from-method` (resolution + same-file
-expansion only; test-candidate leg demoted by spike).
+expansion only; test-candidate leg demoted by spike). Phase 5b adds
+`--from-diff` (explicit-flag-only; no positional sugar and no stdin form).
 
 Non-normative: inside a Rails app the executable is typically reached via
 `bundle exec ctxpack` or a binstub (`bundle binstubs ctxpack` → `bin/ctxpack`
@@ -111,6 +113,7 @@ while reading injected stdin uses stdin-specific wording rather than describing
 | `--from-files PATH…` | 2 | one or more existing paths |
 | `--from-error PASTE\|-` | 3 (gated) | paste text or stdin |
 | `--from-method CONST#METHOD` | 5a | non-controller `Namespace::Class#method` |
+| `--from-diff RANGE\|PATCH` | 5b | git range ref or patch file path (app-root relative); explicit flag only — not via SEED-10 positional sugar |
 
 Flag spelling is locked as `--from-<kind>` (SEED-6). Short aliases are not
 required in v0 for seed flags.
@@ -155,6 +158,7 @@ Seed identity by kind:
 | `files` | basename stem of the first file path | `upgrade` for `app/services/billing/upgrade.rb` |
 | `error` | fixed stem `error` plus a short stable hash of the normalized frame list (hex, 8 chars) | `error_a1b2c3d4` |
 | `method` | sanitized `Constant#method` evidence (`Billing::Subscriptions#upgrade!` → `billing_subscriptions_upgrade`) | same CLI-8a rules |
+| `diff` | resolved range in short-SHA form (e.g. `a1b2c3d...d4e5f6a`) or patch basename stem, then CLI-8a sanitize | deterministic given repo state + range / patch path |
 
 Multi-seed (Phase 4): join seed identities with `_` in seed order, then apply
 the same 80-character suffix-preserving cap.

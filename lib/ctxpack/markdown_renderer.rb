@@ -120,6 +120,10 @@ module Ctxpack
         "application stack frame"
       when "method_seed_primary"
         "user-named method seed"
+      when "diff_seed_primary"
+        "changed file from diff seed"
+      when "diff_seed_paired_test"
+        "conventional mirror test for diff primary"
       else
         why_text(item)
       end

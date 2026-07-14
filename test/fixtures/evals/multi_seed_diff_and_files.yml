@@ -1,0 +1,24 @@
+name: multi_seed_diff_and_files
+command:
+  seeds:
+    - kind: diff
+      evidence: patches/upgrade_accounts.patch
+    - kind: files
+      evidence:
+        - app/jobs/sync_billing_account_job.rb
+  task: Diff primary plus named files seed
+
+expect:
+  include:
+    - path: app/controllers/accounts_controller.rb
+      reason_code: diff_seed_primary
+    - path: app/jobs/sync_billing_account_job.rb
+      reason_code: files_seed_primary
+
+  exclude:
+    - app/controllers/admin/accounts_controller.rb
+
+  tests:
+    - bin/rails test test/controllers/accounts_controller_test.rb
+
+  max_files: 8

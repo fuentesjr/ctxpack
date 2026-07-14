@@ -1320,3 +1320,63 @@ explicitly deferred.
 
 ### Verification
 - Full suite (this session): `185 runs, 1704 assertions, 0 failures, 0 errors`.
+
+## Pass: Phase 5b diff seed (2026-07-14)
+
+### Scope
+- Gate evidence (frozen): `eval/seed-spikes/diff/PREREGISTRATION.md` +
+  `RESULTS.md` — paired-test agreement PASS (0.810 ≥ 0.70).
+- Ship `--from-diff` **with** the paired-test mirror leg (mirror conventions
+  only; no basename token matching — 5a lesson).
+- Spec amendments: SEED-4/7/10/22/26, MERGE-4, FMT-6 codes
+  `diff_seed_primary` / `diff_seed_paired_test`, CLI-1/4b/8a, design.md,
+  README.md.
+- No new LIMITS keys; reuses `max_total_files`, `max_test_files`,
+  `max_snippet_lines_per_file`. Snippet context window matches the error-seed
+  ±15 helper (shared `snippet_context_window`).
+- No new runtime dependencies. Did not touch `eval/` results or `tmp/`.
+
+### Implementation
+- `Seed.diff(evidence, identity:)` — patch basename stem or sanitized range;
+  CLI resolves range identity to short-SHA form when git can.
+- `Compiler#resolve_diff_seed`:
+  - Range: `git diff --name-status -M` + `-U0` hunk lines; fail-closed on
+    missing git / non-repo / bad range (FMT-11-style, coaching errors).
+  - Patch: `git apply --numstat --summary` (repo-independent) + unified-diff
+    hunk parse for post-image lines.
+  - Primaries: working-tree-existing paths in git order,
+    `diff_seed_primary`; deleted/renamed-away → `diff_files` omitted
+    follow-ups.
+  - `.rb` snippets: Prism enclosing def when a changed line is inside a
+    `DefNode`, else ±15 window; `max_snippet_lines_per_file` truncation.
+  - Paired tests for `app/**/*.rb` via controller/general/lib mirror paths
+    only → `diff_seed_paired_test` under test-file budget.
+- CLI: `--from-diff RANGE|PATCH` explicit-flag-only; positional `.patch`/
+  `.diff` stays files seed (SEED-10 rule 6); `path_like_positional?` accepts
+  those suffixes so positional classification can reach the files seed.
+- Markdown inventory labels for the two new reason codes.
+- Fixture: `patches/upgrade_accounts.patch` under minitest_basic.
+- Evals: `diff_seed_patch_accounts`, `multi_seed_diff_and_files`.
+- Unit: `test/ctxpack/diff_seed_test.rb` (range, patch, delete follow-up,
+  paired hit/miss, def vs window snippet, fail-closed, multi-seed, budget,
+  CLI flag, positional-not-diff).
+
+### Decisions / tradeoffs
+- **No stdin / no positional sugar** for diff — keeps SEED-11 matrix stable
+  and avoids SEED-10 rule 6 collision with files seed on real patch paths.
+- Pure-deletion ranges produce a packet with omitted follow-ups and no
+  primaries (do not raise empty-primary); empty name-status still fails closed.
+- Identity for ranges: short-SHA form at CLI when resolvable; Seed factory
+  falls back to sanitized evidence for compile-API callers.
+- Mirror list matches the frozen spike exactly (controller + general app dir
+  + lib); no token flood.
+
+### Scope boundaries
+- Anchor compilation path untouched (new seed branch only). Orchestrator may
+  still run Tier 0 rescan as pass-boundary SEED-23 gate.
+- Did not touch `eval/seed-spikes/`, recorded RESULTS, or commit.
+
+### Verification
+- Red first: `diff_seed_test.rb` 16 runs with 11 errors / 5 failures before
+  lib/ (Seed.diff undefined / CLI missing flag).
+- Full suite (this session): `205 runs, 1834 assertions, 0 failures, 0 errors`.

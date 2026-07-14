@@ -235,3 +235,12 @@ classifier output byte-identical to `post_amendment/` on all three apps
 (Mastodon 584/616, Discourse 728/755, Zammad 539/596); 0 crashes / 1,967
 pairs. Checkouts verified clean at the pinned SHAs (history deepened for the
 Phase 5b diff spike; worktrees untouched).
+
+## Phase 5b diff-seed rescan (2026-07-14)
+
+Mandatory re-scan after `--from-diff` (SEED-26: git-range/patch primaries,
+def-anchored snippets, paired-test mirror leg). Classifier output
+byte-identical to `post_amendment/` on all three apps; 0 crashes / 1,967
+pairs. The two touched existing seams (shared snippet window helper, file
+category union) are behavior-preserving; the rescan confirms the anchor
+path byte-exactly.

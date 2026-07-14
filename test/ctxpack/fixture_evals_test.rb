@@ -122,6 +122,7 @@ class FixtureEvalsTest < Minitest::Test
     when "files" then Ctxpack::Seed.files(Array(spec.fetch("evidence")))
     when "error" then Ctxpack::Seed.error(Array(spec.fetch("evidence")))
     when "method" then Ctxpack::Seed.method(spec.fetch("evidence"))
+    when "diff" then Ctxpack::Seed.diff(spec.fetch("evidence"))
     else
       raise "unknown seed kind #{spec.fetch("kind")}"
     end
@@ -181,6 +182,8 @@ class FixtureEvalsTest < Minitest::Test
           ["--from-files", frame_path, "--out", out_path, "--force", "--manifest"]
         when "method"
           ["--from-method", primary.fetch("evidence"), "--out", out_path, "--force", "--manifest"]
+        when "diff"
+          ["--from-diff", primary.fetch("evidence"), "--out", out_path, "--force", "--manifest"]
         else
           raise "unsupported seed for CLI eval #{primary.fetch("kind")}"
         end

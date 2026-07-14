@@ -79,7 +79,7 @@ accounts#upgrade       → app/controllers/accounts_controller.rb
 admin/accounts#upgrade → app/controllers/admin/accounts_controller.rb
 ```
 
-ctxpack fails clearly when it cannot resolve seed evidence instead of pretending to understand every Rails edge case. Additional seed kinds (`test`, `files`, `error`, `method` without its test-candidate leg) ship behind per-kind viability spikes — see `specs/seeds.md` and `PROJECT_TRACKER.md`.
+ctxpack fails clearly when it cannot resolve seed evidence instead of pretending to understand every Rails edge case. Additional seed kinds (`test`, `files`, `error`, `method` without its test-candidate leg, `diff` with paired-test mirrors) ship behind per-kind viability spikes — see `specs/seeds.md` and `PROJECT_TRACKER.md`.
 
 ## 📦 What is a context packet?
 

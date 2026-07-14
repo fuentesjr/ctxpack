@@ -62,6 +62,26 @@ module Ctxpack
       )
     end
 
+    def self.diff(evidence, identity: nil)
+      normalized = evidence.to_s
+      raise ArgumentError, "diff seed requires range or patch path evidence" if normalized.empty?
+
+      derived =
+        if identity
+          identity.to_s
+        elsif normalized.include?("/") || normalized.end_with?(".patch", ".diff")
+          sanitize(File.basename(normalized, ".*"))
+        else
+          sanitize(normalized)
+        end
+
+      new(
+        kind: "diff",
+        evidence: normalized,
+        identity: derived
+      )
+    end
+
     def self.identity_for_anchor(anchor)
       sanitize(anchor.to_s)
     end
@@ -103,6 +123,10 @@ module Ctxpack
 
     def method?
       kind == "method"
+    end
+
+    def diff?
+      kind == "diff"
     end
 
     def files_paths

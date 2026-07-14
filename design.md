@@ -149,7 +149,7 @@ Out of scope for anchor resolution:
 - Provenance / reason codes / uncertainty codes as registries
 - Budgets (limits as constants until evidence says otherwise)
 - No embeddings/RAG required for core
-- No Rails boot for static recipes (anchor, files, method, test path rules)
+- No Rails boot for static recipes (anchor, files, method, test path rules, diff)
 - Tiered eval mindset: fixture cases per seed kind; real-app spikes where needed
 - OptionParser CLI, injectable streams, composable stdout
 
@@ -164,6 +164,9 @@ ctxpack --from-files app/models/account.rb -t "…"
 # Phase 5a:
 ctxpack --from-method Billing::Subscriptions#upgrade! -t "…"
 ctxpack Billing::Subscriptions#upgrade! -t "…"   # positional sugar (SEED-10 rule 4)
+# Phase 5b:
+ctxpack --from-diff main...HEAD -t "…"
+ctxpack --from-diff path/to/change.patch -t "…"  # explicit flag only (not positional)
 ```
 
 The original `ctxpack packet accounts#upgrade --task "…"` form remains a
@@ -173,7 +176,13 @@ the method seed. Method-shaped tokens (`Billing::Upgrade#call`) dispatch to the
 method seed (Phase 5a): exact CONST-2b path resolution with no segment trimming,
 instance-def FQN match, same-file callee BFS + constant scan under existing
 budgets, **no test-candidate leg** (spike test-leg precision failed — see
-`eval/seed-spikes/method/RESULTS.md` and SEED-25).
+`eval/seed-spikes/method/RESULTS.md` and SEED-25). Diff seeds (Phase 5b) take a
+git range or patch path via `--from-diff` only (existing `.patch` paths stay
+files seeds under SEED-10 rule 6): changed files that exist in the working tree
+as primaries, def-anchored or windowed snippets for `.rb` hunks, and
+**paired-test mirror candidates** only (no basename token matching — 5a lesson;
+spike agreement 0.810 PASS — see `eval/seed-spikes/diff/RESULTS.md` and
+SEED-26).
 
 Long task descriptions can come from `--task-file PATH`, or from injected
 stdin with `--task-file -`; this keeps issue bodies and agent pipelines out of

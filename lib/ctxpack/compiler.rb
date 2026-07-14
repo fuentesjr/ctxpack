@@ -43,6 +43,7 @@ module Ctxpack
       when "files" then resolve_files_seed(seed)
       when "error" then resolve_error_seed(seed)
       when "method" then resolve_method_seed(seed)
+      when "diff" then resolve_diff_seed(seed)
       else
         raise Error, "unsupported seed kind #{seed.kind.inspect}"
       end
@@ -411,11 +412,438 @@ module Ctxpack
     def error_frame_range(path, line)
       abs = File.join(@app_root, path)
       total = File.foreach(abs).count
-      window = 15
+      window = snippet_context_window
       start_line = [1, line - window].max
       end_line = [total, line + window].min
       end_line = start_line if end_line < start_line
       [start_line, end_line]
+    end
+
+    def snippet_context_window
+      15
+    end
+
+    def resolve_diff_seed(seed)
+      evidence = seed.evidence.to_s
+      raise Error, "diff seed requires a git range or patch path" if evidence.empty?
+
+      entries, hunk_lines_by_path =
+        if diff_patch_evidence?(evidence)
+          enumerate_diff_from_patch(evidence)
+        else
+          enumerate_diff_from_range(evidence)
+        end
+
+      packet = blank_packet(seed: seed)
+      max_files = LIMITS.fetch(:max_total_files)
+      primary_paths = []
+
+      entries.each do |entry|
+        status = entry.fetch(:status)
+        new_path = entry[:new]
+        old_path = entry[:old]
+
+        if status == "D" || (status.start_with?("R") && new_path.nil?)
+          omitted_path = old_path || new_path
+          if omitted_path
+            packet.omitted_candidates << OmittedCandidate.new(
+              category: "diff_files",
+              subject: omitted_path,
+              reason: "deleted or renamed-away path excluded from diff primaries",
+              limit_key: :max_total_files
+            )
+          end
+          next
+        end
+
+        if status.start_with?("R") && old_path && old_path != new_path
+          packet.omitted_candidates << OmittedCandidate.new(
+            category: "diff_files",
+            subject: old_path,
+            reason: "deleted or renamed-away path excluded from diff primaries",
+            limit_key: :max_total_files
+          )
+        end
+
+        path = new_path || old_path
+        next if path.nil? || path.empty?
+        next unless under_app_root?(path)
+        unless File.file?(File.join(@app_root, path))
+          packet.omitted_candidates << OmittedCandidate.new(
+            category: "diff_files",
+            subject: path,
+            reason: "changed path does not exist in the working tree",
+            limit_key: :max_total_files
+          )
+          next
+        end
+
+        if primary_paths.length >= max_files
+          packet.omitted_candidates << OmittedCandidate.new(
+            category: "diff_files",
+            subject: path,
+            reason: "max total files limit reached",
+            limit_key: :max_total_files
+          )
+          next
+        end
+
+        primary_paths << path
+        file_entry = packet.add_file(path)
+        ranges = diff_snippet_ranges(path, hunk_lines_by_path.fetch(path, []))
+        truncated = false
+        if ranges.any?
+          remaining = LIMITS.fetch(:max_snippet_lines_per_file)
+          kept = []
+          ranges.each do |range|
+            length = range_length(range)
+            if length > remaining
+              if remaining.positive?
+                kept << [range.first, range.first + remaining - 1]
+              end
+              truncated = true
+              remaining = 0
+              break
+            else
+              kept << range
+              remaining -= length
+            end
+          end
+          ranges = kept
+          if truncated
+            packet.omitted_candidates << OmittedCandidate.new(
+              category: "snippets",
+              subject: path,
+              reason: "diff snippet exceeded max snippet lines per file",
+              limit_key: :max_snippet_lines_per_file
+            )
+          end
+        end
+
+        file_entry.add_evidence(
+          EvidenceItem.new(
+            reason_code: "diff_seed_primary",
+            subject: path,
+            why: "changed file from diff seed",
+            snippet_ranges: ranges,
+            truncated: truncated
+          )
+        )
+      end
+
+      if entries.empty?
+        raise Error, "diff seed found no changed files for #{evidence.inspect}"
+      end
+
+      add_diff_paired_tests(packet, primary_paths)
+      packet.no_test_candidates = packet.tests.empty?
+      packet.test_framework = detected_test_framework.to_s if packet.tests.empty?
+      enforce_total_file_limit(packet)
+      packet
+    end
+
+    def diff_patch_evidence?(evidence)
+      path = evidence.to_s
+      return true if path.end_with?(".patch", ".diff")
+      return true if File.file?(File.join(@app_root, path))
+
+      false
+    end
+
+    def under_app_root?(relative_path)
+      abs = File.expand_path(relative_path, @app_root)
+      abs == @app_root || abs.start_with?(@app_root + File::SEPARATOR)
+    rescue ArgumentError
+      false
+    end
+
+    def enumerate_diff_from_range(range)
+      ensure_git_repo!
+      out, err, status = Open3.capture3("git", "-C", @app_root, "diff", "--name-status", "-M", range)
+      unless status.success?
+        message = err.to_s.strip
+        message = "unresolvable range" if message.empty?
+        raise Error, "diff seed could not resolve range #{range.inspect}: #{message}"
+      end
+
+      entries = parse_name_status(out)
+      hunk_lines = {}
+      entries.each do |entry|
+        path = entry[:new]
+        next unless path && path.end_with?(".rb") && File.file?(File.join(@app_root, path))
+
+        hunk_lines[path] = post_image_hunk_lines_from_range(range, path)
+      end
+      [entries, hunk_lines]
+    rescue Errno::ENOENT
+      raise Error, "diff seed requires git; git is not available on PATH"
+    end
+
+    def enumerate_diff_from_patch(evidence)
+      abs =
+        if File.file?(File.join(@app_root, evidence))
+          File.join(@app_root, evidence)
+        else
+          File.expand_path(evidence, @app_root)
+        end
+      unless File.file?(abs)
+        raise Error, "diff seed patch path does not exist: #{evidence}"
+      end
+
+      out, err, status = Open3.capture3("git", "apply", "--numstat", "--summary", abs)
+      unless status.success?
+        message = err.to_s.strip
+        message = "unparseable patch" if message.empty?
+        raise Error, "diff seed could not parse patch #{evidence.inspect}: #{message}"
+      end
+
+      entries = parse_apply_numstat(out)
+      if entries.empty?
+        raise Error, "diff seed could not parse patch #{evidence.inspect}: no changed files found"
+      end
+
+      hunk_lines = post_image_hunk_lines_from_patch(abs)
+      [entries, hunk_lines]
+    rescue Errno::ENOENT
+      raise Error, "diff seed requires git; git is not available on PATH"
+    end
+
+    def ensure_git_repo!
+      out, _err, status = Open3.capture3("git", "-C", @app_root, "rev-parse", "--is-inside-work-tree")
+      return if status.success? && out.strip == "true"
+
+      raise Error, "diff seed requires a git repository at the application root"
+    rescue Errno::ENOENT
+      raise Error, "diff seed requires git; git is not available on PATH"
+    end
+
+    def parse_name_status(output)
+      output.to_s.each_line.filter_map do |line|
+        cols = line.chomp.split("\t")
+        next if cols.empty?
+
+        status = cols[0]
+        case status[0]
+        when "R", "C"
+          { status: status, old: cols[1], new: cols[2] }
+        when "D"
+          { status: status, old: cols[1], new: nil }
+        else
+          { status: status, old: nil, new: cols[1] }
+        end
+      end
+    end
+
+    def parse_apply_numstat(output)
+      entries = []
+      output.to_s.each_line do |line|
+        line = line.chomp
+        # numstat: "added\tdeleted\tpath" or "added\tdeleted\told => new"
+        if (m = line.match(/\A(\d+|-)\t(\d+|-)\t(.+)\z/))
+          path_field = m[3]
+          if path_field.include?(" => ")
+            old_path, new_path = path_field.split(" => ", 2)
+            old_path = old_path.sub(/\A\{/, "").sub(/\}\z/, "")
+            new_path = new_path.sub(/\A\{/, "").sub(/\}\z/, "")
+            # strip brace rename form "dir/{old => new}"
+            if path_field.include?("{")
+              # fall through: prefer summary lines for renames
+            end
+            entries << { status: "R", old: old_path.strip, new: new_path.strip }
+          else
+            entries << { status: "M", old: nil, new: path_field }
+          end
+        elsif (m = line.match(/\A\s*rename (?:.* )?([\w.\/-]+) to ([\w.\/-]+)\z/))
+          entries << { status: "R", old: m[1], new: m[2] }
+        elsif (m = line.match(/\A\s*create mode \d+ (.+)\z/))
+          entries << { status: "A", old: nil, new: m[1] }
+        elsif (m = line.match(/\A\s*delete mode \d+ (.+)\z/))
+          entries << { status: "D", old: m[1], new: nil }
+        end
+      end
+      # Prefer unique by new||old path, first wins (numstat before summary)
+      seen = {}
+      entries.select do |e|
+        key = e[:new] || e[:old]
+        next false if key.nil? || seen[key]
+
+        seen[key] = true
+        true
+      end
+    end
+
+    def post_image_hunk_lines_from_range(range, path)
+      out, _err, status = Open3.capture3("git", "-C", @app_root, "diff", "-U0", range, "--", path)
+      return [] unless status.success?
+
+      parse_unified_diff_post_image_lines(out)
+    end
+
+    def post_image_hunk_lines_from_patch(abs_path)
+      content = File.read(abs_path, encoding: "UTF-8")
+      by_path = Hash.new { |h, k| h[k] = [] }
+      current_path = nil
+      content.each_line do |line|
+        if (m = line.match(%r{\A\+\+\+ (?:b/)?(.+)\z}))
+          path = m[1].strip
+          current_path = path == "/dev/null" ? nil : path
+          next
+        end
+        next unless current_path
+
+        if (m = line.match(/\A@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@/))
+          start = m[1].to_i
+          count = (m[2] || "1").to_i
+          next if start.zero? # pure deletion hunk
+
+          count = 1 if count.zero?
+          count.times { |i| by_path[current_path] << (start + i) }
+        end
+      end
+      by_path.transform_values(&:uniq)
+    end
+
+    def parse_unified_diff_post_image_lines(diff_text)
+      lines = []
+      diff_text.to_s.each_line do |line|
+        next unless (m = line.match(/\A@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@/))
+
+        start = m[1].to_i
+        count = (m[2] || "1").to_i
+        next if start.zero?
+
+        count = 1 if count.zero?
+        count.times { |i| lines << (start + i) }
+      end
+      lines.uniq
+    end
+
+    def diff_snippet_ranges(path, changed_lines)
+      return [] unless path.end_with?(".rb")
+      return [] if changed_lines.empty?
+      return [] unless File.file?(File.join(@app_root, path))
+
+      def_ranges = prism_def_ranges(path)
+      ranges = changed_lines.filter_map do |line|
+        enclosing = innermost_def_range(def_ranges, line)
+        if enclosing
+          enclosing
+        else
+          error_frame_range(path, line)
+        end
+      end
+      merge_line_ranges(ranges)
+    end
+
+    def prism_def_ranges(path)
+      abs = File.join(@app_root, path)
+      source = File.read(abs, encoding: "UTF-8")
+      program = parse_ruby(source, path)
+      ranges = []
+      walk = lambda do |node|
+        return if node.nil?
+
+        if node.is_a?(Prism::DefNode)
+          ranges << [node.location.start_line, node.location.end_line]
+        end
+        node.compact_child_nodes.each { |child| walk.call(child) }
+      end
+      walk.call(program)
+      ranges
+    end
+
+    def innermost_def_range(def_ranges, line)
+      covering = def_ranges.select { |start_line, end_line| line >= start_line && line <= end_line }
+      return nil if covering.empty?
+
+      covering.min_by { |start_line, end_line| end_line - start_line }
+    end
+
+    def merge_line_ranges(ranges)
+      return [] if ranges.empty?
+
+      sorted = ranges.map { |s, e| [s, e] }.sort_by(&:first)
+      merged = [sorted.first.dup]
+      sorted.drop(1).each do |start_line, end_line|
+        last = merged.last
+        if start_line <= last[1] + 1
+          last[1] = [last[1], end_line].max
+        else
+          merged << [start_line, end_line]
+        end
+      end
+      merged
+    end
+
+    def add_diff_paired_tests(packet, primary_paths)
+      max_test_files = LIMITS.fetch(:max_test_files)
+      candidates = []
+      primary_paths.each do |path|
+        next unless path.match?(%r{\Aapp/.+\.rb\z})
+
+        mirror_test_candidates(path).each do |cand|
+          next unless File.file?(File.join(@app_root, cand))
+          next if candidates.any? { |c| c.path == cand }
+
+          command = cand.start_with?("spec/") ? "bundle exec rspec #{cand}" : "bin/rails test #{cand}"
+          candidates << test_candidate(
+            path: cand,
+            command: command,
+            reason_code: "diff_seed_paired_test",
+            rule: "diff_seed_mirror",
+            why: "conventional mirror test for diff primary #{path}"
+          )
+        end
+      end
+
+      remaining_file_slots = [LIMITS.fetch(:max_total_files) - packet.files.length, 0].max
+      included_count = [max_test_files, remaining_file_slots].min
+      included = candidates.first(included_count)
+
+      included.each do |candidate|
+        packet.tests << candidate
+        entry = packet.add_file(candidate.path)
+        entry.add_evidence(
+          EvidenceItem.new(
+            reason_code: "diff_seed_paired_test",
+            subject: candidate.path,
+            why: candidate.why,
+            snippet_ranges: [],
+            truncated: false
+          )
+        )
+      end
+
+      candidates.drop(included_count).each_with_index do |candidate, index|
+        limit_key = index < max_test_files ? :max_total_files : :max_test_files
+        packet.omitted_candidates << OmittedCandidate.new(
+          category: "test_files",
+          subject: candidate.path,
+          reason: limit_key == :max_total_files ? "max total files limit reached" : "max test files limit reached",
+          limit_key: limit_key
+        )
+      end
+    end
+
+    def mirror_test_candidates(path)
+      cands = []
+      if (m = path.match(%r{\Aapp/controllers/(.+)_controller\.rb\z}))
+        p = m[1]
+        cands += [
+          "test/controllers/#{p}_controller_test.rb",
+          "spec/controllers/#{p}_controller_spec.rb",
+          "spec/requests/#{p}_spec.rb",
+          "spec/requests/#{p}_controller_spec.rb"
+        ]
+      end
+      if (m = path.match(%r{\Aapp/([^/]+)/(.+)\.rb\z}))
+        dir, p = m[1], m[2]
+        cands += ["test/#{dir}/#{p}_test.rb", "spec/#{dir}/#{p}_spec.rb"]
+      end
+      if (m = path.match(%r{\Alib/(.+)\.rb\z}))
+        cands += ["test/lib/#{m[1]}_test.rb", "spec/lib/#{m[1]}_spec.rb"]
+      end
+      cands.uniq
     end
 
     def resolve_files_seed(seed)
@@ -1269,8 +1697,9 @@ module Ctxpack
 
     def omitted_category_for_entry(entry)
       return "view_files" if entry.reason_codes.include?("view_candidate")
-      return "test_files" if (entry.reason_codes & %w[minitest_candidate rspec_candidate]).any?
+      return "test_files" if (entry.reason_codes & %w[minitest_candidate rspec_candidate diff_seed_paired_test]).any?
       return "constant_files" if entry.reason_codes.include?("referenced_constant")
+      return "diff_files" if entry.reason_codes.include?("diff_seed_primary")
 
       "files"
     end
