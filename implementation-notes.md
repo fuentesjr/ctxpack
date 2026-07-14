@@ -1203,3 +1203,25 @@ explicitly deferred.
 
 ### Verification
 - Docs-only; suite not required for behavior but will be run before commit to confirm no accidental code touch.
+
+## Pass: Phase 1 seed wrap (2026-07-13)
+
+### Scope
+- Internal `Ctxpack::Seed` (`lib/ctxpack/seed.rb`); `Packet#seeds`;
+  `Compiler` normalizes `anchor:` / `seeds:` and routes through
+  `resolve_anchor_seed`.
+- Public `Ctxpack.compile` accepts optional `seeds:`; `anchor:` unchanged.
+- Format v2 only: `Packet#to_h` still omits `seeds[]`; Markdown still
+  `Format: 2` / `## Anchor`. Packet bytes unchanged for golden paths.
+- No new CLI flags.
+
+### Decisions
+- Phase 1 rejects non-anchor seeds at compile time (explicit error) so later
+  kinds cannot accidentally ship untested.
+- View evidence subjects use `packet.anchor` (not a removed `@anchor` ivar).
+
+### Verification
+- Red-then-green: `test/ctxpack/seed_test.rb` (4 tests).
+- Full suite: `155 runs, 1383 assertions, 0 failures, 0 errors`.
+- Tier 0 rescan: byte-identical to `post_amendment` on all three apps
+  (1,967 pairs, 0 crashes) — see `eval/tier0/RESULTS.md` Phase 1 addendum.

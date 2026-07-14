@@ -2,6 +2,7 @@ require "prism"
 require "open3"
 require "ctxpack/default_constant_resolver"
 require "ctxpack/packet"
+require "ctxpack/seed"
 
 module Ctxpack
   class Compiler
@@ -21,15 +22,47 @@ module Ctxpack
     CallbackDeclaration = Struct.new(:kind, :names, :applies, :dynamic, :block, :node, keyword_init: true)
     ParsedAnchor = Struct.new(:controller_path, :action, keyword_init: true)
 
-    def initialize(app_root:, anchor:, task:, constant_resolver: nil)
+    def initialize(app_root:, task:, anchor: nil, seeds: nil, constant_resolver: nil)
       @app_root = File.expand_path(app_root)
-      @anchor = anchor
       @task = task
+      @seeds = normalize_seeds(anchor: anchor, seeds: seeds)
       @constant_resolver = constant_resolver || DefaultConstantResolver.new(app_root: @app_root)
     end
 
     def compile
-      parsed_anchor = parse_anchor(@anchor)
+      # Phase 1: single anchor seed only. Later phases dispatch by kind.
+      seed = @seeds.first
+      unless seed&.anchor?
+        raise Error, "Phase 1 supports only the anchor seed; got #{seed&.kind.inspect}"
+      end
+
+      resolve_anchor_seed(seed)
+    end
+
+    private
+
+    def normalize_seeds(anchor:, seeds:)
+      if seeds && anchor
+        raise ArgumentError, "pass either anchor: or seeds:, not both"
+      end
+
+      list =
+        if seeds
+          Array(seeds).map { |s| s.is_a?(Seed) ? s : raise(ArgumentError, "seeds must be Ctxpack::Seed instances") }
+        elsif anchor
+          [Seed.anchor(anchor)]
+        else
+          raise ArgumentError, "compile requires an anchor: or seeds: argument"
+        end
+
+      raise ArgumentError, "compile requires at least one seed" if list.empty?
+
+      list
+    end
+
+    def resolve_anchor_seed(seed)
+      anchor = seed.evidence
+      parsed_anchor = parse_anchor(anchor)
       controller_relative_path = controller_file_path(parsed_anchor.controller_path)
       controller_absolute_path = File.join(@app_root, controller_relative_path)
 
@@ -50,7 +83,8 @@ module Ctxpack
       end
 
       packet = Packet.new(
-        anchor: @anchor,
+        anchor: anchor,
+        seeds: [seed],
         task: @task,
         repo: repo_stamp,
         app_root: @app_root,
@@ -70,8 +104,6 @@ module Ctxpack
 
       packet
     end
-
-    private
 
     def parse_anchor(anchor)
       unless anchor.match?(/\A[a-z][a-z0-9_]*(?:\/[a-z][a-z0-9_]*)*#_?[a-z][a-z0-9_]*[?!]?\z/)
@@ -434,8 +466,8 @@ module Ctxpack
         entry.add_evidence(
           EvidenceItem.new(
             reason_code: "view_candidate",
-            subject: @anchor,
-            why: "conventional view template for #{@anchor}",
+            subject: packet.anchor,
+            why: "conventional view template for #{packet.anchor}",
             snippet_ranges: [],
             truncated: false
           )

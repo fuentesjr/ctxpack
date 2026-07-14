@@ -1,4 +1,5 @@
 require "ctxpack/version"
+require "ctxpack/seed"
 require "ctxpack/compiler"
 require "ctxpack/default_constant_resolver"
 require "ctxpack/manifest_renderer"
@@ -8,10 +9,11 @@ require "ctxpack/packet"
 module Ctxpack
   class Error < StandardError; end
 
-  def self.compile(app_root:, anchor:, task: nil, constant_resolver: nil)
+  def self.compile(app_root:, anchor: nil, seeds: nil, task: nil, constant_resolver: nil)
     Compiler.new(
       app_root: app_root,
       anchor: anchor,
+      seeds: seeds,
       task: task,
       constant_resolver: constant_resolver
     ).compile

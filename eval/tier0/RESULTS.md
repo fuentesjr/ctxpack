@@ -187,3 +187,23 @@ per-app output JSONs are **byte-identical** to `results/post_amendment/` — 0
 regressions / 0 newly-resolved / 0 label-flips / 0 crashes across all 1,967
 pairs. The original addendum is genuine; the "pending/DNS-failed" debt note was a
 transient fetch artifact and is removed from the tracker.
+
+## Phase 1 seed-wrap rescan (2026-07-13)
+
+Mandatory pass-boundary re-scan for the Phase 1 internal Seed/focus-set wrap
+(no recipe change; `compiler.rb` internals moved to route through
+`Seed.anchor` / `resolve_anchor_seed`). Classifier re-run against the three
+apps at the pinned SHAs, committed route tables only.
+
+| App | SHA verified | Pairs | Resolved | Rate | Δ vs post_amendment |
+|---|---|---|---|---|---|
+| Mastodon | `163f96cee4dea23365bff9b433871e68d20d9ee7` | 616 | 584 | 94.8% | 0 |
+| Discourse | `28b003a38d82c354ffc49bac23b655de9664e478` | 755 | 728 | 96.4% | 0 |
+| Zammad | `50384f4c390e8abed07694897956c2f8e176208d` | 596 | 539 | 90.4% | 0 |
+| **Average** | | | | **93.9%** | |
+
+**Zero per-anchor change.** Per-app result JSONs are **byte-identical** to
+`results/post_amendment/` — 0 regressions / 0 newly-resolved / 0 label-flips /
+0 compile crashes across all 1,967 pairs. Expected: Phase 1 is a wrap, not a
+recipe change. Scratch outputs under `tmp/tier0-rescan/` (gitignored); no new
+baseline written.
