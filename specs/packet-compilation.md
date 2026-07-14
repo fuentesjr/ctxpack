@@ -1,9 +1,20 @@
 # Spec: Packet compilation
 
 Status: Draft. Source: `design.md` — "Settled v0 direction", "Parsing and
-static analysis strategy", "Test candidate rules", "v0 packet limits".
+static analysis strategy", "Test candidate rules", "v0 packet limits";
+amended 2026-07-13 for the seed ontology (`docs/seed-based-interface-proposal.md`,
+`specs/seeds.md`).
 
-Compilation is the pipeline from anchor to internal packet object:
+Compilation is the pipeline from task + seed(s) to internal packet object:
+
+```text
+task + seed(s)
+  → resolve each seed → raw candidates
+  → merge + budget → focus set
+  → packet object
+```
+
+The **anchor seed** is one resolver whose recipe is the historic v0 path:
 
 ```text
 anchor → controller file → action + applicable callbacks → views →
@@ -11,7 +22,32 @@ referenced constants → constant files → test candidates → limits applied �
 packet object
 ```
 
+Other seed kinds (`test`, `files`, `error`, …) are specified in `seeds.md`.
 Rendering the packet object is specified in `packet-format.md`.
+
+## Pipeline generalization
+
+**PIPE-1.** Seed resolution is kind-specific and produces candidates (files,
+optional ranges, reason codes, uncertainties). Focus assembly merges candidates
+(MERGE-* in `seeds.md`), applies LIM-*, and builds the packet object. Format and
+CLI layers remain downstream only.
+
+**PIPE-2.** The public compile API admits seed-based entry while preserving the
+anchor form for compatibility:
+
+```text
+Ctxpack.compile(app_root:, anchor:, task:, …)           # anchor seed
+Ctxpack.compile(app_root:, seeds:, task:, …)            # general form
+```
+
+When both are offered, `seeds` is the general form; a lone `anchor:` keyword is
+equivalent to a single anchor seed. Exact Ruby signatures are fixed by the
+implementation pass and recorded in `implementation-notes.md`; behavior MUST
+match this equivalence.
+
+**PIPE-3.** ANCH-* semantics apply only to the anchor seed. Non-anchor seeds MUST
+NOT claim an anchor entrypoint unless an anchor seed is also present (or Phase 4
+merge includes one).
 
 ## Anchor resolution
 

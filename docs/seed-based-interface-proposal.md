@@ -1,6 +1,6 @@
 # Design proposal: Seed-based primary interface
 
-**Status:** Accepted 2026-07-13 — first review applied, decisions recorded (§14). Still **not normative**: `specs/` and `design.md` reconciliation lands with Phase 0/1 (§11)  
+**Status:** Accepted 2026-07-13 — decisions recorded (§14). **Normative surface landed** as `specs/seeds.md` + amendments to compilation/format/cli specs and `design.md` product definition (Phase 0 reconciliation, 2026-07-13 Grok campaign)  
 **Date:** 2026-07-13  
 **Related:** [`anchor-acquisition-proposal.md`](anchor-acquisition-proposal.md) (front-door ergonomics under today’s anchor-primary CLI)  
 **Authoring context:** Greenfield rethink — demote `controller#action` from “the entrypoint of the system” to **one seed kind among many**

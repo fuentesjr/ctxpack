@@ -1,18 +1,27 @@
 # ctxpack
 
-Status: Draft v0 proposal.
+Status: Draft — product definition reconciled 2026-07-13 to the accepted
+seed-based interface (`docs/seed-based-interface-proposal.md`). Specs in
+`specs/` are normative; this file records rationale and tradeoffs.
 
-`ctxpack` is a deterministic Rails-aware context packet compiler for AI coding agents.
+`ctxpack` is a **deterministic context compiler for AI coding agents**: given a
+task and one or more **seeds** of evidence, it expands a budgeted, provenanced
+context packet. Rails conventions remain the research bet and the gold-standard
+recipe for the **anchor** seed — not the identity of the tool.
 
 The core question:
 
-> Can Rails conventions produce better AI coding context than generic code search?
+> Can structured evidence (Rails conventions first among them) produce better
+> AI coding context than generic code search?
 
 ## Problem
 
 AI coding agents often struggle less because they lack intelligence and more because they receive poor context.
 
-Generic retrieval can find files that mention the right words, but Rails applications have stronger signals than keywords:
+Generic retrieval can find files that mention the right words, but real work
+arrives as red tests, stack pastes, open files, diffs — and, for classic Rails
+HTTP work, as `controller#action` anchors. Rails applications also have stronger
+signals than keywords:
 
 - routes point to controller actions
 - controller actions reference services, models, jobs, mailers, and views
@@ -24,20 +33,44 @@ Most agents do not need the whole app. They need a small, high-signal slice of t
 
 ## Core idea
 
-Build a CLI that turns an exact Rails anchor into a compact **context packet** for an AI coding agent.
-
-Example workflow:
-
-```bash
-bin/rails routes -g upgrade
-ctxpack accounts#upgrade -t "Implement billing upgrade"
+```text
+task + seed(s) → deterministic, provenanced, budgeted context packet
 ```
 
-`ctxpack` should not replace Rails' existing route discovery tools. Rails already answers "what routes exist?" `ctxpack` starts after the developer has chosen a Rails-native anchor and answers:
+A **seed** is evidence the caller already has, plus a deterministic **recipe**
+for what else to pull. An **anchor** (`accounts#upgrade`) is one seed kind: a
+Rails-flavored way to name a controller action and expand the conventional
+vertical slice (callbacks, views, controller/request tests, referenced
+constants). Other P0 kinds: `test`, `files`, and gated `error`. See
+`specs/seeds.md`.
+
+Example workflows:
+
+```bash
+# Classic Rails endpoint (anchor seed — still the golden path for HTTP work)
+bin/rails routes -g upgrade
+ctxpack accounts#upgrade -t "Implement billing upgrade"
+
+# Red test (test seed — Phase 2+)
+ctxpack --from-test test/services/billing_upgrade_test.rb:42 -t "Fix annual upgrade after 3DS"
+
+# Explicit files (files seed — Phase 2+)
+ctxpack --from-files app/services/billing/upgrade.rb -t "…"
+```
+
+`ctxpack` should not replace Rails' existing route discovery tools. Rails already
+answers "what routes exist?" The **anchor seed** starts after the developer has
+chosen a Rails-native anchor and answers:
 
 > Given this controller action, what compact, evidenced Rails context should an agent receive?
 
-Instead of doing broad semantic search for `billing`, `upgrade`, and `account`, `ctxpack` follows Rails structure:
+The **product** answers the broader question:
+
+> Given this task and this evidence I already have, what compact, evidenced
+> context should an agent receive?
+
+Instead of broad semantic search for `billing`, `upgrade`, and `account`, the
+anchor recipe follows Rails structure:
 
 ```text
 AccountsController#upgrade
@@ -48,23 +81,37 @@ AccountsController#upgrade
 → package/boundary notes when cheaply detectable
 ```
 
+Other recipes start thinner and deepen with evidence (per-kind viability spikes).
+
 The output is not an answer and not an autonomous agent. It is a prepared context artifact that another coding agent can use more effectively.
 
-## Settled v0 direction
+## Settled direction (seed compiler)
 
-The first version should be intentionally small and deterministic:
+The compiler is intentionally small and deterministic:
+
+```text
+task + seed(s)
+  → resolve each seed → candidates
+  → merge + budget → focus set
+  → compact Markdown packet (+ optional JSON manifest)
+```
+
+The **anchor seed recipe** remains the mature vertical slice:
 
 ```text
 controller#action → action snippet + applicable before_action callbacks → conventional view template(s) → referenced constants → nearby test candidate → compact markdown packet
 ```
 
-v0 should be built as a small Ruby CLI/gem. Ruby is the default implementation choice because `ctxpack` is Rails-native: it can lean on Ruby parsing, Rails naming conventions, and familiar gem/bundle workflows without reimplementing Ruby semantics in another language. Go's single-binary distribution may be valuable later, but it should wait until the packet algorithm proves useful.
+Implementation is a small Ruby CLI/gem. Ruby is the default because ctxpack is
+Rails-native for the anchor recipe and can lean on Prism, Rails naming
+conventions, and familiar gem/bundle workflows. Go's single-binary distribution
+may be valuable later, but it should wait until the packet algorithm proves useful.
 
-v0 discovers the Rails application root the way Rails tooling does: it walks
-upward from the current directory to the nearest ancestor containing
-`config/application.rb`, so it works from anywhere inside the app — matching
-`bin/rails` and Rake ergonomics. If no ancestor is a Rails application root,
-it fails clearly.
+Application root discovery is unchanged: walk upward from the current directory
+to the nearest ancestor containing `config/application.rb`, matching `bin/rails`
+and Rake ergonomics. If no ancestor is a Rails application root, fail clearly.
+
+### Anchor seed (unchanged semantics)
 
 Accepted anchor format:
 
@@ -84,9 +131,9 @@ Anchor tokens are snake_case as printed by `bin/rails routes`, with one toleranc
 
 The controller class is identified *within* the conventionally resolved file, not by camelizing the anchor: the spike showed the dominant failure mode was acronym-styled class names (`AITextTools`, `ActivityPub`) whose inflections live in per-app initializers that v0 never loads. Since the file was already found by exact convention, ctxpack accepts the class defined there whose name matches the anchor path underscore-insensitively, instead of guessing the name and missing.
 
-The action must be directly defined as `def upgrade` in that controller class. If the controller file, a matching controller class, or the direct action method cannot be found, v0 should fail clearly and explain the unsupported case instead of guessing.
+The action must be directly defined as `def upgrade` in that controller class. If the controller file, a matching controller class, or the direct action method cannot be found, fail clearly and explain the unsupported case instead of guessing.
 
-Out of scope for v0 anchor resolution:
+Out of scope for anchor resolution:
 
 - inherited controller actions
 - controller concerns that define actions
@@ -96,16 +143,30 @@ Out of scope for v0 anchor resolution:
 - metaprogrammed actions
 - booting Rails to inspect routes
 
-Primary command:
+### What stays from the pre-seed design (do not throw away)
+
+- Deterministic compile; prism-only runtime dependency policy
+- Provenance / reason codes / uncertainty codes as registries
+- Budgets (limits as constants until evidence says otherwise)
+- No embeddings/RAG required for core
+- No Rails boot for static recipes (anchor, files, method, test path rules)
+- Tiered eval mindset: fixture cases per seed kind; real-app spikes where needed
+- OptionParser CLI, injectable streams, composable stdout
+
+### Primary commands
 
 ```bash
 ctxpack accounts#upgrade -t "Implement billing upgrade"
+# Phase 2+ equivalents:
+ctxpack --from-anchor accounts#upgrade -t "…"
+ctxpack --from-test test/controllers/accounts_controller_test.rb:10 -t "…"
+ctxpack --from-files app/models/account.rb -t "…"
 ```
 
 The original `ctxpack packet accounts#upgrade --task "…"` form remains a
-compatibility path. With only one packet-producing operation in v0, making the
-Rails-shaped anchor the first argument removes ceremony from the golden path
-without removing a working interface.
+compatibility path. Positional sugar classifies argv by SEED-10 (specs/seeds.md);
+`*Controller#action` stays suggest-only rewrite to the underscore anchor, never
+the method seed.
 
 Long task descriptions can come from `--task-file PATH`, or from injected
 stdin with `--task-file -`; this keeps issue bodies and agent pipelines out of
@@ -600,6 +661,10 @@ Do not use an LLM judge in v0. Every packet bug should become a small determinis
 The runner itself should be re-runnable at any commit with no one-shot setup — re-runnability is a design property that is hard to retrofit. The Tier 2 harness follows the same principle, so usefulness can be re-measured at release boundaries rather than tested once ([`eval-plan.md`](eval-plan.md)).
 
 ## Non-goals for v0
+
+- Task-only compilation inside the gem (prose → seed is skill-only)
+- Interactive seed pickers; LLM-inside-gem seed choice
+- Silent dual-emission of packet format versions (v3 replaces v2 at Phase 2)
 
 Do not start with:
 

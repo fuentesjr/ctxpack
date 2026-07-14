@@ -1183,3 +1183,23 @@ explicitly deferred.
   compatibility, and mutation-free behavior.”
 - `Gemfile.lock` and recorded experiment data are unchanged. Tier 0 corpus
   re-scan is N/A because compilation behavior is unchanged.
+
+## Pass: Phase 0 seed-ontology specs (2026-07-13)
+
+### Scope
+- Normative specs only — no `lib/` behavior change.
+- New `specs/seeds.md` (SEED-*, MERGE-*).
+- Amended `packet-compilation.md` (PIPE-1..3; anchor recipe unchanged).
+- Amended `packet-format.md` (FMT-0; v3 policy; seed reason codes; MAN-2 v3 shape).
+- Amended `cli.md` (CLI-1d/1e/4b/20; CLI-8/8a seed identity; SEED-10 dispatch from Phase 2).
+- `specs/README.md`, `design.md` product definition, README product statement.
+- Seed proposal status line updated to point at normative specs.
+
+### Decisions
+- Traced every requirement to seed proposal §14 or fixed-by-spec where silent.
+- Format v3 replaces v2 at Phase 2 (no compat fork); Phase 1 still emits v2.
+- Error demotion-on-spike-fail is normative (SEED-22).
+- Inherited acquisition constraints (suggest-only, no confidence, no auto-compile, prose skill-only) locked in SEED-18/19.
+
+### Verification
+- Docs-only; suite not required for behavior but will be run before commit to confirm no accidental code touch.

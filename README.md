@@ -1,12 +1,12 @@
 # ctxpack 🧳
 
-**Deterministic Rails-aware context packets for AI coding agents.**
+**Deterministic context packets for AI coding agents** — task + seeds → provenanced packet.
 
 `ctxpack` asks a small question with a practical answer:
 
-> Can Rails conventions produce better AI coding context than generic code search?
+> Can structured evidence (Rails conventions first among them) produce better AI coding context than generic code search?
 
-The idea is to turn an exact Rails anchor like `accounts#upgrade` into a compact, evidenced Markdown packet that another coding agent can use as starting context.
+A **seed** is evidence you already have (a Rails `controller#action` anchor, a test path, open files, …) plus a deterministic expansion recipe. The classic Rails workflow remains first-class:
 
 ```bash
 bin/rails routes -g upgrade
@@ -37,8 +37,9 @@ The repo contains:
 
 - [`lib/`](lib/) + [`exe/ctxpack`](exe/ctxpack) — the v0 gem and CLI
 - [`test/`](test/) — unit tests and YAML fixture evals
-- [`specs/`](specs/README.md) — normative v0 specifications derived from the design: compilation (anchors, callbacks, constants, views, tests, limits), packet format/determinism, CLI, fixture evals
-- [`design.md`](design.md) — the v0 product and implementation design
+- [`specs/`](specs/README.md) — normative specifications: seeds, compilation (anchors, callbacks, constants, views, tests, limits), packet format/determinism, CLI, fixture evals
+- [`design.md`](design.md) — product and implementation design (seed compiler; anchor is one seed kind)
+- [`docs/seed-based-interface-proposal.md`](docs/seed-based-interface-proposal.md) — accepted north-star product definition
 - [`eval-plan.md`](eval-plan.md) — the three-tier evaluation plan: anchor viability, determinism regression, agent A/B
 - [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) — live implementation status and next steps
 
@@ -54,9 +55,13 @@ Rails apps already contain strong structural signals:
 
 `ctxpack` uses those conventions before reaching for heavier tools like embeddings, graph databases, or full Ruby call graphs.
 
-## 🎯 v0 goal
+## 🎯 Goal
 
-v0 stays intentionally small:
+```text
+task + seed(s) → compact, provenanced Markdown packet
+```
+
+The **anchor seed** recipe (mature, evaluated) stays small:
 
 ```text
 controller#action
@@ -74,7 +79,7 @@ accounts#upgrade       → app/controllers/accounts_controller.rb
 admin/accounts#upgrade → app/controllers/admin/accounts_controller.rb
 ```
 
-v0 fails clearly when it cannot resolve a direct controller action instead of pretending to understand every Rails edge case.
+ctxpack fails clearly when it cannot resolve seed evidence instead of pretending to understand every Rails edge case. Additional seed kinds (`test`, `files`, gated `error`) ship behind per-kind viability spikes — see `specs/seeds.md` and `PROJECT_TRACKER.md`.
 
 ## 📦 What is a context packet?
 

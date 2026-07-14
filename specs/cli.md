@@ -1,23 +1,43 @@
 # Spec: CLI and artifacts
 
 Status: Draft. Source: `design.md` — "Settled v0 direction", "Artifact location
-and naming", "Machine-readable manifest".
+and naming", "Machine-readable manifest"; amended 2026-07-13 for seed-based
+interface (`docs/seed-based-interface-proposal.md` §4, §11, §14;
+`specs/seeds.md`).
 
 ## Command
 
-**CLI-1.** The primary (and, in v0, only) packet-producing command is the
-direct anchor form:
+**CLI-1.** The primary packet-producing command accepts a seed via positional
+sugar or explicit `--from-<kind>` flags:
 
 ```bash
-ctxpack <anchor> [options]
+ctxpack <anchor> [options]                 # Phase 1+: anchor sugar
+ctxpack --from-test <path[:line]> …        # Phase 2+
+ctxpack --from-files <path>… …             # Phase 2+
+ctxpack --from-error <paste|- > …          # Phase 3+ (if spike passes)
+ctxpack --from-anchor <anchor> …           # Phase 2+ explicit form
 ```
 
 The original `ctxpack packet <anchor> [options]` form remains supported for
-compatibility.
+compatibility. Through Phase 1 only the positional/compatibility anchor forms
+exist (no new flags). Phase 2 adds `--from-test`, `--from-files`,
+`--from-anchor`, and the full SEED-10 argv classifier. Phase 3 adds
+`--from-error` if its spike passes. Phase 4 allows multiple `--from-*` seeds
+per invocation.
 
 Non-normative: inside a Rails app the executable is typically reached via
 `bundle exec ctxpack` or a binstub (`bundle binstubs ctxpack` → `bin/ctxpack`
 next to `bin/rails`). Examples write bare `ctxpack` for brevity.
+
+**CLI-1d.** At least one seed is required. Invocations with only task input
+(and no seed) fail before compile with a message that names seed kinds and
+points at help — the gem never performs task-only compilation (SEED-2).
+**[fixed by seed proposal §14.6]**
+
+**CLI-1e.** Explicit `--from-*` flags that appear more than the phase allows
+fail before compile: through Phase 3, two or more seeds (including mixing a
+positional seed with a `--from-*` flag) are rejected; Phase 4 enables
+multi-seed. **[fixed by seed proposal §14.3 / §11]**
 
 **CLI-1a.** No arguments, `ctxpack --help`, `ctxpack -h`, and `-h` / `--help`
 in either packet-producing form and any position MUST print full packet help to
@@ -39,11 +59,15 @@ without discovering an application root. **[fixed by spec]**
 `--manifest` remain long-only.
 **[fixed by spec]**
 
-**CLI-2.** `<anchor>` is a positional argument in exact `controller#action`
-form (see `packet-compilation.md`, ANCH-1). Route strings
-(`POST /accounts/:id/upgrade`) and route helpers (`upgrade_account`) MUST NOT
-be accepted in v0.
-They receive the syntactic guidance specified by CLI-17c, never resolution.
+**CLI-2.** Through Phase 1, the positional argument is an exact
+`controller#action` anchor (ANCH-1). From Phase 2, the positional argument is
+classified by SEED-10 (argv dispatch): snake_case `#` → anchor; Test/Spec `#`
+→ test; `*Controller#action` → CLI-17c suggest-only rewrite (never method);
+other method shapes → coaching reject until `method` ships; existing test/spec
+paths → test; other existing paths → files; else fail with candidates. Route
+strings (`POST /accounts/:id/upgrade`) and route helpers (`upgrade_account`)
+MUST NOT silently compile; they receive CLI-17c (or successor) guidance, never
+resolution, unless a future `route` seed (Phase 5) is explicitly invoked.
 
 **CLI-3.** ctxpack discovers the application root the way Rails tooling does:
 starting from the current directory, it walks upward to the nearest ancestor
@@ -60,7 +84,7 @@ fixed by spec; matches `bin/rails`/Rake run-from-subdirectory ergonomics]**
 **CLI-4.** `-t TASK`, `--task TASK` — free-text description of the task the packet is
 for. Optional. **[fixed by spec]** When omitted, the packet's Task section
 records that no task was provided (see FMT-2) and name derivation uses the
-anchor alone (CLI-8).
+seed identity alone (CLI-8).
 
 **CLI-4a.** `--task-file PATH` reads the task from a file resolved relative to
 the invocation directory; `-` reads the CLI's injected stdin. It removes
@@ -68,10 +92,24 @@ exactly one final LF or CRLF and preserves all other whitespace. The resolved
 text supplies both the packet task and derived artifact name. `--task` and
 `--task-file` conflict in either order, including an explicitly empty task,
 and MUST fail before root discovery, input reads, compilation, or writes.
-Missing, unreadable, or directory inputs fail concisely through injected
-stderr without usage or a backtrace. A failure while reading injected stdin
-uses stdin-specific wording rather than describing `-` as a file path.
+`--from-error -` and `--task-file -` conflict in either order (SEED-11) under
+the same fail-before-read discipline. Missing, unreadable, or directory inputs
+fail concisely through injected stderr without usage or a backtrace. A failure
+while reading injected stdin uses stdin-specific wording rather than describing
+`-` as a file path.
 **[fixed by spec]**
+
+**CLI-4b.** Seed flags (Phase 2+ unless noted):
+
+| Flag | Phase | Evidence |
+|---|---|---|
+| `--from-anchor ANCHOR` | 2 | ANCH-1 string |
+| `--from-test PATH[:LINE]` | 2 | test/spec path, optional line |
+| `--from-files PATH…` | 2 | one or more existing paths |
+| `--from-error PASTE\|-` | 3 (gated) | paste text or stdin |
+
+Flag spelling is locked as `--from-<kind>` (SEED-6). Short aliases are not
+required in v0 for seed flags.
 
 **CLI-5.** `--name NAME` — artifact name, snake_case or CamelCase (normalized
 per CLI-8b). Optional escape hatch for callers that need a curated stem; the
@@ -89,21 +127,32 @@ when combined with an explicitly supplied `--dir` or `--name`; the implicit
 (CLI-11), and `--out` with `--force` is valid. **[fixed by spec]**
 
 **CLI-8.** When `--name` is omitted, ctxpack MUST derive a snake_case name
-deterministically from the task and anchor (e.g. task "Implement billing
-upgrade" + anchor `accounts#upgrade` →
+deterministically from the task and **seed identity** (e.g. task "Implement
+billing upgrade" + anchor seed `accounts#upgrade` →
 `implement_billing_upgrade_accounts_upgrade`). With neither `--task` nor
-`--task-file`, the name derives from the anchor alone. **[derivation from
-anchor-only fixed by spec]**
+`--task-file`, the name derives from the seed identity alone. **[generalized
+from anchor-only; seed proposal §11 Phase 2]**
 
 **CLI-8a.** Derivation rules **[fixed by spec]**: downcase; replace each run
 of non-`[a-z0-9]` characters with a single underscore; strip leading/trailing
-underscores; append the sanitized anchor (`admin/accounts#upgrade` →
-`admin_accounts_upgrade`); cap the whole derived name at 80 characters while
-preserving the anchor as the suffix. When the combined task + anchor exceeds
-the cap, ctxpack truncates the task prefix to the available space and strips
-any trailing underscore from that prefix. If the sanitized anchor alone is
-longer than 80 characters, its trailing 80 characters are used so the action
-suffix survives.
+underscores; append the sanitized **seed identity** as the required suffix;
+cap the whole derived name at 80 characters while preserving that suffix.
+When the combined task + identity exceeds the cap, ctxpack truncates the task
+prefix to the available space and strips any trailing underscore from that
+prefix. If the sanitized identity alone is longer than 80 characters, its
+trailing 80 characters are used so the distinctive suffix survives.
+
+Seed identity by kind:
+
+| Kind | Identity source | Example |
+|---|---|---|
+| `anchor` | sanitized anchor (`admin/accounts#upgrade` → `admin_accounts_upgrade`) | same as pre-seed CLI-8a |
+| `test` | basename of the test path without extension, plus optional `_L<line>` | `accounts_controller_test_L42` |
+| `files` | basename stem of the first file path | `upgrade` for `app/services/billing/upgrade.rb` |
+| `error` | fixed stem `error` plus a short stable hash of the normalized frame list (hex, 8 chars) | `error_a1b2c3d4` |
+
+Multi-seed (Phase 4): join seed identities with `_` in seed order, then apply
+the same 80-character suffix-preserving cap.
 
 **CLI-8b.** An explicit `--name` MUST match `^[A-Za-z0-9_]+$`; anything else
 (spaces, punctuation) fails with a clear message. CamelCase input is
@@ -182,11 +231,11 @@ CLI-10b is the rendered-content exception to saved-path output.
 
 ## Failure behavior
 
-**CLI-16.** When the anchor cannot be resolved under v0 rules, the command
-MUST fail with a nonzero exit status and a message that names the specific
-unsupported case (file not found, no direct `def <action>`, etc. — see
-ANCH-6/ANCH-7). It MUST NOT fall back to guessing, searching, or partial
-packets.
+**CLI-16.** When a seed cannot be resolved under its rules, the command MUST
+fail with a nonzero exit status and a message that names the specific
+unsupported case (anchor: file not found / no direct `def <action>` — ANCH-6/
+ANCH-7; test/files: missing path; error: no application frames; etc.). It MUST
+NOT fall back to guessing, searching, or partial packets.
 
 **CLI-17.** Failure messages SHOULD point the user at Rails-native discovery
 (`bin/rails routes -g …`, `bin/rails routes -c …`) rather than offering any
@@ -225,5 +274,9 @@ evals or real usage show the defaults are wrong.
 
 **CLI-19.** No `ctxpack routes` command, no interactive pickers, no
 `--helper` flag in v0. Tailored diagnostics do not resolve routes or turn route
-helpers into accepted input; route-helper resolution remains a possible later
-extension only.
+helpers into accepted input; route-helper resolution is the future `route` seed
+(Phase 5), not a silent CLI-2 acceptance.
+
+**CLI-20.** Classification and coaching remain **suggest-only** (SEED-18):
+rewrite messages never compile on the user's behalf. No `confidence` field in
+any candidate output (SEED-19).
