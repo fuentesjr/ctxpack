@@ -1,0 +1,81 @@
+{
+  "app": "mastodon",
+  "window_commits": 601,
+  "anchor_population": 117,
+  "gated_population": 30,
+  "ambiguous_excluded": 37,
+  "nonempty_predictions": 29,
+  "agreement": 0.7586206896551724,
+  "by_label": {
+    "agree_mirror": 22,
+    "disagree_unrelated": 5,
+    "disagree_related_dir": 2,
+    "no_prediction": 1
+  },
+  "def_anchoring": {
+    "hunks": 1678,
+    "anchored": 1440,
+    "rate": 0.8581644815256257
+  },
+  "file_survival": {
+    "paths": 1479,
+    "exist_post_image": 1474,
+    "rate": 0.9966193373901284
+  },
+  "label_samples": {
+    "disagree_unrelated": [
+      {
+        "sha": "459e6d3c94",
+        "prod": "app/models/keypair.rb",
+        "tests": [
+          "spec/lib/activitypub/linked_data_signature_spec.rb"
+        ]
+      },
+      {
+        "sha": "d8b2668837",
+        "prod": "app/models/tag.rb",
+        "tests": [
+          "spec/requests/api/v1/featured_tags/suggestions_spec.rb"
+        ]
+      },
+      {
+        "sha": "a39af2c984",
+        "prod": "app/controllers/activitypub/featured_collections_controller.rb",
+        "tests": [
+          "spec/routing/activitypub_routing_spec.rb"
+        ]
+      },
+      {
+        "sha": "ead13d4826",
+        "prod": "app/models/export.rb",
+        "tests": [
+          "spec/requests/settings/exports/custom_filters_spec.rb"
+        ]
+      },
+      {
+        "sha": "cdf721a273",
+        "prod": "app/models/media_attachment.rb",
+        "tests": [
+          "spec/lib/activitypub/activity/create_spec.rb"
+        ]
+      }
+    ],
+    "disagree_related_dir": [
+      {
+        "sha": "86097bb2c2",
+        "prod": "app/models/user.rb",
+        "tests": [
+          "spec/models/ip_block_spec.rb",
+          "spec/models/user_ip_spec.rb"
+        ]
+      },
+      {
+        "sha": "59f3d8a993",
+        "prod": "app/lib/request.rb",
+        "tests": [
+          "spec/lib/request/socket_spec.rb"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "app": "zammad",
+  "window_commits": 601,
+  "anchor_population": 89,
+  "gated_population": 38,
+  "ambiguous_excluded": 37,
+  "nonempty_predictions": 25,
+  "agreement": 0.96,
+  "by_label": {
+    "agree_mirror": 24,
+    "no_prediction": 13,
+    "disagree_related_dir": 1
+  },
+  "def_anchoring": {
+    "hunks": 2140,
+    "anchored": 1697,
+    "rate": 0.7929906542056074
+  },
+  "file_survival": {
+    "paths": 1860,
+    "exist_post_image": 1856,
+    "rate": 0.9978494623655914
+  },
+  "label_samples": {
+    "disagree_related_dir": [
+      {
+        "sha": "b89b6005d5",
+        "prod": "app/models/channel/filter/follow_up_check.rb",
+        "tests": [
+          "spec/models/channel/email_parser_spec.rb",
+          "spec/models/core_workflow/conditions_spec.rb"
+        ]
+      }
+    ]
+  }
+}

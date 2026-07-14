@@ -1,0 +1,144 @@
+{
+  "app": "discourse",
+  "window_commits": 601,
+  "anchor_population": 125,
+  "gated_population": 55,
+  "ambiguous_excluded": 59,
+  "nonempty_predictions": 52,
+  "agreement": 0.7115384615384616,
+  "by_label": {
+    "disagree_unrelated": 11,
+    "agree_mirror": 37,
+    "no_prediction": 3,
+    "disagree_related_dir": 4
+  },
+  "def_anchoring": {
+    "hunks": 1799,
+    "anchored": 1572,
+    "rate": 0.8738187882156754
+  },
+  "file_survival": {
+    "paths": 1433,
+    "exist_post_image": 1431,
+    "rate": 0.9986043265875785
+  },
+  "label_samples": {
+    "disagree_unrelated": [
+      {
+        "sha": "827f20a1a0",
+        "prod": "app/serializers/category_detailed_serializer.rb",
+        "tests": [
+          "spec/requests/categories_controller_spec.rb"
+        ]
+      },
+      {
+        "sha": "1f26c1163c",
+        "prod": "app/serializers/post_revision_serializer.rb",
+        "tests": [
+          "spec/requests/posts_controller_spec.rb"
+        ]
+      },
+      {
+        "sha": "ba25445dd0",
+        "prod": "app/controllers/topics_controller.rb",
+        "tests": [
+          "spec/lib/discourse_tagging_spec.rb",
+          "spec/system/topic_bulk_select_spec.rb"
+        ]
+      },
+      {
+        "sha": "2f159442d0",
+        "prod": "app/models/user_history.rb",
+        "tests": [
+          "spec/lib/composer_messages_finder_spec.rb"
+        ]
+      },
+      {
+        "sha": "e4b7c8f05f",
+        "prod": "app/models/api_key_scope.rb",
+        "tests": [
+          "spec/requests/admin/badges_controller_spec.rb",
+          "spec/requests/badges_controller_spec.rb"
+        ]
+      },
+      {
+        "sha": "2ec39d2e5d",
+        "prod": "app/models/user.rb",
+        "tests": [
+          "spec/requests/users_controller_spec.rb"
+        ]
+      },
+      {
+        "sha": "e098064ab4",
+        "prod": "app/serializers/post_serializer.rb",
+        "tests": [
+          "spec/requests/topics_controller_spec.rb"
+        ]
+      },
+      {
+        "sha": "df9b3ac42b",
+        "prod": "app/models/user.rb",
+        "tests": [
+          "spec/requests/user_status_controller_spec.rb",
+          "spec/serializers/post_serializer_spec.rb"
+        ]
+      },
+      {
+        "sha": "a32f09021f",
+        "prod": "app/helpers/application_helper.rb",
+        "tests": [
+          "spec/integration/content_security_policy_spec.rb",
+          "spec/lib/content_security_policy_spec.rb"
+        ]
+      },
+      {
+        "sha": "00c47da07b",
+        "prod": "app/serializers/current_user_serializer.rb",
+        "tests": [
+          "spec/requests/session_controller_spec.rb"
+        ]
+      },
+      {
+        "sha": "031e17658c",
+        "prod": "app/models/site_setting.rb",
+        "tests": [
+          "spec/lib/discourse_gifs_spec.rb",
+          "spec/tasks/migrate_discourse_gifs_to_core_spec.rb"
+        ]
+      }
+    ],
+    "disagree_related_dir": [
+      {
+        "sha": "ca5a7e0616",
+        "prod": "app/models/upload.rb",
+        "tests": [
+          "spec/initializers/imagemagick_policy_spec.rb",
+          "spec/models/optimized_image_spec.rb"
+        ]
+      },
+      {
+        "sha": "99c63660d4",
+        "prod": "app/controllers/application_controller.rb",
+        "tests": [
+          "spec/lib/crawler_detection_spec.rb",
+          "spec/lib/homepage_helper_spec.rb",
+          "spec/models/site_setting_spec.rb"
+        ]
+      },
+      {
+        "sha": "a1734d7f8e",
+        "prod": "app/controllers/users_controller.rb",
+        "tests": [
+          "spec/requests/users_email_controller_spec.rb"
+        ]
+      },
+      {
+        "sha": "ac2074474f",
+        "prod": "app/serializers/user_card_serializer.rb",
+        "tests": [
+          "spec/serializers/user_serializer_spec.rb"
+        ]
+      }
+    ]
+  }
+}

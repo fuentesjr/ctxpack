@@ -1,0 +1,81 @@
+{
+  "apps": {
+    "mastodon": {
+      "app": "mastodon",
+      "window_commits": 601,
+      "anchor_population": 117,
+      "gated_population": 30,
+      "ambiguous_excluded": 37,
+      "nonempty_predictions": 29,
+      "agreement": 0.7586206896551724,
+      "by_label": {
+        "agree_mirror": 22,
+        "disagree_unrelated": 5,
+        "disagree_related_dir": 2,
+        "no_prediction": 1
+      },
+      "def_anchoring": {
+        "hunks": 1678,
+        "anchored": 1440,
+        "rate": 0.8581644815256257
+      },
+      "file_survival": {
+        "paths": 1479,
+        "exist_post_image": 1474,
+        "rate": 0.9966193373901284
+      }
+    },
+    "discourse": {
+      "app": "discourse",
+      "window_commits": 601,
+      "anchor_population": 125,
+      "gated_population": 55,
+      "ambiguous_excluded": 59,
+      "nonempty_predictions": 52,
+      "agreement": 0.7115384615384616,
+      "by_label": {
+        "disagree_unrelated": 11,
+        "agree_mirror": 37,
+        "no_prediction": 3,
+        "disagree_related_dir": 4
+      },
+      "def_anchoring": {
+        "hunks": 1799,
+        "anchored": 1572,
+        "rate": 0.8738187882156754
+      },
+      "file_survival": {
+        "paths": 1433,
+        "exist_post_image": 1431,
+        "rate": 0.9986043265875785
+      }
+    },
+    "zammad": {
+      "app": "zammad",
+      "window_commits": 601,
+      "anchor_population": 89,
+      "gated_population": 38,
+      "ambiguous_excluded": 37,
+      "nonempty_predictions": 25,
+      "agreement": 0.96,
+      "by_label": {
+        "agree_mirror": 24,
+        "no_prediction": 13,
+        "disagree_related_dir": 1
+      },
+      "def_anchoring": {
+        "hunks": 2140,
+        "anchored": 1697,
+        "rate": 0.7929906542056074
+      },
+      "file_survival": {
+        "paths": 1860,
+        "exist_post_image": 1856,
+        "rate": 0.9978494623655914
+      }
+    }
+  },
+  "average_agreement": 0.8100530503978779,
+  "gate": 0.7,
+  "pass": true
+}
