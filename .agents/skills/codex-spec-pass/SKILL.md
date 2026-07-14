@@ -34,8 +34,9 @@ and acceptance are always session-side.
    subagent exit and the job wedges at "running" forever (upstream
    codex-plugin-cc#432).
 3. **Poll from the main session** with the plugin companion script at
-   `~/.claude/plugins/cache/openai-codex/codex/<version>/scripts/codex-companion.mjs`
-   (pick the **newest** version directory): `status <task-id>` /
+   `$(jq -r '.plugins["codex@openai-codex"][0].installPath' ~/.claude/plugins/installed_plugins.json)/scripts/codex-companion.mjs`
+   (resolve via `installed_plugins.json`, not by picking a cache version
+   dir — stale versions linger there): `status <task-id>` /
    `result <task-id>`, backgrounding a polling loop for long runs.
    - Wedged-run fingerprint: job JSON under the plugin's `state/<ws>/jobs/`
      has no `request` key. The Codex turn usually completed server-side —

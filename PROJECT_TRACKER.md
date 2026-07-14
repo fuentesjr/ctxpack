@@ -31,8 +31,9 @@ Codex plugin mechanics (learned in pass 1): the `codex:codex-rescue` agent is
 a one-shot forwarder — it hands the brief to Codex and returns a task ID
 without waiting. Polling and result retrieval happen from the main session
 via the plugin's companion script at
-`~/.claude/plugins/cache/openai-codex/codex/<version>/scripts/codex-companion.mjs`
-(newest version directory): `status <task-id>` / `result <task-id>`,
+`$(jq -r '.plugins["codex@openai-codex"][0].installPath' ~/.claude/plugins/installed_plugins.json)/scripts/codex-companion.mjs`
+(resolve via `installed_plugins.json`, not by picking a cache version dir —
+stale versions linger there): `status <task-id>` / `result <task-id>`,
 backgrounding a polling loop for long runs. Follow-up fix rounds resume the
 same Codex session by forwarding a `--resume` request. Always instruct the
 forwarder to launch via the companion's own `--background` flag: if it

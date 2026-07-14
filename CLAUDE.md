@@ -61,16 +61,22 @@ State the active profile when starting implementation work.
 
 | Profile | Implementer | When | Mechanics |
 |---|---|---|---|
-| `grok-loop` | Grok Build via the grok plugin | Default for heavy / spec-pass-sized implementation | Same loop shape as `codex-spec-pass` (dispatch → background poll → session-side verify → resume fix rounds), using the grok companion: `~/.claude/plugins/cache/grok/grok/<version>/scripts/grok-companion.mjs` (newest version dir) — `task --background --write [--resume]` / `status` / `result` / `cancel`. Forwarder agent: `grok:grok-rescue`. Always dispatch with the companion's own `--background` flag (same foreground-reap wedge risk as codex). |
+| `grok-loop` | Grok Build via the grok plugin | Default for heavy / spec-pass-sized implementation | Same loop shape as `codex-spec-pass` (dispatch → background poll → session-side verify → resume fix rounds), using the grok companion at `$(jq -r '.plugins["grok@grok"][0].installPath' ~/.claude/plugins/installed_plugins.json)/scripts/grok-companion.mjs` (resolve via `installed_plugins.json`, not by picking a cache version dir — stale versions linger there) — `task --background --write [--resume]` / `status` / `result` / `cancel`. Forwarder agent: `grok:grok-rescue`. Always dispatch with the companion's own `--background` flag (same foreground-reap wedge risk as codex). |
 | `codex-loop` | Codex via the codex plugin | Heavy implementation when Codex is preferred or grok is unavailable | `codex-spec-pass` skill + "Codex delegation notes" below. |
 | `local-fleet` | Local writable subagents | Multi-role local work: recon/plan → implement → review/QA without an external delegate | `planner` / `helper-worker` → `coding-worker` (normal scope) or `fast-coding-worker` (small/mechanical) → `reviewer` / `qa-engineer` / `edge-case-analyst`. The `autobots` skill covers dispatch recipes. |
 | `frugal` | `fast-coding-worker` + advisor | Small, well-scoped changes where cost matters more than depth | Cheap executor implements; blocking decisions route to the advisor (plan / correction / stop only); orchestrator verifies as usual. |
 
+Why the loops call the companion scripts by path: the plugins expose no
+orchestrator-usable alternative — their `status`/`result`/`cancel` commands
+are `disable-model-invocation: true` (user-typed only), `CLAUDE_PLUGIN_ROOT`
+is unset in the main session, and the rescue forwarders are contractually
+dispatch-only.
+
 ## Codex delegation notes (Claude-side mechanics)
 
 The `codex:codex-rescue` agent is a one-shot forwarder. Poll from the main
-session via the companion script (newest version dir under
-`~/.claude/plugins/cache/openai-codex/codex/*/scripts/codex-companion.mjs`),
+session via the companion script at
+`$(jq -r '.plugins["codex@openai-codex"][0].installPath' ~/.claude/plugins/installed_plugins.json)/scripts/codex-companion.mjs`,
 and always have the forwarder launch with the companion's own `--background`
 flag — details and the wedged-run recovery playbook are in the
 `codex-spec-pass` skill and `PROJECT_TRACKER.md` "Working process".
