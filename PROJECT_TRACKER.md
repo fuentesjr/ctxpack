@@ -87,8 +87,8 @@ authoritative work order for the next session**; "Next steps" must agree.
 ### Campaign status (ground truth)
 
 - **HEAD:** `de587a1` — Phase 3–4 error seed + multi-seed merge  
-- **Branch:** `main` is **6 commits ahead of `origin/main`**, working tree
-  clean, **nothing pushed** from this campaign  
+- **Branch:** `main` in sync with `origin/main` at `5e1e87e` (campaign stack
+  **pushed** 2026-07-13)
 - **Suite at HEAD (re-verified):** `167 runs, 1530 assertions, 0 failures,
   0 errors`  
 - **Product:** task + seeds → deterministic packet; format **v3**; P0 seeds
@@ -110,9 +110,9 @@ authoritative work order for the next session**; "Next steps" must agree.
 
 ### Next session work order
 
-1. **Push only on explicit user go** (“push these” / “you have push approval”).
-   Until then: review the six local commits; do not `git push`. Re-confirm
-   suite with `bundle exec rake test` if the tree has moved.
+1. **Campaign stack is on `origin/main`** (pushed 2026-07-13). No pending
+   campaign push. Re-confirm suite with `bundle exec rake test` if the tree
+   has moved before further work.
 2. **Do not start Phase 5 or 6 implementation** without a new written work
    order. Planning is fine; shipping `method` / `diff` / `route` or marketing
    rewrites is not automatic.
@@ -152,12 +152,12 @@ authoritative work order for the next session**; "Next steps" must agree.
 | View resolution | [`views.md`](specs/views.md), [`packet-compilation.md`](specs/packet-compilation.md), [`packet-format.md`](specs/packet-format.md) | **Done — gate-passed, COMMITTED (`6688ff9`) + PUSHED** (2026-07-08; rescan re-verified + pushed 2026-07-09) | VIEW-1..VIEW-7 frozen + folded; `add_view_candidates` between controller and constants; `view_candidate` (list-only) + `view_inferred_by_convention`; `max_view_files = 2`; `max_total_files` truncates by priority. Red-then-green fixture evals + `ViewResolutionTest` (independently re-verified 6/7 red with `lib/` reverted). Suite green **74 runs / 621 assertions**. **Mandatory Tier 0 re-scan PASSED and RE-VERIFIED 2026-07-09** — classifier output byte-identical to the post-amendment baseline, zero per-anchor change, zero crashes across 1,967 pairs (addendum + re-verification note in [`eval/tier0/RESULTS.md`](eval/tier0/RESULTS.md)). Remaining: push (user go) + optional release-boundary Tier 2 validation (needs a `--dangerously-skip-permissions` session). |
 | CONST-1 widening (companion) | [`packet-compilation.md`](specs/packet-compilation.md) | **Done — gate-passed, COMMITTED (`ab72137`) + PUSHED** (2026-07-09) | Codex-implemented (fable-frozen), intra-file action call graph: constant scan now covers action body + applicable same-file callbacks + same-file methods **transitively called from the action** (BFS, nil/`self` receiver + direct-method-name only; dynamic dispatch out). CONST-4 three-group order (action → callbacks → callees appended LAST) makes it **strictly additive under the 4-cap** (no eviction). CONST-1/1a/4 amended, `design.md` reconciled; new `file_order`/`omitted` fixture-eval DSL. 5 red-then-green fixtures + `constants_test` cases (independently re-verified red with `lib/` reverted). Suite green **89 runs / 815 assertions**. **Mandatory Tier 0 re-scan PASSED** — zero per-anchor change, zero crashes across 1,967 pairs (also a crash-stress test of the new call-graph code). |
 | Locale pointer (companion) | [`packet-format.md`](specs/packet-format.md) FMT-8, [`views.md`](specs/views.md) | **Done — COMMITTED + PUSHED** (2026-07-09) | coding-worker-implemented (fable-frozen), targets the locale half of the P06/P20 ding. An **unconditional standing uncertainty note** ("Locale files are not scanned; user-facing strings conventionally live in `config/locales/`…") in `markdown_renderer.rb#uncertainty_notes` — chosen over a view-gated coded uncertainty because the gap is *newly-added keys* (orthogonal to view presence) and it mirrors the two existing standing notes. **No** retrieve-more suggestion (FMT-2 §8: code-less note ⇒ no suggestion; action embedded in the note). FMT-8 amended, `design.md` reconciled; no FMT-7/manifest change. Red-then-green in `packet_format_test.rb` (independently re-verified). Suite green **89 runs / 817 assertions**. **Tier 0 rescan N/A** — prose-only renderer change, no resolution/manifest behavior touched. |
-| Seed Phase 0 (specs) | [`seeds.md`](specs/seeds.md) + amended specs/`design.md` | **Done — COMMITTED (`93f2b07`), not pushed** (2026-07-13) | Grok campaign: normative seed ontology + `design.md` product rewrite. |
-| Seed Phase 1 (wrap) | `Seed` / compiler wrap | **Done — COMMITTED (`ce9e9cd`), not pushed** (2026-07-13) | Internal wrap; format v2 at land; Tier 0 byte-identical. |
-| Seed Phase 2 gates | [`eval/seed-spikes/`](eval/seed-spikes/) test + files | **Done — COMMITTED (`ea0a2a6`), not pushed** (2026-07-13) | Pre-reg then measure; test 78.2% (≥70%), files neighbors 80.3% (≥40%). |
-| Seed Phase 2 (test/files + v3) | seeds + format v3 + CLI | **Done — COMMITTED (`564fa11`), not pushed** (2026-07-13) | `--from-test`/`--from-files`, SEED-10 classifier, work-start corpus; suite **161/1455** at land; Tier 0 clean. |
-| Seed Phase 3 (error) | `--from-error` | **Done — COMMITTED (`de587a1` w/ Phase 4), not pushed** (2026-07-13) | Spike P=1.0 R=1.0; PII-safe app frames only (SEED-20). |
-| Seed Phase 4 (multi-seed) | MERGE-* | **Done — COMMITTED (`de587a1`), not pushed** (2026-07-13) | Multi-seed merge + multi `--from-*`; final suite **167/1530**; Tier 0 clean. **Campaign complete through Phase 4.** |
+| Seed Phase 0 (specs) | [`seeds.md`](specs/seeds.md) + amended specs/`design.md` | **Done — COMMITTED (`93f2b07`) + PUSHED** (2026-07-13) | Grok campaign: normative seed ontology + `design.md` product rewrite. |
+| Seed Phase 1 (wrap) | `Seed` / compiler wrap | **Done — COMMITTED (`ce9e9cd`) + PUSHED** (2026-07-13) | Internal wrap; format v2 at land; Tier 0 byte-identical. |
+| Seed Phase 2 gates | [`eval/seed-spikes/`](eval/seed-spikes/) test + files | **Done — COMMITTED (`ea0a2a6`) + PUSHED** (2026-07-13) | Pre-reg then measure; test 78.2% (≥70%), files neighbors 80.3% (≥40%). |
+| Seed Phase 2 (test/files + v3) | seeds + format v3 + CLI | **Done — COMMITTED (`564fa11`) + PUSHED** (2026-07-13) | `--from-test`/`--from-files`, SEED-10 classifier, work-start corpus; suite **161/1455** at land; Tier 0 clean. |
+| Seed Phase 3 (error) | `--from-error` | **Done — COMMITTED (`de587a1` w/ Phase 4) + PUSHED** (2026-07-13) | Spike P=1.0 R=1.0; PII-safe app frames only (SEED-20). |
+| Seed Phase 4 (multi-seed) | MERGE-* | **Done — COMMITTED (`de587a1`) + PUSHED** (2026-07-13) | Multi-seed merge + multi `--from-*`; final suite **167/1530**; Tier 0 clean. **Campaign complete through Phase 4; stack on origin.** |
 
 Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
@@ -173,9 +173,8 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Next steps
 
-1. **Push the local campaign stack only after explicit user push approval.**
-   HEAD `de587a1` (+ tracker refresh commits); `main` ahead of `origin/main`.
-   Do not push without “push these” / equivalent.
+1. **Campaign stack is on `origin/main`** (pushed through `5e1e87e` + this
+   tracker push note). Next work is Phase 5/6 planning, not a pending push.
 2. **Plan Phase 5** (`method` / `diff` / `route`) with per-kind viability
    spikes before any ship — planning only until a new work order.
 3. **Plan Phase 6** (marketing: README/examples lead with task+seed) when
@@ -190,13 +189,15 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Decision log
 
+- **2026-07-13** — User explicit **push approval**; campaign stack pushed
+  `b71af62..5e1e87e` to `origin/main`. Tracker Status/execution plan marked
+  PUSHED / in sync.
 - **2026-07-13** — Tracker refreshed post-campaign for session resume: Status
-  rows carry exact SHAs (`93f2b07`…`de587a1`); execution plan lists the
-  six-commit stack, suite re-verify **167/1530**, and push still blocked
-  without explicit approval. User reconfirmed: commit-after-phase yes; push
-  only after phases complete **and** explicit push go.
-- **2026-07-13** — Grok run-to-completion campaign **completed Phases 0–4
-  locally** (never pushed). Commits: `93f2b07` (Phase 0 specs), `ce9e9cd`
+  rows carry exact SHAs (`93f2b07`…`de587a1`); suite re-verify **167/1530**.
+  User reconfirmed commit-after-phase yes; push only with explicit go (then
+  granted same day — see entry above).
+- **2026-07-13** — Grok run-to-completion campaign **completed Phases 0–4**
+  (later pushed same day). Commits: `93f2b07` (Phase 0 specs), `ce9e9cd`
   (Phase 1 wrap), `ea0a2a6` (Phase 2 gates), `564fa11` (Phase 2 ship),
   `de587a1` (Phase 3–4 error + multi-seed). Spikes: test 78.2%, files
   neighbors 80.3%, error P=1.0/R=1.0. All compiler-boundary Tier 0 rescans
