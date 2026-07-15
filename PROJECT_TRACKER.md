@@ -103,9 +103,12 @@ must agree.
 
 ### Next session work order
 
-1. **No implementation is authorized.** Phase 5 is closed; Phase 6
-   (marketing: README/examples/FAQ lead with task+seed) needs its own
-   written work order — planning it is fine.
+1. **No implementation is authorized.** Phase 5 AND Phase 6 are closed
+   (Phase 6 docs shift landed `145ed4d`, pushed 2026-07-14; RubricLLM
+   issue #5 decided DEFER the same day). The seed proposal's phase list is
+   fully executed. Next work needs a new user work order — candidates:
+   real-usage dogfooding (LIM-1 packet-vs-diff on live work), the gated
+   Tier 2 release-boundary rerun, or the Phase 5 re-opens below.
 2. **Deferred items from Phase 5** (each needs a new frozen pre-reg to
    re-open, none scheduled): method-seed test-leg re-promotion
    (better-than-token matching); route re-spike with a
@@ -115,10 +118,10 @@ must agree.
    session, fixture-backed): WS-1..6 still pass; new WS-7 (method), WS-8
    (diff), WS-9 (route stays coach-only) added and passing — see
    [`eval/seed-spikes/work-start-corpus.md`](eval/seed-spikes/work-start-corpus.md).
-4. **Leave gated:** ~50M-token Tier 2 harness
-   rerun; RubricLLM issue
-   [#5](https://github.com/fuentesjr/ctxpack/issues/5); new runtime
-   dependencies (prism-only stands).
+4. **Leave gated:** ~50M-token Tier 2 harness rerun; new runtime
+   dependencies (prism-only stands). RubricLLM issue
+   [#5](https://github.com/fuentesjr/ctxpack/issues/5) is **decided —
+   DEFER** (closing comment awaits user sign-off on the text).
 5. Final step of any executing session: rewrite this section for the work
    that follows.
 
@@ -169,6 +172,7 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 | View-pass release-boundary validation | **Done — coverage confirmed** (2026-07-09) | Packet-coverage check of view + CONST-1 + locale on publify ([`eval/tier2-expansion/VIEW_PASS_VALIDATION.md`](eval/tier2-expansion/VIEW_PASS_VALIDATION.md)): regenerated t1/t3 packets at the new lib (`c7a4ae3`) vs the frozen-grid packets. **t1 `setup#index` now surfaces the setup view + locale pointer** — the two-part P06/P20 omission — while **t3 `articles#preview` is byte-identical** (no view exists → no added distraction surface). Both watch-items pass. Per user decision the coverage confirmation is sufficient; subject-session behavioral re-run not spent (established prior + would risk frozen provenance). Frozen grid `runs.jsonl`/`packets/` untouched. |
 | Seed test/files viability spikes | **Done — SUPPORT** (2026-07-13) | Pre-registered under [`eval/seed-spikes/test/`](eval/seed-spikes/test/) and [`files/`](eval/seed-spikes/files/); both gates passed (test avg 78.2%, files neighbor avg 80.3%). Committed `ea0a2a6`. |
 | Seed error viability spike | **Done — SUPPORT / ship** (2026-07-13) | Pre-registered under [`eval/seed-spikes/error/`](eval/seed-spikes/error/); precision 1.0 / recall 1.0 → shipped `--from-error` in `de587a1`. |
+| RubricLLM spike (issue #5) | **Done — DEFER, borrow-on-demand** (2026-07-14) | Source review at pinned `02ceec3` + offline side-by-side on committed coverage artifacts ([`eval/rubricllm-spike/`](eval/rubricllm-spike/)): retrieval metrics reproduce our numbers 72/72 exactly but replace ~30 lines; judge stack structurally mismatched (no blinding/offline/caching, [0,1] schema); paired t-test reports a uniform n=3 improvement as p=1.0 (se=0 landmine, demonstrated). Neither issue-#5 value criterion met → defer; borrow map recorded (t-test `comparison.rb:73–153` with se=0 fix + caveats; NDCG/MRR). No live pilot proposed; zero paid calls; no dependency change. |
 
 ## Next steps
 
@@ -186,6 +190,25 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Decision log
 
+- **2026-07-14 (evening)** — Two user work orders executed. **(a) Phase 6
+  docs shift landed + pushed (`145ed4d`):** README/examples/FAQ now lead
+  with task+seed; Grok drafted (grok-loop), two doc-reviewer audits found
+  all claims/commands/numbers verified-real with five excerpt-fidelity
+  fixes (missing `Generated from:`/`Scope:` renderer lines, an unmarked
+  truncation, the README exploration claim reworded to the per-task/per-app
+  pre-registered bar, a reproduce-it-yourself note). Fixes applied
+  orchestrator-side because the companion refuses background-write resume
+  on a dirty tree and committing a known-defective draft first was worse;
+  recorded in the pass notes. Suite 205/0; Tier 0 N/A (docs-only).
+  **(b) RubricLLM issue #5 decided: DEFER, borrow-on-demand**
+  ([`eval/rubricllm-spike/`](eval/rubricllm-spike/)): source-verified
+  review at pinned `02ceec3`; offline side-by-side reproduces committed
+  coverage 72/72 exactly (zero LLM calls, zero paid spend, no dependency
+  change, recorded evidence untouched); the se=0 t-test landmine
+  demonstrated empirically (uniform n=3 improvement → p=1.0). Neither
+  value criterion met; borrow map recorded; no live pilot proposed.
+  Issue-closing comment drafted but NOT posted — external text under the
+  user's name needs sign-off.
 - **2026-07-14 (push)** — User explicit push approval; Phase 5 stack pushed
   `3951d1b..c10351a` to `origin/main` (staged plan, both gate commits, 5a/5b
   implementation, 5c no-ship gate, closure). Tracker Status/plan marked
