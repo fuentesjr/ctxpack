@@ -88,11 +88,19 @@ commit-per-sub-pass approval given in-session; push NOT approved). **This
 plan is the authoritative work order for the next session**; "Next steps"
 must agree.
 
-### State (ground truth, verified 2026-07-14 end of session)
+### State (ground truth, re-verified 2026-07-15)
 
-- **HEAD:** `c10351a` (Phase 5 closure) — `main` **in sync with
-  `origin/main`** (user-approved push 2026-07-14, `3951d1b..c10351a`).
-- **Suite at HEAD:** `bundle exec rake test` → **205 runs, 0 failures**.
+- **HEAD:** `0ed92e5` — **3 local commits ahead of `origin/main`**, all
+  docs/eval-process (eval guardrails `f4ac370`, evalkit pointer `a3e99e9`,
+  AGENTS.md evalkit binding `0ed92e5`). **Push awaits explicit approval.**
+  Everything through the RubricLLM close (`b4e9c1e`) is pushed.
+- **Suite at HEAD:** `bundle exec rake test` → **205 runs, 0 failures**
+  (re-run 2026-07-15).
+- **Cross-repo eval process is live:** conventions + convergence ledger in
+  `~/Projects/evalkit` (local-only repo, no remote yet); this repo's
+  inventory + binding authoring rule in
+  [`eval/README.md`](eval/README.md); five repos onboarded to the ledger.
+  User declined the gist addition (2026-07-15).
 - **Shipped this campaign:** `--from-method` (no test-candidate leg, SEED-25)
   and `--from-diff` (with paired-test mirror leg, SEED-26). **Not shipped:**
   `--from-route` — its double-gated spike failed the resolution gate
