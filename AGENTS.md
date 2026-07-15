@@ -110,6 +110,23 @@ ruby eval/tier2/harness.rb status                     # Tier 2 grid state (offli
   `add-fixture-eval` skill. The eval runner raises at load time if the case
   glob is empty; never delete the last case.
 
+## Cross-repo eval process (evalkit)
+
+This repo participates in the process defined in `~/Projects/evalkit`
+(shared vocabulary, required artifacts, convergence ledger). Binding rules:
+
+- New evals follow evalkit's artifact discipline: pre-registration frozen
+  before measurement (with the reuse line from `eval/README.md`'s authoring
+  rule), RESULTS against pre-registered gates, an inventory entry, provenance.
+- When `eval/README.md`'s inventory changes — new runner, or an existing
+  capability changes shape — update `~/Projects/evalkit/LEDGER.md` in the
+  same piece of work.
+- `eval/tier2/harness.rb` sits at the ledger's extraction bar. If a task
+  requires materially changing it, stop: the recorded trigger says extract
+  the shared plumbing into evalkit instead of forking further, as its own
+  reviewed work order — never as a side effect, and never retrofitted onto
+  already-measured runners.
+
 ## Common failure modes — and the rules that prevent them
 
 These are mistakes a capable-but-hasty agent will make in *this* repo. Each
