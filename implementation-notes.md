@@ -1380,3 +1380,56 @@ explicitly deferred.
 - Red first: `diff_seed_test.rb` 16 runs with 11 errors / 5 failures before
   lib/ (Seed.diff undefined / CLI missing flag).
 - Full suite (this session): `205 runs, 1834 assertions, 0 failures, 0 errors`.
+
+## Phase 6 — docs/marketing lead with task + seed (2026-07-14)
+
+Docs-only pass (`docs/seed-based-interface-proposal.md` §11 Phase 6). No
+`lib/`, no `specs/` changes.
+
+### Scope
+- `README.md` — product lead is task+seed; quick-start spreads
+  `--from-test` / `--from-error` / `--from-diff` / `--from-files` /
+  `--from-method` **before or equal to** anchor; anchor framed as most
+  mature seed kind, not identity.
+- `docs/examples.md` — same shift; worked Format 3 packets for all shipped
+  kinds including Phase 5 method + diff; multi-seed, refusals, reason codes.
+- `docs/faq.md` — seed catalog, task-only refusal, route coaching-only with
+  spike link, evidence-linked Tier 2 claim only for anchor packets.
+
+### Claims discipline
+- Usefulness: only Tier 2 / Tier 2-expansion exploration reduction
+  (≥30% median, 3/3 apps); explicit no code-quality claim; new seed kinds
+  described as recipe behavior after viability gates, not agent-benefit.
+- Real output: excerpts generated from `test/fixtures/apps/minitest_basic`
+  (and a temp git app cloned from that fixture for `HEAD~1` / paired-test
+  illustration). Method example uses fixture constant
+  `Billing::UpgradeService#call` (no `Billing::Upgrade` class in tree).
+- Install remains `github: "fuentesjr/ctxpack"`.
+
+### Decisions / tradeoffs
+- Format 2 → Format 3 throughout marketing docs (seeds section, version 3
+  manifests) to match shipped Phase 2+ output.
+- HEAD~1 worked example notes a temp app built from the fixture: the fixture
+  tree itself is not a git repo with history, so a pure in-place
+  `--from-diff HEAD~1` is not reproducible from the bare fixture path.
+  Patch-file example is fully fixture-native
+  (`patches/upgrade_accounts.patch`).
+- Route FAQ cites `eval/seed-spikes/route/RESULTS.md` (0.243 FAIL) and does
+  not imply future ship.
+
+### Verification
+- Every documented CLI success and refusal form run against a temp app with
+  `config/application.rb` + fixture tree; all OK.
+- Full suite (this session, docs-only): `205 runs, 1834 assertions, 0 failures, 0 errors`.
+- No test asserts README/examples/faq content; no suite reconciliation needed.
+- Not committed (orchestrator owns commit/push).
+
+#### Phase 6 fix round (orchestrator-applied, 2026-07-14)
+Two doc-reviewers audited the pass; all claims/commands verified real. Five
+excerpt-fidelity fixes applied orchestrator-side (Grok resume was blocked:
+background write requires a clean tree and the draft was uncommitted):
+diff-range and files-seed excerpts restored to full renderer output
+(`Generated from:`/`Scope:` lines, diff SHA regenerated from a real temp
+app), task-only refusal excerpts marked as truncated in examples+faq,
+README exploration claim reworded to the per-task/per-app pre-registered
+bar, and a reproduce-it-yourself setup note added to the examples intro.

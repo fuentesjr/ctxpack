@@ -5,170 +5,206 @@ Short answers for Rails developers. For a hands-on walkthrough, see
 
 ## What problem does ctxpack solve?
 
-When you hand a task to an AI coding agent, it usually spends its first minutes
-*finding* the relevant code — grepping, opening files, backtracking. ctxpack
-does that resolution once, statically and deterministically, and hands the agent
-a short list of the files worth reading first (the controller action, its
-callbacks, referenced constants, the view, the covering tests) so it can start
-on the real work. Think of it as a precomputed "start here" for a
-`controller#action`.
+When you hand a task to an AI coding agent, it often spends its first minutes
+*finding* relevant code. ctxpack does a **deterministic** resolution pass from
+seed evidence you already have (a test path, stack frames, a diff, open files,
+a service method, or a Rails `controller#action`) and emits a short, ordered
+packet of files with provenance — so the agent can start from a bounded list
+instead of open-ended search.
+
+```text
+task + seed(s) → provenanced packet
+```
+
+## What seeds exist? {#what-seeds-exist}
+
+Shipped kinds (SEED-4 catalog as of Phase 5):
+
+| Kind | CLI | Notes |
+|---|---|---|
+| `test` | `--from-test path[:line]` | Test/spec primary + inferred production surface |
+| `error` | `--from-error paste\|-` | App frames only; raw paste never stored |
+| `diff` | `--from-diff range\|patch` | Flag-only; changed files + conventional paired tests when present |
+| `files` | `--from-files path…` | Named files + budgeted neighbors |
+| `method` | `--from-method Const#method` | Non-controller methods; **no test-candidate leg** |
+| `anchor` | `controller#action` / `--from-anchor` | Full action/callback/view/constant/test recipe |
+
+`route` is **not shipped** (see [Can I paste a URL or route?](#can-i-paste-a-url-or-route)).
+`area` is not scheduled. Catalog and recipes: [`specs/seeds.md`](../specs/seeds.md).
+
+Newer kinds shipped after per-kind viability spikes (can the recipe resolve real
+evidence under pre-registered gates). That is not the same as a Tier 2 agent
+A/B for those kinds — see [Does it actually help?](#does-it-actually-help).
+
+## What does task-only do? {#task-only}
+
+**Refused by the gem.** At least one seed is required (SEED-2). Example:
+
+```console
+$ bundle exec ctxpack packet --task "Just prose, no seed"
+ctxpack: missing seed; pass controller#action, a path, CONST#method, or a --from-* flag
+…
+```
+
+(The `…` is the CLI's usage block, elided here.)
+
+Turning a free-text bug report into a seed (which test? which path? which
+anchor?) is **skill / agent territory**. The skill may propose a `ctxpack …`
+invocation; the compiler still needs concrete evidence. Task text remains
+optional-but-recommended *when a seed is present* (CLI-4).
+
+## Can I paste a URL or route? {#can-i-paste-a-url-or-route}
+
+**Not as something ctxpack resolves.** Route-shaped input is recognized and
+**coached** toward Rails, then rejected — never compiled:
+
+```console
+$ bundle exec ctxpack "GET /accounts"
+ctxpack: Rails route strings are not supported; pass a controller#action anchor
+Try `bin/rails routes -g accounts` to find it.
+```
+
+```console
+$ bundle exec ctxpack upgrade_account
+ctxpack: "upgrade_account" looks like a Rails route helper, not a controller#action anchor
+Try `bin/rails routes -g upgrade_account`, then pass the controller#action anchor shown by Rails.
+```
+
+There is no `--from-route`. The Phase 5c route-seed spike failed its resolution
+gate (3-app average **0.243 < 0.70**): bare paths are verb-ambiguous under REST,
+and even verb+path stays ambiguous on apps with overlapping dynamic specs when
+matching without router order/constraints. Recorded outcome:
+[`eval/seed-spikes/route/RESULTS.md`](../eval/seed-spikes/route/RESULTS.md).
+Re-opening needs a new pre-registered spike.
+
+Practical path: `bin/rails routes -g …` → pass the printed `controller#action`
+as an **anchor seed**.
 
 ## Does it actually help? {#does-it-actually-help}
 
-Sometimes, and honestly-measured. What we can say from **offline** A/B studies
-(agent-in-the-loop, pre-registered, directional — not production field data):
+Sometimes, and honestly measured. From **offline** A/B studies (agent-in-the-loop,
+pre-registered, directional — not production field data), using **anchor-seed**
+packets:
 
 - The packet meets a **≥ 30% median reduction in exploration** (calls to the
   first load-bearing file read) across three apps — Campfire, Lobsters, Publify
-  — spanning both Minitest and RSpec. Details:
-  [`eval/tier2-expansion/RESULTS.md`](../eval/tier2-expansion/RESULTS.md) and the
-  earlier single-app run [`eval/tier2/RESULTS.md`](../eval/tier2/RESULTS.md).
+  — spanning Minitest and RSpec. Details:
+  [`eval/tier2-expansion/RESULTS.md`](../eval/tier2-expansion/RESULTS.md) and
+  [`eval/tier2/RESULTS.md`](../eval/tier2/RESULTS.md).
 - The lone consistent non-beneficiary is the **bug-fix task**, where a failing
-  test already points straight at the code — the packet has nothing to shortcut.
+  test already points at the code — the packet has nothing to shortcut.
 - It did **not** produce better final code: diff quality scored at ceiling in
-  *both* arms (packet and no-packet), so the measured value is getting to the
-  right files faster, not writing a better patch.
+  *both* arms, so the measured value is getting to the right files faster, not
+  writing a better patch.
 
-Caveats: these are small, offline runs on a handful of open
-Rails apps, and ctxpack is v0. Treat the exploration win as a real but bounded
-effect on **focused** tasks, and verify it pays off in your own workflow.
+We do **not** claim that `test` / `error` / `diff` / `files` / `method` seeds
+improve agent outcomes; they ship because their expansion recipes passed
+existence/convention viability gates. Treat them as deterministic compilers of
+evidence you already trust.
+
+Caveats: small offline runs, v0 software. Verify payoff in your own workflow.
 
 ## Why not just let the agent grep or `@`-mention files itself? {#why-not-just-let-the-agent-grep}
 
 You can, and for a one-file change that's often enough. ctxpack competes with the
-agent's *first two minutes*: it resolves callbacks, referenced constants, and the
-covering tests in one deterministic pass, and — crucially — it flags what it
-**guessed** in Follow-ups, which ad-hoc grepping doesn't. The
-tradeoff is that ctxpack is deliberately narrow (see the limits and refusals
-below); it's a fast starting point, not a replacement for the agent reading code.
+agent's *first minutes*: it applies a fixed recipe (callbacks and constants for
+anchors; frames for errors; mirrors for diffs; etc.) in one deterministic pass,
+and it flags what it **guessed** in Follow-ups. The tradeoff is deliberate
+narrowness (limits and refusals below) — a starting point, not a replacement for
+reading code.
 
 ## Does it boot or run my app?
 
-No. ctxpack is pure static analysis using [`prism`](https://github.com/ruby/prism)
-(Ruby's parser). It never loads Rails, never connects to a database, and never
-executes your code. That's why it's fast and safe to run anywhere, and also why
-it can't see anything that only exists at runtime (dynamically defined actions,
-metaprogrammed callbacks, etc.).
-
-## How do I find the anchor for a route? Does it read my `routes.rb`?
-
-It does **not** read `config/routes.rb` — you supply the anchor as
-`controller#action`. If you have a URL or route helper, ask Rails for the
-mapping:
-
-```console
-$ bin/rails routes -g upgrade      # grep by action/path fragment
-$ bin/rails routes -c accounts     # all routes for one controller
-```
-
-and anchor on the `controller#action` it prints.
+No. Pure static analysis via [`prism`](https://github.com/ruby/prism). No Rails
+boot, no database, no execution of your code. Diff seeds shell out to `git`
+only. That's why it is safe to run anywhere, and why it cannot see runtime-only
+definitions (metaprogrammed actions, dynamic callbacks, etc.).
 
 ## Which Rails versions and test frameworks are supported?
 
 ctxpack keys off conventional Rails file layout rather than a specific Rails
-version, and it requires **Ruby ≥ 3.4**. It detects **Minitest** (default) and
-**RSpec** test suites: RSpec is recognized when `spec/` plus
-`spec/rails_helper.rb` or `rspec-rails` is present, and the suggested commands
-switch to `bundle exec rspec` automatically. Controller and request/integration
-specs are covered; `spec/system/` is out of scope for v0.
+version, and requires **Ruby ≥ 3.4**. It detects **Minitest** (default) and
+**RSpec** (`spec/` plus `spec/rails_helper.rb` or `rspec-rails`). Controller and
+request/integration specs are in scope for recipes that emit test candidates;
+`spec/system/` is out of scope for v0. The method seed does not emit test
+candidates at all (by design after its spike).
 
 ## Why is a file I expected missing from the packet?
 
-Two likely reasons:
-
-1. **Limits.** The packet is capped (8 total files, 4 constants, 2 views, 2
-   tests). When a cap truncates, the dropped candidates are named in the
-   `## Follow-ups` section — check there first.
-2. **Resolution scope.** ctxpack follows an *intra-file* call graph: the action
-   body, its applicable same-file callbacks, and same-file methods the action
-   transitively calls. It does **not** chase cross-file call graphs, sibling
-   models, or superclass/concern methods. Views are matched by path convention;
-   locale files are never scanned (you get a standing pointer instead). Anything
-   outside that scope won't appear — by design, to keep the packet small and
-   precise.
+1. **Limits.** Caps: 8 files, 4 constants, 2 views, 2 tests. Truncation is named
+   in `## Follow-ups`.
+2. **Recipe scope.** Each seed expands only what its recipe allows (e.g. method
+   seed: same-file constants only, no tests; files seed: budgeted neighbors only
+   when conventions hit; anchor: intra-file call graph, not cross-file graphs or
+   superclass/concern methods). Locale files are never scanned (standing pointer
+   in scope text).
 
 ## Why does the "Run" section say no candidates were found?
 
-Because ctxpack found no test file matching its conventional or path-token rules.
-This is common on apps with legacy layouts (e.g. Rails' old `test/functional/`
-directory), which produce structurally zero candidates. It's expected behavior,
-not a bug — add or point the agent at the right test yourself.
+Either no test path matched the recipe's rules (legacy layouts, services without
+mirrors, etc.), or the seed kind **does not include a test leg** (method seed;
+some files/error cases). Both are expected behavior, not silent failure.
 
 ## Why is there a "Follow-ups" section? Can I trust the packet?
 
-The Follow-ups section is the point: ctxpack names every packet-specific fact
-it inferred or deliberately left unresolved — path-guessed tests,
-convention-only constant matches, callbacks it cannot snippet, and omissions.
-Standing route, superclass/concern callback, and locale boundaries appear once
-in the Anchor's `Scope:` line. Trust the packet as a well-sourced *starting
-list*, and treat each follow-up as a "verify this if the task touches it" flag.
+Follow-ups name packet-specific inferences and omissions. Trust the packet as a
+well-sourced *starting list*; treat each follow-up as “verify if the task
+touches it.”
 
 ## Does it handle namespaced controllers?
 
-Yes. Use a path-style prefix in the anchor: `admin/users#destroy` resolves
-`app/controllers/admin/users_controller.rb` and its `app/views/admin/users/`
-templates.
+Yes. Path-style prefix: `admin/users#destroy` →
+`app/controllers/admin/users_controller.rb`.
 
 ## What about inherited, concern-defined, or metaprogrammed actions?
 
-Unsupported in v0, and ctxpack refuses them explicitly rather than guessing:
+Unsupported in v0; refused explicitly:
 
 ```
 ctxpack: action teleport was not directly defined in app/controllers/accounts_controller.rb;
 inherited, concern-defined, and metaprogrammed actions are unsupported in v0
 ```
 
-If the action is real but defined elsewhere (a base controller, a concern, a
-gem like Devise), ctxpack can't statically see it. Anchor on a directly-defined
-action, or read that code yourself.
+## Can I seed a mailer, job, or plain Ruby class?
 
-## Can I anchor on a mailer, job, or route string?
-
-No — anchors are **controllers only**, always exact `controller#action` in
-snake_case. URLs, HTTP verbs (`POST /accounts`), and route helpers are rejected
-with an "invalid anchor" error. Mailers, jobs, and other classes are out of
-scope for v0.
+- **Method seed:** non-controller `Namespace::Class#instance_method` (e.g.
+  `Billing::UpgradeService#call`) when the constant maps by Zeitwerk convention
+  under `app/` and the instance `def` exists.
+- **Files seed:** any existing path.
+- **Anchor seed:** controllers only (`controller#action`).
+- Mailer/job “action” strings are not a separate seed kind in v0.
 
 ## Is the output deterministic?
 
-Yes — byte-for-byte. The same anchor against the same source tree always
-produces an identical packet and manifest (files sorted, stable ordering, no
-timestamps inside the content). Determinism is a design guarantee, enforced by
-the fixture-eval suite, so packets are safe to diff, cache, or commit.
+Yes — byte-for-byte for the same seeds, task, and source tree (stable ordering,
+no content timestamps). Diff seeds are deterministic *given repo state + range*
+(or patch bytes). Enforced by the fixture-eval suite.
 
 ## Can I consume the manifest without creating packet files?
 
-Yes. `ctxpack accounts#upgrade --stdout=json` writes exactly the Format 2
-manifest to standard output and creates nothing. Bare `--stdout` emits the
-Markdown packet instead. Both forms compose with `--task` or `--task-file` and
-conflict with artifact options such as `--out`, `--dir`, and `--manifest`.
+Yes. `ctxpack … --stdout=json` writes Format 3 manifest JSON and creates
+nothing. Bare `--stdout` emits Markdown. Both conflict with artifact options
+(`--out`, `--dir`, `--manifest`, …).
 
 ## Can I raise the limits? {#can-i-raise-the-limits}
 
-No — the caps (8/4/2/2/120) are fixed with no flag to change them. The packet's
-value is being *small enough to actually read*; an uncapped "include everything"
-list would just recreate the exploration problem ctxpack exists to shrink. If the
-cap is hiding something you need, the `## Follow-ups` section tells you
-what, so you can pull it in deliberately.
+No — fixed caps (8/4/2/2/120). An uncapped list recreates the exploration
+problem. Follow-ups name what the cap hid.
 
 ## Should I commit packets to the repo?
 
-Your call. By default they go to `.ctxpack/` and ctxpack reminds you to gitignore
-them — good for ephemeral, per-task use. To commit them (e.g. for review or
-shared context), write to a tracked directory with `--dir docs/ctxpack`. Just
-remember each packet carries a repo stamp and is a snapshot of one tree state; it
+Your call. Default `.ctxpack/` is meant to be gitignored. To commit (review,
+shared context): `--dir docs/ctxpack`. Each packet carries a repo stamp and
 goes stale as the code changes.
 
 ## Does ctxpack send my code anywhere?
 
-No. It runs entirely locally, reads your source files, and writes packet files to
-disk. There are no network calls and no telemetry. What you do with the generated
-packet afterward (e.g. pasting it into a hosted AI agent) is up to you.
+No. Local only: reads source, writes packets. No network, no telemetry. What you
+do with a generated packet (e.g. paste into a hosted agent) is up to you.
 
 ## How fast is it, and does it scale?
 
-It parses a small, bounded set of files per anchor (the controller plus a handful
-of resolved targets), so a single packet compiles in well under a second even on
-large apps — there's no whole-repo indexing step. In the anchor-viability spike
-it compiled 1,967 real controller#action pairs across three large open-source
-apps with zero crashes.
+It parses a small, budgeted set of files per compile — typically well under a
+second, no whole-repo index. The anchor-viability spike compiled 1,967 real
+`controller#action` pairs across three large open-source apps with zero
+crashes.
