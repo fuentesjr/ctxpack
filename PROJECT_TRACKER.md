@@ -121,7 +121,8 @@ must agree.
 4. **Leave gated:** ~50M-token Tier 2 harness rerun; new runtime
    dependencies (prism-only stands). RubricLLM issue
    [#5](https://github.com/fuentesjr/ctxpack/issues/5) is **decided —
-   DEFER** (closing comment awaits user sign-off on the text).
+   DEFER — and CLOSED** (verdict comment posted with user sign-off
+   2026-07-14).
 5. Final step of any executing session: rewrite this section for the work
    that follows.
 
@@ -207,8 +208,8 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
   change, recorded evidence untouched); the se=0 t-test landmine
   demonstrated empirically (uniform n=3 improvement → p=1.0). Neither
   value criterion met; borrow map recorded; no live pilot proposed.
-  Issue-closing comment drafted but NOT posted — external text under the
-  user's name needs sign-off.
+  Issue-closing comment posted with user sign-off and #5 closed; spike
+  commit pushed (both user-approved 2026-07-14).
 - **2026-07-14 (push)** — User explicit push approval; Phase 5 stack pushed
   `3951d1b..c10351a` to `origin/main` (staged plan, both gate commits, 5a/5b
   implementation, 5c no-ship gate, closure). Tracker Status/plan marked
