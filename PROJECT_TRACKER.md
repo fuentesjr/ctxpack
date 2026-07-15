@@ -90,10 +90,9 @@ must agree.
 
 ### State (ground truth, re-verified 2026-07-15)
 
-- **HEAD:** `0ed92e5` — **3 local commits ahead of `origin/main`**, all
-  docs/eval-process (eval guardrails `f4ac370`, evalkit pointer `a3e99e9`,
-  AGENTS.md evalkit binding `0ed92e5`). **Push awaits explicit approval.**
-  Everything through the RubricLLM close (`b4e9c1e`) is pushed.
+- **HEAD:** `main` **in sync with `origin/main`** (user-approved push
+  2026-07-15, `b4e9c1e..f6fe3ab`: eval guardrails, evalkit pointers,
+  tracker refreshes, Codex/agenticons resume note).
 - **Suite at HEAD:** `bundle exec rake test` → **205 runs, 0 failures**
   (re-run 2026-07-15).
 - **Cross-repo eval process is live:** conventions + convergence ledger in
