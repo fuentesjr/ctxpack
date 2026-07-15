@@ -1,0 +1,306 @@
+{
+  "app": "zammad",
+  "rows_total": 640,
+  "excluded_stub_pair": 0,
+  "excluded_stub_helper": 293,
+  "excluded_stub_path": 606,
+  "per_variant": {
+    "helper": {
+      "n": 92,
+      "resolver_rate": 1.0,
+      "ritual_rate": 0.5869565217391305,
+      "resolver_ok": 92,
+      "ritual_ok": 54
+    },
+    "verb_path": {
+      "n": 34,
+      "resolver_rate": 0.08823529411764706,
+      "ritual_rate": 0.29411764705882354,
+      "resolver_ok": 3,
+      "ritual_ok": 10
+    },
+    "path": {
+      "n": 34,
+      "resolver_rate": 0.029411764705882353,
+      "ritual_rate": 0.29411764705882354,
+      "resolver_ok": 1,
+      "ritual_ok": 10
+    }
+  },
+  "resolution_rate_gated": 0.058823529411764705,
+  "front_b_margin": 0.1375,
+  "taxonomy": {
+    "helper:resolved_unique": 92,
+    "verb_path:ambiguous_multi": 31,
+    "verb_path:resolved_unique": 3,
+    "path:ambiguous_multi": 33,
+    "path:resolved_unique": 1
+  },
+  "ritual_distribution": {
+    "helper:multi_with_correct": 38,
+    "helper:other_resolved_unique": 53,
+    "helper:other_resolved_convergent": 1,
+    "verb_path:multi_with_correct": 24,
+    "verb_path:other_resolved_unique": 8,
+    "verb_path:other_resolved_convergent": 2,
+    "path:multi_with_correct": 24,
+    "path:other_resolved_unique": 8,
+    "path:other_resolved_convergent": 2
+  },
+  "samples": {
+    "verb_path:ambiguous_multi": [
+      {
+        "pair": "init#index",
+        "spec": "/init(.:format)",
+        "helper": "init"
+      },
+      {
+        "pair": "init#index",
+        "spec": "/app(.:format)",
+        "helper": "app"
+      },
+      {
+        "pair": "sessions#create_omniauth",
+        "spec": "/auth/:provider/callback(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "sessions#failure_omniauth",
+        "spec": "/auth/failure(.:format)",
+        "helper": "auth_failure"
+      },
+      {
+        "pair": "sessions#oidc_bc_logout",
+        "spec": "/auth/openid_connect/backchannel_logout(.:format)",
+        "helper": "auth_openid_connect_backchannel_logout"
+      },
+      {
+        "pair": "sessions#create_sso",
+        "spec": "/auth/sso(.:format)",
+        "helper": "auth_sso"
+      },
+      {
+        "pair": "calendar_subscriptions#all",
+        "spec": "/ical(.:format)",
+        "helper": "ical"
+      },
+      {
+        "pair": "calendar_subscriptions#object",
+        "spec": "/ical/:object(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "calendar_subscriptions#object",
+        "spec": "/ical/:object/:method(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "calendar_subscriptions#all",
+        "spec": "/calendar_subscriptions(.:format)",
+        "helper": "calendar_subscriptions"
+      },
+      {
+        "pair": "calendar_subscriptions#object",
+        "spec": "/calendar_subscriptions/:object(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "calendar_subscriptions#object",
+        "spec": "/calendar_subscriptions/:object/:method(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "desktop#index",
+        "spec": "/desktop(.:format)",
+        "helper": "desktop"
+      },
+      {
+        "pair": "desktop#index",
+        "spec": "/desktop/*path(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "graphql#execute",
+        "spec": "/graphql(.:format)",
+        "helper": "graphql"
+      },
+      {
+        "pair": "integration/cti#event",
+        "spec": "/api/v1/cti/:token(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "integration/placetel#event",
+        "spec": "/api/v1/placetel/:token(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "integration/sipgate#event",
+        "spec": "/api/v1/sipgate/:token/in(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "integration/sipgate#event",
+        "spec": "/api/v1/sipgate/:token/out(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "knowledge_base/public/categories#forward_root",
+        "spec": "/help(.:format)",
+        "helper": "help_no_locale"
+      },
+      {
+        "pair": "knowledge_base/public/categories#index",
+        "spec": "/help/:locale(.:format)",
+        "helper": "help_root"
+      },
+      {
+        "pair": "knowledge_base/public/feeds#category",
+        "spec": "/help/:locale/:category/feed(.:format)",
+        "helper": "help_category_feed"
+      },
+      {
+        "pair": "knowledge_base/public/feeds#root",
+        "spec": "/help/:locale/feed(.:format)",
+        "helper": "help_root_feed"
+      },
+      {
+        "pair": "knowledge_base/public/tags#show",
+        "spec": "/help/:locale/tag/:tag(.:format)",
+        "helper": "help_tag"
+      },
+      {
+        "pair": "knowledge_base/public/categories#show",
+        "spec": "/help/:locale/:category(.:format)",
+        "helper": "help_category"
+      }
+    ],
+    "path:ambiguous_multi": [
+      {
+        "pair": "init#index",
+        "spec": "/init(.:format)",
+        "helper": "init"
+      },
+      {
+        "pair": "init#index",
+        "spec": "/app(.:format)",
+        "helper": "app"
+      },
+      {
+        "pair": "init#index",
+        "spec": "/",
+        "helper": "root"
+      },
+      {
+        "pair": "errors#routing",
+        "spec": "/",
+        "helper": null
+      },
+      {
+        "pair": "sessions#create_omniauth",
+        "spec": "/auth/:provider/callback(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "sessions#failure_omniauth",
+        "spec": "/auth/failure(.:format)",
+        "helper": "auth_failure"
+      },
+      {
+        "pair": "sessions#oidc_bc_logout",
+        "spec": "/auth/openid_connect/backchannel_logout(.:format)",
+        "helper": "auth_openid_connect_backchannel_logout"
+      },
+      {
+        "pair": "sessions#create_sso",
+        "spec": "/auth/sso(.:format)",
+        "helper": "auth_sso"
+      },
+      {
+        "pair": "calendar_subscriptions#all",
+        "spec": "/ical(.:format)",
+        "helper": "ical"
+      },
+      {
+        "pair": "calendar_subscriptions#object",
+        "spec": "/ical/:object(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "calendar_subscriptions#object",
+        "spec": "/ical/:object/:method(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "calendar_subscriptions#all",
+        "spec": "/calendar_subscriptions(.:format)",
+        "helper": "calendar_subscriptions"
+      },
+      {
+        "pair": "calendar_subscriptions#object",
+        "spec": "/calendar_subscriptions/:object(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "calendar_subscriptions#object",
+        "spec": "/calendar_subscriptions/:object/:method(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "desktop#index",
+        "spec": "/desktop(.:format)",
+        "helper": "desktop"
+      },
+      {
+        "pair": "desktop#index",
+        "spec": "/desktop/*path(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "graphql#execute",
+        "spec": "/graphql(.:format)",
+        "helper": "graphql"
+      },
+      {
+        "pair": "integration/cti#event",
+        "spec": "/api/v1/cti/:token(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "integration/placetel#event",
+        "spec": "/api/v1/placetel/:token(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "integration/sipgate#event",
+        "spec": "/api/v1/sipgate/:token/in(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "integration/sipgate#event",
+        "spec": "/api/v1/sipgate/:token/out(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "knowledge_base/public/categories#forward_root",
+        "spec": "/help(.:format)",
+        "helper": "help_no_locale"
+      },
+      {
+        "pair": "knowledge_base/public/categories#index",
+        "spec": "/help/:locale(.:format)",
+        "helper": "help_root"
+      },
+      {
+        "pair": "knowledge_base/public/feeds#category",
+        "spec": "/help/:locale/:category/feed(.:format)",
+        "helper": "help_category_feed"
+      },
+      {
+        "pair": "knowledge_base/public/feeds#root",
+        "spec": "/help/:locale/feed(.:format)",
+        "helper": "help_root_feed"
+      }
+    ]
+  }
+}

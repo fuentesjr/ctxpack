@@ -1,0 +1,282 @@
+{
+  "app": "mastodon",
+  "rows_total": 743,
+  "excluded_stub_pair": 0,
+  "excluded_stub_helper": 0,
+  "excluded_stub_path": 0,
+  "per_variant": {
+    "helper": {
+      "n": 554,
+      "resolver_rate": 1.0,
+      "ritual_rate": 0.7057761732851986,
+      "resolver_ok": 554,
+      "ritual_ok": 391
+    },
+    "verb_path": {
+      "n": 742,
+      "resolver_rate": 0.9730458221024259,
+      "ritual_rate": 0.14690026954177898,
+      "resolver_ok": 722,
+      "ritual_ok": 109
+    },
+    "path": {
+      "n": 743,
+      "resolver_rate": 0.0013458950201884253,
+      "ritual_rate": 0.14670255720053835,
+      "resolver_ok": 1,
+      "ritual_ok": 109
+    }
+  },
+  "resolution_rate_gated": 0.4868686868686869,
+  "front_b_margin": 0.32761157430112803,
+  "taxonomy": {
+    "helper:resolved_unique": 554,
+    "verb_path:resolved_unique": 720,
+    "verb_path:ambiguous_multi": 20,
+    "verb_path:resolved_convergent": 2,
+    "path:ambiguous_multi": 742,
+    "path:resolved_unique": 1
+  },
+  "ritual_distribution": {
+    "helper:other_resolved_unique": 380,
+    "helper:multi_with_correct": 163,
+    "helper:other_resolved_convergent": 11,
+    "verb_path:multi_with_correct": 633,
+    "verb_path:other_resolved_unique": 86,
+    "verb_path:other_resolved_convergent": 23,
+    "path:multi_with_correct": 634,
+    "path:other_resolved_unique": 86,
+    "path:other_resolved_convergent": 23
+  },
+  "samples": {
+    "verb_path:ambiguous_multi": [
+      {
+        "pair": "api/v1/invites#show",
+        "spec": "/invite/:invite_code(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "auth/registrations#new",
+        "spec": "/invite/:invite_code(.:format)",
+        "helper": "public_invite"
+      },
+      {
+        "pair": "collections#show",
+        "spec": "/ap/users/:account_id/collections/:id(.:format)",
+        "helper": "ap_account_collection"
+      },
+      {
+        "pair": "activitypub/collections#show",
+        "spec": "/ap/users/:account_id/collections/:id(.:format)",
+        "helper": "ap_account_actor_collection"
+      },
+      {
+        "pair": "following_accounts#index",
+        "spec": "/@:account_username/following(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "follower_accounts#index",
+        "spec": "/@:account_username/followers(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "settings/applications#new",
+        "spec": "/settings/applications/new(.:format)",
+        "helper": "new_settings_application"
+      },
+      {
+        "pair": "admin/webhooks#new",
+        "spec": "/admin/webhooks/new(.:format)",
+        "helper": "new_admin_webhook"
+      },
+      {
+        "pair": "api/v1/notifications/requests#dismiss_bulk",
+        "spec": "/api/v1/notifications/requests/dismiss",
+        "helper": "dismiss_api_v1_notifications_requests"
+      },
+      {
+        "pair": "api/v1/notifications/requests#merged?",
+        "spec": "/api/v1/notifications/requests/merged",
+        "helper": "merged_api_v1_notifications_requests"
+      },
+      {
+        "pair": "api/v1/notifications/requests#index",
+        "spec": "/api/v1/notifications/requests",
+        "helper": "api_v1_notifications_requests"
+      },
+      {
+        "pair": "api/v1/notifications/policies#show",
+        "spec": "/api/v1/notifications/policy",
+        "helper": "api_v1_notifications_policy"
+      },
+      {
+        "pair": "api/v1/notifications#unread_count",
+        "spec": "/api/v1/notifications/unread_count",
+        "helper": "unread_count_api_v1_notifications"
+      },
+      {
+        "pair": "api/v1/accounts/credentials#show",
+        "spec": "/api/v1/accounts/verify_credentials",
+        "helper": "api_v1_accounts_verify_credentials"
+      },
+      {
+        "pair": "api/v1/accounts/search#show",
+        "spec": "/api/v1/accounts/search",
+        "helper": "api_v1_accounts_search"
+      },
+      {
+        "pair": "api/v1/accounts/lookup#show",
+        "spec": "/api/v1/accounts/lookup",
+        "helper": "api_v1_accounts_lookup"
+      },
+      {
+        "pair": "api/v1/accounts/relationships#index",
+        "spec": "/api/v1/accounts/relationships",
+        "helper": "api_v1_accounts_relationships"
+      },
+      {
+        "pair": "api/v1/accounts/familiar_followers#index",
+        "spec": "/api/v1/accounts/familiar_followers",
+        "helper": "api_v1_accounts_familiar_followers"
+      },
+      {
+        "pair": "api/v2/notifications/policies#show",
+        "spec": "/api/v2/notifications/policy",
+        "helper": "api_v2_notifications_policy"
+      },
+      {
+        "pair": "api/v2/notifications#unread_count",
+        "spec": "/api/v2/notifications/unread_count",
+        "helper": "unread_count_api_v2_notifications"
+      }
+    ],
+    "path:ambiguous_multi": [
+      {
+        "pair": "home#index",
+        "spec": "/",
+        "helper": "root"
+      },
+      {
+        "pair": "health#show",
+        "spec": "/health(.:format)",
+        "helper": "health"
+      },
+      {
+        "pair": "oauth/userinfo#show",
+        "spec": "/oauth/userinfo(.:format)",
+        "helper": "oauth_userinfo"
+      },
+      {
+        "pair": "well_known/oauth_metadata#show",
+        "spec": "/.well-known/oauth-authorization-server(.:format)",
+        "helper": "oauth_metadata"
+      },
+      {
+        "pair": "well_known/host_meta#show",
+        "spec": "/.well-known/host-meta(.:format)",
+        "helper": "host_meta"
+      },
+      {
+        "pair": "well_known/node_info#index",
+        "spec": "/.well-known/nodeinfo(.:format)",
+        "helper": "nodeinfo"
+      },
+      {
+        "pair": "well_known/webfinger#show",
+        "spec": "/.well-known/webfinger(.:format)",
+        "helper": "webfinger"
+      },
+      {
+        "pair": "well_known/node_info#show",
+        "spec": "/nodeinfo/2.0(.:format)",
+        "helper": "nodeinfo_schema"
+      },
+      {
+        "pair": "manifests#show",
+        "spec": "/manifest(.:format)",
+        "helper": "manifest"
+      },
+      {
+        "pair": "intents#show",
+        "spec": "/intent(.:format)",
+        "helper": "intent"
+      },
+      {
+        "pair": "custom_css#show",
+        "spec": "/custom.css(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "custom_css#show",
+        "spec": "/css/:id(.:format)",
+        "helper": "custom_css"
+      },
+      {
+        "pair": "remote_interaction_helper#index",
+        "spec": "/remote_interaction_helper(.:format)",
+        "helper": "remote_interaction_helper"
+      },
+      {
+        "pair": "activitypub/inboxes#create",
+        "spec": "/actor/inbox(.:format)",
+        "helper": "instance_actor_inbox"
+      },
+      {
+        "pair": "activitypub/outboxes#show",
+        "spec": "/actor/outbox(.:format)",
+        "helper": "instance_actor_outbox"
+      },
+      {
+        "pair": "instance_actors#show",
+        "spec": "/actor(.:format)",
+        "helper": "instance_actor"
+      },
+      {
+        "pair": "api/v1/invites#show",
+        "spec": "/invite/:invite_code(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "auth/registrations#new",
+        "spec": "/invite/:invite_code(.:format)",
+        "helper": "public_invite"
+      },
+      {
+        "pair": "unsubscriptions#show",
+        "spec": "/unsubscribe(.:format)",
+        "helper": "unsubscribe"
+      },
+      {
+        "pair": "unsubscriptions#create",
+        "spec": "/unsubscribe(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "auth/acceptances#create",
+        "spec": "/auth/acceptance(.:format)",
+        "helper": "auth_acceptance"
+      },
+      {
+        "pair": "auth/setup#show",
+        "spec": "/auth/setup(.:format)",
+        "helper": "auth_setup"
+      },
+      {
+        "pair": "auth/setup#update",
+        "spec": "/auth/setup(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "auth/setup#update",
+        "spec": "/auth/setup(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "auth/challenges#create",
+        "spec": "/auth/challenge(.:format)",
+        "helper": "auth_challenge"
+      }
+    ]
+  }
+}

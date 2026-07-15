@@ -1,0 +1,163 @@
+{
+  "apps": {
+    "mastodon": {
+      "app": "mastodon",
+      "rows_total": 743,
+      "excluded_stub_pair": 0,
+      "excluded_stub_helper": 0,
+      "excluded_stub_path": 0,
+      "per_variant": {
+        "helper": {
+          "n": 554,
+          "resolver_rate": 1.0,
+          "ritual_rate": 0.7057761732851986,
+          "resolver_ok": 554,
+          "ritual_ok": 391
+        },
+        "verb_path": {
+          "n": 742,
+          "resolver_rate": 0.9730458221024259,
+          "ritual_rate": 0.14690026954177898,
+          "resolver_ok": 722,
+          "ritual_ok": 109
+        },
+        "path": {
+          "n": 743,
+          "resolver_rate": 0.0013458950201884253,
+          "ritual_rate": 0.14670255720053835,
+          "resolver_ok": 1,
+          "ritual_ok": 109
+        }
+      },
+      "resolution_rate_gated": 0.4868686868686869,
+      "front_b_margin": 0.32761157430112803,
+      "taxonomy": {
+        "helper:resolved_unique": 554,
+        "verb_path:resolved_unique": 720,
+        "verb_path:ambiguous_multi": 20,
+        "verb_path:resolved_convergent": 2,
+        "path:ambiguous_multi": 742,
+        "path:resolved_unique": 1
+      },
+      "ritual_distribution": {
+        "helper:other_resolved_unique": 380,
+        "helper:multi_with_correct": 163,
+        "helper:other_resolved_convergent": 11,
+        "verb_path:multi_with_correct": 633,
+        "verb_path:other_resolved_unique": 86,
+        "verb_path:other_resolved_convergent": 23,
+        "path:multi_with_correct": 634,
+        "path:other_resolved_unique": 86,
+        "path:other_resolved_convergent": 23
+      }
+    },
+    "discourse": {
+      "app": "discourse",
+      "rows_total": 1110,
+      "excluded_stub_pair": 0,
+      "excluded_stub_helper": 0,
+      "excluded_stub_path": 0,
+      "per_variant": {
+        "helper": {
+          "n": 588,
+          "resolver_rate": 1.0,
+          "ritual_rate": 0.7585034013605442,
+          "resolver_ok": 588,
+          "ritual_ok": 446
+        },
+        "verb_path": {
+          "n": 1110,
+          "resolver_rate": 0.3630630630630631,
+          "ritual_rate": 0.3621621621621622,
+          "resolver_ok": 403,
+          "ritual_ok": 402
+        },
+        "path": {
+          "n": 1110,
+          "resolver_rate": 0.0009009009009009009,
+          "ritual_rate": 0.3621621621621622,
+          "resolver_ok": 1,
+          "ritual_ok": 402
+        }
+      },
+      "resolution_rate_gated": 0.18198198198198198,
+      "front_b_margin": -0.09188034188034189,
+      "taxonomy": {
+        "helper:resolved_unique": 588,
+        "verb_path:ambiguous_multi": 707,
+        "verb_path:resolved_unique": 389,
+        "verb_path:resolved_convergent": 14,
+        "path:ambiguous_multi": 1109,
+        "path:resolved_unique": 1
+      },
+      "ritual_distribution": {
+        "helper:other_resolved_unique": 425,
+        "helper:multi_with_correct": 142,
+        "helper:other_resolved_convergent": 21,
+        "verb_path:multi_with_correct": 708,
+        "verb_path:other_resolved_unique": 252,
+        "verb_path:other_resolved_convergent": 150,
+        "path:multi_with_correct": 708,
+        "path:other_resolved_unique": 252,
+        "path:other_resolved_convergent": 150
+      }
+    },
+    "zammad": {
+      "app": "zammad",
+      "rows_total": 640,
+      "excluded_stub_pair": 0,
+      "excluded_stub_helper": 293,
+      "excluded_stub_path": 606,
+      "per_variant": {
+        "helper": {
+          "n": 92,
+          "resolver_rate": 1.0,
+          "ritual_rate": 0.5869565217391305,
+          "resolver_ok": 92,
+          "ritual_ok": 54
+        },
+        "verb_path": {
+          "n": 34,
+          "resolver_rate": 0.08823529411764706,
+          "ritual_rate": 0.29411764705882354,
+          "resolver_ok": 3,
+          "ritual_ok": 10
+        },
+        "path": {
+          "n": 34,
+          "resolver_rate": 0.029411764705882353,
+          "ritual_rate": 0.29411764705882354,
+          "resolver_ok": 1,
+          "ritual_ok": 10
+        }
+      },
+      "resolution_rate_gated": 0.058823529411764705,
+      "front_b_margin": 0.1375,
+      "taxonomy": {
+        "helper:resolved_unique": 92,
+        "verb_path:ambiguous_multi": 31,
+        "verb_path:resolved_unique": 3,
+        "path:ambiguous_multi": 33,
+        "path:resolved_unique": 1
+      },
+      "ritual_distribution": {
+        "helper:multi_with_correct": 38,
+        "helper:other_resolved_unique": 53,
+        "helper:other_resolved_convergent": 1,
+        "verb_path:multi_with_correct": 24,
+        "verb_path:other_resolved_unique": 8,
+        "verb_path:other_resolved_convergent": 2,
+        "path:multi_with_correct": 24,
+        "path:other_resolved_unique": 8,
+        "path:other_resolved_convergent": 2
+      }
+    }
+  },
+  "average_resolution_gated": 0.24255806608747787,
+  "resolution_gate": 0.7,
+  "resolution_pass": false,
+  "average_front_b_margin": 0.12441041080692872,
+  "margin_gate": 0.1,
+  "margin_pass": true,
+  "ship": false
+}

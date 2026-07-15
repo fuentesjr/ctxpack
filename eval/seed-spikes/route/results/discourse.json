@@ -1,0 +1,307 @@
+{
+  "app": "discourse",
+  "rows_total": 1110,
+  "excluded_stub_pair": 0,
+  "excluded_stub_helper": 0,
+  "excluded_stub_path": 0,
+  "per_variant": {
+    "helper": {
+      "n": 588,
+      "resolver_rate": 1.0,
+      "ritual_rate": 0.7585034013605442,
+      "resolver_ok": 588,
+      "ritual_ok": 446
+    },
+    "verb_path": {
+      "n": 1110,
+      "resolver_rate": 0.3630630630630631,
+      "ritual_rate": 0.3621621621621622,
+      "resolver_ok": 403,
+      "ritual_ok": 402
+    },
+    "path": {
+      "n": 1110,
+      "resolver_rate": 0.0009009009009009009,
+      "ritual_rate": 0.3621621621621622,
+      "resolver_ok": 1,
+      "ritual_ok": 402
+    }
+  },
+  "resolution_rate_gated": 0.18198198198198198,
+  "front_b_margin": -0.09188034188034189,
+  "taxonomy": {
+    "helper:resolved_unique": 588,
+    "verb_path:ambiguous_multi": 707,
+    "verb_path:resolved_unique": 389,
+    "verb_path:resolved_convergent": 14,
+    "path:ambiguous_multi": 1109,
+    "path:resolved_unique": 1
+  },
+  "ritual_distribution": {
+    "helper:other_resolved_unique": 425,
+    "helper:multi_with_correct": 142,
+    "helper:other_resolved_convergent": 21,
+    "verb_path:multi_with_correct": 708,
+    "verb_path:other_resolved_unique": 252,
+    "verb_path:other_resolved_convergent": 150,
+    "path:multi_with_correct": 708,
+    "path:other_resolved_unique": 252,
+    "path:other_resolved_convergent": 150
+  },
+  "samples": {
+    "verb_path:ambiguous_multi": [
+      {
+        "pair": "exceptions#not_found",
+        "spec": "/404(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "exceptions#not_found_body",
+        "spec": "/404-body(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "webhooks#mandrill_head",
+        "spec": "/webhooks/mandrill(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "sitemap#index",
+        "spec": "/sitemap.:format",
+        "helper": "sitemap_index"
+      },
+      {
+        "pair": "sitemap#page",
+        "spec": "/sitemap_:page.:format",
+        "helper": null
+      },
+      {
+        "pair": "sitemap#recent",
+        "spec": "/sitemap_recent.:format",
+        "helper": "sitemap_recent"
+      },
+      {
+        "pair": "sitemap#news",
+        "spec": "/news.:format",
+        "helper": "news"
+      },
+      {
+        "pair": "about#live_post_counts",
+        "spec": "/about/live_post_counts(.:format)",
+        "helper": "live_post_counts_about_index"
+      },
+      {
+        "pair": "about#index",
+        "spec": "/about(.:format)",
+        "helper": "about_index"
+      },
+      {
+        "pair": "finish_installation#index",
+        "spec": "/finish-installation(.:format)",
+        "helper": "finish_installation"
+      },
+      {
+        "pair": "finish_installation#register",
+        "spec": "/finish-installation/register(.:format)",
+        "helper": "finish_installation_register"
+      },
+      {
+        "pair": "finish_installation#redirect_discourse_id",
+        "spec": "/finish-installation/redirect-discourse-id(.:format)",
+        "helper": "finish_installation_redirect_discourse_id"
+      },
+      {
+        "pair": "finish_installation#confirm_email",
+        "spec": "/finish-installation/confirm-email(.:format)",
+        "helper": "finish_installation_confirm_email"
+      },
+      {
+        "pair": "published_pages#check_slug",
+        "spec": "/pub/check-slug(.:format)",
+        "helper": "pub_check_slug"
+      },
+      {
+        "pair": "published_pages#details",
+        "spec": "/pub/by-topic/:topic_id(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "published_pages#show",
+        "spec": "/pub/:slug(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "directory_items#index",
+        "spec": "/directory_items(.:format)",
+        "helper": "directory_items"
+      },
+      {
+        "pair": "site#site",
+        "spec": "/site(.:format)",
+        "helper": "site"
+      },
+      {
+        "pair": "site#settings",
+        "spec": "/site/settings(.:format)",
+        "helper": "site_settings"
+      },
+      {
+        "pair": "site#custom_html",
+        "spec": "/site/custom_html(.:format)",
+        "helper": "site_custom_html"
+      },
+      {
+        "pair": "site#banner",
+        "spec": "/site/banner(.:format)",
+        "helper": "site_banner"
+      },
+      {
+        "pair": "site#emoji",
+        "spec": "/site/emoji(.:format)",
+        "helper": "site_emoji"
+      },
+      {
+        "pair": "site#basic_info",
+        "spec": "/site/basic-info(.:format)",
+        "helper": "site_basic_info"
+      },
+      {
+        "pair": "site#statistics",
+        "spec": "/site/statistics(.:format)",
+        "helper": "site_statistics"
+      },
+      {
+        "pair": "forums#status",
+        "spec": "/srv/status(.:format)",
+        "helper": "srv_status"
+      }
+    ],
+    "path:ambiguous_multi": [
+      {
+        "pair": "exceptions#not_found",
+        "spec": "/404(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "exceptions#not_found_body",
+        "spec": "/404-body(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "webhooks#aws",
+        "spec": "/webhooks/aws(.:format)",
+        "helper": "webhooks_aws"
+      },
+      {
+        "pair": "webhooks#mailgun",
+        "spec": "/webhooks/mailgun(.:format)",
+        "helper": "webhooks_mailgun"
+      },
+      {
+        "pair": "webhooks#mailjet",
+        "spec": "/webhooks/mailjet(.:format)",
+        "helper": "webhooks_mailjet"
+      },
+      {
+        "pair": "webhooks#mailpace",
+        "spec": "/webhooks/mailpace(.:format)",
+        "helper": "webhooks_mailpace"
+      },
+      {
+        "pair": "webhooks#mandrill",
+        "spec": "/webhooks/mandrill(.:format)",
+        "helper": "webhooks_mandrill"
+      },
+      {
+        "pair": "webhooks#mandrill_head",
+        "spec": "/webhooks/mandrill(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "webhooks#postmark",
+        "spec": "/webhooks/postmark(.:format)",
+        "helper": "webhooks_postmark"
+      },
+      {
+        "pair": "webhooks#sendgrid",
+        "spec": "/webhooks/sendgrid(.:format)",
+        "helper": "webhooks_sendgrid"
+      },
+      {
+        "pair": "webhooks#sparkpost",
+        "spec": "/webhooks/sparkpost(.:format)",
+        "helper": "webhooks_sparkpost"
+      },
+      {
+        "pair": "sitemap#index",
+        "spec": "/sitemap.:format",
+        "helper": "sitemap_index"
+      },
+      {
+        "pair": "sitemap#page",
+        "spec": "/sitemap_:page.:format",
+        "helper": null
+      },
+      {
+        "pair": "sitemap#recent",
+        "spec": "/sitemap_recent.:format",
+        "helper": "sitemap_recent"
+      },
+      {
+        "pair": "sitemap#news",
+        "spec": "/news.:format",
+        "helper": "news"
+      },
+      {
+        "pair": "about#live_post_counts",
+        "spec": "/about/live_post_counts(.:format)",
+        "helper": "live_post_counts_about_index"
+      },
+      {
+        "pair": "about#index",
+        "spec": "/about(.:format)",
+        "helper": "about_index"
+      },
+      {
+        "pair": "finish_installation#index",
+        "spec": "/finish-installation(.:format)",
+        "helper": "finish_installation"
+      },
+      {
+        "pair": "finish_installation#register",
+        "spec": "/finish-installation/register(.:format)",
+        "helper": "finish_installation_register"
+      },
+      {
+        "pair": "finish_installation#register",
+        "spec": "/finish-installation/register(.:format)",
+        "helper": null
+      },
+      {
+        "pair": "finish_installation#redirect_discourse_id",
+        "spec": "/finish-installation/redirect-discourse-id(.:format)",
+        "helper": "finish_installation_redirect_discourse_id"
+      },
+      {
+        "pair": "finish_installation#confirm_email",
+        "spec": "/finish-installation/confirm-email(.:format)",
+        "helper": "finish_installation_confirm_email"
+      },
+      {
+        "pair": "finish_installation#resend_email",
+        "spec": "/finish-installation/resend-email(.:format)",
+        "helper": "finish_installation_resend_email"
+      },
+      {
+        "pair": "published_pages#check_slug",
+        "spec": "/pub/check-slug(.:format)",
+        "helper": "pub_check_slug"
+      },
+      {
+        "pair": "published_pages#details",
+        "spec": "/pub/by-topic/:topic_id(.:format)",
+        "helper": null
+      }
+    ]
+  }
+}

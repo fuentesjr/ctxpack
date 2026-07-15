@@ -1,0 +1,3852 @@
+{
+  "app": "zammad",
+  "actionpack_version": "8.0.5",
+  "route_count": 640,
+  "rows": [
+    {
+      "helper": "init",
+      "verb": "GET",
+      "path_spec": "/init(.:format)",
+      "pair": "init#index"
+    },
+    {
+      "helper": "app",
+      "verb": "GET",
+      "path_spec": "/app(.:format)",
+      "pair": "init#index"
+    },
+    {
+      "helper": "root",
+      "verb": "GET",
+      "path_spec": "/",
+      "pair": "init#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST|PUT|DELETE|OPTIONS",
+      "path_spec": "/",
+      "pair": "errors#routing"
+    },
+    {
+      "helper": "spike_stub_1_activity_stream",
+      "verb": "GET",
+      "path_spec": "/spike_stub_1/activity_stream(.:format)",
+      "pair": "activity_stream#show"
+    },
+    {
+      "helper": "spike_stub_2_ai_agents",
+      "verb": "GET",
+      "path_spec": "/spike_stub_2/ai_agents(.:format)",
+      "pair": "ai_agents#index"
+    },
+    {
+      "helper": "spike_stub_3_ai_agents_search",
+      "verb": "GET|POST",
+      "path_spec": "/spike_stub_3/ai_agents/search(.:format)",
+      "pair": "ai_agents#search"
+    },
+    {
+      "helper": "spike_stub_4_ai_agents_types",
+      "verb": "GET",
+      "path_spec": "/spike_stub_4/ai_agents/types(.:format)",
+      "pair": "ai_agents#types"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_5/ai_agents/:id(.:format)",
+      "pair": "ai_agents#show"
+    },
+    {
+      "helper": "spike_stub_6_ai_agents",
+      "verb": "POST",
+      "path_spec": "/spike_stub_6/ai_agents(.:format)",
+      "pair": "ai_agents#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_7/ai_agents/:id(.:format)",
+      "pair": "ai_agents#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_8/ai_agents/:id(.:format)",
+      "pair": "ai_agents#destroy"
+    },
+    {
+      "helper": "ai_analytics_usages",
+      "verb": "PATCH",
+      "path_spec": "/spike_stub_9/ai/analytics/usages(.:format)",
+      "pair": "ai/analytics/usages#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_9/ai/analytics/usages(.:format)",
+      "pair": "ai/analytics/usages#update"
+    },
+    {
+      "helper": "ai_analytics",
+      "verb": "GET",
+      "path_spec": "/spike_stub_9/ai/analytics/download/:type(.:format)",
+      "pair": "ai/analytics/downloads#download"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_10/ai_assistance/text_tools/:id(.:format)",
+      "pair": "ai_assistance#text_tools"
+    },
+    {
+      "helper": "reset_analytics_ai_text_tool",
+      "verb": "PUT",
+      "path_spec": "/spike_stub_11/ai_text_tools/:id/reset_analytics(.:format)",
+      "pair": "ai_text_tools#reset_analytics"
+    },
+    {
+      "helper": "types_ai_text_tools",
+      "verb": "GET",
+      "path_spec": "/spike_stub_11/ai_text_tools/types(.:format)",
+      "pair": "ai_text_tools#types"
+    },
+    {
+      "helper": "search_ai_text_tools",
+      "verb": "GET",
+      "path_spec": "/spike_stub_11/ai_text_tools/search(.:format)",
+      "pair": "ai_text_tools#search"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_11/ai_text_tools/search(.:format)",
+      "pair": "ai_text_tools#search"
+    },
+    {
+      "helper": "ai_text_tools",
+      "verb": "GET",
+      "path_spec": "/spike_stub_11/ai_text_tools(.:format)",
+      "pair": "ai_text_tools#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_11/ai_text_tools(.:format)",
+      "pair": "ai_text_tools#create"
+    },
+    {
+      "helper": "new_ai_text_tool",
+      "verb": "GET",
+      "path_spec": "/spike_stub_11/ai_text_tools/new(.:format)",
+      "pair": "ai_text_tools#new"
+    },
+    {
+      "helper": "ai_text_tool",
+      "verb": "GET",
+      "path_spec": "/spike_stub_11/ai_text_tools/:id(.:format)",
+      "pair": "ai_text_tools#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/spike_stub_11/ai_text_tools/:id(.:format)",
+      "pair": "ai_text_tools#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_11/ai_text_tools/:id(.:format)",
+      "pair": "ai_text_tools#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_11/ai_text_tools/:id(.:format)",
+      "pair": "ai_text_tools#destroy"
+    },
+    {
+      "helper": "spike_stub_12_applications",
+      "verb": "GET",
+      "path_spec": "/spike_stub_12/applications(.:format)",
+      "pair": "applications#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_13/applications/:id(.:format)",
+      "pair": "applications#show"
+    },
+    {
+      "helper": "spike_stub_14_applications",
+      "verb": "POST",
+      "path_spec": "/spike_stub_14/applications(.:format)",
+      "pair": "applications#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_15/applications/:id(.:format)",
+      "pair": "applications#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_16/applications/:id(.:format)",
+      "pair": "applications#destroy"
+    },
+    {
+      "helper": "spike_stub_17_applications_token",
+      "verb": "POST",
+      "path_spec": "/spike_stub_17/applications/token(.:format)",
+      "pair": "applications#token"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_18/attachments/destroy_form/:form_id(.:format)",
+      "pair": "attachments#destroy_form"
+    },
+    {
+      "helper": "attachments",
+      "verb": "POST",
+      "path_spec": "/spike_stub_18/attachments(.:format)",
+      "pair": "attachments#create"
+    },
+    {
+      "helper": "attachment",
+      "verb": "GET",
+      "path_spec": "/spike_stub_18/attachments/:id(.:format)",
+      "pair": "attachments#show"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_18/attachments/:id(.:format)",
+      "pair": "attachments#destroy"
+    },
+    {
+      "helper": null,
+      "verb": "POST|GET|PUTS|DELETE",
+      "path_spec": "/auth/:provider/callback(.:format)",
+      "pair": "sessions#create_omniauth"
+    },
+    {
+      "helper": "auth_failure",
+      "verb": "POST|GET",
+      "path_spec": "/auth/failure(.:format)",
+      "pair": "sessions#failure_omniauth"
+    },
+    {
+      "helper": "auth_openid_connect_backchannel_logout",
+      "verb": "POST|DELETE",
+      "path_spec": "/auth/openid_connect/backchannel_logout(.:format)",
+      "pair": "sessions#oidc_bc_logout"
+    },
+    {
+      "helper": "auth_sso",
+      "verb": "GET|POST",
+      "path_spec": "/auth/sso(.:format)",
+      "pair": "sessions#create_sso"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_19/auth/two_factor_initiate_authentication/:method(.:format)",
+      "pair": "sessions#two_factor_authentication_method_initiate_authentication"
+    },
+    {
+      "helper": "spike_stub_20_signin",
+      "verb": "POST",
+      "path_spec": "/spike_stub_20/signin(.:format)",
+      "pair": "sessions#create"
+    },
+    {
+      "helper": "spike_stub_21_signshow",
+      "verb": "GET|POST",
+      "path_spec": "/spike_stub_21/signshow(.:format)",
+      "pair": "sessions#show"
+    },
+    {
+      "helper": "spike_stub_22_signout",
+      "verb": "GET|DELETE",
+      "path_spec": "/spike_stub_22/signout(.:format)",
+      "pair": "sessions#destroy"
+    },
+    {
+      "helper": "spike_stub_23_available",
+      "verb": "GET",
+      "path_spec": "/spike_stub_23/available(.:format)",
+      "pair": "sessions#available"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_24/sessions/switch/:id(.:format)",
+      "pair": "sessions#switch_to_user"
+    },
+    {
+      "helper": "spike_stub_25_sessions_switch_back",
+      "verb": "GET",
+      "path_spec": "/spike_stub_25/sessions/switch_back(.:format)",
+      "pair": "sessions#switch_back_to_user"
+    },
+    {
+      "helper": "spike_stub_26_sessions",
+      "verb": "GET",
+      "path_spec": "/spike_stub_26/sessions(.:format)",
+      "pair": "sessions#list"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_27/sessions/:id(.:format)",
+      "pair": "sessions#delete"
+    },
+    {
+      "helper": "spike_stub_28_calendars_init",
+      "verb": "GET",
+      "path_spec": "/spike_stub_28/calendars_init(.:format)",
+      "pair": "calendars#init"
+    },
+    {
+      "helper": "spike_stub_29_calendars_timezones",
+      "verb": "GET",
+      "path_spec": "/spike_stub_29/calendars/timezones(.:format)",
+      "pair": "calendars#timezones"
+    },
+    {
+      "helper": "spike_stub_30_calendars",
+      "verb": "GET",
+      "path_spec": "/spike_stub_30/calendars(.:format)",
+      "pair": "calendars#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_31/calendars/:id(.:format)",
+      "pair": "calendars#show"
+    },
+    {
+      "helper": "spike_stub_32_calendars",
+      "verb": "POST",
+      "path_spec": "/spike_stub_32/calendars(.:format)",
+      "pair": "calendars#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_33/calendars/:id(.:format)",
+      "pair": "calendars#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_34/calendars/:id(.:format)",
+      "pair": "calendars#destroy"
+    },
+    {
+      "helper": "ical",
+      "verb": "GET|PROPFIND",
+      "path_spec": "/ical(.:format)",
+      "pair": "calendar_subscriptions#all"
+    },
+    {
+      "helper": null,
+      "verb": "GET|PROPFIND",
+      "path_spec": "/ical/:object(.:format)",
+      "pair": "calendar_subscriptions#object"
+    },
+    {
+      "helper": null,
+      "verb": "GET|PROPFIND",
+      "path_spec": "/ical/:object/:method(.:format)",
+      "pair": "calendar_subscriptions#object"
+    },
+    {
+      "helper": "calendar_subscriptions",
+      "verb": "GET|PROPFIND",
+      "path_spec": "/calendar_subscriptions(.:format)",
+      "pair": "calendar_subscriptions#all"
+    },
+    {
+      "helper": null,
+      "verb": "GET|PROPFIND",
+      "path_spec": "/calendar_subscriptions/:object(.:format)",
+      "pair": "calendar_subscriptions#object"
+    },
+    {
+      "helper": null,
+      "verb": "GET|PROPFIND",
+      "path_spec": "/calendar_subscriptions/:object/:method(.:format)",
+      "pair": "calendar_subscriptions#object"
+    },
+    {
+      "helper": "spike_stub_35_channels_email",
+      "verb": "GET",
+      "path_spec": "/spike_stub_35/channels_email(.:format)",
+      "pair": "channels_email#index"
+    },
+    {
+      "helper": "spike_stub_36_channels_email_probe",
+      "verb": "POST",
+      "path_spec": "/spike_stub_36/channels_email_probe(.:format)",
+      "pair": "channels_email#probe"
+    },
+    {
+      "helper": "spike_stub_37_channels_email_outbound",
+      "verb": "POST",
+      "path_spec": "/spike_stub_37/channels_email_outbound(.:format)",
+      "pair": "channels_email#outbound"
+    },
+    {
+      "helper": "spike_stub_38_channels_email_inbound",
+      "verb": "POST",
+      "path_spec": "/spike_stub_38/channels_email_inbound(.:format)",
+      "pair": "channels_email#inbound"
+    },
+    {
+      "helper": "spike_stub_39_channels_email_verify",
+      "verb": "POST",
+      "path_spec": "/spike_stub_39/channels_email_verify(.:format)",
+      "pair": "channels_email#verify"
+    },
+    {
+      "helper": "spike_stub_40_channels_email_notification",
+      "verb": "POST",
+      "path_spec": "/spike_stub_40/channels_email_notification(.:format)",
+      "pair": "channels_email#notification"
+    },
+    {
+      "helper": "spike_stub_41_channels_email_disable",
+      "verb": "POST",
+      "path_spec": "/spike_stub_41/channels_email_disable(.:format)",
+      "pair": "channels_email#disable"
+    },
+    {
+      "helper": "spike_stub_42_channels_email_enable",
+      "verb": "POST",
+      "path_spec": "/spike_stub_42/channels_email_enable(.:format)",
+      "pair": "channels_email#enable"
+    },
+    {
+      "helper": "spike_stub_43_channels_email",
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_43/channels_email(.:format)",
+      "pair": "channels_email#destroy"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_44/channels_email_group/:id(.:format)",
+      "pair": "channels_email#group"
+    },
+    {
+      "helper": "spike_stub_45_channels_facebook",
+      "verb": "GET",
+      "path_spec": "/spike_stub_45/channels_facebook(.:format)",
+      "pair": "channels_facebook#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_46/channels_facebook/:id(.:format)",
+      "pair": "channels_facebook#update"
+    },
+    {
+      "helper": "spike_stub_47_channels_facebook_disable",
+      "verb": "POST",
+      "path_spec": "/spike_stub_47/channels_facebook_disable(.:format)",
+      "pair": "channels_facebook#disable"
+    },
+    {
+      "helper": "spike_stub_48_channels_facebook_enable",
+      "verb": "POST",
+      "path_spec": "/spike_stub_48/channels_facebook_enable(.:format)",
+      "pair": "channels_facebook#enable"
+    },
+    {
+      "helper": "spike_stub_49_channels_facebook",
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_49/channels_facebook(.:format)",
+      "pair": "channels_facebook#destroy"
+    },
+    {
+      "helper": "enable_channels_admin_microsoft_graph",
+      "verb": "POST",
+      "path_spec": "/spike_stub_50/channels/admin/microsoft_graph/:id/enable(.:format)",
+      "pair": "channels_admin/microsoft_graph#enable"
+    },
+    {
+      "helper": "disable_channels_admin_microsoft_graph",
+      "verb": "POST",
+      "path_spec": "/spike_stub_50/channels/admin/microsoft_graph/:id/disable(.:format)",
+      "pair": "channels_admin/microsoft_graph#disable"
+    },
+    {
+      "helper": "folders_channels_admin_microsoft_graph",
+      "verb": "GET",
+      "path_spec": "/spike_stub_50/channels/admin/microsoft_graph/:id/folders(.:format)",
+      "pair": "channels_admin/microsoft_graph#folders"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_50/channels/admin/microsoft_graph/group/:id(.:format)",
+      "pair": "channels_admin/microsoft_graph#group"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_50/channels/admin/microsoft_graph/inbound/:id(.:format)",
+      "pair": "channels_admin/microsoft_graph#inbound"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_50/channels/admin/microsoft_graph/verify/:id(.:format)",
+      "pair": "channels_admin/microsoft_graph#verify"
+    },
+    {
+      "helper": "channels_admin_microsoft_graph_index",
+      "verb": "GET",
+      "path_spec": "/spike_stub_50/channels/admin/microsoft_graph(.:format)",
+      "pair": "channels_admin/microsoft_graph#index"
+    },
+    {
+      "helper": "channels_admin_microsoft_graph",
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_50/channels/admin/microsoft_graph/:id(.:format)",
+      "pair": "channels_admin/microsoft_graph#destroy"
+    },
+    {
+      "helper": "spike_stub_51_channels_sms",
+      "verb": "GET",
+      "path_spec": "/spike_stub_51/channels_sms(.:format)",
+      "pair": "channels_sms#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_52/channels_sms/:id(.:format)",
+      "pair": "channels_sms#show"
+    },
+    {
+      "helper": "spike_stub_53_channels_sms",
+      "verb": "POST",
+      "path_spec": "/spike_stub_53/channels_sms(.:format)",
+      "pair": "channels_sms#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_54/channels_sms/:id(.:format)",
+      "pair": "channels_sms#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_55/channels_sms/:id(.:format)",
+      "pair": "channels_sms#destroy"
+    },
+    {
+      "helper": "spike_stub_56_channels_sms_enable",
+      "verb": "POST",
+      "path_spec": "/spike_stub_56/channels_sms_enable(.:format)",
+      "pair": "channels_sms#enable"
+    },
+    {
+      "helper": "spike_stub_57_channels_sms_disable",
+      "verb": "POST",
+      "path_spec": "/spike_stub_57/channels_sms_disable(.:format)",
+      "pair": "channels_sms#disable"
+    },
+    {
+      "helper": "spike_stub_58_channels_sms",
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_58/channels_sms(.:format)",
+      "pair": "channels_sms#destroy"
+    },
+    {
+      "helper": "spike_stub_59_channels_sms_test",
+      "verb": "POST",
+      "path_spec": "/spike_stub_59/channels_sms/test(.:format)",
+      "pair": "channels_sms#test"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_60/sms_webhook/:token(.:format)",
+      "pair": "channels_sms#webhook"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_61/sms_webhook/:token(.:format)",
+      "pair": "channels_sms#webhook"
+    },
+    {
+      "helper": "spike_stub_62_channels_telegram",
+      "verb": "GET",
+      "path_spec": "/spike_stub_62/channels_telegram(.:format)",
+      "pair": "channels_telegram#index"
+    },
+    {
+      "helper": "spike_stub_63_channels_telegram",
+      "verb": "POST",
+      "path_spec": "/spike_stub_63/channels_telegram(.:format)",
+      "pair": "channels_telegram#add"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_64/channels_telegram/:id(.:format)",
+      "pair": "channels_telegram#update"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_65/channels_telegram_webhook/:callback_token(.:format)",
+      "pair": "channels_telegram#webhook"
+    },
+    {
+      "helper": "spike_stub_66_channels_telegram_disable",
+      "verb": "POST",
+      "path_spec": "/spike_stub_66/channels_telegram_disable(.:format)",
+      "pair": "channels_telegram#disable"
+    },
+    {
+      "helper": "spike_stub_67_channels_telegram_enable",
+      "verb": "POST",
+      "path_spec": "/spike_stub_67/channels_telegram_enable(.:format)",
+      "pair": "channels_telegram#enable"
+    },
+    {
+      "helper": "spike_stub_68_channels_telegram",
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_68/channels_telegram(.:format)",
+      "pair": "channels_telegram#destroy"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_69/channels_whatsapp_webhook/:callback_url_uuid(.:format)",
+      "pair": "channels_whatsapp#verify_webhook"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_70/channels_whatsapp_webhook/:callback_url_uuid(.:format)",
+      "pair": "channels_whatsapp#perform_webhook"
+    },
+    {
+      "helper": "enable_channels_admin_whatsapp",
+      "verb": "POST",
+      "path_spec": "/spike_stub_71/channels/admin/whatsapp/:id/enable(.:format)",
+      "pair": "channels_admin/whatsapp#enable"
+    },
+    {
+      "helper": "disable_channels_admin_whatsapp",
+      "verb": "POST",
+      "path_spec": "/spike_stub_71/channels/admin/whatsapp/:id/disable(.:format)",
+      "pair": "channels_admin/whatsapp#disable"
+    },
+    {
+      "helper": "preload_channels_admin_whatsapp_index",
+      "verb": "POST",
+      "path_spec": "/spike_stub_71/channels/admin/whatsapp/preload(.:format)",
+      "pair": "channels_admin/whatsapp#preload"
+    },
+    {
+      "helper": "channels_admin_whatsapp_index",
+      "verb": "GET",
+      "path_spec": "/spike_stub_71/channels/admin/whatsapp(.:format)",
+      "pair": "channels_admin/whatsapp#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_71/channels/admin/whatsapp(.:format)",
+      "pair": "channels_admin/whatsapp#create"
+    },
+    {
+      "helper": "channels_admin_whatsapp",
+      "verb": "PATCH",
+      "path_spec": "/spike_stub_71/channels/admin/whatsapp/:id(.:format)",
+      "pair": "channels_admin/whatsapp#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_71/channels/admin/whatsapp/:id(.:format)",
+      "pair": "channels_admin/whatsapp#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_71/channels/admin/whatsapp/:id(.:format)",
+      "pair": "channels_admin/whatsapp#destroy"
+    },
+    {
+      "helper": "spike_stub_72_chats",
+      "verb": "GET",
+      "path_spec": "/spike_stub_72/chats(.:format)",
+      "pair": "chats#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_73/chats/:id(.:format)",
+      "pair": "chats#show"
+    },
+    {
+      "helper": "spike_stub_74_chats",
+      "verb": "POST",
+      "path_spec": "/spike_stub_74/chats(.:format)",
+      "pair": "chats#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_75/chats/:id(.:format)",
+      "pair": "chats#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_76/chats/:id(.:format)",
+      "pair": "chats#destroy"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_77/chat_sessions/:id(.:format)",
+      "pair": "chat_sessions#show"
+    },
+    {
+      "helper": "checklists",
+      "verb": "POST",
+      "path_spec": "/spike_stub_78/checklists(.:format)",
+      "pair": "checklists#create"
+    },
+    {
+      "helper": "checklist",
+      "verb": "GET",
+      "path_spec": "/spike_stub_78/checklists/:id(.:format)",
+      "pair": "checklists#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/spike_stub_78/checklists/:id(.:format)",
+      "pair": "checklists#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_78/checklists/:id(.:format)",
+      "pair": "checklists#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_78/checklists/:id(.:format)",
+      "pair": "checklists#destroy"
+    },
+    {
+      "helper": "create_bulk_checklist_items",
+      "verb": "POST",
+      "path_spec": "/spike_stub_78/checklist_items/create_bulk(.:format)",
+      "pair": "checklist_items#create_bulk"
+    },
+    {
+      "helper": "checklist_items",
+      "verb": "POST",
+      "path_spec": "/spike_stub_78/checklist_items(.:format)",
+      "pair": "checklist_items#create"
+    },
+    {
+      "helper": "checklist_item",
+      "verb": "GET",
+      "path_spec": "/spike_stub_78/checklist_items/:id(.:format)",
+      "pair": "checklist_items#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/spike_stub_78/checklist_items/:id(.:format)",
+      "pair": "checklist_items#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_78/checklist_items/:id(.:format)",
+      "pair": "checklist_items#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_78/checklist_items/:id(.:format)",
+      "pair": "checklist_items#destroy"
+    },
+    {
+      "helper": "checklist_templates",
+      "verb": "GET",
+      "path_spec": "/spike_stub_78/checklist_templates(.:format)",
+      "pair": "checklist_templates#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_78/checklist_templates(.:format)",
+      "pair": "checklist_templates#create"
+    },
+    {
+      "helper": "checklist_template",
+      "verb": "GET",
+      "path_spec": "/spike_stub_78/checklist_templates/:id(.:format)",
+      "pair": "checklist_templates#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/spike_stub_78/checklist_templates/:id(.:format)",
+      "pair": "checklist_templates#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_78/checklist_templates/:id(.:format)",
+      "pair": "checklist_templates#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_78/checklist_templates/:id(.:format)",
+      "pair": "checklist_templates#destroy"
+    },
+    {
+      "helper": "spike_stub_79_core_workflows",
+      "verb": "GET",
+      "path_spec": "/spike_stub_79/core_workflows(.:format)",
+      "pair": "core_workflows#index"
+    },
+    {
+      "helper": "spike_stub_80_core_workflows_search",
+      "verb": "GET|POST",
+      "path_spec": "/spike_stub_80/core_workflows/search(.:format)",
+      "pair": "core_workflows#search"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_81/core_workflows/:id(.:format)",
+      "pair": "core_workflows#show"
+    },
+    {
+      "helper": "spike_stub_82_core_workflows",
+      "verb": "POST",
+      "path_spec": "/spike_stub_82/core_workflows(.:format)",
+      "pair": "core_workflows#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_83/core_workflows/:id(.:format)",
+      "pair": "core_workflows#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_84/core_workflows/:id(.:format)",
+      "pair": "core_workflows#destroy"
+    },
+    {
+      "helper": "spike_stub_85_core_workflows_perform",
+      "verb": "POST",
+      "path_spec": "/spike_stub_85/core_workflows/perform(.:format)",
+      "pair": "core_workflows#perform"
+    },
+    {
+      "helper": "spike_stub_86_cti_log",
+      "verb": "GET",
+      "path_spec": "/spike_stub_86/cti/log(.:format)",
+      "pair": "cti#index"
+    },
+    {
+      "helper": "spike_stub_87_cti_done_bulk",
+      "verb": "POST",
+      "path_spec": "/spike_stub_87/cti/done/bulk(.:format)",
+      "pair": "cti#done_bulk"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_88/cti/done/:id(.:format)",
+      "pair": "cti#done"
+    },
+    {
+      "helper": "spike_stub_89_data_privacy_tasks",
+      "verb": "GET",
+      "path_spec": "/spike_stub_89/data_privacy_tasks(.:format)",
+      "pair": "data_privacy_tasks#index"
+    },
+    {
+      "helper": "spike_stub_90_data_privacy_tasks_by_state",
+      "verb": "GET",
+      "path_spec": "/spike_stub_90/data_privacy_tasks/by_state(.:format)",
+      "pair": "data_privacy_tasks#by_state"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_91/data_privacy_tasks/:id(.:format)",
+      "pair": "data_privacy_tasks#show"
+    },
+    {
+      "helper": "spike_stub_92_data_privacy_tasks",
+      "verb": "POST",
+      "path_spec": "/spike_stub_92/data_privacy_tasks(.:format)",
+      "pair": "data_privacy_tasks#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_93/data_privacy_tasks/:id(.:format)",
+      "pair": "data_privacy_tasks#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_94/data_privacy_tasks/:id(.:format)",
+      "pair": "data_privacy_tasks#destroy"
+    },
+    {
+      "helper": "desktop",
+      "verb": "GET",
+      "path_spec": "/desktop(.:format)",
+      "pair": "desktop#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/desktop/*path(.:format)",
+      "pair": "desktop#index"
+    },
+    {
+      "helper": "spike_stub_95_email_addresses",
+      "verb": "GET",
+      "path_spec": "/spike_stub_95/email_addresses(.:format)",
+      "pair": "email_addresses#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_96/email_addresses/:id(.:format)",
+      "pair": "email_addresses#show"
+    },
+    {
+      "helper": "spike_stub_97_email_addresses",
+      "verb": "POST",
+      "path_spec": "/spike_stub_97/email_addresses(.:format)",
+      "pair": "email_addresses#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_98/email_addresses/:id(.:format)",
+      "pair": "email_addresses#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_99/email_addresses/:id(.:format)",
+      "pair": "email_addresses#destroy"
+    },
+    {
+      "helper": "spike_stub_100_external_credentials",
+      "verb": "GET",
+      "path_spec": "/spike_stub_100/external_credentials(.:format)",
+      "pair": "external_credentials#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_101/external_credentials/:id(.:format)",
+      "pair": "external_credentials#show"
+    },
+    {
+      "helper": "spike_stub_102_external_credentials",
+      "verb": "POST",
+      "path_spec": "/spike_stub_102/external_credentials(.:format)",
+      "pair": "external_credentials#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_103/external_credentials/:id(.:format)",
+      "pair": "external_credentials#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_104/external_credentials/:id(.:format)",
+      "pair": "external_credentials#destroy"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_105/external_credentials/:provider/app_verify(.:format)",
+      "pair": "external_credentials#app_verify"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_106/external_credentials/:provider/link_account(.:format)",
+      "pair": "external_credentials#link_account"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_107/external_credentials/:provider/callback(.:format)",
+      "pair": "external_credentials#callback"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_108/external_data_source/:object/:attribute(.:format)",
+      "pair": "external_data_source#fetch"
+    },
+    {
+      "helper": "spike_stub_109_external_data_source_preview",
+      "verb": "POST",
+      "path_spec": "/spike_stub_109/external_data_source/preview(.:format)",
+      "pair": "external_data_source#preview"
+    },
+    {
+      "helper": "spike_stub_110_first_steps",
+      "verb": "GET",
+      "path_spec": "/spike_stub_110/first_steps(.:format)",
+      "pair": "first_steps#index"
+    },
+    {
+      "helper": "spike_stub_111_first_steps_test_ticket",
+      "verb": "POST",
+      "path_spec": "/spike_stub_111/first_steps/test_ticket(.:format)",
+      "pair": "first_steps#test_ticket"
+    },
+    {
+      "helper": "spike_stub_112_form_submit",
+      "verb": "POST",
+      "path_spec": "/spike_stub_112/form_submit(.:format)",
+      "pair": "form#submit"
+    },
+    {
+      "helper": "spike_stub_113_form_config",
+      "verb": "POST",
+      "path_spec": "/spike_stub_113/form_config(.:format)",
+      "pair": "form#configuration"
+    },
+    {
+      "helper": "spike_stub_114_form_captcha_challenge",
+      "verb": "GET",
+      "path_spec": "/spike_stub_114/form_captcha_challenge(.:format)",
+      "pair": "form#captcha_challenge"
+    },
+    {
+      "helper": "spike_stub_115_getting_started",
+      "verb": "GET",
+      "path_spec": "/spike_stub_115/getting_started(.:format)",
+      "pair": "getting_started#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_116/getting_started/auto_wizard/:token(.:format)",
+      "pair": "getting_started#auto_wizard_admin"
+    },
+    {
+      "helper": "spike_stub_117_getting_started_auto_wizard",
+      "verb": "GET",
+      "path_spec": "/spike_stub_117/getting_started/auto_wizard(.:format)",
+      "pair": "getting_started#auto_wizard_admin"
+    },
+    {
+      "helper": "spike_stub_118_getting_started_base",
+      "verb": "POST",
+      "path_spec": "/spike_stub_118/getting_started/base(.:format)",
+      "pair": "getting_started#base"
+    },
+    {
+      "helper": "spike_stub_119_channels_google",
+      "verb": "GET",
+      "path_spec": "/spike_stub_119/channels_google(.:format)",
+      "pair": "channels_google#index"
+    },
+    {
+      "helper": "spike_stub_120_channels_google_disable",
+      "verb": "POST",
+      "path_spec": "/spike_stub_120/channels_google_disable(.:format)",
+      "pair": "channels_google#disable"
+    },
+    {
+      "helper": "spike_stub_121_channels_google_enable",
+      "verb": "POST",
+      "path_spec": "/spike_stub_121/channels_google_enable(.:format)",
+      "pair": "channels_google#enable"
+    },
+    {
+      "helper": "spike_stub_122_channels_google",
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_122/channels_google(.:format)",
+      "pair": "channels_google#destroy"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_123/channels_google_group/:id(.:format)",
+      "pair": "channels_google#group"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_124/channels_google_inbound/:id(.:format)",
+      "pair": "channels_google#inbound"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_125/channels_google_verify/:id(.:format)",
+      "pair": "channels_google#verify"
+    },
+    {
+      "helper": "spike_stub_126_channels_google_rollback_migration",
+      "verb": "POST",
+      "path_spec": "/spike_stub_126/channels_google_rollback_migration(.:format)",
+      "pair": "channels_google#rollback_migration"
+    },
+    {
+      "helper": "graphql",
+      "verb": "OPTIONS|POST",
+      "path_spec": "/graphql(.:format)",
+      "pair": "graphql#execute"
+    },
+    {
+      "helper": "spike_stub_127_groups",
+      "verb": "GET",
+      "path_spec": "/spike_stub_127/groups(.:format)",
+      "pair": "groups#index"
+    },
+    {
+      "helper": "spike_stub_128_groups_search",
+      "verb": "GET|POST",
+      "path_spec": "/spike_stub_128/groups/search(.:format)",
+      "pair": "groups#search"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_129/groups/:id(.:format)",
+      "pair": "groups#show"
+    },
+    {
+      "helper": "spike_stub_130_groups",
+      "verb": "POST",
+      "path_spec": "/spike_stub_130/groups(.:format)",
+      "pair": "groups#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_131/groups/:id(.:format)",
+      "pair": "groups#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_132/groups/:id(.:format)",
+      "pair": "groups#destroy"
+    },
+    {
+      "helper": "spike_stub_133_http_logs",
+      "verb": "GET",
+      "path_spec": "/spike_stub_133/http_logs(.:format)",
+      "pair": "http_logs#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_134/http_logs/:facility(.:format)",
+      "pair": "http_logs#index"
+    },
+    {
+      "helper": "spike_stub_135_http_logs",
+      "verb": "POST",
+      "path_spec": "/spike_stub_135/http_logs(.:format)",
+      "pair": "http_logs#create"
+    },
+    {
+      "helper": "spike_stub_136_import_freshdesk_url_check",
+      "verb": "POST",
+      "path_spec": "/spike_stub_136/import/freshdesk/url_check(.:format)",
+      "pair": "import_freshdesk#url_check"
+    },
+    {
+      "helper": "spike_stub_137_import_freshdesk_credentials_check",
+      "verb": "POST",
+      "path_spec": "/spike_stub_137/import/freshdesk/credentials_check(.:format)",
+      "pair": "import_freshdesk#credentials_check"
+    },
+    {
+      "helper": "spike_stub_138_import_freshdesk_import_start",
+      "verb": "POST",
+      "path_spec": "/spike_stub_138/import/freshdesk/import_start(.:format)",
+      "pair": "import_freshdesk#import_start"
+    },
+    {
+      "helper": "spike_stub_139_import_freshdesk_import_status",
+      "verb": "GET",
+      "path_spec": "/spike_stub_139/import/freshdesk/import_status(.:format)",
+      "pair": "import_freshdesk#import_status"
+    },
+    {
+      "helper": "spike_stub_140_import_kayako_url_check",
+      "verb": "POST",
+      "path_spec": "/spike_stub_140/import/kayako/url_check(.:format)",
+      "pair": "import_kayako#url_check"
+    },
+    {
+      "helper": "spike_stub_141_import_kayako_credentials_check",
+      "verb": "POST",
+      "path_spec": "/spike_stub_141/import/kayako/credentials_check(.:format)",
+      "pair": "import_kayako#credentials_check"
+    },
+    {
+      "helper": "spike_stub_142_import_kayako_import_start",
+      "verb": "POST",
+      "path_spec": "/spike_stub_142/import/kayako/import_start(.:format)",
+      "pair": "import_kayako#import_start"
+    },
+    {
+      "helper": "spike_stub_143_import_kayako_import_status",
+      "verb": "GET",
+      "path_spec": "/spike_stub_143/import/kayako/import_status(.:format)",
+      "pair": "import_kayako#import_status"
+    },
+    {
+      "helper": "spike_stub_144_import_otrs_url_check",
+      "verb": "POST",
+      "path_spec": "/spike_stub_144/import/otrs/url_check(.:format)",
+      "pair": "import_otrs#url_check"
+    },
+    {
+      "helper": "spike_stub_145_import_otrs_import_check",
+      "verb": "POST",
+      "path_spec": "/spike_stub_145/import/otrs/import_check(.:format)",
+      "pair": "import_otrs#import_check"
+    },
+    {
+      "helper": "spike_stub_146_import_otrs_import_start",
+      "verb": "POST",
+      "path_spec": "/spike_stub_146/import/otrs/import_start(.:format)",
+      "pair": "import_otrs#import_start"
+    },
+    {
+      "helper": "spike_stub_147_import_otrs_import_status",
+      "verb": "GET",
+      "path_spec": "/spike_stub_147/import/otrs/import_status(.:format)",
+      "pair": "import_otrs#import_status"
+    },
+    {
+      "helper": "spike_stub_148_import_zendesk_url_check",
+      "verb": "POST",
+      "path_spec": "/spike_stub_148/import/zendesk/url_check(.:format)",
+      "pair": "import_zendesk#url_check"
+    },
+    {
+      "helper": "spike_stub_149_import_zendesk_credentials_check",
+      "verb": "POST",
+      "path_spec": "/spike_stub_149/import/zendesk/credentials_check(.:format)",
+      "pair": "import_zendesk#credentials_check"
+    },
+    {
+      "helper": "spike_stub_150_import_zendesk_import_start",
+      "verb": "POST",
+      "path_spec": "/spike_stub_150/import/zendesk/import_start(.:format)",
+      "pair": "import_zendesk#import_start"
+    },
+    {
+      "helper": "spike_stub_151_import_zendesk_import_status",
+      "verb": "GET",
+      "path_spec": "/spike_stub_151/import/zendesk/import_status(.:format)",
+      "pair": "import_zendesk#import_status"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_152/integration/check_mk/:token(.:format)",
+      "pair": "integration/check_mk#update"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/api/v1/cti/:token(.:format)",
+      "pair": "integration/cti#event"
+    },
+    {
+      "helper": "spike_stub_153_integration_exchange_index",
+      "verb": "GET",
+      "path_spec": "/spike_stub_153/integration/exchange/index(.:format)",
+      "pair": "integration/exchange#index"
+    },
+    {
+      "helper": "spike_stub_154_integration_exchange_oauth",
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_154/integration/exchange/oauth(.:format)",
+      "pair": "integration/exchange#destroy_oauth"
+    },
+    {
+      "helper": "spike_stub_155_integration_exchange_autodiscover",
+      "verb": "POST",
+      "path_spec": "/spike_stub_155/integration/exchange/autodiscover(.:format)",
+      "pair": "integration/exchange#autodiscover"
+    },
+    {
+      "helper": "spike_stub_156_integration_exchange_folders",
+      "verb": "POST",
+      "path_spec": "/spike_stub_156/integration/exchange/folders(.:format)",
+      "pair": "integration/exchange#folders"
+    },
+    {
+      "helper": "spike_stub_157_integration_exchange_mapping",
+      "verb": "POST",
+      "path_spec": "/spike_stub_157/integration/exchange/mapping(.:format)",
+      "pair": "integration/exchange#mapping"
+    },
+    {
+      "helper": "spike_stub_158_integration_exchange_job_try",
+      "verb": "GET",
+      "path_spec": "/spike_stub_158/integration/exchange/job_try(.:format)",
+      "pair": "integration/exchange#job_try_index"
+    },
+    {
+      "helper": "spike_stub_159_integration_exchange_job_try",
+      "verb": "POST",
+      "path_spec": "/spike_stub_159/integration/exchange/job_try(.:format)",
+      "pair": "integration/exchange#job_try_create"
+    },
+    {
+      "helper": "spike_stub_160_integration_exchange_job_start",
+      "verb": "GET",
+      "path_spec": "/spike_stub_160/integration/exchange/job_start(.:format)",
+      "pair": "integration/exchange#job_start_index"
+    },
+    {
+      "helper": "spike_stub_161_integration_exchange_job_start",
+      "verb": "POST",
+      "path_spec": "/spike_stub_161/integration/exchange/job_start(.:format)",
+      "pair": "integration/exchange#job_start_create"
+    },
+    {
+      "helper": "spike_stub_162_integration_github",
+      "verb": "POST",
+      "path_spec": "/spike_stub_162/integration/github(.:format)",
+      "pair": "integration/github#query"
+    },
+    {
+      "helper": "spike_stub_163_integration_github",
+      "verb": "GET",
+      "path_spec": "/spike_stub_163/integration/github(.:format)",
+      "pair": "integration/github#query"
+    },
+    {
+      "helper": "spike_stub_164_integration_github_verify",
+      "verb": "POST",
+      "path_spec": "/spike_stub_164/integration/github/verify(.:format)",
+      "pair": "integration/github#verify"
+    },
+    {
+      "helper": "spike_stub_165_integration_github_ticket_update",
+      "verb": "POST",
+      "path_spec": "/spike_stub_165/integration/github_ticket_update(.:format)",
+      "pair": "integration/github#update"
+    },
+    {
+      "helper": "spike_stub_166_integration_gitlab",
+      "verb": "POST",
+      "path_spec": "/spike_stub_166/integration/gitlab(.:format)",
+      "pair": "integration/gitlab#query"
+    },
+    {
+      "helper": "spike_stub_167_integration_gitlab",
+      "verb": "GET",
+      "path_spec": "/spike_stub_167/integration/gitlab(.:format)",
+      "pair": "integration/gitlab#query"
+    },
+    {
+      "helper": "spike_stub_168_integration_gitlab_verify",
+      "verb": "POST",
+      "path_spec": "/spike_stub_168/integration/gitlab/verify(.:format)",
+      "pair": "integration/gitlab#verify"
+    },
+    {
+      "helper": "spike_stub_169_integration_gitlab_ticket_update",
+      "verb": "POST",
+      "path_spec": "/spike_stub_169/integration/gitlab_ticket_update(.:format)",
+      "pair": "integration/gitlab#update"
+    },
+    {
+      "helper": "spike_stub_170_integration_idoit",
+      "verb": "POST",
+      "path_spec": "/spike_stub_170/integration/idoit(.:format)",
+      "pair": "integration/idoit#query"
+    },
+    {
+      "helper": "spike_stub_171_integration_idoit",
+      "verb": "GET",
+      "path_spec": "/spike_stub_171/integration/idoit(.:format)",
+      "pair": "integration/idoit#query"
+    },
+    {
+      "helper": "spike_stub_172_integration_idoit_verify",
+      "verb": "POST",
+      "path_spec": "/spike_stub_172/integration/idoit/verify(.:format)",
+      "pair": "integration/idoit#verify"
+    },
+    {
+      "helper": "spike_stub_173_integration_idoit_ticket_update",
+      "verb": "POST",
+      "path_spec": "/spike_stub_173/integration/idoit_ticket_update(.:format)",
+      "pair": "integration/idoit#update"
+    },
+    {
+      "helper": "spike_stub_174_integration_ldap_discover",
+      "verb": "POST",
+      "path_spec": "/spike_stub_174/integration/ldap/discover(.:format)",
+      "pair": "integration/ldap#discover"
+    },
+    {
+      "helper": "spike_stub_175_integration_ldap_bind",
+      "verb": "POST",
+      "path_spec": "/spike_stub_175/integration/ldap/bind(.:format)",
+      "pair": "integration/ldap#bind"
+    },
+    {
+      "helper": "spike_stub_176_integration_ldap_job_try",
+      "verb": "GET",
+      "path_spec": "/spike_stub_176/integration/ldap/job_try(.:format)",
+      "pair": "integration/ldap#job_try_index"
+    },
+    {
+      "helper": "spike_stub_177_integration_ldap_job_try",
+      "verb": "POST",
+      "path_spec": "/spike_stub_177/integration/ldap/job_try(.:format)",
+      "pair": "integration/ldap#job_try_create"
+    },
+    {
+      "helper": "spike_stub_178_integration_ldap_job_start",
+      "verb": "GET",
+      "path_spec": "/spike_stub_178/integration/ldap/job_start(.:format)",
+      "pair": "integration/ldap#job_start_index"
+    },
+    {
+      "helper": "spike_stub_179_integration_ldap_job_start",
+      "verb": "POST",
+      "path_spec": "/spike_stub_179/integration/ldap/job_start(.:format)",
+      "pair": "integration/ldap#job_start_create"
+    },
+    {
+      "helper": "spike_stub_180_integration_pgp",
+      "verb": "POST",
+      "path_spec": "/spike_stub_180/integration/pgp(.:format)",
+      "pair": "integration/pgp#search"
+    },
+    {
+      "helper": "spike_stub_181_integration_pgp_status",
+      "verb": "GET",
+      "path_spec": "/spike_stub_181/integration/pgp/status(.:format)",
+      "pair": "integration/pgp#status"
+    },
+    {
+      "helper": "spike_stub_182_integration_pgp_key",
+      "verb": "GET",
+      "path_spec": "/spike_stub_182/integration/pgp/key(.:format)",
+      "pair": "integration/pgp#key_list"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_183/integration/pgp/key/:id(.:format)",
+      "pair": "integration/pgp#key_show"
+    },
+    {
+      "helper": "spike_stub_184_integration_pgp_key",
+      "verb": "POST",
+      "path_spec": "/spike_stub_184/integration/pgp/key(.:format)",
+      "pair": "integration/pgp#key_add"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_185/integration/pgp/key/:id(.:format)",
+      "pair": "integration/pgp#key_delete"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_186/integration/pgp/key_download/:id(.:format)",
+      "pair": "integration/pgp#key_download"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/api/v1/placetel/:token(.:format)",
+      "pair": "integration/placetel#event"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/api/v1/sipgate/:token/in(.:format)",
+      "pair": "integration/sipgate#event"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/api/v1/sipgate/:token/out(.:format)",
+      "pair": "integration/sipgate#event"
+    },
+    {
+      "helper": "spike_stub_187_integration_smime",
+      "verb": "POST",
+      "path_spec": "/spike_stub_187/integration/smime(.:format)",
+      "pair": "integration/smime#search"
+    },
+    {
+      "helper": "spike_stub_188_integration_smime_certificate",
+      "verb": "POST",
+      "path_spec": "/spike_stub_188/integration/smime/certificate(.:format)",
+      "pair": "integration/smime#certificate_add"
+    },
+    {
+      "helper": "spike_stub_189_integration_smime_certificate",
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_189/integration/smime/certificate(.:format)",
+      "pair": "integration/smime#certificate_delete"
+    },
+    {
+      "helper": "spike_stub_190_integration_smime_certificate",
+      "verb": "GET",
+      "path_spec": "/spike_stub_190/integration/smime/certificate(.:format)",
+      "pair": "integration/smime#certificate_list"
+    },
+    {
+      "helper": "spike_stub_191_integration_smime_private_key",
+      "verb": "POST",
+      "path_spec": "/spike_stub_191/integration/smime/private_key(.:format)",
+      "pair": "integration/smime#private_key_add"
+    },
+    {
+      "helper": "spike_stub_192_integration_smime_private_key",
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_192/integration/smime/private_key(.:format)",
+      "pair": "integration/smime#private_key_delete"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_193/integration/smime/certificate_download/:id(.:format)",
+      "pair": "integration/smime#certificate_download"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_194/integration/smime/private_key_download/:id(.:format)",
+      "pair": "integration/smime#private_key_download"
+    },
+    {
+      "helper": "spike_stub_195_jobs",
+      "verb": "GET",
+      "path_spec": "/spike_stub_195/jobs(.:format)",
+      "pair": "jobs#index"
+    },
+    {
+      "helper": "spike_stub_196_jobs_search",
+      "verb": "GET|POST",
+      "path_spec": "/spike_stub_196/jobs/search(.:format)",
+      "pair": "jobs#search"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_197/jobs/:id(.:format)",
+      "pair": "jobs#show"
+    },
+    {
+      "helper": "spike_stub_198_jobs",
+      "verb": "POST",
+      "path_spec": "/spike_stub_198/jobs(.:format)",
+      "pair": "jobs#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_199/jobs/:id(.:format)",
+      "pair": "jobs#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_200/jobs/:id(.:format)",
+      "pair": "jobs#destroy"
+    },
+    {
+      "helper": "init_knowledge_bases",
+      "verb": "POST",
+      "path_spec": "/spike_stub_201/knowledge_bases/init(.:format)",
+      "pair": "knowledge_bases#init"
+    },
+    {
+      "helper": "visible_ids_knowledge_bases",
+      "verb": "GET",
+      "path_spec": "/spike_stub_201/knowledge_bases/visible_ids(.:format)",
+      "pair": "knowledge_bases#visible_ids"
+    },
+    {
+      "helper": "search_knowledge_bases",
+      "verb": "POST",
+      "path_spec": "/spike_stub_201/knowledge_bases/search(.:format)",
+      "pair": "knowledge_base/search#search"
+    },
+    {
+      "helper": "recent_answers_knowledge_bases",
+      "verb": "GET",
+      "path_spec": "/spike_stub_201/knowledge_bases/recent_answers(.:format)",
+      "pair": "knowledge_base/answers#recent_answers"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_201/knowledge_bases/preview/:object/:id/:locale(.:format)",
+      "pair": "knowledge_bases#preview"
+    },
+    {
+      "helper": "init_manage_index",
+      "verb": "GET",
+      "path_spec": "/spike_stub_201/knowledge_bases/manage/init(.:format)",
+      "pair": "knowledge_base/manage#init"
+    },
+    {
+      "helper": "server_snippets_manage",
+      "verb": "GET",
+      "path_spec": "/spike_stub_201/knowledge_bases/manage/:id/server_snippets(.:format)",
+      "pair": "knowledge_base/manage#server_snippets"
+    },
+    {
+      "helper": "activate_manage",
+      "verb": "PATCH",
+      "path_spec": "/spike_stub_201/knowledge_bases/manage/:id/activate(.:format)",
+      "pair": "knowledge_base/manage#activate"
+    },
+    {
+      "helper": "deactivate_manage",
+      "verb": "PATCH",
+      "path_spec": "/spike_stub_201/knowledge_bases/manage/:id/deactivate(.:format)",
+      "pair": "knowledge_base/manage#deactivate"
+    },
+    {
+      "helper": "update_menu_items_manage",
+      "verb": "PATCH",
+      "path_spec": "/spike_stub_201/knowledge_bases/manage/:id/update_menu_items(.:format)",
+      "pair": "knowledge_base/manage#update_menu_items"
+    },
+    {
+      "helper": "manage_index",
+      "verb": "GET",
+      "path_spec": "/spike_stub_201/knowledge_bases/manage(.:format)",
+      "pair": "knowledge_base/manage#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_201/knowledge_bases/manage(.:format)",
+      "pair": "knowledge_base/manage#create"
+    },
+    {
+      "helper": "new_manage",
+      "verb": "GET",
+      "path_spec": "/spike_stub_201/knowledge_bases/manage/new(.:format)",
+      "pair": "knowledge_base/manage#new"
+    },
+    {
+      "helper": "edit_manage",
+      "verb": "GET",
+      "path_spec": "/spike_stub_201/knowledge_bases/manage/:id/edit(.:format)",
+      "pair": "knowledge_base/manage#edit"
+    },
+    {
+      "helper": "manage",
+      "verb": "GET",
+      "path_spec": "/spike_stub_201/knowledge_bases/manage/:id(.:format)",
+      "pair": "knowledge_base/manage#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/spike_stub_201/knowledge_bases/manage/:id(.:format)",
+      "pair": "knowledge_base/manage#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_201/knowledge_bases/manage/:id(.:format)",
+      "pair": "knowledge_base/manage#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_201/knowledge_bases/manage/:id(.:format)",
+      "pair": "knowledge_base/manage#destroy"
+    },
+    {
+      "helper": "feed_tokens",
+      "verb": "GET",
+      "path_spec": "/spike_stub_201/knowledge_bases/feed_tokens(.:format)",
+      "pair": "knowledge_base/feed_tokens#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/spike_stub_201/knowledge_bases/feed_tokens(.:format)",
+      "pair": "knowledge_base/feed_tokens#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_201/knowledge_bases/feed_tokens(.:format)",
+      "pair": "knowledge_base/feed_tokens#update"
+    },
+    {
+      "helper": "permissions",
+      "verb": "GET",
+      "path_spec": "/spike_stub_201/knowledge_bases/:id/permissions(.:format)",
+      "pair": "knowledge_base/permissions#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/spike_stub_201/knowledge_bases/:id/permissions(.:format)",
+      "pair": "knowledge_base/permissions#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_201/knowledge_bases/:id/permissions(.:format)",
+      "pair": "knowledge_base/permissions#update"
+    },
+    {
+      "helper": "feed_knowledge_basis",
+      "verb": "GET",
+      "path_spec": "/spike_stub_201/knowledge_bases/:id/:locale/feed(.:format)",
+      "pair": "knowledge_base/feeds#root"
+    },
+    {
+      "helper": "reorder_categories_knowledge_basis_category",
+      "verb": "PATCH",
+      "path_spec": "/spike_stub_201/knowledge_bases/:knowledge_basis_id/categories/:id/reorder_categories(.:format)",
+      "pair": "knowledge_base/categories#reorder_categories"
+    },
+    {
+      "helper": "reorder_answers_knowledge_basis_category",
+      "verb": "PATCH",
+      "path_spec": "/spike_stub_201/knowledge_bases/:knowledge_basis_id/categories/:id/reorder_answers(.:format)",
+      "pair": "knowledge_base/categories#reorder_answers"
+    },
+    {
+      "helper": "knowledge_basis_permissions",
+      "verb": "GET",
+      "path_spec": "/spike_stub_201/knowledge_bases/:knowledge_basis_id/categories/:id/permissions(.:format)",
+      "pair": "knowledge_base/permissions#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/spike_stub_201/knowledge_bases/:knowledge_basis_id/categories/:id/permissions(.:format)",
+      "pair": "knowledge_base/permissions#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_201/knowledge_bases/:knowledge_basis_id/categories/:id/permissions(.:format)",
+      "pair": "knowledge_base/permissions#update"
+    },
+    {
+      "helper": "feed_knowledge_basis_category",
+      "verb": "GET",
+      "path_spec": "/spike_stub_201/knowledge_bases/:knowledge_basis_id/categories/:id/:locale/feed(.:format)",
+      "pair": "knowledge_base/feeds#category"
+    },
+    {
+      "helper": "reorder_root_categories_knowledge_basis_categories",
+      "verb": "PATCH",
+      "path_spec": "/spike_stub_201/knowledge_bases/:knowledge_basis_id/categories/reorder_root_categories(.:format)",
+      "pair": "knowledge_base/categories#reorder_root_categories"
+    },
+    {
+      "helper": "knowledge_basis_categories",
+      "verb": "GET",
+      "path_spec": "/spike_stub_201/knowledge_bases/:knowledge_basis_id/categories(.:format)",
+      "pair": "knowledge_base/categories#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_201/knowledge_bases/:knowledge_basis_id/categories(.:format)",
+      "pair": "knowledge_base/categories#create"
+    },
+    {
+      "helper": "knowledge_basis_category",
+      "verb": "GET",
+      "path_spec": "/spike_stub_201/knowledge_bases/:knowledge_basis_id/categories/:id(.:format)",
+      "pair": "knowledge_base/categories#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/spike_stub_201/knowledge_bases/:knowledge_basis_id/categories/:id(.:format)",
+      "pair": "knowledge_base/categories#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_201/knowledge_bases/:knowledge_basis_id/categories/:id(.:format)",
+      "pair": "knowledge_base/categories#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_201/knowledge_bases/:knowledge_basis_id/categories/:id(.:format)",
+      "pair": "knowledge_base/categories#destroy"
+    },
+    {
+      "helper": "clone_to_form_knowledge_basis_answer_attachments",
+      "verb": "POST",
+      "path_spec": "/spike_stub_201/knowledge_bases/:knowledge_basis_id/answers/:answer_id/attachments/clone_to_form(.:format)",
+      "pair": "knowledge_base/answer/attachments#clone_to_form"
+    },
+    {
+      "helper": "knowledge_basis_answer_attachments",
+      "verb": "POST",
+      "path_spec": "/spike_stub_201/knowledge_bases/:knowledge_basis_id/answers/:answer_id/attachments(.:format)",
+      "pair": "knowledge_base/answer/attachments#create"
+    },
+    {
+      "helper": "knowledge_basis_answer_attachment",
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_201/knowledge_bases/:knowledge_basis_id/answers/:answer_id/attachments/:id(.:format)",
+      "pair": "knowledge_base/answer/attachments#destroy"
+    },
+    {
+      "helper": "has_publishing_update_knowledge_basis_answer",
+      "verb": "POST",
+      "path_spec": "/spike_stub_201/knowledge_bases/:knowledge_basis_id/answers/:id/has_publishing_update(.:format)",
+      "pair": "knowledge_base/answers#has_publishing_update"
+    },
+    {
+      "helper": "knowledge_basis_answers",
+      "verb": "POST",
+      "path_spec": "/spike_stub_201/knowledge_bases/:knowledge_basis_id/answers(.:format)",
+      "pair": "knowledge_base/answers#create"
+    },
+    {
+      "helper": "knowledge_basis_answer",
+      "verb": "GET",
+      "path_spec": "/spike_stub_201/knowledge_bases/:knowledge_basis_id/answers/:id(.:format)",
+      "pair": "knowledge_base/answers#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/spike_stub_201/knowledge_bases/:knowledge_basis_id/answers/:id(.:format)",
+      "pair": "knowledge_base/answers#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_201/knowledge_bases/:knowledge_basis_id/answers/:id(.:format)",
+      "pair": "knowledge_base/answers#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_201/knowledge_bases/:knowledge_basis_id/answers/:id(.:format)",
+      "pair": "knowledge_base/answers#destroy"
+    },
+    {
+      "helper": "knowledge_basis",
+      "verb": "GET",
+      "path_spec": "/spike_stub_201/knowledge_bases/:id(.:format)",
+      "pair": "knowledge_bases#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/spike_stub_201/knowledge_bases/:id(.:format)",
+      "pair": "knowledge_bases#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_201/knowledge_bases/:id(.:format)",
+      "pair": "knowledge_bases#update"
+    },
+    {
+      "helper": "help_no_locale",
+      "verb": "GET",
+      "path_spec": "/help(.:format)",
+      "pair": "knowledge_base/public/categories#forward_root"
+    },
+    {
+      "helper": "help_root",
+      "verb": "GET",
+      "path_spec": "/help/:locale(.:format)",
+      "pair": "knowledge_base/public/categories#index"
+    },
+    {
+      "helper": "help_category_feed",
+      "verb": "GET",
+      "path_spec": "/help/:locale/:category/feed(.:format)",
+      "pair": "knowledge_base/public/feeds#category"
+    },
+    {
+      "helper": "help_root_feed",
+      "verb": "GET",
+      "path_spec": "/help/:locale/feed(.:format)",
+      "pair": "knowledge_base/public/feeds#root"
+    },
+    {
+      "helper": "help_tag",
+      "verb": "GET",
+      "path_spec": "/help/:locale/tag/:tag(.:format)",
+      "pair": "knowledge_base/public/tags#show"
+    },
+    {
+      "helper": "help_category",
+      "verb": "GET",
+      "path_spec": "/help/:locale/:category(.:format)",
+      "pair": "knowledge_base/public/categories#show"
+    },
+    {
+      "helper": "help_answer",
+      "verb": "GET",
+      "path_spec": "/help/:locale/:category/:answer(.:format)",
+      "pair": "knowledge_base/public/answers#show"
+    },
+    {
+      "helper": "spike_stub_202_ldap_sources",
+      "verb": "GET",
+      "path_spec": "/spike_stub_202/ldap_sources(.:format)",
+      "pair": "ldap_sources#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_203/ldap_sources/:id(.:format)",
+      "pair": "ldap_sources#show"
+    },
+    {
+      "helper": "spike_stub_204_ldap_sources",
+      "verb": "POST",
+      "path_spec": "/spike_stub_204/ldap_sources(.:format)",
+      "pair": "ldap_sources#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_205/ldap_sources/:id(.:format)",
+      "pair": "ldap_sources#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_206/ldap_sources/:id(.:format)",
+      "pair": "ldap_sources#destroy"
+    },
+    {
+      "helper": "spike_stub_207_ldap_sources_prio",
+      "verb": "POST",
+      "path_spec": "/spike_stub_207/ldap_sources_prio(.:format)",
+      "pair": "ldap_sources#prio"
+    },
+    {
+      "helper": "spike_stub_208_links",
+      "verb": "GET",
+      "path_spec": "/spike_stub_208/links(.:format)",
+      "pair": "links#index"
+    },
+    {
+      "helper": "spike_stub_209_links_add",
+      "verb": "POST",
+      "path_spec": "/spike_stub_209/links/add(.:format)",
+      "pair": "links#add"
+    },
+    {
+      "helper": "spike_stub_210_links_remove",
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_210/links/remove(.:format)",
+      "pair": "links#remove"
+    },
+    {
+      "helper": "spike_stub_211_macros",
+      "verb": "GET",
+      "path_spec": "/spike_stub_211/macros(.:format)",
+      "pair": "macros#index"
+    },
+    {
+      "helper": "spike_stub_212_macros_search",
+      "verb": "GET|POST",
+      "path_spec": "/spike_stub_212/macros/search(.:format)",
+      "pair": "macros#search"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_213/macros/:id(.:format)",
+      "pair": "macros#show"
+    },
+    {
+      "helper": "spike_stub_214_macros",
+      "verb": "POST",
+      "path_spec": "/spike_stub_214/macros(.:format)",
+      "pair": "macros#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_215/macros/:id(.:format)",
+      "pair": "macros#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_216/macros/:id(.:format)",
+      "pair": "macros#destroy"
+    },
+    {
+      "helper": "mentions",
+      "verb": "GET",
+      "path_spec": "/spike_stub_217/mentions(.:format)",
+      "pair": "mentions#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_217/mentions(.:format)",
+      "pair": "mentions#create"
+    },
+    {
+      "helper": "mention",
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_217/mentions/:id(.:format)",
+      "pair": "mentions#destroy"
+    },
+    {
+      "helper": "spike_stub_218_message_send",
+      "verb": "GET|POST",
+      "path_spec": "/spike_stub_218/message_send(.:format)",
+      "pair": "long_polling#message_send"
+    },
+    {
+      "helper": "spike_stub_219_message_receive",
+      "verb": "GET|POST",
+      "path_spec": "/spike_stub_219/message_receive(.:format)",
+      "pair": "long_polling#message_receive"
+    },
+    {
+      "helper": "spike_stub_220_channels_microsoft365",
+      "verb": "GET",
+      "path_spec": "/spike_stub_220/channels_microsoft365(.:format)",
+      "pair": "channels_microsoft365#index"
+    },
+    {
+      "helper": "spike_stub_221_channels_microsoft365_disable",
+      "verb": "POST",
+      "path_spec": "/spike_stub_221/channels_microsoft365_disable(.:format)",
+      "pair": "channels_microsoft365#disable"
+    },
+    {
+      "helper": "spike_stub_222_channels_microsoft365_enable",
+      "verb": "POST",
+      "path_spec": "/spike_stub_222/channels_microsoft365_enable(.:format)",
+      "pair": "channels_microsoft365#enable"
+    },
+    {
+      "helper": "spike_stub_223_channels_microsoft365",
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_223/channels_microsoft365(.:format)",
+      "pair": "channels_microsoft365#destroy"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_224/channels_microsoft365_group/:id(.:format)",
+      "pair": "channels_microsoft365#group"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_225/channels_microsoft365_inbound/:id(.:format)",
+      "pair": "channels_microsoft365#inbound"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_226/channels_microsoft365_verify/:id(.:format)",
+      "pair": "channels_microsoft365#verify"
+    },
+    {
+      "helper": "spike_stub_227_channels_microsoft365_rollback_migration",
+      "verb": "POST",
+      "path_spec": "/spike_stub_227/channels_microsoft365_rollback_migration(.:format)",
+      "pair": "channels_microsoft365#rollback_migration"
+    },
+    {
+      "helper": "mobile",
+      "verb": "GET",
+      "path_spec": "/mobile(.:format)",
+      "pair": "mobile#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/mobile/sw.js(.:format)",
+      "pair": "mobile#service_worker"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/mobile/manifest.webmanifest(.:format)",
+      "pair": "mobile#manifest"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/mobile/*path(.:format)",
+      "pair": "mobile#index"
+    },
+    {
+      "helper": "spike_stub_228_monitoring_health_check",
+      "verb": "GET",
+      "path_spec": "/spike_stub_228/monitoring/health_check(.:format)",
+      "pair": "monitoring#health_check"
+    },
+    {
+      "helper": "spike_stub_229_monitoring_status",
+      "verb": "GET",
+      "path_spec": "/spike_stub_229/monitoring/status(.:format)",
+      "pair": "monitoring#status"
+    },
+    {
+      "helper": "spike_stub_230_monitoring_amount_check",
+      "verb": "GET",
+      "path_spec": "/spike_stub_230/monitoring/amount_check(.:format)",
+      "pair": "monitoring#amount_check"
+    },
+    {
+      "helper": "spike_stub_231_monitoring_token",
+      "verb": "POST",
+      "path_spec": "/spike_stub_231/monitoring/token(.:format)",
+      "pair": "monitoring#token"
+    },
+    {
+      "helper": "spike_stub_232_monitoring_restart_failed_jobs",
+      "verb": "POST",
+      "path_spec": "/spike_stub_232/monitoring/restart_failed_jobs(.:format)",
+      "pair": "monitoring#restart_failed_jobs"
+    },
+    {
+      "helper": "spike_stub_233_object_manager_attributes_list",
+      "verb": "GET",
+      "path_spec": "/spike_stub_233/object_manager_attributes_list(.:format)",
+      "pair": "object_manager_attributes#list"
+    },
+    {
+      "helper": "spike_stub_234_object_manager_attributes",
+      "verb": "GET",
+      "path_spec": "/spike_stub_234/object_manager_attributes(.:format)",
+      "pair": "object_manager_attributes#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_235/object_manager_attributes/:id(.:format)",
+      "pair": "object_manager_attributes#show"
+    },
+    {
+      "helper": "spike_stub_236_object_manager_attributes",
+      "verb": "POST",
+      "path_spec": "/spike_stub_236/object_manager_attributes(.:format)",
+      "pair": "object_manager_attributes#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_237/object_manager_attributes/:id(.:format)",
+      "pair": "object_manager_attributes#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_238/object_manager_attributes/:id(.:format)",
+      "pair": "object_manager_attributes#destroy"
+    },
+    {
+      "helper": "spike_stub_239_object_manager_attributes_discard_changes",
+      "verb": "POST",
+      "path_spec": "/spike_stub_239/object_manager_attributes_discard_changes(.:format)",
+      "pair": "object_manager_attributes#discard_changes"
+    },
+    {
+      "helper": "spike_stub_240_object_manager_attributes_execute_migrations",
+      "verb": "POST",
+      "path_spec": "/spike_stub_240/object_manager_attributes_execute_migrations(.:format)",
+      "pair": "object_manager_attributes#execute_migrations"
+    },
+    {
+      "helper": "spike_stub_241_online_notifications",
+      "verb": "GET",
+      "path_spec": "/spike_stub_241/online_notifications(.:format)",
+      "pair": "online_notifications#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_242/online_notifications/:id(.:format)",
+      "pair": "online_notifications#show"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_243/online_notifications/:id(.:format)",
+      "pair": "online_notifications#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_244/online_notifications/:id(.:format)",
+      "pair": "online_notifications#destroy"
+    },
+    {
+      "helper": "spike_stub_245_online_notifications_mark_all_as_read",
+      "verb": "POST",
+      "path_spec": "/spike_stub_245/online_notifications/mark_all_as_read(.:format)",
+      "pair": "online_notifications#mark_all_as_read"
+    },
+    {
+      "helper": "spike_stub_246_organizations_import_example",
+      "verb": "GET",
+      "path_spec": "/spike_stub_246/organizations/import_example(.:format)",
+      "pair": "organizations#import_example"
+    },
+    {
+      "helper": "spike_stub_247_organizations_import",
+      "verb": "POST",
+      "path_spec": "/spike_stub_247/organizations/import(.:format)",
+      "pair": "organizations#import_start"
+    },
+    {
+      "helper": "spike_stub_248_organizations_search",
+      "verb": "GET|POST",
+      "path_spec": "/spike_stub_248/organizations/search(.:format)",
+      "pair": "organizations#search"
+    },
+    {
+      "helper": "spike_stub_249_organizations",
+      "verb": "GET",
+      "path_spec": "/spike_stub_249/organizations(.:format)",
+      "pair": "organizations#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_250/organizations/:id(.:format)",
+      "pair": "organizations#show"
+    },
+    {
+      "helper": "spike_stub_251_organizations",
+      "verb": "POST",
+      "path_spec": "/spike_stub_251/organizations(.:format)",
+      "pair": "organizations#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_252/organizations/:id(.:format)",
+      "pair": "organizations#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_253/organizations/:id(.:format)",
+      "pair": "organizations#destroy"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_254/organizations/history/:id(.:format)",
+      "pair": "organizations#history"
+    },
+    {
+      "helper": "spike_stub_255_overviews",
+      "verb": "GET",
+      "path_spec": "/spike_stub_255/overviews(.:format)",
+      "pair": "overviews#index"
+    },
+    {
+      "helper": "spike_stub_256_overviews_search",
+      "verb": "GET|POST",
+      "path_spec": "/spike_stub_256/overviews/search(.:format)",
+      "pair": "overviews#search"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_257/overviews/:id(.:format)",
+      "pair": "overviews#show"
+    },
+    {
+      "helper": "spike_stub_258_overviews",
+      "verb": "POST",
+      "path_spec": "/spike_stub_258/overviews(.:format)",
+      "pair": "overviews#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_259/overviews/:id(.:format)",
+      "pair": "overviews#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_260/overviews/:id(.:format)",
+      "pair": "overviews#destroy"
+    },
+    {
+      "helper": "spike_stub_261_overviews_prio",
+      "verb": "POST",
+      "path_spec": "/spike_stub_261/overviews_prio(.:format)",
+      "pair": "overviews#prio"
+    },
+    {
+      "helper": "spike_stub_262_packages",
+      "verb": "GET",
+      "path_spec": "/spike_stub_262/packages(.:format)",
+      "pair": "packages#index"
+    },
+    {
+      "helper": "spike_stub_263_packages",
+      "verb": "POST",
+      "path_spec": "/spike_stub_263/packages(.:format)",
+      "pair": "packages#install"
+    },
+    {
+      "helper": "spike_stub_264_packages",
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_264/packages(.:format)",
+      "pair": "packages#uninstall"
+    },
+    {
+      "helper": "spike_stub_265_postmaster_filters",
+      "verb": "GET",
+      "path_spec": "/spike_stub_265/postmaster_filters(.:format)",
+      "pair": "postmaster_filters#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_266/postmaster_filters/:id(.:format)",
+      "pair": "postmaster_filters#show"
+    },
+    {
+      "helper": "spike_stub_267_postmaster_filters",
+      "verb": "POST",
+      "path_spec": "/spike_stub_267/postmaster_filters(.:format)",
+      "pair": "postmaster_filters#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_268/postmaster_filters/:id(.:format)",
+      "pair": "postmaster_filters#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_269/postmaster_filters/:id(.:format)",
+      "pair": "postmaster_filters#destroy"
+    },
+    {
+      "helper": "spike_stub_270_proxy",
+      "verb": "POST",
+      "path_spec": "/spike_stub_270/proxy(.:format)",
+      "pair": "proxy#test"
+    },
+    {
+      "helper": "spike_stub_271_public_links",
+      "verb": "GET",
+      "path_spec": "/spike_stub_271/public_links(.:format)",
+      "pair": "public_links#index"
+    },
+    {
+      "helper": "spike_stub_272_public_links_search",
+      "verb": "GET|POST",
+      "path_spec": "/spike_stub_272/public_links/search(.:format)",
+      "pair": "public_links#search"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_273/public_links/:id(.:format)",
+      "pair": "public_links#show"
+    },
+    {
+      "helper": "spike_stub_274_public_links",
+      "verb": "POST",
+      "path_spec": "/spike_stub_274/public_links(.:format)",
+      "pair": "public_links#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_275/public_links/:id(.:format)",
+      "pair": "public_links#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_276/public_links/:id(.:format)",
+      "pair": "public_links#destroy"
+    },
+    {
+      "helper": "spike_stub_277_public_links_prio",
+      "verb": "POST",
+      "path_spec": "/spike_stub_277/public_links_prio(.:format)",
+      "pair": "public_links#prio"
+    },
+    {
+      "helper": "spike_stub_278_recent_view",
+      "verb": "GET",
+      "path_spec": "/spike_stub_278/recent_view(.:format)",
+      "pair": "recent_view#index"
+    },
+    {
+      "helper": "spike_stub_279_recent_view",
+      "verb": "POST",
+      "path_spec": "/spike_stub_279/recent_view(.:format)",
+      "pair": "recent_view#create"
+    },
+    {
+      "helper": "spike_stub_280_reports_config",
+      "verb": "GET",
+      "path_spec": "/spike_stub_280/reports/config(.:format)",
+      "pair": "reports#reporting_config"
+    },
+    {
+      "helper": "spike_stub_281_reports_generate",
+      "verb": "POST",
+      "path_spec": "/spike_stub_281/reports/generate(.:format)",
+      "pair": "reports#generate"
+    },
+    {
+      "helper": "spike_stub_282_reports_sets",
+      "verb": "POST|GET",
+      "path_spec": "/spike_stub_282/reports/sets(.:format)",
+      "pair": "reports#sets"
+    },
+    {
+      "helper": "spike_stub_283_report_profiles",
+      "verb": "GET",
+      "path_spec": "/spike_stub_283/report_profiles(.:format)",
+      "pair": "report_profiles#index"
+    },
+    {
+      "helper": "spike_stub_284_report_profiles_search",
+      "verb": "GET|POST",
+      "path_spec": "/spike_stub_284/report_profiles/search(.:format)",
+      "pair": "report_profiles#search"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_285/report_profiles/:id(.:format)",
+      "pair": "report_profiles#show"
+    },
+    {
+      "helper": "spike_stub_286_report_profiles",
+      "verb": "POST",
+      "path_spec": "/spike_stub_286/report_profiles(.:format)",
+      "pair": "report_profiles#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_287/report_profiles/:id(.:format)",
+      "pair": "report_profiles#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_288/report_profiles/:id(.:format)",
+      "pair": "report_profiles#destroy"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/robots.txt(.:format)",
+      "pair": "robots_txt#index"
+    },
+    {
+      "helper": "spike_stub_289_roles",
+      "verb": "GET",
+      "path_spec": "/spike_stub_289/roles(.:format)",
+      "pair": "roles#index"
+    },
+    {
+      "helper": "spike_stub_290_roles_search",
+      "verb": "GET|POST",
+      "path_spec": "/spike_stub_290/roles/search(.:format)",
+      "pair": "roles#search"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_291/roles/:id(.:format)",
+      "pair": "roles#show"
+    },
+    {
+      "helper": "spike_stub_292_roles",
+      "verb": "POST",
+      "path_spec": "/spike_stub_292/roles(.:format)",
+      "pair": "roles#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_293/roles/:id(.:format)",
+      "pair": "roles#update"
+    },
+    {
+      "helper": "spike_stub_294_search",
+      "verb": "GET|POST",
+      "path_spec": "/spike_stub_294/search(.:format)",
+      "pair": "search#search_generic"
+    },
+    {
+      "helper": null,
+      "verb": "GET|POST",
+      "path_spec": "/spike_stub_295/search/:objects(.:format)",
+      "pair": "search#search_generic"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_296/:object/selector(.:format)",
+      "pair": "selectors#preview"
+    },
+    {
+      "helper": "spike_stub_297_settings",
+      "verb": "GET",
+      "path_spec": "/spike_stub_297/settings(.:format)",
+      "pair": "settings#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_298/settings/area/:area(.:format)",
+      "pair": "settings#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_299/settings/:id(.:format)",
+      "pair": "settings#show"
+    },
+    {
+      "helper": "spike_stub_300_settings",
+      "verb": "POST",
+      "path_spec": "/spike_stub_300/settings(.:format)",
+      "pair": "settings#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_301/settings/image/:id(.:format)",
+      "pair": "settings#update_image"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_302/settings/:id(.:format)",
+      "pair": "settings#update"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_303/settings/reset/:id(.:format)",
+      "pair": "settings#reset"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_304/settings/:id(.:format)",
+      "pair": "settings#destroy"
+    },
+    {
+      "helper": "spike_stub_305_settings_ticket_agent_default_notifications_apply_to_all",
+      "verb": "POST",
+      "path_spec": "/spike_stub_305/settings/ticket_agent_default_notifications/apply_to_all(.:format)",
+      "pair": "settings/ticket_agent_default_notifications#apply_to_all"
+    },
+    {
+      "helper": "spike_stub_306_signatures",
+      "verb": "GET",
+      "path_spec": "/spike_stub_306/signatures(.:format)",
+      "pair": "signatures#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_307/signatures/:id(.:format)",
+      "pair": "signatures#show"
+    },
+    {
+      "helper": "spike_stub_308_signatures",
+      "verb": "POST",
+      "path_spec": "/spike_stub_308/signatures(.:format)",
+      "pair": "signatures#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_309/signatures/:id(.:format)",
+      "pair": "signatures#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_310/signatures/:id(.:format)",
+      "pair": "signatures#destroy"
+    },
+    {
+      "helper": "spike_stub_311_slas",
+      "verb": "GET",
+      "path_spec": "/spike_stub_311/slas(.:format)",
+      "pair": "slas#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_312/slas/:id(.:format)",
+      "pair": "slas#show"
+    },
+    {
+      "helper": "spike_stub_313_slas",
+      "verb": "POST",
+      "path_spec": "/spike_stub_313/slas(.:format)",
+      "pair": "slas#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_314/slas/:id(.:format)",
+      "pair": "slas#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_315/slas/:id(.:format)",
+      "pair": "slas#destroy"
+    },
+    {
+      "helper": "download_ssl_certificate",
+      "verb": "GET",
+      "path_spec": "/spike_stub_316/ssl_certificates/:id/download(.:format)",
+      "pair": "ssl_certificates#download"
+    },
+    {
+      "helper": "ssl_certificates",
+      "verb": "GET",
+      "path_spec": "/spike_stub_316/ssl_certificates(.:format)",
+      "pair": "ssl_certificates#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_316/ssl_certificates(.:format)",
+      "pair": "ssl_certificates#create"
+    },
+    {
+      "helper": "ssl_certificate",
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_316/ssl_certificates/:id(.:format)",
+      "pair": "ssl_certificates#destroy"
+    },
+    {
+      "helper": "system_asset",
+      "verb": "GET",
+      "path_spec": "/spike_stub_317/system_assets/:identifier/:timestamp(.:format)",
+      "pair": "system_assets#show"
+    },
+    {
+      "helper": "spike_stub_318_system_report",
+      "verb": "GET",
+      "path_spec": "/spike_stub_318/system_report(.:format)",
+      "pair": "system_report#index"
+    },
+    {
+      "helper": "spike_stub_319_system_report_download",
+      "verb": "GET",
+      "path_spec": "/spike_stub_319/system_report/download(.:format)",
+      "pair": "system_report#download"
+    },
+    {
+      "helper": "spike_stub_320_system_report_plugins",
+      "verb": "GET",
+      "path_spec": "/spike_stub_320/system_report/plugins(.:format)",
+      "pair": "system_report#plugins"
+    },
+    {
+      "helper": "spike_stub_321_tags",
+      "verb": "GET",
+      "path_spec": "/spike_stub_321/tags(.:format)",
+      "pair": "tags#list"
+    },
+    {
+      "helper": "spike_stub_322_tags_add",
+      "verb": "POST",
+      "path_spec": "/spike_stub_322/tags/add(.:format)",
+      "pair": "tags#add"
+    },
+    {
+      "helper": "spike_stub_323_tags_remove",
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_323/tags/remove(.:format)",
+      "pair": "tags#remove"
+    },
+    {
+      "helper": "spike_stub_324_tag_search",
+      "verb": "GET",
+      "path_spec": "/spike_stub_324/tag_search(.:format)",
+      "pair": "tags#search"
+    },
+    {
+      "helper": "spike_stub_325_tag_list",
+      "verb": "GET",
+      "path_spec": "/spike_stub_325/tag_list(.:format)",
+      "pair": "tags#admin_list"
+    },
+    {
+      "helper": "spike_stub_326_tag_list",
+      "verb": "POST",
+      "path_spec": "/spike_stub_326/tag_list(.:format)",
+      "pair": "tags#admin_create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_327/tag_list/:id(.:format)",
+      "pair": "tags#admin_rename"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_328/tag_list/:id(.:format)",
+      "pair": "tags#admin_delete"
+    },
+    {
+      "helper": "spike_stub_329_taskbar",
+      "verb": "GET",
+      "path_spec": "/spike_stub_329/taskbar(.:format)",
+      "pair": "taskbar#index"
+    },
+    {
+      "helper": "spike_stub_330_taskbar_init",
+      "verb": "GET",
+      "path_spec": "/spike_stub_330/taskbar/init(.:format)",
+      "pair": "taskbar#init"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_331/taskbar/:id(.:format)",
+      "pair": "taskbar#show"
+    },
+    {
+      "helper": "spike_stub_332_taskbar",
+      "verb": "POST",
+      "path_spec": "/spike_stub_332/taskbar(.:format)",
+      "pair": "taskbar#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_333/taskbar/:id(.:format)",
+      "pair": "taskbar#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_334/taskbar/:id(.:format)",
+      "pair": "taskbar#destroy"
+    },
+    {
+      "helper": "spike_stub_335_templates",
+      "verb": "GET",
+      "path_spec": "/spike_stub_335/templates(.:format)",
+      "pair": "templates#index"
+    },
+    {
+      "helper": "spike_stub_336_templates_search",
+      "verb": "GET|POST",
+      "path_spec": "/spike_stub_336/templates/search(.:format)",
+      "pair": "templates#search"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_337/templates/:id(.:format)",
+      "pair": "templates#show"
+    },
+    {
+      "helper": "spike_stub_338_templates",
+      "verb": "POST",
+      "path_spec": "/spike_stub_338/templates(.:format)",
+      "pair": "templates#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_339/templates/:id(.:format)",
+      "pair": "templates#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_340/templates/:id(.:format)",
+      "pair": "templates#destroy"
+    },
+    {
+      "helper": "spike_stub_341_text_modules_import_example",
+      "verb": "GET",
+      "path_spec": "/spike_stub_341/text_modules/import_example(.:format)",
+      "pair": "text_modules#import_example"
+    },
+    {
+      "helper": "spike_stub_342_text_modules_import",
+      "verb": "POST",
+      "path_spec": "/spike_stub_342/text_modules/import(.:format)",
+      "pair": "text_modules#import_start"
+    },
+    {
+      "helper": "spike_stub_343_text_modules",
+      "verb": "GET",
+      "path_spec": "/spike_stub_343/text_modules(.:format)",
+      "pair": "text_modules#index"
+    },
+    {
+      "helper": "spike_stub_344_text_modules_search",
+      "verb": "GET|POST",
+      "path_spec": "/spike_stub_344/text_modules/search(.:format)",
+      "pair": "text_modules#search"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_345/text_modules/:id(.:format)",
+      "pair": "text_modules#show"
+    },
+    {
+      "helper": "spike_stub_346_text_modules",
+      "verb": "POST",
+      "path_spec": "/spike_stub_346/text_modules(.:format)",
+      "pair": "text_modules#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_347/text_modules/:id(.:format)",
+      "pair": "text_modules#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_348/text_modules/:id(.:format)",
+      "pair": "text_modules#destroy"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_349/tickets/:ticket_id/shared_draft/import_attachments(.:format)",
+      "pair": "ticket_shared_draft_zoom#import_attachments"
+    },
+    {
+      "helper": "spike_stub_350",
+      "verb": "GET",
+      "path_spec": "/spike_stub_349/tickets/:ticket_id/shared_draft(.:format)",
+      "pair": "ticket_shared_draft_zoom#show"
+    },
+    {
+      "helper": "spike_stub_351",
+      "verb": "PATCH",
+      "path_spec": "/spike_stub_349/tickets/:ticket_id/shared_draft(.:format)",
+      "pair": "ticket_shared_draft_zoom#update"
+    },
+    {
+      "helper": "spike_stub_352",
+      "verb": "PUT",
+      "path_spec": "/spike_stub_349/tickets/:ticket_id/shared_draft(.:format)",
+      "pair": "ticket_shared_draft_zoom#update"
+    },
+    {
+      "helper": "spike_stub_353",
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_349/tickets/:ticket_id/shared_draft(.:format)",
+      "pair": "ticket_shared_draft_zoom#destroy"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_354/tickets/shared_drafts/:id/import_attachments(.:format)",
+      "pair": "tickets_shared_draft_starts#import_attachments"
+    },
+    {
+      "helper": "spike_stub_355",
+      "verb": "GET",
+      "path_spec": "/spike_stub_354/tickets/shared_drafts(.:format)",
+      "pair": "tickets_shared_draft_starts#index"
+    },
+    {
+      "helper": "spike_stub_356",
+      "verb": "POST",
+      "path_spec": "/spike_stub_354/tickets/shared_drafts(.:format)",
+      "pair": "tickets_shared_draft_starts#create"
+    },
+    {
+      "helper": "spike_stub_357",
+      "verb": "GET",
+      "path_spec": "/spike_stub_354/tickets/shared_drafts/:id(.:format)",
+      "pair": "tickets_shared_draft_starts#show"
+    },
+    {
+      "helper": "spike_stub_358",
+      "verb": "PATCH",
+      "path_spec": "/spike_stub_354/tickets/shared_drafts/:id(.:format)",
+      "pair": "tickets_shared_draft_starts#update"
+    },
+    {
+      "helper": "spike_stub_359",
+      "verb": "PUT",
+      "path_spec": "/spike_stub_354/tickets/shared_drafts/:id(.:format)",
+      "pair": "tickets_shared_draft_starts#update"
+    },
+    {
+      "helper": "spike_stub_360",
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_354/tickets/shared_drafts/:id(.:format)",
+      "pair": "tickets_shared_draft_starts#destroy"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_361/tickets/:ticket_id/time_accountings(.:format)",
+      "pair": "time_accountings#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_361/tickets/:ticket_id/time_accountings(.:format)",
+      "pair": "time_accountings#create"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_361/tickets/:ticket_id/time_accountings/:id(.:format)",
+      "pair": "time_accountings#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/spike_stub_361/tickets/:ticket_id/time_accountings/:id(.:format)",
+      "pair": "time_accountings#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_361/tickets/:ticket_id/time_accountings/:id(.:format)",
+      "pair": "time_accountings#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_361/tickets/:ticket_id/time_accountings/:id(.:format)",
+      "pair": "time_accountings#destroy"
+    },
+    {
+      "helper": "spike_stub_362_tickets_search",
+      "verb": "GET|POST",
+      "path_spec": "/spike_stub_362/tickets/search(.:format)",
+      "pair": "tickets#search"
+    },
+    {
+      "helper": "spike_stub_363_tickets",
+      "verb": "GET",
+      "path_spec": "/spike_stub_363/tickets(.:format)",
+      "pair": "tickets#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_364/tickets/:id(.:format)",
+      "pair": "tickets#show"
+    },
+    {
+      "helper": "spike_stub_365_tickets",
+      "verb": "POST",
+      "path_spec": "/spike_stub_365/tickets(.:format)",
+      "pair": "tickets#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_366/tickets/:id(.:format)",
+      "pair": "tickets#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_367/tickets/:id(.:format)",
+      "pair": "tickets#destroy"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_368/tickets/:id/update_title(.:format)",
+      "pair": "tickets#update_title"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_369/tickets/:id/update_customer(.:format)",
+      "pair": "tickets#update_customer"
+    },
+    {
+      "helper": "spike_stub_370_tickets_mass_macro",
+      "verb": "POST",
+      "path_spec": "/spike_stub_370/tickets/mass_macro(.:format)",
+      "pair": "tickets_mass#macro"
+    },
+    {
+      "helper": "spike_stub_371_tickets_mass_update",
+      "verb": "POST",
+      "path_spec": "/spike_stub_371/tickets/mass_update(.:format)",
+      "pair": "tickets_mass#update"
+    },
+    {
+      "helper": "spike_stub_372_ticket_create",
+      "verb": "GET",
+      "path_spec": "/spike_stub_372/ticket_create(.:format)",
+      "pair": "tickets#ticket_create"
+    },
+    {
+      "helper": "spike_stub_373_ticket_split",
+      "verb": "GET",
+      "path_spec": "/spike_stub_373/ticket_split(.:format)",
+      "pair": "tickets#ticket_split"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_374/ticket_history/:id(.:format)",
+      "pair": "tickets#ticket_history"
+    },
+    {
+      "helper": "spike_stub_375_ticket_customer",
+      "verb": "GET",
+      "path_spec": "/spike_stub_375/ticket_customer(.:format)",
+      "pair": "tickets#ticket_customer"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_376/ticket_related/:ticket_id(.:format)",
+      "pair": "tickets#ticket_related"
+    },
+    {
+      "helper": "spike_stub_377_ticket_recent",
+      "verb": "GET",
+      "path_spec": "/spike_stub_377/ticket_recent(.:format)",
+      "pair": "tickets#ticket_recent"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_378/ticket_merge/:source_ticket_id/:target_ticket_number(.:format)",
+      "pair": "tickets#ticket_merge"
+    },
+    {
+      "helper": "spike_stub_379_ticket_stats",
+      "verb": "GET|POST",
+      "path_spec": "/spike_stub_379/ticket_stats(.:format)",
+      "pair": "tickets#stats"
+    },
+    {
+      "helper": "spike_stub_380_ticket_overview",
+      "verb": "GET",
+      "path_spec": "/spike_stub_380/ticket_overview(.:format)",
+      "pair": "ticket_overviews#data"
+    },
+    {
+      "helper": "spike_stub_381_ticket_overviews",
+      "verb": "GET",
+      "path_spec": "/spike_stub_381/ticket_overviews(.:format)",
+      "pair": "ticket_overviews#show"
+    },
+    {
+      "helper": "spike_stub_382_ticket_priorities",
+      "verb": "GET",
+      "path_spec": "/spike_stub_382/ticket_priorities(.:format)",
+      "pair": "ticket_priorities#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_383/ticket_priorities/:id(.:format)",
+      "pair": "ticket_priorities#show"
+    },
+    {
+      "helper": "spike_stub_384_ticket_priorities",
+      "verb": "POST",
+      "path_spec": "/spike_stub_384/ticket_priorities(.:format)",
+      "pair": "ticket_priorities#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_385/ticket_priorities/:id(.:format)",
+      "pair": "ticket_priorities#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_386/ticket_priorities/:id(.:format)",
+      "pair": "ticket_priorities#destroy"
+    },
+    {
+      "helper": "spike_stub_387_ticket_states",
+      "verb": "GET",
+      "path_spec": "/spike_stub_387/ticket_states(.:format)",
+      "pair": "ticket_states#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_388/ticket_states/:id(.:format)",
+      "pair": "ticket_states#show"
+    },
+    {
+      "helper": "spike_stub_389_ticket_states",
+      "verb": "POST",
+      "path_spec": "/spike_stub_389/ticket_states(.:format)",
+      "pair": "ticket_states#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_390/ticket_states/:id(.:format)",
+      "pair": "ticket_states#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_391/ticket_states/:id(.:format)",
+      "pair": "ticket_states#destroy"
+    },
+    {
+      "helper": "spike_stub_392_ticket_articles",
+      "verb": "GET",
+      "path_spec": "/spike_stub_392/ticket_articles(.:format)",
+      "pair": "ticket_articles#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_393/ticket_articles/:id(.:format)",
+      "pair": "ticket_articles#show"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_394/ticket_articles/by_ticket/:id(.:format)",
+      "pair": "ticket_articles#index_by_ticket"
+    },
+    {
+      "helper": "spike_stub_395_ticket_articles",
+      "verb": "POST",
+      "path_spec": "/spike_stub_395/ticket_articles(.:format)",
+      "pair": "ticket_articles#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_396/ticket_articles/:id(.:format)",
+      "pair": "ticket_articles#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_397/ticket_articles/:id(.:format)",
+      "pair": "ticket_articles#destroy"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_398/ticket_attachment/:ticket_id/:article_id/:id(.:format)",
+      "pair": "ticket_articles#attachment"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_399/ticket_attachment_upload_clone_by_article/:article_id(.:format)",
+      "pair": "ticket_articles#ticket_attachment_upload_clone_by_article"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_400/ticket_article_plain/:id(.:format)",
+      "pair": "ticket_articles#article_plain"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_401/ticket_articles/:id/retry_security_process(.:format)",
+      "pair": "ticket_articles#retry_security_process"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_402/ticket_articles/:id/retry_whatsapp_attachment_download(.:format)",
+      "pair": "ticket_articles#retry_whatsapp_attachment_download"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_403/tickets/:id/summarize(.:format)",
+      "pair": "ticket/summarize#summarize"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_404/tickets/:id/knowledge_base_answers(.:format)",
+      "pair": "ticket/knowledge_base_answers#create"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_405/tickets/:id/related_knowledge_base_answers(.:format)",
+      "pair": "ticket/related_knowledge_base_answers#fetch"
+    },
+    {
+      "helper": "spike_stub_406_time_accountings",
+      "verb": "GET",
+      "path_spec": "/spike_stub_406/time_accountings(.:format)",
+      "pair": "time_accountings#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_407/time_accountings/:id(.:format)",
+      "pair": "time_accountings#show"
+    },
+    {
+      "helper": "spike_stub_408_time_accountings",
+      "verb": "POST",
+      "path_spec": "/spike_stub_408/time_accountings(.:format)",
+      "pair": "time_accountings#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_409/time_accountings/:id(.:format)",
+      "pair": "time_accountings#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_410/time_accountings/:id(.:format)",
+      "pair": "time_accountings#destroy"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_411/time_accounting/log/by_activity/:year/:month(.:format)",
+      "pair": "time_accountings#by_activity"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_412/time_accounting/log/by_ticket/:year/:month(.:format)",
+      "pair": "time_accountings#by_ticket"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_413/time_accounting/log/by_customer/:year/:month(.:format)",
+      "pair": "time_accountings#by_customer"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_414/time_accounting/log/by_organization/:year/:month(.:format)",
+      "pair": "time_accountings#by_organization"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_415/time_accounting/types(.:format)",
+      "pair": "time_accounting/types#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_415/time_accounting/types(.:format)",
+      "pair": "time_accounting/types#create"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/spike_stub_415/time_accounting/types/:id(.:format)",
+      "pair": "time_accounting/types#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_415/time_accounting/types/:id(.:format)",
+      "pair": "time_accounting/types#update"
+    },
+    {
+      "helper": "spike_stub_416_translations_push",
+      "verb": "PUT",
+      "path_spec": "/spike_stub_416/translations/push(.:format)",
+      "pair": "translations#push"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_417/translations/sync/:locale(.:format)",
+      "pair": "translations#sync"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_418/translations/lang/:locale(.:format)",
+      "pair": "translations#lang"
+    },
+    {
+      "helper": "spike_stub_419_translations_customized",
+      "verb": "GET",
+      "path_spec": "/spike_stub_419/translations/customized(.:format)",
+      "pair": "translations#index_customized"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_420/translations/search/:locale(.:format)",
+      "pair": "translations#search"
+    },
+    {
+      "helper": "spike_stub_421_translations_reset",
+      "verb": "POST",
+      "path_spec": "/spike_stub_421/translations/reset(.:format)",
+      "pair": "translations#reset"
+    },
+    {
+      "helper": "spike_stub_422_translations_upsert",
+      "verb": "POST",
+      "path_spec": "/spike_stub_422/translations/upsert(.:format)",
+      "pair": "translations#upsert"
+    },
+    {
+      "helper": "spike_stub_423_translations",
+      "verb": "GET",
+      "path_spec": "/spike_stub_423/translations(.:format)",
+      "pair": "translations#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_424/translations/:id(.:format)",
+      "pair": "translations#show"
+    },
+    {
+      "helper": "spike_stub_425_translations",
+      "verb": "POST",
+      "path_spec": "/spike_stub_425/translations(.:format)",
+      "pair": "translations#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_426/translations/:id(.:format)",
+      "pair": "translations#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_427/translations/:id(.:format)",
+      "pair": "translations#destroy"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_428/translations/reset/:id(.:format)",
+      "pair": "translations#reset_item"
+    },
+    {
+      "helper": "spike_stub_429_triggers",
+      "verb": "GET",
+      "path_spec": "/spike_stub_429/triggers(.:format)",
+      "pair": "triggers#index"
+    },
+    {
+      "helper": "spike_stub_430_triggers_search",
+      "verb": "GET|POST",
+      "path_spec": "/spike_stub_430/triggers/search(.:format)",
+      "pair": "triggers#search"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_431/triggers/:id(.:format)",
+      "pair": "triggers#show"
+    },
+    {
+      "helper": "spike_stub_432_triggers",
+      "verb": "POST",
+      "path_spec": "/spike_stub_432/triggers(.:format)",
+      "pair": "triggers#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_433/triggers/:id(.:format)",
+      "pair": "triggers#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_434/triggers/:id(.:format)",
+      "pair": "triggers#destroy"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_435/upload_caches/:id(.:format)",
+      "pair": "upload_caches#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_436/upload_caches/:id(.:format)",
+      "pair": "upload_caches#destroy"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_437/upload_caches/:id/items/:store_id(.:format)",
+      "pair": "upload_caches#remove_item"
+    },
+    {
+      "helper": "remove_authentication_method_admin_two_factors",
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_438/users/:id/admin_two_factor/remove_authentication_method(.:format)",
+      "pair": "user/admin_two_factors#remove_authentication_method"
+    },
+    {
+      "helper": "remove_all_authentication_methods_admin_two_factors",
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_438/users/:id/admin_two_factor/remove_all_authentication_methods(.:format)",
+      "pair": "user/admin_two_factors#remove_all_authentication_methods"
+    },
+    {
+      "helper": "enabled_authentication_methods_admin_two_factors",
+      "verb": "GET",
+      "path_spec": "/spike_stub_438/users/:id/admin_two_factor/enabled_authentication_methods(.:format)",
+      "pair": "user/admin_two_factors#enabled_authentication_methods"
+    },
+    {
+      "helper": "personal_configuration_two_factors",
+      "verb": "GET",
+      "path_spec": "/spike_stub_438/users/two_factor/personal_configuration(.:format)",
+      "pair": "user/two_factors#personal_configuration"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_438/users/two_factor/authentication_method_initiate_configuration/:method(.:format)",
+      "pair": "user/two_factors#authentication_method_initiate_configuration"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/spike_stub_438/users/two_factor/authentication_method_configuration/:method(.:format)",
+      "pair": "user/two_factors#authentication_method_configuration"
+    },
+    {
+      "helper": "enabled_authentication_methods_two_factors",
+      "verb": "POST",
+      "path_spec": "/spike_stub_438/users/two_factor/enabled_authentication_methods(.:format)",
+      "pair": "user/two_factors#enabled_authentication_methods"
+    },
+    {
+      "helper": "verify_configuration_two_factors",
+      "verb": "POST",
+      "path_spec": "/spike_stub_438/users/two_factor/verify_configuration(.:format)",
+      "pair": "user/two_factors#verify_configuration"
+    },
+    {
+      "helper": "default_authentication_method_two_factors",
+      "verb": "POST",
+      "path_spec": "/spike_stub_438/users/two_factor/default_authentication_method(.:format)",
+      "pair": "user/two_factors#default_authentication_method"
+    },
+    {
+      "helper": "recovery_codes_generate_two_factors",
+      "verb": "POST",
+      "path_spec": "/spike_stub_438/users/two_factor/recovery_codes_generate(.:format)",
+      "pair": "user/two_factors#recovery_codes_generate"
+    },
+    {
+      "helper": "remove_authentication_method_two_factors",
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_438/users/two_factor/remove_authentication_method(.:format)",
+      "pair": "user/two_factors#remove_authentication_method"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_438/users/two_factor/authentication_remove_credentials/:method(.:format)",
+      "pair": "user/two_factors#authentication_remove_credentials"
+    },
+    {
+      "helper": "spike_stub_439_users_search",
+      "verb": "GET|POST|OPTION",
+      "path_spec": "/spike_stub_439/users/search(.:format)",
+      "pair": "users#search"
+    },
+    {
+      "helper": "spike_stub_440_users_password_reset",
+      "verb": "POST",
+      "path_spec": "/spike_stub_440/users/password_reset(.:format)",
+      "pair": "users#password_reset_send"
+    },
+    {
+      "helper": "spike_stub_441_users_password_reset_verify",
+      "verb": "POST",
+      "path_spec": "/spike_stub_441/users/password_reset_verify(.:format)",
+      "pair": "users#password_reset_verify"
+    },
+    {
+      "helper": "spike_stub_442_users_password_change",
+      "verb": "POST",
+      "path_spec": "/spike_stub_442/users/password_change(.:format)",
+      "pair": "users#password_change"
+    },
+    {
+      "helper": "spike_stub_443_users_password_check",
+      "verb": "POST",
+      "path_spec": "/spike_stub_443/users/password_check(.:format)",
+      "pair": "users#password_check"
+    },
+    {
+      "helper": "spike_stub_444_users_preferences",
+      "verb": "PUT",
+      "path_spec": "/spike_stub_444/users/preferences(.:format)",
+      "pair": "users#preferences"
+    },
+    {
+      "helper": "spike_stub_445_users_preferences_notifications_reset",
+      "verb": "POST",
+      "path_spec": "/spike_stub_445/users/preferences_notifications_reset(.:format)",
+      "pair": "users#preferences_notifications_reset"
+    },
+    {
+      "helper": "spike_stub_446_users_out_of_office",
+      "verb": "PUT",
+      "path_spec": "/spike_stub_446/users/out_of_office(.:format)",
+      "pair": "users#out_of_office"
+    },
+    {
+      "helper": "spike_stub_447_users_account",
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_447/users/account(.:format)",
+      "pair": "users#account_remove"
+    },
+    {
+      "helper": "spike_stub_448_users_import_example",
+      "verb": "GET",
+      "path_spec": "/spike_stub_448/users/import_example(.:format)",
+      "pair": "users#import_example"
+    },
+    {
+      "helper": "spike_stub_449_users_import",
+      "verb": "POST",
+      "path_spec": "/spike_stub_449/users/import(.:format)",
+      "pair": "users#import_start"
+    },
+    {
+      "helper": "spike_stub_450_users_avatar",
+      "verb": "POST",
+      "path_spec": "/spike_stub_450/users/avatar(.:format)",
+      "pair": "users#avatar_new"
+    },
+    {
+      "helper": "spike_stub_451_users_avatar",
+      "verb": "GET",
+      "path_spec": "/spike_stub_451/users/avatar(.:format)",
+      "pair": "users#avatar_list"
+    },
+    {
+      "helper": "spike_stub_452_users_avatar",
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_452/users/avatar(.:format)",
+      "pair": "users#avatar_destroy"
+    },
+    {
+      "helper": "spike_stub_453_users_avatar_set",
+      "verb": "POST",
+      "path_spec": "/spike_stub_453/users/avatar/set(.:format)",
+      "pair": "users#avatar_set_default"
+    },
+    {
+      "helper": "spike_stub_454_users_me",
+      "verb": "GET",
+      "path_spec": "/spike_stub_454/users/me(.:format)",
+      "pair": "users#me"
+    },
+    {
+      "helper": "spike_stub_455_users_after_auth",
+      "verb": "GET",
+      "path_spec": "/spike_stub_455/users/after_auth(.:format)",
+      "pair": "user/after_auth#show"
+    },
+    {
+      "helper": "spike_stub_456_users",
+      "verb": "GET",
+      "path_spec": "/spike_stub_456/users(.:format)",
+      "pair": "users#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_457/users/:id(.:format)",
+      "pair": "users#show"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_458/users/history/:id(.:format)",
+      "pair": "users#history"
+    },
+    {
+      "helper": "spike_stub_459_users",
+      "verb": "POST",
+      "path_spec": "/spike_stub_459/users(.:format)",
+      "pair": "users#create"
+    },
+    {
+      "helper": "api_v1_update_user",
+      "verb": "PUT",
+      "path_spec": "/spike_stub_460/users/:id(.:format)",
+      "pair": "users#update"
+    },
+    {
+      "helper": "api_v1_delete_user",
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_461/users/:id(.:format)",
+      "pair": "users#destroy"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_462/users/image/:hash(.:format)",
+      "pair": "users#image"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_463/users/unlock/:id(.:format)",
+      "pair": "users#unlock"
+    },
+    {
+      "helper": "spike_stub_464_users_email_verify",
+      "verb": "POST",
+      "path_spec": "/spike_stub_464/users/email_verify(.:format)",
+      "pair": "users#email_verify"
+    },
+    {
+      "helper": "spike_stub_465_users_email_verify_send",
+      "verb": "POST",
+      "path_spec": "/spike_stub_465/users/email_verify_send(.:format)",
+      "pair": "users#email_verify_send"
+    },
+    {
+      "helper": "spike_stub_466_users_admin_password_auth",
+      "verb": "POST",
+      "path_spec": "/spike_stub_466/users/admin_password_auth(.:format)",
+      "pair": "users#admin_password_auth_send"
+    },
+    {
+      "helper": "spike_stub_467_users_admin_password_auth_verify",
+      "verb": "POST",
+      "path_spec": "/spike_stub_467/users/admin_password_auth_verify(.:format)",
+      "pair": "users#admin_password_auth_verify"
+    },
+    {
+      "helper": "spike_stub_468_user_access_token",
+      "verb": "GET",
+      "path_spec": "/spike_stub_468/user_access_token(.:format)",
+      "pair": "user_access_token#index"
+    },
+    {
+      "helper": "spike_stub_469_user_access_token",
+      "verb": "POST",
+      "path_spec": "/spike_stub_469/user_access_token(.:format)",
+      "pair": "user_access_token#create"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_470/user_access_token/:id(.:format)",
+      "pair": "user_access_token#destroy"
+    },
+    {
+      "helper": "spike_stub_471_user_devices",
+      "verb": "GET",
+      "path_spec": "/spike_stub_471/user_devices(.:format)",
+      "pair": "user_devices#index"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_472/user_devices/:id(.:format)",
+      "pair": "user_devices#destroy"
+    },
+    {
+      "helper": "spike_stub_473_user_overview_sortings",
+      "verb": "GET",
+      "path_spec": "/spike_stub_473/user_overview_sortings(.:format)",
+      "pair": "user/overview_sortings#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_474/user_overview_sortings/:id(.:format)",
+      "pair": "user/overview_sortings#show"
+    },
+    {
+      "helper": "spike_stub_475_user_overview_sortings",
+      "verb": "POST",
+      "path_spec": "/spike_stub_475/user_overview_sortings(.:format)",
+      "pair": "user/overview_sortings#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_476/user_overview_sortings/:id(.:format)",
+      "pair": "user/overview_sortings#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_477/user_overview_sortings/:id(.:format)",
+      "pair": "user/overview_sortings#destroy"
+    },
+    {
+      "helper": "spike_stub_478_user_overview_sortings_prio",
+      "verb": "POST",
+      "path_spec": "/spike_stub_478/user_overview_sortings_prio(.:format)",
+      "pair": "user/overview_sortings#prio"
+    },
+    {
+      "helper": "spike_stub_479_version",
+      "verb": "GET",
+      "path_spec": "/spike_stub_479/version(.:format)",
+      "pair": "version#index"
+    },
+    {
+      "helper": "spike_stub_480_webhooks_payload_replacements",
+      "verb": "GET",
+      "path_spec": "/spike_stub_480/webhooks/payload/replacements(.:format)",
+      "pair": "webhooks#replacements"
+    },
+    {
+      "helper": "spike_stub_481_webhooks_preview",
+      "verb": "GET",
+      "path_spec": "/spike_stub_481/webhooks/preview(.:format)",
+      "pair": "webhooks#preview"
+    },
+    {
+      "helper": "spike_stub_482_webhooks_pre_defined",
+      "verb": "GET",
+      "path_spec": "/spike_stub_482/webhooks/pre_defined(.:format)",
+      "pair": "webhooks#pre_defined_webhooks"
+    },
+    {
+      "helper": "spike_stub_483_webhooks",
+      "verb": "GET",
+      "path_spec": "/spike_stub_483/webhooks(.:format)",
+      "pair": "webhooks#index"
+    },
+    {
+      "helper": "spike_stub_484_webhooks_search",
+      "verb": "GET|POST",
+      "path_spec": "/spike_stub_484/webhooks/search(.:format)",
+      "pair": "webhooks#search"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/spike_stub_485/webhooks/:id(.:format)",
+      "pair": "webhooks#show"
+    },
+    {
+      "helper": "spike_stub_486_webhooks",
+      "verb": "POST",
+      "path_spec": "/spike_stub_486/webhooks(.:format)",
+      "pair": "webhooks#create"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/spike_stub_487/webhooks/:id(.:format)",
+      "pair": "webhooks#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/spike_stub_488/webhooks/:id(.:format)",
+      "pair": "webhooks#destroy"
+    },
+    {
+      "helper": null,
+      "verb": "GET|POST|PUT|DELETE|OPTIONS",
+      "path_spec": "/*a(.:format)",
+      "pair": "errors#routing"
+    }
+  ],
+  "mounts": [],
+  "gem_dsl_calls": [
+    "use_doorkeeper"
+  ],
+  "skipped": {}
+}

@@ -1,0 +1,4476 @@
+{
+  "app": "mastodon",
+  "actionpack_version": "8.1.3",
+  "route_count": 761,
+  "rows": [
+    {
+      "helper": "root",
+      "verb": "GET",
+      "path_spec": "/",
+      "pair": "home#index"
+    },
+    {
+      "helper": "health",
+      "verb": "GET",
+      "path_spec": "/health(.:format)",
+      "pair": "health#show"
+    },
+    {
+      "helper": "oauth_userinfo",
+      "verb": "GET|POST",
+      "path_spec": "/oauth/userinfo(.:format)",
+      "pair": "oauth/userinfo#show"
+    },
+    {
+      "helper": "oauth_metadata",
+      "verb": "GET",
+      "path_spec": "/.well-known/oauth-authorization-server(.:format)",
+      "pair": "well_known/oauth_metadata#show"
+    },
+    {
+      "helper": "host_meta",
+      "verb": "GET",
+      "path_spec": "/.well-known/host-meta(.:format)",
+      "pair": "well_known/host_meta#show"
+    },
+    {
+      "helper": "nodeinfo",
+      "verb": "GET",
+      "path_spec": "/.well-known/nodeinfo(.:format)",
+      "pair": "well_known/node_info#index"
+    },
+    {
+      "helper": "webfinger",
+      "verb": "GET",
+      "path_spec": "/.well-known/webfinger(.:format)",
+      "pair": "well_known/webfinger#show"
+    },
+    {
+      "helper": "nodeinfo_schema",
+      "verb": "GET",
+      "path_spec": "/nodeinfo/2.0(.:format)",
+      "pair": "well_known/node_info#show"
+    },
+    {
+      "helper": "manifest",
+      "verb": "GET",
+      "path_spec": "/manifest(.:format)",
+      "pair": "manifests#show"
+    },
+    {
+      "helper": "intent",
+      "verb": "GET",
+      "path_spec": "/intent(.:format)",
+      "pair": "intents#show"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/custom.css(.:format)",
+      "pair": "custom_css#show"
+    },
+    {
+      "helper": "custom_css",
+      "verb": "GET",
+      "path_spec": "/css/:id(.:format)",
+      "pair": "custom_css#show"
+    },
+    {
+      "helper": "remote_interaction_helper",
+      "verb": "GET",
+      "path_spec": "/remote_interaction_helper(.:format)",
+      "pair": "remote_interaction_helper#index"
+    },
+    {
+      "helper": "instance_actor_inbox",
+      "verb": "POST",
+      "path_spec": "/actor/inbox(.:format)",
+      "pair": "activitypub/inboxes#create"
+    },
+    {
+      "helper": "instance_actor_outbox",
+      "verb": "GET",
+      "path_spec": "/actor/outbox(.:format)",
+      "pair": "activitypub/outboxes#show"
+    },
+    {
+      "helper": "instance_actor",
+      "verb": "GET",
+      "path_spec": "/actor(.:format)",
+      "pair": "instance_actors#show"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/invite/:invite_code(.:format)",
+      "pair": "api/v1/invites#show"
+    },
+    {
+      "helper": "public_invite",
+      "verb": "GET",
+      "path_spec": "/invite/:invite_code(.:format)",
+      "pair": "auth/registrations#new"
+    },
+    {
+      "helper": "unsubscribe",
+      "verb": "GET",
+      "path_spec": "/unsubscribe(.:format)",
+      "pair": "unsubscriptions#show"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/unsubscribe(.:format)",
+      "pair": "unsubscriptions#create"
+    },
+    {
+      "helper": "auth_acceptance",
+      "verb": "POST",
+      "path_spec": "/auth/acceptance(.:format)",
+      "pair": "auth/acceptances#create"
+    },
+    {
+      "helper": "auth_setup",
+      "verb": "GET",
+      "path_spec": "/auth/setup(.:format)",
+      "pair": "auth/setup#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/auth/setup(.:format)",
+      "pair": "auth/setup#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/auth/setup(.:format)",
+      "pair": "auth/setup#update"
+    },
+    {
+      "helper": "auth_challenge",
+      "verb": "POST",
+      "path_spec": "/auth/challenge(.:format)",
+      "pair": "auth/challenges#create"
+    },
+    {
+      "helper": "auth_captcha_confirmation",
+      "verb": "POST",
+      "path_spec": "/auth/captcha_confirmation(.:format)",
+      "pair": "auth/confirmations#confirm_captcha"
+    },
+    {
+      "helper": "auth_sessions_security_key_options",
+      "verb": "GET",
+      "path_spec": "/auth/sessions/security_key_options(.:format)",
+      "pair": "auth/sessions/security_key_options#show"
+    },
+    {
+      "helper": "activity_account_status",
+      "verb": "GET",
+      "path_spec": "/users/:account_username/statuses/:id/activity(.:format)",
+      "pair": "statuses#activity"
+    },
+    {
+      "helper": "embed_account_status",
+      "verb": "GET",
+      "path_spec": "/users/:account_username/statuses/:id/embed(.:format)",
+      "pair": "statuses#embed"
+    },
+    {
+      "helper": "account_status_replies",
+      "verb": "GET",
+      "path_spec": "/users/:account_username/statuses/:status_id/replies(.:format)",
+      "pair": "activitypub/replies#index"
+    },
+    {
+      "helper": "account_status_likes",
+      "verb": "GET",
+      "path_spec": "/users/:account_username/statuses/:status_id/likes(.:format)",
+      "pair": "activitypub/likes#index"
+    },
+    {
+      "helper": "account_status_shares",
+      "verb": "GET",
+      "path_spec": "/users/:account_username/statuses/:status_id/shares(.:format)",
+      "pair": "activitypub/shares#index"
+    },
+    {
+      "helper": "account_status",
+      "verb": "GET",
+      "path_spec": "/users/:account_username/statuses/:id(.:format)",
+      "pair": "statuses#show"
+    },
+    {
+      "helper": "account_followers",
+      "verb": "GET",
+      "path_spec": "/users/:account_username/followers(.:format)",
+      "pair": "follower_accounts#index"
+    },
+    {
+      "helper": "account_following_index",
+      "verb": "GET",
+      "path_spec": "/users/:account_username/following(.:format)",
+      "pair": "following_accounts#index"
+    },
+    {
+      "helper": "account_outbox",
+      "verb": "GET",
+      "path_spec": "/users/:account_username/outbox(.:format)",
+      "pair": "activitypub/outboxes#show"
+    },
+    {
+      "helper": "account_inbox",
+      "verb": "POST",
+      "path_spec": "/users/:account_username/inbox(.:format)",
+      "pair": "activitypub/inboxes#create"
+    },
+    {
+      "helper": "account_actor_collection",
+      "verb": "GET",
+      "path_spec": "/users/:account_username/collections/:id(.:format)",
+      "pair": "activitypub/collections#show"
+    },
+    {
+      "helper": "account_followers_synchronization",
+      "verb": "GET",
+      "path_spec": "/users/:account_username/followers_synchronization(.:format)",
+      "pair": "activitypub/followers_synchronizations#show"
+    },
+    {
+      "helper": "account_quote_authorization",
+      "verb": "GET",
+      "path_spec": "/users/:account_username/quote_authorizations/:id(.:format)",
+      "pair": "activitypub/quote_authorizations#show"
+    },
+    {
+      "helper": "account",
+      "verb": "GET",
+      "path_spec": "/users/:username(.:format)",
+      "pair": "accounts#show"
+    },
+    {
+      "helper": "ap_account_collection",
+      "verb": "GET",
+      "path_spec": "/ap/users/:account_id/collections/:id(.:format)",
+      "pair": "collections#show"
+    },
+    {
+      "helper": "ap_account_collection_item",
+      "verb": "GET",
+      "path_spec": "/ap/users/:account_id/collection_items/:id(.:format)",
+      "pair": "collection_items#show"
+    },
+    {
+      "helper": "ap_account_feature_authorization",
+      "verb": "GET",
+      "path_spec": "/ap/users/:account_id/feature_authorizations/:id(.:format)",
+      "pair": "activitypub/feature_authorizations#show"
+    },
+    {
+      "helper": "ap_account_featured_collections",
+      "verb": "GET",
+      "path_spec": "/ap/users/:account_id/featured_collections(.:format)",
+      "pair": "activitypub/featured_collections#index"
+    },
+    {
+      "helper": "activity_ap_account_status",
+      "verb": "GET",
+      "path_spec": "/ap/users/:account_id/statuses/:id/activity(.:format)",
+      "pair": "statuses#activity"
+    },
+    {
+      "helper": "ap_account_status_replies",
+      "verb": "GET",
+      "path_spec": "/ap/users/:account_id/statuses/:status_id/replies(.:format)",
+      "pair": "activitypub/replies#index"
+    },
+    {
+      "helper": "ap_account_status_likes",
+      "verb": "GET",
+      "path_spec": "/ap/users/:account_id/statuses/:status_id/likes(.:format)",
+      "pair": "activitypub/likes#index"
+    },
+    {
+      "helper": "ap_account_status_shares",
+      "verb": "GET",
+      "path_spec": "/ap/users/:account_id/statuses/:status_id/shares(.:format)",
+      "pair": "activitypub/shares#index"
+    },
+    {
+      "helper": "ap_account_status",
+      "verb": "GET",
+      "path_spec": "/ap/users/:account_id/statuses/:id(.:format)",
+      "pair": "statuses#show"
+    },
+    {
+      "helper": "ap_account_followers",
+      "verb": "GET",
+      "path_spec": "/ap/users/:account_id/followers(.:format)",
+      "pair": "follower_accounts#index"
+    },
+    {
+      "helper": "ap_account_following_index",
+      "verb": "GET",
+      "path_spec": "/ap/users/:account_id/following(.:format)",
+      "pair": "following_accounts#index"
+    },
+    {
+      "helper": "ap_account_outbox",
+      "verb": "GET",
+      "path_spec": "/ap/users/:account_id/outbox(.:format)",
+      "pair": "activitypub/outboxes#show"
+    },
+    {
+      "helper": "ap_account_inbox",
+      "verb": "POST",
+      "path_spec": "/ap/users/:account_id/inbox(.:format)",
+      "pair": "activitypub/inboxes#create"
+    },
+    {
+      "helper": "ap_account_actor_collection",
+      "verb": "GET",
+      "path_spec": "/ap/users/:account_id/collections/:id(.:format)",
+      "pair": "activitypub/collections#show"
+    },
+    {
+      "helper": "ap_account_followers_synchronization",
+      "verb": "GET",
+      "path_spec": "/ap/users/:account_id/followers_synchronization(.:format)",
+      "pair": "activitypub/followers_synchronizations#show"
+    },
+    {
+      "helper": "ap_account_quote_authorization",
+      "verb": "GET",
+      "path_spec": "/ap/users/:account_id/quote_authorizations/:id(.:format)",
+      "pair": "activitypub/quote_authorizations#show"
+    },
+    {
+      "helper": "ap_account",
+      "verb": "GET",
+      "path_spec": "/ap/users/:id(.:format)",
+      "pair": "accounts#show"
+    },
+    {
+      "helper": "collection",
+      "verb": "GET",
+      "path_spec": "/collections/:id(.:format)",
+      "pair": "collections#show"
+    },
+    {
+      "helper": "inbox",
+      "verb": "POST",
+      "path_spec": "/inbox(.:format)",
+      "pair": "activitypub/inboxes#create"
+    },
+    {
+      "helper": "items_context",
+      "verb": "GET",
+      "path_spec": "/contexts/:id/items(.:format)",
+      "pair": "activitypub/contexts#items"
+    },
+    {
+      "helper": "context",
+      "verb": "GET",
+      "path_spec": "/contexts/:id(.:format)",
+      "pair": "activitypub/contexts#show"
+    },
+    {
+      "helper": "short_account",
+      "verb": "GET",
+      "path_spec": "/@:username(.:format)",
+      "pair": "accounts#show"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/@:username/featured(.:format)",
+      "pair": "accounts#show"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/@:username/collections(.:format)",
+      "pair": "accounts#show"
+    },
+    {
+      "helper": "short_account_with_replies",
+      "verb": "GET",
+      "path_spec": "/@:username/with_replies(.:format)",
+      "pair": "accounts#show"
+    },
+    {
+      "helper": "short_account_media",
+      "verb": "GET",
+      "path_spec": "/@:username/media(.:format)",
+      "pair": "accounts#show"
+    },
+    {
+      "helper": "short_account_tag",
+      "verb": "GET",
+      "path_spec": "/@:username/tagged/:tag(.:format)",
+      "pair": "accounts#show"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/@:account_username/following(.:format)",
+      "pair": "following_accounts#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/@:account_username/followers(.:format)",
+      "pair": "follower_accounts#index"
+    },
+    {
+      "helper": "short_account_status",
+      "verb": "GET",
+      "path_spec": "/@:account_username/:id(.:format)",
+      "pair": "statuses#show"
+    },
+    {
+      "helper": "embed_short_account_status",
+      "verb": "GET",
+      "path_spec": "/@:account_username/:id/embed(.:format)",
+      "pair": "statuses#embed"
+    },
+    {
+      "helper": "public_wrapstodon",
+      "verb": "GET",
+      "path_spec": "/@:account_username/wrapstodon/:year/:share_key(.:format)",
+      "pair": "wrapstodon#show"
+    },
+    {
+      "helper": "account_with_domain",
+      "verb": "GET",
+      "path_spec": "/@:username_with_domain(/*any)",
+      "pair": "home#index"
+    },
+    {
+      "helper": "settings_profile_picture",
+      "verb": "DELETE",
+      "path_spec": "/settings/profile/pictures/:id(.:format)",
+      "pair": "settings/pictures#destroy"
+    },
+    {
+      "helper": "settings_profile",
+      "verb": "GET",
+      "path_spec": "/settings/profile(.:format)",
+      "pair": "settings/profiles#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/settings/profile(.:format)",
+      "pair": "settings/profiles#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/settings/profile(.:format)",
+      "pair": "settings/profiles#update"
+    },
+    {
+      "helper": "settings_preferences_appearance",
+      "verb": "GET",
+      "path_spec": "/settings/preferences/appearance(.:format)",
+      "pair": "settings/preferences/appearance#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/settings/preferences/appearance(.:format)",
+      "pair": "settings/preferences/appearance#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/settings/preferences/appearance(.:format)",
+      "pair": "settings/preferences/appearance#update"
+    },
+    {
+      "helper": "settings_preferences_posting_defaults",
+      "verb": "GET",
+      "path_spec": "/settings/preferences/posting_defaults(.:format)",
+      "pair": "settings/preferences/posting_defaults#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/settings/preferences/posting_defaults(.:format)",
+      "pair": "settings/preferences/posting_defaults#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/settings/preferences/posting_defaults(.:format)",
+      "pair": "settings/preferences/posting_defaults#update"
+    },
+    {
+      "helper": "settings_preferences_notifications",
+      "verb": "GET",
+      "path_spec": "/settings/preferences/notifications(.:format)",
+      "pair": "settings/preferences/notifications#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/settings/preferences/notifications(.:format)",
+      "pair": "settings/preferences/notifications#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/settings/preferences/notifications(.:format)",
+      "pair": "settings/preferences/notifications#update"
+    },
+    {
+      "helper": "settings_preferences_other",
+      "verb": "GET",
+      "path_spec": "/settings/preferences/other(.:format)",
+      "pair": "settings/preferences/other#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/settings/preferences/other(.:format)",
+      "pair": "settings/preferences/other#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/settings/preferences/other(.:format)",
+      "pair": "settings/preferences/other#update"
+    },
+    {
+      "helper": "confirm_settings_import",
+      "verb": "POST",
+      "path_spec": "/settings/imports/:id/confirm(.:format)",
+      "pair": "settings/imports#confirm"
+    },
+    {
+      "helper": "failures_settings_import",
+      "verb": "GET",
+      "path_spec": "/settings/imports/:id/failures(.:format)",
+      "pair": "settings/imports#failures"
+    },
+    {
+      "helper": "settings_imports",
+      "verb": "GET",
+      "path_spec": "/settings/imports(.:format)",
+      "pair": "settings/imports#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/settings/imports(.:format)",
+      "pair": "settings/imports#create"
+    },
+    {
+      "helper": "settings_import",
+      "verb": "GET",
+      "path_spec": "/settings/imports/:id(.:format)",
+      "pair": "settings/imports#show"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/settings/imports/:id(.:format)",
+      "pair": "settings/imports#destroy"
+    },
+    {
+      "helper": "settings_export",
+      "verb": "GET",
+      "path_spec": "/settings/export(.:format)",
+      "pair": "settings/exports#show"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/settings/export(.:format)",
+      "pair": "settings/exports#create"
+    },
+    {
+      "helper": "settings_exports_follows",
+      "verb": "GET",
+      "path_spec": "/settings/exports/follows(.:format)",
+      "pair": "settings/exports/following_accounts#index"
+    },
+    {
+      "helper": "settings_exports_blocks",
+      "verb": "GET",
+      "path_spec": "/settings/exports/blocks(.:format)",
+      "pair": "settings/exports/blocked_accounts#index"
+    },
+    {
+      "helper": "settings_exports_mutes",
+      "verb": "GET",
+      "path_spec": "/settings/exports/mutes(.:format)",
+      "pair": "settings/exports/muted_accounts#index"
+    },
+    {
+      "helper": "settings_exports_lists",
+      "verb": "GET",
+      "path_spec": "/settings/exports/lists(.:format)",
+      "pair": "settings/exports/lists#index"
+    },
+    {
+      "helper": "settings_exports_domain_blocks",
+      "verb": "GET",
+      "path_spec": "/settings/exports/domain_blocks(.:format)",
+      "pair": "settings/exports/blocked_domains#index"
+    },
+    {
+      "helper": "settings_exports_bookmarks",
+      "verb": "GET",
+      "path_spec": "/settings/exports/bookmarks(.:format)",
+      "pair": "settings/exports/bookmarks#index"
+    },
+    {
+      "helper": "settings_exports_custom_filters",
+      "verb": "GET",
+      "path_spec": "/settings/exports/custom_filters(.:format)",
+      "pair": "settings/exports/custom_filters#index"
+    },
+    {
+      "helper": "disable_settings_two_factor_authentication_methods",
+      "verb": "POST",
+      "path_spec": "/settings/two_factor_authentication_methods/disable(.:format)",
+      "pair": "settings/two_factor_authentication_methods#disable"
+    },
+    {
+      "helper": "settings_two_factor_authentication_methods",
+      "verb": "GET",
+      "path_spec": "/settings/two_factor_authentication_methods(.:format)",
+      "pair": "settings/two_factor_authentication_methods#index"
+    },
+    {
+      "helper": "settings_otp_authentication",
+      "verb": "GET",
+      "path_spec": "/settings/otp_authentication(.:format)",
+      "pair": "settings/two_factor_authentication/otp_authentication#show"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/settings/otp_authentication(.:format)",
+      "pair": "settings/two_factor_authentication/otp_authentication#create"
+    },
+    {
+      "helper": "options_settings_webauthn_credentials",
+      "verb": "GET",
+      "path_spec": "/settings/security_keys/options(.:format)",
+      "pair": "settings/two_factor_authentication/webauthn_credentials#options"
+    },
+    {
+      "helper": "settings_webauthn_credentials",
+      "verb": "GET",
+      "path_spec": "/settings/security_keys(.:format)",
+      "pair": "settings/two_factor_authentication/webauthn_credentials#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/settings/security_keys(.:format)",
+      "pair": "settings/two_factor_authentication/webauthn_credentials#create"
+    },
+    {
+      "helper": "new_settings_webauthn_credential",
+      "verb": "GET",
+      "path_spec": "/settings/security_keys/new(.:format)",
+      "pair": "settings/two_factor_authentication/webauthn_credentials#new"
+    },
+    {
+      "helper": "settings_webauthn_credential",
+      "verb": "DELETE",
+      "path_spec": "/settings/security_keys/:id(.:format)",
+      "pair": "settings/two_factor_authentication/webauthn_credentials#destroy"
+    },
+    {
+      "helper": "settings_two_factor_authentication_recovery_codes",
+      "verb": "POST",
+      "path_spec": "/settings/two_factor_authentication/recovery_codes(.:format)",
+      "pair": "settings/two_factor_authentication/recovery_codes#create"
+    },
+    {
+      "helper": "new_settings_two_factor_authentication_confirmation",
+      "verb": "GET",
+      "path_spec": "/settings/two_factor_authentication/confirmation/new(.:format)",
+      "pair": "settings/two_factor_authentication/confirmations#new"
+    },
+    {
+      "helper": "settings_two_factor_authentication_confirmation",
+      "verb": "POST",
+      "path_spec": "/settings/two_factor_authentication/confirmation(.:format)",
+      "pair": "settings/two_factor_authentication/confirmations#create"
+    },
+    {
+      "helper": "regenerate_settings_application",
+      "verb": "POST",
+      "path_spec": "/settings/applications/:id/regenerate(.:format)",
+      "pair": "settings/applications#regenerate"
+    },
+    {
+      "helper": "settings_applications",
+      "verb": "GET",
+      "path_spec": "/settings/applications(.:format)",
+      "pair": "settings/applications#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/settings/applications(.:format)",
+      "pair": "settings/applications#create"
+    },
+    {
+      "helper": "new_settings_application",
+      "verb": "GET",
+      "path_spec": "/settings/applications/new(.:format)",
+      "pair": "settings/applications#new"
+    },
+    {
+      "helper": "settings_application",
+      "verb": "GET",
+      "path_spec": "/settings/applications/:id(.:format)",
+      "pair": "settings/applications#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/settings/applications/:id(.:format)",
+      "pair": "settings/applications#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/settings/applications/:id(.:format)",
+      "pair": "settings/applications#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/settings/applications/:id(.:format)",
+      "pair": "settings/applications#destroy"
+    },
+    {
+      "helper": "settings_delete",
+      "verb": "GET",
+      "path_spec": "/settings/delete(.:format)",
+      "pair": "settings/deletes#show"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/settings/delete(.:format)",
+      "pair": "settings/deletes#destroy"
+    },
+    {
+      "helper": "settings_migration",
+      "verb": "GET",
+      "path_spec": "/settings/migration(.:format)",
+      "pair": "settings/migrations#show"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/settings/migration(.:format)",
+      "pair": "settings/migrations#create"
+    },
+    {
+      "helper": "settings_verification",
+      "verb": "GET",
+      "path_spec": "/settings/verification(.:format)",
+      "pair": "settings/verifications#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/settings/verification(.:format)",
+      "pair": "settings/verifications#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/settings/verification(.:format)",
+      "pair": "settings/verifications#update"
+    },
+    {
+      "helper": "settings_privacy",
+      "verb": "GET",
+      "path_spec": "/settings/privacy(.:format)",
+      "pair": "settings/privacy#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/settings/privacy(.:format)",
+      "pair": "settings/privacy#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/settings/privacy(.:format)",
+      "pair": "settings/privacy#update"
+    },
+    {
+      "helper": "new_settings_migration_redirect",
+      "verb": "GET",
+      "path_spec": "/settings/migration/redirect/new(.:format)",
+      "pair": "settings/migration/redirects#new"
+    },
+    {
+      "helper": "settings_migration_redirect",
+      "verb": "DELETE",
+      "path_spec": "/settings/migration/redirect(.:format)",
+      "pair": "settings/migration/redirects#destroy"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/settings/migration/redirect(.:format)",
+      "pair": "settings/migration/redirects#create"
+    },
+    {
+      "helper": "settings_aliases",
+      "verb": "GET",
+      "path_spec": "/settings/aliases(.:format)",
+      "pair": "settings/aliases#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/settings/aliases(.:format)",
+      "pair": "settings/aliases#create"
+    },
+    {
+      "helper": "settings_alias",
+      "verb": "DELETE",
+      "path_spec": "/settings/aliases/:id(.:format)",
+      "pair": "settings/aliases#destroy"
+    },
+    {
+      "helper": "settings_session",
+      "verb": "DELETE",
+      "path_spec": "/settings/sessions/:id(.:format)",
+      "pair": "settings/sessions#destroy"
+    },
+    {
+      "helper": "settings_featured_tags",
+      "verb": "GET",
+      "path_spec": "/settings/featured_tags(.:format)",
+      "pair": "settings/featured_tags#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/settings/featured_tags(.:format)",
+      "pair": "settings/featured_tags#create"
+    },
+    {
+      "helper": "settings_featured_tag",
+      "verb": "DELETE",
+      "path_spec": "/settings/featured_tags/:id(.:format)",
+      "pair": "settings/featured_tags#destroy"
+    },
+    {
+      "helper": "settings_login_activities",
+      "verb": "GET",
+      "path_spec": "/settings/login_activities(.:format)",
+      "pair": "settings/login_activities#index"
+    },
+    {
+      "helper": "disputes_strike_appeal",
+      "verb": "POST",
+      "path_spec": "/disputes/strikes/:strike_id/appeal(.:format)",
+      "pair": "disputes/appeals#create"
+    },
+    {
+      "helper": "disputes_strikes",
+      "verb": "GET",
+      "path_spec": "/disputes/strikes(.:format)",
+      "pair": "disputes/strikes#index"
+    },
+    {
+      "helper": "disputes_strike",
+      "verb": "GET",
+      "path_spec": "/disputes/strikes/:id(.:format)",
+      "pair": "disputes/strikes#show"
+    },
+    {
+      "helper": "redirect_account",
+      "verb": "GET",
+      "path_spec": "/redirect/accounts/:id(.:format)",
+      "pair": "redirect/accounts#show"
+    },
+    {
+      "helper": "redirect_status",
+      "verb": "GET",
+      "path_spec": "/redirect/statuses/:id(.:format)",
+      "pair": "redirect/statuses#show"
+    },
+    {
+      "helper": "redirect_collection",
+      "verb": "GET",
+      "path_spec": "/redirect/collections/:id(.:format)",
+      "pair": "redirect/collections#show"
+    },
+    {
+      "helper": "email_subscriptions_confirmation",
+      "verb": "GET",
+      "path_spec": "/email_subscriptions/confirmation(.:format)",
+      "pair": "email_subscriptions/confirmations#show"
+    },
+    {
+      "helper": "player_medium",
+      "verb": "GET",
+      "path_spec": "/media/:id/player(.:format)",
+      "pair": "media#player"
+    },
+    {
+      "helper": "medium",
+      "verb": "GET",
+      "path_spec": "/media/:id(.:format)",
+      "pair": "media#show"
+    },
+    {
+      "helper": "tag",
+      "verb": "GET",
+      "path_spec": "/tags/:id(.:format)",
+      "pair": "tags#show"
+    },
+    {
+      "helper": "emoji",
+      "verb": "GET",
+      "path_spec": "/emojis/:id(.:format)",
+      "pair": "emojis#show"
+    },
+    {
+      "helper": "invites",
+      "verb": "GET",
+      "path_spec": "/invites(.:format)",
+      "pair": "invites#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/invites(.:format)",
+      "pair": "invites#create"
+    },
+    {
+      "helper": "invite",
+      "verb": "DELETE",
+      "path_spec": "/invites/:id(.:format)",
+      "pair": "invites#destroy"
+    },
+    {
+      "helper": "batch_filter_statuses",
+      "verb": "POST",
+      "path_spec": "/filters/:filter_id/statuses/batch(.:format)",
+      "pair": "filters/statuses#batch"
+    },
+    {
+      "helper": "filter_statuses",
+      "verb": "GET",
+      "path_spec": "/filters/:filter_id/statuses(.:format)",
+      "pair": "filters/statuses#index"
+    },
+    {
+      "helper": "filters",
+      "verb": "GET",
+      "path_spec": "/filters(.:format)",
+      "pair": "filters#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/filters(.:format)",
+      "pair": "filters#create"
+    },
+    {
+      "helper": "new_filter",
+      "verb": "GET",
+      "path_spec": "/filters/new(.:format)",
+      "pair": "filters#new"
+    },
+    {
+      "helper": "edit_filter",
+      "verb": "GET",
+      "path_spec": "/filters/:id/edit(.:format)",
+      "pair": "filters#edit"
+    },
+    {
+      "helper": "filter",
+      "verb": "PATCH",
+      "path_spec": "/filters/:id(.:format)",
+      "pair": "filters#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/filters/:id(.:format)",
+      "pair": "filters#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/filters/:id(.:format)",
+      "pair": "filters#destroy"
+    },
+    {
+      "helper": "relationships",
+      "verb": "GET",
+      "path_spec": "/relationships(.:format)",
+      "pair": "relationships#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/relationships(.:format)",
+      "pair": "relationships#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/relationships(.:format)",
+      "pair": "relationships#update"
+    },
+    {
+      "helper": "followers_severed_relationship",
+      "verb": "GET",
+      "path_spec": "/severed_relationships/:id/followers(.:format)",
+      "pair": "severed_relationships#followers"
+    },
+    {
+      "helper": "following_severed_relationship",
+      "verb": "GET",
+      "path_spec": "/severed_relationships/:id/following(.:format)",
+      "pair": "severed_relationships#following"
+    },
+    {
+      "helper": "severed_relationships",
+      "verb": "GET",
+      "path_spec": "/severed_relationships(.:format)",
+      "pair": "severed_relationships#index"
+    },
+    {
+      "helper": "statuses_cleanup",
+      "verb": "GET",
+      "path_spec": "/statuses_cleanup(.:format)",
+      "pair": "statuses_cleanup#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/statuses_cleanup(.:format)",
+      "pair": "statuses_cleanup#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/statuses_cleanup(.:format)",
+      "pair": "statuses_cleanup#update"
+    },
+    {
+      "helper": "media_proxy",
+      "verb": "GET",
+      "path_spec": "/media_proxy/:id(/*any)",
+      "pair": "media_proxy#show"
+    },
+    {
+      "helper": "download_backup",
+      "verb": "GET",
+      "path_spec": "/backups/:id/download",
+      "pair": "backups#download"
+    },
+    {
+      "helper": "authorize_interaction",
+      "verb": "GET",
+      "path_spec": "/authorize_interaction(.:format)",
+      "pair": "authorize_interactions#show"
+    },
+    {
+      "helper": "share",
+      "verb": "GET",
+      "path_spec": "/share(.:format)",
+      "pair": "shares#show"
+    },
+    {
+      "helper": "admin_dashboard",
+      "verb": "GET",
+      "path_spec": "/admin/dashboard(.:format)",
+      "pair": "admin/dashboard#index"
+    },
+    {
+      "helper": "admin_domain_allows",
+      "verb": "POST",
+      "path_spec": "/admin/domain_allows(.:format)",
+      "pair": "admin/domain_allows#create"
+    },
+    {
+      "helper": "new_admin_domain_allow",
+      "verb": "GET",
+      "path_spec": "/admin/domain_allows/new(.:format)",
+      "pair": "admin/domain_allows#new"
+    },
+    {
+      "helper": "admin_domain_allow",
+      "verb": "DELETE",
+      "path_spec": "/admin/domain_allows/:id(.:format)",
+      "pair": "admin/domain_allows#destroy"
+    },
+    {
+      "helper": "batch_admin_domain_blocks",
+      "verb": "POST",
+      "path_spec": "/admin/domain_blocks/batch(.:format)",
+      "pair": "admin/domain_blocks#batch"
+    },
+    {
+      "helper": "admin_domain_blocks",
+      "verb": "POST",
+      "path_spec": "/admin/domain_blocks(.:format)",
+      "pair": "admin/domain_blocks#create"
+    },
+    {
+      "helper": "new_admin_domain_block",
+      "verb": "GET",
+      "path_spec": "/admin/domain_blocks/new(.:format)",
+      "pair": "admin/domain_blocks#new"
+    },
+    {
+      "helper": "edit_admin_domain_block",
+      "verb": "GET",
+      "path_spec": "/admin/domain_blocks/:id/edit(.:format)",
+      "pair": "admin/domain_blocks#edit"
+    },
+    {
+      "helper": "admin_domain_block",
+      "verb": "PATCH",
+      "path_spec": "/admin/domain_blocks/:id(.:format)",
+      "pair": "admin/domain_blocks#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/admin/domain_blocks/:id(.:format)",
+      "pair": "admin/domain_blocks#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/admin/domain_blocks/:id(.:format)",
+      "pair": "admin/domain_blocks#destroy"
+    },
+    {
+      "helper": "export_admin_export_domain_allows",
+      "verb": "GET",
+      "path_spec": "/admin/export_domain_allows/export(.:format)",
+      "pair": "admin/export_domain_allows#export"
+    },
+    {
+      "helper": "import_admin_export_domain_allows",
+      "verb": "POST",
+      "path_spec": "/admin/export_domain_allows/import(.:format)",
+      "pair": "admin/export_domain_allows#import"
+    },
+    {
+      "helper": "new_admin_export_domain_allow",
+      "verb": "GET",
+      "path_spec": "/admin/export_domain_allows/new(.:format)",
+      "pair": "admin/export_domain_allows#new"
+    },
+    {
+      "helper": "export_admin_export_domain_blocks",
+      "verb": "GET",
+      "path_spec": "/admin/export_domain_blocks/export(.:format)",
+      "pair": "admin/export_domain_blocks#export"
+    },
+    {
+      "helper": "import_admin_export_domain_blocks",
+      "verb": "POST",
+      "path_spec": "/admin/export_domain_blocks/import(.:format)",
+      "pair": "admin/export_domain_blocks#import"
+    },
+    {
+      "helper": "new_admin_export_domain_block",
+      "verb": "GET",
+      "path_spec": "/admin/export_domain_blocks/new(.:format)",
+      "pair": "admin/export_domain_blocks#new"
+    },
+    {
+      "helper": "batch_admin_email_domain_blocks",
+      "verb": "POST",
+      "path_spec": "/admin/email_domain_blocks/batch(.:format)",
+      "pair": "admin/email_domain_blocks#batch"
+    },
+    {
+      "helper": "admin_email_domain_blocks",
+      "verb": "GET",
+      "path_spec": "/admin/email_domain_blocks(.:format)",
+      "pair": "admin/email_domain_blocks#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/admin/email_domain_blocks(.:format)",
+      "pair": "admin/email_domain_blocks#create"
+    },
+    {
+      "helper": "new_admin_email_domain_block",
+      "verb": "GET",
+      "path_spec": "/admin/email_domain_blocks/new(.:format)",
+      "pair": "admin/email_domain_blocks#new"
+    },
+    {
+      "helper": "purge_admin_email_subscriptions",
+      "verb": "POST",
+      "path_spec": "/admin/email_subscriptions/purge(.:format)",
+      "pair": "admin/email_subscriptions#purge"
+    },
+    {
+      "helper": "disable_admin_email_subscriptions",
+      "verb": "POST",
+      "path_spec": "/admin/email_subscriptions/disable(.:format)",
+      "pair": "admin/email_subscriptions#disable"
+    },
+    {
+      "helper": "admin_email_subscriptions",
+      "verb": "GET",
+      "path_spec": "/admin/email_subscriptions(.:format)",
+      "pair": "admin/email_subscriptions#index"
+    },
+    {
+      "helper": "admin_email_subscription",
+      "verb": "DELETE",
+      "path_spec": "/admin/email_subscriptions/:id(.:format)",
+      "pair": "admin/email_subscriptions#destroy"
+    },
+    {
+      "helper": "admin_email_subscriptions_setup",
+      "verb": "GET",
+      "path_spec": "/admin/email_subscriptions/setup(.:format)",
+      "pair": "admin/email_subscriptions/setups#show"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/admin/email_subscriptions/setup(.:format)",
+      "pair": "admin/email_subscriptions/setups#create"
+    },
+    {
+      "helper": "admin_email_subscriptions_additional_footer_text",
+      "verb": "GET",
+      "path_spec": "/admin/email_subscriptions/additional_footer_text(.:format)",
+      "pair": "admin/email_subscriptions/additional_footer_texts#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/admin/email_subscriptions/additional_footer_text(.:format)",
+      "pair": "admin/email_subscriptions/additional_footer_texts#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/admin/email_subscriptions/additional_footer_text(.:format)",
+      "pair": "admin/email_subscriptions/additional_footer_texts#update"
+    },
+    {
+      "helper": "enable_admin_email_subscriptions_account",
+      "verb": "POST",
+      "path_spec": "/admin/email_subscriptions/accounts/:id/enable(.:format)",
+      "pair": "admin/email_subscriptions/accounts#enable"
+    },
+    {
+      "helper": "disable_admin_email_subscriptions_account",
+      "verb": "POST",
+      "path_spec": "/admin/email_subscriptions/accounts/:id/disable(.:format)",
+      "pair": "admin/email_subscriptions/accounts#disable"
+    },
+    {
+      "helper": "admin_email_subscriptions_account",
+      "verb": "GET",
+      "path_spec": "/admin/email_subscriptions/accounts/:id(.:format)",
+      "pair": "admin/email_subscriptions/accounts#show"
+    },
+    {
+      "helper": "admin_action_logs",
+      "verb": "GET",
+      "path_spec": "/admin/action_logs(.:format)",
+      "pair": "admin/action_logs#index"
+    },
+    {
+      "helper": "admin_warning_presets",
+      "verb": "GET",
+      "path_spec": "/admin/warning_presets(.:format)",
+      "pair": "admin/warning_presets#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/admin/warning_presets(.:format)",
+      "pair": "admin/warning_presets#create"
+    },
+    {
+      "helper": "edit_admin_warning_preset",
+      "verb": "GET",
+      "path_spec": "/admin/warning_presets/:id/edit(.:format)",
+      "pair": "admin/warning_presets#edit"
+    },
+    {
+      "helper": "admin_warning_preset",
+      "verb": "PATCH",
+      "path_spec": "/admin/warning_presets/:id(.:format)",
+      "pair": "admin/warning_presets#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/admin/warning_presets/:id(.:format)",
+      "pair": "admin/warning_presets#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/admin/warning_presets/:id(.:format)",
+      "pair": "admin/warning_presets#destroy"
+    },
+    {
+      "helper": "admin_terms_of_service_generate",
+      "verb": "GET",
+      "path_spec": "/admin/terms_of_service/generate(.:format)",
+      "pair": "admin/terms_of_service/generates#show"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/admin/terms_of_service/generate(.:format)",
+      "pair": "admin/terms_of_service/generates#create"
+    },
+    {
+      "helper": "admin_terms_of_service_history",
+      "verb": "GET",
+      "path_spec": "/admin/terms_of_service/history(.:format)",
+      "pair": "admin/terms_of_service/histories#show"
+    },
+    {
+      "helper": "admin_terms_of_service_draft",
+      "verb": "GET",
+      "path_spec": "/admin/terms_of_service/draft(.:format)",
+      "pair": "admin/terms_of_service/drafts#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/admin/terms_of_service/draft(.:format)",
+      "pair": "admin/terms_of_service/drafts#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/admin/terms_of_service/draft(.:format)",
+      "pair": "admin/terms_of_service/drafts#update"
+    },
+    {
+      "helper": "admin_terms_of_service_preview",
+      "verb": "GET",
+      "path_spec": "/admin/terms_of_service/:terms_of_service_id/preview(.:format)",
+      "pair": "admin/terms_of_service/previews#show"
+    },
+    {
+      "helper": "admin_terms_of_service_test",
+      "verb": "POST",
+      "path_spec": "/admin/terms_of_service/:terms_of_service_id/test(.:format)",
+      "pair": "admin/terms_of_service/tests#create"
+    },
+    {
+      "helper": "admin_terms_of_service_distribution",
+      "verb": "POST",
+      "path_spec": "/admin/terms_of_service/:terms_of_service_id/distribution(.:format)",
+      "pair": "admin/terms_of_service/distributions#create"
+    },
+    {
+      "helper": "admin_terms_of_service_index",
+      "verb": "GET",
+      "path_spec": "/admin/terms_of_service(.:format)",
+      "pair": "admin/terms_of_service#index"
+    },
+    {
+      "helper": "publish_admin_announcement",
+      "verb": "POST",
+      "path_spec": "/admin/announcements/:id/publish(.:format)",
+      "pair": "admin/announcements#publish"
+    },
+    {
+      "helper": "unpublish_admin_announcement",
+      "verb": "POST",
+      "path_spec": "/admin/announcements/:id/unpublish(.:format)",
+      "pair": "admin/announcements#unpublish"
+    },
+    {
+      "helper": "admin_announcement_preview",
+      "verb": "GET",
+      "path_spec": "/admin/announcements/:announcement_id/preview(.:format)",
+      "pair": "admin/announcements/previews#show"
+    },
+    {
+      "helper": "admin_announcement_test",
+      "verb": "POST",
+      "path_spec": "/admin/announcements/:announcement_id/test(.:format)",
+      "pair": "admin/announcements/tests#create"
+    },
+    {
+      "helper": "admin_announcement_distribution",
+      "verb": "POST",
+      "path_spec": "/admin/announcements/:announcement_id/distribution(.:format)",
+      "pair": "admin/announcements/distributions#create"
+    },
+    {
+      "helper": "admin_announcements",
+      "verb": "GET",
+      "path_spec": "/admin/announcements(.:format)",
+      "pair": "admin/announcements#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/admin/announcements(.:format)",
+      "pair": "admin/announcements#create"
+    },
+    {
+      "helper": "new_admin_announcement",
+      "verb": "GET",
+      "path_spec": "/admin/announcements/new(.:format)",
+      "pair": "admin/announcements#new"
+    },
+    {
+      "helper": "edit_admin_announcement",
+      "verb": "GET",
+      "path_spec": "/admin/announcements/:id/edit(.:format)",
+      "pair": "admin/announcements#edit"
+    },
+    {
+      "helper": "admin_announcement",
+      "verb": "PATCH",
+      "path_spec": "/admin/announcements/:id(.:format)",
+      "pair": "admin/announcements#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/admin/announcements/:id(.:format)",
+      "pair": "admin/announcements#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/admin/announcements/:id(.:format)",
+      "pair": "admin/announcements#destroy"
+    },
+    {
+      "helper": "admin_settings_branding",
+      "verb": "GET",
+      "path_spec": "/admin/settings/branding(.:format)",
+      "pair": "admin/settings/branding#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/admin/settings/branding(.:format)",
+      "pair": "admin/settings/branding#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/admin/settings/branding(.:format)",
+      "pair": "admin/settings/branding#update"
+    },
+    {
+      "helper": "admin_settings_registrations",
+      "verb": "GET",
+      "path_spec": "/admin/settings/registrations(.:format)",
+      "pair": "admin/settings/registrations#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/admin/settings/registrations(.:format)",
+      "pair": "admin/settings/registrations#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/admin/settings/registrations(.:format)",
+      "pair": "admin/settings/registrations#update"
+    },
+    {
+      "helper": "admin_settings_content_retention",
+      "verb": "GET",
+      "path_spec": "/admin/settings/content_retention(.:format)",
+      "pair": "admin/settings/content_retention#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/admin/settings/content_retention(.:format)",
+      "pair": "admin/settings/content_retention#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/admin/settings/content_retention(.:format)",
+      "pair": "admin/settings/content_retention#update"
+    },
+    {
+      "helper": "admin_settings_about",
+      "verb": "GET",
+      "path_spec": "/admin/settings/about(.:format)",
+      "pair": "admin/settings/about#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/admin/settings/about(.:format)",
+      "pair": "admin/settings/about#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/admin/settings/about(.:format)",
+      "pair": "admin/settings/about#update"
+    },
+    {
+      "helper": "admin_settings_appearance",
+      "verb": "GET",
+      "path_spec": "/admin/settings/appearance(.:format)",
+      "pair": "admin/settings/appearance#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/admin/settings/appearance(.:format)",
+      "pair": "admin/settings/appearance#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/admin/settings/appearance(.:format)",
+      "pair": "admin/settings/appearance#update"
+    },
+    {
+      "helper": "admin_settings_discovery",
+      "verb": "GET",
+      "path_spec": "/admin/settings/discovery(.:format)",
+      "pair": "admin/settings/discovery#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/admin/settings/discovery(.:format)",
+      "pair": "admin/settings/discovery#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/admin/settings/discovery(.:format)",
+      "pair": "admin/settings/discovery#update"
+    },
+    {
+      "helper": "admin_site_upload",
+      "verb": "DELETE",
+      "path_spec": "/admin/site_uploads/:id(.:format)",
+      "pair": "admin/site_uploads#destroy"
+    },
+    {
+      "helper": "deactivate_all_admin_invites",
+      "verb": "POST",
+      "path_spec": "/admin/invites/deactivate_all(.:format)",
+      "pair": "admin/invites#deactivate_all"
+    },
+    {
+      "helper": "admin_invites",
+      "verb": "GET",
+      "path_spec": "/admin/invites(.:format)",
+      "pair": "admin/invites#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/admin/invites(.:format)",
+      "pair": "admin/invites#create"
+    },
+    {
+      "helper": "admin_invite",
+      "verb": "DELETE",
+      "path_spec": "/admin/invites/:id(.:format)",
+      "pair": "admin/invites#destroy"
+    },
+    {
+      "helper": "enable_admin_relay",
+      "verb": "POST",
+      "path_spec": "/admin/relays/:id/enable(.:format)",
+      "pair": "admin/relays#enable"
+    },
+    {
+      "helper": "disable_admin_relay",
+      "verb": "POST",
+      "path_spec": "/admin/relays/:id/disable(.:format)",
+      "pair": "admin/relays#disable"
+    },
+    {
+      "helper": "admin_relays",
+      "verb": "GET",
+      "path_spec": "/admin/relays(.:format)",
+      "pair": "admin/relays#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/admin/relays(.:format)",
+      "pair": "admin/relays#create"
+    },
+    {
+      "helper": "new_admin_relay",
+      "verb": "GET",
+      "path_spec": "/admin/relays/new(.:format)",
+      "pair": "admin/relays#new"
+    },
+    {
+      "helper": "admin_relay",
+      "verb": "DELETE",
+      "path_spec": "/admin/relays/:id(.:format)",
+      "pair": "admin/relays#destroy"
+    },
+    {
+      "helper": "clear_delivery_errors_admin_instance",
+      "verb": "POST",
+      "path_spec": "/admin/instances/:id/clear_delivery_errors(.:format)",
+      "pair": "admin/instances#clear_delivery_errors"
+    },
+    {
+      "helper": "restart_delivery_admin_instance",
+      "verb": "POST",
+      "path_spec": "/admin/instances/:id/restart_delivery(.:format)",
+      "pair": "admin/instances#restart_delivery"
+    },
+    {
+      "helper": "stop_delivery_admin_instance",
+      "verb": "POST",
+      "path_spec": "/admin/instances/:id/stop_delivery(.:format)",
+      "pair": "admin/instances#stop_delivery"
+    },
+    {
+      "helper": "admin_instance_moderation_notes",
+      "verb": "POST",
+      "path_spec": "/admin/instances/:instance_id/moderation_notes(.:format)",
+      "pair": "admin/instances/moderation_notes#create"
+    },
+    {
+      "helper": "admin_instance_moderation_note",
+      "verb": "DELETE",
+      "path_spec": "/admin/instances/:instance_id/moderation_notes/:id(.:format)",
+      "pair": "admin/instances/moderation_notes#destroy"
+    },
+    {
+      "helper": "admin_instances",
+      "verb": "GET",
+      "path_spec": "/admin/instances(.:format)",
+      "pair": "admin/instances#index"
+    },
+    {
+      "helper": "admin_instance",
+      "verb": "GET",
+      "path_spec": "/admin/instances/:id(.:format)",
+      "pair": "admin/instances#show"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/admin/instances/:id(.:format)",
+      "pair": "admin/instances#destroy"
+    },
+    {
+      "helper": "move_up_admin_rule",
+      "verb": "POST",
+      "path_spec": "/admin/rules/:id/move_up(.:format)",
+      "pair": "admin/rules#move_up"
+    },
+    {
+      "helper": "move_down_admin_rule",
+      "verb": "POST",
+      "path_spec": "/admin/rules/:id/move_down(.:format)",
+      "pair": "admin/rules#move_down"
+    },
+    {
+      "helper": "admin_rules",
+      "verb": "GET",
+      "path_spec": "/admin/rules(.:format)",
+      "pair": "admin/rules#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/admin/rules(.:format)",
+      "pair": "admin/rules#create"
+    },
+    {
+      "helper": "new_admin_rule",
+      "verb": "GET",
+      "path_spec": "/admin/rules/new(.:format)",
+      "pair": "admin/rules#new"
+    },
+    {
+      "helper": "edit_admin_rule",
+      "verb": "GET",
+      "path_spec": "/admin/rules/:id/edit(.:format)",
+      "pair": "admin/rules#edit"
+    },
+    {
+      "helper": "admin_rule",
+      "verb": "PATCH",
+      "path_spec": "/admin/rules/:id(.:format)",
+      "pair": "admin/rules#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/admin/rules/:id(.:format)",
+      "pair": "admin/rules#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/admin/rules/:id(.:format)",
+      "pair": "admin/rules#destroy"
+    },
+    {
+      "helper": "enable_admin_webhook",
+      "verb": "POST",
+      "path_spec": "/admin/webhooks/:id/enable(.:format)",
+      "pair": "admin/webhooks#enable"
+    },
+    {
+      "helper": "disable_admin_webhook",
+      "verb": "POST",
+      "path_spec": "/admin/webhooks/:id/disable(.:format)",
+      "pair": "admin/webhooks#disable"
+    },
+    {
+      "helper": "rotate_admin_webhook_secret",
+      "verb": "POST",
+      "path_spec": "/admin/webhooks/:webhook_id/secret/rotate(.:format)",
+      "pair": "admin/webhooks/secrets#rotate"
+    },
+    {
+      "helper": "admin_webhooks",
+      "verb": "GET",
+      "path_spec": "/admin/webhooks(.:format)",
+      "pair": "admin/webhooks#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/admin/webhooks(.:format)",
+      "pair": "admin/webhooks#create"
+    },
+    {
+      "helper": "new_admin_webhook",
+      "verb": "GET",
+      "path_spec": "/admin/webhooks/new(.:format)",
+      "pair": "admin/webhooks#new"
+    },
+    {
+      "helper": "edit_admin_webhook",
+      "verb": "GET",
+      "path_spec": "/admin/webhooks/:id/edit(.:format)",
+      "pair": "admin/webhooks#edit"
+    },
+    {
+      "helper": "admin_webhook",
+      "verb": "GET",
+      "path_spec": "/admin/webhooks/:id(.:format)",
+      "pair": "admin/webhooks#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/admin/webhooks/:id(.:format)",
+      "pair": "admin/webhooks#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/admin/webhooks/:id(.:format)",
+      "pair": "admin/webhooks#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/admin/webhooks/:id(.:format)",
+      "pair": "admin/webhooks#destroy"
+    },
+    {
+      "helper": "preview_admin_report_actions",
+      "verb": "POST",
+      "path_spec": "/admin/reports/:report_id/actions/preview(.:format)",
+      "pair": "admin/reports/actions#preview"
+    },
+    {
+      "helper": "admin_report_actions",
+      "verb": "POST",
+      "path_spec": "/admin/reports/:report_id/actions(.:format)",
+      "pair": "admin/reports/actions#create"
+    },
+    {
+      "helper": "assign_to_self_admin_report",
+      "verb": "POST",
+      "path_spec": "/admin/reports/:id/assign_to_self(.:format)",
+      "pair": "admin/reports#assign_to_self"
+    },
+    {
+      "helper": "unassign_admin_report",
+      "verb": "POST",
+      "path_spec": "/admin/reports/:id/unassign(.:format)",
+      "pair": "admin/reports#unassign"
+    },
+    {
+      "helper": "reopen_admin_report",
+      "verb": "POST",
+      "path_spec": "/admin/reports/:id/reopen(.:format)",
+      "pair": "admin/reports#reopen"
+    },
+    {
+      "helper": "resolve_admin_report",
+      "verb": "POST",
+      "path_spec": "/admin/reports/:id/resolve(.:format)",
+      "pair": "admin/reports#resolve"
+    },
+    {
+      "helper": "admin_reports",
+      "verb": "GET",
+      "path_spec": "/admin/reports(.:format)",
+      "pair": "admin/reports#index"
+    },
+    {
+      "helper": "admin_report",
+      "verb": "GET",
+      "path_spec": "/admin/reports/:id(.:format)",
+      "pair": "admin/reports#show"
+    },
+    {
+      "helper": "admin_report_notes",
+      "verb": "POST",
+      "path_spec": "/admin/report_notes(.:format)",
+      "pair": "admin/report_notes#create"
+    },
+    {
+      "helper": "admin_report_note",
+      "verb": "DELETE",
+      "path_spec": "/admin/report_notes/:id(.:format)",
+      "pair": "admin/report_notes#destroy"
+    },
+    {
+      "helper": "enable_admin_account",
+      "verb": "POST",
+      "path_spec": "/admin/accounts/:id/enable(.:format)",
+      "pair": "admin/accounts#enable"
+    },
+    {
+      "helper": "unsensitive_admin_account",
+      "verb": "POST",
+      "path_spec": "/admin/accounts/:id/unsensitive(.:format)",
+      "pair": "admin/accounts#unsensitive"
+    },
+    {
+      "helper": "unsilence_admin_account",
+      "verb": "POST",
+      "path_spec": "/admin/accounts/:id/unsilence(.:format)",
+      "pair": "admin/accounts#unsilence"
+    },
+    {
+      "helper": "unsuspend_admin_account",
+      "verb": "POST",
+      "path_spec": "/admin/accounts/:id/unsuspend(.:format)",
+      "pair": "admin/accounts#unsuspend"
+    },
+    {
+      "helper": "redownload_admin_account",
+      "verb": "POST",
+      "path_spec": "/admin/accounts/:id/redownload(.:format)",
+      "pair": "admin/accounts#redownload"
+    },
+    {
+      "helper": "remove_avatar_admin_account",
+      "verb": "POST",
+      "path_spec": "/admin/accounts/:id/remove_avatar(.:format)",
+      "pair": "admin/accounts#remove_avatar"
+    },
+    {
+      "helper": "remove_header_admin_account",
+      "verb": "POST",
+      "path_spec": "/admin/accounts/:id/remove_header(.:format)",
+      "pair": "admin/accounts#remove_header"
+    },
+    {
+      "helper": "memorialize_admin_account",
+      "verb": "POST",
+      "path_spec": "/admin/accounts/:id/memorialize(.:format)",
+      "pair": "admin/accounts#memorialize"
+    },
+    {
+      "helper": "approve_admin_account",
+      "verb": "POST",
+      "path_spec": "/admin/accounts/:id/approve(.:format)",
+      "pair": "admin/accounts#approve"
+    },
+    {
+      "helper": "reject_admin_account",
+      "verb": "POST",
+      "path_spec": "/admin/accounts/:id/reject(.:format)",
+      "pair": "admin/accounts#reject"
+    },
+    {
+      "helper": "unblock_email_admin_account",
+      "verb": "POST",
+      "path_spec": "/admin/accounts/:id/unblock_email(.:format)",
+      "pair": "admin/accounts#unblock_email"
+    },
+    {
+      "helper": "admin_account_change_email",
+      "verb": "GET",
+      "path_spec": "/admin/accounts/:account_id/change_email(.:format)",
+      "pair": "admin/change_emails#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/admin/accounts/:account_id/change_email(.:format)",
+      "pair": "admin/change_emails#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/admin/accounts/:account_id/change_email(.:format)",
+      "pair": "admin/change_emails#update"
+    },
+    {
+      "helper": "admin_account_reset",
+      "verb": "POST",
+      "path_spec": "/admin/accounts/:account_id/reset(.:format)",
+      "pair": "admin/resets#create"
+    },
+    {
+      "helper": "new_admin_account_action",
+      "verb": "GET",
+      "path_spec": "/admin/accounts/:account_id/action/new(.:format)",
+      "pair": "admin/account_actions#new"
+    },
+    {
+      "helper": "admin_account_action",
+      "verb": "POST",
+      "path_spec": "/admin/accounts/:account_id/action(.:format)",
+      "pair": "admin/account_actions#create"
+    },
+    {
+      "helper": "batch_admin_account_collections",
+      "verb": "POST",
+      "path_spec": "/admin/accounts/:account_id/collections/batch(.:format)",
+      "pair": "admin/collections#batch"
+    },
+    {
+      "helper": "admin_account_collections",
+      "verb": "GET",
+      "path_spec": "/admin/accounts/:account_id/collections(.:format)",
+      "pair": "admin/collections#index"
+    },
+    {
+      "helper": "admin_account_collection",
+      "verb": "GET",
+      "path_spec": "/admin/accounts/:account_id/collections/:id(.:format)",
+      "pair": "admin/collections#show"
+    },
+    {
+      "helper": "batch_admin_account_statuses",
+      "verb": "POST",
+      "path_spec": "/admin/accounts/:account_id/statuses/batch(.:format)",
+      "pair": "admin/statuses#batch"
+    },
+    {
+      "helper": "admin_account_statuses",
+      "verb": "GET",
+      "path_spec": "/admin/accounts/:account_id/statuses(.:format)",
+      "pair": "admin/statuses#index"
+    },
+    {
+      "helper": "admin_account_status",
+      "verb": "GET",
+      "path_spec": "/admin/accounts/:account_id/statuses/:id(.:format)",
+      "pair": "admin/statuses#show"
+    },
+    {
+      "helper": "admin_account_relationships",
+      "verb": "GET",
+      "path_spec": "/admin/accounts/:account_id/relationships(.:format)",
+      "pair": "admin/relationships#index"
+    },
+    {
+      "helper": "resend_admin_account_confirmation",
+      "verb": "POST",
+      "path_spec": "/admin/accounts/:account_id/confirmation/resend(.:format)",
+      "pair": "admin/confirmations#resend"
+    },
+    {
+      "helper": "admin_account_confirmation",
+      "verb": "POST",
+      "path_spec": "/admin/accounts/:account_id/confirmation(.:format)",
+      "pair": "admin/confirmations#create"
+    },
+    {
+      "helper": "batch_admin_accounts",
+      "verb": "POST",
+      "path_spec": "/admin/accounts/batch(.:format)",
+      "pair": "admin/accounts#batch"
+    },
+    {
+      "helper": "admin_accounts",
+      "verb": "GET",
+      "path_spec": "/admin/accounts(.:format)",
+      "pair": "admin/accounts#index"
+    },
+    {
+      "helper": "admin_account",
+      "verb": "GET",
+      "path_spec": "/admin/accounts/:id(.:format)",
+      "pair": "admin/accounts#show"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/admin/accounts/:id(.:format)",
+      "pair": "admin/accounts#destroy"
+    },
+    {
+      "helper": "admin_user_two_factor_authentication",
+      "verb": "DELETE",
+      "path_spec": "/admin/users/:user_id/two_factor_authentication(.:format)",
+      "pair": "admin/users/two_factor_authentications#destroy"
+    },
+    {
+      "helper": "admin_user_role",
+      "verb": "GET",
+      "path_spec": "/admin/users/:user_id/role(.:format)",
+      "pair": "admin/users/roles#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/admin/users/:user_id/role(.:format)",
+      "pair": "admin/users/roles#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/admin/users/:user_id/role(.:format)",
+      "pair": "admin/users/roles#update"
+    },
+    {
+      "helper": "batch_admin_custom_emojis",
+      "verb": "POST",
+      "path_spec": "/admin/custom_emojis/batch(.:format)",
+      "pair": "admin/custom_emojis#batch"
+    },
+    {
+      "helper": "admin_custom_emojis",
+      "verb": "GET",
+      "path_spec": "/admin/custom_emojis(.:format)",
+      "pair": "admin/custom_emojis#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/admin/custom_emojis(.:format)",
+      "pair": "admin/custom_emojis#create"
+    },
+    {
+      "helper": "new_admin_custom_emoji",
+      "verb": "GET",
+      "path_spec": "/admin/custom_emojis/new(.:format)",
+      "pair": "admin/custom_emojis#new"
+    },
+    {
+      "helper": "batch_admin_ip_blocks",
+      "verb": "POST",
+      "path_spec": "/admin/ip_blocks/batch(.:format)",
+      "pair": "admin/ip_blocks#batch"
+    },
+    {
+      "helper": "admin_ip_blocks",
+      "verb": "GET",
+      "path_spec": "/admin/ip_blocks(.:format)",
+      "pair": "admin/ip_blocks#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/admin/ip_blocks(.:format)",
+      "pair": "admin/ip_blocks#create"
+    },
+    {
+      "helper": "new_admin_ip_block",
+      "verb": "GET",
+      "path_spec": "/admin/ip_blocks/new(.:format)",
+      "pair": "admin/ip_blocks#new"
+    },
+    {
+      "helper": "admin_roles",
+      "verb": "GET",
+      "path_spec": "/admin/roles(.:format)",
+      "pair": "admin/roles#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/admin/roles(.:format)",
+      "pair": "admin/roles#create"
+    },
+    {
+      "helper": "new_admin_role",
+      "verb": "GET",
+      "path_spec": "/admin/roles/new(.:format)",
+      "pair": "admin/roles#new"
+    },
+    {
+      "helper": "edit_admin_role",
+      "verb": "GET",
+      "path_spec": "/admin/roles/:id/edit(.:format)",
+      "pair": "admin/roles#edit"
+    },
+    {
+      "helper": "admin_role",
+      "verb": "PATCH",
+      "path_spec": "/admin/roles/:id(.:format)",
+      "pair": "admin/roles#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/admin/roles/:id(.:format)",
+      "pair": "admin/roles#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/admin/roles/:id(.:format)",
+      "pair": "admin/roles#destroy"
+    },
+    {
+      "helper": "admin_account_moderation_notes",
+      "verb": "POST",
+      "path_spec": "/admin/account_moderation_notes(.:format)",
+      "pair": "admin/account_moderation_notes#create"
+    },
+    {
+      "helper": "admin_account_moderation_note",
+      "verb": "DELETE",
+      "path_spec": "/admin/account_moderation_notes/:id(.:format)",
+      "pair": "admin/account_moderation_notes#destroy"
+    },
+    {
+      "helper": "admin_follow_recommendations",
+      "verb": "GET",
+      "path_spec": "/admin/follow_recommendations(.:format)",
+      "pair": "admin/follow_recommendations#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/admin/follow_recommendations(.:format)",
+      "pair": "admin/follow_recommendations#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/admin/follow_recommendations(.:format)",
+      "pair": "admin/follow_recommendations#update"
+    },
+    {
+      "helper": "admin_tags",
+      "verb": "GET",
+      "path_spec": "/admin/tags(.:format)",
+      "pair": "admin/tags#index"
+    },
+    {
+      "helper": "admin_tag",
+      "verb": "GET",
+      "path_spec": "/admin/tags/:id(.:format)",
+      "pair": "admin/tags#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/admin/tags/:id(.:format)",
+      "pair": "admin/tags#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/admin/tags/:id(.:format)",
+      "pair": "admin/tags#update"
+    },
+    {
+      "helper": "batch_admin_trends_links",
+      "verb": "POST",
+      "path_spec": "/admin/trends/links/batch(.:format)",
+      "pair": "admin/trends/links#batch"
+    },
+    {
+      "helper": "admin_trends_links",
+      "verb": "GET",
+      "path_spec": "/admin/trends/links(.:format)",
+      "pair": "admin/trends/links#index"
+    },
+    {
+      "helper": "batch_admin_trends_tags",
+      "verb": "POST",
+      "path_spec": "/admin/trends/tags/batch(.:format)",
+      "pair": "admin/trends/tags#batch"
+    },
+    {
+      "helper": "admin_trends_tags",
+      "verb": "GET",
+      "path_spec": "/admin/trends/tags(.:format)",
+      "pair": "admin/trends/tags#index"
+    },
+    {
+      "helper": "batch_admin_trends_statuses",
+      "verb": "POST",
+      "path_spec": "/admin/trends/statuses/batch(.:format)",
+      "pair": "admin/trends/statuses#batch"
+    },
+    {
+      "helper": "admin_trends_statuses",
+      "verb": "GET",
+      "path_spec": "/admin/trends/statuses(.:format)",
+      "pair": "admin/trends/statuses#index"
+    },
+    {
+      "helper": "batch_admin_trends_links_preview_card_providers",
+      "verb": "POST",
+      "path_spec": "/admin/trends/links/publishers/batch(.:format)",
+      "pair": "admin/trends/links/preview_card_providers#batch"
+    },
+    {
+      "helper": "admin_trends_links_preview_card_providers",
+      "verb": "GET",
+      "path_spec": "/admin/trends/links/publishers(.:format)",
+      "pair": "admin/trends/links/preview_card_providers#index"
+    },
+    {
+      "helper": "admin_disputes_strikes",
+      "verb": "GET",
+      "path_spec": "/admin/disputes/strikes(.:format)",
+      "pair": "admin/disputes/strikes#index"
+    },
+    {
+      "helper": "admin_disputes_strike",
+      "verb": "GET",
+      "path_spec": "/admin/disputes/strikes/:id(.:format)",
+      "pair": "admin/disputes/strikes#show"
+    },
+    {
+      "helper": "approve_admin_disputes_appeal",
+      "verb": "POST",
+      "path_spec": "/admin/disputes/appeals/:id/approve(.:format)",
+      "pair": "admin/disputes/appeals#approve"
+    },
+    {
+      "helper": "reject_admin_disputes_appeal",
+      "verb": "POST",
+      "path_spec": "/admin/disputes/appeals/:id/reject(.:format)",
+      "pair": "admin/disputes/appeals#reject"
+    },
+    {
+      "helper": "admin_disputes_appeals",
+      "verb": "GET",
+      "path_spec": "/admin/disputes/appeals(.:format)",
+      "pair": "admin/disputes/appeals#index"
+    },
+    {
+      "helper": "admin_software_updates",
+      "verb": "GET",
+      "path_spec": "/admin/software_updates(.:format)",
+      "pair": "admin/software_updates#index"
+    },
+    {
+      "helper": "batch_admin_username_blocks",
+      "verb": "POST",
+      "path_spec": "/admin/username_blocks/batch(.:format)",
+      "pair": "admin/username_blocks#batch"
+    },
+    {
+      "helper": "admin_username_blocks",
+      "verb": "GET",
+      "path_spec": "/admin/username_blocks(.:format)",
+      "pair": "admin/username_blocks#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/admin/username_blocks(.:format)",
+      "pair": "admin/username_blocks#create"
+    },
+    {
+      "helper": "new_admin_username_block",
+      "verb": "GET",
+      "path_spec": "/admin/username_blocks/new(.:format)",
+      "pair": "admin/username_blocks#new"
+    },
+    {
+      "helper": "edit_admin_username_block",
+      "verb": "GET",
+      "path_spec": "/admin/username_blocks/:id/edit(.:format)",
+      "pair": "admin/username_blocks#edit"
+    },
+    {
+      "helper": "admin_username_block",
+      "verb": "PATCH",
+      "path_spec": "/admin/username_blocks/:id(.:format)",
+      "pair": "admin/username_blocks#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/admin/username_blocks/:id(.:format)",
+      "pair": "admin/username_blocks#update"
+    },
+    {
+      "helper": "api_oembed",
+      "verb": "GET",
+      "path_spec": "/api/oembed",
+      "pair": "api/oembed#show"
+    },
+    {
+      "helper": "api_v1_alpha_async_refresh",
+      "verb": "GET",
+      "path_spec": "/api/v1_alpha/async_refreshes/:id",
+      "pair": "api/v1_alpha/async_refreshes#show"
+    },
+    {
+      "helper": "api_v1_alpha_account_collections",
+      "verb": "GET",
+      "path_spec": "/api/v1_alpha/accounts/:account_id/collections",
+      "pair": "api/v1/collections#index"
+    },
+    {
+      "helper": "api_v1_alpha_account_in_collections",
+      "verb": "GET",
+      "path_spec": "/api/v1_alpha/accounts/:account_id/in_collections",
+      "pair": "api/v1/in_collections#index"
+    },
+    {
+      "helper": "revoke_api_v1_alpha_collection_item",
+      "verb": "POST",
+      "path_spec": "/api/v1_alpha/collections/:collection_id/items/:id/revoke",
+      "pair": "api/v1/collection_items#revoke"
+    },
+    {
+      "helper": "api_v1_alpha_collection_items",
+      "verb": "POST",
+      "path_spec": "/api/v1_alpha/collections/:collection_id/items",
+      "pair": "api/v1/collection_items#create"
+    },
+    {
+      "helper": "api_v1_alpha_collection_item",
+      "verb": "DELETE",
+      "path_spec": "/api/v1_alpha/collections/:collection_id/items/:id",
+      "pair": "api/v1/collection_items#destroy"
+    },
+    {
+      "helper": "api_v1_alpha_collections",
+      "verb": "POST",
+      "path_spec": "/api/v1_alpha/collections",
+      "pair": "api/v1/collections#create"
+    },
+    {
+      "helper": "api_v1_alpha_collection",
+      "verb": "GET",
+      "path_spec": "/api/v1_alpha/collections/:id",
+      "pair": "api/v1/collections#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/api/v1_alpha/collections/:id",
+      "pair": "api/v1/collections#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/api/v1_alpha/collections/:id",
+      "pair": "api/v1/collections#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/api/v1_alpha/collections/:id",
+      "pair": "api/v1/collections#destroy"
+    },
+    {
+      "helper": "api_v1_status_reblogged_by_index",
+      "verb": "GET",
+      "path_spec": "/api/v1/statuses/:status_id/reblogged_by",
+      "pair": "api/v1/statuses/reblogged_by_accounts#index"
+    },
+    {
+      "helper": "api_v1_status_favourited_by_index",
+      "verb": "GET",
+      "path_spec": "/api/v1/statuses/:status_id/favourited_by",
+      "pair": "api/v1/statuses/favourited_by_accounts#index"
+    },
+    {
+      "helper": "api_v1_status_reblog",
+      "verb": "POST",
+      "path_spec": "/api/v1/statuses/:status_id/reblog",
+      "pair": "api/v1/statuses/reblogs#create"
+    },
+    {
+      "helper": "api_v1_status_context",
+      "verb": "GET",
+      "path_spec": "/api/v1/statuses/:status_id/context",
+      "pair": "api/v1/statuses/contexts#show"
+    },
+    {
+      "helper": "api_v1_status_unreblog",
+      "verb": "POST",
+      "path_spec": "/api/v1/statuses/:status_id/unreblog",
+      "pair": "api/v1/statuses/reblogs#destroy"
+    },
+    {
+      "helper": "revoke_api_v1_status_quote",
+      "verb": "POST",
+      "path_spec": "/api/v1/statuses/:status_id/quotes/:id/revoke",
+      "pair": "api/v1/statuses/quotes#revoke"
+    },
+    {
+      "helper": "api_v1_status_quotes",
+      "verb": "GET",
+      "path_spec": "/api/v1/statuses/:status_id/quotes",
+      "pair": "api/v1/statuses/quotes#index"
+    },
+    {
+      "helper": "api_v1_status_favourite",
+      "verb": "POST",
+      "path_spec": "/api/v1/statuses/:status_id/favourite",
+      "pair": "api/v1/statuses/favourites#create"
+    },
+    {
+      "helper": "api_v1_status_unfavourite",
+      "verb": "POST",
+      "path_spec": "/api/v1/statuses/:status_id/unfavourite",
+      "pair": "api/v1/statuses/favourites#destroy"
+    },
+    {
+      "helper": "api_v1_status_bookmark",
+      "verb": "POST",
+      "path_spec": "/api/v1/statuses/:status_id/bookmark",
+      "pair": "api/v1/statuses/bookmarks#create"
+    },
+    {
+      "helper": "api_v1_status_unbookmark",
+      "verb": "POST",
+      "path_spec": "/api/v1/statuses/:status_id/unbookmark",
+      "pair": "api/v1/statuses/bookmarks#destroy"
+    },
+    {
+      "helper": "api_v1_status_mute",
+      "verb": "POST",
+      "path_spec": "/api/v1/statuses/:status_id/mute",
+      "pair": "api/v1/statuses/mutes#create"
+    },
+    {
+      "helper": "api_v1_status_unmute",
+      "verb": "POST",
+      "path_spec": "/api/v1/statuses/:status_id/unmute",
+      "pair": "api/v1/statuses/mutes#destroy"
+    },
+    {
+      "helper": "api_v1_status_pin",
+      "verb": "POST",
+      "path_spec": "/api/v1/statuses/:status_id/pin",
+      "pair": "api/v1/statuses/pins#create"
+    },
+    {
+      "helper": "api_v1_status_unpin",
+      "verb": "POST",
+      "path_spec": "/api/v1/statuses/:status_id/unpin",
+      "pair": "api/v1/statuses/pins#destroy"
+    },
+    {
+      "helper": "api_v1_status_history",
+      "verb": "GET",
+      "path_spec": "/api/v1/statuses/:status_id/history",
+      "pair": "api/v1/statuses/histories#show"
+    },
+    {
+      "helper": "api_v1_status_source",
+      "verb": "GET",
+      "path_spec": "/api/v1/statuses/:status_id/source",
+      "pair": "api/v1/statuses/sources#show"
+    },
+    {
+      "helper": "api_v1_status_interaction_policy",
+      "verb": "PATCH",
+      "path_spec": "/api/v1/statuses/:status_id/interaction_policy",
+      "pair": "api/v1/statuses/interaction_policies#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/api/v1/statuses/:status_id/interaction_policy",
+      "pair": "api/v1/statuses/interaction_policies#update"
+    },
+    {
+      "helper": "api_v1_status_translate",
+      "verb": "POST",
+      "path_spec": "/api/v1/statuses/:status_id/translate",
+      "pair": "api/v1/statuses/translations#create"
+    },
+    {
+      "helper": "api_v1_statuses",
+      "verb": "GET",
+      "path_spec": "/api/v1/statuses",
+      "pair": "api/v1/statuses#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/api/v1/statuses",
+      "pair": "api/v1/statuses#create"
+    },
+    {
+      "helper": "api_v1_status",
+      "verb": "GET",
+      "path_spec": "/api/v1/statuses/:id",
+      "pair": "api/v1/statuses#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/api/v1/statuses/:id",
+      "pair": "api/v1/statuses#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/api/v1/statuses/:id",
+      "pair": "api/v1/statuses#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/api/v1/statuses/:id",
+      "pair": "api/v1/statuses#destroy"
+    },
+    {
+      "helper": "api_v1_timelines_home",
+      "verb": "GET",
+      "path_spec": "/api/v1/timelines/home",
+      "pair": "api/v1/timelines/home#show"
+    },
+    {
+      "helper": "api_v1_timelines_public",
+      "verb": "GET",
+      "path_spec": "/api/v1/timelines/public",
+      "pair": "api/v1/timelines/public#show"
+    },
+    {
+      "helper": "api_v1_timelines_link",
+      "verb": "GET",
+      "path_spec": "/api/v1/timelines/link",
+      "pair": "api/v1/timelines/link#show"
+    },
+    {
+      "helper": "api_v1_timelines_tag",
+      "verb": "GET",
+      "path_spec": "/api/v1/timelines/tag/:id",
+      "pair": "api/v1/timelines/tag#show"
+    },
+    {
+      "helper": "api_v1_timelines_list",
+      "verb": "GET",
+      "path_spec": "/api/v1/timelines/list/:id",
+      "pair": "api/v1/timelines/list#show"
+    },
+    {
+      "helper": "api_v1_streaming",
+      "verb": "GET",
+      "path_spec": "/api/v1/streaming",
+      "pair": "api/v1/streaming#index"
+    },
+    {
+      "helper": "api_v1",
+      "verb": "GET",
+      "path_spec": "/api/v1/streaming(/*any)",
+      "pair": "api/v1/streaming#index"
+    },
+    {
+      "helper": "api_v1_custom_emojis",
+      "verb": "GET",
+      "path_spec": "/api/v1/custom_emojis",
+      "pair": "api/v1/custom_emojis#index"
+    },
+    {
+      "helper": "api_v1_suggestions",
+      "verb": "GET",
+      "path_spec": "/api/v1/suggestions",
+      "pair": "api/v1/suggestions#index"
+    },
+    {
+      "helper": "api_v1_suggestion",
+      "verb": "DELETE",
+      "path_spec": "/api/v1/suggestions/:id",
+      "pair": "api/v1/suggestions#destroy"
+    },
+    {
+      "helper": "api_v1_scheduled_statuses",
+      "verb": "GET",
+      "path_spec": "/api/v1/scheduled_statuses",
+      "pair": "api/v1/scheduled_statuses#index"
+    },
+    {
+      "helper": "api_v1_scheduled_status",
+      "verb": "GET",
+      "path_spec": "/api/v1/scheduled_statuses/:id",
+      "pair": "api/v1/scheduled_statuses#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/api/v1/scheduled_statuses/:id",
+      "pair": "api/v1/scheduled_statuses#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/api/v1/scheduled_statuses/:id",
+      "pair": "api/v1/scheduled_statuses#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/api/v1/scheduled_statuses/:id",
+      "pair": "api/v1/scheduled_statuses#destroy"
+    },
+    {
+      "helper": "api_v1_preferences",
+      "verb": "GET",
+      "path_spec": "/api/v1/preferences",
+      "pair": "api/v1/preferences#index"
+    },
+    {
+      "helper": "api_v1_donation_campaigns",
+      "verb": "GET",
+      "path_spec": "/api/v1/donation_campaigns",
+      "pair": "api/v1/donation_campaigns#index"
+    },
+    {
+      "helper": "read_api_v1_annual_report",
+      "verb": "POST",
+      "path_spec": "/api/v1/annual_reports/:id/read",
+      "pair": "api/v1/annual_reports#read"
+    },
+    {
+      "helper": "generate_api_v1_annual_report",
+      "verb": "POST",
+      "path_spec": "/api/v1/annual_reports/:id/generate",
+      "pair": "api/v1/annual_reports#generate"
+    },
+    {
+      "helper": "state_api_v1_annual_report",
+      "verb": "GET",
+      "path_spec": "/api/v1/annual_reports/:id/state",
+      "pair": "api/v1/annual_reports#state"
+    },
+    {
+      "helper": "api_v1_annual_reports",
+      "verb": "GET",
+      "path_spec": "/api/v1/annual_reports",
+      "pair": "api/v1/annual_reports#index"
+    },
+    {
+      "helper": "api_v1_annual_report",
+      "verb": "GET",
+      "path_spec": "/api/v1/annual_reports/:id",
+      "pair": "api/v1/annual_reports#show"
+    },
+    {
+      "helper": "api_v1_announcement_reaction",
+      "verb": "PATCH",
+      "path_spec": "/api/v1/announcements/:announcement_id/reactions/:id",
+      "pair": "api/v1/announcements/reactions#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/api/v1/announcements/:announcement_id/reactions/:id",
+      "pair": "api/v1/announcements/reactions#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/api/v1/announcements/:announcement_id/reactions/:id",
+      "pair": "api/v1/announcements/reactions#destroy"
+    },
+    {
+      "helper": "dismiss_api_v1_announcement",
+      "verb": "POST",
+      "path_spec": "/api/v1/announcements/:id/dismiss",
+      "pair": "api/v1/announcements#dismiss"
+    },
+    {
+      "helper": "api_v1_announcements",
+      "verb": "GET",
+      "path_spec": "/api/v1/announcements",
+      "pair": "api/v1/announcements#index"
+    },
+    {
+      "helper": "read_api_v1_conversation",
+      "verb": "POST",
+      "path_spec": "/api/v1/conversations/:id/read",
+      "pair": "api/v1/conversations#read"
+    },
+    {
+      "helper": "unread_api_v1_conversation",
+      "verb": "POST",
+      "path_spec": "/api/v1/conversations/:id/unread",
+      "pair": "api/v1/conversations#unread"
+    },
+    {
+      "helper": "api_v1_conversations",
+      "verb": "GET",
+      "path_spec": "/api/v1/conversations",
+      "pair": "api/v1/conversations#index"
+    },
+    {
+      "helper": "api_v1_conversation",
+      "verb": "DELETE",
+      "path_spec": "/api/v1/conversations/:id",
+      "pair": "api/v1/conversations#destroy"
+    },
+    {
+      "helper": "api_v1_media",
+      "verb": "POST",
+      "path_spec": "/api/v1/media",
+      "pair": "api/v1/media#create"
+    },
+    {
+      "helper": "api_v1_medium",
+      "verb": "GET",
+      "path_spec": "/api/v1/media/:id",
+      "pair": "api/v1/media#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/api/v1/media/:id",
+      "pair": "api/v1/media#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/api/v1/media/:id",
+      "pair": "api/v1/media#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/api/v1/media/:id",
+      "pair": "api/v1/media#destroy"
+    },
+    {
+      "helper": "api_v1_blocks",
+      "verb": "GET",
+      "path_spec": "/api/v1/blocks",
+      "pair": "api/v1/blocks#index"
+    },
+    {
+      "helper": "api_v1_mutes",
+      "verb": "GET",
+      "path_spec": "/api/v1/mutes",
+      "pair": "api/v1/mutes#index"
+    },
+    {
+      "helper": "api_v1_favourites",
+      "verb": "GET",
+      "path_spec": "/api/v1/favourites",
+      "pair": "api/v1/favourites#index"
+    },
+    {
+      "helper": "api_v1_bookmarks",
+      "verb": "GET",
+      "path_spec": "/api/v1/bookmarks",
+      "pair": "api/v1/bookmarks#index"
+    },
+    {
+      "helper": "api_v1_reports",
+      "verb": "POST",
+      "path_spec": "/api/v1/reports",
+      "pair": "api/v1/reports#create"
+    },
+    {
+      "helper": "api_v1_trends",
+      "verb": "GET",
+      "path_spec": "/api/v1/trends",
+      "pair": "api/v1/trends/tags#index"
+    },
+    {
+      "helper": "api_v1_filters",
+      "verb": "GET",
+      "path_spec": "/api/v1/filters",
+      "pair": "api/v1/filters#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/api/v1/filters",
+      "pair": "api/v1/filters#create"
+    },
+    {
+      "helper": "api_v1_filter",
+      "verb": "GET",
+      "path_spec": "/api/v1/filters/:id",
+      "pair": "api/v1/filters#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/api/v1/filters/:id",
+      "pair": "api/v1/filters#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/api/v1/filters/:id",
+      "pair": "api/v1/filters#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/api/v1/filters/:id",
+      "pair": "api/v1/filters#destroy"
+    },
+    {
+      "helper": "api_v1_endorsements",
+      "verb": "GET",
+      "path_spec": "/api/v1/endorsements",
+      "pair": "api/v1/endorsements#index"
+    },
+    {
+      "helper": "api_v1_markers",
+      "verb": "GET",
+      "path_spec": "/api/v1/markers",
+      "pair": "api/v1/markers#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/api/v1/markers",
+      "pair": "api/v1/markers#create"
+    },
+    {
+      "helper": "api_v1_profile_avatar",
+      "verb": "DELETE",
+      "path_spec": "/api/v1/profile/avatar",
+      "pair": "api/v1/profile/avatars#destroy"
+    },
+    {
+      "helper": "api_v1_profile_header",
+      "verb": "DELETE",
+      "path_spec": "/api/v1/profile/header",
+      "pair": "api/v1/profile/headers#destroy"
+    },
+    {
+      "helper": "api_v1_profile",
+      "verb": "GET",
+      "path_spec": "/api/v1/profile",
+      "pair": "api/v1/profiles#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/api/v1/profile",
+      "pair": "api/v1/profiles#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/api/v1/profile",
+      "pair": "api/v1/profiles#update"
+    },
+    {
+      "helper": "api_v1_apps_verify_credentials",
+      "verb": "GET",
+      "path_spec": "/api/v1/apps/verify_credentials",
+      "pair": "api/v1/apps/credentials#show"
+    },
+    {
+      "helper": "api_v1_apps",
+      "verb": "POST",
+      "path_spec": "/api/v1/apps",
+      "pair": "api/v1/apps#create"
+    },
+    {
+      "helper": "api_v1_trends_tags",
+      "verb": "GET",
+      "path_spec": "/api/v1/trends/tags",
+      "pair": "api/v1/trends/tags#index"
+    },
+    {
+      "helper": "api_v1_trends_links",
+      "verb": "GET",
+      "path_spec": "/api/v1/trends/links",
+      "pair": "api/v1/trends/links#index"
+    },
+    {
+      "helper": "api_v1_trends_statuses",
+      "verb": "GET",
+      "path_spec": "/api/v1/trends/statuses",
+      "pair": "api/v1/trends/statuses#index"
+    },
+    {
+      "helper": "api_v1_emails_confirmations",
+      "verb": "POST",
+      "path_spec": "/api/v1/emails/confirmations",
+      "pair": "api/v1/emails/confirmations#create"
+    },
+    {
+      "helper": "api_v1_emails_check_confirmation",
+      "verb": "GET",
+      "path_spec": "/api/v1/emails/check_confirmation",
+      "pair": "api/v1/emails/confirmations#check"
+    },
+    {
+      "helper": "api_v1_instance_peers",
+      "verb": "GET",
+      "path_spec": "/api/v1/instance/peers",
+      "pair": "api/v1/instances/peers#index"
+    },
+    {
+      "helper": "api_v1_instance_rules",
+      "verb": "GET",
+      "path_spec": "/api/v1/instance/rules",
+      "pair": "api/v1/instances/rules#index"
+    },
+    {
+      "helper": "api_v1_instance_domain_blocks",
+      "verb": "GET",
+      "path_spec": "/api/v1/instance/domain_blocks",
+      "pair": "api/v1/instances/domain_blocks#index"
+    },
+    {
+      "helper": "api_v1_instance_terms_of_service_index",
+      "verb": "GET",
+      "path_spec": "/api/v1/instance/terms_of_service",
+      "pair": "api/v1/instances/terms_of_service#index"
+    },
+    {
+      "helper": "api_v1_instance_terms_of_service",
+      "verb": "GET",
+      "path_spec": "/api/v1/instance/terms_of_service/:date",
+      "pair": "api/v1/instances/terms_of_service#show"
+    },
+    {
+      "helper": "api_v1_instance_privacy_policy",
+      "verb": "GET",
+      "path_spec": "/api/v1/instance/privacy_policy",
+      "pair": "api/v1/instances/privacy_policies#show"
+    },
+    {
+      "helper": "api_v1_instance_extended_description",
+      "verb": "GET",
+      "path_spec": "/api/v1/instance/extended_description",
+      "pair": "api/v1/instances/extended_descriptions#show"
+    },
+    {
+      "helper": "api_v1_instance_translation_languages",
+      "verb": "GET",
+      "path_spec": "/api/v1/instance/translation_languages",
+      "pair": "api/v1/instances/translation_languages#show"
+    },
+    {
+      "helper": "api_v1_instance_languages",
+      "verb": "GET",
+      "path_spec": "/api/v1/instance/languages",
+      "pair": "api/v1/instances/languages#show"
+    },
+    {
+      "helper": "api_v1_instance_activity",
+      "verb": "GET",
+      "path_spec": "/api/v1/instance/activity",
+      "pair": "api/v1/instances/activity#show"
+    },
+    {
+      "helper": "api_v1_instance",
+      "verb": "GET",
+      "path_spec": "/api/v1/instance",
+      "pair": "api/v1/instances#show"
+    },
+    {
+      "helper": "api_v1_peers_search",
+      "verb": "GET",
+      "path_spec": "/api/v1/peers/search",
+      "pair": "api/v1/peers/search#index"
+    },
+    {
+      "helper": "api_v1_domain_blocks_preview",
+      "verb": "GET",
+      "path_spec": "/api/v1/domain_blocks/preview",
+      "pair": "api/v1/domain_blocks/previews#show"
+    },
+    {
+      "helper": "api_v1_domain_blocks",
+      "verb": "GET",
+      "path_spec": "/api/v1/domain_blocks",
+      "pair": "api/v1/domain_blocks#show"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/api/v1/domain_blocks",
+      "pair": "api/v1/domain_blocks#destroy"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/api/v1/domain_blocks",
+      "pair": "api/v1/domain_blocks#create"
+    },
+    {
+      "helper": "api_v1_directory",
+      "verb": "GET",
+      "path_spec": "/api/v1/directory",
+      "pair": "api/v1/directories#show"
+    },
+    {
+      "helper": "authorize_api_v1_follow_request",
+      "verb": "POST",
+      "path_spec": "/api/v1/follow_requests/:id/authorize",
+      "pair": "api/v1/follow_requests#authorize"
+    },
+    {
+      "helper": "reject_api_v1_follow_request",
+      "verb": "POST",
+      "path_spec": "/api/v1/follow_requests/:id/reject",
+      "pair": "api/v1/follow_requests#reject"
+    },
+    {
+      "helper": "api_v1_follow_requests",
+      "verb": "GET",
+      "path_spec": "/api/v1/follow_requests",
+      "pair": "api/v1/follow_requests#index"
+    },
+    {
+      "helper": "accept_api_v1_notifications_requests",
+      "verb": "POST",
+      "path_spec": "/api/v1/notifications/requests/accept",
+      "pair": "api/v1/notifications/requests#accept_bulk"
+    },
+    {
+      "helper": "dismiss_api_v1_notifications_requests",
+      "verb": "POST",
+      "path_spec": "/api/v1/notifications/requests/dismiss",
+      "pair": "api/v1/notifications/requests#dismiss_bulk"
+    },
+    {
+      "helper": "merged_api_v1_notifications_requests",
+      "verb": "GET",
+      "path_spec": "/api/v1/notifications/requests/merged",
+      "pair": "api/v1/notifications/requests#merged?"
+    },
+    {
+      "helper": "accept_api_v1_notifications_request",
+      "verb": "POST",
+      "path_spec": "/api/v1/notifications/requests/:id/accept",
+      "pair": "api/v1/notifications/requests#accept"
+    },
+    {
+      "helper": "dismiss_api_v1_notifications_request",
+      "verb": "POST",
+      "path_spec": "/api/v1/notifications/requests/:id/dismiss",
+      "pair": "api/v1/notifications/requests#dismiss"
+    },
+    {
+      "helper": "api_v1_notifications_requests",
+      "verb": "GET",
+      "path_spec": "/api/v1/notifications/requests",
+      "pair": "api/v1/notifications/requests#index"
+    },
+    {
+      "helper": "api_v1_notifications_request",
+      "verb": "GET",
+      "path_spec": "/api/v1/notifications/requests/:id",
+      "pair": "api/v1/notifications/requests#show"
+    },
+    {
+      "helper": "api_v1_notifications_policy",
+      "verb": "GET",
+      "path_spec": "/api/v1/notifications/policy",
+      "pair": "api/v1/notifications/policies#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/api/v1/notifications/policy",
+      "pair": "api/v1/notifications/policies#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/api/v1/notifications/policy",
+      "pair": "api/v1/notifications/policies#update"
+    },
+    {
+      "helper": "clear_api_v1_notifications",
+      "verb": "POST",
+      "path_spec": "/api/v1/notifications/clear",
+      "pair": "api/v1/notifications#clear"
+    },
+    {
+      "helper": "unread_count_api_v1_notifications",
+      "verb": "GET",
+      "path_spec": "/api/v1/notifications/unread_count",
+      "pair": "api/v1/notifications#unread_count"
+    },
+    {
+      "helper": "dismiss_api_v1_notification",
+      "verb": "POST",
+      "path_spec": "/api/v1/notifications/:id/dismiss",
+      "pair": "api/v1/notifications#dismiss"
+    },
+    {
+      "helper": "api_v1_notifications",
+      "verb": "GET",
+      "path_spec": "/api/v1/notifications",
+      "pair": "api/v1/notifications#index"
+    },
+    {
+      "helper": "api_v1_notification",
+      "verb": "GET",
+      "path_spec": "/api/v1/notifications/:id",
+      "pair": "api/v1/notifications#show"
+    },
+    {
+      "helper": "api_v1_accounts_verify_credentials",
+      "verb": "GET",
+      "path_spec": "/api/v1/accounts/verify_credentials",
+      "pair": "api/v1/accounts/credentials#show"
+    },
+    {
+      "helper": "api_v1_accounts_update_credentials",
+      "verb": "PATCH",
+      "path_spec": "/api/v1/accounts/update_credentials",
+      "pair": "api/v1/accounts/credentials#update"
+    },
+    {
+      "helper": "api_v1_accounts_search",
+      "verb": "GET",
+      "path_spec": "/api/v1/accounts/search",
+      "pair": "api/v1/accounts/search#show"
+    },
+    {
+      "helper": "api_v1_accounts_lookup",
+      "verb": "GET",
+      "path_spec": "/api/v1/accounts/lookup",
+      "pair": "api/v1/accounts/lookup#show"
+    },
+    {
+      "helper": "api_v1_accounts_relationships",
+      "verb": "GET",
+      "path_spec": "/api/v1/accounts/relationships",
+      "pair": "api/v1/accounts/relationships#index"
+    },
+    {
+      "helper": "api_v1_accounts_familiar_followers",
+      "verb": "GET",
+      "path_spec": "/api/v1/accounts/familiar_followers",
+      "pair": "api/v1/accounts/familiar_followers#index"
+    },
+    {
+      "helper": "api_v1_account_statuses",
+      "verb": "GET",
+      "path_spec": "/api/v1/accounts/:account_id/statuses",
+      "pair": "api/v1/accounts/statuses#index"
+    },
+    {
+      "helper": "api_v1_account_followers",
+      "verb": "GET",
+      "path_spec": "/api/v1/accounts/:account_id/followers",
+      "pair": "api/v1/accounts/follower_accounts#index"
+    },
+    {
+      "helper": "api_v1_account_following_index",
+      "verb": "GET",
+      "path_spec": "/api/v1/accounts/:account_id/following",
+      "pair": "api/v1/accounts/following_accounts#index"
+    },
+    {
+      "helper": "api_v1_account_lists",
+      "verb": "GET",
+      "path_spec": "/api/v1/accounts/:account_id/lists",
+      "pair": "api/v1/accounts/lists#index"
+    },
+    {
+      "helper": "api_v1_account_identity_proofs",
+      "verb": "GET",
+      "path_spec": "/api/v1/accounts/:account_id/identity_proofs",
+      "pair": "api/v1/accounts/identity_proofs#index"
+    },
+    {
+      "helper": "api_v1_account_featured_tags",
+      "verb": "GET",
+      "path_spec": "/api/v1/accounts/:account_id/featured_tags",
+      "pair": "api/v1/accounts/featured_tags#index"
+    },
+    {
+      "helper": "api_v1_account_endorsements",
+      "verb": "GET",
+      "path_spec": "/api/v1/accounts/:account_id/endorsements",
+      "pair": "api/v1/accounts/endorsements#index"
+    },
+    {
+      "helper": "api_v1_account_email_subscriptions",
+      "verb": "POST",
+      "path_spec": "/api/v1/accounts/:account_id/email_subscriptions",
+      "pair": "api/v1/accounts/email_subscriptions#create"
+    },
+    {
+      "helper": "api_v1_account_collections",
+      "verb": "GET",
+      "path_spec": "/api/v1/accounts/:account_id/collections",
+      "pair": "api/v1/collections#index"
+    },
+    {
+      "helper": "api_v1_account_in_collections",
+      "verb": "GET",
+      "path_spec": "/api/v1/accounts/:account_id/in_collections",
+      "pair": "api/v1/in_collections#index"
+    },
+    {
+      "helper": "follow_api_v1_account",
+      "verb": "POST",
+      "path_spec": "/api/v1/accounts/:id/follow",
+      "pair": "api/v1/accounts#follow"
+    },
+    {
+      "helper": "unfollow_api_v1_account",
+      "verb": "POST",
+      "path_spec": "/api/v1/accounts/:id/unfollow",
+      "pair": "api/v1/accounts#unfollow"
+    },
+    {
+      "helper": "remove_from_followers_api_v1_account",
+      "verb": "POST",
+      "path_spec": "/api/v1/accounts/:id/remove_from_followers",
+      "pair": "api/v1/accounts#remove_from_followers"
+    },
+    {
+      "helper": "block_api_v1_account",
+      "verb": "POST",
+      "path_spec": "/api/v1/accounts/:id/block",
+      "pair": "api/v1/accounts#block"
+    },
+    {
+      "helper": "unblock_api_v1_account",
+      "verb": "POST",
+      "path_spec": "/api/v1/accounts/:id/unblock",
+      "pair": "api/v1/accounts#unblock"
+    },
+    {
+      "helper": "mute_api_v1_account",
+      "verb": "POST",
+      "path_spec": "/api/v1/accounts/:id/mute",
+      "pair": "api/v1/accounts#mute"
+    },
+    {
+      "helper": "unmute_api_v1_account",
+      "verb": "POST",
+      "path_spec": "/api/v1/accounts/:id/unmute",
+      "pair": "api/v1/accounts#unmute"
+    },
+    {
+      "helper": "api_v1_account_pin",
+      "verb": "POST",
+      "path_spec": "/api/v1/accounts/:account_id/pin",
+      "pair": "api/v1/accounts/endorsements#create"
+    },
+    {
+      "helper": "api_v1_account_endorse",
+      "verb": "POST",
+      "path_spec": "/api/v1/accounts/:account_id/endorse",
+      "pair": "api/v1/accounts/endorsements#create"
+    },
+    {
+      "helper": "api_v1_account_unpin",
+      "verb": "POST",
+      "path_spec": "/api/v1/accounts/:account_id/unpin",
+      "pair": "api/v1/accounts/endorsements#destroy"
+    },
+    {
+      "helper": "api_v1_account_unendorse",
+      "verb": "POST",
+      "path_spec": "/api/v1/accounts/:account_id/unendorse",
+      "pair": "api/v1/accounts/endorsements#destroy"
+    },
+    {
+      "helper": "api_v1_account_note",
+      "verb": "POST",
+      "path_spec": "/api/v1/accounts/:account_id/note",
+      "pair": "api/v1/accounts/notes#create"
+    },
+    {
+      "helper": "api_v1_accounts",
+      "verb": "GET",
+      "path_spec": "/api/v1/accounts",
+      "pair": "api/v1/accounts#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/api/v1/accounts",
+      "pair": "api/v1/accounts#create"
+    },
+    {
+      "helper": "api_v1_account",
+      "verb": "GET",
+      "path_spec": "/api/v1/accounts/:id",
+      "pair": "api/v1/accounts#show"
+    },
+    {
+      "helper": "follow_api_v1_tag",
+      "verb": "POST",
+      "path_spec": "/api/v1/tags/:id/follow",
+      "pair": "api/v1/tags#follow"
+    },
+    {
+      "helper": "unfollow_api_v1_tag",
+      "verb": "POST",
+      "path_spec": "/api/v1/tags/:id/unfollow",
+      "pair": "api/v1/tags#unfollow"
+    },
+    {
+      "helper": "feature_api_v1_tag",
+      "verb": "POST",
+      "path_spec": "/api/v1/tags/:id/feature",
+      "pair": "api/v1/tags#feature"
+    },
+    {
+      "helper": "unfeature_api_v1_tag",
+      "verb": "POST",
+      "path_spec": "/api/v1/tags/:id/unfeature",
+      "pair": "api/v1/tags#unfeature"
+    },
+    {
+      "helper": "api_v1_tag",
+      "verb": "GET",
+      "path_spec": "/api/v1/tags/:id",
+      "pair": "api/v1/tags#show"
+    },
+    {
+      "helper": "api_v1_followed_tags",
+      "verb": "GET",
+      "path_spec": "/api/v1/followed_tags",
+      "pair": "api/v1/followed_tags#index"
+    },
+    {
+      "helper": "api_v1_list_accounts",
+      "verb": "GET",
+      "path_spec": "/api/v1/lists/:list_id/accounts",
+      "pair": "api/v1/lists/accounts#show"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/api/v1/lists/:list_id/accounts",
+      "pair": "api/v1/lists/accounts#destroy"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/api/v1/lists/:list_id/accounts",
+      "pair": "api/v1/lists/accounts#create"
+    },
+    {
+      "helper": "api_v1_lists",
+      "verb": "GET",
+      "path_spec": "/api/v1/lists",
+      "pair": "api/v1/lists#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/api/v1/lists",
+      "pair": "api/v1/lists#create"
+    },
+    {
+      "helper": "api_v1_list",
+      "verb": "GET",
+      "path_spec": "/api/v1/lists/:id",
+      "pair": "api/v1/lists#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/api/v1/lists/:id",
+      "pair": "api/v1/lists#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/api/v1/lists/:id",
+      "pair": "api/v1/lists#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/api/v1/lists/:id",
+      "pair": "api/v1/lists#destroy"
+    },
+    {
+      "helper": "api_v1_featured_tags_suggestions",
+      "verb": "GET",
+      "path_spec": "/api/v1/featured_tags/suggestions",
+      "pair": "api/v1/featured_tags/suggestions#index"
+    },
+    {
+      "helper": "api_v1_featured_tags",
+      "verb": "GET",
+      "path_spec": "/api/v1/featured_tags",
+      "pair": "api/v1/featured_tags#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/api/v1/featured_tags",
+      "pair": "api/v1/featured_tags#create"
+    },
+    {
+      "helper": "api_v1_featured_tag",
+      "verb": "DELETE",
+      "path_spec": "/api/v1/featured_tags/:id",
+      "pair": "api/v1/featured_tags#destroy"
+    },
+    {
+      "helper": "api_v1_poll_votes",
+      "verb": "POST",
+      "path_spec": "/api/v1/polls/:poll_id/votes",
+      "pair": "api/v1/polls/votes#create"
+    },
+    {
+      "helper": "api_v1_poll",
+      "verb": "GET",
+      "path_spec": "/api/v1/polls/:id",
+      "pair": "api/v1/polls#show"
+    },
+    {
+      "helper": "api_v1_push_subscription",
+      "verb": "GET",
+      "path_spec": "/api/v1/push/subscription",
+      "pair": "api/v1/push/subscriptions#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/api/v1/push/subscription",
+      "pair": "api/v1/push/subscriptions#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/api/v1/push/subscription",
+      "pair": "api/v1/push/subscriptions#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/api/v1/push/subscription",
+      "pair": "api/v1/push/subscriptions#destroy"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/api/v1/push/subscription",
+      "pair": "api/v1/push/subscriptions#create"
+    },
+    {
+      "helper": "enable_api_v1_admin_account",
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/accounts/:id/enable",
+      "pair": "api/v1/admin/accounts#enable"
+    },
+    {
+      "helper": "unsensitive_api_v1_admin_account",
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/accounts/:id/unsensitive",
+      "pair": "api/v1/admin/accounts#unsensitive"
+    },
+    {
+      "helper": "unsilence_api_v1_admin_account",
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/accounts/:id/unsilence",
+      "pair": "api/v1/admin/accounts#unsilence"
+    },
+    {
+      "helper": "unsuspend_api_v1_admin_account",
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/accounts/:id/unsuspend",
+      "pair": "api/v1/admin/accounts#unsuspend"
+    },
+    {
+      "helper": "approve_api_v1_admin_account",
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/accounts/:id/approve",
+      "pair": "api/v1/admin/accounts#approve"
+    },
+    {
+      "helper": "reject_api_v1_admin_account",
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/accounts/:id/reject",
+      "pair": "api/v1/admin/accounts#reject"
+    },
+    {
+      "helper": "api_v1_admin_account_action",
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/accounts/:account_id/action",
+      "pair": "api/v1/admin/account_actions#create"
+    },
+    {
+      "helper": "api_v1_admin_accounts",
+      "verb": "GET",
+      "path_spec": "/api/v1/admin/accounts",
+      "pair": "api/v1/admin/accounts#index"
+    },
+    {
+      "helper": "api_v1_admin_account",
+      "verb": "GET",
+      "path_spec": "/api/v1/admin/accounts/:id",
+      "pair": "api/v1/admin/accounts#show"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/api/v1/admin/accounts/:id",
+      "pair": "api/v1/admin/accounts#destroy"
+    },
+    {
+      "helper": "assign_to_self_api_v1_admin_report",
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/reports/:id/assign_to_self",
+      "pair": "api/v1/admin/reports#assign_to_self"
+    },
+    {
+      "helper": "unassign_api_v1_admin_report",
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/reports/:id/unassign",
+      "pair": "api/v1/admin/reports#unassign"
+    },
+    {
+      "helper": "reopen_api_v1_admin_report",
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/reports/:id/reopen",
+      "pair": "api/v1/admin/reports#reopen"
+    },
+    {
+      "helper": "resolve_api_v1_admin_report",
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/reports/:id/resolve",
+      "pair": "api/v1/admin/reports#resolve"
+    },
+    {
+      "helper": "api_v1_admin_reports",
+      "verb": "GET",
+      "path_spec": "/api/v1/admin/reports",
+      "pair": "api/v1/admin/reports#index"
+    },
+    {
+      "helper": "api_v1_admin_report",
+      "verb": "GET",
+      "path_spec": "/api/v1/admin/reports/:id",
+      "pair": "api/v1/admin/reports#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/api/v1/admin/reports/:id",
+      "pair": "api/v1/admin/reports#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/api/v1/admin/reports/:id",
+      "pair": "api/v1/admin/reports#update"
+    },
+    {
+      "helper": "api_v1_admin_domain_allows",
+      "verb": "GET",
+      "path_spec": "/api/v1/admin/domain_allows",
+      "pair": "api/v1/admin/domain_allows#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/domain_allows",
+      "pair": "api/v1/admin/domain_allows#create"
+    },
+    {
+      "helper": "api_v1_admin_domain_allow",
+      "verb": "GET",
+      "path_spec": "/api/v1/admin/domain_allows/:id",
+      "pair": "api/v1/admin/domain_allows#show"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/api/v1/admin/domain_allows/:id",
+      "pair": "api/v1/admin/domain_allows#destroy"
+    },
+    {
+      "helper": "api_v1_admin_domain_blocks",
+      "verb": "GET",
+      "path_spec": "/api/v1/admin/domain_blocks",
+      "pair": "api/v1/admin/domain_blocks#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/domain_blocks",
+      "pair": "api/v1/admin/domain_blocks#create"
+    },
+    {
+      "helper": "api_v1_admin_domain_block",
+      "verb": "GET",
+      "path_spec": "/api/v1/admin/domain_blocks/:id",
+      "pair": "api/v1/admin/domain_blocks#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/api/v1/admin/domain_blocks/:id",
+      "pair": "api/v1/admin/domain_blocks#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/api/v1/admin/domain_blocks/:id",
+      "pair": "api/v1/admin/domain_blocks#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/api/v1/admin/domain_blocks/:id",
+      "pair": "api/v1/admin/domain_blocks#destroy"
+    },
+    {
+      "helper": "api_v1_admin_email_domain_blocks",
+      "verb": "GET",
+      "path_spec": "/api/v1/admin/email_domain_blocks",
+      "pair": "api/v1/admin/email_domain_blocks#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/email_domain_blocks",
+      "pair": "api/v1/admin/email_domain_blocks#create"
+    },
+    {
+      "helper": "api_v1_admin_email_domain_block",
+      "verb": "GET",
+      "path_spec": "/api/v1/admin/email_domain_blocks/:id",
+      "pair": "api/v1/admin/email_domain_blocks#show"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/api/v1/admin/email_domain_blocks/:id",
+      "pair": "api/v1/admin/email_domain_blocks#destroy"
+    },
+    {
+      "helper": "api_v1_admin_ip_blocks",
+      "verb": "GET",
+      "path_spec": "/api/v1/admin/ip_blocks",
+      "pair": "api/v1/admin/ip_blocks#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/ip_blocks",
+      "pair": "api/v1/admin/ip_blocks#create"
+    },
+    {
+      "helper": "api_v1_admin_ip_block",
+      "verb": "GET",
+      "path_spec": "/api/v1/admin/ip_blocks/:id",
+      "pair": "api/v1/admin/ip_blocks#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/api/v1/admin/ip_blocks/:id",
+      "pair": "api/v1/admin/ip_blocks#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/api/v1/admin/ip_blocks/:id",
+      "pair": "api/v1/admin/ip_blocks#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/api/v1/admin/ip_blocks/:id",
+      "pair": "api/v1/admin/ip_blocks#destroy"
+    },
+    {
+      "helper": "approve_api_v1_admin_trends_tag",
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/trends/tags/:id/approve",
+      "pair": "api/v1/admin/trends/tags#approve"
+    },
+    {
+      "helper": "reject_api_v1_admin_trends_tag",
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/trends/tags/:id/reject",
+      "pair": "api/v1/admin/trends/tags#reject"
+    },
+    {
+      "helper": "api_v1_admin_trends_tags",
+      "verb": "GET",
+      "path_spec": "/api/v1/admin/trends/tags",
+      "pair": "api/v1/admin/trends/tags#index"
+    },
+    {
+      "helper": "approve_api_v1_admin_trends_link",
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/trends/links/:id/approve",
+      "pair": "api/v1/admin/trends/links#approve"
+    },
+    {
+      "helper": "reject_api_v1_admin_trends_link",
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/trends/links/:id/reject",
+      "pair": "api/v1/admin/trends/links#reject"
+    },
+    {
+      "helper": "api_v1_admin_trends_links",
+      "verb": "GET",
+      "path_spec": "/api/v1/admin/trends/links",
+      "pair": "api/v1/admin/trends/links#index"
+    },
+    {
+      "helper": "approve_api_v1_admin_trends_status",
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/trends/statuses/:id/approve",
+      "pair": "api/v1/admin/trends/statuses#approve"
+    },
+    {
+      "helper": "reject_api_v1_admin_trends_status",
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/trends/statuses/:id/reject",
+      "pair": "api/v1/admin/trends/statuses#reject"
+    },
+    {
+      "helper": "api_v1_admin_trends_statuses",
+      "verb": "GET",
+      "path_spec": "/api/v1/admin/trends/statuses",
+      "pair": "api/v1/admin/trends/statuses#index"
+    },
+    {
+      "helper": "approve_api_v1_admin_trends_links_preview_card_provider",
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/trends/links/publishers/:id/approve",
+      "pair": "api/v1/admin/trends/links/preview_card_providers#approve"
+    },
+    {
+      "helper": "reject_api_v1_admin_trends_links_preview_card_provider",
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/trends/links/publishers/:id/reject",
+      "pair": "api/v1/admin/trends/links/preview_card_providers#reject"
+    },
+    {
+      "helper": "api_v1_admin_trends_links_preview_card_providers",
+      "verb": "GET",
+      "path_spec": "/api/v1/admin/trends/links/publishers",
+      "pair": "api/v1/admin/trends/links/preview_card_providers#index"
+    },
+    {
+      "helper": "api_v1_admin_measures",
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/measures",
+      "pair": "api/v1/admin/measures#create"
+    },
+    {
+      "helper": "api_v1_admin_dimensions",
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/dimensions",
+      "pair": "api/v1/admin/dimensions#create"
+    },
+    {
+      "helper": "api_v1_admin_retention",
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/retention",
+      "pair": "api/v1/admin/retention#create"
+    },
+    {
+      "helper": "test_api_v1_admin_canonical_email_blocks",
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/canonical_email_blocks/test",
+      "pair": "api/v1/admin/canonical_email_blocks#test"
+    },
+    {
+      "helper": "api_v1_admin_canonical_email_blocks",
+      "verb": "GET",
+      "path_spec": "/api/v1/admin/canonical_email_blocks",
+      "pair": "api/v1/admin/canonical_email_blocks#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/api/v1/admin/canonical_email_blocks",
+      "pair": "api/v1/admin/canonical_email_blocks#create"
+    },
+    {
+      "helper": "api_v1_admin_canonical_email_block",
+      "verb": "GET",
+      "path_spec": "/api/v1/admin/canonical_email_blocks/:id",
+      "pair": "api/v1/admin/canonical_email_blocks#show"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/api/v1/admin/canonical_email_blocks/:id",
+      "pair": "api/v1/admin/canonical_email_blocks#destroy"
+    },
+    {
+      "helper": "api_v1_admin_tags",
+      "verb": "GET",
+      "path_spec": "/api/v1/admin/tags",
+      "pair": "api/v1/admin/tags#index"
+    },
+    {
+      "helper": "api_v1_admin_tag",
+      "verb": "GET",
+      "path_spec": "/api/v1/admin/tags/:id",
+      "pair": "api/v1/admin/tags#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/api/v1/admin/tags/:id",
+      "pair": "api/v1/admin/tags#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/api/v1/admin/tags/:id",
+      "pair": "api/v1/admin/tags#update"
+    },
+    {
+      "helper": "revoke_api_v1_collection_item",
+      "verb": "POST",
+      "path_spec": "/api/v1/collections/:collection_id/items/:id/revoke",
+      "pair": "api/v1/collection_items#revoke"
+    },
+    {
+      "helper": "api_v1_collection_items",
+      "verb": "POST",
+      "path_spec": "/api/v1/collections/:collection_id/items",
+      "pair": "api/v1/collection_items#create"
+    },
+    {
+      "helper": "api_v1_collection_item",
+      "verb": "DELETE",
+      "path_spec": "/api/v1/collections/:collection_id/items/:id",
+      "pair": "api/v1/collection_items#destroy"
+    },
+    {
+      "helper": "api_v1_collections",
+      "verb": "POST",
+      "path_spec": "/api/v1/collections",
+      "pair": "api/v1/collections#create"
+    },
+    {
+      "helper": "api_v1_collection",
+      "verb": "GET",
+      "path_spec": "/api/v1/collections/:id",
+      "pair": "api/v1/collections#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/api/v1/collections/:id",
+      "pair": "api/v1/collections#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/api/v1/collections/:id",
+      "pair": "api/v1/collections#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/api/v1/collections/:id",
+      "pair": "api/v1/collections#destroy"
+    },
+    {
+      "helper": "api_v2_search",
+      "verb": "GET",
+      "path_spec": "/api/v2/search",
+      "pair": "api/v2/search#index"
+    },
+    {
+      "helper": "api_v2_media",
+      "verb": "POST",
+      "path_spec": "/api/v2/media",
+      "pair": "api/v2/media#create"
+    },
+    {
+      "helper": "api_v2_suggestions",
+      "verb": "GET",
+      "path_spec": "/api/v2/suggestions",
+      "pair": "api/v2/suggestions#index"
+    },
+    {
+      "helper": "api_v2_instance",
+      "verb": "GET",
+      "path_spec": "/api/v2/instance",
+      "pair": "api/v2/instances#show"
+    },
+    {
+      "helper": "api_v2_filter_keywords",
+      "verb": "GET",
+      "path_spec": "/api/v2/filters/:filter_id/keywords",
+      "pair": "api/v2/filters/keywords#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/api/v2/filters/:filter_id/keywords",
+      "pair": "api/v2/filters/keywords#create"
+    },
+    {
+      "helper": "api_v2_filter_statuses",
+      "verb": "GET",
+      "path_spec": "/api/v2/filters/:filter_id/statuses",
+      "pair": "api/v2/filters/statuses#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/api/v2/filters/:filter_id/statuses",
+      "pair": "api/v2/filters/statuses#create"
+    },
+    {
+      "helper": "api_v2_filters",
+      "verb": "GET",
+      "path_spec": "/api/v2/filters",
+      "pair": "api/v2/filters#index"
+    },
+    {
+      "helper": null,
+      "verb": "POST",
+      "path_spec": "/api/v2/filters",
+      "pair": "api/v2/filters#create"
+    },
+    {
+      "helper": "api_v2_filter",
+      "verb": "GET",
+      "path_spec": "/api/v2/filters/:id",
+      "pair": "api/v2/filters#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/api/v2/filters/:id",
+      "pair": "api/v2/filters#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/api/v2/filters/:id",
+      "pair": "api/v2/filters#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/api/v2/filters/:id",
+      "pair": "api/v2/filters#destroy"
+    },
+    {
+      "helper": "api_v2_filters_keyword",
+      "verb": "GET",
+      "path_spec": "/api/v2/filters/keywords/:id",
+      "pair": "api/v2/filters/keywords#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/api/v2/filters/keywords/:id",
+      "pair": "api/v2/filters/keywords#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/api/v2/filters/keywords/:id",
+      "pair": "api/v2/filters/keywords#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/api/v2/filters/keywords/:id",
+      "pair": "api/v2/filters/keywords#destroy"
+    },
+    {
+      "helper": "api_v2_filters_status",
+      "verb": "GET",
+      "path_spec": "/api/v2/filters/statuses/:id",
+      "pair": "api/v2/filters/statuses#show"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/api/v2/filters/statuses/:id",
+      "pair": "api/v2/filters/statuses#destroy"
+    },
+    {
+      "helper": "api_v2_admin_accounts",
+      "verb": "GET",
+      "path_spec": "/api/v2/admin/accounts",
+      "pair": "api/v2/admin/accounts#index"
+    },
+    {
+      "helper": "api_v2_notifications_policy",
+      "verb": "GET",
+      "path_spec": "/api/v2/notifications/policy",
+      "pair": "api/v2/notifications/policies#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/api/v2/notifications/policy",
+      "pair": "api/v2/notifications/policies#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/api/v2/notifications/policy",
+      "pair": "api/v2/notifications/policies#update"
+    },
+    {
+      "helper": "clear_api_v2_notifications",
+      "verb": "POST",
+      "path_spec": "/api/v2/notifications/clear",
+      "pair": "api/v2/notifications#clear"
+    },
+    {
+      "helper": "unread_count_api_v2_notifications",
+      "verb": "GET",
+      "path_spec": "/api/v2/notifications/unread_count",
+      "pair": "api/v2/notifications#unread_count"
+    },
+    {
+      "helper": "dismiss_api_v2_notification",
+      "verb": "POST",
+      "path_spec": "/api/v2/notifications/:group_key/dismiss",
+      "pair": "api/v2/notifications#dismiss"
+    },
+    {
+      "helper": "api_v2_notification_accounts",
+      "verb": "GET",
+      "path_spec": "/api/v2/notifications/:notification_group_key/accounts",
+      "pair": "api/v2/notifications/accounts#index"
+    },
+    {
+      "helper": "api_v2_notifications",
+      "verb": "GET",
+      "path_spec": "/api/v2/notifications",
+      "pair": "api/v2/notifications#index"
+    },
+    {
+      "helper": "api_v2_notification",
+      "verb": "GET",
+      "path_spec": "/api/v2/notifications/:group_key",
+      "pair": "api/v2/notifications#show"
+    },
+    {
+      "helper": "api_web_settings",
+      "verb": "PATCH",
+      "path_spec": "/api/web/settings",
+      "pair": "api/web/settings#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/api/web/settings",
+      "pair": "api/web/settings#update"
+    },
+    {
+      "helper": "api_web_embed",
+      "verb": "GET",
+      "path_spec": "/api/web/embeds/:id",
+      "pair": "api/web/embeds#show"
+    },
+    {
+      "helper": "api_web_push_subscriptions",
+      "verb": "POST",
+      "path_spec": "/api/web/push_subscriptions",
+      "pair": "api/web/push_subscriptions#create"
+    },
+    {
+      "helper": "api_web_push_subscription",
+      "verb": "PATCH",
+      "path_spec": "/api/web/push_subscriptions/:id",
+      "pair": "api/web/push_subscriptions#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/api/web/push_subscriptions/:id",
+      "pair": "api/web/push_subscriptions#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/api/web/push_subscriptions/:id",
+      "pair": "api/web/push_subscriptions#destroy"
+    },
+    {
+      "helper": "api_fasp_debug_v0_callback_responses",
+      "verb": "POST",
+      "path_spec": "/api/fasp/debug/v0/callback/responses",
+      "pair": "api/fasp/debug/v0/callback/responses#create"
+    },
+    {
+      "helper": "api_fasp_data_sharing_v0_backfill_request_continuation",
+      "verb": "POST",
+      "path_spec": "/api/fasp/data_sharing/v0/backfill_requests/:backfill_request_id/continuation",
+      "pair": "api/fasp/data_sharing/v0/continuations#create"
+    },
+    {
+      "helper": "api_fasp_data_sharing_v0_backfill_requests",
+      "verb": "POST",
+      "path_spec": "/api/fasp/data_sharing/v0/backfill_requests",
+      "pair": "api/fasp/data_sharing/v0/backfill_requests#create"
+    },
+    {
+      "helper": "api_fasp_data_sharing_v0_event_subscriptions",
+      "verb": "POST",
+      "path_spec": "/api/fasp/data_sharing/v0/event_subscriptions",
+      "pair": "api/fasp/data_sharing/v0/event_subscriptions#create"
+    },
+    {
+      "helper": "api_fasp_data_sharing_v0_event_subscription",
+      "verb": "DELETE",
+      "path_spec": "/api/fasp/data_sharing/v0/event_subscriptions/:id",
+      "pair": "api/fasp/data_sharing/v0/event_subscriptions#destroy"
+    },
+    {
+      "helper": "api_fasp_registration",
+      "verb": "POST",
+      "path_spec": "/api/fasp/registration",
+      "pair": "api/fasp/registrations#create"
+    },
+    {
+      "helper": "admin_fasp_debug_callbacks",
+      "verb": "GET",
+      "path_spec": "/admin/fasp/debug/callbacks(.:format)",
+      "pair": "admin/fasp/debug/callbacks#index"
+    },
+    {
+      "helper": "admin_fasp_debug_callback",
+      "verb": "DELETE",
+      "path_spec": "/admin/fasp/debug/callbacks/:id(.:format)",
+      "pair": "admin/fasp/debug/callbacks#destroy"
+    },
+    {
+      "helper": "admin_fasp_provider_debug_calls",
+      "verb": "POST",
+      "path_spec": "/admin/fasp/providers/:provider_id/debug_calls(.:format)",
+      "pair": "admin/fasp/debug_calls#create"
+    },
+    {
+      "helper": "new_admin_fasp_provider_registration",
+      "verb": "GET",
+      "path_spec": "/admin/fasp/providers/:provider_id/registration/new(.:format)",
+      "pair": "admin/fasp/registrations#new"
+    },
+    {
+      "helper": "admin_fasp_provider_registration",
+      "verb": "POST",
+      "path_spec": "/admin/fasp/providers/:provider_id/registration(.:format)",
+      "pair": "admin/fasp/registrations#create"
+    },
+    {
+      "helper": "admin_fasp_providers",
+      "verb": "GET",
+      "path_spec": "/admin/fasp/providers(.:format)",
+      "pair": "admin/fasp/providers#index"
+    },
+    {
+      "helper": "edit_admin_fasp_provider",
+      "verb": "GET",
+      "path_spec": "/admin/fasp/providers/:id/edit(.:format)",
+      "pair": "admin/fasp/providers#edit"
+    },
+    {
+      "helper": "admin_fasp_provider",
+      "verb": "GET",
+      "path_spec": "/admin/fasp/providers/:id(.:format)",
+      "pair": "admin/fasp/providers#show"
+    },
+    {
+      "helper": null,
+      "verb": "PATCH",
+      "path_spec": "/admin/fasp/providers/:id(.:format)",
+      "pair": "admin/fasp/providers#update"
+    },
+    {
+      "helper": null,
+      "verb": "PUT",
+      "path_spec": "/admin/fasp/providers/:id(.:format)",
+      "pair": "admin/fasp/providers#update"
+    },
+    {
+      "helper": null,
+      "verb": "DELETE",
+      "path_spec": "/admin/fasp/providers/:id(.:format)",
+      "pair": "admin/fasp/providers#destroy"
+    },
+    {
+      "helper": "blocks",
+      "verb": "GET",
+      "path_spec": "/blocks(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": "bookmarks",
+      "verb": "GET",
+      "path_spec": "/bookmarks(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/collections(/*any)(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": "conversations",
+      "verb": "GET",
+      "path_spec": "/conversations(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/deck(/*any)(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": "directory",
+      "verb": "GET",
+      "path_spec": "/directory(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": "domain_blocks",
+      "verb": "GET",
+      "path_spec": "/domain_blocks(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/explore(/*any)(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": "favourites",
+      "verb": "GET",
+      "path_spec": "/favourites(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": "follow_requests",
+      "verb": "GET",
+      "path_spec": "/follow_requests(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": "followed_tags",
+      "verb": "GET",
+      "path_spec": "/followed_tags(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": "getting_started",
+      "verb": "GET",
+      "path_spec": "/getting-started(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": "home",
+      "verb": "GET",
+      "path_spec": "/home(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": "keyboard_shortcuts",
+      "verb": "GET",
+      "path_spec": "/keyboard-shortcuts(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/links(/*any)(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/lists(/*any)(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": "mutes",
+      "verb": "GET",
+      "path_spec": "/mutes(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/notifications_v2(/*any)(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/notifications(/*any)(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": "pinned",
+      "verb": "GET",
+      "path_spec": "/pinned(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/profile(/*any)(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": "public",
+      "verb": "GET",
+      "path_spec": "/public(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": "public_local",
+      "verb": "GET",
+      "path_spec": "/public/local(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": "public_remote",
+      "verb": "GET",
+      "path_spec": "/public/remote(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": "publish",
+      "verb": "GET",
+      "path_spec": "/publish(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": "search",
+      "verb": "GET",
+      "path_spec": "/search(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/start(/*any)(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": null,
+      "verb": "GET",
+      "path_spec": "/statuses(/*any)(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": "overview",
+      "verb": "GET",
+      "path_spec": "/overview(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": "overview_about",
+      "verb": "GET",
+      "path_spec": "/overview/about(.:format)",
+      "pair": "home#index"
+    },
+    {
+      "helper": "about",
+      "verb": "GET",
+      "path_spec": "/about(.:format)",
+      "pair": "about#show"
+    },
+    {
+      "helper": "privacy_policy",
+      "verb": "GET",
+      "path_spec": "/privacy-policy(.:format)",
+      "pair": "privacy#show"
+    },
+    {
+      "helper": "terms_of_service",
+      "verb": "GET",
+      "path_spec": "/terms-of-service(.:format)",
+      "pair": "terms_of_service#show"
+    },
+    {
+      "helper": "terms_of_service_version",
+      "verb": "GET",
+      "path_spec": "/terms-of-service/:date(.:format)",
+      "pair": "terms_of_service#show"
+    },
+    {
+      "helper": null,
+      "verb": "POST|PUT|PATCH|DELETE",
+      "path_spec": "/",
+      "pair": "application#raise_not_found"
+    },
+    {
+      "helper": null,
+      "verb": "",
+      "path_spec": "/*unmatched_route",
+      "pair": "application#raise_not_found"
+    }
+  ],
+  "mounts": [
+    "/pghero",
+    "/sidekiq"
+  ],
+  "gem_dsl_calls": [
+    "use_doorkeeper",
+    "devise_for users"
+  ],
+  "skipped": {
+    "redirect": 16
+  }
+}
