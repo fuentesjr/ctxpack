@@ -131,7 +131,16 @@ must agree.
    [#5](https://github.com/fuentesjr/ctxpack/issues/5) is **decided —
    DEFER — and CLOSED** (verdict comment posted with user sign-off
    2026-07-14).
-5. Final step of any executing session: rewrite this section for the work
+5. **Non-Claude session agents (e.g. Codex as the session):** the
+   delegation profiles in `CLAUDE.md` are Claude-harness machinery and do
+   not apply — the session implements directly, and **every verification
+   gate is unchanged** (proof bar, red-then-green, Tier 0 rescan at
+   compiler boundaries, commit-yes/push-only-with-approval). Precedent:
+   the 2026-07-13 Grok-as-session decision. Practical cautions: start
+   from the repo root (nested `.git` checkouts under `tmp/` mis-root
+   sandboxes), and the Tier 2 harness runbook assumes a Claude Code
+   session — treat harness runs under other agents as untested.
+6. Final step of any executing session: rewrite this section for the work
    that follows.
 
 ### Known follow-ups (non-blocking)
