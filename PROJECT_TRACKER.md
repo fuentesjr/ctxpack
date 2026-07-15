@@ -90,8 +90,8 @@ must agree.
 
 ### State (ground truth, verified 2026-07-14 end of session)
 
-- **HEAD:** Phase 5 closure commit (see git log) on `main`; several commits
-  ahead of `origin/main` — **unpushed, awaiting explicit push approval**.
+- **HEAD:** `c10351a` (Phase 5 closure) — `main` **in sync with
+  `origin/main`** (user-approved push 2026-07-14, `3951d1b..c10351a`).
 - **Suite at HEAD:** `bundle exec rake test` → **205 runs, 0 failures**.
 - **Shipped this campaign:** `--from-method` (no test-candidate leg, SEED-25)
   and `--from-diff` (with paired-test mirror leg, SEED-26). **Not shipped:**
@@ -115,7 +115,7 @@ must agree.
    session, fixture-backed): WS-1..6 still pass; new WS-7 (method), WS-8
    (diff), WS-9 (route stays coach-only) added and passing — see
    [`eval/seed-spikes/work-start-corpus.md`](eval/seed-spikes/work-start-corpus.md).
-4. **Leave gated:** push (explicit approval); ~50M-token Tier 2 harness
+4. **Leave gated:** ~50M-token Tier 2 harness
    rerun; RubricLLM issue
    [#5](https://github.com/fuentesjr/ctxpack/issues/5); new runtime
    dependencies (prism-only stands).
@@ -154,9 +154,9 @@ must agree.
 | Seed Phase 2 (test/files + v3) | seeds + format v3 + CLI | **Done — COMMITTED (`564fa11`) + PUSHED** (2026-07-13) | `--from-test`/`--from-files`, SEED-10 classifier, work-start corpus; suite **161/1455** at land; Tier 0 clean. |
 | Seed Phase 3 (error) | `--from-error` | **Done — COMMITTED (`de587a1` w/ Phase 4) + PUSHED** (2026-07-13) | Spike P=1.0 R=1.0; PII-safe app frames only (SEED-20). |
 | Seed Phase 4 (multi-seed) | MERGE-* | **Done — COMMITTED (`de587a1`) + PUSHED** (2026-07-13) | Multi-seed merge + multi `--from-*`; final suite **167/1530**; Tier 0 clean. **Campaign complete through Phase 4; stack on origin.** |
-| Seed Phase 5a (method) | SEED-25, [`eval/seed-spikes/method/`](eval/seed-spikes/method/) | **Done — COMMITTED (`1ea31a8` gate + `517c97a`), NOT pushed** (2026-07-14) | Advisor-reviewed pre-reg; spike resolution 82.1% PASS / test-leg precision 0.6996 FAIL → `--from-method` ships **without** test-candidate leg. Grok-implemented; red-then-green re-verified; suite 185/0; Tier 0 byte-identical. |
-| Seed Phase 5b (diff) | SEED-26, [`eval/seed-spikes/diff/`](eval/seed-spikes/diff/) | **Done — COMMITTED (`f5bdb37` gate + `b5450dd`), NOT pushed** (2026-07-14) | Paired-test co-change agreement 0.810 PASS → `--from-diff` ships **with** mirror-convention paired-test leg (explicit flag only). Grok-implemented; red-then-green re-verified; suite 205/0; Tier 0 byte-identical. |
-| Seed Phase 5c (route) | [`eval/seed-spikes/route/`](eval/seed-spikes/route/) | **Closed — NO SHIP, COMMITTED (`3f69230`), NOT pushed** (2026-07-14) | Double-gated spike: resolution 0.243 FAIL (Front B margin +0.124 moot). Route evidence stays CLI-17c coaching-only; no implementation pass. Re-open needs a new pre-reg (router-order first-match resolver noted). |
+| Seed Phase 5a (method) | SEED-25, [`eval/seed-spikes/method/`](eval/seed-spikes/method/) | **Done — COMMITTED (`1ea31a8` gate + `517c97a`) + PUSHED** (2026-07-14) | Advisor-reviewed pre-reg; spike resolution 82.1% PASS / test-leg precision 0.6996 FAIL → `--from-method` ships **without** test-candidate leg. Grok-implemented; red-then-green re-verified; suite 185/0; Tier 0 byte-identical. |
+| Seed Phase 5b (diff) | SEED-26, [`eval/seed-spikes/diff/`](eval/seed-spikes/diff/) | **Done — COMMITTED (`f5bdb37` gate + `b5450dd`) + PUSHED** (2026-07-14) | Paired-test co-change agreement 0.810 PASS → `--from-diff` ships **with** mirror-convention paired-test leg (explicit flag only). Grok-implemented; red-then-green re-verified; suite 205/0; Tier 0 byte-identical. |
+| Seed Phase 5c (route) | [`eval/seed-spikes/route/`](eval/seed-spikes/route/) | **Closed — NO SHIP, COMMITTED (`3f69230`) + PUSHED** (2026-07-14) | Double-gated spike: resolution 0.243 FAIL (Front B margin +0.124 moot). Route evidence stays CLI-17c coaching-only; no implementation pass. Re-open needs a new pre-reg (router-order first-match resolver noted). |
 
 Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
@@ -172,8 +172,8 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Next steps
 
-1. **Phase 5 is complete and closed** (5a/5b shipped, 5c no-ship recorded).
-   All commits local — **push awaits explicit approval**.
+1. **Phase 5 is complete, closed, and PUSHED** (5a/5b shipped, 5c no-ship
+   recorded; `origin/main` in sync).
 2. **Plan Phase 6** (marketing: README/examples lead with task+seed) when
    product framing should update — docs-only, separate order.
 4. **The release-boundary three-app harness rerun awaits explicit user
@@ -185,6 +185,11 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 7. **Tier 3 Rubydex remains deferred.**
 
 ## Decision log
+
+- **2026-07-14 (push)** — User explicit push approval; Phase 5 stack pushed
+  `3951d1b..c10351a` to `origin/main` (staged plan, both gate commits, 5a/5b
+  implementation, 5c no-ship gate, closure). Tracker Status/plan marked
+  PUSHED / in sync.
 
 - **2026-07-14 (later)** — Phase 5 campaign executed to completion under the
   user's explicit go ("do 5a, then 5b, then 5c") with commit-per-sub-pass
