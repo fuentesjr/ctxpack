@@ -191,6 +191,22 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Decision log
 
+- **2026-07-14 (cross-repo eval process)** — User work order: prevent
+  per-repo eval-framework proliferation ahead of an anticipated shared eval
+  system. Created `~/Projects/evalkit` (new local repo, docs-first):
+  binding conventions (vocabulary; required artifacts — frozen pre-reg,
+  reuse line, results, inventory, provenance; extraction bar = duplicated
+  in ≥2 repos AND plumbing-only, own work order, never retrofit measured
+  runners) plus a convergence ledger seeded from real recon. Headline
+  ledger row: the headless subject-session runner is already at the
+  two-repo bar (this repo's Tier 2 harness + skill-tester's executor);
+  extraction deliberately deferred until either runner next needs material
+  change. skill-tester gained a docs-only inventory + pointer (its commit
+  `891a649`); this repo's `eval/README.md` gained the evalkit pointer.
+  User decisions: new dedicated repo over gist/skills-tree; conventions
+  prescribe vocabulary + artifacts only (formats stay per-repo until
+  extraction).
+
 - **2026-07-14 (late)** — Anti-proliferation guardrails for eval tooling
   (user work order, prompted by six spike scripts duplicating the same
   plumbing): (a) `eval/README.md` — full runner inventory + **binding

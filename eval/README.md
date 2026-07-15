@@ -32,3 +32,9 @@ adoption discipline this repo applies to eval tooling — including its own).
 
 Decision rules and tier definitions: [`../eval-plan.md`](../eval-plan.md).
 Nothing here is CI-wired except Tier 1 (EVAL-10).
+
+Cross-repo: the eval **conventions and convergence ledger** live in
+`~/Projects/evalkit` — capabilities duplicated across repos (e.g. this
+repo's Tier 2 subject-session runner and skill-tester's executor) are
+tracked there until extraction is earned; new shared plumbing graduates to
+that repo, not to another per-repo copy.
