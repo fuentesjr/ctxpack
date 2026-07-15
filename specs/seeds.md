@@ -61,7 +61,10 @@ derivation uses seed identity alone.
 **SEED-5.** Each new seed kind MUST pass a Tier-0-style viability spike against
 real sample apps *before* it ships, with scoring pre-registered before
 measuring and a failure taxonomy recorded. Fixture evals are regression only
-and never substitute for the spike. **[from seed proposal §3.3]**
+and never substitute for the spike. **[from seed proposal §3.3]** The
+pre-registration MUST record which existing eval runner was considered for
+reuse and why it doesn't fit (inventory + authoring rule:
+`eval/README.md`).
 
 **SEED-6.** Ontology term in model and specs is `seed`. CLI flag spelling is
 `--from-<kind>` (e.g. `--from-test`, `--from-files`, `--from-error`,

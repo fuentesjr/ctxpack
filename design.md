@@ -81,7 +81,11 @@ AccountsController#upgrade
 → package/boundary notes when cheaply detectable
 ```
 
-Other recipes start thinner and deepen with evidence (per-kind viability spikes).
+Other recipes start thinner and deepen with evidence (per-kind viability
+spikes). Spike scripts share plumbing, not scoring: each spike's scoring is
+frozen in its own pre-registration, which also records why no existing eval
+runner covered the question (SEED-5; inventory in `eval/README.md`) — the
+guard against accreting ad-hoc eval frameworks.
 
 The output is not an answer and not an autonomous agent. It is a prepared context artifact that another coding agent can use more effectively.
 

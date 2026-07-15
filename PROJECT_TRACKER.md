@@ -191,6 +191,21 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Decision log
 
+- **2026-07-14 (late)** — Anti-proliferation guardrails for eval tooling
+  (user work order, prompted by six spike scripts duplicating the same
+  plumbing): (a) `eval/README.md` — full runner inventory + **binding
+  authoring rule** (new eval scripts must record which existing runner was
+  considered and why it doesn't fit); (b) SEED-5 amended to require that
+  line in every spike pre-registration, `design.md` reconciled in the same
+  change, AGENTS.md project map row added; (c) `eval/lib/spike_harness.rb`
+  extracted (pinned-apps table, exclusions, percentile, taxonomy, gate
+  summaries) for FUTURE spikes only — measured spike scripts stay
+  untouched as historical artifacts. Verified by
+  `eval/lib/spike_harness_check.rb`: 14 checks including recomputing the
+  recorded route-spike summary gates byte-for-value and a live pinned-SHA
+  checkout verification. Deliberate non-goal recorded: no unified eval
+  framework across tiers — plumbing and discoverability only.
+
 - **2026-07-14 (evening)** — Two user work orders executed. **(a) Phase 6
   docs shift landed + pushed (`145ed4d`):** README/examples/FAQ now lead
   with task+seed; Grok drafted (grok-loop), two doc-reviewer audits found

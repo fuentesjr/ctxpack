@@ -22,6 +22,7 @@ pre-registered experiments are as load-bearing as the code.
 | `test/fixtures/apps/` | Static Rails-shaped fixture trees (`minitest_basic/`, `rspec_basic/`). Inert scaffolding — never booted, never loaded by the suite | Extend for new cases; never add runnable test code |
 | `test/fixtures/evals/` | Tier 1 YAML eval cases (EVAL-4 shape); the runner generates two tests per case | Grows with every packet bug (EVAL-9) |
 | `eval/tier0/`, `eval/tier2/`, `eval/tier2-expansion/` | Offline experiments: pre-registrations, harness, recorded results, transcripts, diffs | **Recorded data — see "Caution" below** |
+| `eval/README.md` | **Eval tooling inventory + binding authoring rule**: before writing any new eval/measurement script, check the inventory and record which existing runner was considered and why it doesn't fit; shared spike plumbing in `eval/lib/spike_harness.rb` (future spikes only — never retrofit measured ones) | Keep the inventory current when adding a runner |
 | `PROJECT_TRACKER.md` | Working process, execution plan, status, decision log. Fresh sessions resume from here | Update per its own end-of-session ritual |
 | `implementation-notes.md` | Per-pass technical decisions | The implementing agent owns pass notes |
 | `.agents/skills/` | Mostly the gitignored install root of the `skills` npm CLI (`npx skills`, which owns `skills-lock.json`); four repo-owned skills are carved out in `.gitignore` and committed | Edit only the four carved-out skills |
