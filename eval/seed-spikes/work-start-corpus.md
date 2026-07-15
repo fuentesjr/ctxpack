@@ -27,3 +27,15 @@ This is offline evidence for seed-kind coverage; not CI (EVAL-10).
 | WS-6 | **DEFERRED** — Phase 4 |
 
 Re-score at Phase 3/4 gates.
+
+## Phase 5 scoring (2026-07-14, fixture-backed; suite 205 runs / 0 failures)
+
+| ID | Result |
+|---|---|
+| WS-1..WS-5 | **PASS** — unchanged; covered by the same fixture evals + CLI diagnostics in the green suite |
+| WS-6 | **PASS** — multi-seed shipped Phase 4; now also exercised by `multi_seed_method_and_anchor` and `multi_seed_diff_and_files` fixture evals |
+| WS-7 (new) | Non-controller `Constant#method` in hand → `method` seed. **PASS** — `method_seed_billing_upgrade` fixture eval + SEED-10 rule 4 sugar (unit suite) |
+| WS-8 (new) | Local diff/patch in hand → `diff` seed via `--from-diff`. **PASS** — `diff_seed_patch_accounts` fixture eval; positional `.patch` stays a files seed (SEED-10 rule 6, unit suite) |
+| WS-9 (new) | Route path / `VERB /path` in hand → **coach only** (5c spike NO SHIP). **PASS** — CLI-17c route-shaped diagnostics (suite); no silent compile |
+
+Re-score at the next phase gate that ships a seed kind or changes dispatch.

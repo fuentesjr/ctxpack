@@ -54,7 +54,7 @@ derivation uses seed identity alone.
 | `error` | P0 (gated) | Phase 3 go/no-go; demotion to P1 is the stated fallback |
 | `method` | P1 | Ships Phase 5a (test-candidate leg demoted by spike — see Method seed) |
 | `diff` | P1 | Ships Phase 5b (paired-test mirror leg ships — see Diff seed) |
-| `route` | P1 | Out of campaign scope (Phase 5) |
+| `route` | P1 | **Not shipped** — Phase 5c double-gated spike failed its resolution gate 2026-07-14 (0.243 < 0.70; see `eval/seed-spikes/route/RESULTS.md`); route evidence stays CLI-17c coaching-only. Re-opening requires a new pre-registered spike |
 | `area` | P2 | Not scheduled |
 | task-only | Skill-only | Gem refuses (SEED-2) |
 
@@ -374,6 +374,7 @@ Pre-registration documents scoring before any measurement. Outcomes:
 | `error` | 3 | **Demote to P1**, record demotion in the proposal + tracker, continue to Phase 4 without `--from-error` |
 | `method` | 5a | Resolution fail → do not ship `--from-method`. Resolution pass + test-leg fail → ship without test-candidate leg (applied 2026-07-14; see SEED-25) |
 | `diff` | 5b | Agreement fail → ship without paired-test leg. Agreement pass → ship with paired-test mirror leg (applied 2026-07-14; see SEED-26). Literal changed-file primaries ship either way |
+| `route` | 5c | Double gate (resolution ≥ 70% AND Front B margin ≥ +10pt vs the ritual-only baseline). Resolution FAILED 2026-07-14 (0.243) → `--from-route` not shipped; coaching-only stands (see `eval/seed-spikes/route/RESULTS.md`) |
 
 **SEED-23.** Seed work MUST NOT change anchor-resolution classification on the
 Tier 0 corpus. Every compiler-behavior boundary re-runs the Tier 0 corpus
