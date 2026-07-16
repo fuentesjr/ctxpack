@@ -82,12 +82,12 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Updated 2026-07-15 after the user authorized ctxpack issue #6 as the first
-supplemental-context spike and approved a local commit of the accepted
-context-engineering positioning pass. **This plan is the authoritative work
-order for the next session**; "Next steps" must agree.
+Updated 2026-07-16 after git-recon's agent-facing facts interface passed its
+implementation, real-repository smoke, and independent review gates. **This
+plan is the authoritative work order for the next session**; "Next steps" must
+agree.
 
-### State (ground truth, re-verified 2026-07-15)
+### State (ground truth, re-verified 2026-07-16)
 
 - **Git state:** `origin/main` remains at `4c301d6`. The accepted positioning
   pass is committed locally by this change, leaving local `main` one commit
@@ -98,7 +98,7 @@ order for the next session**; "Next steps" must agree.
   **deterministic context compiler** as the mechanism, while keeping the
   concrete task + seed promise first and Rails as v0 scope. No behavior, spec,
   dependency, lockfile, CI, or recorded-evidence change.
-- **Parent verification (2026-07-15):** after the `coding_worker` pass, the
+- **ctxpack parent verification (2026-07-15):** after the `coding_worker` pass, the
   orchestrator-DRA reviewed the diff and ran `bundle exec rake test` → **205
   runs, 1834 assertions, 0 failures, 0 errors, 0 skips**; gemspec load
   validation confirmed Ruby `>= 3.4` and `prism` as the sole runtime
@@ -125,66 +125,45 @@ order for the next session**; "Next steps" must agree.
   for repository-documentation enrichment. Both issues are open and their
   published title/body/label were verified against the approved drafts. No
   repository metadata was published.
-- **Selected spike:** the user authorized execution of ctxpack #6 first. The
-  first executable gate is preregistration design and exact user sign-off; no
-  measurement, product implementation, git-recon change, or push is yet
-  authorized.
+- **git-recon interface:** complete and uncommitted in
+  `~/Projects/git-recon`. `facts --format=json [--at REV] [-L START,END] --
+  PATH` emits versioned compact tuples for recent/repair commits, current
+  coupling with representative commit provenance, and optional line origins.
+  The contract is deterministic and bounded (five facts per list, 20 shared
+  commits), refuses shallow history, returns typed errors, and omits author
+  metadata, message bodies, patches, and raw Git output. No package dependency
+  was added; the system `iconv` command is required.
+- **git-recon evidence:** fixture suite PASS; ShellCheck, Bash 3.2 parsing,
+  schema JSON parsing, and diff checks clean; both final code and documentation
+  reviewers PASS. The representative Rails PostgreSQL-adapter query completes
+  in 10.27–13.02 seconds and replays byte-identically at 1,920 bytes, versus
+  the first implementation killed after more than 35 seconds. This proves the
+  interface contract, not that history facts earn ctxpack packet budget.
+- **Cross-repo git state:** neither the git-recon interface nor this tracker /
+  learning-note reconciliation is committed. ctxpack's accepted positioning
+  commit remains local and unpushed. No push is authorized.
 
 ### Next session work order
 
-1. **Context-engineering positioning is accepted and committed locally.** It
-   remains unpushed; never push without the user's explicit approval.
-2. **Current authorized work: execute ctxpack #6.** Use agenticons with the
-   parent session as orchestrator-DRA. Draft the source-specific
-   `PREREGISTRATION.md`, including `eval/README.md`'s required runner-reuse
-   line, and independently review it against the exact issue gates. Show the
-   complete draft to the user for sign-off before committing/freezing it or
-   collecting any measurements.
-3. **After preregistration sign-off only:** commit/freeze the approved design,
-   then measure without changing thresholds. The spike may change only its new
-   eval area, required inventory/ledger entries, tracker, implementation notes,
-   and a learning note. It does not authorize compiler/spec/product behavior,
-   dependencies, git-recon implementation, or existing recorded-evidence
-   rewrites.
-4. **Conditional follow-on order:** #6 gates a files-seed git-recon
-   integration mini-epic. If #6 finds a high-value signal blocked by
-   git-recon's agent interface, first draft a focused issue in
-   `fuentesjr/git-recon` and obtain exact-text sign-off before publishing it;
-   otherwise skip that issue. The files-seed tracer then gates a separate
-   remaining-seed-kinds mini-epic. #7 gates its own documentation-enrichment
-   mini-epic. Do not open or implement a conditional mini-epic before its
-   spike result establishes scope.
-5. **Deferred items from Phase 5** (each needs a new frozen pre-reg to
-   re-open, none scheduled): method-seed test-leg re-promotion
-   (better-than-token matching); route re-spike with a
-   router-order-faithful first-match resolver on verb-qualified evidence
-   (see `eval/seed-spikes/route/RESULTS.md`).
-6. **SEED-24 work-start corpus re-scored at the Phase 5 boundary** (end of
-   session, fixture-backed): WS-1..6 still pass; new WS-7 (method), WS-8
-   (diff), WS-9 (route stays coach-only) added and passing — see
-   [`eval/seed-spikes/work-start-corpus.md`](eval/seed-spikes/work-start-corpus.md).
-7. **Leave gated:** ~50M-token Tier 2 harness rerun; new runtime
-   dependencies (prism-only stands). RubricLLM issue
-   [#5](https://github.com/fuentesjr/ctxpack/issues/5) is **decided —
-   DEFER — and CLOSED** (verdict comment posted with user sign-off
-   2026-07-14).
-8. **Non-Claude session agents (e.g. Codex as the session):** the
-   delegation profiles in `CLAUDE.md` are Claude-harness machinery and do
-   not apply. A Codex session orchestrates via the **agenticons** skill
-   (`~/Projects/skills/agenticons/SKILL.md`): named Codex subagents for
-   plan/implement/review/QA/investigation, with the parent session as
-   orchestrator-DRA owning routing, verification, and acceptance — the
-   role the tracker's "Working process" assigns to the orchestrator.
-   Prior agenticons passes: the three CLI passes of 2026-07-12 (Status
-   rows). **Every verification gate is unchanged** (proof bar,
-   red-then-green, Tier 0 rescan at compiler boundaries,
-   commit-yes/push-only-with-approval); the Grok-as-session precedent
-   (2026-07-13) applies. Practical cautions: start from the repo root
-   (nested `.git` checkouts under `tmp/` mis-root sandboxes), and the
-   Tier 2 harness runbook assumes a Claude Code session — treat harness
-   runs under other agents as untested.
-9. Final step of any executing session: rewrite this section for the work
-   that follows.
+1. **Obtain explicit commit approval.** Present the final git-recon and
+   ctxpack worktree scopes and verification evidence. Do not commit either
+   repo until the user approves; never push without separate explicit
+   approval.
+2. **If approved, commit locally in reviewable repo-scoped commits.** The
+   git-recon commit contains the facts producer, schema, fixture regressions,
+   README/skill, and implementation notes. The ctxpack commit contains only
+   tracker/notes/debt/learning reconciliation. Re-run each repository's final
+   gate immediately before its commit. No push and no GitHub mutation.
+3. **After commit disposition, propose the next product slice separately:** a
+   small files-seed ctxpack integration tracer that translates existing seed
+   evidence into git-recon path/range calls, selects facts under a packet
+   budget, and keeps primary source evidence non-evictable. That is a new
+   multi-file/spec decision and requires a confirmed plan before edits.
+4. **Keep published issues unchanged pending exact approval.** ctxpack #6
+   still describes the superseded corpus spike and must not be silently closed
+   or rewritten; #7 remains the independent documentation-enrichment spike.
+5. Final step of any executing session: rewrite this section for the work that
+   follows.
 
 ### Known follow-ups (non-blocking)
 
@@ -239,22 +218,54 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 1. **The context-engineering positioning pass is accepted and committed
    locally.** Parent checks are green. It remains unpushed.
-2. **Current work order:** execute
-   [#6](https://github.com/fuentesjr/ctxpack/issues/6) (git-recon), beginning
-   with an agenticons-reviewed preregistration draft shown in full for user
-   sign-off before freeze or measurement. [#7](https://github.com/fuentesjr/ctxpack/issues/7)
-   remains open but unscheduled.
-3. **Phase 5 and Phase 6 are complete and closed.** RubricLLM issue #5 is
+2. **The git-recon facts interface is implemented, verified, and independently
+   accepted in its uncommitted worktree.** The immediate gate is explicit user
+   approval for local repo-scoped commits; no push is authorized.
+3. **After commit disposition:** propose a separate files-seed ctxpack
+   integration tracer. The broader packet-value eval remains deferred, ctxpack
+   #6 remains externally unchanged, and
+   [#7](https://github.com/fuentesjr/ctxpack/issues/7) remains open but
+   unscheduled.
+4. **Phase 5 and Phase 6 are complete and closed.** RubricLLM issue #5 is
    decided DEFER, borrow-on-demand, and closed.
-4. **The release-boundary three-app harness rerun awaits explicit user
+5. **The release-boundary three-app harness rerun awaits explicit user
    sign-off.** Do not spend its ~50M subject tokens implicitly.
-5. **Real-usage dogfooding remains discretionary.** Exercise LIM-1 against
+6. **Real-usage dogfooding remains discretionary.** Exercise LIM-1 against
    packet-vs-diff coverage on live work.
-6. **Method test-leg and route resolver re-spikes need new frozen
+7. **Method test-leg and route resolver re-spikes need new frozen
    pre-registrations and new user work orders.**
-7. **Tier 3 Rubydex remains deferred.**
+8. **Tier 3 Rubydex remains deferred.**
 
 ## Decision log
+
+- **2026-07-16 (git-recon facts interface accepted)** — Implemented the
+  interface-first decision directly in `~/Projects/git-recon` as compact,
+  schema-typed JSON over a generic repo-relative path, optional line range,
+  and explicit revision. The normalized commit table lets recent, repair,
+  coupling, and origin facts share provenance without repeated metadata; all
+  lists and the 20-row table are fixture-proven. Real Rails profiling caught
+  and removed process amplification hidden by small fixtures; final measured
+  runtime is 10.27–13.02 seconds on the selected high-churn PostgreSQL adapter
+  and 1.26 seconds on git-recon itself. Two independent final reviews PASS.
+  This enables but does not implement ctxpack integration and does not prove
+  history deserves packet budget. Both repos remain uncommitted pending user
+  approval; no push or GitHub mutation occurred.
+
+- **2026-07-15 (git-recon interface before value eval)** — After reviewing
+  the complete #6 preregistration, the user declined the 15-task corpus eval
+  as disproportionate to the immediate, low-cost decision and chose to add an
+  agent-facing git-recon interface first. The unapproved draft was deleted;
+  it was never frozen, committed, or measured. Agenticons recon confirmed the
+  underlying focused signals already exist in git-recon, while the missing
+  seam is a versioned machine-readable command with explicit history bounds,
+  stable ordering/caps, provenance, privacy-safe output, and deterministic
+  replay. Those contract properties still get cheap fixture tests. The user's
+  latest direction supersedes the earlier issue-only fallback, so the proposed
+  next action is direct git-recon implementation after confirmation of the
+  cross-repo multi-file plan; no git-recon issue was published. The interface
+  enables ctxpack integration but does not prove that history facts improve a
+  packet; that broader value eval is deferred. Published ctxpack #6 remains
+  untouched pending exact approval of its disposition. No push was authorized.
 
 - **2026-07-15 (#6 selected)** — Agenticons `planner` recommended executing
   the git-recon signal spike before the documentation spike because #6 starts

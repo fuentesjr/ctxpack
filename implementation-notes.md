@@ -1542,3 +1542,62 @@ publication.
 - The next gate is a complete, independently reviewed preregistration draft
   shown to the user for exact sign-off. Measurement and preregistration commit
   remain blocked until that approval.
+
+## git-recon interface-first decision (2026-07-15)
+
+- The #6 preregistration was drafted and independently checked, but the user
+  declined its 15-task corpus measurement as too expensive for the immediate
+  decision. The draft was never approved, frozen, committed, or used to
+  generate candidates; it was deleted.
+- Agenticons repository recon found that git-recon already computes the useful
+  primitives: focused coupling, path history, repair-shaped history, and line
+  provenance. Its current interface is bounded human-readable prose with
+  wall-clock-relative windows, no schema/version, no explicit revision or
+  cutoff, and author information in `hotspot`/`blame` output.
+- The replacement is one generic seed-path facts command in git-recon:
+  versioned machine-readable facts, explicit history bounds, deterministic
+  ordering and caps, full-SHA provenance, shallow/error status, and no author
+  names or emails. ctxpack remains responsible for converting its seed types
+  to repo-relative paths/ranges. The user's latest direction supersedes the
+  earlier issue-only fallback, so implementation is proposed directly after
+  confirmation of the cross-repo multi-file plan; no git-recon issue was
+  published.
+- Skipping the relevance eval does not mean skipping contract verification.
+  Deterministic replay, cutoff isolation, output privacy, error behavior, and
+  schema stability are cheap fixture-test concerns in git-recon.
+- This sequencing accepts the product hypothesis temporarily; the interface
+  alone is not evidence that supplemental history improves ctxpack packets.
+  A broader value eval may be reopened after dogfooding only if the decision
+  remains uncertain.
+- No ctxpack behavior, spec, dependency, recorded evidence, GitHub issue, or
+  remote branch changed. No push was authorized.
+
+## git-recon facts interface completion (2026-07-16)
+
+- Implemented the interface in `~/Projects/git-recon` as
+  `facts --format=json [--at REV] [-L START,END] -- PATH`. It emits compact
+  schema-versioned tuples for recent/repair commits, current coupled paths with
+  representative support indexes, and optional whitespace-insensitive blame
+  origins. Five-item fact caps and a normalized 20-commit ceiling bound tokens.
+- The interface accepts a generic repo-relative path rather than ctxpack seed
+  types. That preserves the seam: ctxpack will translate seed evidence, decide
+  which facts are relevant, and budget packet inclusion in a later tracer.
+- Red/green fixtures cover cutoff isolation, literal and control-containing
+  paths, subdirectory invocation, coupling provenance and caps, the exact
+  20-row maximum, origin caps, UTF-8-safe subjects, replay across locale/time
+  zone, shallow/error responses, Git failures, and signal cleanup.
+- The first small-fixture-green implementation amplified subprocesses per
+  escape byte, commit, and path and was killed after more than 35 seconds on a
+  high-churn Rails file. Batching object checks and candidate diffs, plus
+  rejecting oversized commits before partner work, reduced the final Rails
+  PostgreSQL-adapter smoke to 10.27–13.02 seconds; git-recon's own seed path
+  completes in 1.26 seconds. The Rails payload replayed byte-identically at
+  1,920 bytes.
+- Parent verification: git-recon fixture suite PASS; ShellCheck, Bash 3.2
+  parsing, schema JSON parsing, and `git diff --check` clean. Final code and
+  documentation reviewers both PASS. The ctxpack compiler was not touched, so
+  Tier 0 corpus re-scan is not applicable.
+- The broader history-value question remains deferred: a stable interface is
+  enabling evidence, not proof that supplemental history earns packet budget.
+  ctxpack #6 was not mutated. Neither repository's current reconciliation is
+  committed, and no push is authorized.
