@@ -1,13 +1,18 @@
 # ctxpack
 
-Status: Draft — product definition reconciled 2026-07-13 to the accepted
-seed-based interface (`docs/seed-based-interface-proposal.md`). Specs in
-`specs/` are normative; this file records rationale and tradeoffs.
+Status: Draft — product definition reconciled 2026-07-15 to the accepted
+seed-based interface (`docs/seed-based-interface-proposal.md`) and the
+context-engineering positioning. Specs in `specs/` are normative; this file
+records rationale and tradeoffs.
 
-`ctxpack` is a **deterministic context compiler for AI coding agents**: given a
-task and one or more **seeds** of evidence, it expands a budgeted, provenanced
-context packet. Rails conventions remain the research bet and the gold-standard
-recipe for the **anchor** seed — not the identity of the tool.
+The user-facing category for `ctxpack` is a local **context engineering CLI**:
+it deterministically selects, orders, bounds, and explains evidence around
+user-supplied seeds for an AI coding agent's task. Its mechanism is a
+**deterministic context compiler**: given a task and one or more **seeds** of
+evidence, it expands a budgeted, provenanced context packet. v0 remains scoped
+to Rails-shaped codebases. Rails conventions are the research bet and the
+gold-standard recipe for the **anchor** seed — not the user-facing product
+category.
 
 The core question:
 

@@ -1433,3 +1433,112 @@ diff-range and files-seed excerpts restored to full renderer output
 app), task-only refusal excerpts marked as truncated in examples+faq,
 README exploration claim reworded to the per-task/per-app pre-registered
 bar, and a reproduce-it-yourself setup note added to the examples intro.
+
+## Context-engineering positioning pass (2026-07-15)
+
+Agenticons `coding_worker` implementation; parent session is orchestrator-DRA
+and owns independent acceptance.
+
+### Terminology decisions
+- Preserve **Task + seed(s) → deterministic context packet** as the first
+  product promise.
+- Use **local context engineering CLI** as the user-facing category and
+  **deterministic context compiler** as the mechanism.
+- Define context engineering operationally: deterministically selecting,
+  ordering, bounding, and explaining evidence around user-supplied seeds for
+  an agent's task. This keeps seed evidence—not task prose—as the selection
+  input and covers continuation/review flows such as `--from-diff`.
+- Keep Rails explicit as v0 scope/research bet; no language-general, platform,
+  autonomous-agent, or newer-seed benefit claim.
+
+### Scope and evidence
+- Docs/metadata only: README, gemspec summary, examples, FAQ, design, tracker,
+  and these notes. No `lib/`, `exe/`, tests, specs, dependency/version/URI,
+  lockfile, CI, eval preregistration/results/recorded-data, or `tmp/` change.
+- Corrected the stale “many-file features help less” line from the earlier
+  single-app Tier 2 result. Recorded Tier 2 expansion evidence: per-app support
+  rule met on 3/3 apps; feature tasks 5/6 with median 58.5% reduction on the
+  better exploration metric; bug tasks 0/3. Claims remain offline,
+  directional, anchor-seed-only, and do not claim better final code quality.
+- Red-green/TDD and Tier 0 corpus re-scan are N/A: no observable or compiler
+  behavior changed. No fixture eval applies because this is not a packet bug.
+
+### Delegate verification
+- `bundle exec rake test`: **205 runs, 1834 assertions, 0 failures, 0 errors,
+  0 skips**.
+- Gemspec load validation: `ctxpack 0.1.0`; Ruby `>= 3.4`; runtime dependency
+  list exactly `prism`; updated summary loaded successfully.
+- `git diff --check`: passed.
+- Parent orchestrator-DRA independently reviewed the diff and reran the full
+  suite with the same result. Documentation review then corrected the initial
+  definition's implication that task prose drives selection and that packets
+  only precede new work; it also refreshed the design reconciliation date.
+- Uncommitted and unpushed; GitHub metadata draft is report-only.
+
+## Broader context-source issue planning and publication (2026-07-15)
+
+Read-only agenticons investigation (`helper_worker` + `edge_case_analyst`);
+the parent orchestrator-DRA verified the repo and git-recon evidence. The user
+rejected a single oversized epic, approved the dependency-ordered breakdown,
+and signed off on the exact title/body of the two bounded spike tasks before
+publication.
+
+### Domain and scope decisions
+- A **seed** says where work starts; a **context source** says which evidence
+  corpus may enrich the resolved focus. Documentation/history start as bounded
+  enrichers, not automatically as new seed kinds.
+- First candidate families: repository guidance/architecture docs; focused Git
+  history/rationale; repository contracts/configuration; and build/ownership
+  metadata. External issues/PRs/CI/telemetry remain deferred.
+- `--from-files` can already include a named document as a pointer; the open
+  question is deterministic discovery, excerpting, ranking, and budgeting.
+- History is a post-v0 hypothesis: `design.md` currently names PR-history
+  mining as a v0 non-goal. No behavior/spec change is authorized by the issue.
+
+### git-recon finding
+- Do not integrate or parse the current executable. Its interface is capped
+  human-readable text with relative-time windows, locale-sensitive ordering,
+  no versioned JSON/library API, and no LICENSE file; those conflict with the
+  packet determinism/dependency contract.
+- Use git-recon concepts and outputs as offline spike evidence. Plain Git is
+  the baseline. A passing history spike must decide between typed direct-Git
+  facts, optional user evidence, or an upstream stable adapter; it does not
+  predetermine implementation.
+
+### Evidence gates
+- Freeze one preregistration per source family before labels/measurement and
+  record the existing runner considered per `eval/README.md`.
+- Score excerpt/fact units with precision primary, incremental task hit/recall,
+  distraction, bytes, latency, deterministic replay, staleness/privacy, and
+  unavailable-source behavior. Explicit seed primaries may never be evicted.
+- Passing retrieval proves viability only. Any agent-benefit claim requires a
+  later, separately approved packet-vs-enriched-packet behavioral A/B.
+- Non-file facts likely require a typed packet surface and a format/manifest
+  version decision; current `Packet`/renderer fields are file/Ruby-snippet
+  shaped. That design work begins only for source families that pass.
+
+### Verification / side effects
+- Read-only inspection covered current packet/spec/eval seams, all ctxpack
+  issues/labels, git-recon history/help/implementation/metadata, and official
+  repository-instruction/ownership prior art.
+- Published and then verified the approved title, body, `type: task` label,
+  and open state of ctxpack
+  [#6](https://github.com/fuentesjr/ctxpack/issues/6) and
+  [#7](https://github.com/fuentesjr/ctxpack/issues/7).
+- Conditional follow-ons remain deliberately unopened: the files-seed
+  git-recon mini-epic waits for #6 and any evidence-backed git-recon interface
+  issue; remaining seed kinds wait for that tracer; documentation integration
+  waits for #7. Any git-recon interface issue requires separate exact-text
+  sign-off before publication.
+- No spike, compiler change, dependency change, commit, push, or GitHub
+  repository-metadata update was performed.
+
+### Execution selection
+- Agenticons `planner` recommended #6 before #7: it starts the longer
+  dependency chain and front-loads the higher-risk history/interface
+  questions. The user selected #6 for execution.
+- The user separately authorized a local commit of the already accepted
+  context-engineering positioning pass. No push was authorized.
+- The next gate is a complete, independently reviewed preregistration draft
+  shown to the user for exact sign-off. Measurement and preregistration commit
+  remain blocked until that approval.

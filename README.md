@@ -2,8 +2,11 @@
 
 **Task + seed(s) → deterministic context packet** for AI coding agents.
 
-`ctxpack` is a small, local Ruby CLI that turns evidence you already have
-into a compact, provenanced Markdown packet:
+`ctxpack` is a local **context engineering CLI** for Rails codebases: a
+deterministic context compiler. Here, context engineering means deterministically
+selecting, ordering, bounding, and explaining evidence around user-supplied
+seeds for an agent's task. ctxpack turns evidence you already have into a
+compact, provenanced Markdown packet:
 
 ```text
 task + seed(s) → provenanced, budgeted packet

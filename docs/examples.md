@@ -1,9 +1,14 @@
 # ctxpack by example
 
-A hands-on tour for Rails developers. By the end you can generate a context
-packet from the seed evidence you already have (test, error, diff, files,
-method, or controller#action), read every section, feed it to an AI coding
-agent, and know when ctxpack will (correctly) refuse.
+**Task + seed(s) → deterministic context packet** for AI coding agents.
+
+A hands-on tour of ctxpack, a local **context engineering CLI** for Rails
+codebases and a deterministic context compiler. Here, context engineering
+means deterministically selecting, ordering, bounding, and explaining evidence
+around user-supplied seeds for an agent's task. By the end you can generate a
+context packet from the seed evidence you already have (test, error, diff,
+files, method, or controller#action), read every section, feed it to an AI
+coding agent, and know when ctxpack will (correctly) refuse.
 
 Packet excerpts below were **generated** from the bundled fixture app
 `test/fixtures/apps/minitest_basic` (Format 3). Explicit ellipses mark
@@ -19,18 +24,19 @@ matches.
 
 ## What ctxpack does, and when to reach for it
 
-```text
-task + seed(s) → provenanced, budgeted Markdown packet
-```
-
 A **seed** is evidence plus a deterministic expansion recipe. You supply
 evidence you already have; ctxpack expands it under fixed rules and records a
 reason code on every included file.
 
 Reach for it when you're about to hand a *focused* task to an AI coding agent
 and want a short, ordered starting set instead of open-ended exploration. On
-sprawling, many-file features the packet helps less — see
-[the FAQ](faq.md#does-it-actually-help) for what has (and has not) been measured.
+the three-app Tier 2 expansion, feature tasks were the strongest measured
+category: 5/6 met the pre-registered exploration bar, with a 58.5% median
+reduction on the better exploration metric. Bug tasks were 0/3 because their
+failing-test output already localized the code. These are small, offline,
+directional results from **anchor-seed** packets, not production field data or
+evidence about final code quality; see
+[the FAQ](faq.md#does-it-actually-help).
 
 **Measured agent benefit** so far applies to **anchor-seed** packets in offline
 A/B studies (exploration reduction). Other seed kinds describe what the

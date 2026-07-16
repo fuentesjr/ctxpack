@@ -82,19 +82,29 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Updated 2026-07-14 after the Phase 5 campaign **completed all three
-sub-passes** under the user's explicit go (5a → 5b → 5c, grok-loop profile,
-commit-per-sub-pass approval given in-session; push NOT approved). **This
-plan is the authoritative work order for the next session**; "Next steps"
-must agree.
+Updated 2026-07-15 after the user authorized ctxpack issue #6 as the first
+supplemental-context spike and approved a local commit of the accepted
+context-engineering positioning pass. **This plan is the authoritative work
+order for the next session**; "Next steps" must agree.
 
 ### State (ground truth, re-verified 2026-07-15)
 
-- **HEAD:** `main` **in sync with `origin/main`** (user-approved push
-  2026-07-15, `b4e9c1e..f6fe3ab`: eval guardrails, evalkit pointers,
-  tracker refreshes, Codex/agenticons resume note).
-- **Suite at HEAD:** `bundle exec rake test` → **205 runs, 0 failures**
-  (re-run 2026-07-15).
+- **Git state:** `origin/main` remains at `4c301d6`. The accepted positioning
+  pass is committed locally by this change, leaving local `main` one commit
+  ahead. No push is authorized.
+- **Context-engineering positioning pass:** complete in the local worktree,
+  committed locally and unpushed. README, gemspec metadata, examples, FAQ, and
+  design now use **context engineering CLI** as the category and
+  **deterministic context compiler** as the mechanism, while keeping the
+  concrete task + seed promise first and Rails as v0 scope. No behavior, spec,
+  dependency, lockfile, CI, or recorded-evidence change.
+- **Parent verification (2026-07-15):** after the `coding_worker` pass, the
+  orchestrator-DRA reviewed the diff and ran `bundle exec rake test` → **205
+  runs, 1834 assertions, 0 failures, 0 errors, 0 skips**; gemspec load
+  validation confirmed Ruby `>= 3.4` and `prism` as the sole runtime
+  dependency; `git diff --check` passed. `doc_reviewer` found two bounded copy
+  defects (seed-driven selection / continuation wording and stale work-order
+  state); both were corrected before acceptance.
 - **Cross-repo eval process is live:** conventions + convergence ledger in
   `~/Projects/evalkit` (local-only repo, no remote yet); this repo's
   inventory + binding authoring rule in
@@ -107,30 +117,58 @@ must agree.
 - **Gate evidence:** `eval/seed-spikes/{method,diff,route}/` (frozen pre-regs
   + results). Tier 0 rescans at both compiler boundaries (5a, 5b):
   byte-identical to `post_amendment`, 0 crashes / 1,967 pairs.
+- **Context-source issue planning:** complete. The user rejected a single
+  oversized epic, approved a dependency-ordered mini-epic breakdown, and gave
+  exact-text sign-off for two bounded `type: task` spikes: ctxpack
+  [#6](https://github.com/fuentesjr/ctxpack/issues/6) for seed-driven
+  git-recon signals and [#7](https://github.com/fuentesjr/ctxpack/issues/7)
+  for repository-documentation enrichment. Both issues are open and their
+  published title/body/label were verified against the approved drafts. No
+  repository metadata was published.
+- **Selected spike:** the user authorized execution of ctxpack #6 first. The
+  first executable gate is preregistration design and exact user sign-off; no
+  measurement, product implementation, git-recon change, or push is yet
+  authorized.
 
 ### Next session work order
 
-1. **No implementation is authorized.** Phase 5 AND Phase 6 are closed
-   (Phase 6 docs shift landed `145ed4d`, pushed 2026-07-14; RubricLLM
-   issue #5 decided DEFER the same day). The seed proposal's phase list is
-   fully executed. Next work needs a new user work order — candidates:
-   real-usage dogfooding (LIM-1 packet-vs-diff on live work), the gated
-   Tier 2 release-boundary rerun, or the Phase 5 re-opens below.
-2. **Deferred items from Phase 5** (each needs a new frozen pre-reg to
+1. **Context-engineering positioning is accepted and committed locally.** It
+   remains unpushed; never push without the user's explicit approval.
+2. **Current authorized work: execute ctxpack #6.** Use agenticons with the
+   parent session as orchestrator-DRA. Draft the source-specific
+   `PREREGISTRATION.md`, including `eval/README.md`'s required runner-reuse
+   line, and independently review it against the exact issue gates. Show the
+   complete draft to the user for sign-off before committing/freezing it or
+   collecting any measurements.
+3. **After preregistration sign-off only:** commit/freeze the approved design,
+   then measure without changing thresholds. The spike may change only its new
+   eval area, required inventory/ledger entries, tracker, implementation notes,
+   and a learning note. It does not authorize compiler/spec/product behavior,
+   dependencies, git-recon implementation, or existing recorded-evidence
+   rewrites.
+4. **Conditional follow-on order:** #6 gates a files-seed git-recon
+   integration mini-epic. If #6 finds a high-value signal blocked by
+   git-recon's agent interface, first draft a focused issue in
+   `fuentesjr/git-recon` and obtain exact-text sign-off before publishing it;
+   otherwise skip that issue. The files-seed tracer then gates a separate
+   remaining-seed-kinds mini-epic. #7 gates its own documentation-enrichment
+   mini-epic. Do not open or implement a conditional mini-epic before its
+   spike result establishes scope.
+5. **Deferred items from Phase 5** (each needs a new frozen pre-reg to
    re-open, none scheduled): method-seed test-leg re-promotion
    (better-than-token matching); route re-spike with a
    router-order-faithful first-match resolver on verb-qualified evidence
    (see `eval/seed-spikes/route/RESULTS.md`).
-3. **SEED-24 work-start corpus re-scored at the Phase 5 boundary** (end of
+6. **SEED-24 work-start corpus re-scored at the Phase 5 boundary** (end of
    session, fixture-backed): WS-1..6 still pass; new WS-7 (method), WS-8
    (diff), WS-9 (route stays coach-only) added and passing — see
    [`eval/seed-spikes/work-start-corpus.md`](eval/seed-spikes/work-start-corpus.md).
-4. **Leave gated:** ~50M-token Tier 2 harness rerun; new runtime
+7. **Leave gated:** ~50M-token Tier 2 harness rerun; new runtime
    dependencies (prism-only stands). RubricLLM issue
    [#5](https://github.com/fuentesjr/ctxpack/issues/5) is **decided —
    DEFER — and CLOSED** (verdict comment posted with user sign-off
    2026-07-14).
-5. **Non-Claude session agents (e.g. Codex as the session):** the
+8. **Non-Claude session agents (e.g. Codex as the session):** the
    delegation profiles in `CLAUDE.md` are Claude-harness machinery and do
    not apply. A Codex session orchestrates via the **agenticons** skill
    (`~/Projects/skills/agenticons/SKILL.md`): named Codex subagents for
@@ -145,7 +183,7 @@ must agree.
    (nested `.git` checkouts under `tmp/` mis-root sandboxes), and the
    Tier 2 harness runbook assumes a Claude Code session — treat harness
    runs under other agents as untested.
-6. Final step of any executing session: rewrite this section for the work
+9. Final step of any executing session: rewrite this section for the work
    that follows.
 
 ### Known follow-ups (non-blocking)
@@ -155,7 +193,6 @@ must agree.
   packet expectations.
 - `TestClass#method` sugar still coaches “use `--from-test PATH`” (method
   seed is Phase 5).
-- Examples/FAQ marketing shift is Phase 6.
 
 ## Status
 
@@ -183,6 +220,7 @@ must agree.
 | Seed Phase 5a (method) | SEED-25, [`eval/seed-spikes/method/`](eval/seed-spikes/method/) | **Done — COMMITTED (`1ea31a8` gate + `517c97a`) + PUSHED** (2026-07-14) | Advisor-reviewed pre-reg; spike resolution 82.1% PASS / test-leg precision 0.6996 FAIL → `--from-method` ships **without** test-candidate leg. Grok-implemented; red-then-green re-verified; suite 185/0; Tier 0 byte-identical. |
 | Seed Phase 5b (diff) | SEED-26, [`eval/seed-spikes/diff/`](eval/seed-spikes/diff/) | **Done — COMMITTED (`f5bdb37` gate + `b5450dd`) + PUSHED** (2026-07-14) | Paired-test co-change agreement 0.810 PASS → `--from-diff` ships **with** mirror-convention paired-test leg (explicit flag only). Grok-implemented; red-then-green re-verified; suite 205/0; Tier 0 byte-identical. |
 | Seed Phase 5c (route) | [`eval/seed-spikes/route/`](eval/seed-spikes/route/) | **Closed — NO SHIP, COMMITTED (`3f69230`) + PUSHED** (2026-07-14) | Double-gated spike: resolution 0.243 FAIL (Front B margin +0.124 moot). Route evidence stays CLI-17c coaching-only; no implementation pass. Re-open needs a new pre-reg (router-order first-match resolver noted). |
+| Context-engineering positioning | README/gemspec/examples/FAQ/`design.md` | **Done — parent-verified, COMMITTED LOCALLY, UNPUSHED** (2026-07-15) | Agenticons `coding_worker` + `doc_reviewer` pass: product category is context engineering CLI; mechanism remains deterministic context compiler; task + seed promise stays first; Rails remains v0 scope. Corrected the stale feature caveat against Tier 2 expansion (features 5/6, median 58.5%; bugs 0/3), with anchor-seed/offline/directional/no-quality-benefit boundaries. Parent full suite 205/1834 green; gemspec and diff checks pass. |
 
 Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
@@ -199,19 +237,61 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Next steps
 
-1. **Phase 5 is complete, closed, and PUSHED** (5a/5b shipped, 5c no-ship
-   recorded; `origin/main` in sync).
-2. **Plan Phase 6** (marketing: README/examples lead with task+seed) when
-   product framing should update — docs-only, separate order.
+1. **The context-engineering positioning pass is accepted and committed
+   locally.** Parent checks are green. It remains unpushed.
+2. **Current work order:** execute
+   [#6](https://github.com/fuentesjr/ctxpack/issues/6) (git-recon), beginning
+   with an agenticons-reviewed preregistration draft shown in full for user
+   sign-off before freeze or measurement. [#7](https://github.com/fuentesjr/ctxpack/issues/7)
+   remains open but unscheduled.
+3. **Phase 5 and Phase 6 are complete and closed.** RubricLLM issue #5 is
+   decided DEFER, borrow-on-demand, and closed.
 4. **The release-boundary three-app harness rerun awaits explicit user
    sign-off.** Do not spend its ~50M subject tokens implicitly.
-5. **RubricLLM investigation is tracked in GitHub issue #5.** No dependency
-   or paid calls authorized.
-6. **Real-usage dogfooding remains discretionary.** Exercise LIM-1 against
+5. **Real-usage dogfooding remains discretionary.** Exercise LIM-1 against
    packet-vs-diff coverage on live work.
+6. **Method test-leg and route resolver re-spikes need new frozen
+   pre-registrations and new user work orders.**
 7. **Tier 3 Rubydex remains deferred.**
 
 ## Decision log
+
+- **2026-07-15 (#6 selected)** — Agenticons `planner` recommended executing
+  the git-recon signal spike before the documentation spike because #6 starts
+  the longer dependency chain and carries the larger leakage, privacy,
+  determinism, and external-interface risks. The user authorized #6 and a
+  local commit of the accepted positioning pass. The preregistration remains a
+  separate exact-sign-off and commit/freeze gate before measurement. No push
+  was authorized.
+
+- **2026-07-15 (supplemental-context issue split)** — The initial broad epic
+  was rejected as too large. The user approved a dependency-ordered breakdown
+  and exact final text for two independent `type: task` spikes: ctxpack
+  [#6](https://github.com/fuentesjr/ctxpack/issues/6) tests seed-driven
+  git-recon signals, default-on if the evidence gate passes; ctxpack
+  [#7](https://github.com/fuentesjr/ctxpack/issues/7) tests deterministic
+  repository-documentation enrichment. Both were published and verified.
+  Conditional integration mini-epics remain unopened until their respective
+  spike results establish scope. Any high-value git-recon interface gap gets
+  its own exact-text-approved issue in `fuentesjr/git-recon` before ctxpack
+  depends on it. No commit, push, compiler change, spike run, or repository
+  metadata update accompanied issue creation.
+
+- **2026-07-15 (context-engineering positioning)** — User approved a local
+  docs/metadata pass to name ctxpack's category without weakening its concrete
+  promise. Agenticons `coding_worker` updated README, gemspec summary,
+  examples, FAQ, and `design.md`: task + seed remains the lead; **context
+  engineering CLI** is the user-facing category; **deterministic context
+  compiler** remains the mechanism; Rails remains the v0/research scope. The
+  stale many-file-feature warning was corrected against the recorded Tier 2
+  expansion: features 5/6 at median 58.5% reduction on the better exploration
+  metric; bugs 0/3. Claims stay offline, directional, anchor-seed-only, and do
+  not assert better final code. No specs, behavior, dependencies, lockfile, CI,
+  or recorded eval data changed. Parent verification: full suite 205/1834
+  green, gemspec load/dependency check green, `git diff --check` green. The
+  documentation review's seed-driven-selection and continuation wording fixes
+  landed before acceptance. No positioning change was committed or pushed,
+  and no repository metadata was published.
 
 - **2026-07-14 (cross-repo eval process)** — User work order: prevent
   per-repo eval-framework proliferation ahead of an anticipated shared eval

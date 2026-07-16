@@ -5,16 +5,17 @@ Short answers for Rails developers. For a hands-on walkthrough, see
 
 ## What problem does ctxpack solve?
 
-When you hand a task to an AI coding agent, it often spends its first minutes
-*finding* relevant code. ctxpack does a **deterministic** resolution pass from
-seed evidence you already have (a test path, stack frames, a diff, open files,
-a service method, or a Rails `controller#action`) and emits a short, ordered
-packet of files with provenance — so the agent can start from a bounded list
-instead of open-ended search.
-
 ```text
 task + seed(s) → provenanced packet
 ```
+
+When you hand a task to an AI coding agent, it often spends its first minutes
+*finding* relevant code. ctxpack is a local **context engineering CLI** for
+Rails codebases: it deterministically selects, orders, bounds, and explains
+evidence around user-supplied seeds for an agent's task. Its compiler expands
+seed evidence you already have (a test path, stack frames, a diff, open files,
+a service method, or a Rails `controller#action`) into a short, provenanced
+packet — so the agent can start from a bounded list instead of open-ended search.
 
 ## What seeds exist? {#what-seeds-exist}
 
@@ -86,23 +87,29 @@ Sometimes, and honestly measured. From **offline** A/B studies (agent-in-the-loo
 pre-registered, directional — not production field data), using **anchor-seed**
 packets:
 
-- The packet meets a **≥ 30% median reduction in exploration** (calls to the
-  first load-bearing file read) across three apps — Campfire, Lobsters, Publify
-  — spanning Minitest and RSpec. Details:
+- The three-app Tier 2 expansion met its pre-registered per-app support rule on
+  **3/3 apps** — Campfire, Lobsters, and Publify — spanning Minitest and RSpec.
+- Pooled by task category, **feature tasks met the exploration bar on 5/6
+  tasks**, with a **58.5% median reduction** on the better of the two
+  exploration metrics. **Bug tasks were 0/3**: failing-test output already
+  localized the code, leaving the packet nothing to shortcut.
+- The expansion's blind diff-quality scores were equal and at ceiling in both
+  arms (7.94/8 each). It found no quality regression, but it does **not** show
+  that ctxpack produces better final code; the positive signal is exploration
+  efficiency.
+- Full results and the earlier single-app study:
   [`eval/tier2-expansion/RESULTS.md`](../eval/tier2-expansion/RESULTS.md) and
   [`eval/tier2/RESULTS.md`](../eval/tier2/RESULTS.md).
-- The lone consistent non-beneficiary is the **bug-fix task**, where a failing
-  test already points at the code — the packet has nothing to shortcut.
-- It did **not** produce better final code: diff quality scored at ceiling in
-  *both* arms, so the measured value is getting to the right files faster, not
-  writing a better patch.
 
 We do **not** claim that `test` / `error` / `diff` / `files` / `method` seeds
 improve agent outcomes; they ship because their expansion recipes passed
 existence/convention viability gates. Treat them as deterministic compilers of
 evidence you already trust.
 
-Caveats: small offline runs, v0 software. Verify payoff in your own workflow.
+Caveats: these are small, offline, directional studies of **anchor-seed-only**
+packets, not production field data; they do not establish benefit for newer
+seed kinds or improvement in final code quality. Verify payoff in your own
+workflow.
 
 ## Why not just let the agent grep or `@`-mention files itself? {#why-not-just-let-the-agent-grep}
 
