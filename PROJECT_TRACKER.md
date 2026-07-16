@@ -82,18 +82,20 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Updated 2026-07-16 after git-recon's agent-facing facts interface passed its
-implementation, real-repository smoke, and independent review gates. **This
-plan is the authoritative work order for the next session**; "Next steps" must
-agree.
+Updated 2026-07-16 after the accepted ctxpack positioning and git-recon facts
+interface were committed, privacy-scanned, and pushed to their upstream
+`main` branches. **This plan is the authoritative work order for the next
+session**; "Next steps" must agree.
 
 ### State (ground truth, re-verified 2026-07-16)
 
-- **Git state:** `origin/main` remains at `4c301d6`. The accepted positioning
-  pass is committed locally by this change, leaving local `main` one commit
-  ahead. No push is authorized.
-- **Context-engineering positioning pass:** complete in the local worktree,
-  committed locally and unpushed. README, gemspec metadata, examples, FAQ, and
+- **Git state:** ctxpack local and `origin/main` are at `233e6cd`; git-recon
+  local and `origin/main` are at `87032f6`. Both worktrees were clean after
+  push. The pushed commits use GitHub noreply author addresses and passed a
+  range scan for absolute home paths, non-example emails, credential-like
+  content, sensitive filenames, and `tmp/` material.
+- **Context-engineering positioning pass:** complete and pushed in `3669e79`.
+  README, gemspec metadata, examples, FAQ, and
   design now use **context engineering CLI** as the category and
   **deterministic context compiler** as the mechanism, while keeping the
   concrete task + seed promise first and Rails as v0 scope. No behavior, spec,
@@ -125,9 +127,10 @@ agree.
   for repository-documentation enrichment. Both issues are open and their
   published title/body/label were verified against the approved drafts. No
   repository metadata was published.
-- **git-recon interface:** complete and uncommitted in
-  `~/Projects/git-recon`. `facts --format=json [--at REV] [-L START,END] --
-  PATH` emits versioned compact tuples for recent/repair commits, current
+- **git-recon interface:** complete and pushed in `87032f6`. The
+  `git-recon facts` command accepts JSON format, revision, optional line range,
+  and path arguments and emits versioned compact tuples for recent/repair
+  commits, current
   coupling with representative commit provenance, and optional line origins.
   The contract is deterministic and bounded (five facts per list, 20 shared
   commits), refuses shallow history, returns typed errors, and omits author
@@ -139,30 +142,43 @@ agree.
   in 10.27–13.02 seconds and replays byte-identically at 1,920 bytes, versus
   the first implementation killed after more than 35 seconds. This proves the
   interface contract, not that history facts earn ctxpack packet budget.
-- **Cross-repo git state:** neither the git-recon interface nor this tracker /
-  learning-note reconciliation is committed. ctxpack's accepted positioning
-  commit remains local and unpushed. No push is authorized.
+- **ctxpack reconciliation:** tracker, implementation notes, debt entry, and
+  the interface/performance learning note are pushed in `233e6cd`.
 
 ### Next session work order
 
-1. **Obtain explicit commit approval.** Present the final git-recon and
-   ctxpack worktree scopes and verification evidence. Do not commit either
-   repo until the user approves; never push without separate explicit
-   approval.
-2. **If approved, commit locally in reviewable repo-scoped commits.** The
-   git-recon commit contains the facts producer, schema, fixture regressions,
-   README/skill, and implementation notes. The ctxpack commit contains only
-   tracker/notes/debt/learning reconciliation. Re-run each repository's final
-   gate immediately before its commit. No push and no GitHub mutation.
-3. **After commit disposition, propose the next product slice separately:** a
-   small files-seed ctxpack integration tracer that translates existing seed
-   evidence into git-recon path/range calls, selects facts under a packet
-   budget, and keeps primary source evidence non-evictable. That is a new
-   multi-file/spec decision and requires a confirmed plan before edits.
-4. **Keep published issues unchanged pending exact approval.** ctxpack #6
+1. **Current gate: design the files-seed git-recon integration tracer.** Use
+   agenticons with the parent as orchestrator-DRA plus the codebase-design
+   vocabulary. Produce a short, reviewable design before edits because this
+   changes the packet contract, compiler seam, renderers, manifest, CLI
+   behavior, specs, and runtime workflow.
+2. **Resolve five decisions in that design:** (a) where the injected history
+   provider belongs without reversing the compilation → format → CLI layer
+   direction; (b) how a files seed deterministically chooses path/range calls,
+   especially for multi-file input; (c) how install/discovery makes the user's
+   default-available git-recon requirement real without adding a gem
+   dependency; (d) whether absence, shallow history, timeout, or typed failure
+   degrades to a bounded uncertainty or fails the packet; and (e) a separate
+   history fact/byte/call budget that can never evict primary source evidence.
+   The starting recommendation is default-on, one bounded invocation per
+   packet at the repo-stamp revision, explicit companion-executable discovery,
+   injected command execution for tests, and graceful supplemental-context
+   omission on unavailable history.
+3. **After explicit plan confirmation, implement one vertical tracer only:**
+   `--from-files` seed evidence → git-recon request → typed packet field →
+   Markdown and manifest output. Use red-green fixtures, preserve deterministic
+   replay, update specs + `design.md` + README together, add no gem dependency,
+   and run the mandatory Tier 0 corpus re-scan because compiler output changes.
+   Measure latency on a representative Rails path; do not fan out a 10–13
+   second hot-path query once per packet file.
+4. **Use tracer evidence to decide the next interface step.** If multi-file
+   relevance or latency demonstrates high value for a batched git-recon agent
+   request, draft a focused git-recon issue and obtain exact-text approval
+   before publishing it. Remaining ctxpack seed kinds wait for the files tracer.
+5. **Keep published issues unchanged pending exact approval.** ctxpack #6
    still describes the superseded corpus spike and must not be silently closed
    or rewritten; #7 remains the independent documentation-enrichment spike.
-5. Final step of any executing session: rewrite this section for the work that
+6. Final step of any executing session: rewrite this section for the work that
    follows.
 
 ### Known follow-ups (non-blocking)
@@ -199,7 +215,8 @@ agree.
 | Seed Phase 5a (method) | SEED-25, [`eval/seed-spikes/method/`](eval/seed-spikes/method/) | **Done — COMMITTED (`1ea31a8` gate + `517c97a`) + PUSHED** (2026-07-14) | Advisor-reviewed pre-reg; spike resolution 82.1% PASS / test-leg precision 0.6996 FAIL → `--from-method` ships **without** test-candidate leg. Grok-implemented; red-then-green re-verified; suite 185/0; Tier 0 byte-identical. |
 | Seed Phase 5b (diff) | SEED-26, [`eval/seed-spikes/diff/`](eval/seed-spikes/diff/) | **Done — COMMITTED (`f5bdb37` gate + `b5450dd`) + PUSHED** (2026-07-14) | Paired-test co-change agreement 0.810 PASS → `--from-diff` ships **with** mirror-convention paired-test leg (explicit flag only). Grok-implemented; red-then-green re-verified; suite 205/0; Tier 0 byte-identical. |
 | Seed Phase 5c (route) | [`eval/seed-spikes/route/`](eval/seed-spikes/route/) | **Closed — NO SHIP, COMMITTED (`3f69230`) + PUSHED** (2026-07-14) | Double-gated spike: resolution 0.243 FAIL (Front B margin +0.124 moot). Route evidence stays CLI-17c coaching-only; no implementation pass. Re-open needs a new pre-reg (router-order first-match resolver noted). |
-| Context-engineering positioning | README/gemspec/examples/FAQ/`design.md` | **Done — parent-verified, COMMITTED LOCALLY, UNPUSHED** (2026-07-15) | Agenticons `coding_worker` + `doc_reviewer` pass: product category is context engineering CLI; mechanism remains deterministic context compiler; task + seed promise stays first; Rails remains v0 scope. Corrected the stale feature caveat against Tier 2 expansion (features 5/6, median 58.5%; bugs 0/3), with anchor-seed/offline/directional/no-quality-benefit boundaries. Parent full suite 205/1834 green; gemspec and diff checks pass. |
+| Context-engineering positioning | README/gemspec/examples/FAQ/`design.md` | **Done — parent-verified, COMMITTED (`3669e79`) + PUSHED** (2026-07-16) | Agenticons `coding_worker` + `doc_reviewer` pass: product category is context engineering CLI; mechanism remains deterministic context compiler; task + seed promise stays first; Rails remains v0 scope. Corrected the stale feature caveat against Tier 2 expansion (features 5/6, median 58.5%; bugs 0/3), with anchor-seed/offline/directional/no-quality-benefit boundaries. Parent full suite 205/1834 green; gemspec and diff checks pass. |
+| git-recon agent facts interface | `~/Projects/git-recon` `facts --format=json` | **Done — parent-verified, COMMITTED (`87032f6`) + PUSHED** (2026-07-16) | Compact versioned history facts with representative provenance, deterministic caps, explicit revision/range, typed errors, privacy boundaries, and schema. Red-green fixture suite + Bash/ShellCheck/schema/diff gates green; final code/docs reviews PASS. Rails high-churn smoke 10.27–13.02s and byte-identical; ctxpack integration deliberately remains the next separate tracer. |
 
 Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
@@ -216,14 +233,16 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Next steps
 
-1. **The context-engineering positioning pass is accepted and committed
-   locally.** Parent checks are green. It remains unpushed.
-2. **The git-recon facts interface is implemented, verified, and independently
-   accepted in its uncommitted worktree.** The immediate gate is explicit user
-   approval for local repo-scoped commits; no push is authorized.
-3. **After commit disposition:** propose a separate files-seed ctxpack
-   integration tracer. The broader packet-value eval remains deferred, ctxpack
-   #6 remains externally unchanged, and
+1. **Positioning and interface work are pushed.** ctxpack `origin/main` is at
+   `233e6cd`; git-recon `origin/main` is at `87032f6`; privacy and verification
+   gates passed.
+2. **Current work order:** design the bounded, default-on files-seed git-recon
+   integration tracer, resolve seam/failure/budget/multi-file semantics, and
+   obtain plan confirmation before cross-cutting edits.
+3. **After confirmation:** implement only the `--from-files` vertical tracer,
+   reconcile specs/design/README, and run the compiler-boundary Tier 0 re-scan.
+   Remaining seed kinds wait for tracer evidence. The broader packet-value eval
+   remains deferred, ctxpack #6 remains externally unchanged, and
    [#7](https://github.com/fuentesjr/ctxpack/issues/7) remains open but
    unscheduled.
 4. **Phase 5 and Phase 6 are complete and closed.** RubricLLM issue #5 is
@@ -248,8 +267,11 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
   runtime is 10.27–13.02 seconds on the selected high-churn PostgreSQL adapter
   and 1.26 seconds on git-recon itself. Two independent final reviews PASS.
   This enables but does not implement ctxpack integration and does not prove
-  history deserves packet budget. Both repos remain uncommitted pending user
-  approval; no push or GitHub mutation occurred.
+  history deserves packet budget. After exact commit-message and push approval,
+  git-recon `87032f6` and ctxpack reconciliation `233e6cd` were privacy-scanned
+  and pushed to their upstream `main` branches; the earlier positioning commit
+  `3669e79` shipped with the ctxpack push. No issue or repository-metadata
+  mutation occurred.
 
 - **2026-07-15 (git-recon interface before value eval)** — After reviewing
   the complete #6 preregistration, the user declined the 15-task corpus eval

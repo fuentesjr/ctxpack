@@ -9,6 +9,27 @@ ctxpack is a small Ruby gem: a deterministic CLI that compiles a Rails
 agents. It is v0, spec-driven, and evidence-gated — the specs and the
 pre-registered experiments are as load-bearing as the code.
 
+## Primary session role: orchestrator-DRA
+
+The primary session agent is the **orchestrator-DRA (Directly Responsible
+Agent)**. It remains accountable for the project outcome: scope, sequencing,
+routing, conflict resolution, verification, acceptance, tracker continuity,
+and the final response.
+
+- Handle simple work directly. When the user or the tracker invokes
+  agenticons, dispatch focused work to the named Agenticons subagents and keep
+  orchestration shallow; subagent output is advisory until the orchestrator-DRA
+  accepts it.
+- Never trust a delegate's summary as verification. Read the resulting diff,
+  run the repository gates session-side, and route confirmed defects back for
+  correction before acceptance.
+- Preserve cross-repository boundaries and approval gates. The
+  orchestrator-DRA may coordinate work across repositories, but committing,
+  pushing, publishing GitHub text, dependencies, and other guarded side
+  effects still require the approvals defined below.
+- Keep `PROJECT_TRACKER.md` authoritative and reconcile its execution plan at
+  every completed or redirected work boundary.
+
 ## Project map
 
 | Path | What it is | Editability |
