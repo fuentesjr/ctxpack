@@ -34,7 +34,7 @@ and the final response.
 
 | Path | What it is | Editability |
 |---|---|---|
-| `lib/ctxpack/` | The gem. `compiler.rb` (anchor → packet object), `markdown_renderer.rb` + `manifest_renderer.rb` (packet → artifacts), `cli.rb` (OptionParser CLI), `packet.rb`, `default_constant_resolver.rb` | Normal code; spec-governed |
+| `lib/ctxpack/` | The gem. `compiler.rb` (seed(s) → packet object), `git_recon_history_provider.rb` (optional companion → typed history), `markdown_renderer.rb` + `manifest_renderer.rb` (packet → artifacts), `cli.rb` (OptionParser CLI), `packet.rb`, `default_constant_resolver.rb` | Normal code; spec-governed |
 | `exe/ctxpack` | Thin executable over `Ctxpack::CLI` | Normal |
 | `specs/` | **Normative** v0 requirements with stable codes (`ANCH-1`, `FMT-5`, `CLI-14`, `EVAL-9`, …). Read `specs/README.md` first: dependency order, cross-spec contracts | Amend only with `design.md` reconciled in the same change; never renumber codes |
 | `design.md` | Rationale and tradeoffs behind the specs | Must stay reconciled with `specs/` |
@@ -102,15 +102,16 @@ ruby eval/tier2/harness.rb status                     # Tier 2 grid state (offli
   content. The only repo-state marker allowed inside a packet is the repo
   stamp (FMT-10..12).
 - **Derive, don't duplicate, limit values**: renderer text that mentions a
-  limit reads `Ctxpack::Compiler::LIMITS`, never a literal (the FMT-5 "120"
-  drift was a real review defect).
+  source or history limit reads `Ctxpack::Compiler::LIMITS`, never a literal
+  (the FMT-5 "120" drift was a real review defect). History limits are
+  independent and never consume `max_total_files`.
 - **Dependency policy**: `prism` is the **only** runtime dependency, by
   design. Adding any dependency (runtime or dev) requires explicit user
   approval first. OptionParser was deliberately chosen over Thor.
-- **Public API**: `Ctxpack.compile(app_root:, anchor:, task:, constant_resolver:)`,
+- **Public API**: `Ctxpack.compile(app_root:, anchor:, seeds:, task:, constant_resolver:, history_provider:)`,
   `Ctxpack.render_markdown`, `Ctxpack.render_manifest`, `Ctxpack::CLI#run(argv)`
-  with injectable stdin/stdout/stderr/cwd/clock. Keep new seams injectable the
-  same way.
+  with injectable stdin/stdout/stderr/cwd/clock/history provider. Keep new seams
+  injectable the same way.
 - **v0 non-goals are binding** (`design.md`): no embeddings/RAG, no Rails
   boot, no engines, no inherited/concern/metaprogrammed action resolution, no
   route-string parsing, no LLM anywhere in packet construction or Tier 1 evals.

@@ -76,7 +76,7 @@ expect:
     - bin/rails test test/integration/accounts_upgrade_test.rb
 
   manifest:
-    version: 2
+    version: 4
     task: Implement billing upgrade
 
   max_files: 8

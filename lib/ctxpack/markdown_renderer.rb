@@ -1,3 +1,4 @@
+require "json"
 require "ctxpack/compiler"
 
 module Ctxpack
@@ -15,6 +16,7 @@ module Ctxpack
       append_anchor(lines) if packet.anchor
       append_inspect_first(lines)
       append_evidence(lines) if snippet_entries.any?
+      append_history(lines) if packet.history
       append_run(lines)
       append_follow_ups(lines) if follow_up_lines.any?
 
@@ -237,6 +239,43 @@ module Ctxpack
       lines << ""
     end
 
+    def append_history(lines)
+      lines << "## History"
+      lines << ""
+      history = packet.history
+      lines << "- Seed path: #{history_text(history.path)}"
+      if history.status == "included"
+        if history.facts.empty?
+          lines << "No bounded history signals were returned for this path."
+        else
+          history.facts.each do |fact|
+            lines << history_fact_line(fact)
+          end
+        end
+        if history.truncated_count.positive?
+          fact_limit = Compiler::LIMITS.fetch(:max_history_facts)
+          byte_limit = Compiler::LIMITS.fetch(:max_history_payload_bytes)
+          lines << "- #{history.truncated_count} additional history facts were omitted by ctxpack's #{fact_limit}-fact / #{byte_limit}-byte history budget."
+        end
+      else
+        lines << "History context was unavailable (reason: #{history.reason})."
+      end
+      lines << ""
+    end
+
+    def history_fact_line(fact)
+      if fact.type == "coupled_path"
+        "- Coupled path #{history_text(fact.path)} — #{fact.count} qualifying cochanges; first supporting commit #{fact.support_oid}."
+      else
+        roles = fact.roles.join(", ")
+        "- Commit #{fact.oid} (#{roles}) — #{history_text(fact.subject)}"
+      end
+    end
+
+    def history_text(value)
+      JSON.generate(value.to_s).gsub("`", "\\\\u0060")
+    end
+
     def path_inferred_test?(path)
       packet.uncertainty.any? do |item|
         item.code == "test_inferred_by_path" && item.subject == path
@@ -272,6 +311,8 @@ module Ctxpack
         "Inspect the inline `#{item.subject}` block; it applies but has no method snippet."
       when "view_inferred_by_convention"
         "Confirm the action renders `#{item.subject}`; it was matched by convention."
+      when "history_context_unavailable"
+        "Inspect history for #{history_text(item.subject)} manually; bounded local history was unavailable (#{item.message})."
       else
         "Inspect `#{item.subject || item.code}`; #{item.message}."
       end

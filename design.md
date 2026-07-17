@@ -289,6 +289,42 @@ Stamp resolution uses normal git discovery from the application root (`git -C <a
 
 Skills or sub-agents may consume the packet later, but they should not be responsible for constructing the canonical packet.
 
+## Bounded local path history
+
+Files seeds have one deliberately narrow history exception to the earlier
+history-mining non-goal. After seed merge and file budgeting, ctxpack selects
+the first retained user-named files primary and asks a separately installed
+`git-recon` companion for bounded local facts at the packet's full repo-stamp
+commit. The request is one literal repository-relative path, never a range,
+and the provider returns only typed coupled-path and commit facts. This is
+local path history, not remote issue/PR retrieval or open-ended repository
+mining.
+
+The provider is a compilation seam because external state must be normalized
+before the packet object is complete. It owns PATH discovery, app-to-monorepo
+path translation, one argv subprocess with a deadline and response cap, exact
+protocol-v1 validation, filtering/rebasing coupled paths, semantic fact
+selection, and coarse omission reasons. Renderers receive typed history only;
+they never invoke Git or git-recon. Missing tooling, incomplete history, or a
+bad response preserves primary evidence and becomes one honest Follow-up.
+
+History has independent limits (one call, five facts, 2,048 semantic payload
+bytes, 16 KiB response, 20 seconds) and cannot consume the eight-file budget.
+Facts round-robin coupled path, repair commit, then recent-only commit so one
+producer list cannot monopolize the packet. Historical epochs and the
+producer's `since` value are ranking inputs only; full commit OIDs survive as
+fact provenance while the repo stamp remains the sole generation-state marker.
+
+ctxpack does not co-install git-recon. The companion is default-on when a
+compatible executable is already on PATH, with no download, environment knob,
+raw-Git fallback, or gem dependency. This tracer is product dogfooding, not
+evidence that history improves agent outcomes. The earlier direct git-recon
+Rails query measured 10.27–13.02 seconds. Profiling and bounded prefiltering
+reduced it to 4.838–5.192 seconds with byte-identical output. The completed
+pre-optimization end-to-end ctxpack tracer measured 18.623–19.021 seconds on
+the same path; its post-optimization recheck remains pending. The approved
+20-second deadline and one-files-primary scope therefore remain unchanged.
+
 ## Why Rails is a good target
 
 Rails has conventions that make shallow, exact retrieval unusually powerful:
@@ -387,6 +423,8 @@ A v0 packet should include:
 - one standing Scope statement for v0 boundaries
 - specific imperative Follow-ups only when packet facts need verification or
   a limit omitted something
+- bounded typed local-history facts for the first retained files primary when
+  the separately installed companion is available
 
 Callback snippets are additional snippet ranges on the controller file, so they share the existing per-file snippet limit rather than needing a new one.
 
@@ -424,9 +462,16 @@ max constant files: 4
 max view files: 2
 max test files: 2
 max snippet lines per file: 120
+max history calls: 1
+max history facts: 5
+max history payload bytes: 2048
+max history response bytes: 16384
+max history seconds: 20
 ```
 
-These should start as internal constants, not public CLI flags. Expose flags later only if fixture evals or real usage show the defaults are wrong.
+These should start as internal constants, not public CLI flags. History limits
+are independent and never allocate file slots. Expose flags later only if
+fixture evals or real usage show the defaults are wrong.
 
 The designated real-usage evidence is packet-vs-diff coverage: compare the packet's file list against the diff of the completed task. Files the task touched but the packet omitted are recall misses; packet files the task never touched are precision misses. This is the post-v0 north-star metric for the limits (and for the reason-code heuristics generally); no telemetry gets built until real usage exists to measure.
 
@@ -571,8 +616,11 @@ Example manifest fields:
 
 ```json
 {
-  "version": 2,
+  "version": 4,
   "task": "Implement billing upgrade",
+  "seeds": [
+    { "kind": "anchor", "identity": "accounts_upgrade", "evidence": "accounts#upgrade" }
+  ],
   "anchor": "accounts#upgrade",
   "repo": {
     "available": true,
@@ -597,6 +645,7 @@ Example manifest fields:
       ]
     }
   ],
+  "history": null,
   "tests": [
     {
       "path": "test/integration/accounts_upgrade_test.rb",
@@ -618,7 +667,7 @@ Example manifest fields:
 
 Manifest schema versions are breaking versions. v0 emits only the current
 schema; consumers inspect `version` and reject versions they do not support.
-Version 2 replaces version 1 without a compatibility flag because there are
+Version 4 replaces version 3 without a compatibility flag because there are
 no external consumers to preserve yet. Omitted-candidate facts carry a
 semantic `limit_key` naming `Compiler::LIMITS`; neither the renderer nor a
 machine consumer needs to interpret category or reason prose to identify the
@@ -689,7 +738,7 @@ The runner itself should be re-runnable at any commit with no one-shot setup —
 
 - Task-only compilation inside the gem (prose → seed is skill-only)
 - Interactive seed pickers; LLM-inside-gem seed choice
-- Silent dual-emission of packet format versions (v3 replaces v2 at Phase 2)
+- Silent dual-emission of packet format versions (v4 replaces v3 at the files-history tracer)
 
 Do not start with:
 
@@ -703,7 +752,8 @@ Do not start with:
 - full dependency graphs
 - autonomous agent behavior
 - production trace integrations
-- PR history mining
+- remote or unbounded PR-history mining (bounded local files-seed path history
+  is the explicit exception above)
 - profiler ingestion
 - full Packwerk enforcement
 - perfect static analysis of Ruby
@@ -753,6 +803,10 @@ The goal is to test whether Rails-aware structural context beats generic retriev
 - If the task already names a failing test, an error, or an exact location, start there and use this packet to verify coverage — not as a reading list.
 - Otherwise, start with `app/controllers/accounts_controller.rb` and open the other listed files only as the task touches them.
 
+## Seeds
+
+- anchor: `accounts#upgrade`
+
 ## Anchor
 
 - Anchor: `accounts#upgrade`
@@ -760,7 +814,7 @@ The goal is to test whether Rails-aware structural context beats generic retriev
 - Action: `upgrade`
 - File: `app/controllers/accounts_controller.rb`
 - Generated from: 0f4b21c (clean)
-- Format: 2
+- Format: 4
 - Scope: routes, superclass/concern callbacks, and locale files are not scanned by ctxpack v0; use `bin/rails routes -g upgrade` for endpoints, and check `config/locales/` if the task touches user-facing copy.
 
 ## Inspect first

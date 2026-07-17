@@ -282,7 +282,8 @@ class CLITest < Minitest::Test
         stdout: stdout,
         stderr: stderr,
         cwd: app_root,
-        clock: -> { Time.utc(2026, 5, 27, 14, 30, 15) }
+        clock: -> { Time.utc(2026, 5, 27, 14, 30, 15) },
+        history_provider: UnavailableHistoryProvider.new
       ).run(["accounts#upgrade", "--task-file", "-"])
 
       assert_equal 1, status
@@ -326,9 +327,43 @@ class CLITest < Minitest::Test
       assert_equal 0, result.status
       expected = Ctxpack.render_manifest(Ctxpack.compile(app_root: app_root, anchor: "accounts#upgrade", task: "Ship it"))
       assert_equal expected, result.stdout
-      assert_equal 3, JSON.parse(result.stdout).fetch("version")
+      assert_equal 4, JSON.parse(result.stdout).fetch("version")
       assert_equal "", result.stderr
       refute Dir.exist?(File.join(app_root, ".ctxpack"))
+    end
+  end
+
+  def test_cli_injects_history_provider_for_files_seed_compilation
+    with_cli_app do |app_root|
+      git!(app_root, "init", "-q")
+      git!(app_root, "config", "user.name", "Ctxpack Test")
+      git!(app_root, "config", "user.email", "ctxpack@example.invalid")
+      git!(app_root, "add", ".")
+      git!(app_root, "commit", "-q", "-m", "fixture")
+      requests = []
+      provider = Object.new
+      provider.define_singleton_method(:fetch) do |**request|
+        requests << request
+        Ctxpack::History.included(
+          path: request.fetch(:path),
+          facts: [],
+          truncated_count: 0
+        )
+      end
+      stdout = StringIO.new
+      stderr = StringIO.new
+
+      status = Ctxpack::CLI.new(
+        stdout: stdout,
+        stderr: stderr,
+        cwd: app_root,
+        history_provider: provider
+      ).run(["--from-files", "app/controllers/accounts_controller.rb", "--stdout=json"])
+
+      assert_equal 0, status, stderr.string
+      assert_equal 1, requests.length
+      assert_equal "app/controllers/accounts_controller.rb", requests.first.fetch(:path)
+      assert_equal "included", JSON.parse(stdout.string).fetch("history").fetch("status")
     end
   end
 
@@ -979,7 +1014,14 @@ class CLITest < Minitest::Test
     stdout = StringIO.new
     stderr = StringIO.new
     clock = -> { at }
-    status = Ctxpack::CLI.new(stdout: stdout, stderr: stderr, stdin: StringIO.new(stdin), cwd: cwd, clock: clock).run(args)
+    status = Ctxpack::CLI.new(
+      stdout: stdout,
+      stderr: stderr,
+      stdin: StringIO.new(stdin),
+      cwd: cwd,
+      clock: clock,
+      history_provider: UnavailableHistoryProvider.new
+    ).run(args)
 
     Result.new(status: status, stdout: stdout.string, stderr: stderr.string)
   end

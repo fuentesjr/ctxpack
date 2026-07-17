@@ -12,3 +12,9 @@ end
 class Minitest::Test
   include FixturePaths
 end
+
+class UnavailableHistoryProvider
+  def fetch(path:, **)
+    Ctxpack::History.omitted(path: path, reason: "executable_unavailable")
+  end
+end

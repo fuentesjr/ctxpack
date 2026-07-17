@@ -1,4 +1,5 @@
 require "digest"
+require "pathname"
 
 module Ctxpack
   # Internal seed: evidence + kind. Expansion recipes live in Compiler.
@@ -24,9 +25,10 @@ module Ctxpack
       )
     end
 
-    def self.files(paths)
+    def self.files(paths, app_root: nil)
       list = Array(paths).map(&:to_s)
       raise ArgumentError, "files seed requires at least one path" if list.empty?
+      list = normalize_file_paths(list, app_root: app_root) if app_root
 
       first = list.first
       new(
@@ -34,6 +36,28 @@ module Ctxpack
         evidence: list.join("\n"),
         identity: sanitize(File.basename(first, ".*"))
       )
+    end
+
+    def self.normalize_file_paths(paths, app_root:)
+      root = File.expand_path(app_root)
+
+      Array(paths).map do |path|
+        value = path.to_s
+        if Pathname.new(value).absolute? || value.match?(/\A[A-Za-z]:[\\\/]/)
+          raise ArgumentError, "files seed paths must be relative to the application root: #{value}"
+        end
+
+        expanded = File.expand_path(value, root)
+        unless expanded.start_with?(root + File::SEPARATOR)
+          raise ArgumentError, "files seed path escapes the application root: #{value}"
+        end
+
+        expanded.delete_prefix(root + File::SEPARATOR).tr(File::SEPARATOR, "/")
+      rescue ArgumentError => error
+        raise if error.message.start_with?("files seed path")
+
+        raise ArgumentError, "invalid files seed path: #{value.inspect}"
+      end.uniq
     end
 
     def self.error(frames)

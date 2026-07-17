@@ -152,7 +152,12 @@ class MethodSeedTest < Minitest::Test
     require "ctxpack/cli"
     stdout = StringIO.new
     stderr = StringIO.new
-    status = Ctxpack::CLI.new(stdout: stdout, stderr: stderr, cwd: cwd).run(args)
+    status = Ctxpack::CLI.new(
+      stdout: stdout,
+      stderr: stderr,
+      cwd: cwd,
+      history_provider: UnavailableHistoryProvider.new
+    ).run(args)
     Struct.new(:status, :stdout, :stderr, keyword_init: true).new(
       status: status,
       stdout: stdout.string,

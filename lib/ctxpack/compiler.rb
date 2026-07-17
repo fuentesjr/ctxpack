@@ -1,6 +1,7 @@
 require "prism"
 require "open3"
 require "ctxpack/default_constant_resolver"
+require "ctxpack/git_recon_history_provider"
 require "ctxpack/packet"
 require "ctxpack/seed"
 
@@ -11,7 +12,12 @@ module Ctxpack
       max_constant_files: 4,
       max_view_files: 2,
       max_test_files: 2,
-      max_snippet_lines_per_file: 120
+      max_snippet_lines_per_file: 120,
+      max_history_calls: 1,
+      max_history_facts: 5,
+      max_history_payload_bytes: 2048,
+      max_history_response_bytes: 16_384,
+      max_history_seconds: 20
     }.freeze
 
     CALLBACK_DECLARATIONS = %i[before_action prepend_before_action append_before_action].freeze
@@ -21,19 +27,22 @@ module Ctxpack
 
     CallbackDeclaration = Struct.new(:kind, :names, :applies, :dynamic, :block, :node, keyword_init: true)
     ParsedAnchor = Struct.new(:controller_path, :action, keyword_init: true)
+    RepoContext = Struct.new(:commit, :dirty, :root, keyword_init: true)
 
-    def initialize(app_root:, task:, anchor: nil, seeds: nil, constant_resolver: nil)
+    def initialize(app_root:, task:, anchor: nil, seeds: nil, constant_resolver: nil, history_provider: nil)
       @app_root = File.expand_path(app_root)
       @task = task
       @seeds = normalize_seeds(anchor: anchor, seeds: seeds)
       @constant_resolver = constant_resolver || DefaultConstantResolver.new(app_root: @app_root)
+      @history_provider = history_provider || GitReconHistoryProvider.new(limits: LIMITS)
     end
 
     def compile
       packets = @seeds.map { |seed| resolve_one_seed(seed) }
-      return packets.first if packets.length == 1
+      packet = packets.length == 1 ? packets.first : merge_packets(packets)
+      enrich_history(packet)
 
-      merge_packets(packets)
+      packet
     end
 
     def resolve_one_seed(seed)
@@ -59,7 +68,7 @@ module Ctxpack
         repo: first.repo,
         app_root: @app_root,
         entrypoint: packets.map(&:entrypoint).compact.first,
-        version: 3
+        version: 4
       )
 
       packets.each do |packet|
@@ -99,6 +108,31 @@ module Ctxpack
 
     private
 
+    def enrich_history(packet)
+      primary = packet.files.find { |entry| entry.reason_codes.include?("files_seed_primary") }
+      return unless primary
+
+      context = repo_context
+      packet.history =
+        if context.commit && context.root
+          @history_provider.fetch(
+            app_root: @app_root,
+            repo_root: context.root,
+            path: primary.path,
+            revision: context.commit
+          )
+        else
+          History.omitted(path: primary.path, reason: "repository_unavailable")
+        end
+      return unless packet.history.status == "omitted"
+
+      packet.add_uncertainty(
+        code: "history_context_unavailable",
+        subject: primary.path,
+        message: packet.history.reason
+      )
+    end
+
     def normalize_seeds(anchor:, seeds:)
       if seeds && anchor
         raise ArgumentError, "pass either anchor: or seeds:, not both"
@@ -115,7 +149,9 @@ module Ctxpack
 
       raise ArgumentError, "compile requires at least one seed" if list.empty?
 
-      list
+      list.map do |seed|
+        seed.files? ? Seed.files(seed.files_paths, app_root: @app_root) : seed
+      end
     end
 
     def blank_packet(seed:, anchor: nil, entrypoint: nil)
@@ -126,7 +162,7 @@ module Ctxpack
         repo: repo_stamp,
         app_root: @app_root,
         entrypoint: entrypoint,
-        version: 3
+        version: 4
       )
     end
 
@@ -1672,13 +1708,36 @@ module Ctxpack
     end
 
     def repo_stamp
-      commit, commit_status = Open3.capture2("git", "-C", @app_root, "rev-parse", "HEAD", err: File::NULL)
-      return RepoStamp.new(commit: nil, dirty: false) unless commit_status.success?
+      context = repo_context
+      RepoStamp.new(commit: context.commit, dirty: context.dirty)
+    end
+
+    def repo_context
+      return @repo_context if defined?(@repo_context)
+
+      output, status = Open3.capture2(
+        "git", "-C", @app_root, "rev-parse", "--show-toplevel", "HEAD",
+        err: File::NULL
+      )
+      unless status.success?
+        @repo_context = RepoContext.new(commit: nil, dirty: false, root: nil)
+        return @repo_context
+      end
+
+      root, commit = output.lines(chomp: true)
+      unless root && commit
+        @repo_context = RepoContext.new(commit: nil, dirty: false, root: nil)
+        return @repo_context
+      end
 
       status_output, = Open3.capture2("git", "-C", @app_root, "status", "--porcelain", err: File::NULL)
-      RepoStamp.new(commit: commit.strip, dirty: !status_output.empty?)
+      @repo_context = RepoContext.new(
+        commit: commit,
+        dirty: !status_output.empty?,
+        root: File.expand_path(root)
+      )
     rescue Errno::ENOENT
-      RepoStamp.new(commit: nil, dirty: false)
+      @repo_context = RepoContext.new(commit: nil, dirty: false, root: nil)
     end
 
     def enforce_total_file_limit(packet)

@@ -47,6 +47,24 @@ bundle binstubs ctxpack   # optional: bin/ctxpack next to bin/rails
 Requires Ruby ≥ 3.4. The only runtime dependency is
 [`prism`](https://github.com/ruby/prism).
 
+Optional files-seed history is supplied by the separately installed
+[`git-recon`](https://github.com/fuentesjr/git-recon) companion. ctxpack uses a
+compatible `git-recon` automatically when it is already on `PATH`; it does not
+co-install or download it:
+
+```bash
+git clone https://github.com/fuentesjr/git-recon.git
+ln -s "$PWD/git-recon/bin/git-recon" ~/.local/bin/git-recon
+```
+
+Without the companion, files packets still compile and record one honest
+history-unavailable Follow-up. git-recon requires the system `iconv` command.
+Profiling reduced the representative direct git-recon query from
+10.27–13.02 seconds to 4.838–5.192 seconds with byte-identical output. The
+pre-optimization end-to-end ctxpack path measured 18.623–19.021 seconds; its
+post-optimization recheck is pending, so the tracer remains capped at one
+files primary per packet under the unchanged 20-second deadline.
+
 At least one seed is required. Task text is optional but recommended.
 Examples below all work against a Rails-shaped tree (see
 [`docs/examples.md`](docs/examples.md) for full packets from
@@ -102,7 +120,7 @@ spike did not ship; see [`eval/seed-spikes/route/RESULTS.md`](eval/seed-spikes/r
 | `test` | `--from-test path[:line]` or a `test/`/`spec/` path | Primary test file; infer production surface by path/constant heuristics; suggest a run command |
 | `error` | `--from-error paste\|-` | Normalize to application `path:line` frames only; snippet around each frame |
 | `diff` | `--from-diff range\|patch` (flag only) | Changed files still present in the tree; optional conventional paired tests for `app/**/*.rb` |
-| `files` | `--from-files path…` or an existing non-test path | Named files as primaries; budgeted neighbors when conventions hit |
+| `files` | `--from-files path…` or an existing non-test path | Named files as primaries; budgeted neighbors; one bounded local-history query for the first retained primary when git-recon is on PATH |
 | `method` | `--from-method Const#method` or positional `Foo::Bar#baz` | Exact constant + instance method; same-file constant expansion; **no test-candidate leg** |
 | `anchor` | `controller#action` or `--from-anchor` | Full ANCH recipe: action, callbacks, views, constants, test candidates |
 
@@ -126,10 +144,12 @@ cannot resolve rather than guessing every edge case.
 A point-in-time artifact for one coding task:
 
 - the task text (if provided)
-- which seed(s) produced the packet (Format 3)
+- which seed(s) produced the packet (Format 4)
 - Git commit + dirty state when Git is available
 - ordered files to inspect first, each with a reason code
 - short, line-addressable snippets where the recipe produces them
+- bounded typed local-history facts for the first retained files primary, or
+  an explicit omission when that context is unavailable
 - test commands under `Run` when candidates exist
 - follow-ups for uncertainty and omissions
 
@@ -184,12 +204,12 @@ with `--task-file -` (single stdin occupancy).
 | `-d`, `--dir DIR` | Timestamped output directory (default `.ctxpack/`) |
 | `-o`, `--out PATH` | Exact Markdown path |
 | `-f`, `--force` | Permit replacing existing output |
-| `--manifest` | Also write sibling Format 3 JSON |
+| `--manifest` | Also write sibling Format 4 JSON |
 | `--stdout[=FORMAT]` | Markdown (default) or `json`; no artifacts |
 | `-h`, `--help` | Help (no Rails app required) |
 | `-v`, `--version` | Version (top-level only) |
 
-## Packet Format 3
+## Packet Format 4
 
 Markdown is for agents to orient quickly. Shape (abridged; generated from
 fixture `test/fixtures/apps/minitest_basic`, anchor `accounts#upgrade`):
@@ -216,7 +236,7 @@ fixture `test/fixtures/apps/minitest_basic`, anchor `accounts#upgrade`):
 - Controller: `AccountsController`
 - Action: `upgrade`
 - Generated from: … (clean)
-- Format: 3
+- Format: 4
 - Scope: routes, superclass/concern callbacks, and locale files are not scanned…
 
 ## Inspect first
@@ -251,7 +271,7 @@ Non-anchor seeds omit the `## Anchor` block and list seed identity under
 `diff: HEAD~1`). Full worked examples:
 [`docs/examples.md`](docs/examples.md).
 
-`--manifest` / `--stdout=json` emit the same facts as JSON (`version: 3`,
+`--manifest` / `--stdout=json` emit the same facts as JSON (`version: 4`,
 `seeds: [...]`, optional `anchor`). Manifest consumers should reject unknown
 `version` values.
 
@@ -292,10 +312,13 @@ not replacing judgment.
 - task-only compilation (skill territory)
 - autonomous agent behavior
 - network calls or telemetry
+- co-installing, downloading, or vendoring git-recon
 
 ## Implementation
 
 - Ruby CLI/gem; Prism only at runtime
+- Optional separately installed git-recon companion for one bounded files-seed
+  history request; no gem dependency or raw-Git fallback
 - Convention-based resolution (no app boot)
 - Deterministic Minitest and RSpec controller/request pointers (where the recipe includes a test leg)
 - Spec-driven: [`specs/`](specs/README.md), rationale in [`design.md`](design.md)

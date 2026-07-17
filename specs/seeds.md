@@ -7,7 +7,7 @@ accepted 2026-07-13) and inherited acquisition constraints from
 This document is the normative seed surface. Anchor semantics remain in
 `packet-compilation.md` (ANCH-*); the anchor seed *uses* those rules as its
 expansion recipe. Format carriers for seed-aware packets are in
-`packet-format.md` (format v3). CLI sugar and `--from-*` flags are in
+`packet-format.md` (current format v4). CLI sugar and `--from-*` flags are in
 `cli.md`.
 
 ## Product definition
@@ -93,6 +93,9 @@ reuse and why it doesn't fit (inventory + authoring rule:
    `./`, no absolute paths, no drive letters).
 4. Existence checks use the real filesystem under the root; missing evidence
    fails closed with a message naming the path.
+5. Canonicalization happens before seed identity, packet storage,
+   deduplication, merge ordering, and downstream context-source selection.
+   Equivalent in-root spellings collapse to one canonical path.
 
 **SEED-9.** Multi-evidence ordering within a single seed (e.g. multiple
 `--from-files` paths) preserves caller order for identity and primary
@@ -185,6 +188,10 @@ Reason codes remain those in FMT-6.
 3. Never drop a user-named file without an explicit follow-up (MERGE-4).
 4. Neighbor rules are the only non-trivial part of this kind; the viability
    spike measures their precision on sample apps.
+5. After all seed contributions are merged and file budgets are applied, the
+   first retained `files_seed_primary` MAY receive bounded local-history
+   enrichment under SEED-27. History is supplemental and never changes the
+   file/neighbor recipe or its budgets.
 
 ### Error seed
 
@@ -282,6 +289,26 @@ gate evidence: `eval/seed-spikes/diff/PREREGISTRATION.md` and
 7. MUST NOT boot Rails. Git shell-out only. No new dependencies. MUST NOT use
    embeddings.
 
+### Files-seed local-history enrichment
+
+**SEED-27.** A packet containing at least one retained `files_seed_primary`
+MUST select the first such file in final packet order after MERGE-4 and invoke
+at most one injected history provider. The request carries the canonical
+application-relative path, expanded application and repository roots, and the
+full commit from the cached generation repo context. The git-recon adapter
+translates that path to repository-relative form and invokes exactly:
+
+```text
+git-recon facts --format=json --at FULL_SHA -- REPO_RELATIVE_PATH
+```
+
+The files tracer never sends `-L`, even when another seed contributed snippet
+ranges for the same file. It never retries, falls through to a later primary,
+or falls back to raw Git. If no files primary survives MERGE-4, `history` is
+`null` and the provider is not called. If a primary survives but Git/provider
+state is unavailable, history is a typed omission and primary evidence remains
+unchanged. **[bounded local path-history exception fixed by the tracer design]**
+
 ## Multi-seed merge
 
 **MERGE-1.** Multi-seed is admitted in the model from day one; the CLI ships
@@ -317,6 +344,8 @@ anchor compilation (LIM-1). New kinds MUST NOT invent parallel limit tables
 without a LIM amendment. Category ceilings apply after role assignment
 (controller/view/constant/test/primary/neighbor) as specified per recipe;
 global `max_total_files` always applies post-merge.
+History enrichment extends this same registry with the independent LIM-5
+budgets; it MUST NOT create a parallel limit table or consume a file slot.
 
 ## Inherited acquisition constraints
 

@@ -11,7 +11,7 @@ files, method, or controller#action), read every section, feed it to an AI
 coding agent, and know when ctxpack will (correctly) refuse.
 
 Packet excerpts below were **generated** from the bundled fixture app
-`test/fixtures/apps/minitest_basic` (Format 3). Explicit ellipses mark
+`test/fixtures/apps/minitest_basic` (Format 4). Explicit ellipses mark
 abridgement. The same seeds, task, and tree produce byte-identical packet
 *content*; `Generated from:` is the target app's Git state (or the enclosing
 repo when the fixture is compiled in place), not a marketing fiction.
@@ -69,6 +69,23 @@ Packets land in `.ctxpack/<utc-timestamp>_<name>.md`. Success stdout is only
 artifact paths (one per line). Requires Ruby ≥ 3.4; only runtime dependency is
 [`prism`](https://github.com/ruby/prism).
 
+For optional files-seed history, install the independent git-recon companion:
+
+```console
+$ git clone https://github.com/fuentesjr/git-recon.git
+$ ln -s "$PWD/git-recon/bin/git-recon" ~/.local/bin/git-recon
+```
+
+ctxpack discovers a compatible executable on `PATH`; it does not co-install or
+download it. The files example below shows the honest unavailable form. With
+the companion installed, `## History` instead contains up to five bounded
+coupled-path/commit facts. Profiling reduced the representative direct
+git-recon query from 10.27–13.02 seconds to 4.838–5.192 seconds with identical
+output. The pre-optimization end-to-end ctxpack path measured
+18.623–19.021 seconds; its post-optimization recheck is pending. The tracer
+therefore remains limited to one retained files primary under the unchanged
+20-second deadline.
+
 ---
 
 ## Seed recipes (worked examples)
@@ -107,7 +124,7 @@ Generated packet (full for this small case):
 
 - test: `test/controllers/accounts_controller_test.rb`
 - Generated from: e01883c (clean)
-- Format: 3
+- Format: 4
 - Scope: routes, superclass/concern callbacks, and locale files are not scanned by ctxpack; expand from the listed seeds only.
 
 ## Inspect first
@@ -141,7 +158,7 @@ Abridged generated packet:
 
 - error: `app/controllers/accounts_controller.rb:12`
 - Generated from: e01883c (clean)
-- Format: 3
+- Format: 4
 
 ## Inspect first
 
@@ -205,7 +222,7 @@ committed controller change (paired-test mirror present):
 
 - diff: `HEAD~1`
 - Generated from: 7d572d7 (clean)
-- Format: 3
+- Format: 4
 - Scope: routes, superclass/concern callbacks, and locale files are not scanned by ctxpack; expand from the listed seeds only.
 
 ## Inspect first
@@ -231,7 +248,7 @@ $ bundle exec ctxpack --from-diff patches/upgrade_accounts.patch \
 
 - diff: `patches/upgrade_accounts.patch`
 - Generated from: e01883c (clean)
-- Format: 3
+- Format: 4
 - Scope: routes, superclass/concern callbacks, and locale files are not scanned by ctxpack; expand from the listed seeds only.
 
 ## Inspect first
@@ -264,12 +281,17 @@ Generated packet:
 
 - files: `app/services/billing/subscriptions.rb`
 - Generated from: e01883c (clean)
-- Format: 3
+- Format: 4
 - Scope: routes, superclass/concern callbacks, and locale files are not scanned by ctxpack; expand from the listed seeds only.
 
 ## Inspect first
 
 1. `app/services/billing/subscriptions.rb` — `files_seed_primary`: user-named files seed
+
+## History
+
+- Seed path: "app/services/billing/subscriptions.rb"
+History context was unavailable (reason: executable_unavailable).
 
 ## Run
 
@@ -277,12 +299,15 @@ No Minitest candidates were found by ctxpack's path rules.
 
 ## Follow-ups
 
+- Inspect history for "app/services/billing/subscriptions.rb" manually; bounded local history was unavailable (executable_unavailable).
 - Search `test/` by hand if the task needs test coverage.
 ````
 
 Named files are never dropped without a follow-up. Neighbors (conventional
 tests, views, path-token constants) appear only when budgeted rules hit — this
 service path has no neighbor hit in the fixture, which is honest output.
+History is supplemental and separately budgeted: absence never removes the
+named file or changes the Run section.
 
 ### Method seed — non-controller `Const#method`
 
@@ -301,7 +326,7 @@ Generated packet (abridged follow-ups):
 
 - method: `Billing::UpgradeService#call`
 - Generated from: e01883c (clean)
-- Format: 3
+- Format: 4
 
 ## Inspect first
 
@@ -382,7 +407,7 @@ Abridged generated packet:
 - Action: `upgrade`
 - File: `app/controllers/accounts_controller.rb`
 - Generated from: e01883c (clean)
-- Format: 3
+- Format: 4
 - Scope: routes, superclass/concern callbacks, and locale files are not scanned by ctxpack v0; use `bin/rails routes -g upgrade` for endpoints, and check `config/locales/` if the task touches user-facing copy.
 
 ## Inspect first
@@ -443,6 +468,8 @@ Section by section:
   file, repo stamp, format version, standing scope.
 - **`## Inspect first`** — flat ordered file map; every entry has a reason code.
 - **`## Evidence`** — snippet-bearing files only, with 1-based ranges.
+- **`## History`** — conditional typed local-history facts or one honest
+  omission for an applicable files primary.
 - **`## Run`** — copy-pasteable test commands (or an explicit “no candidates”).
 - **`## Follow-ups`** — packet-specific uncertainty and omissions once each.
 

@@ -408,6 +408,11 @@ max constant files:         4
 max view files:             2
 max test files:             2
 max snippet lines per file: 120
+max history calls:          1
+max history facts:          5
+max history payload bytes:  2048
+max history response bytes: 16384
+max history seconds:        20
 ```
 
 Max total files is an outer safety invariant over the whole packet, not an
@@ -426,7 +431,9 @@ there. `max_total_files` itself stays at 8; it is not raised to
 
 **LIM-2.** When any limit truncates candidates, the packet MUST include an
 explicit imperative Follow-up naming what was left out and which semantic
-limit was reached (FMT-9). Silent omission is a bug.
+limit was reached (FMT-9). LIM-5 history-fact truncation is the sole exception:
+its bounded count is summarized once inside `## History`, never expanded into
+one Follow-up per fact. Silent omission is a bug.
 
 **LIM-3.** The limits exist to prevent context dumping and to keep packets
 deterministic and reviewable — not to claim completeness. Whether these
@@ -439,3 +446,13 @@ truncation marker, if the method alone exceeds it — then applicable callbacks
 in declaration order, each included only if it fits whole in the remaining
 budget. Callback snippets are never cut mid-method. Every dropped or
 truncated snippet is named in a Follow-up (LIM-2).
+
+**LIM-5.** History has an independent one-call / five-semantic-fact / 2,048-
+payload-byte budget, plus a 16 KiB combined transport-response cap and a
+20-second process deadline. Payload bytes are measured as canonical compact
+JSON for the selected semantic fact array. Candidate facts round-robin in
+producer order across coupled path → repair commit → recent-only commit,
+deduplicating commit OIDs and greedily retaining whole facts until the first
+fact or payload limit is reached. The packet records the bounded count of
+unselected semantic facts. History is supplemental: it never consumes
+`max_total_files`, changes `files`/`tests`, or evicts primary source evidence.

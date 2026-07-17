@@ -82,18 +82,20 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Updated 2026-07-16 after the accepted ctxpack positioning and git-recon facts
-interface were committed, privacy-scanned, and pushed to their upstream
-`main` branches. **This plan is the authoritative work order for the next
-session**; "Next steps" must agree.
+Updated 2026-07-16 after the representative git-recon query was profiled and
+optimized without changing its facts contract. The direct latency gate now
+passes; the exact post-optimization ctxpack consumer recheck remains pending
+because the earlier benchmark recipe was not recorded. **This plan is the
+authoritative work order for closing that measurement and landing decision**;
+"Next steps" must agree.
 
 ### State (ground truth, re-verified 2026-07-16)
 
-- **Git state:** ctxpack local and `origin/main` are at `233e6cd`; git-recon
-  local and `origin/main` are at `87032f6`. Both worktrees were clean after
-  push. The pushed commits use GitHub noreply author addresses and passed a
-  range scan for absolute home paths, non-example emails, credential-like
-  content, sensitive filenames, and `tmp/` material.
+- **Git state:** ctxpack's parent before the current tracer commit is
+  `180455b`, one commit ahead of `origin/main` at `233e6cd`; the tracer lands
+  in the commit containing this tracker update. git-recon local `main` is at
+  `7682b2c`, one commit ahead of `origin/main` at `87032f6`, with a clean
+  worktree. No push is authorized in either repository.
 - **Context-engineering positioning pass:** complete and pushed in `3669e79`.
   README, gemspec metadata, examples, FAQ, and
   design now use **context engineering CLI** as the category and
@@ -136,45 +138,84 @@ session**; "Next steps" must agree.
   commits), refuses shallow history, returns typed errors, and omits author
   metadata, message bodies, patches, and raw Git output. No package dependency
   was added; the system `iconv` command is required.
-- **git-recon evidence:** fixture suite PASS; ShellCheck, Bash 3.2 parsing,
-  schema JSON parsing, and diff checks clean; both final code and documentation
-  reviewers PASS. The representative Rails PostgreSQL-adapter query completes
-  in 10.27–13.02 seconds and replays byte-identically at 1,920 bytes, versus
-  the first implementation killed after more than 35 seconds. This proves the
-  interface contract, not that history facts earn ctxpack packet budget.
-- **ctxpack reconciliation:** tracker, implementation notes, debt entry, and
-  the interface/performance learning note are pushed in `233e6cd`.
+- **git-recon evidence:** the committed interface fixture suite, ShellCheck,
+  Bash 3.2 parsing, schema parsing, diff checks, and final reviews pass. The
+  representative query originally completed in 10.27–13.02 seconds. Trace2
+  then isolated three history walks at 4.776 seconds and Bash parsing 38,092
+  diff records at 4.763 seconds. Commit `7682b2c` reuses the first
+  history result for repair matching and prefilters oversized commits before
+  exact NUL parsing. Its opt-in 8-second benchmark was RED at 10.776 seconds
+  and GREEN at 4.965 seconds; final runs were **4.838s, 4.845s, and 5.192s**,
+  byte-identical at 1,920 bytes. The fixture suite, ShellCheck, Bash syntax,
+  and diff checks remain green. This proves interface performance and contract
+  preservation, not that history facts earn ctxpack packet budget.
+- **Companion verification:** `~/.local/bin/git-recon` was already present
+  and resolves to the clean checkout at `7682b2c`; this session did not create
+  or reinstall the symlink. It remains a separate user-level installation:
+  ctxpack does not co-install, vendor, download, or add a gem dependency.
+- **Files-seed tracer implementation:** implementation is technically
+  parent-accepted but remains uncommitted pending the latency/default-on
+  decision. The first retained files primary gets
+  at most one revision-pinned `git-recon facts --format=json` request; typed
+  bounded facts enter packet Format 4, while absence/failure preserves source
+  evidence with one coarse Follow-up. Provider execution is argv-only,
+  time/output bounded, TERM→KILL reaped, schema-validated, and renderer-pure.
+  Files paths are canonical before identity/storage/deduplication.
+- **Acceptance evidence:** fixture RED was **207 runs / 1843 assertions / 1
+  failure** for the intended canonical-path omission, then GREEN. Final whole
+  suite: **225 runs, 1976 assertions, 0 failures, 0 errors, 0 skips**. Focused
+  provider/integration/seed suites, Ruby syntax, and `git diff --check` pass.
+  `rake metz` completed as advisory with the repository's existing design
+  pressure plus the new adapter's concentrated process/schema responsibilities.
+  A real existing-companion fixture smoke returned included typed history.
+  Parent end-to-end smoke on Rails
+  `activerecord/lib/active_record/connection_adapters/postgresql_adapter.rb`
+  completed in **19.021s, 19.018s, and 18.623s**; every run returned included
+  history with 5 facts, 10 truncated, and no error. Those runs predate the
+  companion optimization; they triggered the performance work but do not
+  substitute for the pending post-optimization consumer recheck.
+- **Parent gates:** Agenticons code/docs review found no P0/P1 code defect;
+  two P2 documentation examples were corrected. Tier 0 is byte-identical to
+  `post_amendment` for all three pinned apps: 0 per-anchor changes and 0
+  crashes across 1,967 pairs. The strategic validator passed twice (the known
+  Metz/RuboCop lint/metric warnings remain), and the final clean-context design
+  review is `clean` with no findings. Final parent suite: **225 runs / 1976
+  assertions / 0 failures / 0 errors / 0 skips**; diff check clean.
+- **Latency judgment:** a fake-provider compile took 0.068 seconds, and the
+  single requested git-recon path is now 4.838–5.192 seconds rather than
+  10.27–13.02. A compiled-language rewrite is not justified: after the fix,
+  Git history walks dominate and only roughly one second of orchestration
+  remains. The prior 18.623–19.021-second ctxpack numbers are explicitly
+  pre-optimization. The exact consumer recheck remains pending: two attempted
+  reconstructions hit the wrong Ruby and then Rails-app root discovery against
+  rails/rails, so the two-attempt rule stopped further guessing. The missing
+  benchmark recipe is logged in `debt.md`. The 20-second/default-on policy is
+  unchanged.
+- **ctxpack reconciliation:** prior interface/positioning reconciliation is
+  pushed in `233e6cd`; the tracer code, specs, append-only Tier 0 addendum,
+  learning note, and tracker update land together in the current local commit.
 
 ### Next session work order
 
-1. **Current gate: design the files-seed git-recon integration tracer.** Use
-   agenticons with the parent as orchestrator-DRA plus the codebase-design
-   vocabulary. Produce a short, reviewable design before edits because this
-   changes the packet contract, compiler seam, renderers, manifest, CLI
-   behavior, specs, and runtime workflow.
-2. **Resolve five decisions in that design:** (a) where the injected history
-   provider belongs without reversing the compilation → format → CLI layer
-   direction; (b) how a files seed deterministically chooses path/range calls,
-   especially for multi-file input; (c) how install/discovery makes the user's
-   default-available git-recon requirement real without adding a gem
-   dependency; (d) whether absence, shallow history, timeout, or typed failure
-   degrades to a bounded uncertainty or fails the packet; and (e) a separate
-   history fact/byte/call budget that can never evict primary source evidence.
-   The starting recommendation is default-on, one bounded invocation per
-   packet at the repo-stamp revision, explicit companion-executable discovery,
-   injected command execution for tests, and graceful supplemental-context
-   omission on unavailable history.
-3. **After explicit plan confirmation, implement one vertical tracer only:**
-   `--from-files` seed evidence → git-recon request → typed packet field →
-   Markdown and manifest output. Use red-green fixtures, preserve deterministic
-   replay, update specs + `design.md` + README together, add no gem dependency,
-   and run the mandatory Tier 0 corpus re-scan because compiler output changes.
-   Measure latency on a representative Rails path; do not fan out a 10–13
-   second hot-path query once per packet file.
-4. **Use tracer evidence to decide the next interface step.** If multi-file
-   relevance or latency demonstrates high value for a batched git-recon agent
-   request, draft a focused git-recon issue and obtain exact-text approval
-   before publishing it. Remaining ctxpack seed kinds wait for the files tracer.
+1. **Current gate: reproduce the consumer seam once, deliberately.** Recover
+   the exact earlier Rails benchmark recipe or define and record a direct
+   provider-seam benchmark; do not make a third speculative CLI attempt. It
+   must use the pinned Rails SHA/path, report included facts/truncation, and
+   measure against the unchanged 20-second provider deadline.
+2. **Push decision after that one measurement.** The user authorized local
+   commits for git-recon and ctxpack but no push. If the consumer result has
+   healthy margin, reconcile any remaining wording and ask for push approval.
+   If it does not, stop for a scoped timeout/default-on decision. Do not infer
+   a Zig/Rust/C rewrite from current evidence; the optimized direct query is
+   4.838–5.192 seconds and Git history traversal now dominates.
+3. **Do not infer batching from this result.** The tracer makes one request
+   and a fake-provider compile takes 0.068 seconds; batching matters only
+   before widening to multiple paths. Any published issue text still requires
+   exact approval.
+4. **If the tracer is approved to land,** obtain separate approval before
+   renaming the stale non-generated
+   `test/fixtures/evals/multiline_task_manifest_v3.yml`, rerun the whole suite
+   and diff check after any change, then ask before commit/push.
 5. **Keep published issues unchanged pending exact approval.** ctxpack #6
    still describes the superseded corpus spike and must not be silently closed
    or rewritten; #7 remains the independent documentation-enrichment spike.
@@ -216,7 +257,8 @@ session**; "Next steps" must agree.
 | Seed Phase 5b (diff) | SEED-26, [`eval/seed-spikes/diff/`](eval/seed-spikes/diff/) | **Done — COMMITTED (`f5bdb37` gate + `b5450dd`) + PUSHED** (2026-07-14) | Paired-test co-change agreement 0.810 PASS → `--from-diff` ships **with** mirror-convention paired-test leg (explicit flag only). Grok-implemented; red-then-green re-verified; suite 205/0; Tier 0 byte-identical. |
 | Seed Phase 5c (route) | [`eval/seed-spikes/route/`](eval/seed-spikes/route/) | **Closed — NO SHIP, COMMITTED (`3f69230`) + PUSHED** (2026-07-14) | Double-gated spike: resolution 0.243 FAIL (Front B margin +0.124 moot). Route evidence stays CLI-17c coaching-only; no implementation pass. Re-open needs a new pre-reg (router-order first-match resolver noted). |
 | Context-engineering positioning | README/gemspec/examples/FAQ/`design.md` | **Done — parent-verified, COMMITTED (`3669e79`) + PUSHED** (2026-07-16) | Agenticons `coding_worker` + `doc_reviewer` pass: product category is context engineering CLI; mechanism remains deterministic context compiler; task + seed promise stays first; Rails remains v0 scope. Corrected the stale feature caveat against Tier 2 expansion (features 5/6, median 58.5%; bugs 0/3), with anchor-seed/offline/directional/no-quality-benefit boundaries. Parent full suite 205/1834 green; gemspec and diff checks pass. |
-| git-recon agent facts interface | `~/Projects/git-recon` `facts --format=json` | **Done — parent-verified, COMMITTED (`87032f6`) + PUSHED** (2026-07-16) | Compact versioned history facts with representative provenance, deterministic caps, explicit revision/range, typed errors, privacy boundaries, and schema. Red-green fixture suite + Bash/ShellCheck/schema/diff gates green; final code/docs reviews PASS. Rails high-churn smoke 10.27–13.02s and byte-identical; ctxpack integration deliberately remains the next separate tracer. |
+| git-recon agent facts interface | `~/Projects/git-recon` `facts --format=json` | **Done — optimization COMMITTED LOCALLY (`7682b2c`), not pushed** (2026-07-16) | Contract and prior reviews remain green. Trace2 found redundant history traversal plus 38,092 Bash-parsed diff records. Reuse + prefilter optimization: benchmark RED 10.776s → GREEN 4.965s; final 4.838–5.192s, byte-identical 1,920 bytes. Fixture suite/ShellCheck/Bash/diff gates pass; no dependency or schema change. |
+| Files-seed history tracer | SEED-27 / Format 4 / git-recon adapter | **Technically accepted — lands in current local commit; not pushed** (2026-07-16) | Existing PATH-discovered companion, one revision-pinned request for the first retained files primary, typed bounded facts/omissions, no source eviction, deterministic replay. Parent suite 225/1976 green; Tier 0 byte-identical across 1,967 anchors; final strategic review clean. The 18.623–19.021s end-to-end numbers predate the companion optimization; exact recheck recipe must be recovered or redefined and recorded before push. |
 
 Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
@@ -233,29 +275,78 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Next steps
 
-1. **Positioning and interface work are pushed.** ctxpack `origin/main` is at
-   `233e6cd`; git-recon `origin/main` is at `87032f6`; privacy and verification
-   gates passed.
-2. **Current work order:** design the bounded, default-on files-seed git-recon
-   integration tracer, resolve seam/failure/budget/multi-file semantics, and
-   obtain plan confirmation before cross-cutting edits.
-3. **After confirmation:** implement only the `--from-files` vertical tracer,
-   reconcile specs/design/README, and run the compiler-boundary Tier 0 re-scan.
-   Remaining seed kinds wait for tracer evidence. The broader packet-value eval
-   remains deferred, ctxpack #6 remains externally unchanged, and
+1. **The files-seed tracer is technically accepted but not approved to
+   push.** The user authorized the local commits and then instructed the agent
+   to stop. git-recon is clean at local `7682b2c`, one commit ahead of
+   `origin/main` at `87032f6`; ctxpack's tracer lands in the commit containing
+   this tracker update. The already-present `~/.local/bin/git-recon` symlink
+   resolves to the local git-recon checkout and was not created or reinstalled.
+2. **Current work order:** recover or deliberately redefine the exact ctxpack
+   consumer benchmark seam, record the invocation, and run it once against the
+   pinned Rails SHA/path. The direct companion gate is now green at
+   4.838–5.192 seconds with identical output; the old 18.623–19.021-second
+   ctxpack numbers are pre-optimization. Do not make another speculative CLI
+   attempt.
+3. **Push decision follows that result.** Healthy margin under the unchanged
+   20-second deadline means reconcile and request push approval for both
+   repositories. Otherwise stop for timeout/default-on direction. Current
+   evidence does not justify a Zig/Rust/C rewrite.
+4. **Do not open a batch issue from this evidence alone.** ctxpack baseline is
+   0.068s with a fake provider and the tracer already makes one request, so
+   this is a single-path provider cost. The broader packet-value eval remains
+   deferred, ctxpack #6 remains externally unchanged, and
    [#7](https://github.com/fuentesjr/ctxpack/issues/7) remains open but
-   unscheduled.
-4. **Phase 5 and Phase 6 are complete and closed.** RubricLLM issue #5 is
+   unscheduled. Ask before committing, pushing, or publishing issue text.
+5. **Phase 5 and Phase 6 are complete and closed.** RubricLLM issue #5 is
    decided DEFER, borrow-on-demand, and closed.
-5. **The release-boundary three-app harness rerun awaits explicit user
+6. **The release-boundary three-app harness rerun awaits explicit user
    sign-off.** Do not spend its ~50M subject tokens implicitly.
-6. **Real-usage dogfooding remains discretionary.** Exercise LIM-1 against
+7. **Real-usage dogfooding remains discretionary.** Exercise LIM-1 against
    packet-vs-diff coverage on live work.
-7. **Method test-leg and route resolver re-spikes need new frozen
+8. **Method test-leg and route resolver re-spikes need new frozen
    pre-registrations and new user work orders.**
-8. **Tier 3 Rubydex remains deferred.**
+9. **Tier 3 Rubydex remains deferred.**
 
 ## Decision log
+
+- **2026-07-16 (git-recon query optimized; consumer recheck pending)** — The
+  user required a profile/optimization before landing and asked whether the
+  companion should be rewritten in Zig, Rust, or C. Trace2 falsified the
+  initial `diff-tree` hypothesis: Git processes used 5.116s of a 10.417s run,
+  while Bash spent 4.763s parsing 38,092 diff records. The uncommitted
+  git-recon change reuses the ordinary history result for repair filtering and
+  uses a quoted-name count pass to reject oversized commits before exact
+  NUL-delimited parsing. The opt-in benchmark was RED at 10.776s and GREEN at
+  4.965s; final runs were 4.838s, 4.845s, and 5.192s with byte-identical
+  1,920-byte output. Fixture tests, ShellCheck, Bash syntax, and diff checks
+  pass. A compiled rewrite is deferred: Git history now dominates and a true
+  replacement would create a semantic-equivalence/dependency/distribution
+  project for roughly one remaining second of orchestration. The old ctxpack
+  end-to-end numbers remain pre-optimization evidence. Two attempts to
+  reconstruct that consumer benchmark hit the wrong Ruby and then Rails-app
+  root discovery; per the two-attempt rule, further guessing stopped and the
+  missing recipe was logged in `debt.md`. The optimization was committed
+  locally as `7682b2c`; ctxpack was then authorized to commit. No push,
+  dependency, timeout, default-on, or published-text change occurred.
+
+- **2026-07-16 (files-seed tracer technically accepted; landing pending)** — The
+  user approved the bounded vertical tracer and explicitly chose not to
+  co-install git-recon. The existing `~/.local/bin/git-recon` symlink was
+  verified to resolve to the clean `87032f6` checkout; this session did not
+  create or reinstall it. ctxpack only discovers a compatible executable
+  already on standard PATH. The uncommitted implementation adds one
+  revision-pinned request for the first retained files primary, independent
+  fact/byte/time limits, typed Format 4 history, graceful omission, and no raw
+  Git fallback. Three end-to-end Rails runs completed in 19.021s, 19.018s, and
+  18.623s with included history (5 facts / 10 truncated, no error), close to
+  the unchanged 20-second provider deadline. Parent review found no P0/P1 code
+  defects; two P2 documentation examples were corrected. Tier 0 is
+  byte-identical to `post_amendment` across 1,967 anchors with zero crashes;
+  the strategic validator passes and the final clean-context review is clean
+  with no findings; the parent suite is 225/1976 green. A fake-provider compile
+  took 0.068 seconds, so the orchestrator recommends improving single-path
+  git-recon latency before landing default-on behavior. No batching issue,
+  commit, push, or published text was created.
 
 - **2026-07-16 (git-recon facts interface accepted)** — Implemented the
   interface-first decision directly in `~/Projects/git-recon` as compact,
@@ -264,8 +355,9 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
   coupling, and origin facts share provenance without repeated metadata; all
   lists and the 20-row table are fixture-proven. Real Rails profiling caught
   and removed process amplification hidden by small fixtures; final measured
-  runtime is 10.27–13.02 seconds on the selected high-churn PostgreSQL adapter
-  and 1.26 seconds on git-recon itself. Two independent final reviews PASS.
+  direct git-recon runtime is 10.27–13.02 seconds on the selected high-churn
+  PostgreSQL adapter and 1.26 seconds on git-recon itself. Two independent
+  final reviews PASS.
   This enables but does not implement ctxpack integration and does not prove
   history deserves packet budget. After exact commit-message and push approval,
   git-recon `87032f6` and ctxpack reconciliation `233e6cd` were privacy-scanned

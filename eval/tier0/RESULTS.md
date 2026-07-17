@@ -244,3 +244,25 @@ byte-identical to `post_amendment/` on all three apps; 0 crashes / 1,967
 pairs. The two touched existing seams (shared snippet window helper, file
 category union) are behavior-preserving; the rescan confirms the anchor
 path byte-exactly.
+
+## Files-seed history tracer rescan (2026-07-16)
+
+Mandatory pass-boundary re-scan after adding SEED-27 history enrichment,
+format v4, the cached repository context, and SEED-8 files-path
+canonicalization. The classifier was run against the committed route tables
+and the same verified pinned checkouts:
+
+| App | SHA verified | Pairs | Resolved | Rate | Δ vs post_amendment |
+|---|---|---:|---:|---:|---:|
+| Mastodon | `163f96cee4dea23365bff9b433871e68d20d9ee7` | 616 | 584 | 94.8% | 0 |
+| Discourse | `28b003a38d82c354ffc49bac23b655de9664e478` | 755 | 728 | 96.4% | 0 |
+| Zammad | `50384f4c390e8abed07694897956c2f8e176208d` | 596 | 539 | 90.4% | 0 |
+| **Average** | | | | **93.9%** | |
+
+**Zero per-anchor change.** All three result JSONs are byte-identical to
+`results/post_amendment/`: 0 regressions, 0 newly resolved, 0 label changes,
+and 0 compile crashes across all 1,967 pairs. This is the predicted result:
+the corpus contains anchor-only packets, so files-seed history is
+inapplicable; the format bump and cached repository context do not change
+whether an anchor resolves. Scratch outputs remain under
+`tmp/tier0-rescan/results/files_history_tracer/`; no new baseline is written.

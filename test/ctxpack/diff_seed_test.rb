@@ -186,7 +186,8 @@ class DiffSeedTest < Minitest::Test
           Ctxpack::Seed.diff("HEAD~1", identity: "head_1"),
           Ctxpack::Seed.files(["app/jobs/sync_billing_account_job.rb"])
         ],
-        task: "merge diff and files"
+        task: "merge diff and files",
+        history_provider: UnavailableHistoryProvider.new
       )
       assert packet.file("app/controllers/accounts_controller.rb")
       assert packet.file("app/jobs/sync_billing_account_job.rb")
@@ -317,7 +318,12 @@ class DiffSeedTest < Minitest::Test
     require "ctxpack/cli"
     stdout = StringIO.new
     stderr = StringIO.new
-    status = Ctxpack::CLI.new(stdout: stdout, stderr: stderr, cwd: cwd).run(args)
+    status = Ctxpack::CLI.new(
+      stdout: stdout,
+      stderr: stderr,
+      cwd: cwd,
+      history_provider: UnavailableHistoryProvider.new
+    ).run(args)
     Struct.new(:status, :stdout, :stderr, keyword_init: true).new(
       status: status,
       stdout: stdout.string,

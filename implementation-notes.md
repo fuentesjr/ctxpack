@@ -1586,13 +1586,13 @@ publication.
   paths, subdirectory invocation, coupling provenance and caps, the exact
   20-row maximum, origin caps, UTF-8-safe subjects, replay across locale/time
   zone, shallow/error responses, Git failures, and signal cleanup.
-- The first small-fixture-green implementation amplified subprocesses per
+- The first small-fixture-green direct git-recon implementation amplified subprocesses per
   escape byte, commit, and path and was killed after more than 35 seconds on a
   high-churn Rails file. Batching object checks and candidate diffs, plus
   rejecting oversized commits before partner work, reduced the final Rails
-  PostgreSQL-adapter smoke to 10.27–13.02 seconds; git-recon's own seed path
-  completes in 1.26 seconds. The Rails payload replayed byte-identically at
-  1,920 bytes.
+  direct PostgreSQL-adapter smoke to 10.27–13.02 seconds; git-recon's own seed
+  path completes in 1.26 seconds. The Rails payload replayed byte-identically
+  at 1,920 bytes.
 - Parent verification: git-recon fixture suite PASS; ShellCheck, Bash 3.2
   parsing, schema JSON parsing, and `git diff --check` clean. Final code and
   documentation reviewers both PASS. The ctxpack compiler was not touched, so
@@ -1601,3 +1601,203 @@ publication.
   enabling evidence, not proof that supplemental history earns packet budget.
   ctxpack #6 was not mutated. Neither repository's current reconciliation is
   committed, and no push is authorized.
+
+## Files-seed git-recon tracer (2026-07-16)
+
+- Strategic change type: `feature`.
+- User task statement (verbatim): “Ok let's not co-install. I approve of the
+  tracer plan. But go ahead and install the new version of git-recon to
+  ~/.local/bin/ first”.
+- Companion verification was completed by the orchestrator before this pass:
+  the `~/.local/bin/git-recon` symlink was already present and resolved to the
+  clean git-recon `87032f6` checkout. This session did not create or reinstall
+  it. ctxpack will discover that independent companion on `PATH`; it will not
+  vendor, co-install, download, or depend on git-recon.
+
+### Red-green evidence
+
+- SEED-8 fixture RED: added
+  `test/fixtures/evals/files_seed_canonical_path.yml` with the noncanonical
+  in-root evidence
+  `app/controllers/../controllers/accounts_controller.rb`, expecting the
+  canonical packet path `app/controllers/accounts_controller.rb`.
+  `bundle exec rake test` failed for the intended reason:
+  `FixtureEvalsTest#test_eval_files_seed_canonical_path_packet_expectations`
+  reported “expected app/controllers/accounts_controller.rb to be included.”
+  Summary: **207 runs, 1843 assertions, 1 failures, 0 errors, 0 skips**.
+- SEED-8 fixture GREEN after canonicalizing files-seed evidence against the
+  application root before seed identity, storage, deduplication, and packet
+  selection: `bundle exec rake test` → **207 runs, 1862 assertions, 0
+  failures, 0 errors, 0 skips**. The compiler path and CLI path both pass
+  through the same `Seed.files(..., app_root:)` normalization.
+- History request seam RED: `bundle exec ruby -Itest
+  test/ctxpack/history_integration_test.rb` failed with `ArgumentError:
+  unknown keyword: :history_provider` at the public `Ctxpack.compile` call.
+  GREEN after adding the compiler-level injected provider and enriching only
+  after final packet merge/file limiting: **1 run, 6 assertions, 0 failures,
+  0 errors, 0 skips**. The recording fake observed one request containing
+  only expanded app/repository roots, the first retained files primary, and
+  the cached full repo-stamp revision; a snippet range on merged evidence was
+  not forwarded and the primary file remained in the packet.
+- Provider adapter RED: the first focused provider test failed with
+  `NameError: uninitialized constant Ctxpack::GitReconHistoryProvider`.
+  Format RED independently expected manifest v4 while the packet still
+  emitted v3. Both turned green after adding the adapter, typed packet field,
+  Format 4 manifest, and pure Markdown rendering.
+
+### Implementation decisions
+
+- Compilation caches one repo context (full revision, dirty state, repository
+  root), applies existing file budgets, then selects the first retained
+  `files_seed_primary`. No retained primary means `history: null` and no
+  provider call. Git/provider failure preserves the primary and creates one
+  `history_context_unavailable` uncertainty.
+- The default adapter explicitly discovers `git-recon` on PATH and runs one
+  absolute argv command with `--`, no shell/range/retry/raw-Git fallback. Its
+  runner concurrently caps stdout + stderr, uses a monotonic 20-second
+  timeout, and reaps the process group with TERM then KILL. A regression test
+  covers a TERM-ignoring process that closes both output pipes.
+- Only validated v1 semantic facts cross the adapter boundary. The adapter
+  rejects unexpected keys, versions, revisions, paths, indexes, OIDs,
+  controls, traversal/Windows paths, origins, malformed JSON, and oversized
+  responses. It rebases coupled paths into a nested app, filters outside-app
+  paths, round-robins coupled/repair/recent facts, and greedily retains whole
+  facts under the independent 5-fact / 2,048-byte packet budget.
+- Manifest history has only typed included/omitted/null shapes. Markdown
+  renders fixed templates and JSON-style escaping for untrusted path/subject
+  text; rendering never reads PATH or invokes Git. History cannot consume or
+  evict source/test/file budgets.
+- The existing-companion fixture smoke returned typed included history
+  (`facts: 1`, `truncated: 0`) in about 1.7 seconds. The earlier direct
+  git-recon Rails query measured 10.27–13.02 seconds. Parent end-to-end ctxpack
+  smoke on
+  `activerecord/lib/active_record/connection_adapters/postgresql_adapter.rb`
+  completed in **19.021s, 19.018s, and 18.623s**; every run returned included
+  history with 5 facts, 10 truncated, and no error. That 18.623–19.021s range
+  is close to the approved, unchanged 20-second provider deadline; the
+  implementation still never fans out beyond one call.
+
+### Worker verification and handoff
+
+- Focused provider: **8 runs, 48 assertions**; integration: **7 runs, 50
+  assertions**; seed normalization: **10 runs, 49 assertions** — all zero
+  failures/errors. Changed Ruby files pass syntax checks.
+- Final whole suite: `bundle exec rake test` → **225 runs, 1976 assertions, 0
+  failures, 0 errors, 0 skips**. `git diff --check` passes.
+- `bundle exec rake metz` completed as advisory: 141 findings across the
+  repository's intentionally strict three cops. The new adapter contributes
+  long-class/long-method pressure because it owns subprocess safety plus the
+  v1 anti-corruption/schema boundary; this is flagged for the parent strategic
+  review rather than expanded into an unapproved refactor.
+- Contracts reconciled in this pass: SEED-8/15/17/27, LIM-1/2/5,
+  FMT-0/2/7/10/13, DET-1/3/5/6, MAN-2/3/4, and CLI-16/18/21, plus
+  `design.md`, README, examples, FAQ, AGENTS, tracker, and the fixture eval.
+- Mandatory Tier 0 corpus re-scan and the strategic validator/reviewer are
+  deliberately deferred to the parent orchestrator-DRA per delegation. No
+  dependency, lockfile, CI, frozen eval evidence, commit, push, or GitHub
+  mutation occurred.
+
+### Parent correction round 1
+
+- Replaced the impossible normative MAN-2 v4 example with a structurally
+  emitted files packet: retained `files_seed_primary` evidence, matching
+  history path, full 40-hex OIDs, and the manifest-only
+  `no_test_candidates` Follow-up required by its true flag. Updated the
+  generic EVAL-4 YAML example from manifest version 2 to current version 4.
+- Corrected session provenance: the `~/.local/bin/git-recon` symlink was
+  already present and verified against the clean `87032f6` checkout; this
+  session did not create or reinstall it.
+- Separated the older direct git-recon timing (10.27–13.02s) from the parent
+  end-to-end ctxpack timing (18.623–19.021s) in design, README, examples, FAQ,
+  tracker, and these notes. The end-to-end result is explicitly close to the
+  unchanged 20-second deadline; no deadline/default-on policy change was made.
+- Focused checks: the normative Format 4 JSON example parsed and passed its
+  structural assertions; `FixtureEvalsTest` passed **50 runs, 877 assertions,
+  0 failures, 0 errors, 0 skips**. Final `bundle exec rake test` passed **225
+  runs, 1976 assertions, 0 failures, 0 errors, 0 skips**; `git diff --check`
+  passed.
+- Per parent instruction,
+  `test/fixtures/evals/multiline_task_manifest_v3.yml` retains its stale
+  filename pending any separately approved rename. Parent acceptance was still
+  pending at that correction boundary; no commit or push occurred.
+
+### Parent acceptance gates
+
+- The orchestrator reviewed the production diff and the SEED-8/15/17/27,
+  LIM-1/2/5, FMT-0/2/7/10/13, DET-1/3/5/6, MAN-2/3/4, and
+  CLI-16/18/21 contracts requirement by requirement. The independent
+  Agenticons code/documentation review found no P0/P1 code defect; its two P2
+  example defects were corrected in parent correction round 1.
+- Mandatory Tier 0 re-scan used the committed route tables and verified pinned
+  checkouts for Mastodon `163f96cee4dea23365bff9b433871e68d20d9ee7`,
+  Discourse `28b003a38d82c354ffc49bac23b655de9664e478`, and Zammad
+  `50384f4c390e8abed07694897956c2f8e176208d`. All three result JSONs are
+  byte-identical to `results/post_amendment/`: 0 regressions, 0 newly
+  resolved, 0 label changes, and 0 crashes across 1,967 anchors. The append-only
+  record is in `eval/tier0/RESULTS.md`; no new baseline was written.
+- The strategic feature validator passed slice tests, red-green evidence, and
+  the TODO gate. Its two warnings are the enrolled
+  `strategic-validator-metz-config` debt: RuboCop cannot load this repository's
+  Metz-only configuration, so lint/security and metric deltas were skipped.
+  The first clean-context design review returned `clean` with two concerns:
+  the provider's back-reference to `Compiler::LIMITS`, and an unrelated
+  orchestration-policy diff from the pre-existing local commit. The provider
+  concern was corrected by injecting the single compiler limit registry; the
+  unrelated committed policy was preserved. Validator rerun passed, and the
+  second clean-context review returned `clean` with no findings.
+- Final focused checks after that correction: provider **8 runs / 48
+  assertions**, integration **7 runs / 50 assertions**, zero failures/errors.
+  Final whole suite: `bundle exec rake test` -> **225 runs, 1976 assertions, 0
+  failures, 0 errors, 0 skips**. `git diff --check` passes; Gemfile,
+  `Gemfile.lock`, gemspec, CI, dependencies, and frozen experiment evidence are
+  unchanged.
+- A fake-provider Rails compile took **0.068s**, isolating the measured
+  18.623-19.021s end-to-end latency almost entirely to the one git-recon
+  request. This does not support a batched-interface conclusion: batching
+  cannot improve the tracer's single requested path. The implementation is
+  technically accepted, but landing the approved default-on / 20-second policy
+  remains a user decision; the orchestrator recommends profiling and improving
+  single-path git-recon latency before commit. No commit, push, issue edit, or
+  issue publication occurred.
+
+## git-recon single-path optimization (2026-07-16)
+
+- The user asked to profile and optimize the representative `facts` query
+  before landing the tracer, then asked whether a Zig, Rust, or C rewrite
+  would be preferable. git-recon remained the implementation scope; ctxpack
+  behavior and the v1 facts contract were held fixed.
+- A red-capable benchmark pinned Rails at
+  `1d19b2a1f90eb64f7cda2209621eb21a43511be0`, the PostgreSQL adapter path,
+  the exact 1,920-byte response, and an 8-second threshold. The original
+  checkout was RED at **10.776s**.
+- Git Trace2 measured **10.417s** wall time: three path-history walks consumed
+  **4.776s**, all 23 Git processes consumed **5.116s**, and the NUL-stream
+  Bash parser consumed **4.763s** over **38,092** records. `diff-tree` itself
+  used only **0.197s**, falsifying the initial dominant-Git-process hypothesis.
+- git-recon now reuses the ordinary path-history commit set for repair-message
+  matching. Coupling first counts distinct Git-quoted path lines and rejects
+  commits over the existing 30-path ceiling, then sends only eligible commits
+  through the exact NUL-delimited parser. Commit markers carry their epoch to
+  remove the repeated candidate-array search. Comments beside both passes
+  record why the quoted form is safe only for counting and why the exact pass
+  remains necessary.
+- The opt-in `test/benchmark_facts.sh` benchmark turned GREEN at **4.965s**.
+  Final real-checkout runs completed in **4.838s, 4.845s, and 5.192s**, each
+  byte-identical with SHA-256
+  `02c35bdc7c0d73c3b7eaece160ec4f0ad66efcc72558b940cf4f17d329e1ff43`.
+  git-recon's fixture suite, ShellCheck, Bash syntax, and diff checks pass.
+- A compiled rewrite is not justified by this profile. Keeping Git processes
+  leaves roughly one second of orchestration overhead after the optimization;
+  replacing the remaining history walks would be a new semantic-equivalence,
+  dependency, and distribution project. If a future latency target requires
+  it, evaluate Rust first, C/libgit2 second, and Zig only with evidence of a
+  specific advantage.
+- The post-optimization ctxpack consumer recheck is not claimed. Two attempted
+  reconstructions used the wrong system Ruby and then the CLI's Rails-app root
+  discovery against the rails/rails framework repository. The original
+  benchmark recipe was not recorded, so the two-attempt rule stopped further
+  guessing. The missing recipe is logged in `debt.md`; the old end-to-end
+  numbers remain explicitly labeled pre-optimization.
+- git-recon was committed locally as `7682b2c`; the user then authorized the
+  ctxpack commit containing this pass. No push, dependency, timeout/default-on
+  change, issue edit, or published text occurred.

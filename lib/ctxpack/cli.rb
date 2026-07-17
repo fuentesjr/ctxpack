@@ -25,12 +25,13 @@ module Ctxpack
     ROUTE_HINT_ANCHOR_PATTERN = /\A(?<controller>[a-z][a-z0-9_]*(?:\/[a-z][a-z0-9_]*)*)#(?<action>_?[a-z][a-z0-9_]*)\z/
     ANCHOR_SEED_PATTERN = /\A[a-z][a-z0-9_]*(?:\/[a-z][a-z0-9_]*)*#_?[a-z][a-z0-9_]*[?!]?\z/
 
-    def initialize(stdout: $stdout, stderr: $stderr, stdin: $stdin, cwd: Dir.pwd, clock: Time)
+    def initialize(stdout: $stdout, stderr: $stderr, stdin: $stdin, cwd: Dir.pwd, clock: Time, history_provider: nil)
       @stdout = stdout
       @stderr = stderr
       @stdin = stdin
       @cwd = File.expand_path(cwd)
       @clock = clock
+      @history_provider = history_provider
     end
 
     def run(argv)
@@ -78,7 +79,12 @@ module Ctxpack
       identity = identity[-80, 80] if identity.length > 80
 
       if (stdout_format = options.fetch(:stdout))
-        packet = Ctxpack.compile(app_root: app_root, seeds: seeds, task: options.fetch(:task))
+        packet = Ctxpack.compile(
+          app_root: app_root,
+          seeds: seeds,
+          task: options.fetch(:task),
+          history_provider: @history_provider
+        )
         rendered = if stdout_format == :json
           Ctxpack.render_manifest(packet)
         else
@@ -97,7 +103,12 @@ module Ctxpack
 
       protect_outputs!([markdown_path, manifest_path].compact, options)
 
-      packet = Ctxpack.compile(app_root: app_root, seeds: seeds, task: options.fetch(:task))
+      packet = Ctxpack.compile(
+        app_root: app_root,
+        seeds: seeds,
+        task: options.fetch(:task),
+        history_provider: @history_provider
+      )
       markdown = Ctxpack.render_markdown(packet)
       manifest = Ctxpack.render_manifest(packet) if manifest_path
 
@@ -358,7 +369,7 @@ module Ctxpack
           raise ArgumentError, "files seed path does not exist: #{path}"
         end
       end
-      Seed.files(paths)
+      Seed.files(paths, app_root: app_root)
     end
 
     def seed_from_error_paste(value, app_root)

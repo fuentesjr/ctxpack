@@ -245,6 +245,8 @@ fail with a nonzero exit status and a message that names the specific
 unsupported case (anchor: file not found / no direct `def <action>` — ANCH-6/
 ANCH-7; test/files: missing path; error: no application frames; etc.). It MUST
 NOT fall back to guessing, searching, or partial packets.
+Supplemental SEED-27 history failure is not seed-resolution failure: the
+primary packet is preserved with typed omitted history and one Follow-up.
 
 **CLI-17.** Failure messages SHOULD point the user at Rails-native discovery
 (`bin/rails routes -g …`, `bin/rails routes -c …`) rather than offering any
@@ -278,8 +280,9 @@ targeted `packets` behavior remain unchanged. **[fixed by spec]**
 ## Explicit non-features
 
 **CLI-18.** v0 MUST NOT expose flags for the internal packet limits (max
-files, snippet lines, etc. — see LIM-1). Limits become flags only if fixture
-evals or real usage show the defaults are wrong.
+files, snippet lines, history calls/facts/bytes/time, etc. — see LIM-1/LIM-5).
+Limits become flags only if fixture evals or real usage show the defaults are
+wrong.
 
 **CLI-19.** No `ctxpack routes` command, no interactive pickers, no
 `--helper` flag in v0. Tailored diagnostics do not resolve routes or turn route
@@ -289,3 +292,12 @@ helpers into accepted input; route-helper resolution is the future `route` seed
 **CLI-20.** Classification and coaching remain **suggest-only** (SEED-18):
 rewrite messages never compile on the user's behalf. No `confidence` field in
 any candidate output (SEED-19).
+
+**CLI-21.** Files-seed history is default-on only when a compatible,
+separately installed `git-recon` executable is explicitly discovered on
+standard `PATH`. ctxpack does not co-install, vendor, download, configure via
+`CTXPACK_*` environment variables, or add a gem dependency for git-recon.
+Absence, no Git/repository, shallow history, timeout, invalid path/revision,
+typed provider failure, signal exit, malformed/unsupported/mismatched response,
+or response overflow degrades per CLI-16/SEED-27; no new flag is exposed. The
+CLI accepts an injected history provider for hermetic in-process tests.

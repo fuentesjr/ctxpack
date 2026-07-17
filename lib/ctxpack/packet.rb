@@ -36,6 +36,64 @@ module Ctxpack
   Uncertainty = Struct.new(:code, :subject, :message, keyword_init: true)
   OmittedCandidate = Struct.new(:category, :subject, :reason, :limit_key, keyword_init: true)
 
+  HistoryFact = Struct.new(
+    :type,
+    :path,
+    :count,
+    :support_oid,
+    :oid,
+    :subject,
+    :roles,
+    keyword_init: true
+  ) do
+    def manifest_hash
+      if type == "coupled_path"
+        {
+          "type" => type,
+          "path" => path,
+          "count" => count,
+          "support_oid" => support_oid
+        }
+      else
+        {
+          "type" => type,
+          "oid" => oid,
+          "subject" => subject,
+          "roles" => roles
+        }
+      end
+    end
+  end
+
+  History = Struct.new(
+    :status,
+    :path,
+    :facts,
+    :truncated_count,
+    :reason,
+    keyword_init: true
+  ) do
+    def self.included(path:, facts:, truncated_count:)
+      new(
+        status: "included",
+        path: path,
+        facts: facts,
+        truncated_count: truncated_count,
+        reason: nil
+      )
+    end
+
+    def self.omitted(path:, reason:)
+      new(
+        status: "omitted",
+        path: path,
+        facts: [],
+        truncated_count: 0,
+        reason: reason
+      )
+    end
+  end
+
   class Packet
     attr_reader :version,
                 :app_root,
@@ -50,9 +108,9 @@ module Ctxpack
                 :omitted_candidates,
                 :convention_constant_matches
 
-    attr_accessor :no_test_candidates, :test_framework
+    attr_accessor :no_test_candidates, :test_framework, :history
 
-    def initialize(anchor:, task:, repo:, entrypoint:, app_root: nil, seeds: nil, version: 3)
+    def initialize(anchor:, task:, repo:, entrypoint:, app_root: nil, seeds: nil, version: 4)
       @version = version
       @app_root = app_root && File.expand_path(app_root)
       @anchor = anchor
@@ -65,6 +123,7 @@ module Ctxpack
       @uncertainty = []
       @omitted_candidates = []
       @convention_constant_matches = []
+      @history = nil
       @no_test_candidates = false
       @test_framework = nil
     end
@@ -105,6 +164,7 @@ module Ctxpack
         },
         "entrypoint" => entrypoint_hash,
         "files" => files.map { |entry| manifest_file_entry(entry) },
+        "history" => manifest_history,
         "tests" => tests.map { |test| manifest_test(test) },
         "follow_ups" => manifest_follow_ups,
         "omitted_candidates" => omitted_candidates.map { |candidate| manifest_omitted_candidate(candidate) },
@@ -124,6 +184,25 @@ module Ctxpack
     end
 
     private
+
+    def manifest_history
+      return nil unless history
+
+      if history.status == "included"
+        {
+          "status" => history.status,
+          "path" => history.path,
+          "facts" => history.facts.map(&:manifest_hash),
+          "truncated_count" => history.truncated_count
+        }
+      else
+        {
+          "status" => history.status,
+          "path" => history.path,
+          "reason" => history.reason
+        }
+      end
+    end
 
     def manifest_file_entry(entry)
       {

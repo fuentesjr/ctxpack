@@ -101,7 +101,8 @@ class FixtureEvalsTest < Minitest::Test
     command = eval_case.command
     kwargs = {
       app_root: fixture_app(eval_case.app),
-      task: command.fetch("task")
+      task: command.fetch("task"),
+      history_provider: UnavailableHistoryProvider.new
     }
     if command["seeds"]
       kwargs[:seeds] = command.fetch("seeds").map { |s| seed_from_yaml(s) }
@@ -203,7 +204,12 @@ class FixtureEvalsTest < Minitest::Test
   def run_cli(args, cwd:)
     stdout = StringIO.new
     stderr = StringIO.new
-    status = Ctxpack::CLI.new(stdout: stdout, stderr: stderr, cwd: cwd).run(args)
+    status = Ctxpack::CLI.new(
+      stdout: stdout,
+      stderr: stderr,
+      cwd: cwd,
+      history_provider: UnavailableHistoryProvider.new
+    ).run(args)
 
     Result.new(status: status, stdout: stdout.string, stderr: stderr.string)
   end

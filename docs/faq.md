@@ -26,7 +26,7 @@ Shipped kinds (SEED-4 catalog as of Phase 5):
 | `test` | `--from-test path[:line]` | Test/spec primary + inferred production surface |
 | `error` | `--from-error paste\|-` | App frames only; raw paste never stored |
 | `diff` | `--from-diff range\|patch` | Flag-only; changed files + conventional paired tests when present |
-| `files` | `--from-files path…` | Named files + budgeted neighbors |
+| `files` | `--from-files path…` | Named files + budgeted neighbors; one bounded local-history query when git-recon is available |
 | `method` | `--from-method Const#method` | Non-controller methods; **no test-candidate leg** |
 | `anchor` | `controller#action` / `--from-anchor` | Full action/callback/view/constant/test recipe |
 
@@ -122,10 +122,25 @@ reading code.
 
 ## Does it boot or run my app?
 
-No. Pure static analysis via [`prism`](https://github.com/ruby/prism). No Rails
-boot, no database, no execution of your code. Diff seeds shell out to `git`
-only. That's why it is safe to run anywhere, and why it cannot see runtime-only
+No Rails boot, database, or application-code execution. Static Ruby analysis
+uses [`prism`](https://github.com/ruby/prism). Diff seeds shell out to `git`;
+files seeds may invoke the separately installed local `git-recon` companion,
+which in turn reads Git history. That's why ctxpack cannot see runtime-only
 definitions (metaprogrammed actions, dynamic callbacks, etc.).
+
+## Do I need git-recon for files seeds?
+
+No. Install it separately when you want bounded local path-history facts:
+
+```bash
+git clone https://github.com/fuentesjr/git-recon.git
+ln -s "$PWD/git-recon/bin/git-recon" ~/.local/bin/git-recon
+```
+
+ctxpack discovers it on `PATH`; it never co-installs, downloads, or vendors
+the companion. Without it, the named files and neighbors remain unchanged and
+the packet records one `history_context_unavailable` Follow-up. There is no
+raw-Git fallback or history flag.
 
 ## Which Rails versions and test frameworks are supported?
 
@@ -183,20 +198,25 @@ inherited, concern-defined, and metaprogrammed actions are unsupported in v0
 
 ## Is the output deterministic?
 
-Yes — byte-for-byte for the same seeds, task, and source tree (stable ordering,
-no content timestamps). Diff seeds are deterministic *given repo state + range*
-(or patch bytes). Enforced by the fixture-eval suite.
+Yes — byte-for-byte for the same seeds, task, source tree, and normalized
+provider result (stable ordering, no content timestamps). Diff seeds are
+deterministic *given repo state + range* (or patch bytes). Files history is
+pinned to the packet's full repo-stamp commit and stored before rendering;
+renderers never rerun it. Enforced by the fixture-eval suite.
 
 ## Can I consume the manifest without creating packet files?
 
-Yes. `ctxpack … --stdout=json` writes Format 3 manifest JSON and creates
+Yes. `ctxpack … --stdout=json` writes Format 4 manifest JSON and creates
 nothing. Bare `--stdout` emits Markdown. Both conflict with artifact options
 (`--out`, `--dir`, `--manifest`, …).
 
 ## Can I raise the limits? {#can-i-raise-the-limits}
 
-No — fixed caps (8/4/2/2/120). An uncapped list recreates the exploration
-problem. Follow-ups name what the cap hid.
+No — fixed source caps (8 files / 4 constants / 2 views / 2 tests / 120 snippet
+lines) plus independent history caps (1 call / 5 facts / 2,048 payload bytes /
+16 KiB response / 20 seconds). An uncapped list recreates the exploration
+problem. Follow-ups name source omissions; History summarizes bounded fact
+truncation once.
 
 ## Should I commit packets to the repo?
 
@@ -206,12 +226,18 @@ goes stale as the code changes.
 
 ## Does ctxpack send my code anywhere?
 
-No. Local only: reads source, writes packets. No network, no telemetry. What you
-do with a generated packet (e.g. paste into a hosted agent) is up to you.
+No. Local only: reads source and local Git history, writes packets. ctxpack and
+git-recon make no network request and send no telemetry. What you do with a
+generated packet (e.g. paste into a hosted agent) is up to you.
 
 ## How fast is it, and does it scale?
 
-It parses a small, budgeted set of files per compile — typically well under a
-second, no whole-repo index. The anchor-viability spike compiled 1,967 real
-`controller#action` pairs across three large open-source apps with zero
-crashes.
+Without files-history enrichment it parses a small, budgeted set of files per
+compile — typically well under a second, no whole-repo index. The optional
+git-recon tracer performs one bounded history query. Profiling reduced that
+direct query on the representative high-churn Rails path from 10.27–13.02
+seconds to 4.838–5.192 seconds with byte-identical output. Three
+pre-optimization end-to-end ctxpack runs measured 18.623–19.021 seconds; the
+post-optimization recheck is pending. ctxpack therefore still does not fan the
+query out across packet files. The anchor-viability spike compiled 1,967 real
+`controller#action` pairs across three large open-source apps with zero crashes.

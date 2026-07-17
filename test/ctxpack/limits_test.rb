@@ -7,7 +7,12 @@ class LimitsTest < Minitest::Test
       max_constant_files: 4,
       max_view_files: 2,
       max_test_files: 2,
-      max_snippet_lines_per_file: 120
+      max_snippet_lines_per_file: 120,
+      max_history_calls: 1,
+      max_history_facts: 5,
+      max_history_payload_bytes: 2048,
+      max_history_response_bytes: 16_384,
+      max_history_seconds: 20
     }, Ctxpack::Compiler::LIMITS)
   end
 

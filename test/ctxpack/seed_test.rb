@@ -20,7 +20,7 @@ class SeedTest < Minitest::Test
     )
 
     assert_equal via_anchor.to_h, via_seeds.to_h
-    assert_equal 3, via_seeds.version
+    assert_equal 4, via_seeds.version
     assert_equal ["anchor"], via_seeds.seeds.map(&:kind)
     assert_equal "accounts#upgrade", via_seeds.seeds.first.evidence
   end
@@ -32,7 +32,7 @@ class SeedTest < Minitest::Test
     assert_match(/seed|anchor/i, error.message)
   end
 
-  def test_phase2_anchor_packet_is_format_v3_with_seeds_and_anchor
+  def test_phase2_anchor_packet_is_current_format_with_seeds_and_anchor
     app_root = fixture_app("minitest_basic")
     packet = Ctxpack.compile(
       app_root: app_root,
@@ -42,9 +42,9 @@ class SeedTest < Minitest::Test
     markdown = Ctxpack.render_markdown(packet)
     manifest = JSON.parse(Ctxpack.render_manifest(packet))
 
-    assert_equal 3, manifest.fetch("version")
+    assert_equal 4, manifest.fetch("version")
     assert_equal "anchor", manifest.fetch("seeds").first.fetch("kind")
-    assert_includes markdown, "Format: 3"
+    assert_includes markdown, "Format: 4"
     assert_includes markdown, "## Anchor"
     assert_includes markdown, "## Seeds"
   end
@@ -65,7 +65,8 @@ class SeedTest < Minitest::Test
     packet = Ctxpack.compile(
       app_root: fixture_app("minitest_basic"),
       seeds: [Ctxpack::Seed.files(["app/controllers/accounts_controller.rb"])],
-      task: "Inspect accounts"
+      task: "Inspect accounts",
+      history_provider: UnavailableHistoryProvider.new
     )
     assert_equal "files", packet.seeds.first.kind
     assert packet.file("app/controllers/accounts_controller.rb")
@@ -74,6 +75,58 @@ class SeedTest < Minitest::Test
         packet.files.any? { |f| f.path.start_with?("test/") },
       "expected a test neighbor"
     )
+  end
+
+  def test_seed_8_files_seed_rejects_absolute_and_escaping_paths
+    app_root = fixture_app("minitest_basic")
+
+    absolute = assert_raises(ArgumentError) do
+      Ctxpack.compile(
+        app_root: app_root,
+        seeds: [Ctxpack::Seed.files([File.join(app_root, "app/controllers/accounts_controller.rb")])],
+        task: "Inspect accounts",
+        history_provider: UnavailableHistoryProvider.new
+      )
+    end
+    assert_match(/must be relative/, absolute.message)
+
+    escape = assert_raises(ArgumentError) do
+      Ctxpack.compile(
+        app_root: app_root,
+        seeds: [Ctxpack::Seed.files(["../rspec_basic/app/controllers/accounts_controller.rb"])],
+        task: "Inspect accounts",
+        history_provider: UnavailableHistoryProvider.new
+      )
+    end
+    assert_match(/escapes the application root/, escape.message)
+
+    drive = assert_raises(ArgumentError) do
+      Ctxpack.compile(
+        app_root: app_root,
+        seeds: [Ctxpack::Seed.files(["C:\\outside.rb"])],
+        task: "Inspect accounts",
+        history_provider: UnavailableHistoryProvider.new
+      )
+    end
+    assert_match(/must be relative/, drive.message)
+  end
+
+  def test_seed_8_files_seed_canonicalizes_before_deduplication_and_storage
+    packet = Ctxpack.compile(
+      app_root: fixture_app("minitest_basic"),
+      seeds: [
+        Ctxpack::Seed.files([
+          "app/controllers/../controllers/accounts_controller.rb",
+          "app/controllers/accounts_controller.rb"
+        ])
+      ],
+      task: "Inspect accounts",
+      history_provider: UnavailableHistoryProvider.new
+    )
+
+    assert_equal "app/controllers/accounts_controller.rb", packet.seeds.first.evidence
+    assert_equal 1, packet.files.count { |entry| entry.reason_codes.include?("files_seed_primary") }
+    assert_equal "app/controllers/accounts_controller.rb", packet.files.first.path
   end
 
   def test_phase3_error_seed_persists_only_app_frames
@@ -104,6 +157,6 @@ class SeedTest < Minitest::Test
     assert_equal "accounts#upgrade", packet.anchor
     assert packet.file("test/controllers/accounts_controller_test.rb")
     assert packet.file("app/controllers/accounts_controller.rb")
-    assert_equal 3, packet.version
+    assert_equal 4, packet.version
   end
 end

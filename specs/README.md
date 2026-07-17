@@ -38,14 +38,17 @@ implementation pass discovers them late:
   everything MAN-* and FMT-2..FMT-9 need (task, seeds, optional anchor,
   entrypoint, snippet subjects/ranges and truncation state, test paths/rules,
   reason and uncertainty codes, omitted candidates, no-candidate state, repo
-  availability/stamp) must exist on the packet object when compilation finishes,
+  availability/stamp, and typed supplemental history state) must exist on the packet object when compilation finishes,
   even though those requirements live in `packet-format.md`.
 - **Reason and uncertainty codes.** Registered in FMT-6/FMT-7 but emitted by
   compilation and seed-resolution events. A compilation or seed change that needs
   a new code updates `packet-format.md` in the same change.
-- **Repo stamp.** FMT-10..FMT-12 specify it, but it is computed when the
+- **Repo stamp and history revision.** FMT-10..FMT-13 specify them, but the
+  generation-state repo stamp is computed when the
   packet object is built, not at render time — the manifest carries it
-  (MAN-2 `repo`), so it cannot be a format-layer concern.
+  (MAN-2 `repo`), so it cannot be a format-layer concern. Historical commit
+  OIDs may appear only as provenance for bounded history facts; they are not
+  additional generation-state stamps.
 - **Application root and task text.** Inputs to compilation, passed as
   parameters. Discovering the root (CLI-3) and validating/deriving artifact
   names (CLI-4..CLI-8b) belong to the CLI layer only. Seed identity (CLI-8a)
@@ -54,9 +57,10 @@ implementation pass discovers them late:
   author them at their final paths under `test/fixtures/apps/` so Tier 1 evals
   reuse them rather than duplicate them.
 - **Format version.** Phase 1 emits format v2 (byte-identical goldens). Phase 2
-  forces format v3, which **replaces** v2; both Markdown `Format:` and manifest
-  `version` bump together; anchor heading shape is preserved *within* v3 when
-  an anchor seed is present.
+  forces format v3, which **replaces** v2. The files-seed history tracer forces
+  format v4, which **replaces** v3 for every packet. Markdown `Format:` and
+  manifest `version` always bump together; anchor heading shape is preserved
+  when an anchor seed is present.
 
 ## Conventions
 
@@ -86,7 +90,7 @@ implementation pass discovers them late:
 - **Reason code** — a fixed machine-readable token explaining why a file is in
   the packet (see `packet-format.md`).
 - **Repo stamp** — the git commit SHA (plus dirty marker) embedded in packet
-  content; the only repo-state marker allowed inside a packet.
+  content; the only generation-state marker allowed inside a packet.
 - **Manifest** — optional JSON sibling of the Markdown packet, generated from
   the same internal packet object as a public machine-fact representation for
   eval assertions and other consumers; Markdown remains the primary artifact.

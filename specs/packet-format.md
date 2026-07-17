@@ -3,16 +3,17 @@
 Status: Draft. Source: `design.md` — "What is a context packet?",
 "Determinism", "v0 packet contents", "Machine-readable manifest", "Example
 packet shape"; amended 2026-07-13 for format v3 / seed ontology
-(`docs/seed-based-interface-proposal.md` §6.2, §14.4).
+(`docs/seed-based-interface-proposal.md` §6.2, §14.4), and 2026-07-16 for
+format v4 bounded files-seed history.
 
 ## Version policy
 
-**FMT-0.** Format version 3 **replaces** version 2 as the only emitted version
-at Phase 2 (first non-anchor seed). There is no compatibility fork and no
-emission flag. Both version carriers bump together: the Markdown `Format:`
-line and the manifest `version` field. Phase 1 (behavior-compatible wrap)
-still emits format v2 byte-identical to pre-seed goldens; Phase 2 re-baselines
-every golden. Consumers MUST inspect `version` and reject unsupported versions.
+**FMT-0.** Format version 4 **replaces** version 3 as the only emitted version
+when bounded files-seed history is introduced. There is no compatibility fork
+and no emission flag. Both version carriers bump together: the Markdown
+`Format:` line and the manifest `version` field. Versions 2 (Phase 1) and 3
+(Phase 2 through the history tracer) are historical only. Consumers MUST
+inspect `version` and reject unsupported versions.
 
 ## Markdown packet
 
@@ -39,12 +40,13 @@ Every `##` section heading is followed by one blank line before its content.
    - **Format v2 (Phase 1 only):** `## Anchor` — the exact anchor, resolved
      controller class and action, controller path, repo stamp, `Format: 2`,
      and the FMT-8 `Scope:` line.
-   - **Format v3:** always include `## Seeds` — one inventory line per seed
+   - **Format v3/v4:** always include `## Seeds` — one inventory line per seed
      (`kind: identity`). When an anchor seed is present, also include
      `## Anchor` with the same heading-shape fields as v2 (exact anchor,
-     controller class/action, controller path, repo stamp, `Format: 3`,
+     controller class/action, controller path, repo stamp, the current
+     `Format:` value,
      FMT-8 `Scope:`). When no anchor seed is present, omit `## Anchor` and
-     put repo stamp + `Format: 3` + a seed-appropriate `Scope:` line under
+     put repo stamp + the current `Format:` value + a seed-appropriate `Scope:` line under
      `## Seeds` (or a following `## Focus` header line — exact placement fixed
      at Phase 2 implementation and locked by goldens). Non-anchor packets use
      `## Focus` as the human label for the inspect inventory when that
@@ -58,7 +60,8 @@ Every `##` section heading is followed by one blank line before its content.
    snippet, in DET-2 order (FMT-4). Omitted when no snippets exist.
 7. `## Run` — suggested test commands (TEST-6), or the explicit TEST-5
    no-candidate statement; for non-anchor seeds, Run may list the seed’s
-   primary test path command when applicable.
+   primary test path command when applicable. When FMT-13 history is present,
+   it appears immediately before Run.
 
 Conditional sections:
 
@@ -128,6 +131,7 @@ New codes require a spec update; freeform reason codes are prohibited.
 | `block_callback_present` | An applicable callback was declared with an inline block, so there is no method to snippet (CB-1a) **[name fixed by spec]** |
 | `view_inferred_by_convention` | An included view file was matched by action→template convention, not confirmed against the action's actual render target; emitted once per included view with that view path as subject (VIEW-4, VIEW-6) |
 | `test_seed_surface_uncertain` | A `test` seed could not deterministically resolve a production surface, or resolved only by weak path-token heuristics (Phase 2) |
+| `history_context_unavailable` | A retained files primary applied but bounded local history could not be retrieved; emitted exactly once for the selected path |
 
 **FMT-8.** Standing v0 boundaries appear exactly once in the templated
 `Scope:` line under `## Anchor`: routes, superclass/concern callbacks, and
@@ -148,11 +152,14 @@ bug (LIM-2).
 
 ## Repo stamp
 
-**FMT-10.** Exactly one repo-state stamp is allowed inside packet content:
-the git commit SHA at generation time, with a `dirty` marker when the working
-tree has uncommitted changes. The dirty marker is honest rather than precise:
-the SHA cannot capture uncommitted changes, so a dirty-tree packet must say
-so.
+**FMT-10.** Exactly one generation-state repo stamp is allowed inside packet
+content: the git commit SHA at generation time, with a `dirty` marker when the
+working tree has uncommitted changes. The dirty marker is honest rather than
+precise: the SHA cannot capture uncommitted changes, so a dirty-tree packet
+must say so.
+
+Full historical commit OIDs may additionally appear only as provenance for
+typed FMT-13 history facts; they do not describe packet generation state.
 
 **FMT-11.** Stamp resolution uses normal git discovery from the application
 root (`git -C <app_root> rev-parse HEAD`), so an app in a monorepo
@@ -167,6 +174,19 @@ excluded). Untracked files count because a new untracked file can be
 snippeted into the packet while being invisible to the SHA — exactly the
 irreproducibility the marker exists to flag. **[fixed by spec]**
 
+**FMT-13.** `## History` is conditional on a non-null typed history result. It
+appears after `## Evidence` when Evidence exists, otherwise after `## Inspect
+first`, and always before `## Run`. Included results render the selected seed
+path plus fixed bullets for typed coupled-path facts (`path`, count, first
+supporting full OID) and commit facts (full OID, normalized subject, roles
+`repair` and/or `recent`). Successful empty history renders one fixed no-signals
+line. Bounded truncation renders one summary using LIM-5 values from
+`Compiler::LIMITS`. Omitted history renders a fixed unavailable line and
+produces exactly one deduplicated `history_context_unavailable` Follow-up.
+Subjects and paths are untrusted: templates contain them as escaped JSON-style
+text inside fixed lines so headings, fences, and backticks cannot create peer
+packet structure.
+
 ## Determinism
 
 **DET-1.** Core guarantee:
@@ -177,7 +197,8 @@ same repo state + same task + same normalized seeds = same normalized packet con
 
 "Normalized" means: output path ignored, repo-stamp line normalized when
 comparing across repo states (see EVAL-7); seeds normalized per SEED-8 /
-SEED-20.
+SEED-20; and the same explicit history-provider result at the stamped revision
+when SEED-27 applies (DET-6).
 
 **DET-2.** File ordering within the packet is deterministic:
 
@@ -195,8 +216,8 @@ SEED-20.
 **[fixed by spec; multi-seed order fixed by seeds.md MERGE-*]**
 
 **DET-3.** All prose in the packet is templated: inventory provenance,
-evidence provenance, Scope text, Run annotations, and Follow-ups. No
-model-generated summaries anywhere.
+evidence provenance, bounded-history facts, Scope text, Run annotations, and
+Follow-ups. No model-generated summaries anywhere.
 
 **DET-4.** No fuzzy or autonomous retrieval, and no hidden agent judgment, in
 packet construction. Skills or sub-agents may consume packets; they MUST NOT
@@ -205,7 +226,17 @@ be the canonical packet builder.
 **DET-5.** No generated timestamps inside packet content. The
 migration-style timestamp in the default filename is the only timestamp, and
 it is a storage concern (CLI-12). The repo stamp (FMT-10) is the only
-permitted repo-state marker, allowed because it is a function of repo state.
+permitted generation-state marker, allowed because it is a function of repo
+state. Historical epochs and the git-recon `since` window are ranking inputs
+only and MUST NOT enter the packet; historical OIDs are permitted solely as
+FMT-13 provenance.
+
+**DET-6.** History is resolved once during compilation at the cached full repo
+stamp revision and stored as typed packet data. Renderers are pure over that
+data: they never inspect PATH, invoke git-recon/Git, or retry retrieval.
+Re-rendering a packet is byte-identical regardless of later provider or PATH
+state. Provider absence/failure is itself normalized to a stable typed
+omission; unexpected Ruby implementation defects are not swallowed.
 
 ## JSON manifest
 
@@ -238,7 +269,7 @@ replaces Markdown as the primary human/agent surface.
 }
 ```
 
-**Version 3** (Phase 2 onward — the only emitted version after Phase 2):
+**Version 3** (historical: Phase 2 through the files-history tracer):
 
 ```json
 {
@@ -262,18 +293,61 @@ replaces Markdown as the primary human/agent surface.
 }
 ```
 
+**Version 4** (files-seed history tracer onward — the only emitted version):
+
+```json
+{
+  "version": 4,
+  "task": "Inspect account history.",
+  "seeds": [
+    { "kind": "files", "identity": "order", "evidence": "app/models/order.rb" }
+  ],
+  "anchor": null,
+  "repo": { "available": true, "commit": "cccccccccccccccccccccccccccccccccccccccc", "dirty": false },
+  "entrypoint": null,
+  "files": [
+    {
+      "path": "app/models/order.rb",
+      "evidence": [
+        {
+          "reason_code": "files_seed_primary",
+          "subject": "app/models/order.rb",
+          "snippet_ranges": [],
+          "truncated": false
+        }
+      ]
+    }
+  ],
+  "history": {
+    "status": "included",
+    "path": "app/models/order.rb",
+    "facts": [
+      { "type": "coupled_path", "path": "app/services/sync.rb", "count": 8, "support_oid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" },
+      { "type": "commit", "oid": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "subject": "Fix stale account state", "roles": ["repair", "recent"] }
+    ],
+    "truncated_count": 0
+  },
+  "tests": [],
+  "follow_ups": [
+    { "code": "no_test_candidates", "subject": "test/" }
+  ],
+  "omitted_candidates": [],
+  "no_test_candidates": true
+}
+```
+
 Field notes:
 
 - `task` is the raw task string or `null`.
-- **v3 `seeds`** is a non-empty array of `{kind, identity, evidence}` objects
+- **v3/v4 `seeds`** is a non-empty array of `{kind, identity, evidence}` objects
   in seed order. Through Phase 3 it has length 1; Phase 4 allows length > 1.
   `identity` is the CLI-8a seed-identity string; `evidence` is the normalized
   evidence string (for `error`, a stable join of `path:line` frames — never
   the raw paste).
-- **v3 `anchor`** is present when an anchor seed contributed; otherwise
+- **v3/v4 `anchor`** is present when an anchor seed contributed; otherwise
   `null` or omitted consistently (implementation locks one form at Phase 2
   and goldens enforce it). v2 `anchor` remains required.
-- **v3 `entrypoint`** is present for anchor seeds (same shape as v2); for
+- **v3/v4 `entrypoint`** is present for anchor seeds (same shape as v2); for
   non-anchor-only packets it is `null` or a focus primary descriptor locked
   at Phase 2.
 - `repo.available` is false exactly when `repo.commit` is `null`;
@@ -294,12 +368,27 @@ Field notes:
   `no_test_candidates` (subject `test/` or `spec/`). Full omission facts
   also appear under `omitted_candidates` as `category`, `subject`,
   `reason`, and `limit_key`. `limit_key` names a key in `Compiler::LIMITS`.
+- **v4 `history`** follows MAN-4 and appears immediately after `files` in
+  stable top-level key order. It is always present: `null` when no retained
+  files primary applies, otherwise a typed included or omitted object.
 
 Manifest versions are breaking schema versions. ctxpack emits only the current
 version; it does not retain compatibility modes before a real external
 consumer requires them. Consumers MUST inspect `version` and reject versions
-they do not support. Version 3 replaces version 2 at Phase 2 the same way
-version 2 replaced version 1 — no dual-emission flag.
+they do not support. Version 4 replaces version 3 for every packet the same
+way version 3 replaced version 2 — no dual-emission flag.
 
 **MAN-3.** Manifest content follows the same determinism rules as the
-Markdown (DET-1..DET-5), including stable key order.
+Markdown (DET-1..DET-6), including stable key order.
+
+**MAN-4.** `history` is `null` when SEED-27 does not apply. An included object
+has stable keys `{status, path, facts, truncated_count}`; each fact is exactly
+one whitelisted shape: coupled path `{type, path, count, support_oid}` or
+commit `{type, oid, subject, roles}`. An omitted object has stable keys
+`{status, path, reason}` with one coarse reason from
+`executable_unavailable`, `repository_unavailable`, `shallow_repository`,
+`timed_out`, `invalid_path`, `invalid_request`, `provider_failed`,
+`response_too_large`, `invalid_response`, `unsupported_response`, or
+`mismatched_response`, and no upstream message/stdout/stderr. Transport-only
+epochs, `since`, origins, authors, emails, bodies, patches, and unknown
+producer fields MUST NOT enter the packet.

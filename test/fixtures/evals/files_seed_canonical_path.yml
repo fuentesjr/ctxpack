@@ -1,0 +1,18 @@
+name: files_seed_canonical_path
+command:
+  from_files:
+    - app/controllers/../controllers/accounts_controller.rb
+  task: Inspect accounts controller from a noncanonical path
+
+expect:
+  include:
+    - path: app/controllers/accounts_controller.rb
+      reason_code: files_seed_primary
+
+  exclude:
+    - app/controllers/../controllers/accounts_controller.rb
+
+  tests:
+    - bin/rails test test/controllers/accounts_controller_test.rb
+
+  max_files: 8
