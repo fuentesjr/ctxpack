@@ -1,6 +1,6 @@
 # Spec: Seeds
 
-Status: Draft. Source: `docs/seed-based-interface-proposal.md` (§14 decisions
+Status: Normative v0 contract. Source: `docs/seed-based-interface-proposal.md` (§14 decisions
 accepted 2026-07-13) and inherited acquisition constraints from
 `docs/anchor-acquisition-proposal.md` §12 / §12a.
 
@@ -48,12 +48,12 @@ derivation uses seed identity alone.
 
 | Kind | Priority | Status in this campaign |
 |---|---|---|
-| `anchor` | P0 | Exists (ANCH-*); Phase 1 wraps as a seed |
-| `test` | P0 | Ships Phase 2 behind viability spike |
-| `files` | P0 | Ships Phase 2 behind neighbor-rule spike |
-| `error` | P0 (gated) | Phase 3 go/no-go; demotion to P1 is the stated fallback |
-| `method` | P1 | Ships Phase 5a (test-candidate leg demoted by spike — see Method seed) |
-| `diff` | P1 | Ships Phase 5b (paired-test mirror leg ships — see Diff seed) |
+| `anchor` | P0 | Shipped; Phase 1 wrapped the existing ANCH-* path as a seed |
+| `test` | P0 | Shipped in Phase 2 after its viability spike passed |
+| `files` | P0 | Shipped in Phase 2 after its neighbor-rule spike passed |
+| `error` | P0 | Shipped in Phase 3 after its viability gate passed |
+| `method` | P1 | Shipped in Phase 5a (test-candidate leg demoted by spike — see Method seed) |
+| `diff` | P1 | Shipped in Phase 5b with the paired-test mirror leg |
 | `route` | P1 | **Not shipped** — Phase 5c double-gated spike failed its resolution gate 2026-07-14 (0.243 < 0.70; see `eval/seed-spikes/route/RESULTS.md`); route evidence stays CLI-17c coaching-only. Re-opening requires a new pre-registered spike |
 | `area` | P2 | Not scheduled |
 | task-only | Skill-only | Gem refuses (SEED-2) |
@@ -150,7 +150,7 @@ Reason codes remain those in FMT-6.
 
 ### Test seed
 
-**SEED-14.** The `test` recipe (ships Phase 2 after the viability spike):
+**SEED-14.** The `test` recipe (shipped in Phase 2 after the viability spike):
 
 1. Include the named test/spec file as primary with reason code
    `test_seed_primary` (FMT-6 registry extension at Phase 2).
@@ -174,7 +174,8 @@ Reason codes remain those in FMT-6.
 
 ### Files seed
 
-**SEED-15.** The `files` recipe (ships Phase 2 after the neighbor-rule spike):
+**SEED-15.** The `files` recipe (shipped in Phase 2 after the neighbor-rule
+spike):
 
 1. Include every user-named existing file as primary with reason code
    `files_seed_primary`.
@@ -195,7 +196,7 @@ Reason codes remain those in FMT-6.
 
 ### Error seed
 
-**SEED-16.** The `error` recipe (Phase 3; go/no-go on its spike):
+**SEED-16.** The `error` recipe (shipped in Phase 3 after its spike passed):
 
 1. Normalize the paste per SEED-20 (frame filtering + PII rule).
 2. For each retained application frame (`path:line`), include the file with a
@@ -209,7 +210,7 @@ Reason codes remain those in FMT-6.
 
 ### Method seed
 
-**SEED-25.** The `method` recipe (ships Phase 5a after the viability spike;
+**SEED-25.** The `method` recipe (shipped in Phase 5a after the viability spike;
 gate evidence: `eval/seed-spikes/method/PREREGISTRATION.md` and
 `eval/seed-spikes/method/RESULTS.md`):
 
@@ -242,7 +243,7 @@ gate evidence: `eval/seed-spikes/method/PREREGISTRATION.md` and
 
 ### Diff seed
 
-**SEED-26.** The `diff` recipe (ships Phase 5b after the viability spike;
+**SEED-26.** The `diff` recipe (shipped in Phase 5b after the viability spike;
 gate evidence: `eval/seed-spikes/diff/PREREGISTRATION.md` and
 `eval/seed-spikes/diff/RESULTS.md` — paired-test agreement 0.810 ≥ 0.70 PASS
 → ship with the paired-test mirror leg):
@@ -311,8 +312,8 @@ unchanged. **[bounded local path-history exception fixed by the tracer design]**
 
 ## Multi-seed merge
 
-**MERGE-1.** Multi-seed is admitted in the model from day one; the CLI ships
-single-seed through Phase 3 and enables multiple seeds per invocation in
+**MERGE-1.** Multi-seed was admitted in the model from day one; the CLI shipped
+single-seed through Phase 3 and enabled multiple seeds per invocation in
 Phase 4. **[from seed proposal §14.3]**
 
 **MERGE-2.** Union focus candidates from each seed’s recipe with stable
@@ -391,8 +392,8 @@ task + seed(s)
 ```
 
 Layers remain one-directional: seed resolution → focus assembly → format →
-CLI. Today’s `compiler.rb` is “anchor seed resolver + focus assembly”; physical
-split may be incremental (Phase 1 wrap first).
+CLI. `compiler.rb` currently contains all shipped seed resolvers plus focus
+assembly; any physical split may remain incremental and behavior-preserving.
 
 ## Viability spikes (gates)
 

@@ -1,6 +1,6 @@
 # Spec: Packet compilation
 
-Status: Draft. Source: `design.md` — "Settled v0 direction", "Parsing and
+Status: Normative v0 contract. Source: `design.md` — "Settled v0 direction", "Parsing and
 static analysis strategy", "Test candidate rules", "v0 packet limits";
 amended 2026-07-13 for the seed ontology (`docs/seed-based-interface-proposal.md`,
 `specs/seeds.md`).

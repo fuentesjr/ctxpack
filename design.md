@@ -1,6 +1,6 @@
 # ctxpack
 
-Status: Draft — product definition reconciled 2026-07-15 to the accepted
+Status: Rationale record — reconciled 2026-07-17 to the accepted
 seed-based interface (`docs/seed-based-interface-proposal.md`) and the
 context-engineering positioning. Specs in `specs/` are normative; this file
 records rationale and tradeoffs.
@@ -46,8 +46,8 @@ A **seed** is evidence the caller already has, plus a deterministic **recipe**
 for what else to pull. An **anchor** (`accounts#upgrade`) is one seed kind: a
 Rails-flavored way to name a controller action and expand the conventional
 vertical slice (callbacks, views, controller/request tests, referenced
-constants). Other P0 kinds: `test`, `files`, and gated `error`. See
-`specs/seeds.md`.
+constants). Other shipped kinds are `test`, `files`, `error`, `method`, and
+`diff`. See `specs/seeds.md`.
 
 Example workflows:
 
@@ -56,10 +56,10 @@ Example workflows:
 bin/rails routes -g upgrade
 ctxpack accounts#upgrade -t "Implement billing upgrade"
 
-# Red test (test seed — Phase 2+)
+# Red test
 ctxpack --from-test test/services/billing_upgrade_test.rb:42 -t "Fix annual upgrade after 3DS"
 
-# Explicit files (files seed — Phase 2+)
+# Explicit files
 ctxpack --from-files app/services/billing/upgrade.rb -t "…"
 ```
 
@@ -166,14 +166,11 @@ Out of scope for anchor resolution:
 
 ```bash
 ctxpack accounts#upgrade -t "Implement billing upgrade"
-# Phase 2+ equivalents:
 ctxpack --from-anchor accounts#upgrade -t "…"
 ctxpack --from-test test/controllers/accounts_controller_test.rb:10 -t "…"
 ctxpack --from-files app/models/account.rb -t "…"
-# Phase 5a:
 ctxpack --from-method Billing::Subscriptions#upgrade! -t "…"
 ctxpack Billing::Subscriptions#upgrade! -t "…"   # positional sugar (SEED-10 rule 4)
-# Phase 5b:
 ctxpack --from-diff main...HEAD -t "…"
 ctxpack --from-diff path/to/change.patch -t "…"  # explicit flag only (not positional)
 ```
@@ -182,16 +179,19 @@ The original `ctxpack packet accounts#upgrade --task "…"` form remains a
 compatibility path. Positional sugar classifies argv by SEED-10 (specs/seeds.md);
 `*Controller#action` stays suggest-only rewrite to the underscore anchor, never
 the method seed. Method-shaped tokens (`Billing::Upgrade#call`) dispatch to the
-method seed (Phase 5a): exact CONST-2b path resolution with no segment trimming,
+method seed: exact CONST-2b path resolution with no segment trimming,
 instance-def FQN match, same-file callee BFS + constant scan under existing
 budgets, **no test-candidate leg** (spike test-leg precision failed — see
-`eval/seed-spikes/method/RESULTS.md` and SEED-25). Diff seeds (Phase 5b) take a
+`eval/seed-spikes/method/RESULTS.md` and SEED-25). Diff seeds take a
 git range or patch path via `--from-diff` only (existing `.patch` paths stay
 files seeds under SEED-10 rule 6): changed files that exist in the working tree
 as primaries, def-anchored or windowed snippets for `.rb` hunks, and
 **paired-test mirror candidates** only (no basename token matching — 5a lesson;
 spike agreement 0.810 PASS — see `eval/seed-spikes/diff/RESULTS.md` and
 SEED-26).
+
+Multiple positional/explicit seeds may be supplied and merge under MERGE-*.
+Invalid per-kind arity and conflicting stdin ownership fail before compilation.
 
 Long task descriptions can come from `--task-file PATH`, or from injected
 stdin with `--task-file -`; this keeps issue bodies and agent pipelines out of
@@ -244,7 +244,7 @@ Rails:
   discover routes, helpers, and controller actions
 
 ctxpack:
-  compile a small, evidenced context packet from a known Rails anchor
+  compile a small, evidenced context packet from a task + known evidence seeds
 ```
 
 ## What is a context packet?
@@ -252,8 +252,8 @@ ctxpack:
 A context packet is a small, explicit bundle of task-relevant information:
 
 - the task being worked on
-- the exact Rails anchor
-- the likely entry point
+- the normalized evidence seed(s), including an anchor when supplied
+- the likely entry point or focus set
 - the files to inspect first
 - short code snippets from those files
 - why each file was included
@@ -869,29 +869,26 @@ A skill or sub-agent can be useful as a wrapper around `ctxpack`, for example:
 
 But the skill or sub-agent should not be the canonical packet builder. Keeping packet construction in a deterministic CLI makes the system easier to measure, diff, and improve.
 
-## Open questions
+## Evidence status and remaining questions
 
-- Is `controller#action` enough for v0, or is exact route-helper support needed early?
-- What is the smallest packet that still changes agent behavior?
-- Should v0 include snippets only, or also deterministic file-level metadata?
-- How often do Rails conventions fail because of custom routing, metaprogramming, or unconventional service layout? (Measured directly by the Tier 0 spike in [`eval-plan.md`](eval-plan.md), with a failure taxonomy that says which non-goal to promote first.)
-- Do the initial limits — 8 total files, 4 constant files, 2 view files, 2 test files, and 120 snippet lines per file — keep packets small without hiding essential context?
-- When, if ever, do fixture evals justify adding a Rubydex-backed resolver?
+The experiments originally proposed here are complete. Tier 0 established that
+the bounded anchor recipe resolves real-app route-table pairs above its frozen
+gate (93.9% after the anchor amendment, with zero compiler crashes). Tier 2 and
+its three-app expansion support the packet's exploration benefit without a
+blind diff-quality regression. Format v4 now carries deterministic snippets,
+file-level machine facts, multiple seed kinds, and optional bounded history.
 
-## Next experiments
+The evidence also enforced boundaries rather than only adding features:
 
-First, before any packet rendering exists, run the Tier 0 anchor viability spike from [`eval-plan.md`](eval-plan.md): attempt v0 anchor resolution against the route tables of 2–3 real open-source Rails apps and classify every failure. The strictest v0 constraint — a literal `def <action>` in the conventionally-named controller file — is also the most likely to fail on real apps, and it is cheaper to learn that in an afternoon of Prism scripting than after building the renderer.
+- route resolution did not ship after its 0.243 resolution result failed the
+  0.70 gate;
+- the method seed shipped without its failed test-candidate leg;
+- Rubydex remains deferred because the measured recall gain did not justify
+  its precision and dependency cost;
+- fixture evals remain regression evidence, never proof of usefulness.
 
-If the Tier 0 gate passes, build the smallest possible `ctxpack
-<controller#action>` prototype against one static Rails-shaped fixture tree.
-
-Success would mean the Rails-aware packet:
-
-- includes fewer irrelevant files
-- surfaces the true entry point faster
-- gives the coding agent better tests to run
-- reduces unnecessary exploration
-- makes uncertainty clearer to the human operator
-- produces stable output that can be regression-tested with simple eval cases
-
-Whether the first four hold is judged against a real coding agent's own exploration — not keyword search — via the Tier 2 A/B in the eval plan.
+The live questions are narrower: whether LIM-1 hides essential context in
+future real work, whether a new resolver can earn reopening route or the method
+test leg, and whether new context sources earn packet budget without weakening
+determinism. Each requires a new frozen work order or real-usage evidence; none
+is an instruction to rerun the completed build sequence.

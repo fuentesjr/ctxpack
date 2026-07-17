@@ -26,7 +26,8 @@ and acceptance are always session-side.
 
 1. **Write the brief.** Name the spec file and every requirement code in
    scope, the test command (`bundle exec rake test`), and the rule that Codex
-   owns the pass notes in `implementation-notes.md`.
+   owns the current-pass section in `implementation-notes.md` without
+   retaining completed-pass chronology.
 2. **Dispatch** via the `codex:codex-rescue` agent. It is a one-shot
    forwarder: it returns a task ID without waiting. **Always instruct the
    forwarder to launch via the companion's own `--background` flag** — a
@@ -58,8 +59,8 @@ and acceptance are always session-side.
    the spec *and* reconciled with `design.md` in the same change
    (`specs/README.md` rule). Never renumber requirement codes; mark retired
    ones *Withdrawn*.
-8. **Close:** update `PROJECT_TRACKER.md` (Status table, decision log entry,
-   rewrite "Next step: execution plan" per the end-of-session ritual). Ask
+8. **Close:** rewrite `PROJECT_TRACKER.md`'s compact current state and execution
+   plan for the work that follows. Git history owns completed chronology. Ask
    before committing.
 
 ## Verification requirements
@@ -70,7 +71,8 @@ Before claiming the pass is done, all of:
 - [ ] Every in-scope requirement code checked against the diff, individually.
 - [ ] Corpus re-scan run or explicitly skipped with the reason "no compiler behavior touched".
 - [ ] `implementation-notes.md` updated by Codex (confirmed current, not assumed).
-- [ ] `PROJECT_TRACKER.md` Status + decision log + execution plan rewritten.
+- [ ] `PROJECT_TRACKER.md` current state + execution plan rewritten without
+      appending completed chronology.
 
 ## Expected output
 

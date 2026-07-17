@@ -145,26 +145,25 @@ contract in `specs/README.md`):
   recorded the probe evidence and the render-target-analysis boundary
   (VIEW-4); the "no Rubydex dependency" non-goal stands unchanged.
 
-Still pending — out of scope for this spec-only pass, required before this
-spec is implemented:
+Historical landing checklist — both items completed after this spec freeze:
 
-- **Fixture evals** (`add-fixture-eval`, red-then-green) — new YAML cases:
+- **Fixture evals — completed in `6688ff9`** (`add-fixture-eval`,
+  red-then-green) — YAML cases cover:
   namespaced action view, multi-format-variant action, action with no template
   (no entry, no failure), partial excluded, budget truncation. Author red first.
-- **Tier 0 corpus re-scan** — this changes compiler behavior, so the re-scan at
-  the spike SHAs is **mandatory** before acceptance (per PROJECT_TRACKER
-  "Working process"). View inclusion is additive (new files), so per-anchor
-  *resolution* of existing categories should not regress; confirm that.
+- **Tier 0 corpus re-scan — completed and re-verified** — byte-identical to the
+  post-amendment baseline with zero per-anchor changes and zero crashes across
+  1,967 pairs; see the addendum in `eval/tier0/RESULTS.md`.
 
-## Companion work (related, deliberately NOT in this spec)
+## Companion work (related, deliberately not part of this freeze)
 
-The probe's verdict also recommends two adjacent changes. They are kept out of
-this spec to keep it small and independently reviewable (the constant widening
-is a CONST amendment, not a view feature; the locale item is a note, not a
-resolver). Sequence them as the user prefers:
+The probe's verdict also recommended two adjacent changes. Both later landed
+under their owning requirements; this section remains the rationale record,
+not an open work order:
 
-1. **Widen the constant scan (CONST-1) from the action body to the whole
-   controller class.** The probe's entire Rubydex recall win was one file
+1. **CONST-1 widening — completed in `ab72137`.** The selected implementation
+   uses the action plus same-file callbacks and transitively called same-file
+   methods, not a whole-controller scan. The probe's entire Rubydex recall win was one file
    (campfire t1 `app/models/user.rb`, referenced as `User.all` in a *private
    helper* the action-body scan skips). A full-controller-file constant scan
    captures it with no dependency. **Caveat to weigh:** on multi-action
@@ -173,7 +172,7 @@ resolver). Sequence them as the user prefers:
    (simplest), or action body + same-file methods transitively called from the
    action (precise, needs intra-file call-graph). This wants its own
    red-then-green cases and its own freeze.
-2. **Locale as a standing pointer, not a packet file.** The locale misses are
+2. **Locale standing pointer — completed.** The locale misses are
    *newly-added* keys (e.g. publify's `nickname`); a base-tree scan fires on
    none, and snippeting a truncated giant `en.yml` to move a file-level recall
    number would be metric-gaming a "small by construction" packet. Surface

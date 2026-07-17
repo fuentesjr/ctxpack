@@ -1,35 +1,43 @@
 ---
 name: extract-approach
-description: Capture durable learning after every non-trivial solved problem — write a note to docs/agent-learnings/ recording the problem, failed approaches, key insight, and a reusable rule. A solution without its learning note is unfinished work.
+description: Place durable learning from a non-trivial solved problem in its smallest authoritative home; create a docs/agent-learnings note only when no better code, test, spec, eval, tracker, or current-pass home exists.
 ---
 
 # extract-approach
 
-Run this after every non-trivial solved problem, before moving on. "Non-trivial"
-means any of: more than one approach was attempted, the root cause was not the
-first hypothesis, the fix required knowledge not written down anywhere in the
-repo, or a future agent would plausibly burn >15 minutes rediscovering it.
+Run this placement decision after every non-trivial solved problem, before
+moving on. "Non-trivial" means any of: more than one approach was attempted,
+the root cause was not the first hypothesis, the fix required knowledge not
+written down anywhere in the repo, or a future agent would plausibly burn >15
+minutes rediscovering it. The output is a durable canonical home, not
+necessarily a new Markdown file.
 
 ## When to use
 
 - A debugging session where the first hypothesis was wrong.
-- A workflow/tooling failure with a non-obvious fix (e.g. the wedged Codex
-  background-poll runs recorded in `PROJECT_TRACKER.md`).
+- A workflow/tooling failure with a non-obvious fix that is not already
+  captured in the owning skill or current eval result.
 - An experiment/harness pitfall that cost a re-run.
 - Any solved problem where you consulted more than the obvious file.
 
 ## When NOT to use
 
 - Routine work that succeeded first try using documented conventions.
-- Facts already recorded in `PROJECT_TRACKER.md`'s decision log, the specs,
-  or `implementation-notes.md` — link to them instead of duplicating. If the
-  learning belongs in one of those (a project decision, a spec amendment, a
-  pass note), put it there and skip the note.
+- Facts already encoded in code/tests or recorded in a spec, eval result,
+  current tracker, current pass notes, or an existing learning — improve or
+  link that source instead of duplicating it.
+- Generic language/runtime facts whose regression is permanently captured by
+  a focused test and whose explanation adds no project-specific decision.
 
 ## Workflow
 
-1. Create `docs/agent-learnings/` if missing.
-2. Write `docs/agent-learnings/YYYY-MM-DD-short-title.md` (today's date,
+1. Search code/tests, specs, eval results, `PROJECT_TRACKER.md`,
+   `implementation-notes.md`, and existing learnings. Choose the smallest
+   authoritative home that will be encountered when the problem recurs.
+2. If one exists, update it or record that the learning is already captured;
+   do not create another file.
+3. Only when no better home exists, write
+   `docs/agent-learnings/YYYY-MM-DD-short-title.md` (today's date,
    kebab-case title) with exactly these sections:
 
    ```markdown
@@ -61,27 +69,25 @@ repo, or a future agent would plausibly burn >15 minutes rediscovering it.
    The trigger conditions that should make a future agent reach for this note.
    ```
 
-3. If the reusable rule contradicts or extends `AGENTS.md`, propose the
+4. If the reusable rule contradicts or extends `AGENTS.md`, propose the
    `AGENTS.md` edit in the same change (don't let the manual and the
    learnings drift apart).
 
 ## Verification requirements
 
-- [ ] File exists at `docs/agent-learnings/YYYY-MM-DD-short-title.md` with all
-      eight sections non-empty.
-- [ ] "Reusable rule" is a single imperative sentence, checkable by a future
-      agent.
-- [ ] No duplication of an existing note — search `docs/agent-learnings/`
-      first; extend an existing note rather than writing a near-duplicate.
+- [ ] The lesson has one named authoritative home and is not duplicated.
+- [ ] If a new learning file was necessary, all eight sections are non-empty
+      and "Reusable rule" is one checkable imperative sentence.
+- [ ] Existing notes were searched; extend rather than create a near-duplicate.
 
 ## Expected output
 
-One new (or extended) learning note; optionally a proposed `AGENTS.md`
-amendment.
+One named durable home, which may be an existing test/spec/eval/tracker/pass
+note. A new or extended learning note is the fallback, not the default.
 
 ## Escalation
 
 - The learning implies a spec or pre-registration problem → surface to the
   user; those documents change only by their own amendment rules.
-- Unsure whether it's tracker-decision-log material vs a learning note →
-  default to the learning note and mention the ambiguity in it.
+- Unsure between two Markdown homes → prefer the one already authoritative for
+  the behavior; do not create a third source while uncertain.

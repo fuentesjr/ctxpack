@@ -1,6 +1,6 @@
 # ctxpack v0 specifications
 
-Status: Draft, derived from [`design.md`](../design.md),
+Status: Normative v0 contract, derived from [`design.md`](../design.md),
 [`eval-plan.md`](../eval-plan.md), and (from 2026-07-13) the accepted
 [`docs/seed-based-interface-proposal.md`](../docs/seed-based-interface-proposal.md).
 
@@ -56,11 +56,10 @@ implementation pass discovers them late:
 - **Fixture trees.** EVAL-2 fixture apps double as compilation scaffolding:
   author them at their final paths under `test/fixtures/apps/` so Tier 1 evals
   reuse them rather than duplicate them.
-- **Format version.** Phase 1 emits format v2 (byte-identical goldens). Phase 2
-  forces format v3, which **replaces** v2. The files-seed history tracer forces
-  format v4, which **replaces** v3 for every packet. Markdown `Format:` and
-  manifest `version` always bump together; anchor heading shape is preserved
-  when an anchor seed is present.
+- **Format version.** Every current packet emits format v4; it replaced v3,
+  which replaced v2. Markdown `Format:` and manifest `version` always move
+  together; anchor heading shape remains preserved when an anchor seed is
+  present.
 
 ## Conventions
 
@@ -97,9 +96,10 @@ implementation pass discovers them late:
 
 ## Scope
 
-In scope for these specs: everything the CLI does deterministically, plus
-the Tier 1 fixture evals that run in CI, plus the seed catalog through P0
-(`anchor`, `test`, `files`, `error` gated).
+In scope for these specs: everything the CLI does deterministically, the Tier 1
+fixture evals that run in CI, and the shipped `anchor`, `test`, `files`,
+`error`, `method`, and `diff` seed recipes (including merge and bounded history
+enrichment).
 
 Out of scope:
 
@@ -108,9 +108,11 @@ Out of scope:
   They gather evidence about whether ctxpack is worth building; they are not
   conformance requirements and have no spec here. Per-kind seed viability
   spikes (SEED-5) follow the same offline pattern under `eval/`.
-- **P1/P2 seed kinds** — `method` ships Phase 5a (no test-candidate leg;
-  SEED-25). Remaining (`diff`, `route`, `area`) ship only after their own
-  spikes and a later plan.
+- **Unshipped seed kinds** — route remains CLI-17c coaching-only after its
+  Phase 5c resolution gate failed; area is not implemented. Reopening either
+  needs its own frozen evidence gate and work order. Method ships without its
+  failed test-candidate leg (SEED-25); diff ships with its gated paired-test
+  mirror leg (SEED-26).
 - **v0 non-goals** — the full list lives in `design.md` ("Non-goals for v0").
   Highlights that shape these specs: no embeddings or generic RAG, no route
   browsing as silent compile input, no inherited/concern/metaprogrammed action

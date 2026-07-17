@@ -39,11 +39,16 @@ before or alongside its fix. Tier 1 is the regression net; it only grows.
      suite (the Rakefile pattern `test/ctxpack/**/*_test.rb` excludes them
      deliberately — do not "fix" that).
 3. **Author the YAML case** in `test/fixtures/evals/<name>.yml` in the EVAL-4
-   shape (`accounts_upgrade.yml` is the canonical example): `name`, optional
-   `app` (defaults to `minitest_basic`), `command.anchor`, `command.task`,
-   and `expect` with `entrypoint`, `include` (path + reason_code), `exclude`,
-   `tests`, `max_files`. Assert on stable packet-object/manifest fields, not
-   Markdown prose (EVAL-5).
+   shape. Use `accounts_upgrade.yml` for an anchor case or a current seed case
+   such as `files_seed_accounts_controller.yml`: `name`, optional `app`
+   (defaults to `minitest_basic`) and `command.task`. Anchor-only cases may use
+   `command.anchor`; simple test/files cases may use `command.from_test` or
+   `command.from_files`. Error, method, diff, or multi-seed cases use
+   `command.seeds`, an array of `{kind, evidence}` entries (see
+   `error_seed_accounts_frame.yml` and `multi_seed_method_and_anchor.yml`).
+   `expect` contains `entrypoint` when applicable, `include` (path +
+   reason_code), `exclude`, `tests`, and `max_files`. Assert on stable
+   packet-object/manifest fields, not Markdown prose (EVAL-5).
 4. **Red:** run `bundle exec rake test` **before** fixing — the new case must
    fail, and fail for the right reason. If it passes pre-fix, it doesn't
    capture the bug; rewrite it.

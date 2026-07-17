@@ -1,6 +1,6 @@
 # Spec: Tier 1 fixture evals
 
-Status: Draft. Source: `design.md` — "Simple v0 evals"; `eval-plan.md` —
+Status: Normative v0 contract. Source: `design.md` — "Simple v0 evals"; `eval-plan.md` —
 "Tier 1 — determinism regression".
 
 ## Standing limitation

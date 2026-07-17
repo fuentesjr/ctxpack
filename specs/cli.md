@@ -1,6 +1,6 @@
 # Spec: CLI and artifacts
 
-Status: Draft. Source: `design.md` — "Settled v0 direction", "Artifact location
+Status: Normative v0 contract. Source: `design.md` — "Settled v0 direction", "Artifact location
 and naming", "Machine-readable manifest"; amended 2026-07-13 for seed-based
 interface (`docs/seed-based-interface-proposal.md` §4, §11, §14;
 `specs/seeds.md`).
@@ -11,23 +11,20 @@ interface (`docs/seed-based-interface-proposal.md` §4, §11, §14;
 sugar or explicit `--from-<kind>` flags:
 
 ```bash
-ctxpack <anchor> [options]                 # Phase 1+: anchor sugar
-ctxpack --from-test <path[:line]> …        # Phase 2+
-ctxpack --from-files <path>… …             # Phase 2+
-ctxpack --from-error <paste|- > …          # Phase 3+ (if spike passes)
-ctxpack --from-method <Const#method> …     # Phase 5a (no test-candidate leg)
-ctxpack --from-diff <range|patch> …        # Phase 5b (paired-test mirror leg)
-ctxpack --from-anchor <anchor> …           # Phase 2+ explicit form
+ctxpack <anchor> [options]                 # anchor sugar
+ctxpack --from-test <path[:line]> …
+ctxpack --from-files <path>… …
+ctxpack --from-error <paste|- > …
+ctxpack --from-method <Const#method> …     # no test-candidate leg
+ctxpack --from-diff <range|patch> …        # paired-test mirror leg
+ctxpack --from-anchor <anchor> …
 ```
 
 The original `ctxpack packet <anchor> [options]` form remains supported for
-compatibility. Through Phase 1 only the positional/compatibility anchor forms
-exist (no new flags). Phase 2 adds `--from-test`, `--from-files`,
-`--from-anchor`, and the full SEED-10 argv classifier. Phase 3 adds
-`--from-error` if its spike passes. Phase 4 allows multiple `--from-*` seeds
-per invocation. Phase 5a adds `--from-method` (resolution + same-file
-expansion only; test-candidate leg demoted by spike). Phase 5b adds
-`--from-diff` (explicit-flag-only; no positional sugar and no stdin form).
+compatibility. Current v0 accepts every form above and multiple `--from-*`
+seeds per invocation. Method resolution includes same-file expansion but no
+test-candidate leg; diff remains explicit-flag-only with no positional sugar or
+stdin form.
 
 Non-normative: inside a Rails app the executable is typically reached via
 `bundle exec ctxpack` or a binstub (`bundle binstubs ctxpack` → `bin/ctxpack`
@@ -38,10 +35,10 @@ next to `bin/rails`). Examples write bare `ctxpack` for brevity.
 points at help — the gem never performs task-only compilation (SEED-2).
 **[fixed by seed proposal §14.6]**
 
-**CLI-1e.** Explicit `--from-*` flags that appear more than the phase allows
-fail before compile: through Phase 3, two or more seeds (including mixing a
-positional seed with a `--from-*` flag) are rejected; Phase 4 enables
-multi-seed. **[fixed by seed proposal §14.3 / §11]**
+**CLI-1e.** Multiple explicit `--from-*` seeds, including a positional seed
+combined with explicit flags, are accepted and merged under MERGE-*. Invalid
+per-kind arity or conflicting stdin ownership fails before compilation.
+**[fixed by seed proposal §14.3 / §11]**
 
 **CLI-1a.** No arguments, `ctxpack --help`, `ctxpack -h`, and `-h` / `--help`
 in either packet-producing form and any position MUST print full packet help to
@@ -63,9 +60,8 @@ without discovering an application root. **[fixed by spec]**
 `--manifest` remain long-only.
 **[fixed by spec]**
 
-**CLI-2.** Through Phase 1, the positional argument is an exact
-`controller#action` anchor (ANCH-1). From Phase 2, the positional argument is
-classified by SEED-10 (argv dispatch): snake_case `#` → anchor; Test/Spec `#`
+**CLI-2.** The positional argument is classified by SEED-10 (argv dispatch):
+snake_case `#` → anchor; Test/Spec `#`
 → test; `*Controller#action` → CLI-17c suggest-only rewrite (never method);
 other method-shaped tokens (`Billing::Upgrade#call`) → method seed (Phase 5a);
 existing test/spec paths → test; other existing paths → files; else fail with
@@ -104,14 +100,14 @@ while reading injected stdin uses stdin-specific wording rather than describing
 `-` as a file path.
 **[fixed by spec]**
 
-**CLI-4b.** Seed flags (Phase 2+ unless noted):
+**CLI-4b.** Seed flags:
 
 | Flag | Phase | Evidence |
 |---|---|---|
 | `--from-anchor ANCHOR` | 2 | ANCH-1 string |
 | `--from-test PATH[:LINE]` | 2 | test/spec path, optional line |
 | `--from-files PATH…` | 2 | one or more existing paths |
-| `--from-error PASTE\|-` | 3 (gated) | paste text or stdin |
+| `--from-error PASTE\|-` | 3 | paste text or stdin |
 | `--from-method CONST#METHOD` | 5a | non-controller `Namespace::Class#method` |
 | `--from-diff RANGE\|PATCH` | 5b | git range ref or patch file path (app-root relative); explicit flag only — not via SEED-10 positional sugar |
 

@@ -1,8 +1,12 @@
 # Design proposal: CLI ergonomics via anchor acquisition
 
-**Status:** Reviewed draft — first review incorporated 2026-07-13 (§12); **re-scoped same day under the accepted seed ontology (§12a)**; still not normative; not yet reconciled with `specs/` or `design.md`  
+**Status:** Historical, nonnormative proposal — reviewed and re-scoped under
+the accepted seed ontology (§12a). Its priority/phase language is not a current
+work order; use `specs/`, `design.md`, and `PROJECT_TRACKER.md` for current
+authority.
 **Date:** 2026-07-13  
-**Problem priority:** Highest remaining **CLI / product ergonomics** gap — everything left of a valid `controller#action`  
+**Original problem priority:** CLI/product ergonomics left of a valid
+`controller#action`
 **Authoring context:** Follow-on to CLI ergonomics review; supersedes “regenerate / same-task iterate” as the priority ergonomics bet
 
 ---

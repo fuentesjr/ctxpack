@@ -1,7 +1,12 @@
 # Markdown context decision map
 
-Status: tickets #1 and #2 resolved; frontier is #3. Baseline: ctxpack
-`21912b5`. Detailed evidence: [`markdown-context-audit.md`](markdown-context-audit.md).
+> **Status: completed historical investigation.** All five tickets are
+> resolved. Current authority lives in
+> [`PROJECT_TRACKER.md`](../PROJECT_TRACKER.md); consolidated findings live in
+> [`markdown-context-audit.md`](markdown-context-audit.md) and the
+> [ablation results](../eval/markdown-context/RESULTS.md).
+
+Baseline: ctxpack `21912b5`.
 
 Goal: reduce the Markdown that coding agents are likely to load, and remove
 documents that measurably worsen their work, without losing current authority
@@ -87,7 +92,7 @@ nested subject workspaces: one agent had to reject ctxpack's rake rule while
 working on Lobsters and another emitted an irrelevant Tier 0 disclaimer while
 working on Campfire. Both tasks succeeded, so this proves contamination and
 avoidable reasoning, not correctness harm. The corpus does not measure Codex
-working in ctxpack; ticket #3 remains required.
+working in ctxpack; ticket #3 therefore remained required at this stage.
 
 ## #3: Which document categories causally help or harm Codex?
 
@@ -101,9 +106,11 @@ other evidence-selected repository surfaces change Codex cost and outcomes?
 
 ### Answer
 
-Pending. Check `eval/README.md` before authoring: extend the Tier 2 harness if
-its arm model fits; otherwise pre-register why a new runner is necessary. Run
-a cheap pilot before any confirmation grid.
+Resolved, with an inconclusive gate. The pre-registered full-versus-compact
+Codex pilot completed five of six runs before the frozen 900k-token cap. Full
+T1 followed stale tracker chronology and restarted ticket #1; compact T1 chose
+ticket #3 but invented an approval stop for authorized local actions. The
+category did not earn causal deletion authority. See the ablation results.
 
 ## #4: Which individual files should change disposition?
 
@@ -117,8 +124,10 @@ compressed, become explicitly routed-on-demand, or leave the default tree?
 
 ### Answer
 
-Pending. Use narrower ablations only where category evidence cannot isolate the
-cause; apply the proof-of-supersession lane where it can.
+Resolved under the frozen consequence. Two statically superseded files leave
+the tree; normative, design, learning, and recorded-evidence files remain.
+Current tracker/pass authority is compacted, but its unique chronology remains
+in explicitly historical snapshots because the causal gate was incomplete.
 
 ## #5: What cleanup preserves authority and provenance?
 
@@ -132,5 +141,7 @@ source of truth, required experiment provenance, and recoverability?
 
 ### Answer
 
-Pending. Present the evidence and exact delete/compress/route set before
-implementation; keep unrelated documentation cleanup out of the change.
+Resolved in the audit's final disposition. Current authority, safety gates,
+open work, reproducibility, and frozen provenance remain routed; objectively
+stale status is corrected. The user authorized local deletion and commits but
+not pushes, and the canonical gist edit still requires exact-text sign-off.

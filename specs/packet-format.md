@@ -1,6 +1,6 @@
 # Spec: Packet format and determinism
 
-Status: Draft. Source: `design.md` — "What is a context packet?",
+Status: Normative v0 contract. Source: `design.md` — "What is a context packet?",
 "Determinism", "v0 packet contents", "Machine-readable manifest", "Example
 packet shape"; amended 2026-07-13 for format v3 / seed ontology
 (`docs/seed-based-interface-proposal.md` §6.2, §14.4), and 2026-07-16 for
