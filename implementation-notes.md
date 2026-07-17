@@ -1849,3 +1849,14 @@ publication.
   13.98 seconds before the unchanged provider deadline. It closes the consumer
   latency gate without changing the one-primary scope or supporting a batching
   or compiled-language rewrite.
+
+## Markdown context audit bootstrap (2026-07-17)
+
+- The user prioritized evaluating the repository's Markdown as an agent context
+  surface and explicitly permits evidence-backed deletion.
+- The compact, canonical investigation sequence and resolved evidence gates are
+  in `docs/markdown-context-decision-map.md`; this file does not duplicate them.
+- Baseline `21912b5`: 99 Markdown files, 14,766 lines, 791,642 bytes. Planning
+  artifacts created after that SHA are excluded from the baseline comparison.
+- No measurement script, subject session, dependency, deletion, or external
+  mutation occurred during bootstrap.

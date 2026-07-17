@@ -82,10 +82,11 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Updated 2026-07-17 after the optimized git-recon commit and ctxpack's consumer
-measurement reconciliation were pushed and verified. The history tracer
-campaign is closed. **This plan is the authoritative work order for choosing
-the next context-source issue boundary**; "Next steps" must agree.
+Updated 2026-07-17 after the user prioritized an evidence-backed audit of the
+repository's Markdown context surface. The history tracer campaign remains
+closed; issue #6 disposition and #7 scheduling are paused behind this audit.
+**This plan is the authoritative work order for decision-map ticket #1**;
+"Next steps" must agree.
 
 ### State (ground truth, re-verified 2026-07-17)
 
@@ -95,6 +96,20 @@ the next context-source issue boundary**; "Next steps" must agree.
   is verified through optimized commit `7682b2c` (`HEAD == origin/main`
   immediately after fetch). Both worktrees were clean after verification; the
   tracker closure lands in the commit containing this update.
+- **Markdown context baseline:** at `21912b5`, the default tree contains **99
+  Markdown files / 14,766 lines / 791,642 bytes**. The largest files are
+  `implementation-notes.md` (111,793 bytes), `PROJECT_TRACKER.md` (103,323),
+  and `design.md` (42,523). Size is only a candidate cost signal: the audit
+  distinguishes automatic/routed/read context from inert bytes and requires
+  causal evidence before calling unique material harmful.
+- **Audit decisions:** the compact canonical map is
+  [`docs/markdown-context-decision-map.md`](docs/markdown-context-decision-map.md).
+  Codex is the causal subject; existing Claude transcripts are observational.
+  Provably superseded/duplicated documents may leave the active tree without
+  live runs, while unique suspect material requires pre-registered worktree
+  ablation. Git history is the default recovery path; an in-tree archive does
+  not count as removal. Frozen evidence and normative documents keep their
+  stricter reconciliation/provenance gates.
 - **Context-engineering positioning pass:** complete and pushed in `3669e79`.
   README, gemspec metadata, examples, FAQ, and
   design now use **context engineering CLI** as the category and
@@ -198,23 +213,26 @@ the next context-source issue boundary**; "Next steps" must agree.
 
 ### Next session work order
 
-1. **Current gate: choose the disposition of ctxpack #6 before starting more
-   context-source work.** Its published corpus-spike wording is superseded by
-   the shipped interface-first tracer, while the broader packet-value question
-   remains deliberately deferred. Ask whether to leave it open, re-scope it,
-   or close it; any issue text or mutation requires exact user sign-off.
-2. **Keep #7 independent and unscheduled until that choice.** Repository-
-   documentation enrichment remains the next bounded context-source spike, but
-   do not start it merely because the history tracer campaign closed.
-3. **Do not infer batching or a compiled rewrite from the latency result.** The
-   tracer makes one request, fake-provider compile time is 0.068 seconds, and
-   Git history traversal dominates the optimized 4.838–5.192-second direct
-   query. Revisit only if multiple paths or a tighter latency target become a
-   current requirement.
-4. **Keep the stale fixture filename separate.** Renaming
-   `test/fixtures/evals/multiline_task_manifest_v3.yml` is a separate
-   non-generated-file change and still requires explicit approval.
-5. Final step of any executing session: rewrite this section for the work that
+1. **Execute decision-map ticket #1 only.** At baseline `21912b5`, inventory
+   every Markdown file by authority, freshness, uniqueness, automatic loading,
+   entry-point links, and likely search exposure. Produce a compact load-path
+   asset; do not infer harm or delete from size alone.
+2. **Keep measurement authoring gated.** Ticket #1 is read-only and needs no
+   worktree. Before ticket #2 or any new analyzer, check `eval/README.md`'s
+   inventory and record the reuse decision. Do not modify frozen transcripts or
+   recorded evidence.
+3. **Use worktrees at the causal boundary, not before it.** Ticket #3 will
+   isolate full/lean documentation arms after observational evidence selects
+   categories. Pre-register task count, held-out tasks, metrics, and expected
+   token cost; obtain visible spend approval before subject sessions.
+4. **Do not delete during evidence collection.** The user explicitly permits
+   deletion when the map's evidence gate is met. Normative specs/`design.md` and
+   frozen eval evidence still require their specific reconciliation or
+   provenance-migration approval.
+5. **Pause #6/#7 and unrelated cleanup.** Do not mutate either issue, start the
+   documentation-enrichment spike, rename the stale fixture, or reopen batching
+   / compiled-language work as a side effect of this audit.
+6. Final step of any executing session: rewrite this section for the work that
    follows.
 
 ### Known follow-ups (non-blocking)
@@ -280,17 +298,14 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
    measured run took 6.020 seconds and returned included history with 5 facts,
    10 truncated, and no error. That leaves 13.98 seconds before the unchanged
    20-second deadline.
-3. **Current work order:** choose whether ctxpack #6 should remain open, be
-   re-scoped, or be closed now that its published corpus-spike wording is
-   superseded by the shipped interface-first tracer. The broader packet-value
-   question remains deferred. Any issue mutation or text requires exact
-   approval; #7 remains independent and unscheduled until this choice.
-4. **Do not open a batch issue from this evidence alone.** ctxpack baseline is
-   0.068s with a fake provider and the tracer already makes one request, so
-   this is a single-path provider cost. The broader packet-value eval remains
-   deferred, ctxpack #6 remains externally unchanged, and
-   [#7](https://github.com/fuentesjr/ctxpack/issues/7) remains open but
-   unscheduled. Ask before committing, pushing, or publishing issue text.
+3. **Current work order:** execute ticket #1 in
+   [`docs/markdown-context-decision-map.md`](docs/markdown-context-decision-map.md):
+   inventory the baseline active documentation surface and its load paths. Do
+   not write an analyzer, run subjects, or delete files in that ticket.
+4. **The audit uses two evidence lanes.** Proven supersession/duplication with
+   an authoritative replacement and no unique evidence can justify removal
+   without live runs. Unique suspect material requires Codex worktree ablation,
+   a pre-registered no-quality-regression gate, and spend approval.
 5. **Phase 5 and Phase 6 are complete and closed.** RubricLLM issue #5 is
    decided DEFER, borrow-on-demand, and closed.
 6. **The release-boundary three-app harness rerun awaits explicit user
@@ -300,12 +315,26 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 8. **Method test-leg and route resolver re-spikes need new frozen
    pre-registrations and new user work orders.**
 9. **Tier 3 Rubydex remains deferred.**
-10. **Use worktrees when future work has genuinely independent streams.** They
-    do not help the current single-file tracker closure or issue-disposition
-    choice; prefer them for parallel implementation/review or experiment work
-    where shared-file edits would otherwise conflict.
+10. **#6 disposition and #7 scheduling are paused behind the Markdown audit.**
+    Any issue mutation or published text still requires exact approval.
 
 ## Decision log
+
+- **2026-07-17 (Markdown active-surface audit prioritized)** — The user
+  clarified that the concern is the repository's accumulated Markdown, not
+  files included in generated packets: likely-loaded documents may consume
+  context, create reference cascades, or actively mislead coding agents. The
+  baseline at `21912b5` is 99 Markdown files / 14,766 lines / 791,642 bytes.
+  The user selected the evidence-first recommendation, delegated remaining
+  study-design choices, and explicitly permits deletion when it truly helps.
+  The compact decision map fixes Codex as the causal subject, existing Claude
+  transcripts as observational evidence, two removal lanes (proved
+  supersession vs. causal ablation), Git history rather than an in-tree archive
+  for recovery, and stricter protection for normative/frozen evidence. Ticket
+  #1 is a read-only inventory/load-path audit. Worktrees begin only at the
+  causal-arm boundary; live subject sessions require a pre-registered cost and
+  explicit spend approval. No script, subject run, dependency, deletion, issue
+  mutation, or external side effect occurred in the bootstrap.
 
 - **2026-07-17 (history tracer stack pushed and verified)** — With explicit
   user approval, ctxpack `05f293e` was pushed over `3e7cf79` and git-recon
