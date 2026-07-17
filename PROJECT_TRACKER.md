@@ -8,11 +8,10 @@ completed chronology together with the explicitly historical snapshots under
 
 ## Current state
 
-- Upstream ctxpack is verified through `21912b5`; the Markdown-context work is
-  local-only. Local commits `2f58649`, `2bf1c86`, and `e40e9e1` contain the
-  decision map, audit, and frozen ablation protocol; the cleanup closure is the
-  commit containing this checkpoint. **Do not push.** The matching local
-  evalkit ledger entry is commit `b3f7eb4` and is also unpushed.
+- Upstream ctxpack is verified through `4da5523`, including the Markdown-context
+  decision map, audit, frozen ablation protocol, cleanup closure, and reusable
+  workflow record. The matching local evalkit ledger entry is commit `b3f7eb4`
+  and remains unpushed.
 - v0 ships anchor, test, files, error, method, and diff seeds. Method ships
   without its failed test-candidate leg (SEED-25). Route did not ship
   (`0.243 < 0.70`) and remains CLI-17c coaching-only; reopening it requires a
@@ -22,9 +21,11 @@ completed chronology together with the explicitly historical snapshots under
   git-recon). The representative provider-seam recheck passed in 6.020 seconds
   with 5 facts, 10 truncated, and no error; the exact recipe remains in
   `implementation-notes.md`.
-- Context-source issue planning is complete. GitHub issues #6 (seed-driven
-  git-recon signals) and #7 (repository-documentation enrichment) remain open
-  and paused behind this cleanup. No issue/PR mutation is authorized.
+- Context-source issue planning is complete. GitHub issue #6 (seed-driven
+  git-recon signals) is closed as not planned because the proposed corpus spike
+  was replaced by the shipped interface-first history tracer. Issue #7
+  (repository-documentation enrichment) is the next scheduled product
+  investigation; its spike has not started.
 - The reusable cleanup workflow now lives in the installed local
   `~/Projects/skills/audit-markdown-context` skill. Its read-only script
   reproduces this repository's tracked Markdown inventory and also passes
@@ -76,17 +77,21 @@ The implemented static lane:
 
 ## Current work order
 
-The Markdown cleanup work order is complete in the local closure commit. The
+The Markdown cleanup work order is complete and published through `4da5523`. The
 whole suite, diff/provenance/link/accounting gates, and two independent reviews
 passed. The post-cleanup skill extraction and canonical retry-rule update are
-complete, including the local ctxpack instruction alignment. Do not push
-ctxpack, evalkit, or any other repository.
+complete, including the ctxpack instruction alignment. Do not push evalkit or
+any other repository without explicit authorization.
 
 The only optional evidence follow-up is funding a newly pre-registered causal
 confirmation grid above the exhausted 900k-token cap.
 
-Otherwise return to issue #6 disposition and #7 scheduling; neither starts
-implicitly.
+Issue #6 is closed as not planned: its preregistered corpus evaluation was not
+run, while the alternative interface-first history tracer shipped and passed
+its recorded gates. The next product pass is issue #7's bounded repository-
+documentation enrichment spike. Begin with its existing-runner inventory and
+freeze the preregistration before labeling or measurement; do not implement
+product behavior or mutate the GitHub issue implicitly.
 
 ## Standing follow-ups
 
