@@ -33,11 +33,9 @@ GitHub mutations, or deletion of non-generated files unless the current task
 explicitly grants that action. Never push or publish under the user's name
 without exact approval. Do not read or commit `tmp/tier2/claude-config/`.
 
-Two failed attempts on the same issue require a stop/report unless the user
+Three failed attempts on the same issue require a stop/report unless the user
 explicitly overrides that limit for the task. Treat a spec/`design.md`
-conflict as a bug to reconcile, not permission to choose silently. In zsh,
-never use `path` as a loop or local variable because it aliases the command
-search `PATH` array; use `file_path` or another descriptive name.
+conflict as a bug to reconcile, not permission to choose silently.
 
 ## Commands
 

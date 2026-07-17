@@ -25,6 +25,11 @@ completed chronology together with the explicitly historical snapshots under
 - Context-source issue planning is complete. GitHub issues #6 (seed-driven
   git-recon signals) and #7 (repository-documentation enrichment) remain open
   and paused behind this cleanup. No issue/PR mutation is authorized.
+- The reusable cleanup workflow now lives in the installed local
+  `~/Projects/skills/audit-markdown-context` skill. Its read-only script
+  reproduces this repository's tracked Markdown inventory and also passes
+  against an unrelated skill repository. The canonical Agent README and this
+  project now use a three-attempt stop/report rule.
 
 ## Markdown context cleanup
 
@@ -73,17 +78,15 @@ The implemented static lane:
 
 The Markdown cleanup work order is complete in the local closure commit. The
 whole suite, diff/provenance/link/accounting gates, and two independent reviews
-passed. Do not push ctxpack, evalkit, or any other repository.
+passed. The post-cleanup skill extraction and canonical retry-rule update are
+complete, including the local ctxpack instruction alignment. Do not push
+ctxpack, evalkit, or any other repository.
 
-User decisions are required before either external follow-up:
+The only optional evidence follow-up is funding a newly pre-registered causal
+confirmation grid above the exhausted 900k-token cap.
 
-- publishing the proposed canonical Agent README gist edit for the zsh `path`
-  variable warning (exact final text sign-off is required), or
-- funding a newly pre-registered causal confirmation grid above the exhausted
-  900k-token cap.
-
-When those are settled, return to issue #6 disposition and #7 scheduling;
-neither starts implicitly.
+Otherwise return to issue #6 disposition and #7 scheduling; neither starts
+implicitly.
 
 ## Standing follow-ups
 
