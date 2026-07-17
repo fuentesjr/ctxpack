@@ -1,0 +1,4 @@
+Continue from PROJECT_TRACKER.md. Do not edit files. In at most 250 words,
+report the single next executable project action, why it is next, and the exact
+repo-relative evidence files and commands needed. Separate current authority
+from historical evidence. State any external action that is not authorized.

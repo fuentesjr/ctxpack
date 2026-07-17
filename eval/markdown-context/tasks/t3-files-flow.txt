@@ -1,0 +1,5 @@
+Do not edit files. Trace an explicit files seed end to end through ctxpack:
+public API and CLI input, normalization, compilation and merge, optional
+history enrichment, packet/rendering, and the regression-eval surface. Cite
+the governing requirement codes and repo-relative implementation/test files.
+Call out the determinism and limit boundaries. Use at most 500 words.

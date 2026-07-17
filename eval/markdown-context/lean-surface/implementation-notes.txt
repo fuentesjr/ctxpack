@@ -1,0 +1,16 @@
+# Implementation notes — current pass only
+
+## Markdown context cleanup (2026-07-17)
+
+- Baseline `21912b5`: 103 regular Markdown documents / 807,759 bytes / 15,104
+  lines; four Claude skill symlinks make 107 tracked `.md` paths.
+- `docs/markdown-context-decision-map.md` is the canonical investigation map;
+  `docs/markdown-context-audit.md` owns the inventory and transcript evidence.
+- Tickets #1 and #2 are resolved. Ticket #3 uses disposable worktrees and
+  ephemeral Codex runs under `eval/markdown-context/PREREGISTRATION.md`.
+- Existing Tier 2 runners were considered but do not vary ctxpack's own
+  Markdown surface. No reusable runner is added.
+- Current authorization: complete the cleanup, commit locally, do not push.
+
+Completed-pass details are recoverable with `git log -- implementation-notes.md`
+and `git show <commit>:implementation-notes.md`.

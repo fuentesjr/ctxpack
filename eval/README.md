@@ -28,6 +28,7 @@ adoption discipline this repo applies to eval tooling — including its own).
 | `seed-spikes/run_{test,files,error,method,diff,route}_spike.rb` | SEED-5 viability gates, one frozen script per kind | Pinned checkouts (+ history for diff; `extract_route_rows.rb` tables for route) | `seed-spikes/<kind>/PREREGISTRATION.md` + `RESULTS.md` + `results/` |
 | `seed-spikes/work-start-corpus.md` | Scenario → correct seed kind + packet (SEED-24, re-scored at phase gates) | Fixture-backed | Scoring blocks in the file |
 | `rubricllm-spike/side_by_side.rb` | Issue #5 side-by-side (decided: DEFER) | Committed coverage artifacts + rubric_llm clone | `rubricllm-spike/RESULTS.md` |
+| Manual `codex exec` protocol (`markdown-context/`) | Does ctxpack's active Markdown surface change Codex exploration cost/outcomes? | Frozen full/compact worktree payloads + three read-only tasks; no reusable runner | `markdown-context/PREREGISTRATION.md`, `runs.jsonl`, `RESULTS.md` |
 | `lib/spike_harness.rb` | Shared spike plumbing (future spikes) | — | Self-check: `ruby eval/lib/spike_harness_check.rb` |
 
 Decision rules and tier definitions: [`../eval-plan.md`](../eval-plan.md).

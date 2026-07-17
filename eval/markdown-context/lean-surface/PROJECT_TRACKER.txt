@@ -1,0 +1,38 @@
+# PROJECT_TRACKER.md
+
+This is the current work-order checkpoint for fresh sessions. It contains no
+completed chronology; use Git history and the named evidence artifacts for
+prior decisions.
+
+## Current state
+
+- Upstream ctxpack is verified through `21912b5`; local commits `2f58649` and
+  `2bf1c86` bootstrap and document the Markdown context audit. Do not push.
+- Git-recon upstream is verified through `7682b2c`; it is out of scope here.
+- Decision-map tickets #1 (inventory/load graph) and #2 (transcript forensics)
+  are resolved in `docs/markdown-context-audit.md`.
+- Static evidence identifies two deletion candidates:
+  `docs/packet-format-proposal.md` is superseded, and
+  `docs/agent-backlog.md` presents completed work as current.
+- Normative specs and frozen/recorded eval evidence remain protected.
+- Issue #6 disposition and #7 scheduling are paused behind this cleanup. No
+  issue, PR, push, dependency, or CI mutation is authorized.
+
+## Execution plan
+
+1. **In progress — decision-map #3:** run the frozen bounded Codex worktree
+   ablation under `eval/markdown-context/PREREGISTRATION.md`.
+2. **Pending — #4:** assign individual file dispositions using static proof
+   plus the category result; do not infer deletion from size.
+3. **Pending — #5:** implement the accepted compact/delete/route set while
+   preserving normative authority and experiment provenance.
+4. Run the whole suite, reconcile the map/audit/tracker/current pass notes,
+   write one durable learning only if warranted, and commit locally. Do not
+   push.
+
+## Next action
+
+Create isolated full and compact worktree arms at `2bf1c86`, execute the
+six-run pilot in the pre-registered order with ephemeral read-only
+`codex exec`, score it before continuing, then run the remaining 12 sessions
+only if the frozen pilot gate passes.
