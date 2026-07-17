@@ -85,7 +85,7 @@ session picks this up is spelled out in "Resuming a session" above.)
 Updated 2026-07-17 after the user prioritized an evidence-backed audit of the
 repository's Markdown context surface. The history tracer campaign remains
 closed; issue #6 disposition and #7 scheduling are paused behind this audit.
-**This plan is the authoritative work order for decision-map ticket #1**;
+**This plan is the authoritative work order for decision-map ticket #3**;
 "Next steps" must agree.
 
 ### State (ground truth, re-verified 2026-07-17)
@@ -96,12 +96,22 @@ closed; issue #6 disposition and #7 scheduling are paused behind this audit.
   is verified through optimized commit `7682b2c` (`HEAD == origin/main`
   immediately after fetch). Both worktrees were clean after verification; the
   tracker closure lands in the commit containing this update.
-- **Markdown context baseline:** at `21912b5`, the default tree contains **99
-  Markdown files / 14,766 lines / 791,642 bytes**. The largest files are
+- **Markdown context baseline:** at `21912b5`, the tracked tree contains **107
+  Markdown paths / 15,108 lines / 807,957 bytes**. This includes four
+  repo-owned `.agents/skills/*/SKILL.md` files and four `.claude/skills/`
+  symlink paths omitted by default `rg --files`. The largest files are
   `implementation-notes.md` (111,793 bytes), `PROJECT_TRACKER.md` (103,323),
   and `design.md` (42,523). Size is only a candidate cost signal: the audit
   distinguishes automatic/routed/read context from inert bytes and requires
   causal evidence before calling unique material harmful.
+- **Markdown audit frontier:** inventory and transcript-forensics tickets #1
+  and #2 are resolved in [`docs/markdown-context-audit.md`](docs/markdown-context-audit.md).
+  The 103 regular documents contain 807,759 bytes / 15,104 lines; four Claude
+  skill symlinks account for the remaining tracked-path bytes/lines. No
+  regular documents are byte-identical. Existing transcripts show root
+  instruction leakage into nested eval workspaces but no explicit ctxpack
+  Markdown reads or correctness failure. Ticket #3, a bounded Codex worktree
+  ablation, is now the frontier.
 - **Audit decisions:** the compact canonical map is
   [`docs/markdown-context-decision-map.md`](docs/markdown-context-decision-map.md).
   Codex is the causal subject; existing Claude transcripts are observational.
@@ -324,17 +334,20 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
   clarified that the concern is the repository's accumulated Markdown, not
   files included in generated packets: likely-loaded documents may consume
   context, create reference cascades, or actively mislead coding agents. The
-  baseline at `21912b5` is 99 Markdown files / 14,766 lines / 791,642 bytes.
+  baseline at `21912b5` is 107 tracked Markdown paths / 15,108 lines / 807,957
+  bytes, including hidden skill files and Claude symlink paths.
   The user selected the evidence-first recommendation, delegated remaining
   study-design choices, and explicitly permits deletion when it truly helps.
   The compact decision map fixes Codex as the causal subject, existing Claude
   transcripts as observational evidence, two removal lanes (proved
   supersession vs. causal ablation), Git history rather than an in-tree archive
   for recovery, and stricter protection for normative/frozen evidence. Ticket
-  #1 is a read-only inventory/load-path audit. Worktrees begin only at the
-  causal-arm boundary; live subject sessions require a pre-registered cost and
-  explicit spend approval. No script, subject run, dependency, deletion, issue
-  mutation, or external side effect occurred in the bootstrap.
+  Tickets #1 and #2 are resolved in `docs/markdown-context-audit.md`: the main
+  active surface is the bootstrap chain, and prior transcripts show
+  instruction leakage but no explicit ctxpack Markdown reads or correctness
+  harm. Ticket #3 is the causal worktree ablation. No script, subject run,
+  dependency, deletion, issue mutation, or external side effect occurred in
+  the bootstrap or read-only audit.
 
 - **2026-07-17 (history tracer stack pushed and verified)** — With explicit
   user approval, ctxpack `05f293e` was pushed over `3e7cf79` and git-recon

@@ -1856,7 +1856,24 @@ publication.
   surface and explicitly permits evidence-backed deletion.
 - The compact, canonical investigation sequence and resolved evidence gates are
   in `docs/markdown-context-decision-map.md`; this file does not duplicate them.
-- Baseline `21912b5`: 99 Markdown files, 14,766 lines, 791,642 bytes. Planning
-  artifacts created after that SHA are excluded from the baseline comparison.
+- Corrected baseline `21912b5`: 107 tracked Markdown paths, 15,108 lines,
+  807,957 bytes. The first `rg --files` inventory incorrectly reported 99 /
+  14,766 / 791,642 because its defaults omitted hidden tracked skill files and
+  Claude symlinks; planning artifacts after that SHA remain excluded.
 - No measurement script, subject session, dependency, deletion, or external
   mutation occurred during bootstrap.
+
+## Markdown context audit — tickets #1 and #2
+
+- Static inventory and load-path evidence are captured once in
+  `docs/markdown-context-audit.md`; the decision map records only the compact
+  resolved answers.
+- Baseline object accounting distinguishes 103 regular documents (807,759
+  bytes / 15,104 lines) from 107 tracked paths including four Claude skill
+  symlink blobs (807,957 bytes / 15,108 path-lines).
+- The recorded transcript corpus is observational: 98 Claude sessions / 1,535
+  parsed tool calls contain no explicit ctxpack Markdown read. Two successful
+  nested-app sessions nevertheless expose root-instruction contamination.
+- Ticket #3 will use disposable worktrees and ephemeral non-interactive Codex
+  runs. Existing Tier 2 runners were considered but vary packet injection in
+  external apps rather than the Markdown surface of ctxpack itself.

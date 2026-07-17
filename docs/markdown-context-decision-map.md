@@ -1,6 +1,7 @@
 # Markdown context decision map
 
-Status: bootstrap complete; frontier is #1. Baseline: ctxpack `21912b5`.
+Status: tickets #1 and #2 resolved; frontier is #3. Baseline: ctxpack
+`21912b5`. Detailed evidence: [`markdown-context-audit.md`](markdown-context-audit.md).
 
 Goal: reduce the Markdown that coding agents are likely to load, and remove
 documents that measurably worsen their work, without losing current authority
@@ -54,8 +55,17 @@ what unique authority does each carry?
 
 ### Answer
 
-Pending — this is the frontier. Produce a compact inventory/load-path asset;
-do not recommend deletion from size alone.
+Resolved. The baseline has 107 tracked Markdown paths but 103 regular
+documents; four `.claude` paths are symlink adapters to four canonical
+`.agents` skill files. The regular documents total 807,759 bytes / 15,104
+lines. The explicit continuation path makes the 103 KB tracker the highest
+known load, while skill bodies are routed on trigger and the 63-file eval tree
+has low ordinary inbound exposure. No regular files are byte-identical.
+
+The active discovery chain is `AGENTS.md` -> `PROJECT_TRACKER.md` -> cumulative
+history and authority documents. The tracker routes to 32 Markdown targets and
+its completed decision log is two thirds of its bytes. See the audit for the
+complete category accounting, link/path graph, authority classes, and limits.
 
 ## #2: Which documents are actually consumed or implicated in wrong turns?
 
@@ -70,7 +80,14 @@ which observed mistakes can be traced to stale or conflicting documentation?
 
 ### Answer
 
-Pending. Reuse recorded transcripts read-only; do not rewrite frozen evidence.
+Resolved observationally. Across 98 Claude transcripts and 1,535 parsed tool
+calls, no tool explicitly read a ctxpack Markdown file and no manual reference
+cascade occurred. Root `CLAUDE.md` instructions were still injected into
+nested subject workspaces: one agent had to reject ctxpack's rake rule while
+working on Lobsters and another emitted an irrelevant Tier 0 disclaimer while
+working on Campfire. Both tasks succeeded, so this proves contamination and
+avoidable reasoning, not correctness harm. The corpus does not measure Codex
+working in ctxpack; ticket #3 remains required.
 
 ## #3: Which document categories causally help or harm Codex?
 
