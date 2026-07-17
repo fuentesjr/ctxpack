@@ -322,8 +322,10 @@ evidence that history improves agent outcomes. The earlier direct git-recon
 Rails query measured 10.27–13.02 seconds. Profiling and bounded prefiltering
 reduced it to 4.838–5.192 seconds with byte-identical output. The completed
 pre-optimization end-to-end ctxpack tracer measured 18.623–19.021 seconds on
-the same path; its post-optimization recheck remains pending. The approved
-20-second deadline and one-files-primary scope therefore remain unchanged.
+the same path. A post-optimization recheck through ctxpack's production
+provider seam took 6.020 seconds, returned 5 facts with 10 truncated and no
+error, and left 13.98 seconds of deadline margin. The approved 20-second
+deadline and one-files-primary scope therefore remain unchanged.
 
 ## Why Rails is a good target
 

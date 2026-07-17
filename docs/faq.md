@@ -237,7 +237,10 @@ compile — typically well under a second, no whole-repo index. The optional
 git-recon tracer performs one bounded history query. Profiling reduced that
 direct query on the representative high-churn Rails path from 10.27–13.02
 seconds to 4.838–5.192 seconds with byte-identical output. Three
-pre-optimization end-to-end ctxpack runs measured 18.623–19.021 seconds; the
-post-optimization recheck is pending. ctxpack therefore still does not fan the
-query out across packet files. The anchor-viability spike compiled 1,967 real
-`controller#action` pairs across three large open-source apps with zero crashes.
+pre-optimization end-to-end ctxpack runs measured 18.623–19.021 seconds. A
+post-optimization recheck through ctxpack's production provider seam took
+6.020 seconds, returned 5 facts with 10 truncated and no error, and retained
+13.98 seconds of margin under the unchanged deadline. ctxpack still does not
+fan the query out across packet files. The anchor-viability spike compiled
+1,967 real `controller#action` pairs across three large open-source apps with
+zero crashes.

@@ -131,6 +131,10 @@ ruby eval/tier2/harness.rb status                     # Tier 2 grid state (offli
 - Every packet bug becomes a YAML eval case (EVAL-9) — see the
   `add-fixture-eval` skill. The eval runner raises at load time if the case
   glob is empty; never delete the last case.
+- Before a representative cross-repo benchmark's first measured run, record
+  its exact executable, production seam, arguments, pinned revision/path,
+  checkout assumptions, runtime, reported fields, and decision rule. Measure
+  the narrow production seam directly when CLI discovery is not under test.
 
 ## Cross-repo eval process (evalkit)
 

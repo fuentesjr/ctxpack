@@ -1801,3 +1801,51 @@ publication.
 - git-recon was committed locally as `7682b2c`; the user then authorized the
   ctxpack commit containing this pass. No push, dependency, timeout/default-on
   change, issue edit, or published text occurred.
+
+### Post-optimization consumer benchmark definition (2026-07-17)
+
+- This recheck exercises the production provider seam directly; it does not
+  invoke CLI Rails-app discovery. Run it from the ctxpack root with the
+  repository bundle's Ruby. The Rails checkout must be clean at
+  `1d19b2a1f90eb64f7cda2209621eb21a43511be0`, and the PATH-discovered
+  `git-recon` must resolve to the optimized checkout at `7682b2c`.
+- Exact invocation (one measured run):
+
+  ```sh
+  bundle exec ruby -Ilib -rjson -rctxpack -e '
+  repo = "/Users/sal/Projects/rails"
+  revision = "1d19b2a1f90eb64f7cda2209621eb21a43511be0"
+  path = "activerecord/lib/active_record/connection_adapters/postgresql_adapter.rb"
+  provider = Ctxpack::GitReconHistoryProvider.new(limits: Ctxpack::Compiler::LIMITS)
+  started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+  history = provider.fetch(
+    app_root: repo,
+    repo_root: repo,
+    path: path,
+    revision: revision
+  )
+  elapsed = Process.clock_gettime(Process::CLOCK_MONOTONIC) - started
+  puts JSON.generate(
+    ruby: RUBY_VERSION,
+    revision: revision,
+    path: path,
+    deadline_seconds: Ctxpack::Compiler::LIMITS.fetch(:max_history_seconds),
+    elapsed_seconds: elapsed.round(3),
+    status: history.status,
+    facts: history.facts.length,
+    truncated: history.truncated_count,
+    reason: history.reason
+  )
+  '
+  ```
+
+- Decision rule fixed before measurement: healthy margin requires
+  `status=included`, 5 facts, 10 truncated, no error reason, and elapsed time
+  below the existing 8-second representative-query benchmark threshold. This
+  is a landing decision aid, not a new normative timeout; the production
+  deadline remains 20 seconds.
+- The single measured run passed that rule in **6.020 seconds** on Ruby 4.0.1:
+  `status=included`, 5 facts, 10 truncated, and no error reason. This leaves
+  13.98 seconds before the unchanged provider deadline. It closes the consumer
+  latency gate without changing the one-primary scope or supporting a batching
+  or compiled-language rewrite.

@@ -61,8 +61,10 @@ Without the companion, files packets still compile and record one honest
 history-unavailable Follow-up. git-recon requires the system `iconv` command.
 Profiling reduced the representative direct git-recon query from
 10.27–13.02 seconds to 4.838–5.192 seconds with byte-identical output. The
-pre-optimization end-to-end ctxpack path measured 18.623–19.021 seconds; its
-post-optimization recheck is pending, so the tracer remains capped at one
+pre-optimization end-to-end ctxpack path measured 18.623–19.021 seconds. A
+post-optimization recheck through ctxpack's production provider seam took
+6.020 seconds and returned the expected 5 facts with 10 truncated and no error,
+so the tracer retains 13.98 seconds of margin while remaining capped at one
 files primary per packet under the unchanged 20-second deadline.
 
 At least one seed is required. Task text is optional but recommended.

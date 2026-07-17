@@ -32,6 +32,10 @@ and measurements live in git-recon's `bin/git-recon`, `test/run_tests.sh`, and
 - A Zig, Rust, or C rewrite would optimize the wrong layer unless it also
   replaced Git's path-limited history semantics; after the targeted fix, the
   remaining non-Git overhead is roughly one second.
+- The first consumer measurements did not record their exact Ruby entry point
+  and checkout assumptions. Two reconstructions then exercised the wrong Ruby
+  and CLI Rails-root discovery against a framework repository instead of the
+  production provider seam.
 
 ## Key insight
 
@@ -60,6 +64,11 @@ before they enter the packet. This keeps a nested application from confusing
 application paths with monorepo paths or enriching a file that did not survive
 the packet budget.
 
+For the landing recheck, ctxpack recorded the benchmark recipe and decision
+rule before measurement, then called `GitReconHistoryProvider#fetch` directly
+with production `Compiler::LIMITS`. That measured the consumer boundary without
+invoking unrelated CLI Rails-app discovery.
+
 ## Verification
 
 The git-recon fixture suite passed with regressions for cutoff isolation,
@@ -74,16 +83,19 @@ Final checkout runs took 4.838, 4.845, and 5.192 seconds and produced the same
 Before this optimization, the completed ctxpack path was measured end to end on
 the same Rails file: three runs took 19.021, 19.018, and 18.623 seconds. Every
 run returned five selected facts with ten additional facts truncated. The
-post-optimization consumer measurement remains pending because the original
-benchmark invocation was not recorded; two attempted reconstructions exercised
-the wrong Ruby and then CLI Rails-root discovery rather than the prior seam.
+post-optimization production provider-seam recipe is now recorded in
+`implementation-notes.md`; its single predeclared run took 6.020 seconds and
+returned five selected facts, ten truncated, and no error. That passed the
+existing 8-second representative-query threshold and left 13.98 seconds before
+the unchanged production deadline.
 
 ## Reusable rule
 
-Profile Git subprocess time separately from shell parsing, reject oversized
-histories in a cheap quoted-name pass before exact NUL parsing, reuse resolved
-commit sets, and remeasure the complete consumer path before considering a
-compiled rewrite.
+Record the exact consumer benchmark recipe before its first run, profile Git
+subprocess time separately from shell parsing, reject oversized histories in a
+cheap quoted-name pass before exact NUL parsing, reuse resolved commit sets,
+and remeasure the production consumer seam before considering a compiled
+rewrite.
 
 ## When to apply again
 
