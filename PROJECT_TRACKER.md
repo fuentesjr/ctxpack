@@ -82,20 +82,19 @@ session picks this up is spelled out in "Resuming a session" above.)
 
 ## Next step: execution plan
 
-Updated 2026-07-17 after the post-optimization ctxpack provider-seam recheck
-passed with healthy margin. The tracer is already on ctxpack `origin/main`;
-the optimized git-recon commit and this measurement reconciliation remain to
-be pushed. **This plan is the authoritative work order for that publication
-boundary**; "Next steps" must agree.
+Updated 2026-07-17 after the optimized git-recon commit and ctxpack's consumer
+measurement reconciliation were pushed and verified. The history tracer
+campaign is closed. **This plan is the authoritative work order for choosing
+the next context-source issue boundary**; "Next steps" must agree.
 
 ### State (ground truth, re-verified 2026-07-17)
 
-- **Git state:** ctxpack `3e7cf79` (the tracer commit) already matched
-  `origin/main` when this session began; this session did not push it. The
-  measurement/docs reconciliation lands in the local commit containing this
-  tracker update. git-recon local `main` is at `7682b2c`, one commit ahead of
-  `origin/main` at `87032f6`, with a clean worktree. No remaining push is
-  authorized in either repository.
+- **Git state:** the published ctxpack stack is verified through `05f293e`
+  (`HEAD == origin/main` immediately after fetch), including tracer commit
+  `3e7cf79` and its measurement reconciliation. The published git-recon stack
+  is verified through optimized commit `7682b2c` (`HEAD == origin/main`
+  immediately after fetch). Both worktrees were clean after verification; the
+  tracker closure lands in the commit containing this update.
 - **Context-engineering positioning pass:** complete and pushed in `3669e79`.
   README, gemspec metadata, examples, FAQ, and
   design now use **context engineering CLI** as the category and
@@ -199,22 +198,22 @@ boundary**; "Next steps" must agree.
 
 ### Next session work order
 
-1. **Current gate: wait for push authorization.** The consumer seam passed in
-   6.020 seconds with 13.98 seconds of deadline margin. If the user approves,
-   push git-recon `7682b2c` and the current ctxpack measurement-reconciliation
-   commit, then verify both remote SHAs. Do not push either repository without
-   that explicit authorization.
-2. **Do not infer batching or a compiled rewrite from this result.** The
+1. **Current gate: choose the disposition of ctxpack #6 before starting more
+   context-source work.** Its published corpus-spike wording is superseded by
+   the shipped interface-first tracer, while the broader packet-value question
+   remains deliberately deferred. Ask whether to leave it open, re-scope it,
+   or close it; any issue text or mutation requires exact user sign-off.
+2. **Keep #7 independent and unscheduled until that choice.** Repository-
+   documentation enrichment remains the next bounded context-source spike, but
+   do not start it merely because the history tracer campaign closed.
+3. **Do not infer batching or a compiled rewrite from the latency result.** The
    tracer makes one request, fake-provider compile time is 0.068 seconds, and
    Git history traversal dominates the optimized 4.838–5.192-second direct
    query. Revisit only if multiple paths or a tighter latency target become a
    current requirement.
-3. **Keep the stale fixture filename out of this publication.** Renaming
+4. **Keep the stale fixture filename separate.** Renaming
    `test/fixtures/evals/multiline_task_manifest_v3.yml` is a separate
    non-generated-file change and still requires explicit approval.
-4. **Keep published issues unchanged pending exact approval.** ctxpack #6
-   still describes the superseded corpus spike and must not be silently closed
-   or rewritten; #7 remains the independent documentation-enrichment spike.
 5. Final step of any executing session: rewrite this section for the work that
    follows.
 
@@ -253,8 +252,8 @@ boundary**; "Next steps" must agree.
 | Seed Phase 5b (diff) | SEED-26, [`eval/seed-spikes/diff/`](eval/seed-spikes/diff/) | **Done — COMMITTED (`f5bdb37` gate + `b5450dd`) + PUSHED** (2026-07-14) | Paired-test co-change agreement 0.810 PASS → `--from-diff` ships **with** mirror-convention paired-test leg (explicit flag only). Grok-implemented; red-then-green re-verified; suite 205/0; Tier 0 byte-identical. |
 | Seed Phase 5c (route) | [`eval/seed-spikes/route/`](eval/seed-spikes/route/) | **Closed — NO SHIP, COMMITTED (`3f69230`) + PUSHED** (2026-07-14) | Double-gated spike: resolution 0.243 FAIL (Front B margin +0.124 moot). Route evidence stays CLI-17c coaching-only; no implementation pass. Re-open needs a new pre-reg (router-order first-match resolver noted). |
 | Context-engineering positioning | README/gemspec/examples/FAQ/`design.md` | **Done — parent-verified, COMMITTED (`3669e79`) + PUSHED** (2026-07-16) | Agenticons `coding_worker` + `doc_reviewer` pass: product category is context engineering CLI; mechanism remains deterministic context compiler; task + seed promise stays first; Rails remains v0 scope. Corrected the stale feature caveat against Tier 2 expansion (features 5/6, median 58.5%; bugs 0/3), with anchor-seed/offline/directional/no-quality-benefit boundaries. Parent full suite 205/1834 green; gemspec and diff checks pass. |
-| git-recon agent facts interface | `~/Projects/git-recon` `facts --format=json` | **Done — optimization COMMITTED LOCALLY (`7682b2c`), not pushed** (2026-07-16) | Contract and prior reviews remain green. Trace2 found redundant history traversal plus 38,092 Bash-parsed diff records. Reuse + prefilter optimization: benchmark RED 10.776s → GREEN 4.965s; final 4.838–5.192s, byte-identical 1,920 bytes. Fixture suite/ShellCheck/Bash/diff gates pass; no dependency or schema change. |
-| Files-seed history tracer | SEED-27 / Format 4 / git-recon adapter | **Done — parent-verified, COMMITTED (`3e7cf79`) + PUSHED** (2026-07-16; latency gate closed 2026-07-17) | Existing PATH-discovered companion, one revision-pinned request for the first retained files primary, typed bounded facts/omissions, no source eviction, deterministic replay. Parent suite 225/1976 green; Tier 0 byte-identical across 1,967 anchors; final strategic review clean. Recorded production provider-seam recheck: 6.020s, included 5 facts / 10 truncated / no error, leaving 13.98s under the unchanged deadline. |
+| git-recon agent facts interface | `~/Projects/git-recon` `facts --format=json` | **Done — optimization COMMITTED (`7682b2c`) + PUSHED** (2026-07-17) | Contract and prior reviews remain green. Trace2 found redundant history traversal plus 38,092 Bash-parsed diff records. Reuse + prefilter optimization: benchmark RED 10.776s → GREEN 4.965s; final 4.838–5.192s, byte-identical 1,920 bytes. Fixture suite/ShellCheck/Bash/diff gates pass; no dependency or schema change. Remote SHA verified after push. |
+| Files-seed history tracer | SEED-27 / Format 4 / git-recon adapter | **Done — parent-verified, COMMITTED (`3e7cf79`) + PUSHED** (2026-07-16; latency reconciliation `05f293e` pushed 2026-07-17) | Existing PATH-discovered companion, one revision-pinned request for the first retained files primary, typed bounded facts/omissions, no source eviction, deterministic replay. Parent suite 225/1976 green; Tier 0 byte-identical across 1,967 anchors; final strategic review clean. Recorded production provider-seam recheck: 6.020s, included 5 facts / 10 truncated / no error, leaving 13.98s under the unchanged deadline. Remote SHA verified after push. |
 
 Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
@@ -271,20 +270,21 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 
 ## Next steps
 
-1. **The files-seed tracer is complete and already pushed in ctxpack
-   `3e7cf79`.** At this session's start ctxpack matched `origin/main`; this
-   session did not push it. The already-present `~/.local/bin/git-recon`
-   symlink resolves to the optimized local checkout and was not created or
-   reinstalled.
+1. **The history tracer campaign is complete and published.** ctxpack tracer
+   `3e7cf79`, measurement reconciliation `05f293e`, and optimized git-recon
+   `7682b2c` are pushed; fetch verification confirmed both local heads equal
+   `origin/main`. The already-present `~/.local/bin/git-recon` symlink resolves
+   to the optimized checkout and was not created or reinstalled.
 2. **The post-optimization consumer gate passed.** The exact production
    provider-seam recipe is recorded in `implementation-notes.md`; its one
    measured run took 6.020 seconds and returned included history with 5 facts,
    10 truncated, and no error. That leaves 13.98 seconds before the unchanged
    20-second deadline.
-3. **Current work order:** await explicit approval to push git-recon `7682b2c`
-   and the ctxpack commit containing this measurement reconciliation. Verify
-   both remote SHAs after an approved push. Current evidence does not justify
-   batching or a Zig/Rust/C rewrite.
+3. **Current work order:** choose whether ctxpack #6 should remain open, be
+   re-scoped, or be closed now that its published corpus-spike wording is
+   superseded by the shipped interface-first tracer. The broader packet-value
+   question remains deferred. Any issue mutation or text requires exact
+   approval; #7 remains independent and unscheduled until this choice.
 4. **Do not open a batch issue from this evidence alone.** ctxpack baseline is
    0.068s with a fake provider and the tracer already makes one request, so
    this is a single-path provider cost. The broader packet-value eval remains
@@ -300,8 +300,22 @@ Offline experiments (not conformance work, see [`eval-plan.md`](eval-plan.md)):
 8. **Method test-leg and route resolver re-spikes need new frozen
    pre-registrations and new user work orders.**
 9. **Tier 3 Rubydex remains deferred.**
+10. **Use worktrees when future work has genuinely independent streams.** They
+    do not help the current single-file tracker closure or issue-disposition
+    choice; prefer them for parallel implementation/review or experiment work
+    where shared-file edits would otherwise conflict.
 
 ## Decision log
+
+- **2026-07-17 (history tracer stack pushed and verified)** — With explicit
+  user approval, ctxpack `05f293e` was pushed over `3e7cf79` and git-recon
+  `7682b2c` was pushed over `87032f6`. Fresh fetches verified each local `HEAD`
+  exactly matched `origin/main`; both worktrees were clean. No issue, release,
+  dependency, CI, timeout, spec, or recorded-evidence mutation accompanied the
+  push. Worktrees were considered for the remaining work but rejected as
+  overhead at this single-file tracker/decision boundary; they remain the
+  preferred isolation mechanism when future implementation, review, or
+  experiment streams can progress independently.
 
 - **2026-07-17 (consumer latency gate passed; push approval pending)** — The
   benchmark seam was deliberately redefined before measurement as a direct
