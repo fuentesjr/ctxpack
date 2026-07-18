@@ -27,6 +27,14 @@ module DocumentationSpike
   RECIPE_NAMES = %w[
     forward_exact_reference reverse_exact_link mirrored_path ancestor_conventional
   ].freeze
+  MEASUREMENT_RESTARTS = [
+    {
+      "failed_runner_commit" => "cea6534bccc9ef4b39742fab98899bd7f5de4a3c",
+      "environment" => {"locale" => "C", "timezone" => "UTC"},
+      "failure" => "forward-reference tokenizer passed an empty punctuation token to File.extname",
+      "artifact_disposition" => "no candidate artifact was written; restart all three replays from zero"
+    }
+  ].freeze
   StudyTask = Data.define(
     :app,
     :id,
@@ -293,6 +301,8 @@ module DocumentationSpike
   def comment_document_tokens(line)
     line.scan(/[^\s"'`]+/).filter_map do |raw|
       token = raw.gsub(/\A[<(\[]+|[>,.;:)\]]+\z/, "")
+      next if token.empty?
+
       path = token.split("#", 2).first
       token if documentary_path?(path) || conventional_document_path?(path)
     end
@@ -793,6 +803,7 @@ module DocumentationSpike
           }
         },
         "gates" => gates,
+        "measurement_restarts" => MEASUREMENT_RESTARTS,
         "verdict" => verdict
       }
     end
@@ -1072,6 +1083,14 @@ module DocumentationSpike
           "latency" => result.dig("metrics", "latency")
         )}
         ```
+
+        ## Measurement restart
+
+        The first C/UTC generation at runner commit `cea6534` aborted before
+        writing a candidate artifact because a punctuation-only source-comment
+        token reached `File.extname` as `nil`. The failed attempt was invalidated;
+        the tokenizer was regression-tested and all three replays restarted from
+        zero under the repaired runner.
 
         ## Limitations
 

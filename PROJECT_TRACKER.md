@@ -27,8 +27,11 @@ completed chronology together with the explicitly historical snapshots under
   (repository-documentation enrichment) is the active product investigation.
   Its preregistration is frozen before subject-document inspection. The local
   runner and synthetic controls passed independent review, all 15 shared-harness
-  checks, and the 261-run suite; they await their own commit. No candidates,
-  labels, or measurements have been generated.
+  checks, and the 261-run suite, then landed in `cea6534`. The first measured
+  generation exposed a tokenizer defect before any artifact write; the attempt
+  is invalidated. Its minimal regression repair passed independent review and
+  the 262-run suite and awaits a new commit. No candidate artifact or label
+  exists.
 - The reusable cleanup workflow now lives in the installed local
   `~/Projects/skills/audit-markdown-context` skill. Its read-only script
   reproduces this repository's tracked Markdown inventory and also passes
@@ -95,9 +98,10 @@ its recorded gates. The next product pass is issue #7's bounded repository-
 documentation enrichment spike. The existing-runner decision and frozen
 preregistration live under `eval/documentation-spike/`. Its stdlib-only runner,
 opaque artifact flow, frozen scoring, and five synthetic controls are
-implemented, independently reviewed, and whole-suite green. Commit the runner
-before subject-document inspection, candidate generation, labeling, or
-measurement. Do not implement product behavior or mutate the GitHub issue
+implemented, independently reviewed, and committed. The first C/UTC generation
+failed before artifact write on an empty punctuation token. Finish and commit
+the regression repair, then restart all three replays from zero before labeling
+or scoring. Do not implement product behavior or mutate the GitHub issue
 implicitly.
 
 ## Standing follow-ups

@@ -65,20 +65,31 @@ git show 2bf1c86:implementation-notes.md
   handling, fixed ordering/de-dup/budgets, typed omissions, instruction
   exclusion, pinned revisions, corpus/oracle reuse, opaque label artifacts,
   frozen scoring, replay matching, and CLI artifact writes.
-- Focused runner coverage contributes 36 runs and 256 assertions, with zero
+- Focused runner coverage contributes 37 runs and 265 assertions, with zero
   failures/errors in the whole-suite run.
 - `run_documentation_spike.rb self-check`: all five frozen synthetic controls
   pass without subject-repository access. `preflight` verifies all 15 task
   records and four pinned checkouts without enumerating subject documentation.
 - `ruby eval/lib/spike_harness_check.rb`: all 15 checks pass after adding custom
-  exclusion support. `bundle exec rake test`: 261 runs, 2,232 assertions, zero
+  exclusion support. `bundle exec rake test`: 262 runs, 2,241 assertions, zero
   failures/errors. Syntax and whitespace checks pass.
 - The Agenticons review found and the DRA fixed four pre-measurement blockers:
   combined truncation provenance, rotated-oracle blinding, committed-runner
   provenance, and replay independence. Its clean re-review independently
   reproduced the bounded combined output and found no remaining blocker.
-- No subject documentation, candidate bundle, label, or measurement has been
-  generated.
+- Subject documentation was first inspected by the invalidated generation
+  attempt. No candidate bundle, label, or valid measurement artifact exists.
+
+### Measurement restart
+
+- The first C/UTC generation at runner commit `cea6534` aborted before writing
+  any artifact: a punctuation-only source-comment token was trimmed to an empty
+  string, whose fragment split yielded `nil` for `File.extname`.
+- The exact CLI failure reproduced twice; Redmine task 1 isolated the fault;
+  `# >` was the minimal fixture. The regression is red before the empty-token
+  filter and green after it.
+- The frozen protocol invalidates that attempt. All three replays must restart
+  from zero after the reviewed and fully verified repair is committed.
 
 ## Standing provider-seam benchmark recipe
 

@@ -155,6 +155,23 @@ class DocumentationSpikeRunnerTest < Minitest::Test
     end
   end
 
+  def test_ignores_comment_tokens_that_become_empty_after_punctuation_trimming
+    prepare = lambda do |repo|
+      File.write(File.join(repo, "app/models/user.rb"), "# >\nclass User\nend\n")
+    end
+
+    with_fixture_repository("no_candidates", prepare: prepare) do |repo, revision|
+      result = DocumentationSpike.retrieve(
+        repo_root: repo,
+        revision: revision,
+        focus_paths: ["app/models/user.rb"]
+      )
+
+      assert_empty result.fetch("candidates")
+      assert_empty result.fetch("omissions")
+    end
+  end
+
   def test_reports_oversized_and_invalid_utf8_documents_as_typed_omissions
     prepare = lambda do |repo|
       File.binwrite(File.join(repo, "docs/large.md"), "x" * (256 * 1_024 + 1))
@@ -598,6 +615,8 @@ class DocumentationSpikeRunnerTest < Minitest::Test
     assert_equal 10.0, result.dig("metrics", "latency", "median_ms")
     assert_equal 10.0, result.dig("metrics", "latency", "p95_ms")
     assert_equal 10.0, result.dig("metrics", "latency", "max_ms")
+    assert_equal "cea6534bccc9ef4b39742fab98899bd7f5de4a3c",
+                 result.dig("measurement_restarts", 0, "failed_runner_commit")
     assert_equal %w[app0 app1 app2 app3], result.dig("metrics", "rotated_per_app").keys.sort
     assert_equal(
       %w[ancestor_conventional forward_exact_reference mirrored_path reverse_exact_link],
