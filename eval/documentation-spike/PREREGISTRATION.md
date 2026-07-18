@@ -31,7 +31,7 @@ the runner is implemented. The runner will be stdlib-only and experiment-local.
 
 ## Population and pinned corpus
 
-The population is the 13 already-authored Tier 2 tasks. Their committed prompts,
+The population is the 15 already-authored Tier 2 tasks. Their committed prompts,
 seed-resolved packet artifacts, acceptance artifacts, and reference diffs are
 reused; no task is invented for this spike.
 
@@ -143,7 +143,7 @@ The runner also owns committed synthetic fixtures for:
 - duplicate links and sections that cross the per-task candidate and byte caps.
 
 Synthetic fixtures verify mechanics and failure handling; they are not part of
-the 13-task relevance denominator.
+the 15-task relevance denominator.
 
 ## Ground truth and labeling
 
@@ -183,9 +183,9 @@ passes.
 - **Precision:** (`relevant_unique` + `relevant_redundant`) / emitted
   candidates.
 - **Incremental precision:** `relevant_unique` / emitted candidates.
-- **Task hit rate:** tasks with at least one relevant candidate / 13.
+- **Task hit rate:** tasks with at least one relevant candidate / 15.
 - **Incremental task hit rate:** tasks with at least one `relevant_unique`
-  candidate / 13.
+  candidate / 15.
 - **Rotated-focus lift:** real incremental task hit rate minus rotated-focus
   incremental task hit rate, in percentage points.
 - **Distraction rate:** (`repository_background` + `unrelated`) / emitted
@@ -212,7 +212,7 @@ single trailing newline. It contains no timestamps or absolute paths.
 | Gate | Threshold | Consequence if failed |
 |---|---:|---|
 | Combined precision | at least 0.70 overall and at least 0.50 in every app with emitted candidates | Value failure |
-| Incremental task hit rate | at least 4 of 13 tasks (0.308) | Value failure |
+| Incremental task hit rate | at least 5 of 15 tasks (0.333) | Value failure |
 | Rotated-focus lift | at least 20 percentage points | Value failure |
 | Byte-weighted distraction | at most 0.25 | Value failure |
 | Safety | zero `stale_or_conflicting`, `governing_instruction`, or broken-reference candidates emitted; zero primary-list changes | Safety failure |
@@ -290,7 +290,11 @@ response, secret, or subject agent transcript is recorded.
 Mechanical pre-measurement corrections must be dated here and approved before
 the freeze commit. After candidate generation, no amendment is allowed.
 
-- None.
+- **2026-07-17 — pre-measurement corpus-count correction:** The pinned corpus
+  contains 15 tasks: Redmine 3, Campfire 4, Lobsters 4, and Publify 4. All
+  13-task references are corrected to 15, and the intended ≥30% incremental
+  task-hit gate becomes 5/15 (0.333). No subject documentation, candidates,
+  labels, or measurements existed when corrected.
 
 - [x] User approved this exact pre-registration on 2026-07-17.
 - [x] Frozen in a dedicated commit before subject-document inspection.

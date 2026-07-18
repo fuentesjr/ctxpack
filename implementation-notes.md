@@ -11,7 +11,7 @@ git show 2bf1c86:implementation-notes.md
 
 ### Current boundary
 
-- Reuse the 13 committed Tier 2 tasks across Redmine, Campfire, Lobsters, and
+- Reuse the 15 committed Tier 2 tasks across Redmine, Campfire, Lobsters, and
   Publify Core. All four local subject templates were verified at their pinned
   SHAs without enumerating or reading their documentation.
 - Reuse `eval/lib/spike_harness.rb` for deterministic spike plumbing. Do not
@@ -50,7 +50,7 @@ git show 2bf1c86:implementation-notes.md
 
 ### Draft verification
 
-- All four subject templates resolve to the pinned revisions, and all 13 tasks
+- All four subject templates resolve to the pinned revisions, and all 15 tasks
   have a committed, complete, task-successful treatment diff selected by the
   frozen lowest-run-index rule.
 - `ruby eval/lib/spike_harness_check.rb`: all 14 checks pass.
