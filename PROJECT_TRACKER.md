@@ -28,10 +28,11 @@ completed chronology together with the explicitly historical snapshots under
   Its preregistration is frozen before subject-document inspection. The local
   runner and synthetic controls passed independent review, all 15 shared-harness
   checks, and the 261-run suite, then landed in `cea6534`. The first measured
-  generation exposed a tokenizer defect before any artifact write; the attempt
-  is invalidated. Its minimal regression repair passed independent review and
-  the 262-run suite and awaits a new commit. No candidate artifact or label
-  exists.
+  generation exposed a tokenizer defect before any artifact write; its minimal
+  repair landed in `76b4295`. The restarted C/UTC generation then exposed a
+  locale-derived Git-output encoding defect, again before artifact write. Both
+  attempts are invalidated; the next valid measurement must restart all three
+  legs from zero under the repaired runner. No candidate artifact or label exists.
 - The reusable cleanup workflow now lives in the installed local
   `~/Projects/skills/audit-markdown-context` skill. Its read-only script
   reproduces this repository's tracked Markdown inventory and also passes
@@ -98,11 +99,11 @@ its recorded gates. The next product pass is issue #7's bounded repository-
 documentation enrichment spike. The existing-runner decision and frozen
 preregistration live under `eval/documentation-spike/`. Its stdlib-only runner,
 opaque artifact flow, frozen scoring, and five synthetic controls are
-implemented, independently reviewed, and committed. The first C/UTC generation
-failed before artifact write on an empty punctuation token. Finish and commit
-the regression repair, then restart all three replays from zero before labeling
-or scoring. Do not implement product behavior or mutate the GitHub issue
-implicitly.
+implemented, independently reviewed, and committed. Two C/UTC generations have
+failed before artifact write: first on an empty punctuation token, then because
+Git stdout inherited US-ASCII for valid UTF-8 source bytes. The second repair is
+reviewed; restart all three measurement legs from zero before labeling or
+scoring. Do not implement product behavior or mutate the GitHub issue implicitly.
 
 ## Standing follow-ups
 

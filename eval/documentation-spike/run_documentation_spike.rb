@@ -33,6 +33,12 @@ module DocumentationSpike
       "environment" => {"locale" => "C", "timezone" => "UTC"},
       "failure" => "forward-reference tokenizer passed an empty punctuation token to File.extname",
       "artifact_disposition" => "no candidate artifact was written; restart all three replays from zero"
+    },
+    {
+      "failed_runner_commit" => "76b42957b1179eda6bb4cadf98c0119dbe6212d4",
+      "environment" => {"locale" => "C", "timezone" => "UTC"},
+      "failure" => "Git stdout inherited US-ASCII and rejected valid UTF-8 source bytes",
+      "artifact_disposition" => "no candidate artifact was written; restart all three replays from zero"
     }
   ].freeze
   StudyTask = Data.define(
@@ -527,7 +533,7 @@ module DocumentationSpike
       stdout, stderr, status = Open3.capture3("git", "-C", @root, *args)
       raise stderr unless status.success?
 
-      stdout
+      stdout.force_encoding(Encoding::UTF_8)
     end
   end
 
@@ -1053,6 +1059,12 @@ module DocumentationSpike
         rendered_value = value.is_a?(Hash) || value.is_a?(Array) ? "`#{JSON.generate(value)}`" : value.inspect
         "| `#{name}` | #{rendered_value} | #{gate_record.fetch("threshold")} | #{gate_record.fetch("pass") ? "pass" : "fail"} |"
       end
+      restart_rows = result.fetch("measurement_restarts").each_with_index.map do |restart, index|
+        environment = restart.fetch("environment")
+        "#{index + 1}. Runner commit `#{restart.fetch("failed_runner_commit")}` under " \
+          "`LC_ALL=#{environment.fetch("locale")}`, `TZ=#{environment.fetch("timezone")}` failed: " \
+          "#{restart.fetch("failure")}. Recorded disposition: #{restart.fetch("artifact_disposition")}."
+      end
       <<~MARKDOWN
         # Repository-documentation retrieval spike — results
 
@@ -1086,11 +1098,10 @@ module DocumentationSpike
 
         ## Measurement restart
 
-        The first C/UTC generation at runner commit `cea6534` aborted before
-        writing a candidate artifact because a punctuation-only source-comment
-        token reached `File.extname` as `nil`. The failed attempt was invalidated;
-        the tokenizer was regression-tested and all three replays restarted from
-        zero under the repaired runner.
+        #{restart_rows.join("\n")}
+
+        Every failed attempt was invalidated. All three measurement legs restarted
+        from zero under the final repaired runner before labeling or scoring.
 
         ## Limitations
 

@@ -65,13 +65,13 @@ git show 2bf1c86:implementation-notes.md
   handling, fixed ordering/de-dup/budgets, typed omissions, instruction
   exclusion, pinned revisions, corpus/oracle reuse, opaque label artifacts,
   frozen scoring, replay matching, and CLI artifact writes.
-- Focused runner coverage contributes 37 runs and 265 assertions, with zero
+- Focused runner coverage contributes 38 runs and 280 assertions, with zero
   failures/errors in the whole-suite run.
 - `run_documentation_spike.rb self-check`: all five frozen synthetic controls
   pass without subject-repository access. `preflight` verifies all 15 task
   records and four pinned checkouts without enumerating subject documentation.
 - `ruby eval/lib/spike_harness_check.rb`: all 15 checks pass after adding custom
-  exclusion support. `bundle exec rake test`: 262 runs, 2,241 assertions, zero
+  exclusion support. `bundle exec rake test`: 263 runs, 2,256 assertions, zero
   failures/errors. Syntax and whitespace checks pass.
 - The Agenticons review found and the DRA fixed four pre-measurement blockers:
   combined truncation provenance, rotated-oracle blinding, committed-runner
@@ -88,8 +88,21 @@ git show 2bf1c86:implementation-notes.md
 - The exact CLI failure reproduced twice; Redmine task 1 isolated the fault;
   `# >` was the minimal fixture. The regression is red before the empty-token
   filter and green after it.
-- The frozen protocol invalidates that attempt. All three replays must restart
-  from zero after the reviewed and fully verified repair is committed.
+- The frozen protocol invalidated that attempt. Its reviewed repair landed in
+  `76b4295`, after which the measurement restarted from zero.
+- Repair commit `76b4295` passed guarded preflight for all 15 tasks. Its first
+  restarted C/UTC generation also aborted before artifact write: `Open3` tagged
+  Git stdout as US-ASCII, and a valid UTF-8 checkmark in Campfire's rotated
+  accounts-controller focus raised during source-line matching.
+- The failure was minimized from the full 15-task CLI to Campfire task 1's
+  rotated arm and then to one focus file. A retrieve-seam regression is red
+  under US-ASCII external encoding and green when `Repository#git` force-tags
+  successful stdout as UTF-8; the same regression proves a non-ASCII referenced
+  Markdown excerpt remains retrievable. Truly invalid UTF-8 stays on the frozen
+  typed-omission path because only the encoding tag changes.
+- The second attempt at runner commit `76b4295` is also invalidated. No candidate,
+  label, replay, timing, result, or verdict artifact exists. The next valid
+  measurement restarts all three legs from zero under the committed repair.
 
 ## Standing provider-seam benchmark recipe
 

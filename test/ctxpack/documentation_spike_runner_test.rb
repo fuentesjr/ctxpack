@@ -1,6 +1,7 @@
 require "test_helper"
 require "fileutils"
 require "open3"
+require "rbconfig"
 require "stringio"
 require "tmpdir"
 require_relative "../../eval/documentation-spike/run_documentation_spike"
@@ -168,6 +169,45 @@ class DocumentationSpikeRunnerTest < Minitest::Test
       )
 
       assert_empty result.fetch("candidates")
+      assert_empty result.fetch("omissions")
+    end
+  end
+
+  def test_reads_utf8_source_when_git_output_uses_us_ascii_external_encoding
+    prepare = lambda do |repo|
+      FileUtils.mkdir_p(File.join(repo, "docs"))
+      File.write(
+        File.join(repo, "app/models/user.rb"),
+        "class User\n  STATUS = \"✓\"\n  # See ../../docs/users.md\nend\n"
+      )
+      File.write(File.join(repo, "docs/users.md"), "# Users\n\nCafé accounts are supported.\n")
+    end
+
+    with_fixture_repository("no_candidates", prepare: prepare) do |repo, revision|
+      script = <<~'RUBY'
+        require ARGV.shift
+        repo_root, revision = ARGV
+        result = DocumentationSpike.retrieve(
+          repo_root: repo_root,
+          revision: revision,
+          focus_paths: ["app/models/user.rb"]
+        )
+        STDOUT.write(DocumentationSpike.canonical_json(result))
+      RUBY
+      stdout, stderr, status = Open3.capture3(
+        {"LC_ALL" => "C", "TZ" => "UTC"},
+        RbConfig.ruby,
+        "-e",
+        script,
+        File.expand_path("../../eval/documentation-spike/run_documentation_spike.rb", __dir__),
+        repo,
+        revision
+      )
+
+      assert status.success?, stderr
+      result = JSON.parse(stdout.force_encoding(Encoding::UTF_8))
+      assert_equal 1, result.fetch("candidates").length
+      assert_includes result.dig("candidates", 0, "excerpt"), "Café accounts"
       assert_empty result.fetch("omissions")
     end
   end
@@ -599,7 +639,10 @@ class DocumentationSpikeRunnerTest < Minitest::Test
       assert_equal "proceed", JSON.parse(File.read(File.join(output_dir, "results/result.json"))).fetch("verdict")
       assert JSON.parse(File.read(File.join(output_dir, "results/summary.json"))).fetch("ship")
       assert JSON.parse(File.read(File.join(output_dir, "results/app0.json"))).dig("metrics", "rotated_combined")
-      assert_includes File.read(File.join(output_dir, "RESULTS.md")), "**Verdict: PROCEED**"
+      results_markdown = File.read(File.join(output_dir, "RESULTS.md"))
+      assert_includes results_markdown, "**Verdict: PROCEED**"
+      assert_includes results_markdown, "cea6534bccc9ef4b39742fab98899bd7f5de4a3c"
+      assert_includes results_markdown, "76b42957b1179eda6bb4cadf98c0119dbe6212d4"
     end
   end
 
@@ -617,6 +660,8 @@ class DocumentationSpikeRunnerTest < Minitest::Test
     assert_equal 10.0, result.dig("metrics", "latency", "max_ms")
     assert_equal "cea6534bccc9ef4b39742fab98899bd7f5de4a3c",
                  result.dig("measurement_restarts", 0, "failed_runner_commit")
+    assert_equal "76b42957b1179eda6bb4cadf98c0119dbe6212d4",
+                 result.dig("measurement_restarts", 1, "failed_runner_commit")
     assert_equal %w[app0 app1 app2 app3], result.dig("metrics", "rotated_per_app").keys.sort
     assert_equal(
       %w[ancestor_conventional forward_exact_reference mirrored_path reverse_exact_link],
