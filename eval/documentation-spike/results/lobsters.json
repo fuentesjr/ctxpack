@@ -1,0 +1,27 @@
+{
+  "app": "lobsters",
+  "metrics": {
+    "real_combined": {
+      "candidates": 4,
+      "precision": 0.25,
+      "incremental_precision": 0.25,
+      "task_hits": 1,
+      "task_hit_rate": 0.25,
+      "incremental_task_hits": 1,
+      "incremental_task_hit_rate": 0.25,
+      "distraction_rate": 0.75,
+      "byte_weighted_distraction": 0.75
+    },
+    "rotated_combined": {
+      "candidates": 4,
+      "precision": 0.25,
+      "incremental_precision": 0.25,
+      "task_hits": 1,
+      "task_hit_rate": 0.25,
+      "incremental_task_hits": 1,
+      "incremental_task_hit_rate": 0.25,
+      "distraction_rate": 0.75,
+      "byte_weighted_distraction": 0.75
+    }
+  }
+}

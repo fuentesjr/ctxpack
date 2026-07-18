@@ -31,8 +31,13 @@ completed chronology together with the explicitly historical snapshots under
   generation exposed a tokenizer defect before any artifact write; its minimal
   repair landed in `76b4295`. The restarted C/UTC generation then exposed a
   locale-derived Git-output encoding defect, again before artifact write. Both
-  attempts are invalidated; the next valid measurement must restart all three
-  legs from zero under the repaired runner. No candidate artifact or label exists.
+  attempts are invalidated. The valid three-leg replay under `be8e9fb` was
+  byte-identical and produced the frozen verdict **DROP**: every emitted row was
+  an ancestor-conventional root README, combined precision was 0.067, and
+  rotated-focus lift was zero. Human labeling flagged insufficient excerpt
+  context on 52/60 rows. The result drops this recipe/excerpt configuration,
+  not repository-documentation enrichment as a category. Evidence is complete
+  locally, and no GitHub mutation is authorized.
 - The reusable cleanup workflow now lives in the installed local
   `~/Projects/skills/audit-markdown-context` skill. Its read-only script
   reproduces this repository's tracked Markdown inventory and also passes
@@ -95,15 +100,12 @@ confirmation grid above the exhausted 900k-token cap.
 
 Issue #6 is closed as not planned: its preregistered corpus evaluation was not
 run, while the alternative interface-first history tracer shipped and passed
-its recorded gates. The next product pass is issue #7's bounded repository-
-documentation enrichment spike. The existing-runner decision and frozen
-preregistration live under `eval/documentation-spike/`. Its stdlib-only runner,
-opaque artifact flow, frozen scoring, and five synthetic controls are
-implemented, independently reviewed, and committed. Two C/UTC generations have
-failed before artifact write: first on an empty punctuation token, then because
-Git stdout inherited US-ASCII for valid UTF-8 source bytes. The second repair is
-reviewed; restart all three measurement legs from zero before labeling or
-scoring. Do not implement product behavior or mutate the GitHub issue implicitly.
+its recorded gates. Issue #7's bounded repository-documentation enrichment
+spike is measured locally with a frozen **DROP** verdict. Evidence is complete;
+do not implement product behavior or mutate GitHub. Any retry requires a new
+preregistration with materially different deterministic recipes. The measured
+failure points directly to source-family discovery beyond root READMEs and to
+separating document selection from bounded excerpt quality.
 
 ## Standing follow-ups
 

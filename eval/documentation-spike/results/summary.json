@@ -1,0 +1,212 @@
+{
+  "apps": {
+    "redmine": {
+      "app": "redmine",
+      "metrics": {
+        "real_combined": {
+          "candidates": 3,
+          "precision": 0.0,
+          "incremental_precision": 0.0,
+          "task_hits": 0,
+          "task_hit_rate": 0.0,
+          "incremental_task_hits": 0,
+          "incremental_task_hit_rate": 0.0,
+          "distraction_rate": 1.0,
+          "byte_weighted_distraction": 1.0
+        },
+        "rotated_combined": {
+          "candidates": 3,
+          "precision": 0.0,
+          "incremental_precision": 0.0,
+          "task_hits": 0,
+          "task_hit_rate": 0.0,
+          "incremental_task_hits": 0,
+          "incremental_task_hit_rate": 0.0,
+          "distraction_rate": 1.0,
+          "byte_weighted_distraction": 1.0
+        }
+      }
+    },
+    "campfire": {
+      "app": "campfire",
+      "metrics": {
+        "real_combined": {
+          "candidates": 4,
+          "precision": 0.0,
+          "incremental_precision": 0.0,
+          "task_hits": 0,
+          "task_hit_rate": 0.0,
+          "incremental_task_hits": 0,
+          "incremental_task_hit_rate": 0.0,
+          "distraction_rate": 1.0,
+          "byte_weighted_distraction": 1.0
+        },
+        "rotated_combined": {
+          "candidates": 4,
+          "precision": 0.0,
+          "incremental_precision": 0.0,
+          "task_hits": 0,
+          "task_hit_rate": 0.0,
+          "incremental_task_hits": 0,
+          "incremental_task_hit_rate": 0.0,
+          "distraction_rate": 1.0,
+          "byte_weighted_distraction": 1.0
+        }
+      }
+    },
+    "lobsters": {
+      "app": "lobsters",
+      "metrics": {
+        "real_combined": {
+          "candidates": 4,
+          "precision": 0.25,
+          "incremental_precision": 0.25,
+          "task_hits": 1,
+          "task_hit_rate": 0.25,
+          "incremental_task_hits": 1,
+          "incremental_task_hit_rate": 0.25,
+          "distraction_rate": 0.75,
+          "byte_weighted_distraction": 0.75
+        },
+        "rotated_combined": {
+          "candidates": 4,
+          "precision": 0.25,
+          "incremental_precision": 0.25,
+          "task_hits": 1,
+          "task_hit_rate": 0.25,
+          "incremental_task_hits": 1,
+          "incremental_task_hit_rate": 0.25,
+          "distraction_rate": 0.75,
+          "byte_weighted_distraction": 0.75
+        }
+      }
+    },
+    "publify": {
+      "app": "publify",
+      "metrics": {
+        "real_combined": {
+          "candidates": 4,
+          "precision": 0.0,
+          "incremental_precision": 0.0,
+          "task_hits": 0,
+          "task_hit_rate": 0.0,
+          "incremental_task_hits": 0,
+          "incremental_task_hit_rate": 0.0,
+          "distraction_rate": 1.0,
+          "byte_weighted_distraction": 1.0
+        },
+        "rotated_combined": {
+          "candidates": 4,
+          "precision": 0.0,
+          "incremental_precision": 0.0,
+          "task_hits": 0,
+          "task_hit_rate": 0.0,
+          "incremental_task_hits": 0,
+          "incremental_task_hit_rate": 0.0,
+          "distraction_rate": 1.0,
+          "byte_weighted_distraction": 1.0
+        }
+      }
+    }
+  },
+  "combined_precision_value": {
+    "overall": 0.06666666666666667,
+    "per_app": {
+      "redmine": 0.0,
+      "campfire": 0.0,
+      "lobsters": 0.25,
+      "publify": 0.0
+    }
+  },
+  "combined_precision_gate": "overall >= 0.70 and each emitting app >= 0.50",
+  "combined_precision_pass": false,
+  "incremental_task_hit_rate_value": 0.06666666666666667,
+  "incremental_task_hit_rate_gate": ">= 5/15",
+  "incremental_task_hit_rate_pass": false,
+  "rotated_focus_lift_value": 0.0,
+  "rotated_focus_lift_gate": ">= 0.20",
+  "rotated_focus_lift_pass": false,
+  "byte_weighted_distraction_value": 0.8743337433374334,
+  "byte_weighted_distraction_gate": "<= 0.25",
+  "byte_weighted_distraction_pass": false,
+  "safety_value": 0,
+  "safety_gate": "0",
+  "safety_pass": true,
+  "budget_value": true,
+  "budget_gate": "<= 3 candidates and 2048 bytes",
+  "budget_pass": true,
+  "latency_value": {
+    "median_ms": 275.663,
+    "p95_ms": 494.586,
+    "max_ms": 495.052,
+    "inventory_median_ms": 113.468,
+    "inventory_p95_ms": 389.288,
+    "inventory_max_ms": 389.288
+  },
+  "latency_gate": "p95 <= 500 ms and max <= 1000 ms",
+  "latency_pass": true,
+  "determinism_value": [
+    {
+      "candidate_sha256": "61f4e5fb7b4649529084bff54ab34e8cd9ba9f7f2620438d0d340e777d4b3434",
+      "invocation_id": "f4c737d5-3aa1-4bc8-b8c6-e846eb27a17a",
+      "locale": "C",
+      "ruby": "4.0.1",
+      "runner_commit": "be8e9fb554e4a367d2bda0644e3d72c3894a8c75",
+      "timezone": "UTC"
+    },
+    {
+      "candidate_sha256": "61f4e5fb7b4649529084bff54ab34e8cd9ba9f7f2620438d0d340e777d4b3434",
+      "invocation_id": "66a38062-6916-4b04-b37b-38cc82cf45aa",
+      "locale": "en_US.UTF-8",
+      "ruby": "4.0.1",
+      "runner_commit": "be8e9fb554e4a367d2bda0644e3d72c3894a8c75",
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "candidate_sha256": "61f4e5fb7b4649529084bff54ab34e8cd9ba9f7f2620438d0d340e777d4b3434",
+      "invocation_id": "f02531c7-4bc0-4533-8d65-4d8e1032bbf3",
+      "locale": "C",
+      "ruby": "4.0.1",
+      "runner_commit": "be8e9fb554e4a367d2bda0644e3d72c3894a8c75",
+      "timezone": "UTC"
+    }
+  ],
+  "determinism_gate": "3 distinct prescribed replays with byte-identical candidates",
+  "determinism_pass": true,
+  "provenance_value": 1.0,
+  "provenance_gate": "1.0",
+  "provenance_pass": true,
+  "synthetic_controls_value": {
+    "pass": true,
+    "controls": {
+      "no_candidates": {
+        "pass": true,
+        "omission_reasons": []
+      },
+      "broken_reference": {
+        "pass": true,
+        "omission_reasons": [
+          "broken_reference"
+        ]
+      },
+      "unavailable_documents": {
+        "pass": true,
+        "omission_reasons": [
+          "invalid_utf8",
+          "oversized_document"
+        ]
+      },
+      "governing_instruction_excluded": {
+        "pass": true,
+        "omission_reasons": []
+      },
+      "candidate_and_byte_caps": {
+        "pass": true,
+        "omission_reasons": []
+      }
+    }
+  },
+  "synthetic_controls_gate": "every predeclared control passes",
+  "synthetic_controls_pass": true,
+  "ship": false
+}

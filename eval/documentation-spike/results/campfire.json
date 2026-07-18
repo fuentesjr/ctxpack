@@ -1,0 +1,27 @@
+{
+  "app": "campfire",
+  "metrics": {
+    "real_combined": {
+      "candidates": 4,
+      "precision": 0.0,
+      "incremental_precision": 0.0,
+      "task_hits": 0,
+      "task_hit_rate": 0.0,
+      "incremental_task_hits": 0,
+      "incremental_task_hit_rate": 0.0,
+      "distraction_rate": 1.0,
+      "byte_weighted_distraction": 1.0
+    },
+    "rotated_combined": {
+      "candidates": 4,
+      "precision": 0.0,
+      "incremental_precision": 0.0,
+      "task_hits": 0,
+      "task_hit_rate": 0.0,
+      "incremental_task_hits": 0,
+      "incremental_task_hit_rate": 0.0,
+      "distraction_rate": 1.0,
+      "byte_weighted_distraction": 1.0
+    }
+  }
+}

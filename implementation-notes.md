@@ -78,7 +78,8 @@ git show 2bf1c86:implementation-notes.md
   provenance, and replay independence. Its clean re-review independently
   reproduced the bounded combined output and found no remaining blocker.
 - Subject documentation was first inspected by the invalidated generation
-  attempt. No candidate bundle, label, or valid measurement artifact exists.
+  attempt. The final valid measurement artifacts now live under
+  `eval/documentation-spike/` and record the frozen **DROP** verdict.
 
 ### Measurement restart
 
@@ -101,8 +102,35 @@ git show 2bf1c86:implementation-notes.md
   Markdown excerpt remains retrievable. Truly invalid UTF-8 stays on the frozen
   typed-omission path because only the encoding tag changes.
 - The second attempt at runner commit `76b4295` is also invalidated. No candidate,
-  label, replay, timing, result, or verdict artifact exists. The next valid
-  measurement restarts all three legs from zero under the committed repair.
+  label, replay, timing, result, or verdict artifact survived that attempt. The
+  next measurement restarted all three legs from zero under `be8e9fb`.
+
+### Frozen measurement verdict
+
+- Canonical C/UTC, UTF-8/Los Angeles, and repeated C/UTC generations each
+  emitted 60 rows and produced byte-identical candidate JSON with SHA-256
+  `61f4e5fb7b4649529084bff54ab34e8cd9ba9f7f2620438d0d340e777d4b3434`.
+- The opaque sheet contained 15 distinct visible candidates repeated across 60
+  measurement rows. A blinded local interface grouped only rows with identical
+  visible fields and copied one human judgment to each group's four opaque IDs;
+  hidden recipe/arm/population/rank metadata was never consulted. Human labels
+  were complete: 4 `relevant_unique`, 12 `repository_background`, and 44
+  `unrelated`; 52/60 rows recorded that missing excerpt context hindered
+  classification.
+- Frozen verdict: **DROP**. Combined precision was 0.067, incremental task-hit
+  rate was 1/15, rotated-focus lift was 0, and byte-weighted distraction was
+  0.874. Safety, budget, latency, determinism, provenance, and synthetic-control
+  gates passed.
+- All 60 emitted rows came from `ancestor_conventional`; the only document paths
+  were root `README.md`/`README.rdoc`. Eligible ADR/RFC/design documents were not
+  retrieved by the measured recipes. The result therefore drops this recipe and
+  excerpt configuration, not documentation enrichment generally.
+- The runner counted four mechanical truncations, while the labeler reported
+  insufficient context on 52 rows. The measurement evaluates bounded emitted
+  excerpts, so this is a failure of the current payload; it also means the study
+  cannot support a broader claim that the underlying full documents were
+  irrelevant. A retry needs a new preregistration that separates source-family
+  discovery from excerpt selection and supplies fairer labeling context.
 
 ## Standing provider-seam benchmark recipe
 
