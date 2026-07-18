@@ -1,0 +1,4 @@
+# LOG
+
+## 2026-07-18T08:03Z log
+Migrated from PROJECT_TRACKER.md (see git log -- PROJECT_TRACKER.md and docs/history/ for full chronology). Key state at migration: upstream verified through 4da5523; evalkit ledger b3f7eb4 unpushed. Files-seed history tracer + git-recon facts companion shipped (3e7cf79/05f293e; git-recon 7682b2c). Issue #6 closed as not planned. Issue #7 spike: frozen DROP verdict under be8e9fb (precision 0.067, zero rotated-focus lift, 52/60 rows insufficient excerpt context); retry requires a new preregistration with materially different deterministic recipes — measured failure points to source-family discovery beyond root READMEs and separating document selection from bounded excerpt quality. Markdown cleanup: tickets #1/#2 resolved, ticket #3 ablation inconclusive under the frozen 900k cap.

@@ -3,7 +3,8 @@
 Read and follow [`AGENTS.md`](AGENTS.md); it is the canonical project operating
 manual.
 
-- Fresh sessions resume from `PROJECT_TRACKER.md`.
+- Fresh sessions resume via `trk status --json`; work tracking lives in
+  `.trk/`.
 - Tier 2 harness grids require a session started with
   `claude --dangerously-skip-permissions`; see `eval/tier2/RUNBOOK.md`.
 - Repo skills under `.claude/skills/` are symlinks to the canonical four

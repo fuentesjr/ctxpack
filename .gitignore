@@ -10,3 +10,4 @@
 !.agents/skills/extract-approach/
 skills-lock.json
 tmp/
+.trk/lock

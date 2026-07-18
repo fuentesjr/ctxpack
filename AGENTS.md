@@ -7,8 +7,11 @@ evidence-gated.
 
 ## Authority and routing
 
-- Fresh sessions resume from `PROJECT_TRACKER.md`; keep its current execution
-  plan authoritative and compact.
+- Work tracking lives in `.trk/` via the `trk` CLI. Orchestrator: run
+  `trk status --json` at session start; `trk dispatch` before spawning
+  long-running subagents and `trk resolve` on return; `trk check --strict`
+  before session end. Subagents: do not modify anything under `.trk/`; report
+  results in your final message.
 - Read `specs/README.md` before spec-governed work. `specs/*.md` are normative;
   stable requirement codes are append-only. Reconcile any spec amendment with
   `design.md` in the same change.
@@ -24,7 +27,7 @@ evidence-gated.
 ## Orchestration and approvals
 
 The primary agent is the orchestrator-DRA: it owns scope, sequencing,
-verification, tracker continuity, and the final response. Delegates are
+verification, `.trk/` continuity, and the final response. Delegates are
 advisory until the DRA reads the diff and runs the gates itself. Use shallow
 Agenticons delegation only when the user or tracker requests it.
 
