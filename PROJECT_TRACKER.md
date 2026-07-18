@@ -25,7 +25,8 @@ completed chronology together with the explicitly historical snapshots under
   git-recon signals) is closed as not planned because the proposed corpus spike
   was replaced by the shipped interface-first history tracer. Issue #7
   (repository-documentation enrichment) is the next scheduled product
-  investigation; its spike has not started.
+  investigation. Its preregistration is frozen before subject-document
+  inspection; no candidates, labels, or measurements have been generated.
 - The reusable cleanup workflow now lives in the installed local
   `~/Projects/skills/audit-markdown-context` skill. Its read-only script
   reproduces this repository's tracked Markdown inventory and also passes
@@ -89,9 +90,12 @@ confirmation grid above the exhausted 900k-token cap.
 Issue #6 is closed as not planned: its preregistered corpus evaluation was not
 run, while the alternative interface-first history tracer shipped and passed
 its recorded gates. The next product pass is issue #7's bounded repository-
-documentation enrichment spike. Begin with its existing-runner inventory and
-freeze the preregistration before labeling or measurement; do not implement
-product behavior or mutate the GitHub issue implicitly.
+documentation enrichment spike. The existing-runner decision and frozen
+preregistration live under `eval/documentation-spike/`. The preregistration is
+frozen; implement and review its stdlib-only runner plus synthetic controls,
+then commit that runner before subject-document inspection, candidate
+generation, labeling, or measurement. Do not implement product behavior or
+mutate the GitHub issue implicitly.
 
 ## Standing follow-ups
 

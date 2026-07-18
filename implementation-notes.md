@@ -7,73 +7,60 @@ git log -- implementation-notes.md
 git show 2bf1c86:implementation-notes.md
 ```
 
-## Markdown context cleanup (2026-07-17)
+## Repository-documentation retrieval spike (issue #7, 2026-07-17)
 
-### Scope and evidence
+### Current boundary
 
-- Baseline `21912b5`: 103 regular Markdown documents / 807,759 bytes / 15,104
-  lines; four Claude skill symlinks make 107 tracked `.md` paths.
-- `docs/markdown-context-audit.md` owns the consolidated investigation
-  decisions, inventory/load-path evidence, transcript evidence, and final
-  disposition. The completed planning map remains explicitly historical.
-- `eval/markdown-context/PREREGISTRATION.md` froze a full-versus-compact Codex
-  worktree ablation. It reused official ephemeral `codex exec`; no runner or
-  dependency was added. The matching evalkit ledger entry is local commit
-  `b3f7eb4`.
-- Five pilot runs used 803,913 reported input-plus-output tokens. The frozen
-  900k cap stopped the paired full T3 run and confirmation grid. Results are
-  inconclusive for the category gate; no unique/protected deletion relies on
-  them. The completed T1 pair exposed a stale full-tracker wrong turn and a
-  compact-arm authority error about authorized local commits/deletions.
+- Reuse the 13 committed Tier 2 tasks across Redmine, Campfire, Lobsters, and
+  Publify Core. All four local subject templates were verified at their pinned
+  SHAs without enumerating or reading their documentation.
+- Reuse `eval/lib/spike_harness.rb` for deterministic spike plumbing. Do not
+  retrofit the paid/frozen Tier 2 harness or packet-coverage runner; neither
+  answers offline documentation-retrieval relevance.
+- `eval/documentation-spike/PREREGISTRATION.md` was approved and frozen before
+  subject-document inspection. Candidate generation, labels, and measurement
+  remain blocked until the runner and synthetic fixtures are implemented,
+  reviewed, and committed.
 
-### Disposition
+### Design decisions
 
-- Delete `docs/packet-format-proposal.md`: no inbound references, false
-  “uncommitted” status, and full replacement by the normative format spec,
-  reconciled design, tests, and Git history.
-- Delete `docs/agent-backlog.md`: it presents completed Phase 2/coverage/README
-  work as current. Preserve its live concerns in the compact tracker/follow-up
-  surface.
-- Compact the automatically loaded/root bootstrap chain (`AGENTS.md`,
-  `CLAUDE.md`, `PROJECT_TRACKER.md`) and cumulative pass notes. Preserve
-  current authority, safety gates, open work, and benchmark reproducibility;
-  retain unique completed chronology in explicitly historical documents
-  because the incomplete causal gate does not authorize deleting it.
-- Correct objectively stale shipped/pending language in `specs/README.md`,
-  `specs/views.md`, and the completed experiment tail of `design.md`; no
-  behavior or requirement code changes.
-- Update repo-owned skills so fixture-eval guidance admits current seed command
-  shapes, spec-pass notes are current-pass-only, and learning notes are created
-  only when no better authoritative home exists.
-- Retain normative specs, design rationale, both remaining proposals, all
-  learning notes, and frozen/recorded eval evidence. Their low ordinary
-  exposure and unique provenance do not support deletion.
+- Treat agent-governing files as control-plane input and exclude them before
+  documentary retrieval. Record their presence/count only.
+- Candidate generation uses only pinned revision, task ID, and the committed
+  seed focus. Task prose, acceptance artifacts, reference diffs, and labels are
+  scoring inputs only.
+- Test four fixed recipe families: source-to-doc exact references, doc-to-focus
+  exact links, mirrored doc paths, and ancestor conventional docs. No keyword
+  search or model selection.
+- Keep supplemental results separate from primaries: three candidates and
+  2,048 excerpt bytes per task, with exact provenance and no primary eviction.
+- Use next-task rotated focuses within each app as the real-corpus negative
+  control; use synthetic fixtures for missing/broken/oversized/instruction
+  cases.
 
-### Boundaries
+### Scope boundary
 
-- No production Ruby, dependency, lockfile, CI, compiler behavior, packet
-  format, reason/uncertainty code, or existing recorded evidence changes.
-- No Tier 0 rescan or packet-bug fixture is required for this docs/workflow
-  cleanup.
-- Local commits are authorized; no push or GitHub mutation is authorized.
+- This pass can produce a frozen preregistration, stdlib-only runner, synthetic
+  fixtures, raw evidence, and a Proceed/Defer/Drop verdict.
+- It cannot change production Ruby, dependencies, CI, normative specs, packet
+  format, existing frozen evidence, GitHub issue state, or evalkit without
+  separate authorization.
+- Retrieval viability is not agent-benefit evidence. A Proceed verdict only
+  authorizes a later design issue and separately approved behavioral A/B.
 
-### Verification
+### Draft verification
 
-- First whole-suite run reached all 225 tests but hit the existing
-  process-runner PID-file scheduling race (`1975 assertions`, one error). The
-  focused test immediately passed (`1 run, 5 assertions`), and verification
-  attempt 2 passed: `225 runs, 1976 assertions, 0 failures, 0 errors, 0 skips`.
-- `git diff --check`, JSONL parsing, all local Markdown links, and all four
-  Claude skill symlinks pass. Frozen pre-registration/lean payloads and prior
-  recorded evidence are unchanged; no Ruby, dependency, lockfile, or CI path
-  changed.
-- Final accounting and percentages are recorded in the audit. Two independent
-  review streams found no remaining actionable issue after corrections.
-- This docs/workflow pass changes no runtime behavior. CLI-1/1e/2/4b and
-  SEED-4/14/15/16/25/26/MERGE-1 wording now describes already-shipped behavior;
-  requirement codes and semantics are unchanged and `design.md` is reconciled.
-  TDD, a packet-bug YAML case, and the Tier 0 rescan are therefore not
-  applicable.
+- All four subject templates resolve to the pinned revisions, and all 13 tasks
+  have a committed, complete, task-successful treatment diff selected by the
+  frozen lowest-run-index rule.
+- `ruby eval/lib/spike_harness_check.rb`: all 14 checks pass.
+- `bundle exec rake test`: 225 runs, 1,976 assertions, zero failures/errors;
+  `git diff --check` passes.
+- The draft covers every issue #7 acceptance-criteria input: runner reuse,
+  corpus/tasks, oracle, recipes, control-plane separation, negative controls,
+  metrics/gates, budgets, provenance, replay, failure handling, verdict, and
+  the no-product/no-agent-benefit boundary. The preregistration freeze is
+  approved; runner implementation is next.
 
 ## Standing provider-seam benchmark recipe
 
