@@ -10,6 +10,7 @@
 
 require "json"
 require "fileutils"
+require "open3"
 
 module SpikeHarness
   # Pinned Tier 0 sample apps (same SHAs as eval/tier0/RESULTS.md).
@@ -27,16 +28,17 @@ module SpikeHarness
   module_function
 
   # Path-segment exclusion shared by every spike population walk.
-  def excluded_path?(rel)
-    parts = rel.split("/")
-    EXCLUDE_PARTS.any? { |p| parts.include?(p) }
+  def excluded_path?(rel, excluded_parts: EXCLUDE_PARTS)
+    path_parts = rel.split("/")
+    excluded_parts.any? { |part| path_parts.include?(part) }
   end
 
   # Verify each checkout exists at its pinned SHA before measuring; raises
   # rather than silently measuring the wrong tree.
   def verify_pinned_checkouts!(apps = APPS)
     apps.each do |name, cfg|
-      head = `git -C #{cfg[:path]} rev-parse HEAD 2>/dev/null`.strip
+      stdout, _stderr, status = Open3.capture3("git", "-C", cfg[:path], "rev-parse", "HEAD")
+      head = status.success? ? stdout.strip : ""
       raise "#{name}: checkout missing or wrong SHA (#{head.inspect}, want #{cfg[:sha]})" unless head == cfg[:sha]
     end
   end

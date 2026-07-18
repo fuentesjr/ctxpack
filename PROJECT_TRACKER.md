@@ -24,9 +24,11 @@ completed chronology together with the explicitly historical snapshots under
 - Context-source issue planning is complete. GitHub issue #6 (seed-driven
   git-recon signals) is closed as not planned because the proposed corpus spike
   was replaced by the shipped interface-first history tracer. Issue #7
-  (repository-documentation enrichment) is the next scheduled product
-  investigation. Its preregistration is frozen before subject-document
-  inspection; no candidates, labels, or measurements have been generated.
+  (repository-documentation enrichment) is the active product investigation.
+  Its preregistration is frozen before subject-document inspection. The local
+  runner and synthetic controls passed independent review, all 15 shared-harness
+  checks, and the 261-run suite; they await their own commit. No candidates,
+  labels, or measurements have been generated.
 - The reusable cleanup workflow now lives in the installed local
   `~/Projects/skills/audit-markdown-context` skill. Its read-only script
   reproduces this repository's tracked Markdown inventory and also passes
@@ -91,11 +93,12 @@ Issue #6 is closed as not planned: its preregistered corpus evaluation was not
 run, while the alternative interface-first history tracer shipped and passed
 its recorded gates. The next product pass is issue #7's bounded repository-
 documentation enrichment spike. The existing-runner decision and frozen
-preregistration live under `eval/documentation-spike/`. The preregistration is
-frozen; implement and review its stdlib-only runner plus synthetic controls,
-then commit that runner before subject-document inspection, candidate
-generation, labeling, or measurement. Do not implement product behavior or
-mutate the GitHub issue implicitly.
+preregistration live under `eval/documentation-spike/`. Its stdlib-only runner,
+opaque artifact flow, frozen scoring, and five synthetic controls are
+implemented, independently reviewed, and whole-suite green. Commit the runner
+before subject-document inspection, candidate generation, labeling, or
+measurement. Do not implement product behavior or mutate the GitHub issue
+implicitly.
 
 ## Standing follow-ups
 

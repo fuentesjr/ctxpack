@@ -11,7 +11,11 @@ require "json"
 require_relative "spike_harness"
 
 failures = []
-check = ->(name, got, want) { failures << "#{name}: got #{got.inspect}, want #{want.inspect}" unless got == want }
+checks = 0
+check = lambda do |name, got, want|
+  checks += 1
+  failures << "#{name}: got #{got.inspect}, want #{want.inspect}" unless got == want
+end
 
 # percentile — same nearest-rank shape as run_method_spike.rb / run_diff_spike.rb
 check.call("percentile median odd", SpikeHarness.percentile([1, 2, 3], 0.5), 2)
@@ -23,6 +27,11 @@ check.call("percentile empty", SpikeHarness.percentile([], 0.9), nil)
 check.call("excluded vendor", SpikeHarness.excluded_path?("vendor/gems/foo.rb"), true)
 check.call("excluded nested plugins", SpikeHarness.excluded_path?("app/plugins/x/y.rb"), true)
 check.call("not excluded app", SpikeHarness.excluded_path?("app/models/user.rb"), false)
+check.call(
+  "custom exclusions retain plugins",
+  SpikeHarness.excluded_path?("app/plugins/x/y.rb", excluded_parts: %w[vendor]),
+  false
+)
 
 # average — 3-app unweighted convention, nil-safe
 check.call("average", SpikeHarness.average([0.5, 0.7, nil]), 0.6)
@@ -55,7 +64,7 @@ rescue RuntimeError => e
 end
 
 if failures.empty?
-  puts "spike_harness self-check: all #{14} checks passed"
+  puts "spike_harness self-check: all #{checks} checks passed"
 else
   puts failures
   abort "spike_harness self-check FAILED"

@@ -18,9 +18,9 @@ git show 2bf1c86:implementation-notes.md
   retrofit the paid/frozen Tier 2 harness or packet-coverage runner; neither
   answers offline documentation-retrieval relevance.
 - `eval/documentation-spike/PREREGISTRATION.md` was approved and frozen before
-  subject-document inspection. Candidate generation, labels, and measurement
-  remain blocked until the runner and synthetic fixtures are implemented,
-  reviewed, and committed.
+  subject-document inspection. The runner and synthetic controls are now
+  implemented locally; candidate generation, labels, and measurement remain
+  blocked until this reviewed and fully verified runner pass is committed.
 
 ### Design decisions
 
@@ -37,6 +37,14 @@ git show 2bf1c86:implementation-notes.md
 - Use next-task rotated focuses within each app as the real-corpus negative
   control; use synthetic fixtures for missing/broken/oversized/instruction
   cases.
+- Keep recipe outputs uncapped for per-recipe analysis while applying the
+  frozen three-candidate/2,048-byte budget only to the fixed combined result.
+  Plain-text documents remain whole units; only Markdown participates in
+  reverse-link and heading-section parsing.
+- Reuse the shared spike harness through parameterized path exclusions,
+  checkout verification, percentiles, omission taxonomy, per-app JSON, and
+  gate summaries. The documentation spike supplies its narrower frozen path
+  exclusion set rather than inheriting the older seed-spike plugin/engine set.
 
 ### Scope boundary
 
@@ -48,19 +56,29 @@ git show 2bf1c86:implementation-notes.md
 - Retrieval viability is not agent-benefit evidence. A Proceed verdict only
   authorizes a later design issue and separately approved behavioral A/B.
 
-### Draft verification
+### Verification
 
 - All four subject templates resolve to the pinned revisions, and all 15 tasks
   have a committed, complete, task-successful treatment diff selected by the
   frozen lowest-run-index rule.
-- `ruby eval/lib/spike_harness_check.rb`: all 14 checks pass.
-- `bundle exec rake test`: 225 runs, 1,976 assertions, zero failures/errors;
-  `git diff --check` passes.
-- The draft covers every issue #7 acceptance-criteria input: runner reuse,
-  corpus/tasks, oracle, recipes, control-plane separation, negative controls,
-  metrics/gates, budgets, provenance, replay, failure handling, verdict, and
-  the no-product/no-agent-benefit boundary. The preregistration freeze is
-  approved; runner implementation is next.
+- Red-green runner slices cover the four recipes, exact sections and whole-file
+  handling, fixed ordering/de-dup/budgets, typed omissions, instruction
+  exclusion, pinned revisions, corpus/oracle reuse, opaque label artifacts,
+  frozen scoring, replay matching, and CLI artifact writes.
+- Focused runner coverage contributes 36 runs and 256 assertions, with zero
+  failures/errors in the whole-suite run.
+- `run_documentation_spike.rb self-check`: all five frozen synthetic controls
+  pass without subject-repository access. `preflight` verifies all 15 task
+  records and four pinned checkouts without enumerating subject documentation.
+- `ruby eval/lib/spike_harness_check.rb`: all 15 checks pass after adding custom
+  exclusion support. `bundle exec rake test`: 261 runs, 2,232 assertions, zero
+  failures/errors. Syntax and whitespace checks pass.
+- The Agenticons review found and the DRA fixed four pre-measurement blockers:
+  combined truncation provenance, rotated-oracle blinding, committed-runner
+  provenance, and replay independence. Its clean re-review independently
+  reproduced the bounded combined output and found no remaining blocker.
+- No subject documentation, candidate bundle, label, or measurement has been
+  generated.
 
 ## Standing provider-seam benchmark recipe
 
