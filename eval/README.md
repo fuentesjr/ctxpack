@@ -26,7 +26,7 @@ adoption discipline this repo applies to eval tooling — including its own).
 | `tier2-expansion/packet_coverage.rb` | Packet-vs-diff recall/precision (LIM-1 north star) | Grid packets + diffs | `tier2-expansion/coverage/` |
 | `tier3-rubydex/four_column_coverage.rb` | Candidate-expansion comparison vs committed diffs | Grid artifacts | `tier3-rubydex/RESULTS.md` (Rubydex deferred) |
 | `seed-spikes/run_{test,files,error,method,diff,route}_spike.rb` | SEED-5 viability gates, one frozen script per kind | Pinned checkouts (+ history for diff; `extract_route_rows.rb` tables for route) | `seed-spikes/<kind>/PREREGISTRATION.md` + `RESULTS.md` + `results/` |
-| `seed-spikes/run_method_test_leg_respike.rb` | Can exact production-to-test mirrors recover structurally relevant method test candidates on held-out apps? | Pinned Redmine/Campfire/Lobsters checkouts | `seed-spikes/method-test-leg-respike/PREREGISTRATION.md`; results recorded only after the runner is committed |
+| `seed-spikes/run_method_test_leg_respike.rb` | Can exact production-to-test mirrors recover structurally relevant method test candidates on held-out apps? | Pinned Redmine/Campfire/Lobsters checkouts | `seed-spikes/method-test-leg-respike/PREREGISTRATION.md` + `RESULTS.md` + `results/` (DROP) |
 | `seed-spikes/work-start-corpus.md` | Scenario → correct seed kind + packet (SEED-24, re-scored at phase gates) | Fixture-backed | Scoring blocks in the file |
 | `rubricllm-spike/side_by_side.rb` | Issue #5 side-by-side (decided: DEFER) | Committed coverage artifacts + rubric_llm clone | `rubricllm-spike/RESULTS.md` |
 | Manual `codex exec` protocol (`markdown-context/`) | Does ctxpack's active Markdown surface change Codex exploration cost/outcomes? | Frozen full/compact worktree payloads + three read-only tasks; no reusable runner | `markdown-context/PREREGISTRATION.md`, `runs.jsonl`, `RESULTS.md` |
@@ -40,4 +40,5 @@ Cross-repo: the eval **conventions and convergence ledger** live in
 `~/Projects/evalkit` — capabilities duplicated across repos (e.g. this
 repo's Tier 2 subject-session runner and skill-tester's executor) are
 tracked there until extraction is earned; new shared plumbing graduates to
-that repo, not to another per-repo copy.
+that repo, not to another per-repo copy. Update the ledger when this
+inventory changes.
