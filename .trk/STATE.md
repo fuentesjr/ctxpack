@@ -1,15 +1,14 @@
 # STATE
 
 ## Goal
-ctxpack v0 is shipped and stable (anchor, test, files, error, method, and diff seeds; route is CLI-17c coaching-only). No active work order: the Markdown-context cleanup is published through 4da5523, and the issue #7 repository-documentation enrichment spike concluded locally with a frozen DROP verdict. Evidence is complete; no GitHub mutation or push is authorized.
+Re-spike the SEED-25 method test-candidate leg with a new frozen preregistration, using prior results only for calibration and held-out apps for confirmation; record a verdict without changing production behavior.
 
 ## Dispatched
 
 ## Next
+1. method-test-leg-respike — SEED-25 method test-candidate leg needs a new frozen pre-registration and explicit work order
 
 ## Backlog
-- compiler-split — Ctxpack::Compiler is 1,805 lines; behavior-preserving split only at an explicit pass boundary with unchanged tests, whole-suite/Tier-0 proof, and before/after advisory Metz evidence (2026-07-18T08:03Z)
-- method-test-leg-respike — SEED-25 method test-candidate leg needs a new frozen pre-registration and explicit work order (2026-07-18T08:03Z)
 - route-resolver-respike — route seed (0.243 < 0.70) needs a new frozen spike to reopen (2026-07-18T08:03Z)
 - test-class-sugar — TestClass#method sugar still coaches --from-test PATH (2026-07-18T08:03Z)
 - multi-seed-determinism — fixture evals use primary-seed cases for some error/multi scenarios; full merge covered via packet-object expectations (2026-07-18T08:03Z)

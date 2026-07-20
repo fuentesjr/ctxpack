@@ -7,130 +7,99 @@ git log -- implementation-notes.md
 git show 2bf1c86:implementation-notes.md
 ```
 
-## Repository-documentation retrieval spike (issue #7, 2026-07-17)
+## Compiler split pass (2026-07-19)
 
 ### Current boundary
 
-- Reuse the 15 committed Tier 2 tasks across Redmine, Campfire, Lobsters, and
-  Publify Core. All four local subject templates were verified at their pinned
-  SHAs without enumerating or reading their documentation.
-- Reuse `eval/lib/spike_harness.rb` for deterministic spike plumbing. Do not
-  retrofit the paid/frozen Tier 2 harness or packet-coverage runner; neither
-  answers offline documentation-retrieval relevance.
-- `eval/documentation-spike/PREREGISTRATION.md` was approved and frozen before
-  subject-document inspection. The runner and synthetic controls are now
-  implemented locally; candidate generation, labels, and measurement remain
-  blocked until this reviewed and fully verified runner pass is committed.
+- Behavior-preserving refactor only: keep `Ctxpack::Compiler`'s public
+  constructor and `#compile` interface, packet/manifest bytes, reason codes,
+  ordering, limits, errors, and existing injected seams unchanged.
+- Prefer cohesive internal modules with narrow interfaces over mixins or
+  mechanical file shuffling. Add no dependency, configuration, or generalized
+  extension layer.
+- Keep the compiler split separate from the method-test-leg respike. The
+  respike begins only after this pass closes and cannot promote production
+  behavior without a later work order.
 
-### Design decisions
+### Verification plan
 
-- Treat agent-governing files as control-plane input and exclude them before
-  documentary retrieval. Record their presence/count only.
-- Candidate generation uses only pinned revision, task ID, and the committed
-  seed focus. Task prose, acceptance artifacts, reference diffs, and labels are
-  scoring inputs only.
-- Test four fixed recipe families: source-to-doc exact references, doc-to-focus
-  exact links, mirrored doc paths, and ancestor conventional docs. No keyword
-  search or model selection.
-- Keep supplemental results separate from primaries: three candidates and
-  2,048 excerpt bytes per task, with exact provenance and no primary eviction.
-- Use next-task rotated focuses within each app as the real-corpus negative
-  control; use synthetic fixtures for missing/broken/oversized/instruction
-  cases.
-- Keep recipe outputs uncapped for per-recipe analysis while applying the
-  frozen three-candidate/2,048-byte budget only to the fixed combined result.
-  Plain-text documents remain whole units; only Markdown participates in
-  reverse-link and heading-section parsing.
-- Reuse the shared spike harness through parameterized path exclusions,
-  checkout verification, percentiles, omission taxonomy, per-app JSON, and
-  gate summaries. The documentation spike supplies its narrower frozen path
-  exclusion set rather than inheriting the older seed-spike plugin/engine set.
+- Capture whole-suite and advisory Metz baselines before implementation.
+- Preserve behavior with existing observable tests; add characterization only
+  if the chosen seam exposes an uncovered contract.
+- Run focused tests during extraction, then the whole suite, SSD validation
+  and clean-context design review, and the mandatory Tier 0 corpus byte diff.
+- Record before/after advisory Metz evidence and reconcile tracker state before
+  closeout.
 
-### Scope boundary
+### Design decision
 
-- This pass can produce a frozen preregistration, stdlib-only runner, synthetic
-  fixtures, raw evidence, and a Proceed/Defer/Drop verdict.
-- It cannot change production Ruby, dependencies, CI, normative specs, packet
-  format, existing frozen evidence, GitHub issue state, or evalkit without
-  separate authorization.
-- Retrieval viability is not agent-benefit evidence. A Proceed verdict only
-  authorizes a later design issue and separately approved behavioral A/B.
+- Keep `Ctxpack::Compiler` as the public facade and composition root.
+- Use `SeedCompiler#compile(seed)` as the one-seed internal interface. It hides
+  recipe selection, source analysis, candidate discovery, and per-seed packet
+  construction.
+- Use `PacketFileBudget.enforce` for total-file truncation in both single-seed
+  and merged packets.
+- Use one lazy `RepositorySnapshot` for packet stamps and history enrichment.
+- Reject a new evidence-plan representation because it would reshape behavior.
+  Defer per-recipe classes until separate change pressure proves their value.
+
+### Baseline and current verification
+
+- Baseline and post-extraction suites match: 263 runs, 2,256 assertions, zero
+  failures, zero errors, and zero skips.
+- Advisory Metz baseline: 142 findings. Post-extraction: 147 findings. The
+  compiler facade falls from 1,529 to 113 measured class lines; `SeedCompiler`
+  retains 1,386 measured class lines behind one internal entry point.
+- Syntax checks pass for all four compiler modules. `git diff --check` passes.
+- Tier 0 uses the committed route tables and verified pinned checkouts. All
+  1,967 anchor rows are byte-identical to `results/post_amendment/`: zero
+  regressions, zero newly resolved anchors, zero label changes, and zero
+  crashes.
+- SSD executable gates pass. Red-green and lint are skipped for this refactor;
+  the placeholder-comment gate passes. The validator reports that RuboCop cannot load the
+  repo's Metz-only configuration, so lint/security and head-metric deltas are
+  unavailable.
+- The clean-context SSD audit reports no blocker or concern. Its DEPTH-1 nit
+  notes that `SeedCompiler#test_framework` is a pass-through. It remains because
+  removing it would change observable diff/files packet state.
+
+## Method test-candidate leg respike (2026-07-19)
+
+### Current boundary
+
+- Treat the 2026-07-14 Mastodon/Discourse/Zammad result as calibration only.
+- Use pinned Redmine, Campfire, and Lobsters checkouts as held-out confirmation;
+  exclude Publify because the pinned unit is an engine.
+- Test exact production-to-test mirror paths. Score them with an independent
+  structural relevance oracle that requires constant and method evidence.
+- The user approved the exact preregistration text on 2026-07-19. Its corpus,
+  candidate rule, oracle, metrics, gates, and consequences are frozen before
+  runner implementation or measurement.
+- A passing verdict authorizes only a later production work order. This pass
+  cannot change SEED-25 or production behavior.
 
 ### Verification
 
-- All four subject templates resolve to the pinned revisions, and all 15 tasks
-  have a committed, complete, task-successful treatment diff selected by the
-  frozen lowest-run-index rule.
-- Red-green runner slices cover the four recipes, exact sections and whole-file
-  handling, fixed ordering/de-dup/budgets, typed omissions, instruction
-  exclusion, pinned revisions, corpus/oracle reuse, opaque label artifacts,
-  frozen scoring, replay matching, and CLI artifact writes.
-- Focused runner coverage contributes 38 runs and 280 assertions, with zero
-  failures/errors in the whole-suite run.
-- `run_documentation_spike.rb self-check`: all five frozen synthetic controls
-  pass without subject-repository access. `preflight` verifies all 15 task
-  records and four pinned checkouts without enumerating subject documentation.
-- `ruby eval/lib/spike_harness_check.rb`: all 15 checks pass after adding custom
-  exclusion support. `bundle exec rake test`: 263 runs, 2,256 assertions, zero
-  failures/errors. Syntax and whitespace checks pass.
-- The Agenticons review found and the DRA fixed four pre-measurement blockers:
-  combined truncation provenance, rotated-oracle blinding, committed-runner
-  provenance, and replay independence. Its clean re-review independently
-  reproduced the bounded combined output and found no remaining blocker.
-- Subject documentation was first inspected by the invalidated generation
-  attempt. The final valid measurement artifacts now live under
-  `eval/documentation-spike/` and record the frozen **DROP** verdict.
-
-### Measurement restart
-
-- The first C/UTC generation at runner commit `cea6534` aborted before writing
-  any artifact: a punctuation-only source-comment token was trimmed to an empty
-  string, whose fragment split yielded `nil` for `File.extname`.
-- The exact CLI failure reproduced twice; Redmine task 1 isolated the fault;
-  `# >` was the minimal fixture. The regression is red before the empty-token
-  filter and green after it.
-- The frozen protocol invalidated that attempt. Its reviewed repair landed in
-  `76b4295`, after which the measurement restarted from zero.
-- Repair commit `76b4295` passed guarded preflight for all 15 tasks. Its first
-  restarted C/UTC generation also aborted before artifact write: `Open3` tagged
-  Git stdout as US-ASCII, and a valid UTF-8 checkmark in Campfire's rotated
-  accounts-controller focus raised during source-line matching.
-- The failure was minimized from the full 15-task CLI to Campfire task 1's
-  rotated arm and then to one focus file. A retrieve-seam regression is red
-  under US-ASCII external encoding and green when `Repository#git` force-tags
-  successful stdout as UTF-8; the same regression proves a non-ASCII referenced
-  Markdown excerpt remains retrievable. Truly invalid UTF-8 stays on the frozen
-  typed-omission path because only the encoding tag changes.
-- The second attempt at runner commit `76b4295` is also invalidated. No candidate,
-  label, replay, timing, result, or verdict artifact survived that attempt. The
-  next measurement restarted all three legs from zero under `be8e9fb`.
-
-### Frozen measurement verdict
-
-- Canonical C/UTC, UTF-8/Los Angeles, and repeated C/UTC generations each
-  emitted 60 rows and produced byte-identical candidate JSON with SHA-256
-  `61f4e5fb7b4649529084bff54ab34e8cd9ba9f7f2620438d0d340e777d4b3434`.
-- The opaque sheet contained 15 distinct visible candidates repeated across 60
-  measurement rows. A blinded local interface grouped only rows with identical
-  visible fields and copied one human judgment to each group's four opaque IDs;
-  hidden recipe/arm/population/rank metadata was never consulted. Human labels
-  were complete: 4 `relevant_unique`, 12 `repository_background`, and 44
-  `unrelated`; 52/60 rows recorded that missing excerpt context hindered
-  classification.
-- Frozen verdict: **DROP**. Combined precision was 0.067, incremental task-hit
-  rate was 1/15, rotated-focus lift was 0, and byte-weighted distraction was
-  0.874. Safety, budget, latency, determinism, provenance, and synthetic-control
-  gates passed.
-- All 60 emitted rows came from `ancestor_conventional`; the only document paths
-  were root `README.md`/`README.rdoc`. Eligible ADR/RFC/design documents were not
-  retrieved by the measured recipes. The result therefore drops this recipe and
-  excerpt configuration, not documentation enrichment generally.
-- The runner counted four mechanical truncations, while the labeler reported
-  insufficient context on 52 rows. The measurement evaluates bounded emitted
-  excerpts, so this is a failure of the current payload; it also means the study
-  cannot support a broader claim that the underlying full documents were
-  irrelevant. A retry needs a new preregistration that separates source-family
-  discovery from excerpt selection and supplies fairer labeling context.
+- All three checkout `HEAD` values match their recorded Tier 2 pins.
+- Redmine and Campfire are clean. Lobsters has only the recorded prepared-file
+  changes outside `app/`, `test/`, and `spec/`.
+- No held-out source has been enumerated or measured.
+- Runner tests were red with the runner absent, then green after implementation:
+  3 runs, 16 assertions, zero failures or errors. They cover pair-level scoring,
+  framework-specific mirror order, and frozen verdict precedence.
+- The runner reuses `SpikeHarness` and the shipped exact constant resolver. It
+  adds no dependency and has not executed against the held-out corpus.
+- Full suite: 266 runs, 2,272 assertions, zero failures, errors, or skips.
+  `spike_harness_check.rb` passes all 15 checks; syntax, whitespace, and strict
+  tracker checks pass.
+- The initial SSD audit found a population-integrity blocker and two concerns.
+  Extraction now aborts with path context, mirror selection is tested through
+  `evaluate_app`, and revalidation uses the original two-item task statement.
+  The fix-cycle re-review is clean with no blocker or concern.
+- SSD retains one DEPTH-1 nit on `SeedCompiler#test_framework`. It stays for the
+  compiler pass's behavior-preservation reason recorded above.
+- Measurement remains blocked until the frozen preregistration and runner are
+  committed and their commit SHA is recorded as provenance.
 
 ## Standing provider-seam benchmark recipe
 
