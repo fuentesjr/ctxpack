@@ -1,12 +1,11 @@
 # STATE
 
 ## Goal
-Re-spike the SEED-25 method test-candidate leg with a new frozen preregistration, using prior results only for calibration and held-out apps for confirmation; record a verdict without changing production behavior.
+ctxpack v0 is shipped and stable. Compiler orchestration is split behind internal modules; the held-out SEED-25 method test-leg respike concluded with a frozen DROP verdict, so production behavior remains unchanged. No active work order and no push is authorized.
 
 ## Dispatched
 
 ## Next
-1. method-test-leg-respike — SEED-25 method test-candidate leg needs a new frozen pre-registration and explicit work order
 
 ## Backlog
 - route-resolver-respike — route seed (0.243 < 0.70) needs a new frozen spike to reopen (2026-07-18T08:03Z)

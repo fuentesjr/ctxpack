@@ -5,3 +5,6 @@ Migrated from PROJECT_TRACKER.md (see git log -- PROJECT_TRACKER.md and docs/his
 
 ## 2026-07-20T00:38Z log
 Compiler split closed locally: full suite 263/2256 green; Tier 0 post_amendment byte-identical across 1,967 anchors; SSD verdict clean with one DEPTH-1 nit; no commit/push authorized. See eval/tier0/RESULTS.md compiler split addendum.
+
+## 2026-07-20T01:20Z log
+Method test-leg respike measured at runner commit abe74ca: frozen DROP. Mean precision 0.1998 and per-app floor 0.1163 failed; mean coverage 0.6757 and minimum yield 86 passed. SEED-25 remains no-test-leg; see eval/seed-spikes/method-test-leg-respike/RESULTS.md.

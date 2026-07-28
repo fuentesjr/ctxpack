@@ -1,0 +1,924 @@
+{
+  "app": "lobsters",
+  "sha": "430d864b0d7bf1b30913ee42e6cca3d9fbddcaa4",
+  "framework": "rspec",
+  "population": 360,
+  "resolved": 352,
+  "resolution_rate": 0.9777777777777777,
+  "covered_pairs": 299,
+  "candidate_pairs": 299,
+  "precision": 0.19063545150501673,
+  "strict_precision": 0.17725752508361203,
+  "coverage": 0.8494318181818182,
+  "duplicate_candidate_path_pairs": 268,
+  "candidate_count_by_rule": {
+    "rspec_mirror": 299
+  },
+  "source_parse_failures": 0,
+  "by_label": {
+    "mirror_constant_only": 242,
+    "mirror_relevant": 57,
+    "resolved_no_mirror": 53,
+    "resolution_failed": 8
+  },
+  "label_samples": {
+    "mirror_constant_only": [
+      {
+        "constant": "ApplicationHelper",
+        "method": "avatar_img",
+        "path": "spec/helpers/application_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "divider_tag",
+        "path": "spec/helpers/application_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "errors_for",
+        "path": "spec/helpers/application_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "filtered_tags",
+        "path": "spec/helpers/application_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "inline_avatar_for",
+        "path": "spec/helpers/application_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "link_post",
+        "path": "spec/helpers/application_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "possible_flag_warning",
+        "path": "spec/helpers/application_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "tag",
+        "path": "spec/helpers/application_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "tag_link",
+        "path": "spec/helpers/application_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "how_long_ago_label",
+        "path": "spec/helpers/application_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "how_long_ago_link",
+        "path": "spec/helpers/application_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "user_token_link",
+        "path": "spec/helpers/application_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "UsersHelper",
+        "method": "self_or_mod",
+        "path": "spec/helpers/users_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "UsersHelper",
+        "method": "stories_submitted_content",
+        "path": "spec/helpers/users_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "UsersHelper",
+        "method": "comments_posted_content",
+        "path": "spec/helpers/users_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "UsersHelper",
+        "method": "user_karma",
+        "path": "spec/helpers/users_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "NotifyCommentJob",
+        "method": "perform",
+        "path": "spec/jobs/notify_comment_job_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "NotifyCommentJob",
+        "method": "deliver_comment_notifications",
+        "path": "spec/jobs/notify_comment_job_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "NotifyCommentJob",
+        "method": "deliver_mention_notifications",
+        "path": "spec/jobs/notify_comment_job_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "NotifyCommentJob",
+        "method": "users_following_thread",
+        "path": "spec/jobs/notify_comment_job_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "NotifyCommentJob",
+        "method": "deliver_reply_notifications",
+        "path": "spec/jobs/notify_comment_job_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "NotifyMessageJob",
+        "method": "perform",
+        "path": "spec/jobs/notify_message_job_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "NotifyMessageJob",
+        "method": "deliver_message_notifications",
+        "path": "spec/jobs/notify_message_job_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "NotifyModMailMessageJob",
+        "method": "perform",
+        "path": "spec/jobs/notify_mod_mail_message_job_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "NotifyModMailMessageJob",
+        "method": "deliver_mod_mail_message_notifications",
+        "path": "spec/jobs/notify_mod_mail_message_job_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "InboxMailbox",
+        "method": "forcibly_convert_to_utf8",
+        "path": "spec/mailboxes/inbox_mailbox_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "InboxMailbox",
+        "method": "parent",
+        "path": "spec/mailboxes/inbox_mailbox_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "InboxMailbox",
+        "method": "required_info",
+        "path": "spec/mailboxes/inbox_mailbox_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "InboxMailbox",
+        "method": "user_token",
+        "path": "spec/mailboxes/inbox_mailbox_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "InboxMailbox",
+        "method": "sending_user",
+        "path": "spec/mailboxes/inbox_mailbox_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "InboxMailbox",
+        "method": "tidy",
+        "path": "spec/mailboxes/inbox_mailbox_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "EmailReplyMailer",
+        "method": "mention",
+        "path": "spec/mailers/email_reply_mailer_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "EmailReplyMailer",
+        "method": "set_headers",
+        "path": "spec/mailers/email_reply_mailer_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Category",
+        "method": "to_param",
+        "path": "spec/models/category_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Category",
+        "method": "log_modifications",
+        "path": "spec/models/category_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Comment",
+        "method": "as_json",
+        "path": "spec/models/comment_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Comment",
+        "method": "assign_initial_attributes",
+        "path": "spec/models/comment_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Comment",
+        "method": "current_flagged?",
+        "path": "spec/models/comment_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Comment",
+        "method": "current_upvoted?",
+        "path": "spec/models/comment_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Comment",
+        "method": "delete_for_user",
+        "path": "spec/models/comment_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Comment",
+        "method": "depth_permits_reply?",
+        "path": "spec/models/comment_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Comment",
+        "method": "update_score_and_recalculate!",
+        "path": "spec/models/comment_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Comment",
+        "method": "gone_text",
+        "path": "spec/models/comment_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Comment",
+        "method": "has_been_edited?",
+        "path": "spec/models/comment_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Comment",
+        "method": "is_deletable_by_user?",
+        "path": "spec/models/comment_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Comment",
+        "method": "is_disownable_by_user?",
+        "path": "spec/models/comment_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Comment",
+        "method": "is_flaggable?",
+        "path": "spec/models/comment_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Comment",
+        "method": "is_editable_by_user?",
+        "path": "spec/models/comment_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Comment",
+        "method": "is_gone?",
+        "path": "spec/models/comment_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Comment",
+        "method": "is_undeletable_by_user?",
+        "path": "spec/models/comment_spec.rb",
+        "rule": "rspec_mirror"
+      }
+    ],
+    "mirror_relevant": [
+      {
+        "constant": "ApplicationHelper",
+        "method": "excerpt_fragment_around_link",
+        "path": "spec/helpers/application_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "link_to_different_page",
+        "path": "spec/helpers/application_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "page_count",
+        "path": "spec/helpers/application_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "page_numbers_for_pagination",
+        "path": "spec/helpers/application_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "comment_score_for_user",
+        "path": "spec/helpers/application_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "upvoter_score",
+        "path": "spec/helpers/application_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "IntervalHelper",
+        "method": "time_interval",
+        "path": "spec/helpers/interval_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "UsersHelper",
+        "method": "styled_user_link",
+        "path": "spec/helpers/users_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "UsersHelper",
+        "method": "you_invited",
+        "path": "spec/helpers/users_helper_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "CreateStoryCardJob",
+        "method": "perform",
+        "path": "spec/jobs/create_story_card_job_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "InboxMailbox",
+        "method": "process",
+        "path": "spec/mailboxes/inbox_mailbox_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "BanNotificationMailer",
+        "method": "notify",
+        "path": "spec/mailers/ban_notification_mailer_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "EmailReplyMailer",
+        "method": "reply",
+        "path": "spec/mailers/email_reply_mailer_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Comment",
+        "method": "calculated_confidence",
+        "path": "spec/models/comment_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Comment",
+        "method": "breaks_speed_limit?",
+        "path": "spec/models/comment_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Comment",
+        "method": "comment=",
+        "path": "spec/models/comment_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Comment",
+        "method": "delete_by_moderator",
+        "path": "spec/models/comment_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Comment",
+        "method": "generated_markeddown_comment",
+        "path": "spec/models/comment_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Comment",
+        "method": "parsed_links",
+        "path": "spec/models/comment_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Domain",
+        "method": "selector=",
+        "path": "spec/models/domain_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Domain",
+        "method": "selector_regexp",
+        "path": "spec/models/domain_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Domain",
+        "method": "find_or_create_origin",
+        "path": "spec/models/domain_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Domain",
+        "method": "ban_by_user_for_reason!",
+        "path": "spec/models/domain_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Domain",
+        "method": "unban_by_user_for_reason!",
+        "path": "spec/models/domain_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Hat",
+        "method": "sanitized_link",
+        "path": "spec/models/hat_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Link",
+        "method": "url=",
+        "path": "spec/models/link_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Notification",
+        "method": "should_display?",
+        "path": "spec/models/notification_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Search",
+        "method": "flatten_title",
+        "path": "spec/models/search_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Search",
+        "method": "strip_operators",
+        "path": "spec/models/search_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Search",
+        "method": "strip_short_terms",
+        "path": "spec/models/search_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Search",
+        "method": "perform_comment_search!",
+        "path": "spec/models/search_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Search",
+        "method": "perform_story_search!",
+        "path": "spec/models/search_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Search",
+        "method": "results",
+        "path": "spec/models/search_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Search",
+        "method": "results_count",
+        "path": "spec/models/search_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Story",
+        "method": "already_posted_recently?",
+        "path": "spec/models/story_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Story",
+        "method": "similar_stories",
+        "path": "spec/models/story_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Story",
+        "method": "calculated_hotness",
+        "path": "spec/models/story_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Story",
+        "method": "description=",
+        "path": "spec/models/story_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Story",
+        "method": "is_editable_by_user?",
+        "path": "spec/models/story_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Story",
+        "method": "tag_changes",
+        "path": "spec/models/story_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Story",
+        "method": "save_suggested_tags_for_user!",
+        "path": "spec/models/story_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Story",
+        "method": "save_suggested_title_for_user!",
+        "path": "spec/models/story_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Story",
+        "method": "title=",
+        "path": "spec/models/story_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Story",
+        "method": "title_as_slug",
+        "path": "spec/models/story_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Story",
+        "method": "update_cached_columns",
+        "path": "spec/models/story_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Story",
+        "method": "url=",
+        "path": "spec/models/story_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "Story",
+        "method": "fetched_attributes",
+        "path": "spec/models/story_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "StoryImage",
+        "method": "exists?",
+        "path": "spec/models/story_image_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "StoryImage",
+        "method": "generate",
+        "path": "spec/models/story_image_spec.rb",
+        "rule": "rspec_mirror"
+      },
+      {
+        "constant": "StoryImage",
+        "method": "fetch_url",
+        "path": "spec/models/story_image_spec.rb",
+        "rule": "rspec_mirror"
+      }
+    ],
+    "resolved_no_mirror": [
+      {
+        "constant": "CabinetHelper",
+        "method": "debug_render",
+        "path": "app/helpers/cabinet_helper.rb"
+      },
+      {
+        "constant": "CabinetHelper",
+        "method": "as_user",
+        "path": "app/helpers/cabinet_helper.rb"
+      },
+      {
+        "constant": "HatsHelper",
+        "method": "styled_hat",
+        "path": "app/helpers/hats_helper.rb"
+      },
+      {
+        "constant": "HatsHelper",
+        "method": "hat_text",
+        "path": "app/helpers/hats_helper.rb"
+      },
+      {
+        "constant": "StoriesHelper",
+        "method": "show_guidelines?",
+        "path": "app/helpers/stories_helper.rb"
+      },
+      {
+        "constant": "FetchEmailBlocklistJob",
+        "method": "perform",
+        "path": "app/jobs/fetch_email_blocklist_job.rb"
+      },
+      {
+        "constant": "FetchEmailBlocklistJob",
+        "method": "request_blocklist",
+        "path": "app/jobs/fetch_email_blocklist_job.rb"
+      },
+      {
+        "constant": "FetchEmailBlocklistJob",
+        "method": "decode_response",
+        "path": "app/jobs/fetch_email_blocklist_job.rb"
+      },
+      {
+        "constant": "FetchEmailBlocklistJob",
+        "method": "valid_response?",
+        "path": "app/jobs/fetch_email_blocklist_job.rb"
+      },
+      {
+        "constant": "FetchEmailBlocklistJob",
+        "method": "write_blocklist",
+        "path": "app/jobs/fetch_email_blocklist_job.rb"
+      },
+      {
+        "constant": "FetchIanaTldsJob",
+        "method": "perform",
+        "path": "app/jobs/fetch_iana_tlds_job.rb"
+      },
+      {
+        "constant": "FetchIanaTldsJob",
+        "method": "decode_response",
+        "path": "app/jobs/fetch_iana_tlds_job.rb"
+      },
+      {
+        "constant": "FetchIanaTldsJob",
+        "method": "write_iana_tlds",
+        "path": "app/jobs/fetch_iana_tlds_job.rb"
+      },
+      {
+        "constant": "MastodonSyncListJob",
+        "method": "perform",
+        "path": "app/jobs/mastodon_sync_list_job.rb"
+      },
+      {
+        "constant": "ResticJob",
+        "method": "perform",
+        "path": "app/jobs/restic_job.rb"
+      },
+      {
+        "constant": "SendWebmentionJob",
+        "method": "endpoint_from_body",
+        "path": "app/jobs/send_webmention_job.rb"
+      },
+      {
+        "constant": "SendWebmentionJob",
+        "method": "endpoint_from_headers",
+        "path": "app/jobs/send_webmention_job.rb"
+      },
+      {
+        "constant": "SendWebmentionJob",
+        "method": "uri_to_absolute",
+        "path": "app/jobs/send_webmention_job.rb"
+      },
+      {
+        "constant": "SendWebmentionJob",
+        "method": "send_webmention",
+        "path": "app/jobs/send_webmention_job.rb"
+      },
+      {
+        "constant": "SendWebmentionJob",
+        "method": "perform",
+        "path": "app/jobs/send_webmention_job.rb"
+      },
+      {
+        "constant": "BackstopMailbox",
+        "method": "process",
+        "path": "app/mailboxes/backstop_mailbox.rb"
+      },
+      {
+        "constant": "ApplicationMailer",
+        "method": "check_email_blocklist",
+        "path": "app/mailers/application_mailer.rb"
+      },
+      {
+        "constant": "EmailMessageMailer",
+        "method": "notify",
+        "path": "app/mailers/email_message_mailer.rb"
+      },
+      {
+        "constant": "EmailModMailMessageMailer",
+        "method": "notify",
+        "path": "app/mailers/email_mod_mail_message_mailer.rb"
+      },
+      {
+        "constant": "InvitationMailer",
+        "method": "invitation",
+        "path": "app/mailers/invitation_mailer.rb"
+      },
+      {
+        "constant": "InvitationRequestMailer",
+        "method": "invitation_request",
+        "path": "app/mailers/invitation_request_mailer.rb"
+      },
+      {
+        "constant": "PasswordResetMailer",
+        "method": "password_reset_link",
+        "path": "app/mailers/password_reset_mailer.rb"
+      },
+      {
+        "constant": "CommentVoteHydrator",
+        "method": "initialize",
+        "path": "app/models/comment_vote_hydrator.rb"
+      },
+      {
+        "constant": "CommentVoteHydrator",
+        "method": "each",
+        "path": "app/models/comment_vote_hydrator.rb"
+      },
+      {
+        "constant": "CommentVoteHydrator",
+        "method": "[]",
+        "path": "app/models/comment_vote_hydrator.rb"
+      },
+      {
+        "constant": "FlaggedCommenters",
+        "method": "initialize",
+        "path": "app/models/flagged_commenters.rb"
+      },
+      {
+        "constant": "FlaggedCommenters",
+        "method": "check_list_for",
+        "path": "app/models/flagged_commenters.rb"
+      },
+      {
+        "constant": "FlaggedCommenters",
+        "method": "aggregates",
+        "path": "app/models/flagged_commenters.rb"
+      },
+      {
+        "constant": "FlaggedCommenters",
+        "method": "stddev_sum_flags",
+        "path": "app/models/flagged_commenters.rb"
+      },
+      {
+        "constant": "FlaggedCommenters",
+        "method": "avg_sum_flags",
+        "path": "app/models/flagged_commenters.rb"
+      },
+      {
+        "constant": "FlaggedCommenters",
+        "method": "commenters",
+        "path": "app/models/flagged_commenters.rb"
+      },
+      {
+        "constant": "ModMailMessage",
+        "method": "linkified_message",
+        "path": "app/models/mod_mail_message.rb"
+      },
+      {
+        "constant": "ModMailMessage",
+        "method": "plaintext_message",
+        "path": "app/models/mod_mail_message.rb"
+      },
+      {
+        "constant": "Origin",
+        "method": "ban_by_user_for_reason!",
+        "path": "app/models/origin.rb"
+      },
+      {
+        "constant": "Origin",
+        "method": "unban_by_user_for_reason!",
+        "path": "app/models/origin.rb"
+      },
+      {
+        "constant": "Origin",
+        "method": "banned?",
+        "path": "app/models/origin.rb"
+      },
+      {
+        "constant": "Origin",
+        "method": "n_submitters",
+        "path": "app/models/origin.rb"
+      },
+      {
+        "constant": "Origin",
+        "method": "to_param",
+        "path": "app/models/origin.rb"
+      },
+      {
+        "constant": "ReadRibbon",
+        "method": "is_unread?",
+        "path": "app/models/read_ribbon.rb"
+      },
+      {
+        "constant": "ReadRibbon",
+        "method": "unread_count",
+        "path": "app/models/read_ribbon.rb"
+      },
+      {
+        "constant": "ReadRibbon",
+        "method": "bump",
+        "path": "app/models/read_ribbon.rb"
+      },
+      {
+        "constant": "ShortId",
+        "method": "initialize",
+        "path": "app/models/short_id.rb"
+      },
+      {
+        "constant": "ShortId",
+        "method": "generate",
+        "path": "app/models/short_id.rb"
+      },
+      {
+        "constant": "ShortId",
+        "method": "candidate_id",
+        "path": "app/models/short_id.rb"
+      },
+      {
+        "constant": "StoriesPaginator",
+        "method": "initialize",
+        "path": "app/models/stories_paginator.rb"
+      }
+    ],
+    "resolution_failed": [
+      {
+        "constant": "EmailBlocklistValidation",
+        "method": "email_blocklist",
+        "path": "app/models/concerns/email_blocklist_validation.rb"
+      },
+      {
+        "constant": "EmailBlocklistValidation",
+        "method": "email_on_blocklist?",
+        "path": "app/models/concerns/email_blocklist_validation.rb"
+      },
+      {
+        "constant": "Token",
+        "method": "token=",
+        "path": "app/models/concerns/token.rb"
+      },
+      {
+        "constant": "UsernameAttribute",
+        "method": "underscores_and_dashes_in_username",
+        "path": "app/models/concerns/username_attribute.rb"
+      },
+      {
+        "constant": "ShortId::CandidateId",
+        "method": "initialize",
+        "path": "app/models/short_id.rb"
+      },
+      {
+        "constant": "ShortId::CandidateId",
+        "method": "to_s",
+        "path": "app/models/short_id.rb"
+      },
+      {
+        "constant": "ShortId::CandidateId",
+        "method": "generate_id",
+        "path": "app/models/short_id.rb"
+      },
+      {
+        "constant": "ShortId::CandidateId",
+        "method": "valid?",
+        "path": "app/models/short_id.rb"
+      }
+    ]
+  }
+}

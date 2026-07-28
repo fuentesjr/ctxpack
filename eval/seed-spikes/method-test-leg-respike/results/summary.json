@@ -1,0 +1,95 @@
+{
+  "apps": {
+    "redmine": {
+      "app": "redmine",
+      "sha": "3386d9595767b3d0c455ace9281e056e9f61bd56",
+      "framework": "minitest",
+      "population": 1771,
+      "resolved": 1712,
+      "resolution_rate": 0.9666854884246189,
+      "covered_pairs": 1405,
+      "candidate_pairs": 1405,
+      "precision": 0.29252669039145907,
+      "strict_precision": 0.27900355871886123,
+      "coverage": 0.820677570093458,
+      "duplicate_candidate_path_pairs": 1328,
+      "candidate_count_by_rule": {
+        "minitest_mirror": 325,
+        "minitest_legacy_unit": 1080
+      },
+      "source_parse_failures": 0,
+      "by_label": {
+        "mirror_relevant": 411,
+        "resolved_no_mirror": 307,
+        "mirror_neither": 86,
+        "mirror_method_only": 42,
+        "mirror_constant_only": 866,
+        "resolution_failed": 59
+      }
+    },
+    "campfire": {
+      "app": "campfire",
+      "sha": "71ffeeea789599a334311f28bcb6816863985488",
+      "framework": "minitest",
+      "population": 254,
+      "resolved": 241,
+      "resolution_rate": 0.9488188976377953,
+      "covered_pairs": 86,
+      "candidate_pairs": 86,
+      "precision": 0.11627906976744186,
+      "strict_precision": 0.09302325581395349,
+      "coverage": 0.35684647302904565,
+      "duplicate_candidate_path_pairs": 68,
+      "candidate_count_by_rule": {
+        "minitest_mirror": 86
+      },
+      "source_parse_failures": 0,
+      "by_label": {
+        "mirror_method_only": 12,
+        "mirror_neither": 23,
+        "resolved_no_mirror": 155,
+        "mirror_constant_only": 41,
+        "mirror_relevant": 10,
+        "resolution_failed": 13
+      }
+    },
+    "lobsters": {
+      "app": "lobsters",
+      "sha": "430d864b0d7bf1b30913ee42e6cca3d9fbddcaa4",
+      "framework": "rspec",
+      "population": 360,
+      "resolved": 352,
+      "resolution_rate": 0.9777777777777777,
+      "covered_pairs": 299,
+      "candidate_pairs": 299,
+      "precision": 0.19063545150501673,
+      "strict_precision": 0.17725752508361203,
+      "coverage": 0.8494318181818182,
+      "duplicate_candidate_path_pairs": 268,
+      "candidate_count_by_rule": {
+        "rspec_mirror": 299
+      },
+      "source_parse_failures": 0,
+      "by_label": {
+        "mirror_constant_only": 242,
+        "mirror_relevant": 57,
+        "resolved_no_mirror": 53,
+        "resolution_failed": 8
+      }
+    }
+  },
+  "mean_precision_value": 0.19981373722130588,
+  "mean_precision_gate": 0.7,
+  "mean_precision_pass": false,
+  "per_app_precision_value": 0.11627906976744186,
+  "per_app_precision_gate": 0.6,
+  "per_app_precision_pass": false,
+  "mean_coverage_value": 0.6756519537681073,
+  "mean_coverage_gate": 0.05,
+  "mean_coverage_pass": true,
+  "per_app_candidate_yield_value": 86,
+  "per_app_candidate_yield_gate": 25,
+  "per_app_candidate_yield_pass": true,
+  "ship": false,
+  "outcome": "DROP"
+}

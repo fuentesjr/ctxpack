@@ -1,0 +1,1693 @@
+{
+  "app": "redmine",
+  "sha": "3386d9595767b3d0c455ace9281e056e9f61bd56",
+  "framework": "minitest",
+  "population": 1771,
+  "resolved": 1712,
+  "resolution_rate": 0.9666854884246189,
+  "covered_pairs": 1405,
+  "candidate_pairs": 1405,
+  "precision": 0.29252669039145907,
+  "strict_precision": 0.27900355871886123,
+  "coverage": 0.820677570093458,
+  "duplicate_candidate_path_pairs": 1328,
+  "candidate_count_by_rule": {
+    "minitest_mirror": 325,
+    "minitest_legacy_unit": 1080
+  },
+  "source_parse_failures": 0,
+  "by_label": {
+    "mirror_relevant": 411,
+    "resolved_no_mirror": 307,
+    "mirror_neither": 86,
+    "mirror_method_only": 42,
+    "mirror_constant_only": 866,
+    "resolution_failed": 59
+  },
+  "label_samples": {
+    "mirror_relevant": [
+      {
+        "constant": "ActivitiesHelper",
+        "method": "sort_activity_events",
+        "path": "test/helpers/activities_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ActivitiesHelper",
+        "method": "activity_authors_options_for_select",
+        "path": "test/helpers/activities_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "AvatarsHelper",
+        "method": "avatar",
+        "path": "test/helpers/avatars_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ContextMenusHelper",
+        "method": "context_menu_link",
+        "path": "test/helpers/context_menus_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "CustomFieldsHelper",
+        "method": "custom_field_tag",
+        "path": "test/helpers/custom_fields_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "CustomFieldsHelper",
+        "method": "custom_field_label_tag",
+        "path": "test/helpers/custom_fields_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "CustomFieldsHelper",
+        "method": "custom_field_tag_with_label",
+        "path": "test/helpers/custom_fields_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "CustomFieldsHelper",
+        "method": "custom_field_tag_for_bulk_edit",
+        "path": "test/helpers/custom_fields_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "CustomFieldsHelper",
+        "method": "format_value",
+        "path": "test/helpers/custom_fields_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "CustomFieldsHelper",
+        "method": "select_type_radio_buttons",
+        "path": "test/helpers/custom_fields_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "GroupsHelper",
+        "method": "render_principals_for_new_group_users",
+        "path": "test/helpers/groups_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IconsHelper",
+        "method": "sprite_source",
+        "path": "test/helpers/icons_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IconsHelper",
+        "method": "sprite_icon",
+        "path": "test/helpers/icons_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IconsHelper",
+        "method": "file_icon",
+        "path": "test/helpers/icons_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IconsHelper",
+        "method": "principal_icon",
+        "path": "test/helpers/icons_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IconsHelper",
+        "method": "activity_event_type_icon",
+        "path": "test/helpers/icons_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IconsHelper",
+        "method": "scm_change_icon",
+        "path": "test/helpers/icons_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IconsHelper",
+        "method": "file_type_icon",
+        "path": "test/helpers/icons_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IconsHelper",
+        "method": "icon_for_mime_type",
+        "path": "test/helpers/icons_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "issue_heading",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "render_descendants_stats",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "render_relations_stats",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "render_issues_stats",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "render_issue_relations",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "issue_spent_hours_details",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "issue_due_date_details",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "url_for_new_subtask",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "issues_destroy_confirmation_message",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "details_to_strings",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "show_detail",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "find_name_by_reflection",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "JournalsHelper",
+        "method": "journal_thumbnail_attachments",
+        "path": "test/helpers/journals_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "JournalsHelper",
+        "method": "render_journal_actions",
+        "path": "test/helpers/journals_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "MembersHelper",
+        "method": "render_principals_for_new_members",
+        "path": "test/helpers/members_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ProjectsHelper",
+        "method": "version_options_for_select",
+        "path": "test/helpers/projects_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ProjectsQueriesHelper",
+        "method": "csv_value",
+        "path": "test/helpers/projects_queries_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "QueriesHelper",
+        "method": "filters_options_for_select",
+        "path": "test/helpers/queries_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "QueriesHelper",
+        "method": "query_to_csv",
+        "path": "test/helpers/queries_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ReactionsHelper",
+        "method": "reaction_button",
+        "path": "test/helpers/reactions_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ReactionsHelper",
+        "method": "reaction_id_for",
+        "path": "test/helpers/reactions_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ReportsHelper",
+        "method": "aggregate_path",
+        "path": "test/helpers/reports_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "SearchHelper",
+        "method": "highlight_tokens",
+        "path": "test/helpers/search_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "SearchHelper",
+        "method": "issues_filter_path",
+        "path": "test/helpers/search_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "SettingsHelper",
+        "method": "date_format_setting_options",
+        "path": "test/helpers/settings_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "SortHelper",
+        "method": "sort_init",
+        "path": "test/helpers/sort_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "SortHelper",
+        "method": "sort_update",
+        "path": "test/helpers/sort_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "SortHelper",
+        "method": "sort_clause",
+        "path": "test/helpers/sort_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "SortHelper",
+        "method": "sort_css_classes",
+        "path": "test/helpers/sort_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "TimelogHelper",
+        "method": "activity_collection_for_select_options",
+        "path": "test/helpers/timelog_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "WatchersHelper",
+        "method": "watcher_link",
+        "path": "test/helpers/watchers_helper_test.rb",
+        "rule": "minitest_mirror"
+      }
+    ],
+    "resolved_no_mirror": [
+      {
+        "constant": "AdminHelper",
+        "method": "project_status_options_for_select",
+        "path": "app/helpers/admin_helper.rb"
+      },
+      {
+        "constant": "AdminHelper",
+        "method": "plugin_data_for_updates",
+        "path": "app/helpers/admin_helper.rb"
+      },
+      {
+        "constant": "AttachmentsHelper",
+        "method": "container_attachments_edit_path",
+        "path": "app/helpers/attachments_helper.rb"
+      },
+      {
+        "constant": "AttachmentsHelper",
+        "method": "container_attachments_path",
+        "path": "app/helpers/attachments_helper.rb"
+      },
+      {
+        "constant": "AttachmentsHelper",
+        "method": "container_attachments_download_path",
+        "path": "app/helpers/attachments_helper.rb"
+      },
+      {
+        "constant": "AttachmentsHelper",
+        "method": "link_to_attachments",
+        "path": "app/helpers/attachments_helper.rb"
+      },
+      {
+        "constant": "AttachmentsHelper",
+        "method": "render_pagination",
+        "path": "app/helpers/attachments_helper.rb"
+      },
+      {
+        "constant": "AttachmentsHelper",
+        "method": "render_api_attachment",
+        "path": "app/helpers/attachments_helper.rb"
+      },
+      {
+        "constant": "AttachmentsHelper",
+        "method": "render_api_attachment_attributes",
+        "path": "app/helpers/attachments_helper.rb"
+      },
+      {
+        "constant": "AttachmentsHelper",
+        "method": "render_file_content",
+        "path": "app/helpers/attachments_helper.rb"
+      },
+      {
+        "constant": "AuthSourcesHelper",
+        "method": "auth_source_partial_name",
+        "path": "app/helpers/auth_sources_helper.rb"
+      },
+      {
+        "constant": "BoardsHelper",
+        "method": "board_breadcrumb",
+        "path": "app/helpers/boards_helper.rb"
+      },
+      {
+        "constant": "BoardsHelper",
+        "method": "boards_options_for_select",
+        "path": "app/helpers/boards_helper.rb"
+      },
+      {
+        "constant": "EmailAddressesHelper",
+        "method": "toggle_email_address_notify_link",
+        "path": "app/helpers/email_addresses_helper.rb"
+      },
+      {
+        "constant": "GanttHelper",
+        "method": "gantt_zoom_link",
+        "path": "app/helpers/gantt_helper.rb"
+      },
+      {
+        "constant": "GanttHelper",
+        "method": "gantt_chart_tag",
+        "path": "app/helpers/gantt_helper.rb"
+      },
+      {
+        "constant": "GanttHelper",
+        "method": "gantt_column_tag",
+        "path": "app/helpers/gantt_helper.rb"
+      },
+      {
+        "constant": "GanttHelper",
+        "method": "gantt_subjects_tag",
+        "path": "app/helpers/gantt_helper.rb"
+      },
+      {
+        "constant": "ImportsHelper",
+        "method": "import_title",
+        "path": "app/helpers/imports_helper.rb"
+      },
+      {
+        "constant": "ImportsHelper",
+        "method": "import_partial_prefix",
+        "path": "app/helpers/imports_helper.rb"
+      },
+      {
+        "constant": "ImportsHelper",
+        "method": "options_for_mapping_select",
+        "path": "app/helpers/imports_helper.rb"
+      },
+      {
+        "constant": "ImportsHelper",
+        "method": "mapping_select_tag",
+        "path": "app/helpers/imports_helper.rb"
+      },
+      {
+        "constant": "ImportsHelper",
+        "method": "date_format_options",
+        "path": "app/helpers/imports_helper.rb"
+      },
+      {
+        "constant": "IssueRelationsHelper",
+        "method": "collection_for_relation_type_select",
+        "path": "app/helpers/issue_relations_helper.rb"
+      },
+      {
+        "constant": "IssueRelationsHelper",
+        "method": "relation_error_messages",
+        "path": "app/helpers/issue_relations_helper.rb"
+      },
+      {
+        "constant": "IssueStatusesHelper",
+        "method": "issue_status_type_badge",
+        "path": "app/helpers/issue_statuses_helper.rb"
+      },
+      {
+        "constant": "MyHelper",
+        "method": "render_blocks",
+        "path": "app/helpers/my_helper.rb"
+      },
+      {
+        "constant": "MyHelper",
+        "method": "render_block",
+        "path": "app/helpers/my_helper.rb"
+      },
+      {
+        "constant": "MyHelper",
+        "method": "render_block_content",
+        "path": "app/helpers/my_helper.rb"
+      },
+      {
+        "constant": "MyHelper",
+        "method": "block_select_tag",
+        "path": "app/helpers/my_helper.rb"
+      },
+      {
+        "constant": "MyHelper",
+        "method": "render_calendar_block",
+        "path": "app/helpers/my_helper.rb"
+      },
+      {
+        "constant": "MyHelper",
+        "method": "render_documents_block",
+        "path": "app/helpers/my_helper.rb"
+      },
+      {
+        "constant": "MyHelper",
+        "method": "render_issuesassignedtome_block",
+        "path": "app/helpers/my_helper.rb"
+      },
+      {
+        "constant": "MyHelper",
+        "method": "render_issuesreportedbyme_block",
+        "path": "app/helpers/my_helper.rb"
+      },
+      {
+        "constant": "MyHelper",
+        "method": "render_issuesupdatedbyme_block",
+        "path": "app/helpers/my_helper.rb"
+      },
+      {
+        "constant": "MyHelper",
+        "method": "render_issueswatched_block",
+        "path": "app/helpers/my_helper.rb"
+      },
+      {
+        "constant": "MyHelper",
+        "method": "render_issuequery_block",
+        "path": "app/helpers/my_helper.rb"
+      },
+      {
+        "constant": "MyHelper",
+        "method": "render_news_block",
+        "path": "app/helpers/my_helper.rb"
+      },
+      {
+        "constant": "MyHelper",
+        "method": "render_timelog_block",
+        "path": "app/helpers/my_helper.rb"
+      },
+      {
+        "constant": "MyHelper",
+        "method": "render_activity_block",
+        "path": "app/helpers/my_helper.rb"
+      },
+      {
+        "constant": "PrincipalMembershipsHelper",
+        "method": "render_principal_memberships",
+        "path": "app/helpers/principal_memberships_helper.rb"
+      },
+      {
+        "constant": "PrincipalMembershipsHelper",
+        "method": "call_table_header_hook",
+        "path": "app/helpers/principal_memberships_helper.rb"
+      },
+      {
+        "constant": "PrincipalMembershipsHelper",
+        "method": "call_table_row_hook",
+        "path": "app/helpers/principal_memberships_helper.rb"
+      },
+      {
+        "constant": "PrincipalMembershipsHelper",
+        "method": "new_principal_membership_path",
+        "path": "app/helpers/principal_memberships_helper.rb"
+      },
+      {
+        "constant": "PrincipalMembershipsHelper",
+        "method": "edit_principal_membership_path",
+        "path": "app/helpers/principal_memberships_helper.rb"
+      },
+      {
+        "constant": "PrincipalMembershipsHelper",
+        "method": "principal_membership_path",
+        "path": "app/helpers/principal_memberships_helper.rb"
+      },
+      {
+        "constant": "RepositoriesHelper",
+        "method": "format_revision",
+        "path": "app/helpers/repositories_helper.rb"
+      },
+      {
+        "constant": "RepositoriesHelper",
+        "method": "truncate_at_line_break",
+        "path": "app/helpers/repositories_helper.rb"
+      },
+      {
+        "constant": "RepositoriesHelper",
+        "method": "render_pagination",
+        "path": "app/helpers/repositories_helper.rb"
+      },
+      {
+        "constant": "RepositoriesHelper",
+        "method": "render_properties",
+        "path": "app/helpers/repositories_helper.rb"
+      }
+    ],
+    "mirror_neither": [
+      {
+        "constant": "ApplicationHelper",
+        "method": "authorize_for",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "link_to_mention",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "link_to_revision",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "link_to_message",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "link_to_version",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "format_object",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "wiki_page_path",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "toggle_link",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "link_to_previous_month",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "link_to_next_month",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "link_to_month",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "format_activity_title",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "format_activity_day",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "format_version_name",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "format_changeset_comments",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "render_project_nested_lists",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "render_tabs",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "get_tab_action",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "default_search_project_scope",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "projects_for_jump_box",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "render_projects_for_jump_box",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "render_project_jump_box",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "project_tree_options_for_select",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "project_tree",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "principals_option_tags",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "principal_users_by_group_optgroups_for_select",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "option_tag",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "truncate_lines",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "authoring",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "syntax_highlight_lines",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "reorder_handle",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "breadcrumb",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "other_formats_links",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "page_header_title",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "actions_dropdown",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "body_css_classes",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "accesskey",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "parse_non_pre_blocks",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "parse_wiki_links",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "parse_sections",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "parse_headings",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "catch_macros",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "inject_macros",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "replace_toc",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "simple_format_without_paragraph",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "lang_options_for_select",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "labelled_fields_for",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "error_messages_for",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "render_error_messages",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "delete_link",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      }
+    ],
+    "mirror_method_only": [
+      {
+        "constant": "ApplicationHelper",
+        "method": "link_to_if_authorized",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "link_to_user",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "link_to_principal",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "link_to_group",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "link_to_issue",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "link_to_attachment",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "link_to_project",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "link_to_project_settings",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "link_to_record",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "link_to_attachment_container",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "thumbnail_tag",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "format_activity_description",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "due_date_distance_in_words",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "render_page_hierarchy",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "render_flash_messages",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "principals_check_box_tags",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "principals_options_for_select",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "truncate_single_line_raw",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "anchor",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "html_hours",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "time_tag",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "syntax_highlight",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "to_path_param",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "title",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "html_title",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "textilizable",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "parse_redmine_links",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "wiki_textarea_stimulus_attributes",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "labelled_form_for",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "raw_json",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "stylesheet_link_tag",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "image_tag",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "javascript_include_tag",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "sanitize_anchor_name",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "favicon_path",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "favicon_url",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "export_csv_encoding_select_tag",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "export_csv_separator_select_tag",
+        "path": "test/helpers/application_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "RoutesHelper",
+        "method": "_project_issues_url",
+        "path": "test/helpers/routes_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "RoutesHelper",
+        "method": "_time_entries_path",
+        "path": "test/helpers/routes_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "RoutesHelper",
+        "method": "_report_time_entries_path",
+        "path": "test/helpers/routes_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "RoutesHelper",
+        "method": "_new_time_entry_path",
+        "path": "test/helpers/routes_helper_test.rb",
+        "rule": "minitest_mirror"
+      }
+    ],
+    "mirror_constant_only": [
+      {
+        "constant": "AvatarsHelper",
+        "method": "assignee_avatar",
+        "path": "test/helpers/avatars_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "AvatarsHelper",
+        "method": "author_avatar",
+        "path": "test/helpers/avatars_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "AvatarsHelper",
+        "method": "avatar_edit_link",
+        "path": "test/helpers/avatars_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "AvatarsHelper",
+        "method": "anonymous_avatar",
+        "path": "test/helpers/avatars_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "AvatarsHelper",
+        "method": "group_avatar",
+        "path": "test/helpers/avatars_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "AvatarsHelper",
+        "method": "gravatar_avatar_tag",
+        "path": "test/helpers/avatars_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "AvatarsHelper",
+        "method": "initials_avatar_tag",
+        "path": "test/helpers/avatars_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "AvatarsHelper",
+        "method": "extract_email_from_user",
+        "path": "test/helpers/avatars_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ContextMenusHelper",
+        "method": "bulk_update_custom_field_context_menu_link",
+        "path": "test/helpers/context_menus_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "ContextMenusHelper",
+        "method": "bulk_update_time_entry_custom_field_context_menu_link",
+        "path": "test/helpers/context_menus_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "CustomFieldsHelper",
+        "method": "render_custom_fields_tabs",
+        "path": "test/helpers/custom_fields_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "CustomFieldsHelper",
+        "method": "custom_field_type_options",
+        "path": "test/helpers/custom_fields_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "CustomFieldsHelper",
+        "method": "custom_field_title",
+        "path": "test/helpers/custom_fields_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "CustomFieldsHelper",
+        "method": "render_custom_field_format_partial",
+        "path": "test/helpers/custom_fields_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "CustomFieldsHelper",
+        "method": "custom_field_tag_name",
+        "path": "test/helpers/custom_fields_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "CustomFieldsHelper",
+        "method": "custom_field_tag_id",
+        "path": "test/helpers/custom_fields_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "CustomFieldsHelper",
+        "method": "custom_field_name_tag",
+        "path": "test/helpers/custom_fields_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "CustomFieldsHelper",
+        "method": "custom_field_value_tag",
+        "path": "test/helpers/custom_fields_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "CustomFieldsHelper",
+        "method": "show_value",
+        "path": "test/helpers/custom_fields_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "CustomFieldsHelper",
+        "method": "custom_field_formats_for_select",
+        "path": "test/helpers/custom_fields_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "CustomFieldsHelper",
+        "method": "render_custom_field_values",
+        "path": "test/helpers/custom_fields_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "CustomFieldsHelper",
+        "method": "render_api_custom_values",
+        "path": "test/helpers/custom_fields_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "CustomFieldsHelper",
+        "method": "edit_tag_style_tag",
+        "path": "test/helpers/custom_fields_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "GroupsHelper",
+        "method": "group_settings_tabs",
+        "path": "test/helpers/groups_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IconsHelper",
+        "method": "notice_icon",
+        "path": "test/helpers/icons_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IconsHelper",
+        "method": "svg_sprite_icon",
+        "path": "test/helpers/icons_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "issue_list",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "grouped_issue_list",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "render_issue_tooltip",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "render_issue_subject_with_tree",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "get_related_issues_columns_for_project",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "render_descendants_tree",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "issue_estimated_hours_details",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "link_to_new_subtask",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "trackers_options_for_select",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "trackers_for_select",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "issue_fields_rows",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "render_half_width_custom_fields_rows",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "render_full_width_custom_fields_rows",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "update_issue_form_path",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "issues_descendant_count",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "users_for_new_issue_watchers",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "email_issue_attributes",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "render_email_issue_attributes",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "render_api_issue_children",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "issue_history_tabs",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "issue_history_default_tab",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "IssuesHelper",
+        "method": "projects_for_select",
+        "path": "test/helpers/issues_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "JournalsHelper",
+        "method": "render_notes",
+        "path": "test/helpers/journals_helper_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "JournalsHelper",
+        "method": "render_private_notes_indicator",
+        "path": "test/helpers/journals_helper_test.rb",
+        "rule": "minitest_mirror"
+      }
+    ],
+    "resolution_failed": [
+      {
+        "constant": "IssuesHelper::IssueFieldsRows",
+        "method": "initialize",
+        "path": "app/helpers/issues_helper.rb"
+      },
+      {
+        "constant": "IssuesHelper::IssueFieldsRows",
+        "method": "left",
+        "path": "app/helpers/issues_helper.rb"
+      },
+      {
+        "constant": "IssuesHelper::IssueFieldsRows",
+        "method": "right",
+        "path": "app/helpers/issues_helper.rb"
+      },
+      {
+        "constant": "IssuesHelper::IssueFieldsRows",
+        "method": "size",
+        "path": "app/helpers/issues_helper.rb"
+      },
+      {
+        "constant": "IssuesHelper::IssueFieldsRows",
+        "method": "to_html",
+        "path": "app/helpers/issues_helper.rb"
+      },
+      {
+        "constant": "IssuesHelper::IssueFieldsRows",
+        "method": "cells",
+        "path": "app/helpers/issues_helper.rb"
+      },
+      {
+        "constant": "Issue::Webhookable",
+        "method": "webhook_payload",
+        "path": "app/models/concerns/issue/webhookable.rb"
+      },
+      {
+        "constant": "Issue::Webhookable",
+        "method": "journal_payload",
+        "path": "app/models/concerns/issue/webhookable.rb"
+      },
+      {
+        "constant": "News::Webhookable",
+        "method": "webhook_payload_timestamp",
+        "path": "app/models/concerns/news/webhookable.rb"
+      },
+      {
+        "constant": "WikiPage::Webhookable",
+        "method": "webhook_payload_ivars",
+        "path": "app/models/concerns/wiki_page/webhookable.rb"
+      },
+      {
+        "constant": "WikiPage::Webhookable",
+        "method": "webhook_payload_api_template",
+        "path": "app/models/concerns/wiki_page/webhookable.rb"
+      },
+      {
+        "constant": "IssueRelation::Relations",
+        "method": "initialize",
+        "path": "app/models/issue_relation.rb"
+      },
+      {
+        "constant": "IssueRelation::Relations",
+        "method": "to_s",
+        "path": "app/models/issue_relation.rb"
+      },
+      {
+        "constant": "QueryColumn",
+        "method": "initialize",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryColumn",
+        "method": "caption",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryColumn",
+        "method": "groupable?",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryColumn",
+        "method": "sortable?",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryColumn",
+        "method": "sortable",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryColumn",
+        "method": "inline?",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryColumn",
+        "method": "frozen?",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryColumn",
+        "method": "value",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryColumn",
+        "method": "value_object",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryColumn",
+        "method": "group_value",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryColumn",
+        "method": "css_classes",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryColumn",
+        "method": "group_by_statement",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "TimestampQueryColumn",
+        "method": "groupable?",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "TimestampQueryColumn",
+        "method": "group_by_statement",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "TimestampQueryColumn",
+        "method": "group_value",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "WatcherQueryColumn",
+        "method": "value_object",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryAssociationColumn",
+        "method": "initialize",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryAssociationColumn",
+        "method": "value_object",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryAssociationColumn",
+        "method": "css_classes",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryCustomFieldColumn",
+        "method": "initialize",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryCustomFieldColumn",
+        "method": "groupable?",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryCustomFieldColumn",
+        "method": "group_by_statement",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryCustomFieldColumn",
+        "method": "caption",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryCustomFieldColumn",
+        "method": "custom_field",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryCustomFieldColumn",
+        "method": "value_object",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryCustomFieldColumn",
+        "method": "value",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryCustomFieldColumn",
+        "method": "css_classes",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryAssociationCustomFieldColumn",
+        "method": "initialize",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryAssociationCustomFieldColumn",
+        "method": "value_object",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryAssociationCustomFieldColumn",
+        "method": "css_classes",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryAssociationCustomFieldColumn",
+        "method": "groupable?",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryFilter",
+        "method": "initialize",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryFilter",
+        "method": "[]",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryFilter",
+        "method": "values",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "QueryFilter",
+        "method": "remote",
+        "path": "app/models/query.rb"
+      },
+      {
+        "constant": "FixedIssuesExtension",
+        "method": "estimated_hours",
+        "path": "app/models/version.rb"
+      },
+      {
+        "constant": "FixedIssuesExtension",
+        "method": "estimated_remaining_hours",
+        "path": "app/models/version.rb"
+      }
+    ]
+  }
+}

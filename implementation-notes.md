@@ -98,8 +98,16 @@ git show 2bf1c86:implementation-notes.md
   The fix-cycle re-review is clean with no blocker or concern.
 - SSD retains one DEPTH-1 nit on `SeedCompiler#test_framework`. It stays for the
   compiler pass's behavior-preservation reason recorded above.
-- Measurement remains blocked until the frozen preregistration and runner are
-  committed and their commit SHA is recorded as provenance.
+- The frozen runner was committed at `abe74ca82bcc3289286cc4f01b65925193c4bc51`
+  before the first measurement.
+- Frozen verdict: **DROP**. Mean precision is 0.1998 and the per-app floor is
+  0.1163, both below their gates. Mean coverage is 0.6757 and minimum candidate
+  yield is 86, so both evidence-volume gates pass.
+- Exact mirrors find class-level tests but usually not evidence for the named
+  method. `mirror_constant_only` dominates, and candidate paths repeat across
+  many methods in each class.
+- SEED-25 and production behavior remain unchanged. Any later rule requires a
+  new preregistration and work order.
 
 ## Standing provider-seam benchmark recipe
 

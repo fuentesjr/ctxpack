@@ -1,0 +1,871 @@
+{
+  "app": "campfire",
+  "sha": "71ffeeea789599a334311f28bcb6816863985488",
+  "framework": "minitest",
+  "population": 254,
+  "resolved": 241,
+  "resolution_rate": 0.9488188976377953,
+  "covered_pairs": 86,
+  "candidate_pairs": 86,
+  "precision": 0.11627906976744186,
+  "strict_precision": 0.09302325581395349,
+  "coverage": 0.35684647302904565,
+  "duplicate_candidate_path_pairs": 68,
+  "candidate_count_by_rule": {
+    "minitest_mirror": 86
+  },
+  "source_parse_failures": 0,
+  "by_label": {
+    "mirror_method_only": 12,
+    "mirror_neither": 23,
+    "resolved_no_mirror": 155,
+    "mirror_constant_only": 41,
+    "mirror_relevant": 10,
+    "resolution_failed": 13
+  },
+  "label_samples": {
+    "mirror_method_only": [
+      {
+        "constant": "ApplicationCable::Connection",
+        "method": "connect",
+        "path": "test/channels/application_cable/connection_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Account::Joinable",
+        "method": "reset_join_code",
+        "path": "test/models/account/joinable_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Room",
+        "method": "grant_to",
+        "path": "test/models/room_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Room",
+        "method": "revoke_from",
+        "path": "test/models/room_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Room",
+        "method": "revise",
+        "path": "test/models/room_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Room",
+        "method": "open?",
+        "path": "test/models/room_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Room",
+        "method": "closed?",
+        "path": "test/models/room_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Room",
+        "method": "direct?",
+        "path": "test/models/room_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "User::Bot",
+        "method": "bot_key",
+        "path": "test/models/user/bot_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "User::Bot",
+        "method": "reset_bot_key",
+        "path": "test/models/user/bot_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "User::Bot",
+        "method": "deliver_webhook_later",
+        "path": "test/models/user/bot_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "User::Role",
+        "method": "can_administer?",
+        "path": "test/models/user/role_test.rb",
+        "rule": "minitest_mirror"
+      }
+    ],
+    "mirror_neither": [
+      {
+        "constant": "ApplicationCable::Connection",
+        "method": "find_verified_user",
+        "path": "test/channels/application_cable/connection_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "PresenceChannel",
+        "method": "present",
+        "path": "test/channels/presence_channel_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "PresenceChannel",
+        "method": "absent",
+        "path": "test/channels/presence_channel_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "PresenceChannel",
+        "method": "refresh",
+        "path": "test/channels/presence_channel_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "PresenceChannel",
+        "method": "membership",
+        "path": "test/channels/presence_channel_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "PresenceChannel",
+        "method": "broadcast_read_room",
+        "path": "test/channels/presence_channel_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Account::Joinable",
+        "method": "generate_join_code",
+        "path": "test/models/account/joinable_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Message::Attachment",
+        "method": "attachment?",
+        "path": "test/models/message/attachment_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Message::Attachment",
+        "method": "process_attachment",
+        "path": "test/models/message/attachment_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Message::Attachment",
+        "method": "ensure_attachment_analyzed",
+        "path": "test/models/message/attachment_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Message::Attachment",
+        "method": "process_attachment_thumbnail",
+        "path": "test/models/message/attachment_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Message::Searchable",
+        "method": "create_in_index",
+        "path": "test/models/message/searchable_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Message::Searchable",
+        "method": "update_in_index",
+        "path": "test/models/message/searchable_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Message::Searchable",
+        "method": "remove_from_index",
+        "path": "test/models/message/searchable_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Message::Searchable",
+        "method": "execute_sql_with_binds",
+        "path": "test/models/message/searchable_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Room",
+        "method": "receive",
+        "path": "test/models/room_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Room",
+        "method": "default_involvement",
+        "path": "test/models/room_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Room",
+        "method": "unread_memberships",
+        "path": "test/models/room_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Room",
+        "method": "push_later",
+        "path": "test/models/room_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "User::Bot",
+        "method": "update_bot!",
+        "path": "test/models/user/bot_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "User::Bot",
+        "method": "webhook_url",
+        "path": "test/models/user/bot_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "User::Bot",
+        "method": "deliver_webhook",
+        "path": "test/models/user/bot_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "User::Bot",
+        "method": "update_webhook_url!",
+        "path": "test/models/user/bot_test.rb",
+        "rule": "minitest_mirror"
+      }
+    ],
+    "resolved_no_mirror": [
+      {
+        "constant": "ReadRoomsChannel",
+        "method": "subscribed",
+        "path": "app/channels/read_rooms_channel.rb"
+      },
+      {
+        "constant": "RoomChannel",
+        "method": "subscribed",
+        "path": "app/channels/room_channel.rb"
+      },
+      {
+        "constant": "RoomChannel",
+        "method": "find_room",
+        "path": "app/channels/room_channel.rb"
+      },
+      {
+        "constant": "TypingNotificationsChannel",
+        "method": "start",
+        "path": "app/channels/typing_notifications_channel.rb"
+      },
+      {
+        "constant": "TypingNotificationsChannel",
+        "method": "stop",
+        "path": "app/channels/typing_notifications_channel.rb"
+      },
+      {
+        "constant": "TypingNotificationsChannel",
+        "method": "current_user_attributes",
+        "path": "app/channels/typing_notifications_channel.rb"
+      },
+      {
+        "constant": "UnreadRoomsChannel",
+        "method": "subscribed",
+        "path": "app/channels/unread_rooms_channel.rb"
+      },
+      {
+        "constant": "AccountsHelper",
+        "method": "account_logo_tag",
+        "path": "app/helpers/accounts_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "page_title_tag",
+        "path": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "current_user_meta_tags",
+        "path": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "custom_styles_tag",
+        "path": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "body_classes",
+        "path": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "link_back",
+        "path": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "link_back_to",
+        "path": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "admin_body_class",
+        "path": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "ApplicationHelper",
+        "method": "account_logo_body_class",
+        "path": "app/helpers/application_helper.rb"
+      },
+      {
+        "constant": "BroadcastsHelper",
+        "method": "broadcast_image_tag",
+        "path": "app/helpers/broadcasts_helper.rb"
+      },
+      {
+        "constant": "BroadcastsHelper",
+        "method": "broadcast_image_path",
+        "path": "app/helpers/broadcasts_helper.rb"
+      },
+      {
+        "constant": "CableHelper",
+        "method": "script_aware_action_cable_meta_tag",
+        "path": "app/helpers/cable_helper.rb"
+      },
+      {
+        "constant": "ClipboardHelper",
+        "method": "button_to_copy_to_clipboard",
+        "path": "app/helpers/clipboard_helper.rb"
+      },
+      {
+        "constant": "ContentFilters::RemoveSoloUnfurledLinkText",
+        "method": "applicable?",
+        "path": "app/helpers/content_filters/remove_solo_unfurled_link_text.rb"
+      },
+      {
+        "constant": "ContentFilters::RemoveSoloUnfurledLinkText",
+        "method": "apply",
+        "path": "app/helpers/content_filters/remove_solo_unfurled_link_text.rb"
+      },
+      {
+        "constant": "ContentFilters::RemoveSoloUnfurledLinkText",
+        "method": "solo_unfurled_url",
+        "path": "app/helpers/content_filters/remove_solo_unfurled_link_text.rb"
+      },
+      {
+        "constant": "ContentFilters::RemoveSoloUnfurledLinkText",
+        "method": "unfurled_links",
+        "path": "app/helpers/content_filters/remove_solo_unfurled_link_text.rb"
+      },
+      {
+        "constant": "ContentFilters::RemoveSoloUnfurledLinkText",
+        "method": "normalize_tweet_url",
+        "path": "app/helpers/content_filters/remove_solo_unfurled_link_text.rb"
+      },
+      {
+        "constant": "ContentFilters::RemoveSoloUnfurledLinkText",
+        "method": "twitter_url?",
+        "path": "app/helpers/content_filters/remove_solo_unfurled_link_text.rb"
+      },
+      {
+        "constant": "ContentFilters::SanitizeTags",
+        "method": "applicable?",
+        "path": "app/helpers/content_filters/sanitize_tags.rb"
+      },
+      {
+        "constant": "ContentFilters::SanitizeTags",
+        "method": "apply",
+        "path": "app/helpers/content_filters/sanitize_tags.rb"
+      },
+      {
+        "constant": "ContentFilters::SanitizeTags",
+        "method": "not_allowed_tags_css_selector",
+        "path": "app/helpers/content_filters/sanitize_tags.rb"
+      },
+      {
+        "constant": "ContentFilters::StyleUnfurledTwitterAvatars",
+        "method": "applicable?",
+        "path": "app/helpers/content_filters/style_unfurled_twitter_avatars.rb"
+      },
+      {
+        "constant": "ContentFilters::StyleUnfurledTwitterAvatars",
+        "method": "apply",
+        "path": "app/helpers/content_filters/style_unfurled_twitter_avatars.rb"
+      },
+      {
+        "constant": "ContentFilters::StyleUnfurledTwitterAvatars",
+        "method": "unfurled_twitter_avatars",
+        "path": "app/helpers/content_filters/style_unfurled_twitter_avatars.rb"
+      },
+      {
+        "constant": "ContentFilters::StyleUnfurledTwitterAvatars",
+        "method": "opengraph_css_selector",
+        "path": "app/helpers/content_filters/style_unfurled_twitter_avatars.rb"
+      },
+      {
+        "constant": "DropTargetHelper",
+        "method": "drop_target_actions",
+        "path": "app/helpers/drop_target_helper.rb"
+      },
+      {
+        "constant": "FormsHelper",
+        "method": "auto_submit_form_with",
+        "path": "app/helpers/forms_helper.rb"
+      },
+      {
+        "constant": "Messages::AttachmentPresentation",
+        "method": "initialize",
+        "path": "app/helpers/messages/attachment_presentation.rb"
+      },
+      {
+        "constant": "Messages::AttachmentPresentation",
+        "method": "render",
+        "path": "app/helpers/messages/attachment_presentation.rb"
+      },
+      {
+        "constant": "Messages::AttachmentPresentation",
+        "method": "render_preview",
+        "path": "app/helpers/messages/attachment_presentation.rb"
+      },
+      {
+        "constant": "Messages::AttachmentPresentation",
+        "method": "video_preview_tag",
+        "path": "app/helpers/messages/attachment_presentation.rb"
+      },
+      {
+        "constant": "Messages::AttachmentPresentation",
+        "method": "lightboxed_image_preview_tag",
+        "path": "app/helpers/messages/attachment_presentation.rb"
+      },
+      {
+        "constant": "Messages::AttachmentPresentation",
+        "method": "inline_media_dimension_constraints",
+        "path": "app/helpers/messages/attachment_presentation.rb"
+      },
+      {
+        "constant": "Messages::AttachmentPresentation",
+        "method": "preview_dimensions",
+        "path": "app/helpers/messages/attachment_presentation.rb"
+      },
+      {
+        "constant": "Messages::AttachmentPresentation",
+        "method": "render_link",
+        "path": "app/helpers/messages/attachment_presentation.rb"
+      },
+      {
+        "constant": "Messages::AttachmentPresentation",
+        "method": "lightbox_link",
+        "path": "app/helpers/messages/attachment_presentation.rb"
+      },
+      {
+        "constant": "Messages::AttachmentPresentation",
+        "method": "download_link",
+        "path": "app/helpers/messages/attachment_presentation.rb"
+      },
+      {
+        "constant": "Messages::AttachmentPresentation",
+        "method": "share_button",
+        "path": "app/helpers/messages/attachment_presentation.rb"
+      },
+      {
+        "constant": "Messages::AttachmentPresentation",
+        "method": "filename",
+        "path": "app/helpers/messages/attachment_presentation.rb"
+      },
+      {
+        "constant": "Messages::AttachmentPresentation",
+        "method": "download_url",
+        "path": "app/helpers/messages/attachment_presentation.rb"
+      },
+      {
+        "constant": "MessagesHelper",
+        "method": "message_area_tag",
+        "path": "app/helpers/messages_helper.rb"
+      },
+      {
+        "constant": "MessagesHelper",
+        "method": "messages_tag",
+        "path": "app/helpers/messages_helper.rb"
+      }
+    ],
+    "mirror_constant_only": [
+      {
+        "constant": "Membership",
+        "method": "read",
+        "path": "test/models/membership_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Membership",
+        "method": "unread?",
+        "path": "test/models/membership_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Message",
+        "method": "to_key",
+        "path": "test/models/message_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Message",
+        "method": "content_type",
+        "path": "test/models/message_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Message",
+        "method": "sound",
+        "path": "test/models/message_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Opengraph::Document",
+        "method": "initialize",
+        "path": "test/models/opengraph/document_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Opengraph::Document",
+        "method": "extract_opengraph_attributes",
+        "path": "test/models/opengraph/document_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Opengraph::Document",
+        "method": "sanitize_content",
+        "path": "test/models/opengraph/document_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Opengraph::Fetch",
+        "method": "request",
+        "path": "test/models/opengraph/fetch_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Opengraph::Fetch",
+        "method": "resolve_redirect",
+        "path": "test/models/opengraph/fetch_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Opengraph::Fetch",
+        "method": "body_if_acceptable",
+        "path": "test/models/opengraph/fetch_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Opengraph::Fetch",
+        "method": "size_restricted_body",
+        "path": "test/models/opengraph/fetch_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Opengraph::Fetch",
+        "method": "response_valid?",
+        "path": "test/models/opengraph/fetch_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Opengraph::Fetch",
+        "method": "status_valid?",
+        "path": "test/models/opengraph/fetch_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Opengraph::Fetch",
+        "method": "content_type_valid?",
+        "path": "test/models/opengraph/fetch_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Opengraph::Fetch",
+        "method": "content_length_valid?",
+        "path": "test/models/opengraph/fetch_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Opengraph::Location",
+        "method": "initialize",
+        "path": "test/models/opengraph/location_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Opengraph::Location",
+        "method": "fetch_content_type",
+        "path": "test/models/opengraph/location_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Opengraph::Location",
+        "method": "resolved_ip",
+        "path": "test/models/opengraph/location_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Opengraph::Location",
+        "method": "validate_url",
+        "path": "test/models/opengraph/location_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Opengraph::Location",
+        "method": "validate_url_is_public",
+        "path": "test/models/opengraph/location_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Opengraph::Location",
+        "method": "parsed_url",
+        "path": "test/models/opengraph/location_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Opengraph::Location",
+        "method": "fetch_html",
+        "path": "test/models/opengraph/location_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Opengraph::Metadata",
+        "method": "sanitize_fields",
+        "path": "test/models/opengraph/metadata_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Opengraph::Metadata",
+        "method": "ensure_valid_image_url",
+        "path": "test/models/opengraph/metadata_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Rooms::Direct",
+        "method": "default_involvement",
+        "path": "test/models/rooms/direct_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Rooms::Open",
+        "method": "grant_access_to_all_users",
+        "path": "test/models/rooms/open_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "User",
+        "method": "initials",
+        "path": "test/models/user_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "User",
+        "method": "title",
+        "path": "test/models/user_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "User",
+        "method": "reset_remote_connections",
+        "path": "test/models/user_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "User",
+        "method": "grant_membership_to_open_rooms",
+        "path": "test/models/user_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "User",
+        "method": "deactived_email_address",
+        "path": "test/models/user_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "User",
+        "method": "close_remote_connections",
+        "path": "test/models/user_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Webhook",
+        "method": "http",
+        "path": "test/models/webhook_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Webhook",
+        "method": "uri",
+        "path": "test/models/webhook_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Webhook",
+        "method": "message_path",
+        "path": "test/models/webhook_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Webhook",
+        "method": "extract_text_from",
+        "path": "test/models/webhook_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Webhook",
+        "method": "receive_text_reply_to",
+        "path": "test/models/webhook_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Webhook",
+        "method": "extract_attachment_from",
+        "path": "test/models/webhook_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Webhook",
+        "method": "receive_attachment_reply_to",
+        "path": "test/models/webhook_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Webhook",
+        "method": "without_recipient_mentions",
+        "path": "test/models/webhook_test.rb",
+        "rule": "minitest_mirror"
+      }
+    ],
+    "mirror_relevant": [
+      {
+        "constant": "Message",
+        "method": "plain_text_body",
+        "path": "test/models/message_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Opengraph::Document",
+        "method": "opengraph_attributes",
+        "path": "test/models/opengraph/document_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Opengraph::Fetch",
+        "method": "fetch_document",
+        "path": "test/models/opengraph/fetch_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Opengraph::Fetch",
+        "method": "fetch_content_type",
+        "path": "test/models/opengraph/fetch_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Opengraph::Location",
+        "method": "read_html",
+        "path": "test/models/opengraph/location_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "User",
+        "method": "deactivate",
+        "path": "test/models/user_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Webhook",
+        "method": "deliver",
+        "path": "test/models/webhook_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Webhook",
+        "method": "post",
+        "path": "test/models/webhook_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Webhook",
+        "method": "payload",
+        "path": "test/models/webhook_test.rb",
+        "rule": "minitest_mirror"
+      },
+      {
+        "constant": "Webhook",
+        "method": "room_bot_messages_path",
+        "path": "test/models/webhook_test.rb",
+        "rule": "minitest_mirror"
+      }
+    ],
+    "resolution_failed": [
+      {
+        "constant": "Message::Attachment::ClassMethods",
+        "method": "create_with_attachment!",
+        "path": "app/models/message/attachment.rb"
+      },
+      {
+        "constant": "Opengraph::Metadata::Fetching::ClassMethods",
+        "method": "from_url",
+        "path": "app/models/opengraph/metadata/fetching.rb"
+      },
+      {
+        "constant": "Opengraph::Metadata::Fetching::ClassMethods",
+        "method": "fetch_document",
+        "path": "app/models/opengraph/metadata/fetching.rb"
+      },
+      {
+        "constant": "Opengraph::Metadata::Fetching::ClassMethods",
+        "method": "fetch_fxtwitter_document",
+        "path": "app/models/opengraph/metadata/fetching.rb"
+      },
+      {
+        "constant": "Opengraph::Metadata::Fetching::ClassMethods",
+        "method": "fetch_non_fxtwitter_document",
+        "path": "app/models/opengraph/metadata/fetching.rb"
+      },
+      {
+        "constant": "Opengraph::Metadata::Fetching::ClassMethods",
+        "method": "valid_canonical_url",
+        "path": "app/models/opengraph/metadata/fetching.rb"
+      },
+      {
+        "constant": "Opengraph::Metadata::Fetching::ClassMethods",
+        "method": "valid_image_content_type",
+        "path": "app/models/opengraph/metadata/fetching.rb"
+      },
+      {
+        "constant": "Opengraph::Metadata::Fetching::ClassMethods",
+        "method": "replace_twitter_domain_for_opengraph_support",
+        "path": "app/models/opengraph/metadata/fetching.rb"
+      },
+      {
+        "constant": "Opengraph::Metadata::Fetching::ClassMethods",
+        "method": "tweet_url?",
+        "path": "app/models/opengraph/metadata/fetching.rb"
+      },
+      {
+        "constant": "Sound::Image",
+        "method": "initialize",
+        "path": "app/models/sound.rb"
+      },
+      {
+        "constant": "User::Bot::ClassMethods",
+        "method": "create_bot!",
+        "path": "app/models/user/bot.rb"
+      },
+      {
+        "constant": "User::Bot::ClassMethods",
+        "method": "authenticate_bot",
+        "path": "app/models/user/bot.rb"
+      },
+      {
+        "constant": "User::Bot::ClassMethods",
+        "method": "generate_bot_token",
+        "path": "app/models/user/bot.rb"
+      }
+    ]
+  }
+}
