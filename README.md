@@ -19,9 +19,9 @@ records why every file was included.
 
 ## Status
 
-**Experimental.** This is a personal experiment and largely vibe-coded.
-Expect rough edges, sharp pivots, and no stability promises. Do not treat
-it as production software.
+**Experimental.** This is a personal research project built with extensive AI
+assistance. Expect rough edges, sharp pivots, and no stability guarantees. Do
+not treat it as production software.
 
 v0 is **implemented and evaluated**. Compiler, Markdown/manifest renderers,
 CLI, fixture evals, seed kinds through Phase 5, and the Rails view-convention

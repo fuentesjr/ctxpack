@@ -5,7 +5,8 @@ Gem::Specification.new do |spec|
   spec.version = Ctxpack::VERSION
   spec.summary = "Context engineering CLI and deterministic Rails context compiler"
   spec.authors = ["ctxpack contributors"]
-  spec.files = Dir["lib/**/*.rb"] + Dir["exe/*"]
+  spec.license = "MIT"
+  spec.files = ["LICENSE"] + Dir["lib/**/*.rb"] + Dir["exe/*"]
   spec.bindir = "exe"
   spec.executables = ["ctxpack"]
   spec.require_paths = ["lib"]

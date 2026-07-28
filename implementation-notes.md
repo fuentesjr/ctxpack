@@ -7,6 +7,14 @@ git log -- implementation-notes.md
 git show 2bf1c86:implementation-notes.md
 ```
 
+## README positioning and licensing pass (2026-07-27)
+
+- Scope: replace the informal “vibe-coded” disclosure with precise AI-assistance language and add the user-approved MIT license.
+- Tradeoff: preserve the experimental and non-production caveats without discounting the repository's documented tests and evals.
+- Packaging: declare MIT in the gemspec and include `LICENSE` in built gems. A focused contract test failed before the gemspec change, then passed with 1 run and 3 assertions.
+- License: the GitHub MIT template with copyright 2026 Salvador Fuentes Jr.
+- Verification: GitHub's Markdown API renders the revised disclosure; the built gem reports MIT and contains `LICENSE`; the full suite passes with 267 runs, 2,327 assertions, and no failures, errors, or skips. `git diff --check` and `trk check --strict` pass. The advisory Metz scan reports the recorded baseline of 147 findings.
+
 ## Compiler split pass (2026-07-19)
 
 ### Current boundary
