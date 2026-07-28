@@ -887,9 +887,12 @@ class DocumentationSpikeRunnerTest < Minitest::Test
       FileUtils.cp_r(File.join(FIXTURES, name, "."), repo)
       prepare&.call(repo)
       git!(repo, "init", "--quiet")
+      # Local identity: CI runners have no global user.name/email; later commits
+      # in the same temp repo (gitlink / allow-empty) need a configured author.
+      git!(repo, "config", "user.name", "ctxpack")
+      git!(repo, "config", "user.email", "ctxpack@example.invalid")
       git!(repo, "add", ".")
-      git!(repo, "-c", "user.name=ctxpack", "-c", "user.email=ctxpack@example.invalid",
-           "commit", "--quiet", "-m", "fixture")
+      git!(repo, "commit", "--quiet", "-m", "fixture")
       revision = git!(repo, "rev-parse", "HEAD").strip
       yield repo, revision
     end
