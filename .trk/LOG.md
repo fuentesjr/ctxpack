@@ -8,6 +8,22 @@ Compiler split closed locally: full suite 263/2256 green; Tier 0 post_amendment 
 
 ## 2026-07-20T01:20Z log
 Method test-leg respike measured at runner commit abe74ca: frozen DROP. Mean precision 0.1998 and per-app floor 0.1163 failed; mean coverage 0.6757 and minimum yield 86 passed. SEED-25 remains no-test-leg; see eval/seed-spikes/method-test-leg-respike/RESULTS.md.
+
+## 2026-07-30T22:08Z resolve rubydex-v0-3-0
+Outcome: Read-only impact map complete: Rubydex is eval-only and absent from the main bundle; 0.2.x abort reproduced; 0.3.0 passes; historical runner API surface preserved; frozen Tier 3 rerun remains out of scope.
+
+## 2026-07-30T22:09Z resolve rubydex-v0-3-0-evidence
+Outcome: Compatibility addendum created; eval inventory and implementation notes routed; production code, tests, fixtures, dependencies, frozen results, and benchmark artifacts unchanged.
+
+## 2026-07-30T22:17Z resolve rubydex-v0-3-0-review
+Outcome: Review rejected first draft: add exact v0.3.0 reproduction and workspace-smoke receipts, clarify optional-only installation, then reconcile stale Next entries. Upstream PR/release provenance independently verified.
+
+## 2026-07-30T22:18Z resolve rubydex-v0-3-0-review-fix
+Outcome: Reviewer blocker fixed: compatibility addendum now contains optional-only boundaries plus exact v0.3.0 reproduction and Bundler-workspace smoke receipts; upstream merge/release provenance substantiated.
+
+## 2026-07-30T22:19Z resolve rubydex-v0-3-0-re-review
+Outcome: Corrected patch accepted with no blocker, concern, or nit; exact receipts present, optional-only boundary clear, tracker Next reconciled, frozen and production surfaces preserved.
+
 ## 2026-09-24T02:28Z resolve fix-encoding
 Outcome: Merged uncommitted: UTF-8 task/argv/error-paste input + explicit UTF-8 source reads; suite 289/0 in UTF-8 and C locales
 

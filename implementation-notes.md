@@ -7,6 +7,14 @@ git log -- implementation-notes.md
 git show 2bf1c86:implementation-notes.md
 ```
 
+## Rubydex v0.3.0 compatibility check (2026-07-30)
+
+- Verified Rubydex 0.3.0 on Ruby 4.0.1/x86_64-darwin against Shopify issue #919's `module_function` reproduction.
+- Version 0.2.9 exited 134 after a non-unwinding panic; 0.3.0 exited 0 and returned both expected visibilities.
+- The historical graph API and a narrow workspace smoke remain compatible. Rubydex stays optional, separately installed Tier 3 tooling.
+- No production, test, fixture, lockfile, frozen-result, or benchmark changes. See [`eval/tier3-rubydex/COMPATIBILITY.md`](eval/tier3-rubydex/COMPATIBILITY.md).
+- Feedback loop: rerun the isolated reproduction and workspace smoke before adopting another Rubydex version; do not rerun the three-app benchmark for this check.
+
 ## README positioning and licensing pass (2026-07-27)
 
 - Scope: replace the informal “vibe-coded” disclosure with precise AI-assistance language and add the user-approved MIT license.
