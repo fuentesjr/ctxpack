@@ -236,20 +236,38 @@ class CLITest < Minitest::Test
     end
   end
 
-  def test_invalid_utf8_task_input_fails_concisely_without_output
+  def test_cli_17d_invalid_utf8_task_file_fails_concisely_without_output
     with_cli_app do |app_root|
       File.binwrite(File.join(app_root, "task.md"), "Fix \xFF bug\n".b)
 
-      file = run_cli(["accounts#upgrade", "--task-file", "task.md"], cwd: app_root)
-      stdin = run_cli(["accounts#upgrade", "--task-file", "-"], cwd: app_root, stdin: "Fix \xFF bug\n".b)
+      result = run_cli(["accounts#upgrade", "--task-file", "task.md"], cwd: app_root)
 
-      assert_equal 1, file.status
-      assert_equal "ctxpack: task file task.md is not valid UTF-8\n", file.stderr
-      assert_equal "", file.stdout
-      assert_equal 1, stdin.status
-      assert_equal "ctxpack: task from stdin is not valid UTF-8\n", stdin.stderr
-      assert_equal "", stdin.stdout
-      refute Dir.exist?(File.join(app_root, ".ctxpack"))
+      assert_cli_17d_failure result, "ctxpack: task file task.md is not valid UTF-8\n", app_root
+    end
+  end
+
+  def test_cli_17d_invalid_utf8_task_on_stdin_fails_concisely_without_output
+    with_cli_app do |app_root|
+      result = run_cli(["accounts#upgrade", "--task-file", "-"], cwd: app_root, stdin: "Fix \xFF bug\n".b)
+
+      assert_cli_17d_failure result, "ctxpack: task from stdin is not valid UTF-8\n", app_root
+    end
+  end
+
+  def test_cli_17d_invalid_utf8_task_argument_fails_concisely_without_output
+    with_cli_app do |app_root|
+      result = run_cli(["accounts#upgrade", "--task", "Fix \xFF bug".b], cwd: app_root)
+
+      assert_cli_17d_failure result, "ctxpack: task is not valid UTF-8\n", app_root
+    end
+  end
+
+  def test_cli_17d_invalid_utf8_error_paste_on_stdin_fails_concisely_without_output
+    with_cli_app do |app_root|
+      paste = "app/controllers/accounts_controller.rb:10:in 'upgrade': \xFF\n".b
+      result = run_cli(["--from-error", "-", "--task", "Debug"], cwd: app_root, stdin: paste)
+
+      assert_cli_17d_failure result, "ctxpack: error paste is not valid UTF-8\n", app_root
     end
   end
 
@@ -259,14 +277,11 @@ class CLITest < Minitest::Test
       task = run_cli(["accounts#upgrade", "--task", "Fix café bug".b, "--stdout"], cwd: app_root)
       paste = "app/controllers/accounts_controller.rb:10:in 'upgrade': café\n".b
       error = run_cli(["--from-error", "-", "--task", "Debug", "--stdout"], cwd: app_root, stdin: paste)
-      invalid = run_cli(["accounts#upgrade", "--task", "Fix \xFF bug".b, "--stdout"], cwd: app_root)
 
       assert_equal 0, task.status, task.stderr
       assert_includes task.stdout, "## Task\n\n> Fix café bug\n\n"
       assert_equal 0, error.status, error.stderr
       assert_includes error.stdout, "app/controllers/accounts_controller.rb"
-      assert_equal 1, invalid.status
-      assert_equal "ctxpack: task is not valid UTF-8\n", invalid.stderr
     end
   end
 
@@ -1086,6 +1101,15 @@ class CLITest < Minitest::Test
   def git!(root, *arguments)
     _stdout, stderr, status = Open3.capture3("git", "-C", root, *arguments)
     raise "git failed: #{stderr}" unless status.success?
+  end
+
+  def assert_cli_17d_failure(result, expected_stderr, app_root)
+    assert_equal 1, result.status
+    assert_equal expected_stderr, result.stderr
+    assert_equal 1, result.stderr.lines.length
+    refute_match(/usage|\.rb:\d+:in /i, result.stderr)
+    assert_equal "", result.stdout
+    refute Dir.exist?(File.join(app_root, ".ctxpack"))
   end
 
   def run_cli(args, cwd:, at: Time.utc(2026, 5, 27, 14, 30, 15), stdin: "")

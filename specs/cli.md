@@ -273,6 +273,13 @@ tokens use generic placeholders. The CLI MUST NOT browse, resolve, or accept
 these forms. Unrelated commands, `routes`, shell-sensitive inputs, and the
 targeted `packets` behavior remain unchanged. **[fixed by spec]**
 
+**CLI-17d.** Task input (`--task`, `--task-file PATH` or `-`, argv) and
+`--from-error` paste (argument or stdin) MUST be read as UTF-8 regardless of the
+locale encoding. Invalid UTF-8 MUST fail with status 1 and one concise
+`ctxpack:` error on stderr that names the offending input; it MUST NOT print
+usage or expose a Ruby backtrace, and MUST NOT write a packet, manifest, or
+output directory. **[fixed by spec]**
+
 ## Explicit non-features
 
 **CLI-18.** v0 MUST NOT expose flags for the internal packet limits (max
