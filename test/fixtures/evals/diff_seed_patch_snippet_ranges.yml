@@ -1,0 +1,34 @@
+name: diff_seed_patch_snippet_ranges
+command:
+  seeds:
+    - kind: diff
+      evidence: patches/upgrade_accounts.patch
+  task: Patch hunks snippet the enclosing def
+
+expect:
+  include:
+    - path: app/controllers/accounts_controller.rb
+      reason_code: diff_seed_primary
+
+  exclude: []
+
+  tests:
+    - bin/rails test test/controllers/accounts_controller_test.rb
+
+  max_files: 8
+
+  manifest:
+    files:
+      - path: app/controllers/accounts_controller.rb
+        evidence:
+          - reason_code: diff_seed_primary
+            subject: app/controllers/accounts_controller.rb
+            snippet_ranges:
+              - [10, 15]
+            truncated: false
+      - path: test/controllers/accounts_controller_test.rb
+        evidence:
+          - reason_code: diff_seed_paired_test
+            subject: test/controllers/accounts_controller_test.rb
+            snippet_ranges: []
+            truncated: false

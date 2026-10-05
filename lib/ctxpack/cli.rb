@@ -383,7 +383,7 @@ module Ctxpack
         else
           value
         end
-      frames = normalize_error_frames(paste, app_root)
+      frames = normalize_error_frames(utf8_input(paste, "error paste"), app_root)
       raise ArgumentError, "error seed found no application frames under app/, lib/, or config/" if frames.empty?
 
       Seed.error(frames)
@@ -399,12 +399,22 @@ module Ctxpack
       normalized = evidence.to_s
       raise ArgumentError, "diff seed requires a git range or patch path" if normalized.empty?
 
+      Seed.diff(normalized) # validates evidence before any git shell-out
       if diff_patch_path?(normalized, app_root)
-        abs = File.file?(File.join(app_root, normalized)) ? File.join(app_root, normalized) : File.expand_path(normalized, app_root)
-        unless File.file?(abs)
-          raise ArgumentError, "diff seed patch path does not exist: #{normalized}"
+        abs = File.expand_path(normalized, app_root)
+        raise ArgumentError, "diff seed patch path does not exist: #{normalized}" unless File.file?(abs)
+
+        # Compare resolved paths so a symlinked root still matches and an
+        # in-root link cannot point outside the application root.
+        real = File.realpath(abs)
+        root = File.realpath(app_root)
+        unless real.start_with?(root + File::SEPARATOR)
+          raise ArgumentError,
+            "diff seed patch path escapes the application root: #{normalized}; place the patch under the application root"
         end
-        return Seed.diff(normalized, identity: Seed.sanitize(File.basename(normalized, ".*")))
+        # SEED-26: patch evidence is app-root-relative; never store an absolute path.
+        relative = real.delete_prefix(root + File::SEPARATOR).tr(File::SEPARATOR, "/")
+        return Seed.diff(relative, identity: Seed.sanitize(File.basename(relative, ".*")))
       end
 
       identity = resolve_diff_range_identity(normalized, app_root)
@@ -438,7 +448,7 @@ module Ctxpack
     end
 
     def short_git_ref(ref, app_root)
-      out, err, status = Open3.capture3("git", "-C", app_root, "rev-parse", "--short", ref)
+      out, err, status = Open3.capture3("git", "-C", app_root, "rev-parse", "--short", "--end-of-options", ref)
       return out.strip if status.success? && !out.strip.empty?
 
       raise Ctxpack::Error, "diff seed could not resolve range ref #{ref.inspect}: #{err.strip}"
@@ -483,7 +493,10 @@ module Ctxpack
 
     def resolve_task(options)
       path = options.fetch(:task_file)
-      return options.fetch(:task) unless path
+      unless path
+        task = options.fetch(:task)
+        return task && utf8_input(task, "task")
+      end
 
       content = if path == "-"
         begin
@@ -494,9 +507,19 @@ module Ctxpack
       else
         File.binread(File.expand_path(path, @cwd))
       end
-      content.sub(/(?:\r\n|\n)\z/, "")
+      source = path == "-" ? "task from stdin" : "task file #{display_path(File.expand_path(path, @cwd))}"
+      utf8_input(content, source).sub(/(?:\r\n|\n)\z/, "")
     rescue SystemCallError => error
       raise TaskInputError, "could not read task file #{display_path(File.expand_path(path, @cwd))}: #{system_error_message(error)}"
+    end
+
+    # ARGV, stdin, and file text arrive tagged BINARY or with the locale
+    # encoding (US-ASCII under LC_ALL=C); ctxpack treats user text as UTF-8.
+    def utf8_input(text, source)
+      text = text.dup.force_encoding(Encoding::UTF_8)
+      raise TaskInputError, "#{source} is not valid UTF-8" unless text.valid_encoding?
+
+      text
     end
 
     def discover_app_root

@@ -89,6 +89,13 @@ module Ctxpack
     def self.diff(evidence, identity: nil)
       normalized = evidence.to_s
       raise ArgumentError, "diff seed requires range or patch path evidence" if normalized.empty?
+      # Evidence reaches git argv; an option-shaped value could write files
+      # (for example `--output=PATH`), so reject it before any shell-out.
+      if normalized.start_with?("-")
+        raise ArgumentError,
+          "diff seed evidence must not begin with \"-\" (got #{normalized.inspect}); " \
+          "pass a git range or a patch path relative to the application root"
+      end
 
       derived =
         if identity

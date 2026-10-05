@@ -335,7 +335,7 @@ module Ctxpack
 
     def error_frame_range(path, line)
       abs = File.join(@app_root, path)
-      total = File.foreach(abs).count
+      total = File.foreach(abs, encoding: "UTF-8").count
       window = snippet_context_window
       start_line = [1, line - window].max
       end_line = [total, line + window].min
@@ -483,7 +483,7 @@ module Ctxpack
 
     def enumerate_diff_from_range(range)
       ensure_git_repo!
-      out, err, status = Open3.capture3("git", "-C", @app_root, "diff", "--name-status", "-M", range)
+      out, err, status = Open3.capture3("git", "-C", @app_root, "diff", "--name-status", "-M", "-z", "--relative", "--end-of-options", range)
       unless status.success?
         message = err.to_s.strip
         message = "unresolvable range" if message.empty?
@@ -514,7 +514,14 @@ module Ctxpack
         raise Error, "diff seed patch path does not exist: #{evidence}"
       end
 
-      out, err, status = Open3.capture3("git", "apply", "--numstat", "--summary", abs)
+      # Patch paths are app-root-relative. Run from the app root and stop git
+      # repository discovery above it, so neither the process cwd nor an
+      # enclosing monorepo filters the patch's paths.
+      out, err, status = Open3.capture3(
+        { "GIT_CEILING_DIRECTORIES" => File.dirname(@app_root) },
+        "git", "apply", "--numstat", "--summary", abs,
+        chdir: @app_root
+      )
       unless status.success?
         message = err.to_s.strip
         message = "unparseable patch" if message.empty?
@@ -541,21 +548,28 @@ module Ctxpack
       raise Error, "diff seed requires git; git is not available on PATH"
     end
 
+    # Parses `git diff --name-status -z`: NUL-separated fields, unquoted paths.
+    # Rename/copy records carry two paths (old, new); others carry one.
     def parse_name_status(output)
-      output.to_s.each_line.filter_map do |line|
-        cols = line.chomp.split("\t")
-        next if cols.empty?
+      # Split as bytes; a path that is not valid UTF-8 is scrubbed so it is
+      # recorded as a missing-file omission instead of aborting the seed.
+      fields = output.to_s.b.split("\0").map { |f| f.force_encoding(Encoding::UTF_8).scrub }
+      entries = []
+      until fields.empty?
+        status = fields.shift
+        next if status.empty?
 
-        status = cols[0]
-        case status[0]
-        when "R", "C"
-          { status: status, old: cols[1], new: cols[2] }
-        when "D"
-          { status: status, old: cols[1], new: nil }
-        else
-          { status: status, old: nil, new: cols[1] }
-        end
+        entries <<
+          case status[0]
+          when "R", "C"
+            { status: status, old: fields.shift, new: fields.shift }
+          when "D"
+            { status: status, old: fields.shift, new: nil }
+          else
+            { status: status, old: nil, new: fields.shift }
+          end
       end
+      entries
     end
 
     def parse_apply_numstat(output)
@@ -597,7 +611,7 @@ module Ctxpack
     end
 
     def post_image_hunk_lines_from_range(range, path)
-      out, _err, status = Open3.capture3("git", "-C", @app_root, "diff", "-U0", range, "--", path)
+      out, _err, status = Open3.capture3("git", "-C", @app_root, "diff", "-U0", "--relative", "--end-of-options", range, "--", path)
       return [] unless status.success?
 
       parse_unified_diff_post_image_lines(out)
@@ -607,7 +621,7 @@ module Ctxpack
       content = File.read(abs_path, encoding: "UTF-8")
       by_path = Hash.new { |h, k| h[k] = [] }
       current_path = nil
-      content.each_line do |line|
+      content.each_line(chomp: true) do |line|
         if (m = line.match(%r{\A\+\+\+ (?:b/)?(.+)\z}))
           path = m[1].strip
           current_path = path == "/dev/null" ? nil : path
@@ -662,7 +676,13 @@ module Ctxpack
     def prism_def_ranges(path)
       abs = File.join(@app_root, path)
       source = File.read(abs, encoding: "UTF-8")
-      program = parse_ruby(source, path)
+      # SEED-26 step 4: an unparseable changed file has no locatable def, so
+      # its hunks fall back to the fixed window instead of aborting the seed.
+      program = begin
+        parse_ruby(source, path)
+      rescue Error
+        return []
+      end
       ranges = []
       walk = lambda do |node|
         return if node.nil?
@@ -881,7 +901,7 @@ module Ctxpack
         raise Error, "expected controller file does not exist: #{controller_relative_path}"
       end
 
-      source = File.read(controller_absolute_path)
+      source = File.read(controller_absolute_path, encoding: "UTF-8")
       program = parse_ruby(source, controller_relative_path)
       controller_class_info = find_controller_class(program, parsed_anchor.controller_path, controller_relative_path)
       controller_name = controller_class_info.fetch(:name)
@@ -1552,7 +1572,7 @@ module Ctxpack
     def rspec_rails_dependency?
       %w[Gemfile Gemfile.lock].any? do |name|
         path = File.join(@app_root, name)
-        File.file?(path) && File.read(path).include?("rspec-rails")
+        File.file?(path) && File.read(path, encoding: "UTF-8").include?("rspec-rails")
       end
     end
 

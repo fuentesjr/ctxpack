@@ -192,7 +192,8 @@ gh issue view 123 --json body --jq .body |
 ```
 
 `--task` and `--task-file` are mutually exclusive. `--from-error -` conflicts
-with `--task-file -` (single stdin occupancy).
+with `--task-file -` (single stdin occupancy). Task input is read as UTF-8;
+invalid UTF-8 fails with a short error.
 
 ### CLI reference
 

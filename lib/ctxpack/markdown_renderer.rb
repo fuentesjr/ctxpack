@@ -221,7 +221,7 @@ module Ctxpack
     def snippet_lines(path, range)
       raise Error, "packet app_root is required to render snippets" unless packet.app_root
 
-      all_lines = File.readlines(File.join(packet.app_root, path), chomp: true)
+      all_lines = File.readlines(File.join(packet.app_root, path), chomp: true, encoding: "UTF-8")
       all_lines[(range.first - 1)..(range.last - 1)] || []
     end
 

@@ -257,6 +257,21 @@ $ bundle exec ctxpack --from-diff patches/upgrade_accounts.patch \
 1. `app/controllers/accounts_controller.rb` — `diff_seed_primary`: changed file from diff seed
 2. `test/controllers/accounts_controller_test.rb` — `diff_seed_paired_test`: conventional mirror test for diff primary
 
+## Evidence
+
+### `app/controllers/accounts_controller.rb`
+
+`diff_seed_primary` — `app/controllers/accounts_controller.rb` · lines 10–15
+
+```ruby
+  def upgrade
+    subscription = Billing::Subscriptions.new(@account)
+    subscription.upgrade!(plan: params[:plan])
+    SyncBillingAccountJob.perform_later(@account.id)
+    redirect_to account_path(@account)
+  end
+```
+
 ## Run
 
 - `bin/rails test test/controllers/accounts_controller_test.rb`
@@ -267,6 +282,12 @@ for production `app/**/*.rb` files, **conventional mirror** test paths when
 they exist on disk (`diff_seed_paired_test`). What you do not get: basename
 token search for tests, stdin diffs, or silent treatment of a bare `.patch`
 path as a diff seed.
+
+Paths are relative to the application root. When the app lives in a
+subdirectory of a larger repository, a range lists only changes under that
+subdirectory. A patch path must resolve inside the application root (an
+absolute path is recorded in its app-relative form), and evidence starting
+with `-` is rejected.
 
 ### Files seed — open files you already care about
 
