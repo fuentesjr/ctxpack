@@ -332,6 +332,11 @@ not replacing judgment.
 
 ## Project workflow
 
+Use Ruby 4.0.7 for development, as pinned in [`mise.toml`](mise.toml)
+and CI. With mise, run `mise trust` once for this checkout, then run the suite
+with `mise exec -- bundle exec rake test`.
+The gem's minimum supported Ruby remains 3.4.
+
 Mini-epics and tasks via [`.github/ISSUE_TEMPLATE`](.github/ISSUE_TEMPLATE).
 Resume work from [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md).
 

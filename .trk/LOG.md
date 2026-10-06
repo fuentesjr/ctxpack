@@ -35,3 +35,6 @@ tier0-corpus-rescan deferred for encoding/diff-seed fix pass: only anchor-path c
 
 ## 2026-10-06T00:13Z log
 Parked review fixes landed uncommitted: ROOT-1 symlink confinement (all read sites + final sweep), FMT-9 null limit_key for non-limit omissions (manifest v4 kept, user decision A), FMT-4b fence length, error_frame_range line-count memo (10k-line diff 14.1s -> 0.3s, byte-identical), patch-file deletion reason fix. Spec tests written first by Sonnet worker; reviewer found no remaining out-of-root read. Tier 0 rescan byte-identical across 1,967 anchors (eval/tier0/RESULTS.md). Suite 309 runs, 1 error: git_recon_history_provider process-runner timeout test also fails on clean HEAD under load avg 23-34; passed in 5 earlier runs.
+
+## 2026-10-06T01:23Z resolve ruby-4-0-7
+Outcome: Pinned development mise and CI to Ruby 4.0.7; current docs reconciled; >=3.4 gem floor and lock unchanged. DRA suite on 4.0.7 passed twice: 309 runs, 2600 assertions, zero failures/errors. Worker EPERM did not reproduce; remote CI unverified.

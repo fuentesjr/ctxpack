@@ -50,7 +50,8 @@ ruby -Ilib exe/ctxpack packet <anchor> --task "..."
 ruby eval/tier2/harness.rb status
 ```
 
-CI and compatibility target Ruby 3.4. There is no style lint or typecheck;
+Development and CI target Ruby 4.0.7; the gem supports Ruby ≥ 3.4.
+There is no style lint or typecheck;
 `.rubocop.yml` scopes only the advisory Metz scan. `prism` is the sole runtime
 dependency. Record metz-scan bugs/UX friction in `metz-scan-feedback.md`.
 
