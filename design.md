@@ -670,10 +670,12 @@ Example manifest fields:
 Manifest schema versions are breaking versions. v0 emits only the current
 schema; consumers inspect `version` and reject versions they do not support.
 Version 4 replaces version 3 without a compatibility flag because there are
-no external consumers to preserve yet. Omitted-candidate facts carry a
-semantic `limit_key` naming `Compiler::LIMITS`; neither the renderer nor a
-machine consumer needs to interpret category or reason prose to identify the
-limit that was reached.
+no external consumers to preserve yet. Limit-driven omitted-candidate facts
+carry a semantic `limit_key` naming `Compiler::LIMITS`; neither the renderer
+nor a machine consumer needs to interpret category or reason prose to identify
+the limit that was reached. Omissions not caused by a limit (deleted or
+missing diff paths, ROOT-1 out-of-root paths) carry a null `limit_key` and
+render their reason instead.
 
 ## Simple v0 evals
 

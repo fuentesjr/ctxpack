@@ -286,3 +286,26 @@ zero newly resolved anchors, zero label changes, and zero compiler crashes
 across 1,967 pairs. This matches the predicted result because the pass changes
 module ownership without changing a seed recipe. Scratch outputs remain under
 `tmp/tier0-rescan/results/compiler_split/`; no new baseline is written.
+
+## Root confinement and omission-fact rescan (2026-10-05)
+
+Mandatory pass-boundary rescan for ROOT-1 symlink confinement, the null
+`limit_key` for non-limit omissions, the FMT-4b snippet fence length, and the
+per-compile line-count memoization. The classifier used the committed route
+tables and the verified pinned checkouts.
+
+| App | SHA verified | Pairs | Resolved | Rate | Delta vs post-amendment |
+|---|---|---:|---:|---:|---:|
+| Mastodon | `163f96cee4dea23365bff9b433871e68d20d9ee7` | 616 | 584 | 94.8% | 0 |
+| Discourse | `28b003a38d82c354ffc49bac23b655de9664e478` | 755 | 728 | 96.4% | 0 |
+| Zammad | `50384f4c390e8abed07694897956c2f8e176208d` | 596 | 539 | 90.4% | 0 |
+| **Average** | | | | **93.9%** | |
+
+All three result JSON files are byte-identical to
+`results/post_amendment/`: zero regressions, zero newly resolved anchors, zero
+label changes, and zero compiler crashes across 1,967 pairs. This matches the
+prediction: confinement only drops paths whose real path leaves the
+application root, the omission and fence changes affect manifest facts and
+Markdown rendering rather than resolution, and the memoization is
+behavior-preserving. Scratch outputs remain under
+`tmp/tier0-rescan/results/root_confinement/`; no new baseline is written.

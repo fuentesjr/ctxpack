@@ -302,6 +302,20 @@ class CLITest < Minitest::Test
     end
   end
 
+  def test_snippet_over_invalid_utf8_source_bytes_renders_without_option_error
+    with_cli_app do |app_root|
+      File.binwrite(File.join(app_root, "app", "models", "binary_note.rb"), "class BinaryNote\n  # \xFF\xFE `x`\nend\n".b)
+      paste = "app/models/binary_note.rb:2:in 'note'\n"
+
+      result = run_cli(["--from-error", "-", "--task", "Debug", "--stdout"], cwd: app_root, stdin: paste)
+
+      assert_equal 0, result.status, result.stderr
+      refute_includes result.stderr, "Usage"
+      assert_includes result.stdout, "app/models/binary_note.rb"
+      assert_includes result.stdout.b, "\xFF\xFE".b
+    end
+  end
+
   def test_task_and_task_file_conflict_in_either_order_before_reading_or_root_discovery
     Dir.mktmpdir("ctxpack-task-conflict") do |cwd|
       first = run_cli(["accounts#upgrade", "--task", "", "--task-file", "missing.md"], cwd: cwd)

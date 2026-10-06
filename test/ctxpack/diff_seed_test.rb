@@ -1,5 +1,6 @@
 require "test_helper"
 require "fileutils"
+require "json"
 require "open3"
 require "stringio"
 require "tmpdir"
@@ -150,6 +151,76 @@ class DiffSeedTest < Minitest::Test
         },
         "expected omitted-candidate follow-up for deleted path"
       )
+      omission = packet.omitted_candidates.find { |o| o.subject == deleted }
+      assert_nil omission.limit_key, "deleted path omission is not limit-driven (FMT-9)"
+      manifest = JSON.parse(Ctxpack.render_manifest(packet))
+      entry = manifest.fetch("omitted_candidates").find { |o| o.fetch("subject") == deleted }
+      assert entry.key?("limit_key")
+      assert_nil entry.fetch("limit_key")
+      fact = manifest.fetch("follow_ups").find { |f| f["code"] == "omitted_candidate" && f["subject"] == deleted }
+      assert fact.key?("limit_key")
+      assert_nil fact.fetch("limit_key")
+      assert_equal 4, manifest.fetch("version")
+      assert_includes Ctxpack.render_markdown(packet),
+        "Inspect omitted `#{deleted}`; deleted or renamed-away path excluded from diff primaries."
+    end
+  end
+
+  def test_fmt_9_changed_path_missing_from_working_tree_has_null_limit_key
+    with_diff_repo do |app_root|
+      patch = "patches/missing.patch"
+      FileUtils.mkdir_p(File.join(app_root, "patches"))
+      File.write(File.join(app_root, patch), <<~PATCH)
+        diff --git a/app/models/ghost.rb b/app/models/ghost.rb
+        --- a/app/models/ghost.rb
+        +++ b/app/models/ghost.rb
+        @@ -1,1 +1,1 @@
+        -a
+        +b
+      PATCH
+      packet = compile_diff(patch, app_root: app_root)
+      omission = packet.omitted_candidates.find { |o| o.subject == "app/models/ghost.rb" }
+      assert omission, "expected omission for path missing from working tree"
+      assert_nil omission.limit_key
+      assert_includes Ctxpack.render_markdown(packet),
+        "Inspect omitted `app/models/ghost.rb`; changed path does not exist in the working tree."
+    end
+  end
+
+  def test_root_1_diff_primary_symlinked_outside_root_is_omitted_without_content
+    with_diff_repo do |app_root|
+      File.write(File.join(File.dirname(app_root), "outside.txt"), "SECRET_OUTSIDE_ROOT\n")
+      File.symlink("../../outside.txt", File.join(app_root, "app/other.rb"))
+      git!(app_root, "add", "-A")
+      git!(app_root, "commit", "-m", "add outside symlink")
+
+      packet = compile_diff("HEAD~1", app_root: app_root)
+      markdown = Ctxpack.render_markdown(packet)
+      manifest_json = Ctxpack.render_manifest(packet)
+
+      refute_includes markdown, "SECRET_OUTSIDE_ROOT"
+      refute_includes manifest_json, "SECRET_OUTSIDE_ROOT"
+      assert_nil packet.file("app/other.rb")
+      omission = packet.omitted_candidates.find { |o| o.subject == "app/other.rb" }
+      assert omission, "expected omitted candidate for outside-root symlink"
+      assert_equal "path resolves outside the application root", omission.reason
+      assert_nil omission.limit_key
+      entry = JSON.parse(manifest_json).fetch("omitted_candidates").find { |o| o.fetch("subject") == "app/other.rb" }
+      assert_equal "path resolves outside the application root", entry.fetch("reason")
+      assert_nil entry.fetch("limit_key")
+      assert_includes markdown, "path resolves outside the application root"
+    end
+  end
+
+  def test_root_1_diff_primary_symlinked_inside_root_is_still_included
+    with_diff_repo do |app_root|
+      File.symlink("models/order.rb", File.join(app_root, "app/linked_order.rb"))
+      git!(app_root, "add", "-A")
+      git!(app_root, "commit", "-m", "add in-root symlink")
+
+      packet = compile_diff("HEAD~1", app_root: app_root)
+      assert packet.file("app/linked_order.rb"), "in-root symlink should remain a primary"
+      refute(packet.omitted_candidates.any? { |o| o.subject == "app/linked_order.rb" })
     end
   end
 
@@ -419,6 +490,35 @@ class DiffSeedTest < Minitest::Test
       markdown = Ctxpack.render_markdown(packet)
       assert_includes markdown, "diff_seed_primary"
       assert_includes markdown, "app/controllers/accounts_controller.rb"
+    end
+  end
+
+  def test_patch_file_deleted_path_is_classified_as_deleted_not_missing
+    with_diff_repo do |app_root|
+      patch = "patches/delete_ghost.patch"
+      FileUtils.mkdir_p(File.join(app_root, "patches"))
+      File.write(File.join(app_root, patch), <<~PATCH)
+        diff --git a/app/models/ghost.rb b/app/models/ghost.rb
+        deleted file mode 100644
+        --- a/app/models/ghost.rb
+        +++ /dev/null
+        @@ -1,2 +0,0 @@
+        -class Ghost
+        -end
+        diff --git a/app/models/order.rb b/app/models/order.rb
+        --- a/app/models/order.rb
+        +++ b/app/models/order.rb
+        @@ -1,1 +1,1 @@
+        -class Order
+        +class Order
+      PATCH
+
+      packet = compile_diff(patch, app_root: app_root)
+      omission = packet.omitted_candidates.find { |o| o.subject == "app/models/ghost.rb" }
+      assert omission, "expected omission for deleted path"
+      assert_equal "deleted or renamed-away path excluded from diff primaries", omission.reason
+      assert_nil omission.limit_key
+      assert packet.file("app/models/order.rb"), "modified path in the same patch stays a primary"
     end
   end
 

@@ -32,3 +32,6 @@ Outcome: Merged uncommitted: review items 1,3,5-8,10 + reviewer follow-ups (real
 
 ## 2026-09-24T02:28Z log
 tier0-corpus-rescan deferred for encoding/diff-seed fix pass: only anchor-path changes are explicit UTF-8 on seed_compiler controller read and rspec Gemfile read, identical when Encoding.default_external is UTF-8 (verified locally); diff-seed changes are outside the Tier 0 anchor classifier. Revisit if classifier runs under a non-UTF-8 locale.
+
+## 2026-10-06T00:13Z log
+Parked review fixes landed uncommitted: ROOT-1 symlink confinement (all read sites + final sweep), FMT-9 null limit_key for non-limit omissions (manifest v4 kept, user decision A), FMT-4b fence length, error_frame_range line-count memo (10k-line diff 14.1s -> 0.3s, byte-identical), patch-file deletion reason fix. Spec tests written first by Sonnet worker; reviewer found no remaining out-of-root read. Tier 0 rescan byte-identical across 1,967 anchors (eval/tier0/RESULTS.md). Suite 309 runs, 1 error: git_recon_history_provider process-runner timeout test also fails on clean HEAD under load avg 23-34; passed in 5 earlier runs.

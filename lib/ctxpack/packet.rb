@@ -248,7 +248,7 @@ module Ctxpack
           "code" => "omitted_candidate",
           "subject" => candidate.subject,
           "category" => candidate.category,
-          "limit_key" => candidate.limit_key.to_s
+          "limit_key" => candidate.limit_key&.to_s
         }
       end)
 
@@ -267,7 +267,7 @@ module Ctxpack
         "category" => candidate.category,
         "subject" => candidate.subject,
         "reason" => candidate.reason,
-        "limit_key" => candidate.limit_key.to_s
+        "limit_key" => candidate.limit_key&.to_s
       }
     end
   end

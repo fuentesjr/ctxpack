@@ -541,7 +541,10 @@ $ bundle exec ctxpack accounts#upgrade -t "..." --stdout=json | jq .version
 
 Manifest v3 carries `seeds: [...]` and optional `anchor`. When a limit omits a
 candidate, `follow_ups` and `omitted_candidates` include a semantic
-`limit_key` such as `max_constant_files`.
+`limit_key` such as `max_constant_files`. Omissions not caused by a limit
+(for example a deleted diff path, or a symlink that resolves outside the
+application root) carry `"limit_key": null` and state their reason in the
+Follow-ups.
 
 Why this can beat ad-hoc grepping (and when it does not): [FAQ](faq.md#why-not-just-let-the-agent-grep).
 

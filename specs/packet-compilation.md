@@ -398,6 +398,20 @@ explicitly rather than guessing from another framework or test directory.
 packet's `## Run` section: Minitest candidates use
 `bin/rails test <path>`; RSpec candidates use `bundle exec rspec <path>`.
 
+## Root confinement
+
+**ROOT-1.** A file inside the application root whose real path (symlinks
+resolved, compared against the real path of the application root) is outside
+the application root MUST NOT be read, and none of its content may appear in
+the Markdown or the manifest. Where the file would otherwise have been
+included (diff-seed primary; test, method, file, constant, or view candidate;
+snippet), it is recorded as an omitted candidate with reason
+`path resolves outside the application root` and a null `limit_key` (FMT-9).
+Where a seed cannot resolve without reading the file (an anchor controller),
+the command fails per CLI-16 with a message naming the path and stating that
+it resolves outside the application root. Symlinks whose real path stays
+inside the application root behave as ordinary files.
+
 ## Limits
 
 **LIM-1.** v0 limits, as internal constants (not CLI flags — CLI-18):

@@ -1,0 +1,33 @@
+name: diff_seed_deleted_path_null_limit_key
+command:
+  seeds:
+    - kind: diff
+      evidence: patches/delete_legacy_plan.patch
+  task: Deleted diff path is a non-limit omission
+
+expect:
+  include:
+    - path: app/controllers/accounts_controller.rb
+      reason_code: diff_seed_primary
+
+  exclude:
+    - app/models/legacy_plan.rb
+
+  omitted:
+    - category: diff_files
+      subject: app/models/legacy_plan.rb
+      reason: deleted or renamed-away path excluded from diff primaries
+
+  tests:
+    - bin/rails test test/controllers/accounts_controller_test.rb
+
+  max_files: 8
+
+  # A deleted path is not omitted for a limit, so its follow-up fact carries a
+  # null limit_key rather than naming max_total_files.
+  manifest:
+    follow_ups:
+      - code: omitted_candidate
+        subject: app/models/legacy_plan.rb
+        category: diff_files
+        limit_key: null

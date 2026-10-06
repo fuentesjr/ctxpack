@@ -1,0 +1,13 @@
+diff --git a/app/controllers/accounts_controller.rb b/app/controllers/accounts_controller.rb
+--- a/app/controllers/accounts_controller.rb
++++ b/app/controllers/accounts_controller.rb
+@@ -10,1 +10,1 @@
+-    subscription = Billing::Subscriptions.new(@account)
++    subscription = Billing::Subscriptions.new(@account) # patch
+diff --git a/app/models/legacy_plan.rb b/app/models/legacy_plan.rb
+deleted file mode 100644
+--- a/app/models/legacy_plan.rb
++++ /dev/null
+@@ -1,2 +0,0 @@
+-class LegacyPlan
+-end

@@ -3,6 +3,7 @@ require "open3"
 require "ctxpack/default_constant_resolver"
 require "ctxpack/packet_file_budget"
 require "ctxpack/packet"
+require "ctxpack/root_confinement"
 require "ctxpack/seed"
 
 module Ctxpack
@@ -176,6 +177,8 @@ module Ctxpack
     end
 
     def constant_surface_from_test(rel)
+      return nil unless inside_app_root?(rel)
+
       source = File.read(File.join(@app_root, rel), encoding: "UTF-8")
       const = source[/RSpec\.describe\s+([A-Z][A-Za-z0-9_:]*)/, 1]
       const ||= source[/class\s+([A-Z][A-Za-z0-9_:]*)\s*</, 1]
@@ -197,13 +200,14 @@ module Ctxpack
         next unless File.file?(File.join(@app_root, path))
 
         entry = packet.add_file(path)
-        range = error_frame_range(path, line)
+        # ROOT-1: an escaping frame file is never read; the final sweep omits it.
+        ranges = inside_app_root?(path) ? [error_frame_range(path, line)] : []
         entry.add_evidence(
           EvidenceItem.new(
             reason_code: "error_seed_frame",
             subject: frame,
             why: "application stack frame from error seed",
-            snippet_ranges: [range],
+            snippet_ranges: ranges,
             truncated: false
           )
         )
@@ -233,6 +237,14 @@ module Ctxpack
       end
 
       relative_path = resolution.path
+      unless inside_app_root?(relative_path)
+        packet = blank_packet(seed: seed)
+        packet.omitted_candidates << RootConfinement.omission("files", relative_path)
+        packet.no_test_candidates = true
+        packet.test_framework = detected_test_framework.to_s
+        return packet
+      end
+
       absolute_path = File.join(@app_root, relative_path)
       source = File.read(absolute_path, encoding: "UTF-8")
       program = parse_ruby(source, relative_path)
@@ -334,8 +346,7 @@ module Ctxpack
     end
 
     def error_frame_range(path, line)
-      abs = File.join(@app_root, path)
-      total = File.foreach(abs, encoding: "UTF-8").count
+      total = line_count(path)
       window = snippet_context_window
       start_line = [1, line - window].max
       end_line = [total, line + window].min
@@ -345,6 +356,17 @@ module Ctxpack
 
     def snippet_context_window
       15
+    end
+
+    # Counted once per file per compile: diff seeds call error_frame_range for
+    # every changed line outside a def.
+    def line_count(path)
+      @line_counts ||= {}
+      @line_counts[path] ||= File.foreach(File.join(@app_root, path), encoding: "UTF-8").count
+    end
+
+    def inside_app_root?(path)
+      !RootConfinement.outside?(@app_root, path)
     end
 
     def resolve_diff_seed(seed)
@@ -374,7 +396,7 @@ module Ctxpack
               category: "diff_files",
               subject: omitted_path,
               reason: "deleted or renamed-away path excluded from diff primaries",
-              limit_key: :max_total_files
+              limit_key: nil
             )
           end
           next
@@ -385,19 +407,25 @@ module Ctxpack
             category: "diff_files",
             subject: old_path,
             reason: "deleted or renamed-away path excluded from diff primaries",
-            limit_key: :max_total_files
+            limit_key: nil
           )
         end
 
         path = new_path || old_path
         next if path.nil? || path.empty?
         next unless under_app_root?(path)
+        # ROOT-1 before existence: a symlinked directory is not a file, but its
+        # real reason for exclusion is that it resolves outside the root.
+        unless inside_app_root?(path)
+          packet.omitted_candidates << RootConfinement.omission("diff_files", path)
+          next
+        end
         unless File.file?(File.join(@app_root, path))
           packet.omitted_candidates << OmittedCandidate.new(
             category: "diff_files",
             subject: path,
             reason: "changed path does not exist in the working tree",
-            limit_key: :max_total_files
+            limit_key: nil
           )
           next
         end
@@ -513,6 +541,9 @@ module Ctxpack
       unless File.file?(abs)
         raise Error, "diff seed patch path does not exist: #{evidence}"
       end
+      unless inside_app_root?(abs)
+        raise Error, "diff seed patch path resolves outside the application root: #{evidence}"
+      end
 
       # Patch paths are app-root-relative. Run from the app root and stop git
       # repository discovery above it, so neither the process cwd nor an
@@ -599,15 +630,18 @@ module Ctxpack
           entries << { status: "D", old: m[1], new: nil }
         end
       end
-      # Prefer unique by new||old path, first wins (numstat before summary)
-      seen = {}
-      entries.select do |e|
+      # Unique by new||old path in first-seen (numstat) order. A summary
+      # "delete mode" record replaces the numstat record for its path, since
+      # numstat alone cannot tell a deletion from a modification.
+      by_path = {}
+      entries.each do |e|
         key = e[:new] || e[:old]
-        next false if key.nil? || seen[key]
+        next if key.nil?
+        next if by_path.key?(key) && e[:status] != "D"
 
-        seen[key] = true
-        true
+        by_path[key] = e
       end
+      by_path.values
     end
 
     def post_image_hunk_lines_from_range(range, path)
@@ -899,6 +933,9 @@ module Ctxpack
 
       unless File.file?(controller_absolute_path)
         raise Error, "expected controller file does not exist: #{controller_relative_path}"
+      end
+      unless inside_app_root?(controller_relative_path)
+        raise Error, "expected controller file #{controller_relative_path} resolves outside the application root"
       end
 
       source = File.read(controller_absolute_path, encoding: "UTF-8")
@@ -1572,7 +1609,7 @@ module Ctxpack
     def rspec_rails_dependency?
       %w[Gemfile Gemfile.lock].any? do |name|
         path = File.join(@app_root, name)
-        File.file?(path) && File.read(path, encoding: "UTF-8").include?("rspec-rails")
+        File.file?(path) && inside_app_root?(path) && File.read(path, encoding: "UTF-8").include?("rspec-rails")
       end
     end
 
@@ -1616,6 +1653,7 @@ module Ctxpack
     end
 
     def enforce_total_file_limit(packet)
+      RootConfinement.enforce(packet)
       PacketFileBudget.enforce(packet, limits: @limits)
     end
 

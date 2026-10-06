@@ -548,6 +548,56 @@ class PacketFormatTest < Minitest::Test
     assert_nil JSON.parse(Ctxpack.render_manifest(packet)).fetch("repo").fetch("commit")
   end
 
+  def test_fmt_4b_snippet_fence_is_longer_than_longest_backtick_run_in_content
+    Dir.mktmpdir("ctxpack-fence") do |tmpdir|
+      app_root = File.join(tmpdir, "app_root")
+      FileUtils.cp_r(fixture_app("minitest_basic"), app_root)
+      controller = File.join(app_root, "app/controllers/accounts_controller.rb")
+      File.write(controller, File.read(controller).sub(
+        "    subscription.upgrade!(plan: params[:plan])\n",
+        "    subscription.upgrade!(plan: params[:plan])\n    # ````\n    # FENCE_ESCAPE_SENTINEL\n"
+      ))
+
+      markdown = Ctxpack.render_markdown(Ctxpack.compile(app_root: app_root, anchor: "accounts#upgrade"))
+      lines = markdown.lines.map(&:chomp)
+      sentinel = lines.index { |l| l.include?("FENCE_ESCAPE_SENTINEL") }
+      assert sentinel, "sentinel should appear in snippet"
+      opener = (sentinel - 1).downto(0).find { |i| lines[i].match?(/\A`{3,}ruby\z/) }
+      assert opener, "expected an opening ruby fence before sentinel"
+      fence = lines[opener].sub("ruby", "")
+      assert_operator fence.length, :>=, 5, "fence must exceed longest backtick run (4)"
+      closer = (sentinel + 1).upto(lines.length - 1).find { |i| lines[i] == fence }
+      assert closer, "expected matching closing fence after sentinel"
+    end
+  end
+
+  def test_fmt_4b_snippet_with_triple_backtick_line_gets_four_backtick_fence
+    Dir.mktmpdir("ctxpack-fence") do |tmpdir|
+      app_root = File.join(tmpdir, "app_root")
+      FileUtils.cp_r(fixture_app("minitest_basic"), app_root)
+      controller = File.join(app_root, "app/controllers/accounts_controller.rb")
+      File.write(controller, File.read(controller).sub(
+        "    subscription.upgrade!(plan: params[:plan])\n",
+        "    subscription.upgrade!(plan: params[:plan])\n    x = <<~MD\n```\nFENCE_ESCAPE_SENTINEL\n    MD\n"
+      ))
+
+      markdown = Ctxpack.render_markdown(Ctxpack.compile(app_root: app_root, anchor: "accounts#upgrade"))
+      lines = markdown.lines.map(&:chomp)
+      sentinel = lines.index { |l| l == "FENCE_ESCAPE_SENTINEL" }
+      assert sentinel, "sentinel should appear in snippet"
+      opener = (sentinel - 1).downto(0).find { |i| lines[i].match?(/\A`{3,}ruby\z/) }
+      assert_equal "````ruby", lines[opener]
+      closer = (sentinel + 1).upto(lines.length - 1).find { |i| lines[i] == "````" }
+      assert closer, "expected matching four-backtick closer after sentinel"
+    end
+  end
+
+  def test_fmt_4b_snippet_without_backticks_keeps_three_backtick_ruby_fence
+    markdown = Ctxpack.render_markdown(Ctxpack.compile(app_root: fixture_app("minitest_basic"), anchor: "accounts#upgrade"))
+    assert_includes markdown, "\n```ruby\n"
+    refute_includes markdown, "````"
+  end
+
   private
 
   def assert_order(text, *needles)

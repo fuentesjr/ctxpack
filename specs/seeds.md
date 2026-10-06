@@ -331,7 +331,8 @@ in seed order without duplicates).
 1. Prefer explicit seed primaries over inferred neighbors.
 2. Never drop a user-named file (anchor controller, test primary, files
    primary, error-frame file, method-seed primary, diff-seed primary) without
-   recording an omitted-candidate follow-up that names the path and limit key.
+   recording an omitted-candidate follow-up that names the path and the limit key when the omission is limit-driven,
+   otherwise the reason (FMT-9, ROOT-1).
 3. When budget still conflicts among primaries, keep earlier seeds’ primaries
    (CLI order) and omit later ones with follow-ups.
 

@@ -79,10 +79,17 @@ machine-readable reason code on its `## Inspect first` inventory line.
 
 **FMT-4.** `## Evidence` contains subsections only for files with snippets.
 Each evidence item renders one provenance line containing the reason code,
-subject, and FMT-5 ranges, followed by a fenced Ruby snippet. A single file
+subject, and FMT-5 ranges, followed by a fenced Ruby snippet (FMT-4b). A single file
 may carry multiple evidence blocks (e.g. the action and each applicable
 callback). Pointer-only constant, view, and test files have no Evidence
 subsection.
+
+**FMT-4b.** Snippet fences are backtick fences whose length is greater than
+the longest run of backticks in the snippet content, with a minimum of 3. The
+info string is always `ruby`. A snippet containing a line of ``` is therefore
+fenced with at least four backticks, and the closing fence matches the opening
+fence. Snippets with no backticks render exactly as a three-backtick
+`ruby` fence.
 
 **FMT-4a.** The `view_candidate` inventory phrase is templated as
 `conventional template for <controller#action>` — filled in with the resolved
@@ -149,6 +156,12 @@ that includes the current applicable value from `Compiler::LIMITS`. Truncation
 facts carry the semantic limit key that selected that value; renderers MUST NOT
 infer it from category or reason prose. Truncation without such a bullet is a
 bug (LIM-2).
+
+Omissions not caused by a limit (diff-seed deleted or renamed-away path;
+changed path missing from the working tree; a path that resolves outside the
+application root, ROOT-1) carry a null `limit_key`. Their Follow-up states the
+actual reason instead of a limit value, e.g. ``Inspect omitted `app/old.rb`;
+deleted or renamed-away path excluded from diff primaries.``
 
 ## Repo stamp
 
@@ -364,10 +377,13 @@ Field notes:
   its registry code and subject; `view_inferred_by_convention` subjects are
   always the specific included view path, never `null`. Code-less packet
   facts use the manifest-only codes `convention_constant_match` (plus
-  `path`), `omitted_candidate` (plus `category` and `limit_key`), and
+  `path`), `omitted_candidate` (plus `category` and `limit_key`, which is `null` for non-limit omissions), and
   `no_test_candidates` (subject `test/` or `spec/`). Full omission facts
   also appear under `omitted_candidates` as `category`, `subject`,
-  `reason`, and `limit_key`. `limit_key` names a key in `Compiler::LIMITS`.
+  `reason`, and `limit_key`. `limit_key` names a key in `Compiler::LIMITS` when the omission is
+  limit-driven and is JSON `null` otherwise (e.g. `"limit_key": null`), in both
+  `omitted_candidates[]` entries and the `omitted_candidate` follow-up fact.
+  The manifest version stays 4.
 - **v4 `history`** follows MAN-4 and appears immediately after `files` in
   stable top-level key order. It is always present: `null` when no retained
   files primary applies, otherwise a typed included or omitted object.

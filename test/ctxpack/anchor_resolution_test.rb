@@ -1,4 +1,7 @@
 require "test_helper"
+require "fileutils"
+require "stringio"
+require "tmpdir"
 
 class AnchorResolutionTest < Minitest::Test
   def test_anch_1_2_accepts_namespaced_anchor_and_maps_by_convention
@@ -95,5 +98,50 @@ class AnchorResolutionTest < Minitest::Test
 
     assert_includes error.message, "app/controllers/mismatched_controller.rb"
     assert_includes error.message, "no controller class matching mismatched"
+  end
+
+  def test_root_1_anchor_controller_symlinked_outside_root_fails_without_reading
+    Dir.mktmpdir("ctxpack-root-1") do |tmpdir|
+      app_root = File.join(tmpdir, "app_root")
+      FileUtils.cp_r(fixture_app("minitest_basic"), app_root)
+      outside = File.join(tmpdir, "outside_controller.rb")
+      File.write(outside, "class AccountsController\n  def upgrade\n    SECRET_OUTSIDE_ROOT\n  end\nend\n")
+      controller = File.join(app_root, "app/controllers/accounts_controller.rb")
+      FileUtils.rm(controller)
+      File.symlink(outside, controller)
+
+      error = assert_raises(Ctxpack::Error) do
+        Ctxpack.compile(app_root: app_root, anchor: "accounts#upgrade")
+      end
+      assert_includes error.message, "app/controllers/accounts_controller.rb"
+      assert_includes error.message, "resolves outside the application root"
+      refute_includes error.message, "SECRET_OUTSIDE_ROOT"
+
+      FileUtils.mkdir_p(File.join(app_root, "config"))
+      File.write(File.join(app_root, "config", "application.rb"), "# marker\n")
+      require "ctxpack/cli"
+      stdout = StringIO.new
+      stderr = StringIO.new
+      status = Ctxpack::CLI.new(stdout: stdout, stderr: stderr, cwd: app_root, history_provider: UnavailableHistoryProvider.new)
+        .run(["accounts#upgrade", "--stdout"])
+      refute_equal 0, status
+      assert_includes stderr.string, "app/controllers/accounts_controller.rb"
+      assert_includes stderr.string, "resolves outside the application root"
+      refute_includes stdout.string + stderr.string, "SECRET_OUTSIDE_ROOT"
+    end
+  end
+
+  def test_root_1_anchor_controller_symlinked_inside_root_still_resolves
+    Dir.mktmpdir("ctxpack-root-1") do |tmpdir|
+      app_root = File.join(tmpdir, "app_root")
+      FileUtils.cp_r(fixture_app("minitest_basic"), app_root)
+      real = File.join(app_root, "app/controllers/accounts_controller.rb")
+      moved = File.join(app_root, "app/accounts_real.rb")
+      FileUtils.mv(real, moved)
+      File.symlink("../accounts_real.rb", real)
+
+      packet = Ctxpack.compile(app_root: app_root, anchor: "accounts#upgrade")
+      assert_equal "app/controllers/accounts_controller.rb", packet.entrypoint.file
+    end
   end
 end

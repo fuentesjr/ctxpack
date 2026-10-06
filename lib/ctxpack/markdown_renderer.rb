@@ -1,5 +1,6 @@
 require "json"
 require "ctxpack/compiler"
+require "ctxpack/root_confinement"
 
 module Ctxpack
   class MarkdownRenderer
@@ -204,13 +205,20 @@ module Ctxpack
     end
 
     def append_snippet(lines, path, item)
+      body = item.snippet_ranges.flat_map { |range| snippet_lines(path, range) }
+      body << truncation_marker if item.truncated
+      fence = snippet_fence(body)
       lines << ""
-      lines << "```ruby"
-      item.snippet_ranges.each do |range|
-        snippet_lines(path, range).each { |line| lines << line }
-      end
-      lines << truncation_marker if item.truncated
-      lines << "```"
+      lines << "#{fence}ruby"
+      lines.concat(body)
+      lines << fence
+    end
+
+    # FMT-4b: longer than any backtick run in the snippet, minimum three.
+    # Scans bytes so source lines with invalid UTF-8 still render.
+    def snippet_fence(body)
+      longest = body.map { |line| line.b.scan(/`+/).map(&:length).max || 0 }.max || 0
+      "`" * [3, longest + 1].max
     end
 
     def truncation_marker
@@ -220,6 +228,9 @@ module Ctxpack
 
     def snippet_lines(path, range)
       raise Error, "packet app_root is required to render snippets" unless packet.app_root
+      if RootConfinement.outside?(packet.app_root, path)
+        raise Error, "refusing to render snippet: #{path} resolves outside the application root"
+      end
 
       all_lines = File.readlines(File.join(packet.app_root, path), chomp: true, encoding: "UTF-8")
       all_lines[(range.first - 1)..(range.last - 1)] || []
@@ -323,6 +334,9 @@ module Ctxpack
     end
 
     def omission_follow_up(candidate)
+      # FMT-9: non-limit omissions state their reason instead of a limit value.
+      return "Inspect omitted `#{candidate.subject}`; #{candidate.reason}." unless candidate.limit_key
+
       subject = case candidate.category
       when "constant_files"
         "constant `#{candidate.subject}`"
